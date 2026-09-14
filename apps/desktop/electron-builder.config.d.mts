@@ -19,6 +19,10 @@ export interface DesktopElectronBuilderConfig {
     readonly sign: boolean
     readonly writeUpdateInfo: boolean
   }
+  readonly linux: {
+    readonly executableName: string
+    readonly target: readonly string[]
+  }
   readonly nsis: {
     readonly include: string
   }

@@ -41,7 +41,7 @@ async function fixture(
   const base = `nulu-harness-${version}-${os}-${arch}`
   const origin = environment === 'test'
     ? TEST_ORIGIN
-    : 'https://download.deepseek.com'
+    : 'https://download.worldapptechnologies.com'
   await writeFile(join(artifactsRoot, `${target}-release.json`), `${JSON.stringify({
     schemaVersion: 1,
     target,
@@ -138,7 +138,7 @@ describe('desktop upload plan', () => {
       'latest.yml',
     ])
     expect(plan).toMatchObject({
-      publicUrl: 'https://download.deepseek.com/_/harness/desktop/stable/win-x64/',
+      publicUrl: 'https://download.worldapptechnologies.com/_/harness/desktop/stable/win-x64/',
       bucket: PRODUCTION_BUCKET,
     })
   })

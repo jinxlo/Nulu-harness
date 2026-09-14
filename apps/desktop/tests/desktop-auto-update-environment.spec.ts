@@ -36,7 +36,7 @@ describe('desktop auto-update environment', () => {
     }, 'win32', 'x64')).toMatchObject({
       environment: 'production',
       target: 'win-x64',
-      publicUrl: 'https://download.deepseek.com/_/harness/desktop/stable/win-x64/',
+      publicUrl: 'https://download.worldapptechnologies.com/_/harness/desktop/stable/win-x64/',
     })
     expect(resolveDesktopUploadConfig({
       NULU_DESKTOP_AUTO_UPDATE_ENV: 'production',
@@ -75,15 +75,18 @@ describe('desktop auto-update environment', () => {
     expect(() => resolveDesktopAutoUpdateEnvironment({
       NULU_DESKTOP_AUTO_UPDATE_ENV: 'staging',
     })).toThrow(/test.*production/u)
-    expect(() => resolveDesktopAutoUpdateTarget('linux', 'x64')).toThrow(/unsupported target/u)
-    expect(() => desktopBuildRecordFilename('linux-x64' as 'mac-arm64')).toThrow(/unsupported target/u)
+    expect(resolveDesktopAutoUpdateTarget('linux', 'x64')).toBe('linux-x64')
+    expect(() => resolveDesktopAutoUpdateTarget('freebsd', 'x64')).toThrow(/unsupported target/u)
+    expect(() => desktopBuildRecordFilename('freebsd-x64' as 'mac-x64')).toThrow(/unsupported target/u)
   })
 
   it('matches electron-builder channel metadata names to the Desktop version', () => {
     expect(desktopUpdateMetadataFilename('1.2.3', 'darwin')).toBe('latest-mac.yml')
     expect(desktopUpdateMetadataFilename('1.2.3-alpha.4', 'darwin')).toBe('alpha-mac.yml')
     expect(desktopUpdateMetadataFilename('1.2.3-beta.2', 'win32')).toBe('beta.yml')
+    expect(desktopUpdateMetadataFilename('1.2.3', 'linux')).toBe('latest-linux.yml')
+    expect(desktopUpdateMetadataFilename('1.2.3-alpha.4', 'linux')).toBe('alpha-linux.yml')
     expect(() => desktopUpdateMetadataFilename('not-semver', 'darwin')).toThrow(/invalid Desktop version/u)
-    expect(() => desktopUpdateMetadataFilename('1.2.3', 'linux')).toThrow(/unsupported metadata platform/u)
+    expect(() => desktopUpdateMetadataFilename('1.2.3', 'freebsd')).toThrow(/unsupported metadata platform/u)
   })
 })
