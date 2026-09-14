@@ -116,6 +116,8 @@
             baseURL: https://platform.worldapptechnologies.com/api/v1
             compat:
               thinkingFormat: deepseek
+              # The platform accepts the system prompt only as `system`.
+              supportsDeveloperRole: false
             models:
               - id: nulu-5-ultra
                 name: Nulu 5 Ultra
