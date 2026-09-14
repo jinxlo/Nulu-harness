@@ -10,17 +10,17 @@
  * disposing the old instance and creating a new one; identical `serverName`
  * reproduces identical public tool names.
  *
- * @module @deepseek-ai/dsh-mcp-client
+ * @module @worldapptechnologies/nulu-mcp-client
  */
 
-import type { Context } from '@deepseek-ai/cordis'
-import z from '@deepseek-ai/schemastery'
-import { scopeOf } from '@deepseek-ai/dsh-scope'
-import { MAX_TIMER_DELAY_MS } from '@deepseek-ai/dsh-timeout'
+import type { Context } from '@worldapptechnologies/cordis'
+import z from '@worldapptechnologies/schemastery'
+import { scopeOf } from '@worldapptechnologies/nulu-scope'
+import { MAX_TIMER_DELAY_MS } from '@worldapptechnologies/nulu-timeout'
 import { RECONNECT_DEFAULTS, resolveReconnectPolicy, startConnection } from './connection.ts'
 import type { ReconnectConfig } from './connection.ts'
 // Side-effect type import: declaration-merges `ctx.tools` onto Context.
-import type {} from '@deepseek-ai/dsh-tools'
+import type {} from '@worldapptechnologies/nulu-tools'
 
 export type { McpResult } from './tools.ts'
 export type { ReconnectConfig, ResolvedReconnectPolicy } from './connection.ts'

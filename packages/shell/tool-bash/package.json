@@ -1,5 +1,5 @@
 {
-  "name": "@deepseek-ai/dsh-tool-bash",
+  "name": "@worldapptechnologies/nulu-tool-bash",
   "description": "Model-facing bash tool with optional generic background-job and sandbox-escalation support",
   "version": "0.1.5-rc.2",
   "publishConfig": {
@@ -7,7 +7,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/worldapptechnologies/nulu-harness.git",
     "directory": "packages/shell/tool-bash"
   },
   "type": "module",
@@ -27,41 +27,41 @@
   ],
   "license": "MIT",
   "peerDependencies": {
-    "@deepseek-ai/dsh-agent": "workspace:^",
-    "@deepseek-ai/dsh-shell": "workspace:^",
-    "@deepseek-ai/dsh-shell-env": "workspace:^",
-    "@deepseek-ai/dsh-llm": "workspace:^",
-    "@deepseek-ai/dsh-sandbox": "workspace:^",
-    "@deepseek-ai/dsh-sandbox-policy": "workspace:^",
-    "@deepseek-ai/dsh-system-prompt": "workspace:^",
-    "@deepseek-ai/dsh-jobs": "workspace:^",
-    "@deepseek-ai/dsh-tools": "workspace:^",
-    "@deepseek-ai/dsh-user-approval": "workspace:^",
-    "@deepseek-ai/cordis": "workspace:^"
+    "@worldapptechnologies/nulu-agent": "workspace:^",
+    "@worldapptechnologies/nulu-shell": "workspace:^",
+    "@worldapptechnologies/nulu-shell-env": "workspace:^",
+    "@worldapptechnologies/nulu-llm": "workspace:^",
+    "@worldapptechnologies/nulu-sandbox": "workspace:^",
+    "@worldapptechnologies/nulu-sandbox-policy": "workspace:^",
+    "@worldapptechnologies/nulu-system-prompt": "workspace:^",
+    "@worldapptechnologies/nulu-jobs": "workspace:^",
+    "@worldapptechnologies/nulu-tools": "workspace:^",
+    "@worldapptechnologies/nulu-user-approval": "workspace:^",
+    "@worldapptechnologies/cordis": "workspace:^"
   },
   "dependencies": {
-    "@deepseek-ai/schemastery": "workspace:^"
+    "@worldapptechnologies/schemastery": "workspace:^"
   },
   "devDependencies": {
-    "@deepseek-ai/dsh-agent": "workspace:^",
-    "@deepseek-ai/dsh-agent-loop": "workspace:^",
-    "@deepseek-ai/dsh-agent-loop-testkit": "workspace:^",
-    "@deepseek-ai/dsh-shell": "workspace:^",
-    "@deepseek-ai/dsh-shell-env": "workspace:^",
-    "@deepseek-ai/dsh-bash-local": "workspace:^",
-    "@deepseek-ai/dsh-llm": "workspace:^",
-    "@deepseek-ai/dsh-subprocess-local": "workspace:^",
-    "@deepseek-ai/dsh-sandbox": "workspace:^",
-    "@deepseek-ai/dsh-sandbox-policy": "workspace:^",
-    "@deepseek-ai/dsh-session": "workspace:^",
-    "@deepseek-ai/dsh-session-persistence-jsonl": "workspace:^",
-    "@deepseek-ai/dsh-system-prompt": "workspace:^",
-    "@deepseek-ai/dsh-jobs": "workspace:^",
-    "@deepseek-ai/dsh-jobs-local": "workspace:^",
-    "@deepseek-ai/dsh-tool-jobs": "workspace:^",
-    "@deepseek-ai/dsh-tools": "workspace:^",
-    "@deepseek-ai/dsh-user-approval": "workspace:^",
-    "@deepseek-ai/cordis": "workspace:^",
-    "@deepseek-ai/dsh-session-projection": "workspace:^"
+    "@worldapptechnologies/nulu-agent": "workspace:^",
+    "@worldapptechnologies/nulu-agent-loop": "workspace:^",
+    "@worldapptechnologies/nulu-agent-loop-testkit": "workspace:^",
+    "@worldapptechnologies/nulu-shell": "workspace:^",
+    "@worldapptechnologies/nulu-shell-env": "workspace:^",
+    "@worldapptechnologies/nulu-bash-local": "workspace:^",
+    "@worldapptechnologies/nulu-llm": "workspace:^",
+    "@worldapptechnologies/nulu-subprocess-local": "workspace:^",
+    "@worldapptechnologies/nulu-sandbox": "workspace:^",
+    "@worldapptechnologies/nulu-sandbox-policy": "workspace:^",
+    "@worldapptechnologies/nulu-session": "workspace:^",
+    "@worldapptechnologies/nulu-session-persistence-jsonl": "workspace:^",
+    "@worldapptechnologies/nulu-system-prompt": "workspace:^",
+    "@worldapptechnologies/nulu-jobs": "workspace:^",
+    "@worldapptechnologies/nulu-jobs-local": "workspace:^",
+    "@worldapptechnologies/nulu-tool-jobs": "workspace:^",
+    "@worldapptechnologies/nulu-tools": "workspace:^",
+    "@worldapptechnologies/nulu-user-approval": "workspace:^",
+    "@worldapptechnologies/cordis": "workspace:^",
+    "@worldapptechnologies/nulu-session-projection": "workspace:^"
   }
 }

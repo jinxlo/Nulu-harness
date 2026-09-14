@@ -3,13 +3,13 @@
 import { mkdtempSync, realpathSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { Context } from '@deepseek-ai/cordis'
-import AgentRegistry from '@deepseek-ai/dsh-agent'
-import type { Agent, AgentFactory } from '@deepseek-ai/dsh-agent'
-import { agentPresetProjectionDefinition } from '@deepseek-ai/dsh-agent-presets'
-import SessionStore, { SessionId } from '@deepseek-ai/dsh-session'
-import type { Session } from '@deepseek-ai/dsh-session'
-import { RemoteError } from '@deepseek-ai/dsh-typert-protocol'
+import { Context } from '@worldapptechnologies/cordis'
+import AgentRegistry from '@worldapptechnologies/nulu-agent'
+import type { Agent, AgentFactory } from '@worldapptechnologies/nulu-agent'
+import { agentPresetProjectionDefinition } from '@worldapptechnologies/nulu-agent-presets'
+import SessionStore, { SessionId } from '@worldapptechnologies/nulu-session'
+import type { Session } from '@worldapptechnologies/nulu-session'
+import { RemoteError } from '@worldapptechnologies/nulu-typert-protocol'
 import { afterEach, describe, expect, it } from 'vitest'
 import { createSessionTestRemote } from './test-remote.ts'
 
@@ -49,7 +49,7 @@ function roster(ids: readonly string[]): unknown {
 }
 
 async function harness(presets?: readonly string[]) {
-  const cwd = realpathSync(mkdtempSync(join(tmpdir(), 'dsh-session-preset-')))
+  const cwd = realpathSync(mkdtempSync(join(tmpdir(), 'nulu-session-preset-')))
   tempDirs.push(cwd)
   const ctx = new Context()
   contexts.push(ctx)

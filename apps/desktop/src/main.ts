@@ -23,7 +23,7 @@ import { DesktopUpdateCoordinator } from './update-coordinator.ts'
 import { desktopErrorState } from './startup-error.ts'
 import { startupFailureDocument } from './startup-document.ts'
 
-const SCHEME = 'dsh-app'
+const SCHEME = 'nulu-app'
 let focusPrimaryWindow = (): void => {}
 type RecoveryAction = 'restart' | 'plugins' | 'reset'
 let profileRecoveryAvailable = (): boolean => false
@@ -64,25 +64,25 @@ const MIME: Readonly<Record<string, string>> = {
 interface RuntimeResources {
   readonly node: string
   readonly pnpm: string
-  readonly dsh: string
+  readonly nulu: string
 }
 
 function runtimeResources(): RuntimeResources {
   const development = !app.isPackaged
-  const node = (development ? process.env.DSH_DESKTOP_NODE_BINARY : undefined)
+  const node = (development ? process.env.NULU_DESKTOP_NODE_BINARY : undefined)
     ?? join(process.resourcesPath, 'runtime', 'node', process.platform === 'win32' ? 'node.exe' : 'node')
-  const pnpm = (development ? process.env.DSH_DESKTOP_PNPM_ENTRY : undefined)
+  const pnpm = (development ? process.env.NULU_DESKTOP_PNPM_ENTRY : undefined)
     ?? join(process.resourcesPath, 'runtime', 'pnpm', 'bin', 'pnpm.mjs')
-  const dsh = (development ? process.env.DSH_DESKTOP_DSH_DIR : undefined) ?? join(process.resourcesPath, 'dsh')
-  return { node, pnpm, dsh }
+  const nulu = (development ? process.env.NULU_DESKTOP_NULU_DIR : undefined) ?? join(process.resourcesPath, 'nulu')
+  return { node, pnpm, nulu }
 }
 
 function developmentHostInspectPort(enabled: boolean): number | undefined {
-  const configured = process.env.DSH_DESKTOP_HOST_INSPECT_PORT
+  const configured = process.env.NULU_DESKTOP_HOST_INSPECT_PORT
   if (!enabled || configured === undefined || configured === '') return undefined
   const port = Number(configured)
   if (!Number.isSafeInteger(port) || port < 1 || port > 65_535) {
-    throw new Error('dsh desktop: DSH_DESKTOP_HOST_INSPECT_PORT must be an integer from 1 through 65535')
+    throw new Error('nulu desktop: NULU_DESKTOP_HOST_INSPECT_PORT must be an integer from 1 through 65535')
   }
   return port
 }
@@ -108,7 +108,7 @@ function createWindow(preload: string, show = false): BrowserWindow {
     const page = emergencyPages.get(window)
     if (page === undefined || page.busy || window.webContents.getURL() !== page.url) return
     const action = new URL(url)
-    if (action.protocol !== 'dsh-recovery:' || !['restart', 'plugins', 'reset'].includes(action.hostname)) return
+    if (action.protocol !== 'nulu-recovery:' || !['restart', 'plugins', 'reset'].includes(action.hostname)) return
     if (action.hostname !== 'restart' && !profileRecoveryAvailable()) return
     page.busy = true
     void recoverApplication(action.hostname as RecoveryAction).catch(async (error: unknown) => {
@@ -120,10 +120,10 @@ function createWindow(preload: string, show = false): BrowserWindow {
 
 function assertDesktopSender(event: IpcMainInvokeEvent, hostnames: readonly string[]): void {
   const senderFrame = event.senderFrame
-  if (senderFrame === null) throw new Error('dsh desktop: rejected IPC without a sender frame')
+  if (senderFrame === null) throw new Error('nulu desktop: rejected IPC without a sender frame')
   const url = new URL(senderFrame.url)
   if (url.protocol !== `${SCHEME}:` || !hostnames.includes(url.hostname)) {
-    throw new Error('dsh desktop: rejected IPC from an unowned renderer')
+    throw new Error('nulu desktop: rejected IPC from an unowned renderer')
   }
 }
 
@@ -203,7 +203,7 @@ async function main(): Promise<void> {
   const backend = new DesktopBackendController((onFailure) => {
     if (development === undefined) manager.assertProfileRuntime(activeProject)
     const hostInspectPort = developmentHostInspectPort(development !== undefined)
-    const host = new DesktopHostProcess(resources.node, development ?? resources.dsh, activeProject,
+    const host = new DesktopHostProcess(resources.node, development ?? resources.nulu, activeProject,
       hostInspectPort, process.env, onFailure)
     return {
       start: () => host.start(),
@@ -298,7 +298,7 @@ async function main(): Promise<void> {
   const mutate = async (event: IpcMainInvokeEvent, mutation: Parameters<DesktopProjectManager['mutate']>[0]): Promise<void> => {
     assertDesktopSender(event, ['shell'])
     if (development !== undefined) {
-      throw new Error('dsh desktop: plugin package changes require a packaged application')
+      throw new Error('nulu desktop: plugin package changes require a packaged application')
     }
     await startup?.catch(() => undefined)
     pageError = undefined
@@ -321,21 +321,21 @@ async function main(): Promise<void> {
     return manager.listPlugins()
   })
   ipcMain.handle(DESKTOP_IPC.pluginsAdd, (event, spec: unknown) => {
-    if (typeof spec !== 'string') throw new Error('dsh desktop: plugin spec must be a string')
+    if (typeof spec !== 'string') throw new Error('nulu desktop: plugin spec must be a string')
     return mutate(event, { type: 'plugin-add', spec })
   })
   ipcMain.handle(DESKTOP_IPC.pluginsRemove, (event, name: unknown) => {
-    if (typeof name !== 'string') throw new Error('dsh desktop: plugin name must be a string')
+    if (typeof name !== 'string') throw new Error('nulu desktop: plugin name must be a string')
     return mutate(event, { type: 'plugin-remove', name })
   })
   ipcMain.handle(DESKTOP_IPC.pluginsUpdate, (event, name: unknown, version: unknown) => {
     if (typeof name !== 'string' || typeof version !== 'string') {
-      throw new Error('dsh desktop: plugin name and version must be strings')
+      throw new Error('nulu desktop: plugin name and version must be strings')
     }
     return mutate(event, { type: 'plugin-update', name, version })
   })
   ipcMain.handle(DESKTOP_IPC.pluginsToggle, (event, name: unknown, enabled: unknown) => {
-    if (typeof name !== 'string' || typeof enabled !== 'boolean') throw new Error('dsh desktop: invalid plugin activation request')
+    if (typeof name !== 'string' || typeof enabled !== 'boolean') throw new Error('nulu desktop: invalid plugin activation request')
     return mutate(event, { type: 'plugin-toggle', name, enabled })
   })
   ipcMain.handle(DESKTOP_IPC.pluginsDisableAll, event => mutate(event, { type: 'plugins-disable-all' }))
@@ -496,7 +496,7 @@ async function main(): Promise<void> {
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (quitting) return
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-  if (mainWindow !== undefined && development !== undefined && process.env.DSH_DESKTOP_OPEN_DEVTOOLS !== '0') {
+  if (mainWindow !== undefined && development !== undefined && process.env.NULU_DESKTOP_OPEN_DEVTOOLS !== '0') {
     mainWindow.webContents.openDevTools({ mode: 'detach' })
   }
   publishUpdate(updateState)
@@ -508,7 +508,7 @@ const ownsDesktopInstance = claimDesktopSingleInstance(app, () => { focusPrimary
 if (ownsDesktopInstance) void app.whenReady().then(main).catch(async (error: unknown) => {
   const message = error instanceof Error ? error.message : String(error)
   console.error(error)
-  const diagnosticFile = process.env.DSH_DESKTOP_DIAGNOSTIC_FILE
+  const diagnosticFile = process.env.NULU_DESKTOP_DIAGNOSTIC_FILE
   if (diagnosticFile !== undefined) {
     await writeFile(diagnosticFile, `${error instanceof Error ? error.stack ?? message : message}\n`).catch(() => undefined)
   }

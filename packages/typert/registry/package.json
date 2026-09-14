@@ -1,5 +1,5 @@
 {
-  "name": "@deepseek-ai/dsh-typert-registry",
+  "name": "@worldapptechnologies/nulu-typert-registry",
   "description": "Runtime registry for generated package reflection and Zod schemas",
   "version": "0.1.5-rc.2",
   "publishConfig": {
@@ -7,7 +7,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/worldapptechnologies/nulu-harness.git",
     "directory": "packages/typert/registry"
   },
   "type": "module",
@@ -29,7 +29,7 @@
     "./src/*": "./src/*",
     "./package.json": "./package.json"
   },
-  "dsh": {
+  "nulu": {
     "client": {
       "inject": [],
       "platform": "web",
@@ -51,10 +51,10 @@
     "zod": "^4.4.3"
   },
   "peerDependencies": {
-    "@deepseek-ai/cordis": "workspace:^"
+    "@worldapptechnologies/cordis": "workspace:^"
   },
   "devDependencies": {
-    "@deepseek-ai/cordis": "workspace:^",
-    "@deepseek-ai/dsh-typert-protocol": "workspace:^"
+    "@worldapptechnologies/cordis": "workspace:^",
+    "@worldapptechnologies/nulu-typert-protocol": "workspace:^"
   }
 }

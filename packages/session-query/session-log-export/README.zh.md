@@ -3,13 +3,13 @@ description: "Web 会话日志 ZIP 导出：Host 流式传输、认证下载路�
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-session-log-export
+# @worldapptechnologies/nulu-session-log-export
 
 [English](README.md) | 中文
 
 ## 概述
 
-`dsh-session-log-export` 让 Web 界面可以下载会话的完整历史：Session Header 更多操作按钮下的 `下载 Session 日志` 菜单项与 `/export` 斜杠命令都会把会话树——会话本身、其子会话与附件——作为 ZIP 交给浏览器下载。本包拥有 Host 归档流、经过认证的 Fetch 路由以及浏览器控件和反馈。下载目标位置由浏览器选择。设置与用法在前，随后说明实现细节。
+`nulu-session-log-export` 让 Web 界面可以下载会话的完整历史：Session Header 更多操作按钮下的 `下载 Session 日志` 菜单项与 `/export` 斜杠命令都会把会话树——会话本身、其子会话与附件——作为 ZIP 交给浏览器下载。本包拥有 Host 归档流、经过认证的 Fetch 路由以及浏览器控件和反馈。下载目标位置由浏览器选择。设置与用法在前，随后说明实现细节。
 
 ## 目录
 
@@ -25,7 +25,7 @@ kind: "package-reference"
 <a id="use-this-package"></a>
 ## 使用本包
 
-当 Web bundle 需要让用户导出会话日志时使用本包。它需要 Connection、命令注册表、Session 查询与持久化以及附件服务。挂载插件，然后在 Session Header 的更多操作菜单中选择 `下载 Session 日志` 或输入 `/export`；浏览器会下载 `dsh-session-<id>.zip`。
+当 Web bundle 需要让用户导出会话日志时使用本包。它需要 Connection、命令注册表、Session 查询与持久化以及附件服务。挂载插件，然后在 Session Header 的更多操作菜单中选择 `下载 Session 日志` 或输入 `/export`；浏览器会下载 `nulu-session-<id>.zip`。
 
 ### 何时选择
 
@@ -35,10 +35,10 @@ kind: "package-reference"
 
 ```yaml
 - id: session-log-download
-  name: '@deepseek-ai/dsh-session-log-export'
+  name: '@worldapptechnologies/nulu-session-log-export'
 ```
 
-Web bundle 将本包与 Connection、`dsh-commands`、`dsh-client-ui-commands` 和 `dsh-client-ui-conversation` 一起挂载。
+Web bundle 将本包与 Connection、`nulu-commands`、`nulu-client-ui-commands` 和 `nulu-client-ui-conversation` 一起挂载。
 
 ### 配置
 
@@ -90,9 +90,9 @@ Host 路由是由该功能拥有的精确 Fetch 路由贡献。Connection 应用
 
 当包级约定不够用时阅读以下页面。它们从 Web 控件逐步进入 Host 端点及相关的命令与会话接口。
 
-- [dsh-client-connection](../../client/connection/README.zh.md)——Host 端点使用的认证 Fetch 路由载体。
+- [nulu-client-connection](../../client/connection/README.zh.md)——Host 端点使用的认证 Fetch 路由载体。
 - [命令子系统参考](../../../docs/subsystems/commands.zh.md)——`/export` 命令注册的用户命令注册表。
-- [dsh-client-ui-commands](../../client/ui-commands/README.zh.md)——渲染并确认 `/export` 的浏览器命令界面。
+- [nulu-client-ui-commands](../../client/ui-commands/README.zh.md)——渲染并确认 `/export` 的浏览器命令界面。
 - [会话查询包映射](../README.zh.md)——本包所属的检索包族。
 
 -----

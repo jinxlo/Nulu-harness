@@ -9,7 +9,7 @@ kind: "package-group"
 
 ## 概述
 
-`client/` 组提供 dsh web GUI 的浏览器体验，包括对话、导航、设置、批准、文件访问及其他交互功能。添加浏览器中可见的行为时，请选择本系列中的包；服务端页面交付与宿主集成则使用 [`host/`](../host/README.zh.md)。本系列同时涵盖共享浏览器基础与专门的 UI 功能，各子包 README 拥有其配置与行为说明。编写规则见 [AGENTS.md](AGENTS.md)，下方相关文档解释跨包组合方式。
+`client/` 组提供 nulu web GUI 的浏览器体验，包括对话、导航、设置、批准、文件访问及其他交互功能。添加浏览器中可见的行为时，请选择本系列中的包；服务端页面交付与宿主集成则使用 [`host/`](../host/README.zh.md)。本系列同时涵盖共享浏览器基础与专门的 UI 功能，各子包 README 拥有其配置与行为说明。编写规则见 [AGENTS.md](AGENTS.md)，下方相关文档解释跨包组合方式。
 
 ## 目录
 
@@ -44,7 +44,7 @@ kind: "package-group"
 | [`ui-sidebar/`](ui-sidebar/README.zh.md) | 展示工作区与会话导航 | — |
 | [`resources/`](resources/README.zh.md) | 统一资源模型：`useResource` 会话标准钩子背后的协议提供方 | `ctx.resources` |
 | [`ui-sidebar-files/`](ui-sidebar-files/README.zh.md) | 右侧 Sidebar 的工作区文件树 tab 类型 | — |
-| [`ui-brand-official/`](ui-brand-official/README.zh.md) | 用官方名称与标记填充通用浏览器品牌 slot | — |
+| [`ui-brand/`](ui-brand/README.zh.md) | 用 Nulu 名称与标记填充通用浏览器品牌 slot | — |
 | [`ui-workspace/`](ui-workspace/README.zh.md) | 提供工作区选择与创建界面 | — |
 | [`ui-conversation/`](ui-conversation/README.zh.md) | 展示当前对话及其输入界面 | — |
 | [`ui-chat/`](ui-chat/README.zh.md) | 投影并渲染 Chat 对话 target | — |
@@ -83,7 +83,7 @@ kind: "package-group"
 
 先从子系统参考与两份拥有跨包组合决策的 Agent Note 读起，再看服务于本页的宿主半侧。
 
-- [客户端模块子系统](../../docs/subsystems/client-modules.zh.md)——web 插件表：`dsh.client` 声明、启动图协议与 bundle 路由。
+- [客户端模块子系统](../../docs/subsystems/client-modules.zh.md)——web 插件表：`nulu.client` 声明、启动图协议与 bundle 路由。
 - [slot 系统标准](../../.agents/notes/implemented/architecture/2026-07-22-slot-type-chain-implementation.zh.md)——权威 slot 模型：注册、props 份额与存储。
 - [web 客户端架构 Agent Note](../../.agents/notes/implemented/architecture/2026-07-19-gui-web-client-architecture.zh.md)——加载链、对象层与客户端服务。
 - [宿主组地图](../host/README.zh.md)——服务于本浏览器半侧的宿主半侧。

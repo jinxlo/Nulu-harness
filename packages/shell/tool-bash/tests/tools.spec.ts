@@ -2,32 +2,32 @@ import { mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterAll, describe, expect, it, vi } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import { ToolCallId } from '@deepseek-ai/dsh-llm'
-import { ShellExecutor } from '@deepseek-ai/dsh-shell'
-import type { ShellExecRequest, ShellExecSpec, ShellProcess, ShellProcessRead, ShellRunResult } from '@deepseek-ai/dsh-shell'
-import SystemPrompt from '@deepseek-ai/dsh-system-prompt'
-import ToolRuntime, { TOOL_ABORTED, TOOL_ABORTED_BEFORE_DISPATCH } from '@deepseek-ai/dsh-tools'
-import AgentRegistry from '@deepseek-ai/dsh-agent'
-import type { Agent } from '@deepseek-ai/dsh-agent'
-import { turnBoundaryProjectionDefinition } from '@deepseek-ai/dsh-agent-loop'
-import { SessionId } from '@deepseek-ai/dsh-session'
-import LocalJobRegistry from '@deepseek-ai/dsh-jobs-local'
-import * as ToolTasks from '@deepseek-ai/dsh-tool-jobs'
-import ApprovalService from '@deepseek-ai/dsh-user-approval'
-import type { ApprovalOutcome } from '@deepseek-ai/dsh-user-approval'
-import { LocalBashExecutor } from '@deepseek-ai/dsh-bash-local'
-import LocalSubprocessRuntime from '@deepseek-ai/dsh-subprocess-local'
-import SandboxPolicyService from '@deepseek-ai/dsh-sandbox-policy'
-import SessionProjectionRegistry from '@deepseek-ai/dsh-session-projection'
-import * as ToolBash from '@deepseek-ai/dsh-tool-bash'
-import * as BashEnvPlugin from '@deepseek-ai/dsh-shell-env'
+import { Context } from '@worldapptechnologies/cordis'
+import { ToolCallId } from '@worldapptechnologies/nulu-llm'
+import { ShellExecutor } from '@worldapptechnologies/nulu-shell'
+import type { ShellExecRequest, ShellExecSpec, ShellProcess, ShellProcessRead, ShellRunResult } from '@worldapptechnologies/nulu-shell'
+import SystemPrompt from '@worldapptechnologies/nulu-system-prompt'
+import ToolRuntime, { TOOL_ABORTED, TOOL_ABORTED_BEFORE_DISPATCH } from '@worldapptechnologies/nulu-tools'
+import AgentRegistry from '@worldapptechnologies/nulu-agent'
+import type { Agent } from '@worldapptechnologies/nulu-agent'
+import { turnBoundaryProjectionDefinition } from '@worldapptechnologies/nulu-agent-loop'
+import { SessionId } from '@worldapptechnologies/nulu-session'
+import LocalJobRegistry from '@worldapptechnologies/nulu-jobs-local'
+import * as ToolTasks from '@worldapptechnologies/nulu-tool-jobs'
+import ApprovalService from '@worldapptechnologies/nulu-user-approval'
+import type { ApprovalOutcome } from '@worldapptechnologies/nulu-user-approval'
+import { LocalBashExecutor } from '@worldapptechnologies/nulu-bash-local'
+import LocalSubprocessRuntime from '@worldapptechnologies/nulu-subprocess-local'
+import SandboxPolicyService from '@worldapptechnologies/nulu-sandbox-policy'
+import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projection'
+import * as ToolBash from '@worldapptechnologies/nulu-tool-bash'
+import * as BashEnvPlugin from '@worldapptechnologies/nulu-shell-env'
 import { processOutcome } from '../src/background.ts'
 import { renderProcessRead, renderResult } from '../src/render.ts'
 
 const testToolSignal = new AbortController().signal
 
-const spillDir = mkdtempSync(join(tmpdir(), 'dsh-tool-bash-spec-'))
+const spillDir = mkdtempSync(join(tmpdir(), 'nulu-tool-bash-spec-'))
 
 afterAll(() => {
   rmSync(spillDir, { recursive: true, force: true })
@@ -309,7 +309,7 @@ describe('bash tool', () => {
 
   it('surfaces spawn failures as isError', async () => {
     const ctx = await setup()
-    const result = await call(ctx, 'bash', { command: 'true', description: 'test command', workdir: '/nonexistent-dsh' })
+    const result = await call(ctx, 'bash', { command: 'true', description: 'test command', workdir: '/nonexistent-nulu' })
     expect(result.isError).toBe(true)
     expect(text(result)).toMatch(/ENOENT/)
   })
@@ -510,7 +510,7 @@ describe('background execution through the job runtime', () => {
     const ctx = await setup() // no LocalJobRegistry / ToolTasks
     const result = await call(ctx, 'bash', { command: 'sleep 60', description: 'test command', run_in_background: true })
     expect(result.isError).toBe(true)
-    expect(text(result)).toContain('background jobs unavailable: load @deepseek-ai/dsh-jobs and @deepseek-ai/dsh-tool-jobs')
+    expect(text(result)).toContain('background jobs unavailable: load @worldapptechnologies/nulu-jobs and @worldapptechnologies/nulu-tool-jobs')
   })
 
   it('a pre-aborted call is skipped before the process starts', async () => {
@@ -1070,7 +1070,7 @@ describe('tool-owned UI presentation (presentCall / presentResult)', () => {
 })
 
 describe('the model-facing bash tool builds its request from named args only (no {...args} forward)', () => {
-  const recordingDshHome = join(spillDir, 'dsh-home')
+  const recordingDshHome = join(spillDir, 'nulu-home')
 
   /**
    * Records every {@link ShellExecRequest} the consumer hands to `resolve()`, so a
@@ -1081,7 +1081,7 @@ describe('the model-facing bash tool builds its request from named args only (no
    * future refactor that blindly forwards `...args` — which would silently thread
    * model input into the post-scrub `env` merge or per-run capture budget — NOT
    * to defend a trust boundary
-   * (the credential scrub in dsh-bash-local is the security control; see the
+   * (the credential scrub in nulu-bash-local is the security control; see the
    * bash-stdin-env Agent Note). Foreground `run()` returns a canned result; `start()`
    * hands back an already-settled fake handle so the task registration completes.
    */
@@ -1097,7 +1097,7 @@ describe('the model-facing bash tool builds its request from named args only (no
         ...request.signal ? { signal: request.signal } : {},
         ...request.stdin !== undefined ? { stdin: request.stdin } : {},
         ...request.env !== undefined ? { env: request.env } : {},
-        ...request.dshEnv !== undefined ? { dshEnv: request.dshEnv } : {},
+        ...request.nuluEnv !== undefined ? { nuluEnv: request.nuluEnv } : {},
         sandboxPolicy: request.sandboxPolicy,
       }
     }
@@ -1126,7 +1126,7 @@ describe('the model-facing bash tool builds its request from named args only (no
     await ctx.plugin(AgentRegistry)
     await ctx.plugin(LocalJobRegistry)
     await ctx.plugin(ToolTasks)
-    await ctx.plugin(BashEnvPlugin, { dshHome: recordingDshHome })
+    await ctx.plugin(BashEnvPlugin, { nuluHome: recordingDshHome })
     await ctx.plugin(RecordingBashExecutor)
     await ctx.plugin(ToolBash)
     return { ctx, bash: ctx.shell as RecordingBashExecutor }
@@ -1135,13 +1135,13 @@ describe('the model-facing bash tool builds its request from named args only (no
   it('describes the managed harness environment namespace to the model', async () => {
     const { ctx } = await setupRecording()
     const description = ctx.tools.get('bash')?.description ?? ''
-    expect(description).toContain('$DSH_*')
+    expect(description).toContain('$NULU_*')
   })
 
   it('injects built-ins and the stable session id into a foreground request', async () => {
     const { ctx, bash } = await setupRecording()
     const agent = registerFakeAgent(ctx, 'request-fg', () => undefined)
-    const ambient = process.env.DSH_SESSION_ID
+    const ambient = process.env.NULU_SESSION_ID
 
     await ctx.tools.execute({
       signal: testToolSignal,
@@ -1151,12 +1151,12 @@ describe('the model-facing bash tool builds its request from named args only (no
       agent,
     })
 
-    expect(bash.requests[0]?.dshEnv).toEqual({
-      DSH_HOME: recordingDshHome,
-      DSH_SESSION_ID: 'request-fg',
-      DSH_SHELL: '1',
+    expect(bash.requests[0]?.nuluEnv).toEqual({
+      NULU_HOME: recordingDshHome,
+      NULU_SESSION_ID: 'request-fg',
+      NULU_SHELL: '1',
     })
-    expect(process.env.DSH_SESSION_ID).toBe(ambient)
+    expect(process.env.NULU_SESSION_ID).toBe(ambient)
   })
 
   it('injects the same trusted variables into a background request without forwarding model env', async () => {
@@ -1171,16 +1171,16 @@ describe('the model-facing bash tool builds its request from named args only (no
         command: 'sleep 1',
         description: 'run command',
         run_in_background: true,
-        env: { DSH_SESSION_ID: 'spoofed' },
+        env: { NULU_SESSION_ID: 'spoofed' },
       },
       agent,
     })
 
     expect(bash.requests[0]?.env).toBeUndefined()
-    expect(bash.requests[0]?.dshEnv).toEqual({
-      DSH_HOME: recordingDshHome,
-      DSH_SESSION_ID: 'request-bg',
-      DSH_SHELL: '1',
+    expect(bash.requests[0]?.nuluEnv).toEqual({
+      NULU_HOME: recordingDshHome,
+      NULU_SESSION_ID: 'request-bg',
+      NULU_SHELL: '1',
     })
   })
 
@@ -1199,16 +1199,16 @@ describe('the model-facing bash tool builds its request from named args only (no
       })
     }
 
-    expect(bash.requests.map(request => request.dshEnv)).toEqual([
+    expect(bash.requests.map(request => request.nuluEnv)).toEqual([
       {
-        DSH_HOME: recordingDshHome,
-        DSH_SESSION_ID: 'request-parent',
-        DSH_SHELL: '1',
+        NULU_HOME: recordingDshHome,
+        NULU_SESSION_ID: 'request-parent',
+        NULU_SHELL: '1',
       },
       {
-        DSH_HOME: recordingDshHome,
-        DSH_SESSION_ID: 'request-child',
-        DSH_SHELL: '1',
+        NULU_HOME: recordingDshHome,
+        NULU_SESSION_ID: 'request-child',
+        NULU_SHELL: '1',
       },
     ])
   })

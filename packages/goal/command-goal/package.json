@@ -1,5 +1,5 @@
 {
-  "name": "@deepseek-ai/dsh-command-goal",
+  "name": "@worldapptechnologies/nulu-command-goal",
   "description": "Human-facing slash command for persisted same-session goals",
   "version": "0.1.5-rc.2",
   "publishConfig": {
@@ -7,7 +7,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/worldapptechnologies/nulu-harness.git",
     "directory": "packages/goal/command-goal"
   },
   "type": "module",
@@ -27,21 +27,21 @@
   ],
   "license": "MIT",
   "peerDependencies": {
-    "@deepseek-ai/dsh-commands": "workspace:^",
-    "@deepseek-ai/dsh-goal": "workspace:^",
-    "@deepseek-ai/dsh-llm": "workspace:^",
-    "@deepseek-ai/cordis": "workspace:^"
+    "@worldapptechnologies/nulu-commands": "workspace:^",
+    "@worldapptechnologies/nulu-goal": "workspace:^",
+    "@worldapptechnologies/nulu-llm": "workspace:^",
+    "@worldapptechnologies/cordis": "workspace:^"
   },
   "devDependencies": {
-    "@deepseek-ai/cordis-plugin-loader": "workspace:^",
-    "@deepseek-ai/dsh-agent": "workspace:^",
-    "@deepseek-ai/dsh-agent-loop": "workspace:^",
-    "@deepseek-ai/dsh-agent-loop-testkit": "workspace:^",
-    "@deepseek-ai/dsh-commands": "workspace:^",
-    "@deepseek-ai/dsh-goal": "workspace:^",
-    "@deepseek-ai/dsh-llm": "workspace:^",
-    "@deepseek-ai/dsh-session": "workspace:^",
-    "@deepseek-ai/cordis": "workspace:^",
-    "@deepseek-ai/dsh-session-projection": "workspace:^"
+    "@worldapptechnologies/cordis-plugin-loader": "workspace:^",
+    "@worldapptechnologies/nulu-agent": "workspace:^",
+    "@worldapptechnologies/nulu-agent-loop": "workspace:^",
+    "@worldapptechnologies/nulu-agent-loop-testkit": "workspace:^",
+    "@worldapptechnologies/nulu-commands": "workspace:^",
+    "@worldapptechnologies/nulu-goal": "workspace:^",
+    "@worldapptechnologies/nulu-llm": "workspace:^",
+    "@worldapptechnologies/nulu-session": "workspace:^",
+    "@worldapptechnologies/cordis": "workspace:^",
+    "@worldapptechnologies/nulu-session-projection": "workspace:^"
   }
 }

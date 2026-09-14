@@ -1,4 +1,4 @@
-import { deepFreeze, snapshotJsonValue } from '@deepseek-ai/dsh-util-values'
+import { deepFreeze, snapshotJsonValue } from '@worldapptechnologies/nulu-util-values'
 import { SessionFormatError } from './error.ts'
 import type {
   SessionFormatHeader,

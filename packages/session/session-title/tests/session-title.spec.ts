@@ -1,15 +1,15 @@
-import { createUserMessage } from '@deepseek-ai/dsh-llm'
-import { Context } from '@deepseek-ai/cordis'
+import { createUserMessage } from '@worldapptechnologies/nulu-llm'
+import { Context } from '@worldapptechnologies/cordis'
 import { describe, expect, it } from 'vitest'
-import SessionStore, { Session, SessionId, SessionSeq } from '@deepseek-ai/dsh-session'
-import SessionProjectionRegistry from '@deepseek-ai/dsh-session-projection'
+import SessionStore, { Session, SessionId, SessionSeq } from '@worldapptechnologies/nulu-session'
+import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projection'
 import SessionTitleService, {
   SessionTitleProviderId,
   fallbackSessionTitle,
   foldSessionTitle,
   normalizeSessionTitle,
   truncateTitleUtf8,
-} from '@deepseek-ai/dsh-session-title'
+} from '@worldapptechnologies/nulu-session-title'
 
 const CONFIG = {
   fallbackMaxWords: 5,

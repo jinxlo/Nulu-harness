@@ -7,16 +7,16 @@
  * scope-birth roster warm — is InputTriggerController behavior, tested on a real
  * session scope (createScope).
  */
-import { Context } from '@deepseek-ai/cordis'
+import { Context } from '@worldapptechnologies/cordis'
 import { describe, expect, it, vi } from 'vitest'
-import { createScope, scopeOf } from '@deepseek-ai/dsh-api-session-controller/client'
-import type { LocaleSnapshot } from '@deepseek-ai/dsh-client-locale/client'
-import type { SessionId } from '@deepseek-ai/dsh-session/types'
-import { InputTriggerController, InputTriggerService } from '@deepseek-ai/dsh-client-ui-input-trigger/client'
+import { createScope, scopeOf } from '@worldapptechnologies/nulu-api-session-controller/client'
+import type { LocaleSnapshot } from '@worldapptechnologies/nulu-client-locale/client'
+import type { SessionId } from '@worldapptechnologies/nulu-session/types'
+import { InputTriggerController, InputTriggerService } from '@worldapptechnologies/nulu-client-ui-input-trigger/client'
 import type {
   BeginCommandRequest, ClientSessionContext, CommandClaim, InsertReferenceRequest, PickOutcome,
   ReferenceInsert, InputTriggerCandidate, InputTriggerPick, InputTriggerSource, SourceRoster, TriggerChar,
-} from '@deepseek-ai/dsh-client-ui-input-trigger/client'
+} from '@worldapptechnologies/nulu-client-ui-input-trigger/client'
 
 const sid = (k: string): SessionId => k as SessionId
 

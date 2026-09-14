@@ -18,7 +18,7 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } fr
 import type { ReactNode } from 'react'
 import type {
   PropsLocale, PropsRenderSlots, PropsRuntime, PropsStore,
-} from '@deepseek-ai/dsh-client-ui-slots'
+} from '@worldapptechnologies/nulu-client-ui-slots'
 import { computeColumns, RIGHTBAR_DEFAULT_RATIO, SIDEBAR_AUTO_COLLAPSE, SIDEBAR_DEFAULT } from './columns.ts'
 import { DocumentTitle } from './DocumentTitle.tsx'
 import type { createLayoutStore } from './stores.ts'
@@ -189,7 +189,7 @@ export function AppFrame({
   const onRightbarDrag = useCallback((dx: number) => {
     actions.setRightbar(rightbarBase.current - dx)
   }, [actions])
-  const productTitle = process.env.DSH_CLIENT_TITLE ?? t('brand.localBuild')
+  const productTitle = process.env.NULU_CLIENT_TITLE ?? t('brand.localBuild')
   const sidebar = useMemo(() => renderSlot('sidebar', {
     collapsed: sidebarCollapsed,
     width: cols.sidebar,

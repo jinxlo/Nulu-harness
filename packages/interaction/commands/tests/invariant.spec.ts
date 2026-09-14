@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import * as CommandInvariant from '@deepseek-ai/dsh-commands/invariant'
-import InvariantRegistry, { InvariantError } from '@deepseek-ai/dsh-invariants'
-import SessionStore, { SessionId, SessionSeq, type Session } from '@deepseek-ai/dsh-session'
-import { CommandId } from '@deepseek-ai/dsh-commands'
+import { Context } from '@worldapptechnologies/cordis'
+import * as CommandInvariant from '@worldapptechnologies/nulu-commands/invariant'
+import InvariantRegistry, { InvariantError } from '@worldapptechnologies/nulu-invariants'
+import SessionStore, { SessionId, SessionSeq, type Session } from '@worldapptechnologies/nulu-session'
+import { CommandId } from '@worldapptechnologies/nulu-commands'
 
 async function mount(installCompanion = true): Promise<{ ctx: Context; session: Session }> {
   const ctx = new Context()
@@ -50,7 +50,7 @@ describe('command lifecycle invariants', () => {
       })
     }).toThrow(expect.objectContaining<Partial<InvariantError>>({
       code: 'INVARIANT',
-      packageName: '@deepseek-ai/dsh-commands',
+      packageName: '@worldapptechnologies/nulu-commands',
     }))
   })
 
@@ -68,7 +68,7 @@ describe('command lifecycle invariants', () => {
       })
     }).toThrow(expect.objectContaining<Partial<InvariantError>>({
       code: 'INVARIANT',
-      packageName: '@deepseek-ai/dsh-commands',
+      packageName: '@worldapptechnologies/nulu-commands',
     }))
   })
 
@@ -83,7 +83,7 @@ describe('command lifecycle invariants', () => {
 
     await expect(ctx.plugin(CommandInvariant)).rejects.toMatchObject({
       code: 'INVARIANT',
-      packageName: '@deepseek-ai/dsh-commands',
+      packageName: '@worldapptechnologies/nulu-commands',
     })
   })
 })

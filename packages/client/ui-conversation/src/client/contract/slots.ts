@@ -1,19 +1,19 @@
 /** Target-neutral Conversation slot declarations and composed component props. */
 import type { ReactNode, RefObject } from 'react'
-import type { FileAttachmentRef, ImageAttachmentRef } from '@deepseek-ai/dsh-attachment'
-import type { SessionSnapshot } from '@deepseek-ai/dsh-api-session-controller/client'
-import type { FileUploadReceiptId } from '@deepseek-ai/dsh-client-file-upload/client'
-import type { WorkspaceSnapshot } from '@deepseek-ai/dsh-api-workspace-controller/client'
+import type { FileAttachmentRef, ImageAttachmentRef } from '@worldapptechnologies/nulu-attachment'
+import type { SessionSnapshot } from '@worldapptechnologies/nulu-api-session-controller/client'
+import type { FileUploadReceiptId } from '@worldapptechnologies/nulu-client-file-upload/client'
+import type { WorkspaceSnapshot } from '@worldapptechnologies/nulu-api-workspace-controller/client'
 import type {
   MaybeSnapshotSelectorHook, ObservableSnapshot, SnapshotSelectorHook,
-} from '@deepseek-ai/dsh-client-store'
+} from '@worldapptechnologies/nulu-client-store'
 import type {
   InjectFace, PropsLocale, PropsRenderSlots, PropsRuntime, PropsStore,
-} from '@deepseek-ai/dsh-client-ui-slots'
-import type { SessionPendingInteraction } from '@deepseek-ai/dsh-client-ui-session/client'
-import type {} from '@deepseek-ai/dsh-client-ui-layout/client'
-import type { SessionId } from '@deepseek-ai/dsh-session/types'
-import type { WorkspaceId } from '@deepseek-ai/dsh-workspace/types'
+} from '@worldapptechnologies/nulu-client-ui-slots'
+import type { SessionPendingInteraction } from '@worldapptechnologies/nulu-client-ui-session/client'
+import type {} from '@worldapptechnologies/nulu-client-ui-layout/client'
+import type { SessionId } from '@worldapptechnologies/nulu-session/types'
+import type { WorkspaceId } from '@worldapptechnologies/nulu-workspace/types'
 import type { ComposerBlock } from './composer-blocks.ts'
 import type {
   ComposerKeyboard, DraftAttachmentId, EditSelection, InputActions, InputNotice, InputState,
@@ -115,7 +115,7 @@ export type UseConversation = SnapshotSelectorHook<ConversationSnapshot>
 /** Selector hook over the registered Conversation View roster. */
 export type UseConversationViews = SnapshotSelectorHook<readonly ViewTab[]>
 
-declare module '@deepseek-ai/dsh-client-ui-slots' {
+declare module '@worldapptechnologies/nulu-client-ui-slots' {
   interface SlotMap {
     /** Conversation shell beneath its root-scoped main-panel entry. */
     'main.conversation': { kind: 'single'; scope: 'session-maybe' }

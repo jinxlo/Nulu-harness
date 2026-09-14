@@ -1,10 +1,10 @@
 {
-  "name": "@deepseek-ai/dsh-experimental-code-runtime-python",
-  "description": "CPython subprocess implementation of the DeepSeek Harness code-execution seam",
+  "name": "@worldapptechnologies/nulu-experimental-code-runtime-python",
+  "description": "CPython subprocess implementation of the Nulu Harness code-execution seam",
   "version": "0.1.5-rc.2",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/worldapptechnologies/nulu-harness.git",
     "directory": "packages/experimental/code-runtime-python"
   },
   "type": "module",
@@ -24,19 +24,19 @@
   ],
   "license": "MIT",
   "peerDependencies": {
-    "@deepseek-ai/dsh-code-runtime": "workspace:^",
-    "@deepseek-ai/dsh-timeout": "workspace:^",
-    "@deepseek-ai/cordis": "workspace:^",
-    "@deepseek-ai/dsh-util-values": "workspace:^"
+    "@worldapptechnologies/nulu-code-runtime": "workspace:^",
+    "@worldapptechnologies/nulu-timeout": "workspace:^",
+    "@worldapptechnologies/cordis": "workspace:^",
+    "@worldapptechnologies/nulu-util-values": "workspace:^"
   },
   "devDependencies": {
-    "@deepseek-ai/dsh-code-runtime": "workspace:^",
-    "@deepseek-ai/dsh-timeout": "workspace:^",
-    "@deepseek-ai/cordis": "workspace:^",
-    "@deepseek-ai/dsh-util-values": "workspace:^"
+    "@worldapptechnologies/nulu-code-runtime": "workspace:^",
+    "@worldapptechnologies/nulu-timeout": "workspace:^",
+    "@worldapptechnologies/cordis": "workspace:^",
+    "@worldapptechnologies/nulu-util-values": "workspace:^"
   },
   "dependencies": {
-    "@deepseek-ai/schemastery": "workspace:^"
+    "@worldapptechnologies/schemastery": "workspace:^"
   },
   "private": true
 }

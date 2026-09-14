@@ -3,16 +3,16 @@
  * with logged model context without vetoing or rewriting calls. Configuration
  * and chain semantics live in the package README; rationale lives in the
  * repeat-tool-reminder Agent Note.
- * @module @deepseek-ai/dsh-repeat-tool-reminder
+ * @module @worldapptechnologies/nulu-repeat-tool-reminder
  */
 
-import type { Context } from '@deepseek-ai/cordis'
-import z from '@deepseek-ai/schemastery'
-import type { Agent, PreStepDecision } from '@deepseek-ai/dsh-agent'
-import { createUserMessage } from '@deepseek-ai/dsh-llm'
-import type { MessageSource } from '@deepseek-ai/dsh-llm'
-import type { UserMessage } from '@deepseek-ai/dsh-session'
-import type { PostToolDecision, ToolExecution } from '@deepseek-ai/dsh-tools'
+import type { Context } from '@worldapptechnologies/cordis'
+import z from '@worldapptechnologies/schemastery'
+import type { Agent, PreStepDecision } from '@worldapptechnologies/nulu-agent'
+import { createUserMessage } from '@worldapptechnologies/nulu-llm'
+import type { MessageSource } from '@worldapptechnologies/nulu-llm'
+import type { UserMessage } from '@worldapptechnologies/nulu-session'
+import type { PostToolDecision, ToolExecution } from '@worldapptechnologies/nulu-tools'
 
 export const name = 'repeat-tool-reminder'
 

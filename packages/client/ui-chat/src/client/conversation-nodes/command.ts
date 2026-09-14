@@ -1,11 +1,11 @@
-import type { Context } from '@deepseek-ai/cordis'
+import type { Context } from '@worldapptechnologies/cordis'
 import type {
   CommandNode, CompactionSummaryNode, ConversationMatch, ConversationNodeContext, ConversationNodeDefinition,
-} from '@deepseek-ai/dsh-client-ui-conversation/client'
-import type { CompactionCheckpointSource } from '@deepseek-ai/dsh-compaction/checkpoint'
-import type {} from '@deepseek-ai/dsh-compaction/types'
-import type {} from '@deepseek-ai/dsh-commands/types'
-import { isReplacementSurfaceEvent } from '@deepseek-ai/dsh-session/surface'
+} from '@worldapptechnologies/nulu-client-ui-conversation/client'
+import type { CompactionCheckpointSource } from '@worldapptechnologies/nulu-compaction/checkpoint'
+import type {} from '@worldapptechnologies/nulu-compaction/types'
+import type {} from '@worldapptechnologies/nulu-commands/types'
+import { isReplacementSurfaceEvent } from '@worldapptechnologies/nulu-session/surface'
 import type { ManualCompactionChatData } from '../contract/chat-nodes.ts'
 import { chatNode } from './common.ts'
 

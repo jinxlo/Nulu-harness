@@ -12,8 +12,8 @@ export interface DeepSeekPluginPackageInventoryExtension {
   readonly packages: readonly DeepSeekPluginPackageIdentity[]
 }
 
-declare module '@deepseek-ai/dsh-deepseek-llm-api-extensions/types' {
+declare module '@worldapptechnologies/nulu-deepseek-llm-api-extensions/types' {
   interface DeepSeekLlmApiExtensionMap {
-    dsh_plugin_packages: DeepSeekPluginPackageInventoryExtension
+    nulu_plugin_packages: DeepSeekPluginPackageInventoryExtension
   }
 }

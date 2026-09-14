@@ -3,13 +3,13 @@ description: "在 Host Team 层之后，为 Web profile 添加公开发布的实
 kind: "package-bundle"
 ---
 
-# @deepseek-ai/dsh-experimental-agent-team-web-profile
+# @worldapptechnologies/nulu-experimental-agent-team-web-profile
 
 [English](README.md) | 中文
 
 ## 概述
 
-`dsh-experimental-agent-team-web-profile` 是 [Agent Teams](../agent-team/README.zh.md) 公开发布的实验性 Web 层。把它放在 `@deepseek-ai/dsh-web-app` 与 [`@deepseek-ai/dsh-experimental-agent-team-profile`](../agent-team-profile/README.zh.md) 之后，即可在浏览器中显示 Team roster、任务板与 teammate 导航。移除任一实验层都会让稳定的 base 与 Web composition 保持不变。随附 Web profile 默认不会启用它。
+`nulu-experimental-agent-team-web-profile` 是 [Agent Teams](../agent-team/README.zh.md) 公开发布的实验性 Web 层。把它放在 `@worldapptechnologies/nulu-web-app` 与 [`@worldapptechnologies/nulu-experimental-agent-team-profile`](../agent-team-profile/README.zh.md) 之后，即可在浏览器中显示 Team roster、任务板与 teammate 导航。移除任一实验层都会让稳定的 base 与 Web composition 保持不变。随附 Web profile 默认不会启用它。
 
 ## 目录
 
@@ -30,15 +30,15 @@ kind: "package-bundle"
 按以下顺序把 Host 与 Web Agent Teams 层添加到已初始化的 `web` profile：
 
 ```sh
-dsh plugin --profile web add @deepseek-ai/dsh-experimental-agent-team-profile
-dsh plugin --profile web add @deepseek-ai/dsh-experimental-agent-team-web-profile
+nulu plugin --profile web add @worldapptechnologies/nulu-experimental-agent-team-profile
+nulu plugin --profile web add @worldapptechnologies/nulu-experimental-agent-team-web-profile
 ```
 
-第一条命令提供 Team domain、生成的 Remote 方法与模型工具。第二条命令激活本包声明的 patch 及其浏览器 presentation。执行 `dsh plugin --profile web remove @deepseek-ai/dsh-experimental-agent-team-web-profile` 移除本包时，Web 层也会从 profile 的有序 bundle 列表中移除。
+第一条命令提供 Team domain、生成的 Remote 方法与模型工具。第二条命令激活本包声明的 patch 及其浏览器 presentation。执行 `nulu plugin --profile web remove @worldapptechnologies/nulu-experimental-agent-team-web-profile` 移除本包时，Web 层也会从 profile 的有序 bundle 列表中移除。
 
 ### 获得的功能
 
-对话标题栏会获得 Team roster、共享任务板与 teammate 导航。[`@deepseek-ai/dsh-experimental-client-ui-agent-team`](../client-ui-agent-team/README.zh.md) 负责这些浏览器交互，并挂载用于访问 Host Team service 的生成 Client Remote namespace。
+对话标题栏会获得 Team roster、共享任务板与 teammate 导航。[`@worldapptechnologies/nulu-experimental-client-ui-agent-team`](../client-ui-agent-team/README.zh.md) 负责这些浏览器交互，并挂载用于访问 Host Team service 的生成 Client Remote namespace。
 
 -----
 
@@ -48,7 +48,7 @@ dsh plugin --profile web add @deepseek-ai/dsh-experimental-agent-team-web-profil
 <details>
 <summary>实现细节——点击展开</summary>
 
-本包的运行时内容是 [`cordis.patch.yml`](cordis.patch.yml)。在 `dsh-web-app` 与 Host Agent Teams 层之后应用时，它唯一的 `insert` 条目会为 `@deepseek-ai/dsh-experimental-client-ui-agent-team` 添加 `ui-agent-team` 行。插入的 Client 插件负责生成的 Remote assembly 与 Team UI；这个静态 bundle 不持有可变状态，也不安装运行时不变式。
+本包的运行时内容是 [`cordis.patch.yml`](cordis.patch.yml)。在 `nulu-web-app` 与 Host Agent Teams 层之后应用时，它唯一的 `insert` 条目会为 `@worldapptechnologies/nulu-experimental-client-ui-agent-team` 添加 `ui-agent-team` 行。插入的 Client 插件负责生成的 Remote assembly 与 Team UI；这个静态 bundle 不持有可变状态，也不安装运行时不变式。
 
 | 文件 | 职责 |
 |---|---|
@@ -83,7 +83,7 @@ dsh plugin --profile web add @deepseek-ai/dsh-experimental-agent-team-web-profil
 
 <a id="known-limitations-and-deferred-work"></a>
 
-- **有序组合**——`dsh-base`、`dsh-web-app`、`dsh-experimental-agent-team-profile` 与本包必须保持这个顺序。
+- **有序组合**——`nulu-base`、`nulu-web-app`、`nulu-experimental-agent-team-profile` 与本包必须保持这个顺序。
 - **Preset-scoped 旧控制项**——稳定 Web preset 仍会在 preset scope 内挂载 continuable Subagent 控制项。顶层 Host profile override 不会替换这些 scoped registration，因此在 Web 获得 Team-aware preset 前，Team roster 与旧 child 控制项可能同时出现。[Web Agent Teams 决策](../../../.agents/notes/archived/feature/2026-08-06-agent-teams-web.md)记录了这项暂缓的 composition 工作。
 - **仅显式启用**——本包公开发布，但随附 Web profile 默认不会启用任何 Agent Teams 层。
 

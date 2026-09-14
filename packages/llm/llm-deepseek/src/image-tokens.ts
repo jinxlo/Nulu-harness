@@ -8,7 +8,7 @@
  * configuration has no alignment pad and no aspect-ratio clamp. Actual usage
  * remains authoritative.
  *
- * @module dsh-llm-deepseek/image-tokens
+ * @module nulu-llm-deepseek/image-tokens
  */
 
 /** Vision patch edge in pixels. */

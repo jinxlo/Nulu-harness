@@ -1,13 +1,13 @@
 /** Package-owned relationship invariant for webhook-origin prompt admission. */
 
-import type { Context } from '@deepseek-ai/cordis'
-import type {} from '@deepseek-ai/dsh-agent'
-import type { InvariantFailure, InvariantInstaller } from '@deepseek-ai/dsh-invariants'
-import type { Session, SessionEvent } from '@deepseek-ai/dsh-session'
-import type {} from '@deepseek-ai/dsh-workspace'
+import type { Context } from '@worldapptechnologies/cordis'
+import type {} from '@worldapptechnologies/nulu-agent'
+import type { InvariantFailure, InvariantInstaller } from '@worldapptechnologies/nulu-invariants'
+import type { Session, SessionEvent } from '@worldapptechnologies/nulu-session'
+import type {} from '@worldapptechnologies/nulu-workspace'
 import type {} from './types.ts'
 
-const PACKAGE_NAME = '@deepseek-ai/dsh-webhook'
+const PACKAGE_NAME = '@worldapptechnologies/nulu-webhook'
 
 /** Cordis invariant-companion plugin name. */
 export const name = 'webhook-invariant'

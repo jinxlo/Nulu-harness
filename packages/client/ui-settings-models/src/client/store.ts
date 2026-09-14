@@ -7,13 +7,13 @@
  * re-renders from the next describe, pushed or refetched.
  */
 
-import type { Context as ClientContext } from '@deepseek-ai/cordis'
+import type { Context as ClientContext } from '@worldapptechnologies/cordis'
 import type {
   CredentialInfo, LlmConfigurableProvider, LlmProviderInfo, SettingsNamespaceView,
-} from '@deepseek-ai/dsh-api-remotes/client'
-import type { SnapshotStore } from '@deepseek-ai/dsh-client-store'
-import { createSnapshotStore } from '@deepseek-ai/dsh-client-store'
-import type { SettingsDescribeFace } from '@deepseek-ai/dsh-client-ui-settings/client'
+} from '@worldapptechnologies/nulu-api-remotes/client'
+import type { SnapshotStore } from '@worldapptechnologies/nulu-client-store'
+import { createSnapshotStore } from '@worldapptechnologies/nulu-client-store'
+import type { SettingsDescribeFace } from '@worldapptechnologies/nulu-client-ui-settings/client'
 import type { SettingsSchemaOperations } from './schema-operations.ts'
 
 /**
@@ -285,12 +285,40 @@ export type OnboardingReadiness =
   }
 
 /**
+ * Rows the first-run prompt can repair, most preferred first. The shipped
+ * World App Technologies route comes first because it is what the default
+ * model selection resolves to; the native DeepSeek route remains the fallback
+ * for compositions that ship it as the only declared provider entry.
+ */
+const ONBOARDING_WORLD_APP_ROUTE = { provider: 'worldapp', settingsNs: 'llm-pi-ai' } as const
+const ONBOARDING_SHIPPED_ROUTE = { provider: 'deepseek-official', settingsNs: 'llm-deepseek' } as const
+
+/**
+ * The provider row the first-run prompt offers when no provider is usable:
+ * the shipped World App Technologies route when the composition mounts it,
+ * otherwise the native DeepSeek route. A missing declaration for both means
+ * the prompt has no key field to offer and the user must repair the setup
+ * from the Models page.
+ * @param state - current shared Models join snapshot.
+ * @returns the preferred row, or `undefined` when neither route is declared.
+ */
+export function onboardingProviderRow(state: ModelsSettingsState): ProviderRow | undefined {
+  for (const target of [ONBOARDING_WORLD_APP_ROUTE, ONBOARDING_SHIPPED_ROUTE]) {
+    const row = state.rows.find(candidate =>
+      candidate.entry.provider === target.provider
+      && candidate.entry.settingsNs === target.settingsNs)
+    if (row !== undefined) return row
+  }
+  return undefined
+}
+
+/**
  * Project first-run readiness from the provider/settings/credential join used
  * by the Models page. The step exists to leave the user with a model to talk
- * to, so ANY usable provider ends it; only when none exists does the official
- * DeepSeek route — the one route the prompt can offer a key field for — decide
- * whether prompting can help. A missing official configurable-provider
- * declaration means the adapter is not repairable by navigating to Models.
+ * to, so ANY usable provider ends it; only when none exists does the shipped
+ * default route — the one route the prompt can offer a key field for — decide
+ * whether prompting can help. A missing configurable-provider declaration for
+ * that route means the adapter is not repairable by navigating to Models.
  * @param state - current shared Models join snapshot.
  * @returns the onboarding state without reading a parallel fact source.
  */
@@ -305,10 +333,7 @@ export function onboardingReadiness(state: ModelsSettingsState): OnboardingReadi
     }
   }
   if (state.rows.some(providerUsable)) return { kind: 'provider-ready' }
-  const row = state.rows.find(candidate =>
-    candidate.entry.provider === 'deepseek-official'
-    && candidate.entry.settingsNs === 'llm-deepseek'
-    && candidate.entry.settingsPath.length === 0)
+  const row = onboardingProviderRow(state)
   if (row === undefined) return { kind: 'adapter-absent' }
   if (!row.entry.active) {
     return {

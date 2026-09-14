@@ -2,18 +2,18 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { Context } from '@deepseek-ai/cordis'
-import type { Agent } from '@deepseek-ai/dsh-agent'
-import { ToolCallId, createUserMessage } from '@deepseek-ai/dsh-llm'
-import AgentLoop from '@deepseek-ai/dsh-agent-loop'
-import { mountAgentLoopTestDependencies } from '@deepseek-ai/dsh-agent-loop-testkit'
-import { SessionId } from '@deepseek-ai/dsh-session'
-import JsonlSessionPersistence from '@deepseek-ai/dsh-session-persistence-jsonl'
-import SubagentRuntime from '@deepseek-ai/dsh-subagent'
-import * as SubagentFork from '@deepseek-ai/dsh-subagent-fork-in-process'
-import * as SubagentSpawn from '@deepseek-ai/dsh-subagent-spawn-in-process'
-import type { GenerateOptions, StreamChunk } from '@deepseek-ai/dsh-llm'
-import { LlmAdapter } from '@deepseek-ai/dsh-llm'
+import { Context } from '@worldapptechnologies/cordis'
+import type { Agent } from '@worldapptechnologies/nulu-agent'
+import { ToolCallId, createUserMessage } from '@worldapptechnologies/nulu-llm'
+import AgentLoop from '@worldapptechnologies/nulu-agent-loop'
+import { mountAgentLoopTestDependencies } from '@worldapptechnologies/nulu-agent-loop-testkit'
+import { SessionId } from '@worldapptechnologies/nulu-session'
+import JsonlSessionPersistence from '@worldapptechnologies/nulu-session-persistence-jsonl'
+import SubagentRuntime from '@worldapptechnologies/nulu-subagent'
+import * as SubagentFork from '@worldapptechnologies/nulu-subagent-fork-in-process'
+import * as SubagentSpawn from '@worldapptechnologies/nulu-subagent-spawn-in-process'
+import type { GenerateOptions, StreamChunk } from '@worldapptechnologies/nulu-llm'
+import { LlmAdapter } from '@worldapptechnologies/nulu-llm'
 import { MockAdapter, textResponse } from '../../../core/agent-loop/tests/mock-adapter.ts'
 import * as tool from '../src/index.ts'
 import { parkParent } from './park-parent.ts'
@@ -56,7 +56,7 @@ afterEach(() => {
 async function setupWith(adapter: MockAdapter | GatedAdapter, park = true) {
   const ctx = new Context()
   await mountAgentLoopTestDependencies(ctx)
-  const root = mkdtempSync(join(tmpdir(), 'dsh-tool-subagent-control-'))
+  const root = mkdtempSync(join(tmpdir(), 'nulu-tool-subagent-control-'))
   roots.push(root)
   await ctx.plugin(JsonlSessionPersistence, { root })
   await ctx.plugin(TestSessionQuery)
@@ -103,7 +103,7 @@ async function waitNoActivation(ctx: Context, childId: SessionId): Promise<void>
   }, { timeout: 5_000 })
 }
 
-describe('dsh-tool-subagent-control', () => {
+describe('nulu-tool-subagent-control', () => {
   it('registers send_message once, globally, with the two required parameters', async () => {
     const { ctx } = await setup([])
     const schemas = ctx.tools.schemas().filter(schema => schema.name === 'send_message')
@@ -348,7 +348,7 @@ describe('dsh-tool-subagent-control', () => {
   })
 })
 
-describe('dsh-tool-subagent-control interrupt_agent', () => {
+describe('nulu-tool-subagent-control interrupt_agent', () => {
   it('registers interrupt_agent with the single agent_id parameter and current-turn wording', async () => {
     const { ctx } = await setup([])
     const schemas = ctx.tools.schemas().filter(schema => schema.name === 'interrupt_agent')

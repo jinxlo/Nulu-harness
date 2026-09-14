@@ -1,13 +1,13 @@
 {
-  "name": "@deepseek-ai/dsh-host-directory-picker",
-  "description": "Abstract workspace-directory picking seam (ctx.directoryPicker) for the DeepSeek Harness web GUI host",
+  "name": "@worldapptechnologies/nulu-host-directory-picker",
+  "description": "Abstract workspace-directory picking seam (ctx.directoryPicker) for the Nulu Harness web GUI host",
   "version": "0.1.5-rc.2",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/worldapptechnologies/nulu-harness.git",
     "directory": "packages/host/directory-picker"
   },
   "type": "module",
@@ -32,9 +32,9 @@
   ],
   "license": "MIT",
   "peerDependencies": {
-    "@deepseek-ai/cordis": "workspace:^"
+    "@worldapptechnologies/cordis": "workspace:^"
   },
   "devDependencies": {
-    "@deepseek-ai/cordis": "workspace:^"
+    "@worldapptechnologies/cordis": "workspace:^"
   }
 }

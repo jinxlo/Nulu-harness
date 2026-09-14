@@ -2,5 +2,5 @@
 # side as of the last confirmed-consistent state. Both languages carry equal authority;
 # after editing either side, bring the other along and re-record with:
 #   pnpm run verify-translation-pairing --write .agents/notes/rejected/architecture/2026-06-16-typed-event-schemas.md
-2026-06-16-typed-event-schemas.md: 5912c39016acb4bc44089af16bf46edffe3023d0
-2026-06-16-typed-event-schemas.zh.md: 67d0c1be31e56ae6f109b5cc4402629c2b6f868f
+2026-06-16-typed-event-schemas.md: 140ad51125c1c2a14bc7b918d41cc0707df9f8c7
+2026-06-16-typed-event-schemas.zh.md: 061b0fe597ec483e1e675aac0851f9793dd1e3e2

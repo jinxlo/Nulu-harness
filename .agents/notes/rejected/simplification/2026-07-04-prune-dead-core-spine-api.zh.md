@@ -33,12 +33,12 @@ Status: rejected — stale 2026-07 inventory: rows were pruned piecemeal or gain
 
 ### 分组辅助导出清单
 
-- `dsh-llm-deepseek`：`httpErrorCode`、`serializeMessages`、`serializeRequest`、`DONE`、`parseSse`、`mapFinishReason`、`mapUsage` 与 `translate`；`dsh-llm-pi-ai`：`buildModel`、`mapStopReason`、`mapUsage`、`toPiContext` 与 `toStreamChunks`。
-- `dsh-bash-local`：`DEFAULT_GRACE_MS`、`ENV_OVERRIDES`、`killGroup`、`OutputCollector` 与 `runBash`；`dsh-bash-sandbox`：`shellQuote`、`classifyDenial` 与 `classifyRunnerFailure`；`dsh-sandbox-local`：`bwrapProfileArgs`、`landlockProfileArgs` 与 `seatbeltProfileArgs`。公开的可变测试注入字段及其类型不在本提案范围内。
-- `dsh-fs-local`：`applyLiteralEdit`、`listDirectory`、`probe`、`readForEdit`、`readTextForDiff`、`readWholeText`、`resolveLocalTarget`、`restoreLineEndings`、`streamWholeText` 与 `writeFileAtomic`。
-- `dsh-web-fetch-http`：`classifyContentType`、`decoderForCharset`、`isSameOrigin`、`parseCharset` 与 `validateFetchUrl`；`dsh-web-search-exa`：`mapExaResponse` 与 `mapExaResult`；`dsh-web-search-deepseek`：`citationSnippets` 与 `mapAnthropicResponse`；`dsh-web-search-perplexity`：`mapPerplexityResponse` 与 `mapPerplexityResult`。
-- `dsh-tool-fs`：`READ_LIMIT`、`STREAM_MIN_SIZE`、`READ_MAX_BYTES`、`READ_MAX_LINE_LENGTH`、`DIFF_CONTEXT`、`applyReadTool`、`parseReadArgs`、`applyWriteTool`、`formatWriteOutput`、`parseWriteArgs`、`applyEditTool`、`formatEditOutput`、`parseEditArgs`、`buildWindow`、`formatReadOutput`、`computeHunkDiffs` 与 `diffsFromMeta`。
-- `dsh-tool-web`：`WEB_SEARCH_MAX_RESULTS`、`applyWebSearchTool`、`formatSearchOutput`、`parseSearchArgs`、`presentSearchCall`、`applyWebFetchTool`、`formatFetchOutput`、`parseFetchArgs`、`presentFetchCall`、`renderBody` 与 `htmlToMarkdown`；`dsh-tool-call-timeout-policy`：`toolTimeoutResult`；`dsh-compaction-basic`：`resolveConfig`；`dsh-tool-bash`：`renderResult`。
+- `nulu-llm-deepseek`：`httpErrorCode`、`serializeMessages`、`serializeRequest`、`DONE`、`parseSse`、`mapFinishReason`、`mapUsage` 与 `translate`；`nulu-llm-pi-ai`：`buildModel`、`mapStopReason`、`mapUsage`、`toPiContext` 与 `toStreamChunks`。
+- `nulu-bash-local`：`DEFAULT_GRACE_MS`、`ENV_OVERRIDES`、`killGroup`、`OutputCollector` 与 `runBash`；`nulu-bash-sandbox`：`shellQuote`、`classifyDenial` 与 `classifyRunnerFailure`；`nulu-sandbox-local`：`bwrapProfileArgs`、`landlockProfileArgs` 与 `seatbeltProfileArgs`。公开的可变测试注入字段及其类型不在本提案范围内。
+- `nulu-fs-local`：`applyLiteralEdit`、`listDirectory`、`probe`、`readForEdit`、`readTextForDiff`、`readWholeText`、`resolveLocalTarget`、`restoreLineEndings`、`streamWholeText` 与 `writeFileAtomic`。
+- `nulu-web-fetch-http`：`classifyContentType`、`decoderForCharset`、`isSameOrigin`、`parseCharset` 与 `validateFetchUrl`；`nulu-web-search-exa`：`mapExaResponse` 与 `mapExaResult`；`nulu-web-search-deepseek`：`citationSnippets` 与 `mapAnthropicResponse`；`nulu-web-search-perplexity`：`mapPerplexityResponse` 与 `mapPerplexityResult`。
+- `nulu-tool-fs`：`READ_LIMIT`、`STREAM_MIN_SIZE`、`READ_MAX_BYTES`、`READ_MAX_LINE_LENGTH`、`DIFF_CONTEXT`、`applyReadTool`、`parseReadArgs`、`applyWriteTool`、`formatWriteOutput`、`parseWriteArgs`、`applyEditTool`、`formatEditOutput`、`parseEditArgs`、`buildWindow`、`formatReadOutput`、`computeHunkDiffs` 与 `diffsFromMeta`。
+- `nulu-tool-web`：`WEB_SEARCH_MAX_RESULTS`、`applyWebSearchTool`、`formatSearchOutput`、`parseSearchArgs`、`presentSearchCall`、`applyWebFetchTool`、`formatFetchOutput`、`parseFetchArgs`、`presentFetchCall`、`renderBody` 与 `htmlToMarkdown`；`nulu-tool-call-timeout-policy`：`toolTimeoutResult`；`nulu-compaction-basic`：`resolveConfig`；`nulu-tool-bash`：`renderResult`。
 
 ## 提案
 

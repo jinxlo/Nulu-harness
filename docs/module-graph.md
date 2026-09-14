@@ -3,7 +3,7 @@
 
 # Shared-instance dependency graph
 
-Peer dependencies among the `@deepseek-ai/dsh-*` harness packages. A peer means the consumer requires a shared instance; ordinary runtime dependencies and development-only relationships are not shown. The graph is grouped by the `packages/<group>/<pkg>` hierarchy. An edge `a --> b` means package `a` has package `b` as a peer. Names omit the `@deepseek-ai/dsh-` prefix.
+Peer dependencies among the `@worldapptechnologies/nulu-*` harness packages. A peer means the consumer requires a shared instance; ordinary runtime dependencies and development-only relationships are not shown. The graph is grouped by the `packages/<group>/<pkg>` hierarchy. An edge `a --> b` means package `a` has package `b` as a peer. Names omit the `@worldapptechnologies/nulu-` prefix.
 
 ```mermaid
 flowchart TD
@@ -70,9 +70,9 @@ flowchart TD
     pkg_subagent_acp["subagent-acp"]
     pkg_subagent_claude_code["subagent-claude-code"]
     pkg_subagent_codex["subagent-codex"]
-    pkg_subagent_dsh_sdk["subagent-dsh-sdk"]
     pkg_subagent_fork_in_process["subagent-fork-in-process"]
     pkg_subagent_in_process_driver["subagent-in-process-driver"]
+    pkg_subagent_nulu_sdk["subagent-nulu-sdk"]
     pkg_subagent_spawn_in_process["subagent-spawn-in-process"]
     pkg_tool_subagent["tool-subagent"]
     pkg_tool_subagent_control["tool-subagent-control"]
@@ -145,7 +145,7 @@ flowchart TD
     pkg_client_ui_agent_preset["client-ui-agent-preset"]
     pkg_client_ui_approval["client-ui-approval"]
     pkg_client_ui_attachment["client-ui-attachment"]
-    pkg_client_ui_brand_official["client-ui-brand-official"]
+    pkg_client_ui_brand["client-ui-brand"]
     pkg_client_ui_chat["client-ui-chat"]
     pkg_client_ui_commands["client-ui-commands"]
     pkg_client_ui_conversation["client-ui-conversation"]
@@ -1176,12 +1176,12 @@ flowchart TD
   pkg_client_test_runtime --> pkg_session
   pkg_client_test_runtime --> pkg_subagent
   pkg_client_test_runtime --> pkg_typert_protocol
-  pkg_subagent_dsh_sdk --> pkg_agent
-  pkg_subagent_dsh_sdk --> pkg_llm
-  pkg_subagent_dsh_sdk --> pkg_sdk_client
-  pkg_subagent_dsh_sdk --> pkg_session
-  pkg_subagent_dsh_sdk --> pkg_subagent
-  pkg_subagent_dsh_sdk --> pkg_subprocess
+  pkg_subagent_nulu_sdk --> pkg_agent
+  pkg_subagent_nulu_sdk --> pkg_llm
+  pkg_subagent_nulu_sdk --> pkg_sdk_client
+  pkg_subagent_nulu_sdk --> pkg_session
+  pkg_subagent_nulu_sdk --> pkg_subagent
+  pkg_subagent_nulu_sdk --> pkg_subprocess
 ```
 
 | Package | Group | Peer dependencies |
@@ -1219,7 +1219,7 @@ flowchart TD
 | [`client-ui-agent-preset`](../packages/client/ui-agent-preset) | `client` | — |
 | [`client-ui-approval`](../packages/client/ui-approval) | `client` | — |
 | [`client-ui-attachment`](../packages/client/ui-attachment) | `client` | — |
-| [`client-ui-brand-official`](../packages/client/ui-brand-official) | `client` | — |
+| [`client-ui-brand`](../packages/client/ui-brand) | `client` | — |
 | [`client-ui-chat`](../packages/client/ui-chat) | `client` | — |
 | [`client-ui-commands`](../packages/client/ui-commands) | `client` | — |
 | [`client-ui-conversation`](../packages/client/ui-conversation) | `client` | — |
@@ -1453,4 +1453,4 @@ flowchart TD
 | [`sdk-client`](../packages/sdk/client) | `sdk` | [`llm`](../packages/llm/llm), [`sdk-protocol`](../packages/sdk/protocol), [`session`](../packages/core/session) |
 | [`sdk-jsonrpc-server`](../packages/sdk/server) | `sdk` | [`agent`](../packages/core/agent), [`attachment`](../packages/attachment/attachment), [`llm`](../packages/llm/llm), [`llm-deepseek`](../packages/llm/llm-deepseek), [`scope`](../packages/core/scope), [`sdk-protocol`](../packages/sdk/protocol), [`session`](../packages/core/session), [`subagent`](../packages/subagent/subagent) |
 | [`client-test-runtime`](../packages/test-support/client-runtime) | `test-support` | [`api-gateway`](../packages/api/gateway), [`api-session-controller`](../packages/api/session-controller), [`api-workspace-controller`](../packages/api/workspace-controller), [`attachment`](../packages/attachment/attachment), [`client-connection`](../packages/client/connection), [`client-hmr`](../packages/client/hmr), [`client-modules`](../packages/client/modules), [`client-store`](../packages/client/store), [`client-ui-chat`](../packages/client/ui-chat), [`client-ui-conversation`](../packages/client/ui-conversation), [`client-ui-renderer`](../packages/client/ui-renderer), [`client-ui-session`](../packages/client/ui-session), [`client-ui-settings`](../packages/client/ui-settings), [`client-ui-slots`](../packages/client/ui-slots), [`client-web`](../packages/client/web), [`remote-mock`](../packages/test-support/remote-mock), [`session`](../packages/core/session), [`subagent`](../packages/subagent/subagent), [`typert-protocol`](../packages/typert/protocol) |
-| [`subagent-dsh-sdk`](../packages/subagent/subagent-dsh-sdk) | `subagent` | [`agent`](../packages/core/agent), [`llm`](../packages/llm/llm), [`sdk-client`](../packages/sdk/client), [`session`](../packages/core/session), [`subagent`](../packages/subagent/subagent), [`subprocess`](../packages/subprocess/subprocess) |
+| [`subagent-nulu-sdk`](../packages/subagent/subagent-nulu-sdk) | `subagent` | [`agent`](../packages/core/agent), [`llm`](../packages/llm/llm), [`sdk-client`](../packages/sdk/client), [`session`](../packages/core/session), [`subagent`](../packages/subagent/subagent), [`subprocess`](../packages/subprocess/subprocess) |

@@ -8,14 +8,14 @@ import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 
 const runtime = process.argv[2]
-assert.ok(runtime, 'Pass the filtered resources/dsh directory')
+assert.ok(runtime, 'Pass the filtered resources/nulu directory')
 const root = resolve(runtime)
 const descriptor = JSON.parse(readFileSync(join(root, 'desktop-runtime.json'), 'utf8'))
 assert.equal(process.versions.node, descriptor.release.nodeVersion, 'Run with the bundled Node version')
 assert.equal(process.platform, descriptor.platform)
 assert.equal(process.arch, descriptor.arch)
 const requireRuntime = createRequire(join(root, 'package.json'))
-const scratch = mkdtempSync(join(tmpdir(), 'dsh-runtime-payload-'))
+const scratch = mkdtempSync(join(tmpdir(), 'nulu-runtime-payload-'))
 
 /** Spawn only a fixed Node program and await the terminal's drained exit event. */
 async function checkPty() {

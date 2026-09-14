@@ -8,14 +8,14 @@ import { mkdtemp, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, describe, expect, it } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import SessionProjectionRegistry from '@deepseek-ai/dsh-session-projection'
-import { LAUNCHER_FAILURE_EXIT } from '@deepseek-ai/node-addon-system/landlock-run'
-import { SANDBOX_UNAVAILABLE, SandboxUnavailableError } from '@deepseek-ai/dsh-sandbox'
-import { LocalSandboxProvider } from '@deepseek-ai/dsh-sandbox-local'
-import { SandboxPolicyService } from '@deepseek-ai/dsh-sandbox-policy'
-import { SandboxBashExecutor } from '@deepseek-ai/dsh-bash-sandbox'
-import LocalSubprocessRuntime from '@deepseek-ai/dsh-subprocess-local'
+import { Context } from '@worldapptechnologies/cordis'
+import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projection'
+import { LAUNCHER_FAILURE_EXIT } from '@worldapptechnologies/node-addon-system/landlock-run'
+import { SANDBOX_UNAVAILABLE, SandboxUnavailableError } from '@worldapptechnologies/nulu-sandbox'
+import { LocalSandboxProvider } from '@worldapptechnologies/nulu-sandbox-local'
+import { SandboxPolicyService } from '@worldapptechnologies/nulu-sandbox-policy'
+import { SandboxBashExecutor } from '@worldapptechnologies/nulu-bash-sandbox'
+import LocalSubprocessRuntime from '@worldapptechnologies/nulu-subprocess-local'
 
 const NOTICE = 'landlock-run: partial enforcement (older Landlock ABI)'
 const FATAL_PREFIX = 'landlock-run: '
@@ -31,7 +31,7 @@ afterEach(async () => {
 
 /** Write a fake native launcher that reports partial enforcement, then execs or fails. */
 async function fakeLauncher(fatalExit?: number): Promise<string> {
-  const dir = await mkdtemp(join(tmpdir(), 'dsh-partial-landlock-'))
+  const dir = await mkdtemp(join(tmpdir(), 'nulu-partial-landlock-'))
   tempDirs.push(dir)
   const launcher = join(dir, 'landlock-run')
   const fatalBranch = fatalExit === undefined ? '' : `printf '%s\\n' '${FATAL}' >&2\nexit ${fatalExit}\n`
@@ -83,12 +83,12 @@ async function setupConfiguredRunner(runner: string): Promise<SandboxBashExecuto
 
 describe('partial Landlock runner-failure classification', () => {
   it.each(['missing', 'unexecutable', 'missing-interpreter'] as const)('classifies a %s configured runner through the direct spawn error channel', async (kind) => {
-    const dir = await mkdtemp(join(tmpdir(), 'dsh-unusable-sandbox-runner-'))
+    const dir = await mkdtemp(join(tmpdir(), 'nulu-unusable-sandbox-runner-'))
     tempDirs.push(dir)
     const runner = join(dir, `${kind}-runner`)
     if (kind === 'unexecutable') await writeFile(runner, '#!/bin/sh\nexit 0\n', { mode: 0o644 })
     if (kind === 'missing-interpreter') {
-      await writeFile(runner, '#!/dsh-definitely-missing-sandbox-interpreter\nexit 0\n', { mode: 0o755 })
+      await writeFile(runner, '#!/nulu-definitely-missing-sandbox-interpreter\nexit 0\n', { mode: 0o755 })
     }
     const bash = await setupConfiguredRunner(runner)
 
@@ -114,11 +114,11 @@ describe('partial Landlock runner-failure classification', () => {
   it.each(['bare-name', 'relative'] as const)(
     'classifies a %s runner whose shebang interpreter is missing',
     async (form) => {
-      const dir = await mkdtemp(join(tmpdir(), 'dsh-argv-form-sandbox-runner-'))
+      const dir = await mkdtemp(join(tmpdir(), 'nulu-argv-form-sandbox-runner-'))
       tempDirs.push(dir)
       const filename = 'missing-interpreter-runner'
       const runner = form === 'bare-name' ? filename : `./${filename}`
-      await writeFile(join(dir, filename), '#!/dsh-definitely-missing-sandbox-interpreter\nexit 0\n', { mode: 0o755 })
+      await writeFile(join(dir, filename), '#!/nulu-definitely-missing-sandbox-interpreter\nexit 0\n', { mode: 0o755 })
       const bash = await setupConfiguredRunner(runner)
       const request = form === 'bare-name'
         ? { command: 'true', env: { PATH: dir } }
@@ -145,7 +145,7 @@ describe('partial Landlock runner-failure classification', () => {
   )
 
   it('keeps a real malformed executable ordinary across no-shebang spawn behavior', async () => {
-    const dir = await mkdtemp(join(tmpdir(), 'dsh-malformed-sandbox-runner-'))
+    const dir = await mkdtemp(join(tmpdir(), 'nulu-malformed-sandbox-runner-'))
     tempDirs.push(dir)
     const runner = join(dir, 'malformed-runner')
     await writeFile(runner, 'not a native executable or shebang script\n', { mode: 0o755 })

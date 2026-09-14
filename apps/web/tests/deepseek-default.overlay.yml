@@ -1,0 +1,8 @@
+# The keyless provider smokes dial a local OpenAI-compatible mock through the
+# DeepSeek adapter's DEEPSEEK_BASE_URL, so they pin the default route to that
+# provider; the composition's shipped default is the World App Technologies
+# pi-ai route, which no keyless mock stands in for.
+- id: agent-default-model
+  config:
+    provider: deepseek-official
+    model: deepseek-flash

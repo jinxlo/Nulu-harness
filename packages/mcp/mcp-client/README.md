@@ -3,13 +3,13 @@ description: "MCP client bridge for deployments and maintainers choosing, config
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-mcp-client
+# @worldapptechnologies/nulu-mcp-client
 
 English | [中文](README.zh.md)
 
 ## Summary
 
-`dsh-mcp-client` lets the model call tools from external Model Context Protocol (MCP) servers as native harness tools. Configure one server per entry, and its tools appear under stable names such as `mcp__github__create_issue`. Use it for filesystem, GitHub, database, memory, or other MCP tool servers; no server is enabled by default. Tool definitions add tokens to every model request, while a slow or crashed server can delay startup or make its tools fail until recovery. The package bridges tools only; MCP resources and prompts are unsupported.
+`nulu-mcp-client` lets the model call tools from external Model Context Protocol (MCP) servers as native harness tools. Configure one server per entry, and its tools appear under stable names such as `mcp__github__create_issue`. Use it for filesystem, GitHub, database, memory, or other MCP tool servers; no server is enabled by default. Tool definitions add tokens to every model request, while a slow or crashed server can delay startup or make its tools fail until recovery. The package bridges tools only; MCP resources and prompts are unsupported.
 
 ## Table of Contents
 
@@ -25,7 +25,7 @@ English | [中文](README.zh.md)
 <a id="use-this-package"></a>
 ## Use this package
 
-Add `dsh-mcp-client` when the model should call tools from an external MCP server as if they were native. One configuration entry per server is the entire setup: give the server a short unique name and a transport, and its tools appear as `mcp__<serverName>__<tool>`. Choose stdio when the server runs as a local program and Streamable HTTP when it runs as a service. If you already use MCP tool servers from another client, the same server rows work here.
+Add `nulu-mcp-client` when the model should call tools from an external MCP server as if they were native. One configuration entry per server is the entire setup: give the server a short unique name and a transport, and its tools appear as `mcp__<serverName>__<tool>`. Choose stdio when the server runs as a local program and Streamable HTTP when it runs as a service. If you already use MCP tool servers from another client, the same server rows work here.
 
 ### Minimal configuration
 
@@ -33,7 +33,7 @@ Add one entry per server; nothing else is required. After the harness starts, th
 
 ```yaml
 - id: mcp-github
-  name: '@deepseek-ai/dsh-mcp-client'
+  name: '@worldapptechnologies/nulu-mcp-client'
   config:
     serverName: github
     transport: stdio
@@ -43,7 +43,7 @@ Add one entry per server; nothing else is required. After the harness starts, th
       GITHUB_TOKEN: !!js process.env.GITHUB_TOKEN
 
 - id: mcp-web
-  name: '@deepseek-ai/dsh-mcp-client'
+  name: '@worldapptechnologies/nulu-mcp-client'
   config:
     serverName: web
     transport: streamable-http
@@ -65,7 +65,7 @@ Add one entry per server; nothing else is required. After the harness starts, th
 | `reconnect.maxDelayMs` | `30,000` | Backoff ceiling; also the uptime after which the attempt budget resets |
 | `reconnect.maxAttempts` | `10` | Consecutive failed attempts per outage before giving up |
 
-The generated [configuration catalog](../../../docs/config-catalog.md#deepseek-aidsh-mcp-client) is the exhaustive source for every accepted field.
+The generated [configuration catalog](../../../docs/config-catalog.md#worldapptechnologiesnulu-mcp-client) is the exhaustive source for every accepted field.
 
 After startup, the server's tools appear as `mcp__<serverName>__<tool>` — try a prompt that uses one. If the initial connection fails, the harness still starts but no tools from that server appear, and an error is logged; set `failOnStartupError: true` to make a startup failure abort the harness instead.
 
@@ -131,7 +131,7 @@ A tool call sends an uncached `tools/call` request carrying the raw MCP name, th
 
 ### Environment scrubbing (stdio)
 
-The child environment starts from the subprocess seam's `scrubbedParentEnv()` — ambient names matching `/KEY|PASSWORD|SECRET|TOKEN/i` and ambient `DSH_*` names are dropped — and the configured `env` merges on top, so explicit overrides survive. The MCP SDK owns the actual spawn; this package shares the scrub definition, not the spawn path.
+The child environment starts from the subprocess seam's `scrubbedParentEnv()` — ambient names matching `/KEY|PASSWORD|SECRET|TOKEN/i` and ambient `NULU_*` names are dropped — and the configured `env` merges on top, so explicit overrides survive. The MCP SDK owns the actual spawn; this package shares the scrub definition, not the spawn path.
 
 </details>
 
@@ -146,7 +146,7 @@ Read these pages when the package-level contract is not enough. They move from t
 - [MCP client plugin Agent Note](../../../.agents/notes/implemented/feature/2026-07-07-mcp-client-plugin.md) — the naming invariants, discovery and execution design, alternatives, and consequences.
 - [Canonical tool output contract Agent Note](../../../.agents/notes/implemented/architecture/2026-07-20-canonical-tool-output-contract.md) — how MCP results map into the canonical tool-output contract.
 - [Third-party memory MCP guide](../../../docs/user/guide/mcp-memory.md) — three memory-server overlays using this package.
-- [Generated configuration catalog](../../../docs/config-catalog.md#deepseek-aidsh-mcp-client) — every accepted config field and its source declaration.
+- [Generated configuration catalog](../../../docs/config-catalog.md#worldapptechnologiesnulu-mcp-client) — every accepted config field and its source declaration.
 
 -----
 
@@ -204,7 +204,7 @@ These limits describe what you cannot do with this plugin and when it needs oper
 This Dev Note is working context for maintainers: open design questions and directions that are not decided. It is explicitly non-authoritative — shipped behavior, limits, and accepted rationale live in the sections above, the package code, and the linked Agent Notes.
 
 - The public-name algorithm is a v1 contract pinned by tests; changing it after release would break session history and permission rules.
-- An explicit DSH-owned connection and discovery timeout is an open direction; the SDK's 60-second default bounds startup and teardown.
+- An explicit NULU-owned connection and discovery timeout is an open direction; the SDK's 60-second default bounds startup and teardown.
 - Reconnect ownership for Streamable HTTP is open: per-request retry is SDK behavior, and the supervisor could also own the HTTP generation.
 - Bridging MCP Resources needs a harness-side injection decision (system prompt, on demand, or model-triggered); bridging Prompts needs a prompt-template concept the harness lacks.
 - The pinned MCP SDK is still evolving; a breaking upstream change requires updating the bridge.

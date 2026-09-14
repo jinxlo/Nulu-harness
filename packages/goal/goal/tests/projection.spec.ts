@@ -9,16 +9,16 @@
  */
 
 import { describe, expect, it, vi } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import AgentRegistry, { agentEvents } from '@deepseek-ai/dsh-agent'
-import type { Agent, AgentStatus } from '@deepseek-ai/dsh-agent'
-import { createUserMessage } from '@deepseek-ai/dsh-llm'
-import SessionStore from '@deepseek-ai/dsh-session'
-import type { Session } from '@deepseek-ai/dsh-session'
-import SessionProjectionRegistry from '@deepseek-ai/dsh-session-projection'
-import GoalService, { GoalId, applyGoalProjection, foldGoal, goalProjectionDefinition } from '@deepseek-ai/dsh-goal'
-import type { GoalProjection, GoalProjectionState, GoalRef } from '@deepseek-ai/dsh-goal'
-import { unsupportedInbox } from '@deepseek-ai/dsh-agent-loop-testkit'
+import { Context } from '@worldapptechnologies/cordis'
+import AgentRegistry, { agentEvents } from '@worldapptechnologies/nulu-agent'
+import type { Agent, AgentStatus } from '@worldapptechnologies/nulu-agent'
+import { createUserMessage } from '@worldapptechnologies/nulu-llm'
+import SessionStore from '@worldapptechnologies/nulu-session'
+import type { Session } from '@worldapptechnologies/nulu-session'
+import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projection'
+import GoalService, { GoalId, applyGoalProjection, foldGoal, goalProjectionDefinition } from '@worldapptechnologies/nulu-goal'
+import type { GoalProjection, GoalProjectionState, GoalRef } from '@worldapptechnologies/nulu-goal'
+import { unsupportedInbox } from '@worldapptechnologies/nulu-agent-loop-testkit'
 
 interface Bench {
   ctx: Context

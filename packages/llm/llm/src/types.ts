@@ -4,12 +4,12 @@
  * mapped interfaces make the content, source, and finish unions extensible.
  */
 
-import type { Branded } from '@deepseek-ai/dsh-brand'
-import type { FileAttachmentRef, ImageAttachmentRef } from '@deepseek-ai/dsh-attachment'
+import type { Branded } from '@worldapptechnologies/nulu-brand'
+import type { FileAttachmentRef, ImageAttachmentRef } from '@worldapptechnologies/nulu-attachment'
 import type { ToolCallId, ProviderRequestId, ReasoningEffortId } from './brand.ts'
 import type { Message } from './message.ts'
 
-declare module '@deepseek-ai/cordis' {
+declare module '@worldapptechnologies/cordis' {
   interface Events {
     /**
      * The provider topology changed: an adapter registered or unregistered
@@ -271,7 +271,7 @@ export interface LlmModelDiscoveryOperation extends LlmModelDiscoveryRequest {
   signal?: AbortSignal
 }
 
-declare module '@deepseek-ai/dsh-typert-protocol' {
+declare module '@worldapptechnologies/nulu-typert-protocol' {
   interface RemoteErrorDetailsMap {
     /** A draft provider interrogation refused or failed. */
     'llm/model-discovery-rejected': {
@@ -404,8 +404,8 @@ export type StreamChunk =
 /**
  * JSON-schema description of a tool, as sent to the model.
  *
- * Declared here (not in dsh-tools) because it is part of {@link GenerateOptions};
- * dsh-tools' ToolDefinition and dsh-system-prompt's PromptAssembly both import
+ * Declared here (not in nulu-tools) because it is part of {@link GenerateOptions};
+ * nulu-tools' ToolDefinition and nulu-system-prompt's PromptAssembly both import
  * it from this package.
  */
 export interface ToolSchema {
@@ -424,7 +424,7 @@ export interface GenerateOptions {
   reasoningEffort?: ReasoningEffortId
   /**
    * Ordered conversation messages, exactly as the provider sees them. A
-   * loop-built request passes the derived history (dsh-agent-loop), whose
+   * loop-built request passes the derived history (nulu-agent-loop), whose
    * leading system-role message carries the system prompt; a hand-built
    * one-shot passes any list.
    */

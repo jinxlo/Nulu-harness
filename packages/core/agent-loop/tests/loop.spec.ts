@@ -1,14 +1,14 @@
 import { describe, expect, it, vi } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import LlmRuntime, { createUserMessage, ToolCallId, LlmError, ReasoningEffortId, StreamChunk, expandAssistantStream } from '@deepseek-ai/dsh-llm'
-import type { GenerateOptions } from '@deepseek-ai/dsh-llm'
-import SessionStore, { SessionId, TurnEndReason } from '@deepseek-ai/dsh-session'
-import SystemPrompt from '@deepseek-ai/dsh-system-prompt'
-import ToolRuntime, { defineContentToolFixture } from '@deepseek-ai/dsh-tools'
-import AgentRegistry, { type Agent, type AssistantStreamFrame } from '@deepseek-ai/dsh-agent'
+import { Context } from '@worldapptechnologies/cordis'
+import LlmRuntime, { createUserMessage, ToolCallId, LlmError, ReasoningEffortId, StreamChunk, expandAssistantStream } from '@worldapptechnologies/nulu-llm'
+import type { GenerateOptions } from '@worldapptechnologies/nulu-llm'
+import SessionStore, { SessionId, TurnEndReason } from '@worldapptechnologies/nulu-session'
+import SystemPrompt from '@worldapptechnologies/nulu-system-prompt'
+import ToolRuntime, { defineContentToolFixture } from '@worldapptechnologies/nulu-tools'
+import AgentRegistry, { type Agent, type AssistantStreamFrame } from '@worldapptechnologies/nulu-agent'
 
-import AgentLoop from '@deepseek-ai/dsh-agent-loop'
-import SessionProjectionRegistry from '@deepseek-ai/dsh-session-projection'
+import AgentLoop from '@worldapptechnologies/nulu-agent-loop'
+import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projection'
 import { MockAdapter, maxTokensResponse, textResponse, toolCallResponse } from './mock-adapter.ts'
 
 function driverDone(agent: Agent): Promise<void> {
@@ -529,7 +529,7 @@ describe('agent loop', () => {
     await waitForIdle(ctx, agent)
 
     const request = adapter.requests[0]
-    expect(systemOf(request)).toBe('You are an AI agent powered by DeepSeek Harness.\n\nYou are a test agent on mock.\n\nUse the noop tool wisely.')
+    expect(systemOf(request)).toBe('You are an AI agent powered by Nulu Harness.\n\nYou are a test agent on mock.\n\nUse the noop tool wisely.')
     expect(request!.tools?.map(t => t.name)).toEqual(['noop'])
   })
 
@@ -546,7 +546,7 @@ describe('agent loop', () => {
     send(agent, 'hi')
     await waitForIdle(ctx, agent)
 
-    expect(systemOf(adapter.requests[0])).toBe('You are an AI agent powered by DeepSeek Harness.\n\nWorking in /work/space.')
+    expect(systemOf(adapter.requests[0])).toBe('You are an AI agent powered by Nulu Harness.\n\nWorking in /work/space.')
   })
 
   it('contains a strict-variable render failure: the turn errors, the loop keeps serving turns', async () => {
@@ -582,7 +582,7 @@ describe('agent loop', () => {
     await waitForIdle(ctx, agent)
 
     expect(adapter.requests).toHaveLength(1)
-    expect(systemOf(adapter.requests[0])).toBe('You are an AI agent powered by DeepSeek Harness.\n\nIn /rescued.')
+    expect(systemOf(adapter.requests[0])).toBe('You are an AI agent powered by Nulu Harness.\n\nIn /rescued.')
     const turnEnds = agent.session.snapshotEvents().filter(e => e.type === 'turn/end')
     expect(turnEnds).toHaveLength(2)
     expect(turnEnds[1]?.type === 'turn/end' && turnEnds[1].data.reason.kind).toBe('completed')
@@ -612,7 +612,7 @@ describe('agent loop', () => {
 
     expect(adapter.requests).toHaveLength(1)
     expect(adapter.requests[0]!.model).toBe('mock')
-    expect(systemOf(adapter.requests[0])).toBe('You are an AI agent powered by DeepSeek Harness.\n\nYou run on mock.')
+    expect(systemOf(adapter.requests[0])).toBe('You are an AI agent powered by Nulu Harness.\n\nYou run on mock.')
   })
 
   it('sends no system message when system-prompt/assemble short-circuits with an empty assembly', async () => {
@@ -654,7 +654,7 @@ describe('agent loop', () => {
       send(agent, 'second')
       await secondIdle
       expect(adapter.requests).toHaveLength(2)
-      expect(systemOf(adapter.requests[1])).toBe('You are an AI agent powered by DeepSeek Harness.')
+      expect(systemOf(adapter.requests[1])).toBe('You are an AI agent powered by Nulu Harness.')
       expect(adapter.requests[1]?.messages.map(message => message.role)).toEqual(['system', 'user', 'assistant', 'user'])
       const replacement = agent.session.snapshotEvents().findLast(event => event.type === 'system/message')
       expect(replacement).toMatchObject({
@@ -684,7 +684,7 @@ describe('agent loop', () => {
     const contextEvents = () => agent.session.snapshotEvents().flatMap(event =>
       event.type === 'user/message'
         && event.data.source.kind === 'plugin'
-        && event.data.source.plugin === '@deepseek-ai/dsh-system-prompt'
+        && event.data.source.plugin === '@worldapptechnologies/nulu-system-prompt'
         ? [event]
         : [])
 
@@ -738,7 +738,7 @@ describe('agent loop', () => {
     const contextEvent = agent.session.snapshotEvents().find(event =>
       event.type === 'user/message'
       && event.data.source.kind === 'plugin'
-      && event.data.source.plugin === '@deepseek-ai/dsh-system-prompt')
+      && event.data.source.plugin === '@worldapptechnologies/nulu-system-prompt')
     if (contextEvent?.type !== 'user/message') throw new Error('first turn did not materialize runtime context')
     agent.session.append('user/message', createUserMessage({
       content: [{ type: 'text', text: 'compacted summary' }],
@@ -753,13 +753,13 @@ describe('agent loop', () => {
     const runtimeContexts = agent.session.snapshotEvents().flatMap(event =>
       event.type === 'user/message'
         && event.data.source.kind === 'plugin'
-        && event.data.source.plugin === '@deepseek-ai/dsh-system-prompt'
+        && event.data.source.plugin === '@worldapptechnologies/nulu-system-prompt'
         ? [event]
         : [])
     expect(runtimeContexts).toHaveLength(2)
     expect(adapter.requests[1]?.messages.some(message =>
       message.source.kind === 'plugin'
-      && message.source.plugin === '@deepseek-ai/dsh-system-prompt')).toBe(true)
+      && message.source.plugin === '@worldapptechnologies/nulu-system-prompt')).toBe(true)
   })
 
   it('clears compacted runtime context after the active set becomes empty', async () => {
@@ -773,7 +773,7 @@ describe('agent loop', () => {
     const contextEvent = agent.session.snapshotEvents().find(event =>
       event.type === 'user/message'
       && event.data.source.kind === 'plugin'
-      && event.data.source.plugin === '@deepseek-ai/dsh-system-prompt')
+      && event.data.source.plugin === '@worldapptechnologies/nulu-system-prompt')
     if (contextEvent?.type !== 'user/message') throw new Error('first turn did not materialize runtime context')
     agent.session.append('user/message', createUserMessage({
       content: [{ type: 'text', text: 'summary retaining old mode: read-only' }],
@@ -789,7 +789,7 @@ describe('agent loop', () => {
     const clearing = adapter.requests[1]?.messages.find(message =>
       message.role === 'user'
       && message.source.kind === 'plugin'
-      && message.source.plugin === '@deepseek-ai/dsh-system-prompt')
+      && message.source.plugin === '@worldapptechnologies/nulu-system-prompt')
     expect(clearing?.content).toEqual([{
       type: 'text',
       text: 'Current runtime context: none. Earlier runtime-context snapshots no longer apply.',
@@ -817,7 +817,7 @@ describe('agent loop', () => {
     expect(adapter.requests[0]?.messages.some(message =>
       message.role === 'user'
       && message.source.kind === 'plugin'
-      && message.source.plugin === '@deepseek-ai/dsh-system-prompt')).toBe(false)
+      && message.source.plugin === '@worldapptechnologies/nulu-system-prompt')).toBe(false)
   })
 
   it('replaces a malformed retained runtime-context message with the current complete snapshot', async () => {
@@ -827,7 +827,7 @@ describe('agent loop', () => {
     const agent = await ctx.agentLoop.create(SessionId('a-runtime-context-malformed'), { provider: 'mock', model: 'mock' })
     agent.session.append('user/message', createUserMessage({
       content: [{ type: 'text', text: 'broken' }, { type: 'text', text: 'snapshot' }],
-      source: { kind: 'plugin', plugin: '@deepseek-ai/dsh-system-prompt' },
+      source: { kind: 'plugin', plugin: '@worldapptechnologies/nulu-system-prompt' },
     }), { surfaceOp: 'append' })
 
     send(agent, 'repair context')
@@ -835,7 +835,7 @@ describe('agent loop', () => {
     const runtimeContexts = agent.session.snapshotEvents().flatMap(event =>
       event.type === 'user/message'
         && event.data.source.kind === 'plugin'
-        && event.data.source.plugin === '@deepseek-ai/dsh-system-prompt'
+        && event.data.source.plugin === '@worldapptechnologies/nulu-system-prompt'
         ? [event]
         : [])
     expect(runtimeContexts).toHaveLength(2)

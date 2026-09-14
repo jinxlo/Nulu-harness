@@ -7,17 +7,17 @@
 import { readFile, readdir, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { Context } from '@deepseek-ai/cordis'
+import { Context } from '@worldapptechnologies/cordis'
 import {
   fixtureContext,
   normalizeSessionSnapshot,
   normalizeSessionSnapshots,
   type NormalizeContext,
-} from '@deepseek-ai/dsh-session-snapshot'
-import { LOADER_SMOKE_TEST_TIMEOUT_MS, runLoaderSmoke } from '@deepseek-ai/dsh-loader-smoke'
-import { createMessage, createUserMessage } from '@deepseek-ai/dsh-llm'
-import { SessionSeq, SESSION_FORMAT_VERSION, SessionId, type SessionEvent, type SessionHeader } from '@deepseek-ai/dsh-session'
-import JsonlSessionPersistence from '@deepseek-ai/dsh-session-persistence-jsonl'
+} from '@worldapptechnologies/nulu-session-snapshot'
+import { LOADER_SMOKE_TEST_TIMEOUT_MS, runLoaderSmoke } from '@worldapptechnologies/nulu-loader-smoke'
+import { createMessage, createUserMessage } from '@worldapptechnologies/nulu-llm'
+import { SessionSeq, SESSION_FORMAT_VERSION, SessionId, type SessionEvent, type SessionHeader } from '@worldapptechnologies/nulu-session'
+import JsonlSessionPersistence from '@worldapptechnologies/nulu-session-persistence-jsonl'
 import { describe, expect, it } from 'vitest'
 
 const fixtureDir = fileURLToPath(new URL('./expected/subagent-diagnostic', import.meta.url))
@@ -28,7 +28,7 @@ const binScript = fileURLToPath(new URL('../../../../../../packages/test-support
 const tsconfigPath = fileURLToPath(new URL('../../../../../../tsconfig.json', import.meta.url))
 const parentId = SessionId('subagent-diagnostic-parent')
 const childId = SessionId('subagent-diagnostic-child')
-const refreshing = process.env.DSH_SNAPSHOT === 'refresh'
+const refreshing = process.env.NULU_SNAPSHOT === 'refresh'
 const task = 'Call list_agents once and report what it shows.'
 
 /** Compare current normalized Session records without historical migration. */
@@ -62,7 +62,7 @@ async function seedDescriptorlessChild(root: string, cwd: string): Promise<void>
     { type: 'step/start', seq: SessionSeq(1), time: 11, data: { turn: 1, step: 1 } },
     {
       type: 'system/message', seq: SessionSeq(2), time: 12,
-      data: { turn: 1, step: 1, message: createMessage({ role: 'system', content: [], source: { kind: 'plugin', plugin: '@deepseek-ai/dsh-system-prompt' } }) },
+      data: { turn: 1, step: 1, message: createMessage({ role: 'system', content: [], source: { kind: 'plugin', plugin: '@worldapptechnologies/nulu-system-prompt' } }) },
       surfaceOp: 'append',
     },
     { type: 'user/message', seq: SessionSeq(3), time: 13, data: createUserMessage({ content: [{ type: 'text', text: 'Start a background job.' }], source: { kind: 'user' } }), surfaceOp: 'append' },
@@ -100,15 +100,15 @@ describe('descriptor-less cold child diagnostic snapshot', () => {
     let cwd = ''
     const result = await runLoaderSmoke({
       label: 'subagent diagnostic headless stream-json snapshot',
-      tempDirPrefix: 'dsh-subagent-diag-',
+      tempDirPrefix: 'nulu-subagent-diag-',
       binScript,
       libBinScript: binScript,
       configPath,
       binArgs: [configPath, task],
       tsconfigPath,
       env: {
-        DSH_SNAPSHOT_FILE: replayOverride,
-        DSH_SNAPSHOT_OVERRIDE: replayOverride,
+        NULU_SNAPSHOT_FILE: replayOverride,
+        NULU_SNAPSHOT_OVERRIDE: replayOverride,
       },
       prepare: async (runCwd) => {
         cwd = runCwd

@@ -3,13 +3,13 @@ description: "面向用户与维护者的部署默认模型选择说明，用于
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-agent-default-model
+# @worldapptechnologies/nulu-agent-default-model
 
 [English](README.md) | 中文
 
 ## 概述
 
-`dsh-agent-default-model` 在会话未指定模型时，为新创建的 agent 提供共享的默认提供方与模型。使用它可以为所有受支持的 agent 入口统一选择起始模型，其中包括 `dsh --profile headless`。设置可用时，用户可以覆盖已配置的选择（包括推理（reasoning）强度），保存的更改会在后续读取中生效。该默认值作用于整个进程；按会话选择模型仍由创建 agent 的入口负责。
+`nulu-agent-default-model` 在会话未指定模型时，为新创建的 agent 提供共享的默认提供方与模型。使用它可以为所有受支持的 agent 入口统一选择起始模型，其中包括 `nulu --profile headless`。设置可用时，用户可以覆盖已配置的选择（包括推理（reasoning）强度），保存的更改会在后续读取中生效。该默认值作用于整个进程；按会话选择模型仍由创建 agent 的入口负责。
 
 ## 目录
 
@@ -32,7 +32,7 @@ kind: "package-reference"
 组合配置项是默认值的基础：它要求提供方与模型，并且不依赖任何设置提供方也能使用。
 
 ```yaml
-- name: '@deepseek-ai/dsh-agent-default-model'
+- name: '@worldapptechnologies/nulu-agent-default-model'
   config:
     provider: deepseek
     model: deepseek-chat
@@ -43,7 +43,7 @@ kind: "package-reference"
 | `provider` | 必填 | 新 agent 使用的已注册提供方路由 |
 | `model` | 必填 | 新 agent 使用的、由提供方持有的模型 id |
 
-生成的[配置目录](../../../docs/config-catalog.zh.md#deepseek-aidsh-agent-default-model)是所有受支持字段的完整参考。`reasoningEffort` 刻意不是配置字段：它属于设置层，因此完整保存的选择可以在下一个选定的模型没有推理强度时清除旧值，而组合配置值会再次被继承。
+生成的[配置目录](../../../docs/config-catalog.zh.md#worldapptechnologiesnulu-agent-default-model)是所有受支持字段的完整参考。`reasoningEffort` 刻意不是配置字段：它属于设置层，因此完整保存的选择可以在下一个选定的模型没有推理强度时清除旧值，而组合配置值会再次被继承。
 
 ### 读取与更改默认值
 
@@ -92,7 +92,7 @@ await ctx.agentDefaultModel.saveSelection({ provider, model, reasoningEffort: 'h
 
 - [Core 子系统](../../../docs/subsystems/core.zh.md)——`Agent` 句柄与 `AgentOptions` 路由选择。
 - [agent-loop 包](../agent-loop/README.zh.md)——agent 在请求时如何解析提供方与模型。
-- [生成配置目录](../../../docs/config-catalog.zh.md#deepseek-aidsh-agent-default-model)——每个受支持配置字段及其源声明。
+- [生成配置目录](../../../docs/config-catalog.zh.md#worldapptechnologiesnulu-agent-default-model)——每个受支持配置字段及其源声明。
 - [core 分组地图](../README.zh.md)——core 各包如何组合。
 
 -----

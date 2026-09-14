@@ -7,26 +7,26 @@ import { createHash } from 'node:crypto'
 import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { Context } from '@deepseek-ai/cordis'
+import { Context } from '@worldapptechnologies/cordis'
 import {
   fixtureContext,
   normalizeSessionSnapshot,
   normalizeSessionSnapshots,
   type NormalizeContext,
-} from '@deepseek-ai/dsh-session-snapshot'
-import { LOADER_SMOKE_TEST_TIMEOUT_MS, runLoaderSmoke } from '@deepseek-ai/dsh-loader-smoke'
-import { createMessage, createUserMessage } from '@deepseek-ai/dsh-llm'
+} from '@worldapptechnologies/nulu-session-snapshot'
+import { LOADER_SMOKE_TEST_TIMEOUT_MS, runLoaderSmoke } from '@worldapptechnologies/nulu-loader-smoke'
+import { createMessage, createUserMessage } from '@worldapptechnologies/nulu-llm'
 import {
   SESSION_FORMAT_VERSION,
   SessionId,
   SessionSeq,
   type SessionEvent,
   type SessionHeader,
-} from '@deepseek-ai/dsh-session'
-import JsonlSessionPersistence from '@deepseek-ai/dsh-session-persistence-jsonl'
+} from '@worldapptechnologies/nulu-session'
+import JsonlSessionPersistence from '@worldapptechnologies/nulu-session-persistence-jsonl'
 import { logPath } from '../../../../../../packages/session/session-persistence-jsonl/src/format.ts'
-import { renderWorkspaceContext } from '@deepseek-ai/dsh-agent-instructions'
-import { resolveConfig, workspaceBaselineIdentity } from '@deepseek-ai/dsh-agent-instructions/src/config.ts'
+import { renderWorkspaceContext } from '@worldapptechnologies/nulu-agent-instructions'
+import { resolveConfig, workspaceBaselineIdentity } from '@worldapptechnologies/nulu-agent-instructions/src/config.ts'
 import { describe, expect, it } from 'vitest'
 
 const fixtureDir = join(dirname(fileURLToPath(import.meta.url)), 'expected/workspace-context-resume/offline-edit')
@@ -38,7 +38,7 @@ const configPath = fileURLToPath(new URL('../workspace-context-resume-snapshot.p
 const binScript = fileURLToPath(new URL('../../../../../../packages/test-support/loader-smoke/tests/fixtures/headless-driver.ts', import.meta.url))
 const tsconfigPath = fileURLToPath(new URL('../../../../../../tsconfig.json', import.meta.url))
 const sessionId = SessionId('workspace-context-resume')
-const refreshing = process.env.DSH_SNAPSHOT === 'refresh'
+const refreshing = process.env.NULU_SNAPSHOT === 'refresh'
 const oldInstruction = 'Old workspace instruction.'
 const newInstruction = 'New workspace instruction after offline edit.'
 
@@ -79,7 +79,7 @@ async function seedVisibleBaseline(
     content: file.content,
   })), { maxBytes: 65536 })
   const config = resolveConfig({
-    dshHome: join(cwd, '.dsh'),
+    nuluHome: join(cwd, '.nulu'),
     maxBytes: 65536,
     ...options.instructionFileCandidates === undefined
       ? {}
@@ -90,7 +90,7 @@ async function seedVisibleBaseline(
     { type: 'step/start', seq: SessionSeq(1), time: 11, data: { turn: 1, step: 1 } },
     {
       type: 'system/message', seq: SessionSeq(2), time: 12,
-      data: { turn: 1, step: 1, message: createMessage({ role: 'system', content: [], source: { kind: 'plugin', plugin: '@deepseek-ai/dsh-system-prompt' } }) },
+      data: { turn: 1, step: 1, message: createMessage({ role: 'system', content: [], source: { kind: 'plugin', plugin: '@worldapptechnologies/nulu-system-prompt' } }) },
       surfaceOp: 'append',
     },
     {
@@ -140,15 +140,15 @@ describe('agent-instructions resume snapshot', () => {
     let sessionPath = ''
     const result = await runLoaderSmoke({
       label: 'agent-instructions resume headless stream-json snapshot',
-      tempDirPrefix: 'dsh-workspace-context-resume-',
+      tempDirPrefix: 'nulu-workspace-context-resume-',
       binScript,
       libBinScript: binScript,
       configPath,
       binArgs: [configPath, 'Acknowledge the current workspace instruction.'],
       tsconfigPath,
       env: {
-        DSH_SNAPSHOT_FILE: replayFixture,
-        DSH_SNAPSHOT_OVERRIDE: replayOverride,
+        NULU_SNAPSHOT_FILE: replayFixture,
+        NULU_SNAPSHOT_OVERRIDE: replayOverride,
       },
       prepare: async (runCwd) => {
         cwd = runCwd
@@ -197,15 +197,15 @@ describe('agent-instructions resume snapshot', () => {
     let sessionPath = ''
     const result = await runLoaderSmoke({
       label: 'agent-instructions precedence-change resume snapshot',
-      tempDirPrefix: 'dsh-workspace-context-precedence-',
+      tempDirPrefix: 'nulu-workspace-context-precedence-',
       binScript,
       libBinScript: binScript,
       configPath,
       binArgs: [configPath, 'Acknowledge the current workspace instruction.'],
       tsconfigPath,
       env: {
-        DSH_SNAPSHOT_FILE: replayFixture,
-        DSH_SNAPSHOT_OVERRIDE: replayOverride,
+        NULU_SNAPSHOT_FILE: replayFixture,
+        NULU_SNAPSHOT_OVERRIDE: replayOverride,
       },
       prepare: async (runCwd) => {
         cwd = runCwd

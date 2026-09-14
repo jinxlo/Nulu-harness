@@ -15,7 +15,7 @@ it('keeps disabled packages visible and offers recovery without a running backen
     backend: { status: async () => ready ? { phase: 'ready' } : { phase: 'error', message: 'plugin requires Cordis ^2.0.0' }, retry: vi.fn() },
     plugins: { list: async () => [{ name: 'example-plugin', version: '1.0.0', enabled }], disableAll, toggle },
   }
-  Object.defineProperty(dom.window, 'dshDesktop', { value: api })
+  Object.defineProperty(dom.window, 'nuluDesktop', { value: api })
   try {
     runInContext(readFileSync(new URL('../renderer/plugin-manager.js', import.meta.url), 'utf8'), dom.getInternalVMContext())
     const document = dom.window.document

@@ -3,13 +3,13 @@ description: "用于实时组合的运行时不变量检查：运行包自有检
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-invariants
+# @worldapptechnologies/nulu-invariants
 
 [English](README.md) | 中文
 
 ## 概述
 
-`dsh-invariants` 在 DeepSeek Harness 组合中运行包自有的运行时检查——不变量：任何包都可以发布一个 `./invariant` 配套入口，在组合运行期间验证其自身的持久关系（权威事件流与可变快照）。检查自动运行，失败的检查会报告归因到拥有被违反关系的包的 `InvariantError`。需要带全局开关与包名过滤器的自检诊断时选择它；标准 agent（智能体）组合已挂载它及四个核心配套入口，而单独加载服务不会安装任何检查。
+`nulu-invariants` 在 Nulu Harness 组合中运行包自有的运行时检查——不变量：任何包都可以发布一个 `./invariant` 配套入口，在组合运行期间验证其自身的持久关系（权威事件流与可变快照）。检查自动运行，失败的检查会报告归因到拥有被违反关系的包的 `InvariantError`。需要带全局开关与包名过滤器的自检诊断时选择它；标准 agent（智能体）组合已挂载它及四个核心配套入口，而单独加载服务不会安装任何检查。
 
 ## 目录
 
@@ -29,18 +29,18 @@ kind: "package-reference"
 
 ### 何时使用
 
-需要实时诊断的组合请使用注册表。[`dsh-sdk-minimal`](../../bundle/sdk-minimal/README.zh.md) 挂载它及四个核心有状态配套入口——`dsh-session`、`dsh-agent`、`dsh-scope` 与 `dsh-agent-loop`；`dsh-base` 刻意省略运行时诊断。自定义组合挂载注册表，并为任何其他已加载、且希望检查其约定的包添加配套入口。单独加载注册表不会安装任何检查：它自身不携带任何产品检查，因此从不挂载配套入口的组合不会观察到任何诊断行为。
+需要实时诊断的组合请使用注册表。[`nulu-sdk-minimal`](../../bundle/sdk-minimal/README.zh.md) 挂载它及四个核心有状态配套入口——`nulu-session`、`nulu-agent`、`nulu-scope` 与 `nulu-agent-loop`；`nulu-base` 刻意省略运行时诊断。自定义组合挂载注册表，并为任何其他已加载、且希望检查其约定的包添加配套入口。单独加载注册表不会安装任何检查：它自身不携带任何产品检查，因此从不挂载配套入口的组合不会观察到任何诊断行为。
 
 ### 启用检查与选择包
 
 注册表默认启用，并在没有过滤器的情况下检查每个已注册的包。用 `enabled` 作全局开关，用 `package_allowlist` 只接纳指定包，用 `package_blocklist` 在 allowlist 匹配之后排除包——blocklist 匹配优先于 allowlist 匹配。模式是区分大小写的 JavaScript 正则表达式源（除非自带 `^` 与 `$`，否则不锚定）；无效、空白或重复的条目会使服务启动失败，而不是被跳过。
 
 ```yaml
-- name: '@deepseek-ai/dsh-invariants'
+- name: '@worldapptechnologies/nulu-invariants'
   config:
     enabled: true
     package_allowlist:
-      - '^@deepseek-ai/dsh-'
+      - '^@worldapptechnologies/nulu-'
 ```
 
 | 字段 | 默认值 | 含义 |
@@ -49,7 +49,7 @@ kind: "package-reference"
 | `package_allowlist` | `[]` | 接纳包名的正则源；为空则全部接纳 |
 | `package_blocklist` | `[]` | 在 allowlist 匹配之后排除包名的正则源 |
 
-生成的[配置目录](../../../docs/config-catalog.zh.md#deepseek-aidsh-invariants)是每个受支持字段及其 JSDoc 的穷尽式真源。
+生成的[配置目录](../../../docs/config-catalog.zh.md#worldapptechnologiesnulu-invariants)是每个受支持字段及其 JSDoc 的穷尽式真源。
 
 ### 运行哪些检查
 
@@ -57,16 +57,16 @@ kind: "package-reference"
 
 | 配套入口 | 检查 |
 |---|---|
-| `dsh-session`、`dsh-agent`、`dsh-scope`、`dsh-agent-loop` | 会话日志包含关系与调用/结果跟踪、agent 状态转换、经过作用域过滤的分发主体、loop 所构建请求的重建 |
-| `dsh-llm`、`dsh-llm-retry`、`dsh-tools`、`dsh-system-prompt` | LLM（大语言模型）流语法、重试失败形状、工具流水线阶段配对与冻结结果、提示词组装章节名 |
-| `dsh-compaction`、`dsh-hook-protocol`、`dsh-sandbox-policy` | 压缩（compaction）流配对、钩子调用/结果配对、沙箱 mode 值 |
-| `dsh-fs`、`dsh-subagent`、`dsh-workflow`、`dsh-tool-workflow` | 文件系统事件身份、subagent 提供方与开始/结束配对、工作流生命周期身份、工作流记录形状 |
-| `dsh-goal`、`dsh-goal-round-driver` | 持久 goal 流折叠与重建的继续提示词 |
-| `dsh-permission-presets`、`dsh-user-approval`、`dsh-commands` | preset 引用指向活动 preset、审批询问/决定配对、命令运行/完成配对 |
-| `dsh-jobs`、`dsh-tool-todo`、`dsh-time-context` | 任务快照字段关系、整表 todo 形状、持久时钟读数 |
-| `dsh-credentials`、`dsh-settings`、`dsh-storage-domain`、`dsh-workspace` | 提交事件对照活动服务或内存状态、实体缓存镜像 |
-| `dsh-agent-presets`、`dsh-session-title`、`dsh-plan-mode`、`dsh-schedule` | preset 挂载位置、标题来源引用、plan-mode 载荷、schedule 流 |
-| `dsh-client-hmr`、`dsh-client-modules`、`dsh-client-runtime` | 浏览器/node 侧 stat-watcher 生命周期、启动入口图、slot 变更版本化 |
+| `nulu-session`、`nulu-agent`、`nulu-scope`、`nulu-agent-loop` | 会话日志包含关系与调用/结果跟踪、agent 状态转换、经过作用域过滤的分发主体、loop 所构建请求的重建 |
+| `nulu-llm`、`nulu-llm-retry`、`nulu-tools`、`nulu-system-prompt` | LLM（大语言模型）流语法、重试失败形状、工具流水线阶段配对与冻结结果、提示词组装章节名 |
+| `nulu-compaction`、`nulu-hook-protocol`、`nulu-sandbox-policy` | 压缩（compaction）流配对、钩子调用/结果配对、沙箱 mode 值 |
+| `nulu-fs`、`nulu-subagent`、`nulu-workflow`、`nulu-tool-workflow` | 文件系统事件身份、subagent 提供方与开始/结束配对、工作流生命周期身份、工作流记录形状 |
+| `nulu-goal`、`nulu-goal-round-driver` | 持久 goal 流折叠与重建的继续提示词 |
+| `nulu-permission-presets`、`nulu-user-approval`、`nulu-commands` | preset 引用指向活动 preset、审批询问/决定配对、命令运行/完成配对 |
+| `nulu-jobs`、`nulu-tool-todo`、`nulu-time-context` | 任务快照字段关系、整表 todo 形状、持久时钟读数 |
+| `nulu-credentials`、`nulu-settings`、`nulu-storage-domain`、`nulu-workspace` | 提交事件对照活动服务或内存状态、实体缓存镜像 |
+| `nulu-agent-presets`、`nulu-session-title`、`nulu-plan-mode`、`nulu-schedule` | preset 挂载位置、标题来源引用、plan-mode 载荷、schedule 流 |
+| `nulu-client-hmr`、`nulu-client-modules`、`nulu-client-runtime` | 浏览器/node 侧 stat-watcher 生命周期、启动入口图、slot 变更版本化 |
 
 其余工作区包省略配套入口，并在各自 README 中说明包级原因。
 
@@ -75,9 +75,9 @@ kind: "package-reference"
 配套入口就是挂载在注册表旁的普通插件。它声明所需的服务，并以其包的精确 npm 名称注册；注册表会先完成其设置再完成注册。
 
 ```ts
-import type { Context } from '@deepseek-ai/cordis'
-import InvariantRegistry from '@deepseek-ai/dsh-invariants'
-import * as SessionInvariant from '@deepseek-ai/dsh-session/invariant'
+import type { Context } from '@worldapptechnologies/cordis'
+import InvariantRegistry from '@worldapptechnologies/nulu-invariants'
+import * as SessionInvariant from '@worldapptechnologies/nulu-session/invariant'
 
 declare const ctx: Context
 
@@ -127,7 +127,7 @@ ctx.plugin(SessionInvariant)
 当包级约定不够用时阅读以下页面。它们从生成的服务参考逐步进入决策证据与组地图。
 
 - [运行时不变量子系统](../../../docs/subsystems/invariants.zh.md)——`Config`、installer、服务与配套入口约定的生成参考。
-- [生成的配置目录](../../../docs/config-catalog.zh.md#deepseek-aidsh-invariants)——每个受支持配置字段及其源声明。
+- [生成的配置目录](../../../docs/config-catalog.zh.md#worldapptechnologiesnulu-invariants)——每个受支持配置字段及其源声明。
 - [运行时不变量约定 Agent Note](../../../.agents/notes/implemented/architecture/2026-07-19-package-invariant-runtime-contracts.zh.md)——运行时不变量可以断言什么，以及强制配套入口接线的机械门禁。
 - [runtime-diagnostics 组地图](../../README.zh.md)——相邻的诊断包。
 
@@ -151,7 +151,7 @@ ctx.plugin(SessionInvariant)
 
 - **过滤器在服务生命周期内固定**——`enabled`、`package_allowlist` 与 `package_blocklist` 在启动时编译一次；更改它们需要执行 Cordis 插件重新加载。
 - **仅实时配套入口会遗漏重载前的操作**——只观察实时操作的配套入口无法重建自身重新加载前开始的操作；由会话支撑的配套入口从持久事件重建 baseline。
-- **请求重建只覆盖 loop 构建的请求**——`dsh-agent-loop` 配套入口只重建 loop 显式构建的请求；直接一次性 LLM 调用即使由调用方冻结或附加会话 id，仍不在此约定内。
+- **请求重建只覆盖 loop 构建的请求**——`nulu-agent-loop` 配套入口只重建 loop 显式构建的请求；直接一次性 LLM 调用即使由调用方冻结或附加会话 id，仍不在此约定内。
 - **没有配套入口就没有检查**——注册表自身不携带产品检查；只挂载服务的组合观察不到任何行为。
 
 <a id="dev-note"></a>

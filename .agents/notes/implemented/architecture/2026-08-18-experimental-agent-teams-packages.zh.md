@@ -12,13 +12,13 @@ Agent Teams 的服务与工具约定仍在变化，但它需要使用真实 Sess
 
 ## 决策
 
-`packages/experimental/agent-team`、`packages/experimental/tool-agent-team`、`packages/experimental/agent-team-profile`、`packages/experimental/client-ui-agent-team` 与 `packages/experimental/agent-team-web-profile` 是公开 workspace 包。它们保留现有 `@deepseek-ai/dsh-experimental-*` 名称并加入 dsh 发布系列。[实验性包规则](../../../../packages/experimental/AGENTS.md)负责默认私有原则、本例外与后续 promotion。
+`packages/experimental/agent-team`、`packages/experimental/tool-agent-team`、`packages/experimental/agent-team-profile`、`packages/experimental/client-ui-agent-team` 与 `packages/experimental/agent-team-web-profile` 是公开 workspace 包。它们保留现有 `@worldapptechnologies/nulu-experimental-*` 名称并加入 nulu 发布系列。[实验性包规则](../../../../packages/experimental/AGENTS.md)负责默认私有原则、本例外与后续 promotion。
 
-dsh pack 与 publish 集合以及本地 baseline 发布器只会纳入这五个实验性包目录。workspace 约束要求它们省略 `private`、设置 `publishConfig.access` 为 `public`，并保留实验性 npm 前缀。其他实验性包默认仍为私有且不发布。实验组外的发布包与 app 以及 Python runtime 不得通过 `dependencies`、`optionalDependencies` 或 `peerDependencies` 引用实验性包；实验性包可以依赖发布包和其他实验性包。
+nulu pack 与 publish 集合以及本地 baseline 发布器只会纳入这五个实验性包目录。workspace 约束要求它们省略 `private`、设置 `publishConfig.access` 为 `public`，并保留实验性 npm 前缀。其他实验性包默认仍为私有且不发布。实验组外的发布包与 app 以及 Python runtime 不得通过 `dependencies`、`optionalDependencies` 或 `peerDependencies` 引用实验性包；实验性包可以依赖发布包和其他实验性包。
 
 通用的调用方预留 continuable child 身份和精确 direct-child drain 仍属于稳定 Subagent 服务。它们负责 Subagent 身份与 Activation 生命周期，不 import 或命名 Agent Teams；实验性 Team 服务沿允许的方向消费这些能力。
 
-公开发布的 Host 侧 Agent Teams profile bundle 依赖 Team 包，并在 `dsh-base` 之后应用。它会插入 Team 配置行，并禁用模型可见名称与 Team 工具重叠的全局 continuable-child control。独立公开发布的 Web profile 在 `dsh-web-app` 与 Host profile 之后应用；它会插入 Team UI，后者挂载 Team package 生成的 Remote contribution。两个层都保持显式启用，不改变随附 base、CLI、Web 与 Python runtime 的依赖图。
+公开发布的 Host 侧 Agent Teams profile bundle 依赖 Team 包，并在 `nulu-base` 之后应用。它会插入 Team 配置行，并禁用模型可见名称与 Team 工具重叠的全局 continuable-child control。独立公开发布的 Web profile 在 `nulu-web-app` 与 Host profile 之后应用；它会插入 Team UI，后者挂载 Team package 生成的 Remote contribution。两个层都保持显式启用，不改变随附 base、CLI、Web 与 Python runtime 的依赖图。
 
 profile 安装通过自身 package manager 解析每个公开 bundle 及其依赖。通用 profile launcher 随后应用所选层，不会把它们加入任何随附 profile，也不会改变其他 profile 的解析结果。
 
@@ -36,6 +36,6 @@ profile 安装通过自身 package manager 解析每个公开 bundle 及其依�
 
 ## 后果
 
-Agent Teams 会作为 dsh 发布系列中的五个可安装 tarball 发布，同时保持包名不变，也不会在随附 profile 中启用 Team。公开可用不代表这些包稳定或默认受支持，稳定发布包也不能对其建立运行时依赖。
+Agent Teams 会作为 nulu 发布系列中的五个可安装 tarball 发布，同时保持包名不变，也不会在随附 profile 中启用 Team。公开可用不代表这些包稳定或默认受支持，稳定发布包也不能对其建立运行时依赖。
 
 发布系列需要维护显式命名的实验性例外。promotion 仍会按照实验性包规则产生路径和 npm 名改动。

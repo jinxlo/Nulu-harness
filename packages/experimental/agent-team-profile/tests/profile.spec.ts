@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url'
 import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import * as yaml from 'js-yaml'
-import { entryListSchema } from '@deepseek-ai/cordis-plugin-include'
+import { entryListSchema } from '@worldapptechnologies/cordis-plugin-include'
 
 describe('Agent Teams profile bundle', () => {
   it('declares a public parseable layer with Team-owned controls', () => {
@@ -14,18 +14,18 @@ describe('Agent Teams profile bundle', () => {
       private?: boolean
       publishConfig?: { access?: string }
       dependencies?: Record<string, string>
-      dsh?: { bundle?: { patch?: string } }
+      nulu?: { bundle?: { patch?: string } }
     }
     expect(manifest.private).toBeUndefined()
     expect(manifest.publishConfig?.access).toBe('public')
-    expect(manifest.dsh?.bundle?.patch).toBe('./cordis.patch.yml')
+    expect(manifest.nulu?.bundle?.patch).toBe('./cordis.patch.yml')
     expect(manifest.dependencies).toMatchObject({
-      '@deepseek-ai/dsh-experimental-agent-team': 'workspace:^',
-      '@deepseek-ai/dsh-experimental-tool-agent-team': 'workspace:^',
+      '@worldapptechnologies/nulu-experimental-agent-team': 'workspace:^',
+      '@worldapptechnologies/nulu-experimental-tool-agent-team': 'workspace:^',
     })
 
     const parsed = yaml.load(
-      readFileSync(resolve(root, manifest.dsh!.bundle!.patch!), 'utf8'),
+      readFileSync(resolve(root, manifest.nulu!.bundle!.patch!), 'utf8'),
       { schema: entryListSchema },
     )
     expect(Array.isArray(parsed)).toBe(true)
@@ -41,11 +41,11 @@ describe('Agent Teams profile bundle', () => {
     expect(patches.find(patch => patch.id === 'tool-subagent-fork')?.config).toMatchObject({ backgroundMode: 'one-shot' })
     const inserted = patches.flatMap(patch => patch.insert ?? [])
     expect(inserted.find(entry => entry.id === 'agent-team')).toMatchObject({
-      name: '@deepseek-ai/dsh-experimental-agent-team',
+      name: '@worldapptechnologies/nulu-experimental-agent-team',
       config: { maxMembers: 8 },
     })
     expect(inserted.find(entry => entry.id === 'tool-agent-team')).toMatchObject({
-      name: '@deepseek-ai/dsh-experimental-tool-agent-team',
+      name: '@worldapptechnologies/nulu-experimental-tool-agent-team',
       config: { freshProvider: 'spawn', forkProvider: 'fork' },
     })
   })

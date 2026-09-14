@@ -5,9 +5,9 @@ import {
   createSystemMessage,
   createToolResultMessage,
   createUserMessage,
-} from '@deepseek-ai/dsh-llm/message'
-import { brandString } from '@deepseek-ai/dsh-brand'
-import type { MessageId, ToolCallId } from '@deepseek-ai/dsh-llm/brand'
+} from '@worldapptechnologies/nulu-llm/message'
+import { brandString } from '@worldapptechnologies/nulu-brand'
+import type { MessageId, ToolCallId } from '@worldapptechnologies/nulu-llm/brand'
 import type {
   AssistantMessage,
   ContentBlock,
@@ -16,30 +16,30 @@ import type {
   TokenUsage,
   ToolResultMessage,
   UserMessage,
-} from '@deepseek-ai/dsh-llm'
-import { LlmAttemptId } from '@deepseek-ai/dsh-llm/brand'
+} from '@worldapptechnologies/nulu-llm'
+import { LlmAttemptId } from '@worldapptechnologies/nulu-llm/brand'
 import {
   AssistantStreamAccumulator,
   expandAssistantStream,
   type AssistantStreamRecord,
-} from '@deepseek-ai/dsh-llm/assistant-stream'
-import type { AttachmentIdType, ImageAttachmentRef } from '@deepseek-ai/dsh-attachment'
+} from '@worldapptechnologies/nulu-llm/assistant-stream'
+import type { AttachmentIdType, ImageAttachmentRef } from '@worldapptechnologies/nulu-attachment'
 import type {
   SessionEvent,
   SessionId,
   SessionSeqCursor,
-} from '@deepseek-ai/dsh-session/types'
-import { SESSION_FORMAT_VERSION, SessionSeq } from '@deepseek-ai/dsh-session/types'
-import type { JsonValue } from '@deepseek-ai/dsh-util-values'
-import type { TodoItem } from '@deepseek-ai/dsh-tool-todo/client'
+} from '@worldapptechnologies/nulu-session/types'
+import { SESSION_FORMAT_VERSION, SessionSeq } from '@worldapptechnologies/nulu-session/types'
+import type { JsonValue } from '@worldapptechnologies/nulu-util-values'
+import type { TodoItem } from '@worldapptechnologies/nulu-tool-todo/client'
 // Type-only: the brand constructor is host-side; the fixture casts at its
 // wire-fabrication boundary (the schema layer's one-cast-point posture).
-import type { CommandDefinitionId, CommandId } from '@deepseek-ai/dsh-commands/brand'
-import type { CommandDescriptor, CommandExecution, CommandResult } from '@deepseek-ai/dsh-commands/types'
-import type { CredentialInfo } from '@deepseek-ai/dsh-credentials/types'
-import type { DirectoryListing as FixtureDirectoryListing } from '@deepseek-ai/dsh-host-directory-picker/types'
-import type { SettingsDescribeValue, SettingsNamespaceView } from '@deepseek-ai/dsh-settings/types'
-import { deriveEventMessage, foldSurface } from '@deepseek-ai/dsh-session/surface'
+import type { CommandDefinitionId, CommandId } from '@worldapptechnologies/nulu-commands/brand'
+import type { CommandDescriptor, CommandExecution, CommandResult } from '@worldapptechnologies/nulu-commands/types'
+import type { CredentialInfo } from '@worldapptechnologies/nulu-credentials/types'
+import type { DirectoryListing as FixtureDirectoryListing } from '@worldapptechnologies/nulu-host-directory-picker/types'
+import type { SettingsDescribeValue, SettingsNamespaceView } from '@worldapptechnologies/nulu-settings/types'
+import { deriveEventMessage, foldSurface } from '@worldapptechnologies/nulu-session/surface'
 import type { RpcResult } from './api.ts'
 import { randomUuid } from './random-uuid.ts'
 import type {
@@ -567,11 +567,11 @@ const READ_SAMPLE_TEXT = [
  * titled source without a snippet; `truncated` exercises the capped indicator.
  */
 const WEB_SEARCH_META = {
-  answer: 'DeepSeek Harness is a plugin-based agent harness on vendored Cordis where **every capability is a plugin**.',
+  answer: 'Nulu Harness is a plugin-based agent harness on vendored Cordis where **every capability is a plugin**.',
   sources: [
     {
-      url: 'https://github.com/deepseek-ai/deepseek-harness',
-      title: 'DeepSeek Harness — plugin-based agent harness',
+      url: 'https://github.com/worldapptechnologies/nulu-harness',
+      title: 'Nulu Harness — plugin-based agent harness',
       snippet: 'Everything is a plugin: session, tools, agent-loop, and LLM adapters all mount on the same Cordis context.',
       publishedAt: '2026-07-01',
     },
@@ -688,7 +688,7 @@ function fixtureSettledStream(
 }
 
 /** Rendered system prompt of the fx-alpha history: surface node 0. */
-const FIXTURE_SYSTEM_PROMPT = '你是 DeepSeek Harness 的 fixture 助手。用简洁的中文回答，并在需要时调用工具。'
+const FIXTURE_SYSTEM_PROMPT = '你是 Nulu Harness 的 fixture 助手。用简洁的中文回答，并在需要时调用工具。'
 
 /** fx-alpha history script: 75 turns (~150+ messages -> 4 pages at PAGE_MESSAGES=50),
  *  mixing reasoning blocks / tool call+result / context. */
@@ -727,7 +727,7 @@ function buildAlphaLog(): SessionEvent[] {
     if (turn === 0) {
       push({
         type: 'system/message', surfaceOp: 'append',
-        data: { turn, step: 0, message: createSystemMessage(FIXTURE_SYSTEM_PROMPT, '@deepseek-ai/dsh-system-prompt') },
+        data: { turn, step: 0, message: createSystemMessage(FIXTURE_SYSTEM_PROMPT, '@worldapptechnologies/nulu-system-prompt') },
       })
     }
     const userSeq = push({
@@ -1703,7 +1703,7 @@ function backscanTodos(log: readonly SessionEvent[]): TodoItem[] | undefined {
   return undefined
 }
 
-/** Fixture-local mirror of the goal projection value (dsh-goal's GoalProjection shape). */
+/** Fixture-local mirror of the goal projection value (nulu-goal's GoalProjection shape). */
 interface FxGoalProjection {
   goal: {
     id: string
@@ -1971,9 +1971,9 @@ function createFixtureWorld(options: FixtureOptions): FixtureWorld {
    * roster a GUI journey sees after writing is the text it wrote.
    */
   const fixturePresets = new Map<string, { trust: 'system' | 'user'; content: string }>([
-    ['standard', { trust: 'system', content: "- id: tool-bash\n  name: '@deepseek-ai/dsh-tool-bash'\n" }],
-    ['minimal', { trust: 'system', content: "- id: tool-web-search\n  name: '@deepseek-ai/dsh-tool-web-search'\n" }],
-    ['my-agent', { trust: 'user', content: "- id: tool-read\n  name: '@deepseek-ai/dsh-tool-read'\n" }],
+    ['standard', { trust: 'system', content: "- id: tool-bash\n  name: '@worldapptechnologies/nulu-tool-bash'\n" }],
+    ['minimal', { trust: 'system', content: "- id: tool-web-search\n  name: '@worldapptechnologies/nulu-tool-web-search'\n" }],
+    ['my-agent', { trust: 'user', content: "- id: tool-read\n  name: '@worldapptechnologies/nulu-tool-read'\n" }],
   ])
   let fixtureDefaultPreset = 'standard'
   const nextTurn = new Map<SessionId, number>([[sid('fx-alpha'), 75]])
@@ -2024,7 +2024,7 @@ function createFixtureWorld(options: FixtureOptions): FixtureWorld {
     [FIXTURE_HOME, ['Documents', 'Downloads', '.config']],
     [`${FIXTURE_HOME}/Documents`, [
       'project', 'deepseek-iOS', 'deepseek-android', 'deepseek-platform',
-      'deepseek-web', 'deepseek-harness', 'deepseek-app', 'deepseek-landing-blog',
+      'deepseek-web', 'nulu-harness', 'deepseek-app', 'deepseek-landing-blog',
     ]],
   ])
   const childrenOf = (path: string): string[] | undefined => {
@@ -2262,9 +2262,9 @@ function createFixtureWorld(options: FixtureOptions): FixtureWorld {
         value: [
           { name: 'compact', description: 'fixture：压缩当前会话上下文' },
           { name: 'echo', description: 'fixture：回显参数', input: { hint: 'text to echo' } },
-          { definitionId: brandString<CommandDefinitionId>('@deepseek-ai/dsh-command-goal'), name: 'goal', description: 'Set or view the goal for a long-running task', input: { hint: '<objective>', attachments: true } },
-          { definitionId: brandString<CommandDefinitionId>('@deepseek-ai/dsh-permission-presets'), name: 'permission', description: 'Switch the permission preset (sandbox mode + approval policy)', input: { hint: '<preset>' } },
-          { definitionId: brandString<CommandDefinitionId>('@deepseek-ai/dsh-plan-mode'), name: 'plan', description: 'Enter or leave plan mode', input: { hint: '[off|message]', attachments: true } },
+          { definitionId: brandString<CommandDefinitionId>('@worldapptechnologies/nulu-command-goal'), name: 'goal', description: 'Set or view the goal for a long-running task', input: { hint: '<objective>', attachments: true } },
+          { definitionId: brandString<CommandDefinitionId>('@worldapptechnologies/nulu-permission-presets'), name: 'permission', description: 'Switch the permission preset (sandbox mode + approval policy)', input: { hint: '<preset>' } },
+          { definitionId: brandString<CommandDefinitionId>('@worldapptechnologies/nulu-plan-mode'), name: 'plan', description: 'Enter or leave plan mode', input: { hint: '[off|message]', attachments: true } },
         ],
       }
     },
@@ -2415,7 +2415,7 @@ function createFixtureWorld(options: FixtureOptions): FixtureWorld {
             label,
             ...item.cwd === undefined ? {} : { cwd: item.cwd },
             createdAt: item.updatedAt,
-            mention: `@[${label}](dsh-session:${encoded})`,
+            mention: `@[${label}](nulu-session:${encoded})`,
           }
         })
       return { ok: true, value }
@@ -3335,7 +3335,7 @@ function createFixtureWorld(options: FixtureOptions): FixtureWorld {
       })
       // The host echoes the prompt's requestId as the user source's rpcId;
       // the Session object retires its local submission echo on it. The
-      // user-rpc source member is declared by dsh-api-session-controller,
+      // user-rpc source member is declared by nulu-api-session-controller,
       // which this standalone fixture does not import — hence the assertion.
       const promptSource = { kind: 'user', rpcId: request.requestId } as MessageSource
       if (mode === 'steer' && replays.has(id)) {

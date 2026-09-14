@@ -19,11 +19,11 @@
  * image, so entry mounting, the activation audit, and its diagnostics are the
  * same code the Node deployment runs. Only the module seam and the command line
  * are supplied from here.
- * @module @deepseek-ai/dsh-experimental-webworker-runtime/src/worker-host
+ * @module @worldapptechnologies/nulu-experimental-webworker-runtime/src/worker-host
  */
 import { setActiveModuleLoader, WorkerModuleLoader, type StaticModuleFactory } from './module-system/module-loader.ts'
-import type { TypertGateway } from '@deepseek-ai/dsh-api-gateway'
-import type { HostConnectionHandle } from '@deepseek-ai/dsh-client-connection'
+import type { TypertGateway } from '@worldapptechnologies/nulu-api-gateway'
+import type { HostConnectionHandle } from '@worldapptechnologies/nulu-client-connection'
 import type { AlsCausality } from './polyfill/async-context/als-runtime.ts'
 import { dirname, join } from './module-system/posix-path.ts'
 import { installProcessGlobal } from './node/globals/process.ts'
@@ -102,7 +102,7 @@ export interface WorkerHostOptions {
   readonly cmdlineArgs?: readonly string[]
   /** Port named on the default command line; defaults to {@link DEFAULT_PORT}. */
   readonly port?: number
-  /** Environment for the process shim; `DSH_HOME` defaults to `<root>/home`. */
+  /** Environment for the process shim; `NULU_HOME` defaults to `<root>/home`. */
   readonly env?: Readonly<Record<string, string>>
   /**
    * Image manifest path; defaults to `<root>/config/vfs-manifest.json`. Its
@@ -183,7 +183,7 @@ export function createWorkerHost(options: WorkerHostOptions): WorkerHost {
   const start = async (): Promise<void> => {
     try {
       const home = join(root, IMAGE_HOME_DIRECTORY)
-      installProcessGlobal({ cwd: root, env: { DSH_HOME: home, HOME: home, ...options.env } })
+      installProcessGlobal({ cwd: root, env: { NULU_HOME: home, HOME: home, ...options.env } })
 
       const [bytes, overlays] = await Promise.all([
         readImage(options.image),
@@ -218,7 +218,7 @@ export function createWorkerHost(options: WorkerHostOptions): WorkerHost {
       modules = loader
 
       const require = loader.requireFrom(dirname(configPath))
-      const appBoot = require('@deepseek-ai/dsh-app-boot') as {
+      const appBoot = require('@worldapptechnologies/nulu-app-boot') as {
         boot(
           binName: string,
           configPath: string,
@@ -226,12 +226,12 @@ export function createWorkerHost(options: WorkerHostOptions): WorkerHost {
           prepare: (ctx: HostContext) => void,
         ): Promise<HostContext>
       }
-      const cmdline = require('@deepseek-ai/dsh-cmdline') as {
+      const cmdline = require('@worldapptechnologies/nulu-cmdline') as {
         provideCmdline(ctx: unknown, host: { args: readonly string[]; exit: (code: number) => void }): void
       }
 
       const { patches, presetOverlay } = bootPatches(loader, mounted, configPath, root)
-      const ctx = await appBoot.boot('dsh-webworker', configPath, patches, (hostCtx) => {
+      const ctx = await appBoot.boot('nulu-webworker', configPath, patches, (hostCtx) => {
         // Before any entry mounts: the Loader would otherwise fall back to the
         // runtime's own dynamic import for every row.
         hostCtx.loader.internal = loader.internal
@@ -302,7 +302,7 @@ export interface LogRenderer {
  * @param require - Image resolver, for cordis's own message renderer.
  */
 export function installLogSink(ctx: HostContext, require: (specifier: string) => unknown): void {
-  const { Logger } = require('@deepseek-ai/cordis') as { Logger: LogRenderer }
+  const { Logger } = require('@worldapptechnologies/cordis') as { Logger: LogRenderer }
   const exporter: LogExporter = {
     colors: false,
     // cordis compares `exporter.levels ?? logger.level ?? INFO` against the
@@ -360,8 +360,9 @@ function requireLoweredImage(vfs: MemoryVfs, path: string): void {
  * @param vfs - Filesystem holding the composed configuration.
  * @param configPath - Composed configuration path.
  * @param root - Virtual root.
- * @returns Boot patches (preset root overlay, frontend serving off) and
- * whether the preset overlay was applied.
+ * @returns Boot patches (preset root overlay, JSONL compression, pi-ai
+ * provider strip, worker-native default model) and whether the preset overlay
+ * was applied.
  */
 function bootPatches(
   loader: WorkerModuleLoader,
@@ -375,7 +376,7 @@ function bootPatches(
     rows = JSON.parse(text)
   } else {
     // The roster's `!!js` scalars need Include's own YAML dialect.
-    const include = loader.load(loader.resolve('@deepseek-ai/cordis-plugin-include', root)) as { entryListSchema: unknown }
+    const include = loader.load(loader.resolve('@worldapptechnologies/cordis-plugin-include', root)) as { entryListSchema: unknown }
     const yaml = loader.load(loader.resolve('js-yaml', root)) as { load(source: string, options: { schema: unknown }): unknown }
     rows = yaml.load(text, { schema: include.entryListSchema })
   }
@@ -408,6 +409,24 @@ function bootPatches(
   const jsonl = find(rows, 'session-persistence-jsonl')
   if (jsonl !== undefined) {
     patches.push({ id: 'session-persistence-jsonl', config: { ...configOf(jsonl), compression: 'none' } })
+  }
+  // The worker host ships no pi-ai package, so any configured provider route
+  // would fail activation inside `resolveProfiles` when the stub's provider
+  // factory is invoked. Keep the row mounted for its service wiring, but hand
+  // it an empty provider map: the worker never dials a model itself.
+  const piAi = find(rows, 'llm-pi-ai')
+  if (piAi !== undefined) {
+    patches.push({ id: 'llm-pi-ai', config: { ...configOf(piAi), providers: {} } })
+  }
+  // With pi-ai unserviceable here, the composed default route would leave every
+  // worker Session on a model no adapter owns. Retarget the default to the
+  // native DeepSeek route this image mounts; a saved selection still wins.
+  const defaultModel = find(rows, 'agent-default-model')
+  if (piAi !== undefined && defaultModel !== undefined) {
+    patches.push({
+      id: 'agent-default-model',
+      config: { ...configOf(defaultModel), provider: 'deepseek-official', model: 'deepseek-v4-pro' },
+    })
   }
   return { patches, presetOverlay }
 }

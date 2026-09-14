@@ -1,0 +1,6 @@
+# Bilingual-pair consistency record (docs/i18n/README.md): the git blob hash of each
+# side as of the last confirmed-consistent state. Both languages carry equal authority;
+# after editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write .agents/notes/proposed/feature/2026-09-08-desktop-uninstall-preserve-nulu-home.md
+2026-09-08-desktop-uninstall-preserve-nulu-home.md: a36bd510cf9fc554d02baf1f17223c0b0c480bd8
+2026-09-08-desktop-uninstall-preserve-nulu-home.zh.md: d6a3f181e9b880d5f2e767c691edfa9b4daf630d

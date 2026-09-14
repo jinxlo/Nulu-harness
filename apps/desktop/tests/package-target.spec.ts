@@ -71,39 +71,39 @@ describe('desktop package target', () => {
 
   it('removes ambient certificate inputs for unsigned builds and overrides an inherited signing mode', () => {
     const environment = {
-      DSH_DESKTOP_APP_ID: 'com.example.desktop',
-      DSH_DESKTOP_WINDOWS_TOKEN_PIN: 'token-secret',
+      NULU_DESKTOP_APP_ID: 'com.example.desktop',
+      NULU_DESKTOP_WINDOWS_TOKEN_PIN: 'token-secret',
       CSC_LINK: 'private.pfx',
       CSC_KEY_PASSWORD: 'secret',
       WIN_CSC_LINK: 'windows.pfx',
       CSC_IDENTITY_AUTO_DISCOVERY: 'true',
-      DSH_DESKTOP_UNSIGNED: '1',
+      NULU_DESKTOP_UNSIGNED: '1',
     }
     expect(desktopElectronBuilderEnvironment(environment, true)).toEqual({
-      DSH_DESKTOP_APP_ID: 'com.example.desktop',
+      NULU_DESKTOP_APP_ID: 'com.example.desktop',
       CSC_IDENTITY_AUTO_DISCOVERY: 'false',
-      DSH_DESKTOP_UNSIGNED: '1',
+      NULU_DESKTOP_UNSIGNED: '1',
     })
-    expect(desktopElectronBuilderEnvironment(environment, false)).toEqual({ ...environment, DSH_DESKTOP_UNSIGNED: '0' })
+    expect(desktopElectronBuilderEnvironment(environment, false)).toEqual({ ...environment, NULU_DESKTOP_UNSIGNED: '0' })
   })
 
   it.each([false, true])('pins the Windows archive filter for the NSIS decoder (unsigned: %s)', (unsigned) => {
     expect(desktopElectronBuilderEnvironment({
-      DSH_DESKTOP_TARGET_PLATFORM: 'win32', ELECTRON_BUILDER_7Z_FILTER: 'ARM64',
+      NULU_DESKTOP_TARGET_PLATFORM: 'win32', ELECTRON_BUILDER_7Z_FILTER: 'ARM64',
     }, unsigned).ELECTRON_BUILDER_7Z_FILTER).toBe('BCJ')
     expect(desktopElectronBuilderEnvironment({
-      DSH_DESKTOP_TARGET_PLATFORM: 'darwin', ELECTRON_BUILDER_7Z_FILTER: 'ARM',
+      NULU_DESKTOP_TARGET_PLATFORM: 'darwin', ELECTRON_BUILDER_7Z_FILTER: 'ARM',
     }, unsigned).ELECTRON_BUILDER_7Z_FILTER).toBe('ARM')
   })
 
   it('keeps Windows signing fields out of build and runtime preparation subprocesses', () => {
     expect(withoutWindowsSigningEnvironment({
-      DSH_DESKTOP_WINDOWS_CER_FILE: 'C:\\release\\server.cer',
-      DSH_DESKTOP_WINDOWS_TOKEN_PIN: 'token-secret',
-      DSH_DESKTOP_WINDOWS_KEY_CONTAINER: 'container',
-      DSH_DESKTOP_WINDOWS_SIGNTOOL: 'C:\\tools\\signtool.exe',
-      DSH_DESKTOP_AUTO_UPDATE_ENV: 'production',
-    })).toEqual({ DSH_DESKTOP_AUTO_UPDATE_ENV: 'production' })
+      NULU_DESKTOP_WINDOWS_CER_FILE: 'C:\\release\\server.cer',
+      NULU_DESKTOP_WINDOWS_TOKEN_PIN: 'token-secret',
+      NULU_DESKTOP_WINDOWS_KEY_CONTAINER: 'container',
+      NULU_DESKTOP_WINDOWS_SIGNTOOL: 'C:\\tools\\signtool.exe',
+      NULU_DESKTOP_AUTO_UPDATE_ENV: 'production',
+    })).toEqual({ NULU_DESKTOP_AUTO_UPDATE_ENV: 'production' })
   })
 
   it('keeps COS credentials out of every packaging subprocess', () => {
@@ -115,12 +115,12 @@ describe('desktop package target', () => {
       DOWNLOAD_PROD_COS_BUCKET: 'production-download-bucket',
       DOWNLOAD_PROD_COS_SECRET_ID: 'production-id',
       DOWNLOAD_PROD_COS_SECRET_KEY: 'production-key',
-      DSH_DESKTOP_AUTO_UPDATE_ENV: 'production',
+      NULU_DESKTOP_AUTO_UPDATE_ENV: 'production',
     })).toEqual({
       DOWNLOAD_TEST_ORIGIN: 'https://desktop-updates.example.com',
       DOWNLOAD_TEST_COS_BUCKET: 'test-download-bucket',
       DOWNLOAD_PROD_COS_BUCKET: 'production-download-bucket',
-      DSH_DESKTOP_AUTO_UPDATE_ENV: 'production',
+      NULU_DESKTOP_AUTO_UPDATE_ENV: 'production',
     })
   })
 })

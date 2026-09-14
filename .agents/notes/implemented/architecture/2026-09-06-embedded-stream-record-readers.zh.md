@@ -12,7 +12,7 @@ Session 格式 v2 将每次模型尝试的紧凑流（`AssistantStreamRecord[]`�
 
 ## 决策
 
-`@deepseek-ai/dsh-llm` 直接从紧凑记录回答消费方问题；剩余消费方对记录做一次带提前退出的折叠。
+`@worldapptechnologies/nulu-llm` 直接从紧凑记录回答消费方问题；剩余消费方对记录做一次带提前退出的折叠。
 
 `packages/llm/llm/src/assistant-stream.ts` 在累加器与 `expandAssistantStream` 之外导出记录级读取器：
 
@@ -45,6 +45,6 @@ Open、read、restore 阶段不变；读取器按构造保持相同的首 token 
 
 ## 后果
 
-Host 与客户端折叠一次内嵌结算的代价为 O(records) 加每个 run 一次拼接，且除非在持久边界校验或需要每个成员，消费方不再物化成员。token、可见性与可见文本规则在 `dsh-llm` 中只有一处，因此记录读取器与累加器的打包规则不可能漂移。
+Host 与客户端折叠一次内嵌结算的代价为 O(records) 加每个 run 一次拼接，且除非在持久边界校验或需要每个成员，消费方不再物化成员。token、可见性与可见文本规则在 `nulu-llm` 中只有一处，因此记录读取器与累加器的打包规则不可能漂移。
 
 发布校验（`assertCurrentAssistantStreams`）仍在发布时重放每个 settlement；因为它必须按 chunk 证明内容一致，将其转为不入成员的 run 感知组装仍是未完成工作。

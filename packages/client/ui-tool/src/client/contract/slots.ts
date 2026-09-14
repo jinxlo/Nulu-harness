@@ -1,13 +1,13 @@
 /** Tool UI slot declarations and their composed component props. */
 import type {
   HostObservable, InjectFace, PropsLocale, PropsRenderSlots, PropsRuntime,
-} from '@deepseek-ai/dsh-client-ui-slots'
-import type { RemoteHostFacts } from '@deepseek-ai/dsh-api-remotes/client'
-import type { OpenFileOptions, ToolCallBlock } from '@deepseek-ai/dsh-client-ui-chat/client'
-import type { MessageImageLoader, MessageImageSource } from '@deepseek-ai/dsh-client-ui-conversation/client'
-import type {} from '@deepseek-ai/dsh-client-locale/client'
+} from '@worldapptechnologies/nulu-client-ui-slots'
+import type { RemoteHostFacts } from '@worldapptechnologies/nulu-api-remotes/client'
+import type { OpenFileOptions, ToolCallBlock } from '@worldapptechnologies/nulu-client-ui-chat/client'
+import type { MessageImageLoader, MessageImageSource } from '@worldapptechnologies/nulu-client-ui-conversation/client'
+import type {} from '@worldapptechnologies/nulu-client-locale/client'
 
-declare module '@deepseek-ai/dsh-client-ui-slots' {
+declare module '@worldapptechnologies/nulu-client-ui-slots' {
   interface SlotMap {
     /**
      * Keyed atomic Tool call view, dispatched by the wire Tool name. Register

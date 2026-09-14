@@ -1,16 +1,16 @@
 /** What the browser half registers, and that it all leaves with the fiber. */
 
-import { Context } from '@deepseek-ai/cordis'
+import { Context } from '@worldapptechnologies/cordis'
 import { describe, expect, it, vi } from 'vitest'
-import { resolveSlotLabel } from '@deepseek-ai/dsh-client-ui-slots'
-import { SlotRegistry } from '@deepseek-ai/dsh-client-ui-renderer/client'
-import { RemoteError, TestRemote } from '@deepseek-ai/dsh-client-test-runtime'
-import { LocaleRuntime } from '@deepseek-ai/dsh-client-locale/client'
-import { apply as settingsApply, inject as settingsInject } from '@deepseek-ai/dsh-client-ui-settings/client'
-import { apply, inject } from '@deepseek-ai/dsh-client-ui-settings-plugins/client'
+import { resolveSlotLabel } from '@worldapptechnologies/nulu-client-ui-slots'
+import { SlotRegistry } from '@worldapptechnologies/nulu-client-ui-renderer/client'
+import { RemoteError, TestRemote } from '@worldapptechnologies/nulu-client-test-runtime'
+import { LocaleRuntime } from '@worldapptechnologies/nulu-client-locale/client'
+import { apply as settingsApply, inject as settingsInject } from '@worldapptechnologies/nulu-client-ui-settings/client'
+import { apply, inject } from '@worldapptechnologies/nulu-client-ui-settings-plugins/client'
 import type {
   ConfigurablePluginsTabFace, PluginsSettingsSectionInjected,
-} from '@deepseek-ai/dsh-client-ui-settings-plugins/client'
+} from '@worldapptechnologies/nulu-client-ui-settings-plugins/client'
 import { SubagentModelSelectionCardController } from '../src/client/subagent-model-selection-card-controller.ts'
 import { apply as hostApply } from '../src/index.ts'
 

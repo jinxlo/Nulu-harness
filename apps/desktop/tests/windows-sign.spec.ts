@@ -31,24 +31,24 @@ describe('Windows token signing', () => {
   it('passes only the validated BAT fields to the signing command interpreter', () => {
     expect(buildWindowsSigningEnvironment({
       SystemRoot: 'C:\\Windows',
-      DSH_DESKTOP_WINDOWS_TOKEN_PIN: 'inherited-token-secret',
+      NULU_DESKTOP_WINDOWS_TOKEN_PIN: 'inherited-token-secret',
       DEEPSEEK_API_KEY: 'api-secret',
       BUILD_PASSWORD: 'build-secret',
     }, {
       certificateFile: CERTIFICATE_FILE,
       signTool: 'C:\\tools\\signtool.exe',
-      path: 'C:\\release\\DeepSeek Harness.exe',
+      path: 'C:\\release\\Nulu Harness.exe',
       isNest: false,
       tokenPin: 'token-secret!',
       keyContainer: 'te-container',
     })).toEqual({
       SystemRoot: 'C:\\Windows',
-      DSH_DESKTOP_WINDOWS_SIGNTOOL: 'C:\\tools\\signtool.exe',
-      DSH_DESKTOP_WINDOWS_CER_FILE: CERTIFICATE_FILE,
-      DSH_DESKTOP_WINDOWS_TOKEN_PIN: 'token-secret!',
-      DSH_DESKTOP_WINDOWS_KEY_CONTAINER: 'te-container',
-      DSH_DESKTOP_WINDOWS_SIGN_TARGET: 'C:\\release\\DeepSeek Harness.exe',
-      DSH_DESKTOP_WINDOWS_SIGN_APPEND: '',
+      NULU_DESKTOP_WINDOWS_SIGNTOOL: 'C:\\tools\\signtool.exe',
+      NULU_DESKTOP_WINDOWS_CER_FILE: CERTIFICATE_FILE,
+      NULU_DESKTOP_WINDOWS_TOKEN_PIN: 'token-secret!',
+      NULU_DESKTOP_WINDOWS_KEY_CONTAINER: 'te-container',
+      NULU_DESKTOP_WINDOWS_SIGN_TARGET: 'C:\\release\\Nulu Harness.exe',
+      NULU_DESKTOP_WINDOWS_SIGN_APPEND: '',
     })
   })
 
@@ -60,7 +60,7 @@ describe('Windows token signing', () => {
       isNest: true,
       tokenPin: 'token-secret!',
       keyContainer: 'te-container',
-    }).DSH_DESKTOP_WINDOWS_SIGN_APPEND).toBe('1')
+    }).NULU_DESKTOP_WINDOWS_SIGN_APPEND).toBe('1')
   })
 
   it('keeps the verified SafeNet command in an ASCII CRLF CMD file', async () => {
@@ -70,13 +70,13 @@ describe('Windows token signing', () => {
     expect(text).toContain('\r\n')
     expect(text.replaceAll('\r\n', '')).not.toContain('\n')
     expect(text).toContain('setlocal DisableDelayedExpansion\r\n')
-    expect(text).toContain('set "DSH_DESKTOP_WINDOWS_CER_FILE="\r\n')
-    expect(text).toContain('set "DSH_DESKTOP_WINDOWS_TOKEN_PIN="\r\n')
+    expect(text).toContain('set "NULU_DESKTOP_WINDOWS_CER_FILE="\r\n')
+    expect(text).toContain('set "NULU_DESKTOP_WINDOWS_TOKEN_PIN="\r\n')
     expect(text).toContain('"%signTool%" sign /v /fd sha256 /f "%certificateFile%" /kc "[{{%tokenPin%}}]=%keyContainer%" /csp "eToken Base Cryptographic Provider" %appendSignature% /tr http://timestamp.digicert.com /td sha256 "%targetFile%"\r\n')
   })
 
   it('rejects incomplete signing identities and non-SHA-256 signing tasks', async () => {
-    const directory = await mkdtemp(join(tmpdir(), 'dsh-windows-sign-tool-'))
+    const directory = await mkdtemp(join(tmpdir(), 'nulu-windows-sign-tool-'))
     const certificateFile = join(directory, 'server.cer')
     const signTool = join(directory, 'signtool.exe')
     await writeFile(certificateFile, 'code-signing-certificate-fixture')
@@ -86,13 +86,13 @@ describe('Windows token signing', () => {
       signTool,
       tokenPin: 'token-secret!',
       keyContainer: 'te-container',
-    })).toThrow(/DSH_DESKTOP_WINDOWS_CER_FILE/u)
+    })).toThrow(/NULU_DESKTOP_WINDOWS_CER_FILE/u)
     expect(() => createWindowsTokenSigner({
       certificateFile,
       signTool: undefined,
       tokenPin: 'token-secret!',
       keyContainer: 'te-container',
-    })).toThrow(/DSH_DESKTOP_WINDOWS_SIGNTOOL/u)
+    })).toThrow(/NULU_DESKTOP_WINDOWS_SIGNTOOL/u)
     const signer = createWindowsTokenSigner({
       certificateFile,
       signTool,
@@ -104,13 +104,13 @@ describe('Windows token signing', () => {
         certificateFile,
         signTool,
         tokenPin: 'token-secret!',
-      })).toThrow(/DSH_DESKTOP_WINDOWS_KEY_CONTAINER/u)
+      })).toThrow(/NULU_DESKTOP_WINDOWS_KEY_CONTAINER/u)
       expect(() => createWindowsTokenSigner({
         certificateFile,
         signTool,
         tokenPin: '',
         keyContainer: 'te-container',
-      })).toThrow(/DSH_DESKTOP_WINDOWS_TOKEN_PIN/u)
+      })).toThrow(/NULU_DESKTOP_WINDOWS_TOKEN_PIN/u)
       expect(() => createWindowsTokenSigner({
         certificateFile,
         signTool,
@@ -131,9 +131,9 @@ describe('Windows token signing', () => {
   it('removes inherited credentials and redacts SignTool process failures', () => {
     expect(scrubWindowsSigningEnvironment({
       SystemRoot: 'C:\\Windows',
-      DSH_DESKTOP_WINDOWS_CER_FILE: 'C:\\release\\server.cer',
-      DSH_DESKTOP_WINDOWS_SIGNTOOL: 'C:\\tools\\signtool.exe',
-      DSH_DESKTOP_WINDOWS_TOKEN_PIN: 'token-secret',
+      NULU_DESKTOP_WINDOWS_CER_FILE: 'C:\\release\\server.cer',
+      NULU_DESKTOP_WINDOWS_SIGNTOOL: 'C:\\tools\\signtool.exe',
+      NULU_DESKTOP_WINDOWS_TOKEN_PIN: 'token-secret',
       DEEPSEEK_API_KEY: 'api-secret',
       BUILD_PASSWORD: 'build-secret',
     })).toEqual({ SystemRoot: 'C:\\Windows' })
@@ -176,7 +176,7 @@ describe('Windows token signing', () => {
       platform: 'win32',
       environment: {
         SystemRoot: 'C:\\Windows',
-        DSH_DESKTOP_WINDOWS_TOKEN_PIN: 'token-secret',
+        NULU_DESKTOP_WINDOWS_TOKEN_PIN: 'token-secret',
       },
     })
 
@@ -199,7 +199,7 @@ describe('Windows token signing', () => {
   })
 
   it('clears a certificate table inherited beyond the generated uninstaller', async () => {
-    const directory = await mkdtemp(join(tmpdir(), 'dsh-windows-sign-'))
+    const directory = await mkdtemp(join(tmpdir(), 'nulu-windows-sign-'))
     const path = join(directory, 'uninstaller.exe')
     const executable = Buffer.alloc(512)
     const peOffset = 216

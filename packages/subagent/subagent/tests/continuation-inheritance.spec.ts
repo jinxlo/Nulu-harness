@@ -10,19 +10,19 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { Context } from '@deepseek-ai/cordis'
-import type { Agent } from '@deepseek-ai/dsh-agent'
-import AgentLoop from '@deepseek-ai/dsh-agent-loop'
-import { mountAgentLoopTestDependencies } from '@deepseek-ai/dsh-agent-loop-testkit'
-import { createUserMessage } from '@deepseek-ai/dsh-llm'
-import SandboxPolicyService, { setSandboxMode } from '@deepseek-ai/dsh-sandbox-policy'
-import { Session, SessionId } from '@deepseek-ai/dsh-session'
-import type { SessionEvent } from '@deepseek-ai/dsh-session'
-import JsonlSessionPersistence from '@deepseek-ai/dsh-session-persistence-jsonl'
-import { queueHostSubagentPrompt } from '@deepseek-ai/dsh-subagent/internal'
-import * as SubagentFork from '@deepseek-ai/dsh-subagent-fork-in-process'
-import * as SubagentSpawn from '@deepseek-ai/dsh-subagent-spawn-in-process'
-import ApprovalService from '@deepseek-ai/dsh-user-approval'
+import { Context } from '@worldapptechnologies/cordis'
+import type { Agent } from '@worldapptechnologies/nulu-agent'
+import AgentLoop from '@worldapptechnologies/nulu-agent-loop'
+import { mountAgentLoopTestDependencies } from '@worldapptechnologies/nulu-agent-loop-testkit'
+import { createUserMessage } from '@worldapptechnologies/nulu-llm'
+import SandboxPolicyService, { setSandboxMode } from '@worldapptechnologies/nulu-sandbox-policy'
+import { Session, SessionId } from '@worldapptechnologies/nulu-session'
+import type { SessionEvent } from '@worldapptechnologies/nulu-session'
+import JsonlSessionPersistence from '@worldapptechnologies/nulu-session-persistence-jsonl'
+import { queueHostSubagentPrompt } from '@worldapptechnologies/nulu-subagent/internal'
+import * as SubagentFork from '@worldapptechnologies/nulu-subagent-fork-in-process'
+import * as SubagentSpawn from '@worldapptechnologies/nulu-subagent-spawn-in-process'
+import ApprovalService from '@worldapptechnologies/nulu-user-approval'
 import { MockAdapter, textResponse } from '../../../core/agent-loop/tests/mock-adapter.ts'
 import SubagentRuntime from '../src/index.ts'
 import { TestSessionQuery } from './test-session-query.ts'
@@ -42,7 +42,7 @@ async function setup(script: Script) {
   const ctx = new Context()
   contexts.push(ctx)
   await mountAgentLoopTestDependencies(ctx)
-  const root = mkdtempSync(join(tmpdir(), 'dsh-continuation-inherit-'))
+  const root = mkdtempSync(join(tmpdir(), 'nulu-continuation-inherit-'))
   roots.push(root)
   await ctx.plugin(JsonlSessionPersistence, { root })
   await ctx.plugin(SandboxPolicyService, { mode: 'workspace-write', workspaceRoot: root })
@@ -116,7 +116,7 @@ describe('continuable policy inheritance', () => {
     const runtimeContext = loaded.events.find(
       (event): event is SessionEvent<'user/message'> => event.type === 'user/message'
         && event.data.source.kind === 'plugin'
-        && event.data.source.plugin === '@deepseek-ai/dsh-system-prompt',
+        && event.data.source.plugin === '@worldapptechnologies/nulu-system-prompt',
     )
     const contextText = runtimeContext?.data.content
       .flatMap(block => block.type === 'text' ? [block.text] : [])

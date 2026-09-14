@@ -4,25 +4,25 @@
  * `ctx.settings`, owned by the class below; and `credentials`, mounted from
  * here as its own plugin.
  *
- * @module @deepseek-ai/dsh-api-settings-controller
+ * @module @worldapptechnologies/nulu-api-settings-controller
  */
 
 import { dirname } from 'node:path'
-import { Context } from '@deepseek-ai/cordis'
-import Schema from '@deepseek-ai/schemastery'
+import { Context } from '@worldapptechnologies/cordis'
+import Schema from '@worldapptechnologies/schemastery'
 // Type-only: resolves the `agentPresets` Context augmentation this controller reads.
-import type {} from '@deepseek-ai/dsh-agent-presets'
+import type {} from '@worldapptechnologies/nulu-agent-presets'
 import {
   canOpenNativePath,
   openNativePath,
   openNativeTextFile,
-} from '@deepseek-ai/dsh-native-command'
-import type { SettingsDescriptor, SettingsPathOp, SettingsProvider } from '@deepseek-ai/dsh-settings'
+} from '@worldapptechnologies/nulu-native-command'
+import type { SettingsDescriptor, SettingsPathOp, SettingsProvider } from '@worldapptechnologies/nulu-settings'
 import type {
   SettingsDescribeValue, SettingsNamespaceView, SettingsPathOpView,
-} from '@deepseek-ai/dsh-settings/types'
-import { Remote, RemoteError, TypertRemoteService } from '@deepseek-ai/dsh-typert-protocol'
-import type { JsonValue } from '@deepseek-ai/dsh-util-values'
+} from '@worldapptechnologies/nulu-settings/types'
+import { Remote, RemoteError, TypertRemoteService } from '@worldapptechnologies/nulu-typert-protocol'
+import type { JsonValue } from '@worldapptechnologies/nulu-util-values'
 import { z } from 'zod'
 import { CredentialsController } from './credentials.ts'
 import type { AgentPresetDirectoryOpenValue, SettingsDocumentOpenValue } from './types.ts'
@@ -71,7 +71,7 @@ function namespaceView(descriptor: SettingsDescriptor): SettingsNamespaceView {
   }
 }
 
-declare module '@deepseek-ai/cordis' {
+declare module '@worldapptechnologies/cordis' {
   interface Context {
     /** Host owner of the `settings` Remote namespace. */
     settingsController: SettingsController
@@ -291,7 +291,7 @@ export class SettingsController extends TypertRemoteService {
     if (settings === undefined) {
       throw new RemoteError(
         'gateway/internal',
-        'settings service is absent: this deployment does not mount a settings provider (e.g. @deepseek-ai/dsh-settings-file) in its composition',
+        'settings service is absent: this deployment does not mount a settings provider (e.g. @worldapptechnologies/nulu-settings-file) in its composition',
         {},
       )
     }

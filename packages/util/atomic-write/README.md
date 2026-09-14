@@ -3,13 +3,13 @@ description: "Atomic file replacement and cross-process writer locking for packa
 kind: "package-library"
 ---
 
-# @deepseek-ai/dsh-atomic-write
+# @worldapptechnologies/nulu-atomic-write
 
 English | [中文](README.zh.md)
 
 ## Summary
 
-Use `dsh-atomic-write` to replace a file without exposing partial content or following a symlinked temporary path. Its writer lock serializes read-modify-write cycles across processes so concurrent writers cannot overwrite one another with stale state. Each replacement uses caller-selected permission bits on a fresh inode, which safely narrows an existing file's permissions. This zero-dependency library accepts strings; it does not provide a `cordis.yml` plugin or crash durability because it does not call `fsync`.
+Use `nulu-atomic-write` to replace a file without exposing partial content or following a symlinked temporary path. Its writer lock serializes read-modify-write cycles across processes so concurrent writers cannot overwrite one another with stale state. Each replacement uses caller-selected permission bits on a fresh inode, which safely narrows an existing file's permissions. This zero-dependency library accepts strings; it does not provide a `cordis.yml` plugin or crash durability because it does not call `fsync`.
 
 ## Table of Contents
 
@@ -30,10 +30,10 @@ Use `writeFileAtomic` when a file-backed store must replace one already-rendered
 ### Writing a file atomically
 
 ```ts
-import { writeFileAtomic } from '@deepseek-ai/dsh-atomic-write'
+import { writeFileAtomic } from '@worldapptechnologies/nulu-atomic-write'
 
 declare const text: string
-await writeFileAtomic('/home/u/.dsh/settings.yaml', text, { mode: 0o600 })
+await writeFileAtomic('/home/u/.nulu/settings.yaml', text, { mode: 0o600 })
 ```
 
 Parent directories are created as needed, and readers observe either the old or the new complete content. On Windows, transient replacement interference reported as `EACCES`, `EBUSY`, or `EPERM` is retried for a bounded interval; any remaining failure removes the temporary file and leaves the target untouched.
@@ -43,14 +43,14 @@ Parent directories are created as needed, and readers observe either the old or 
 For a read-render-commit cycle that a bare atomic commit cannot make safe on its own, hold the writer lock around the operation:
 
 ```text
-import { withFileLock, writeFileAtomic } from '@deepseek-ai/dsh-atomic-write'
+import { withFileLock, writeFileAtomic } from '@worldapptechnologies/nulu-atomic-write'
 
 declare const render: (previous: string) => string
 declare const readCurrent: () => Promise<string>
 
-await withFileLock('/home/u/.dsh/settings.yaml', async () => {
+await withFileLock('/home/u/.nulu/settings.yaml', async () => {
   const previous = await readCurrent()
-  await writeFileAtomic('/home/u/.dsh/settings.yaml', render(previous), { mode: 0o600 })
+  await writeFileAtomic('/home/u/.nulu/settings.yaml', render(previous), { mode: 0o600 })
 })
 ```
 

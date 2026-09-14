@@ -1,17 +1,17 @@
-import { createUserMessage } from '@deepseek-ai/dsh-llm'
+import { createUserMessage } from '@worldapptechnologies/nulu-llm'
 import { describe, expect, it } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
+import { Context } from '@worldapptechnologies/cordis'
 import {
   CompactionId,
   CompactionEngine,
   compactCheckpointSource,
   isCompactCheckpointSource,
-} from '@deepseek-ai/dsh-compaction'
-import type { CompactionResult, CompactionTrigger } from '@deepseek-ai/dsh-compaction'
-import { Session, SessionId } from '@deepseek-ai/dsh-session'
-import type { SessionSeq } from '@deepseek-ai/dsh-session'
-import type { CompactionAgentContext } from '@deepseek-ai/dsh-compaction'
-import type { ManualCompactAgentContext } from '@deepseek-ai/dsh-compaction'
+} from '@worldapptechnologies/nulu-compaction'
+import type { CompactionResult, CompactionTrigger } from '@worldapptechnologies/nulu-compaction'
+import { Session, SessionId } from '@worldapptechnologies/nulu-session'
+import type { SessionSeq } from '@worldapptechnologies/nulu-session'
+import type { CompactionAgentContext } from '@worldapptechnologies/nulu-compaction'
+import type { ManualCompactAgentContext } from '@worldapptechnologies/nulu-compaction'
 
 /**
  * A trivial concrete CompactionEngine implementing the abstract contract. The

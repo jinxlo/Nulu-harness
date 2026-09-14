@@ -1,13 +1,13 @@
 {
-  "name": "@deepseek-ai/dsh-user-approval",
-  "description": "User-approval seam (ctx.approval) for the DeepSeek Harness: one-shot permission decisions dispatched to composed answerers over the approval/request waterfall, fail-closed by default",
+  "name": "@worldapptechnologies/nulu-user-approval",
+  "description": "User-approval seam (ctx.approval) for the Nulu Harness: one-shot permission decisions dispatched to composed answerers over the approval/request waterfall, fail-closed by default",
   "version": "0.1.5-rc.2",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/worldapptechnologies/nulu-harness.git",
     "directory": "packages/interaction/user-approval"
   },
   "type": "module",
@@ -37,26 +37,26 @@
   ],
   "license": "MIT",
   "peerDependencies": {
-    "@deepseek-ai/dsh-agent": "workspace:^",
-    "@deepseek-ai/dsh-brand": "workspace:^",
-    "@deepseek-ai/dsh-invariants": "workspace:^",
-    "@deepseek-ai/dsh-llm": "workspace:^",
-    "@deepseek-ai/dsh-scope": "workspace:^",
-    "@deepseek-ai/dsh-session": "workspace:^",
-    "@deepseek-ai/dsh-system-prompt": "workspace:^",
-    "@deepseek-ai/cordis": "workspace:^"
+    "@worldapptechnologies/nulu-agent": "workspace:^",
+    "@worldapptechnologies/nulu-brand": "workspace:^",
+    "@worldapptechnologies/nulu-invariants": "workspace:^",
+    "@worldapptechnologies/nulu-llm": "workspace:^",
+    "@worldapptechnologies/nulu-scope": "workspace:^",
+    "@worldapptechnologies/nulu-session": "workspace:^",
+    "@worldapptechnologies/nulu-system-prompt": "workspace:^",
+    "@worldapptechnologies/cordis": "workspace:^"
   },
   "dependencies": {
-    "@deepseek-ai/schemastery": "workspace:^"
+    "@worldapptechnologies/schemastery": "workspace:^"
   },
   "devDependencies": {
-    "@deepseek-ai/dsh-agent": "workspace:^",
-    "@deepseek-ai/dsh-brand": "workspace:^",
-    "@deepseek-ai/dsh-invariants": "workspace:^",
-    "@deepseek-ai/dsh-llm": "workspace:^",
-    "@deepseek-ai/dsh-scope": "workspace:^",
-    "@deepseek-ai/dsh-session": "workspace:^",
-    "@deepseek-ai/dsh-system-prompt": "workspace:^",
-    "@deepseek-ai/cordis": "workspace:^"
+    "@worldapptechnologies/nulu-agent": "workspace:^",
+    "@worldapptechnologies/nulu-brand": "workspace:^",
+    "@worldapptechnologies/nulu-invariants": "workspace:^",
+    "@worldapptechnologies/nulu-llm": "workspace:^",
+    "@worldapptechnologies/nulu-scope": "workspace:^",
+    "@worldapptechnologies/nulu-session": "workspace:^",
+    "@worldapptechnologies/nulu-system-prompt": "workspace:^",
+    "@worldapptechnologies/cordis": "workspace:^"
   }
 }

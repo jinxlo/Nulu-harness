@@ -1,14 +1,14 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
+import { Context } from '@worldapptechnologies/cordis'
 import { appendFile, mkdir, mkdtemp, open, readFile, readdir, rm, stat, writeFile } from 'node:fs/promises'
 import type { FileHandle } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { performance } from 'node:perf_hooks'
-import { SessionSeq, SessionId } from '@deepseek-ai/dsh-session'
-import type { SessionEvent, SessionHeader } from '@deepseek-ai/dsh-session'
-import type { SessionPersistence } from '@deepseek-ai/dsh-session-persistence'
-import JsonlSessionPersistence from '@deepseek-ai/dsh-session-persistence-jsonl'
+import { SessionSeq, SessionId } from '@worldapptechnologies/nulu-session'
+import type { SessionEvent, SessionHeader } from '@worldapptechnologies/nulu-session'
+import type { SessionPersistence } from '@worldapptechnologies/nulu-session-persistence'
+import JsonlSessionPersistence from '@worldapptechnologies/nulu-session-persistence-jsonl'
 import {
   generationLogPath, logPath, scanLog, sessionDir, toHeaderLine, type JsonlCompression,
 } from '../src/format.ts'
@@ -38,7 +38,7 @@ type HeaderRead = (
   position: number | null,
 ) => Promise<{ bytesRead: number; buffer: Buffer }>
 
-async function freshRoot(prefix = 'dsh-jsonl-zstd-'): Promise<string> {
+async function freshRoot(prefix = 'nulu-jsonl-zstd-'): Promise<string> {
   const root = await mkdtemp(join(tmpdir(), prefix))
   roots.push(root)
   return root
@@ -155,7 +155,7 @@ afterEach(async () => {
 })
 
 runPersistenceContract('jsonl-zstd', async () => {
-  const root = await mkdtemp(join(tmpdir(), 'dsh-jsonl-zstd-contract-'))
+  const root = await mkdtemp(join(tmpdir(), 'nulu-jsonl-zstd-contract-'))
   const instance = async (): Promise<{ persistence: SessionPersistence; dispose: () => Promise<void> }> => {
     const ctx = new Context()
     const fiber = await ctx.plugin(JsonlSessionPersistence, { root })
@@ -440,7 +440,7 @@ describe('JsonlSessionPersistence: default Zstandard encoding', () => {
             turn: 1, step: 1,
             message: {
               id: 'v2-to-v3-system-fc06c3f7720f3bc94ea7a2b7fadde6a5b100c6ab6ca342d2222bd017184a0b67',
-              role: 'system', source: { kind: 'plugin', plugin: '@deepseek-ai/dsh-system-prompt' }, content: [],
+              role: 'system', source: { kind: 'plugin', plugin: '@worldapptechnologies/nulu-system-prompt' }, content: [],
             },
           },
         },
@@ -830,13 +830,13 @@ describe('JsonlSessionPersistence: default Zstandard encoding', () => {
 
 describe('JsonlSessionPersistence: encoding selection', () => {
   it('rejects roots owned by the opposite encoding in both directions', async () => {
-    const rawRoot = await freshRoot('dsh-jsonl-raw-mismatch-')
+    const rawRoot = await freshRoot('nulu-jsonl-raw-mismatch-')
     const raw = await mount(rawRoot, 'none')
     await writeLog(raw.sessionPersistence, meta('raw-log'), oneTurnLog())
     const defaultBackend = await mount(rawRoot)
     await expect(defaultBackend.sessionPersistence.list()).rejects.toThrow(/configured for compression "zstd"/)
 
-    const zstdRoot = await freshRoot('dsh-jsonl-zstd-mismatch-')
+    const zstdRoot = await freshRoot('nulu-jsonl-zstd-mismatch-')
     const zstd = await mount(zstdRoot)
     await writeLog(zstd.sessionPersistence, meta('zstd-log'), oneTurnLog())
     const rawBackend = await mount(zstdRoot, 'none')

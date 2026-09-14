@@ -4,17 +4,21 @@ English | [中文](providers.zh.md)
 
 This guide assumes you started the Web UI through the [root README](../../../README.md#run). Model changes take effect on the next request without restarting the server.
 
+## Configure World App Technologies
+
+World App Technologies is the shipped provider and owns the default `nulu-5-ultra` route. Open **Settings → Models**, enter a [World App Technologies API key](https://worldapptechnologies.com) in its card, and save it. A launch can instead authenticate from the `WORLD_APP_TECHNOLOGIES_API_KEY` environment variable; the card then reports the route as configured without storing a key.
+
 ## Configure DeepSeek
 
 Open **Settings → Models**. The DeepSeek card exposes one API-key field; enter the key and save it.
 
 ![The Models page: the DeepSeek card, with Add provider and Add a custom provider below it](providers-models-page.png)
 
-Keys are write-only. The page receives a redacted descriptor after saving, never the literal secret. The key is stored in `$DSH_HOME/.credentials.yaml`, while settings retain only its credential reference.
+Keys are write-only. The page receives a redacted descriptor after saving, never the literal secret. The key is stored in `$NULU_HOME/.credentials.yaml`, while settings retain only its credential reference.
 
 ## Add a built-in provider
 
-Choose **Add provider** and pick a provider dsh ships with; the list shows provider ids such as `anthropic`, `openai`, `moonshotai` for Kimi, or `zai` for GLM. Enter its API key and save. The installed catalog supplies the endpoint, protocol, and model list.
+Choose **Add provider** and pick a provider nulu ships with; the list shows provider ids such as `anthropic`, `openai`, `moonshotai` for Kimi, or `zai` for GLM. Enter its API key and save. The installed catalog supplies the endpoint, protocol, and model list.
 
 Providers that sign in with OAuth, such as Codex, are not supported here yet.
 
@@ -40,17 +44,17 @@ If a saved default names a provider that was deleted, the composer displays **Se
 
 ## Advanced configuration
 
-The generated [plugin configuration catalog](../../config-catalog.md) lists every supported field and default for every plugin; [`dsh-llm-pi-ai`](../../config-catalog.md#deepseek-aidsh-llm-pi-ai) is the provider section this page configures. The [`dsh-llm-pi-ai`](../../../packages/llm/llm-pi-ai/README.md) and [`dsh-llm-deepseek`](../../../packages/llm/llm-deepseek/README.md) references own direct `settings.yaml` configuration, catalog resolution, reasoning controls, credentials, and adapter errors.
+The generated [plugin configuration catalog](../../config-catalog.md) lists every supported field and default for every plugin; [`nulu-llm-pi-ai`](../../config-catalog.md#worldapptechnologiesnulu-llm-pi-ai) is the provider section this page configures. The [`nulu-llm-pi-ai`](../../../packages/llm/llm-pi-ai/README.md) and [`nulu-llm-deepseek`](../../../packages/llm/llm-deepseek/README.md) references own direct `settings.yaml` configuration, catalog resolution, reasoning controls, credentials, and adapter errors.
 
 ::: tip The form is deliberately small
-The Models page exposes only what a route needs to exist: the API key, display name, base URL, API protocol, and for each model its id, display name, context window, and max output tokens. Every other field — reasoning effort levels, image input, request-compatibility switches, headers, timeouts, retry policy — is set in `$DSH_HOME/settings.yaml`, the same document the page writes. Edit it directly, or, when the browser runs on the same machine as the server, open it with **Open configuration file** in the Settings header; the adapters re-read it on the next request, so nothing needs a restart. The subsections below cover the fields most gateways need.
+The Models page exposes only what a route needs to exist: the API key, display name, base URL, API protocol, and for each model its id, display name, context window, and max output tokens. Every other field — reasoning effort levels, image input, request-compatibility switches, headers, timeouts, retry policy — is set in `$NULU_HOME/settings.yaml`, the same document the page writes. Edit it directly, or, when the browser runs on the same machine as the server, open it with **Open configuration file** in the Settings header; the adapters re-read it on the next request, so nothing needs a restart. The subsections below cover the fields most gateways need.
 :::
 
 ### Image input
 
 A model you enter by hand is treated as text-only until it says otherwise, because nothing can ask an endpoint which modalities it accepts. Attaching an image to such a model is refused before it is sent, naming the model.
 
-A vision model on a custom provider therefore needs one line. The form has no field for it; add `input` to the model in `$DSH_HOME/settings.yaml`:
+A vision model on a custom provider therefore needs one line. The form has no field for it; add `input` to the model in `$NULU_HOME/settings.yaml`:
 
 ```yaml
 llm-pi-ai:
@@ -99,7 +103,7 @@ Both fields state a claim about your endpoint rather than checking it. A model t
 
 ### Reasoning effort
 
-The model picker offers an **Effort** menu for a model that declares reasoning levels. A built-in provider's models inherit their levels from the installed catalog. A model you enter by hand declares none, so the Effort entry does not appear in the menu and the endpoint's own default decides whether the model thinks. Declare the levels with `reasoningEfforts` in `$DSH_HOME/settings.yaml`:
+The model picker offers an **Effort** menu for a model that declares reasoning levels. A built-in provider's models inherit their levels from the installed catalog. A model you enter by hand declares none, so the Effort entry does not appear in the menu and the endpoint's own default decides whether the model thinks. Declare the levels with `reasoningEfforts` in `$NULU_HOME/settings.yaml`:
 
 ```yaml
 llm-pi-ai:
@@ -143,7 +147,7 @@ llm-deepseek:
 
 A gateway can hold a working key at a reachable address and still refuse every request. pi-ai decides the shape of a request — which role carries the system prompt, which field caps the output, how a thinking level travels — from the endpoint's URL, and an address it does not recognize is addressed as though it were OpenAI itself. Most OpenAI-compatible gateways refuse at least one thing OpenAI accepts.
 
-Two account for most of it. A model that declares reasoning has its system prompt sent as `role: "developer"`, which many gateways reject outright, and the output cap is sent as `max_completion_tokens`, which a server that only knows `max_tokens` refuses. The form has no field for either; correct them on the route in `$DSH_HOME/settings.yaml`:
+Two account for most of it. A model that declares reasoning has its system prompt sent as `role: "developer"`, which many gateways reject outright, and the output cap is sent as `max_completion_tokens`, which a server that only knows `max_tokens` refuses. The form has no field for either; correct them on the route in `$NULU_HOME/settings.yaml`:
 
 ```yaml
 llm-pi-ai:
@@ -173,7 +177,7 @@ What neither sets keeps the installed catalog's value for that model, and what t
 
 Each switch belongs to the protocols that declare it, so a switch valid on one `api` may be refused on another — the message names what that protocol does offer. Like `input` above, a switch states a claim about your endpoint rather than checking it: setting one your gateway does not actually need simply sends a different request.
 
-Every switch, its accepted values, and the protocols that take it are listed under `PiAiCompatProfile` in the [generated `dsh-llm-pi-ai` configuration reference](../../config-catalog.md#deepseek-aidsh-llm-pi-ai) — which is derived from the source, so it cannot fall behind what the adapter accepts.
+Every switch, its accepted values, and the protocols that take it are listed under `PiAiCompatProfile` in the [generated `nulu-llm-pi-ai` configuration reference](../../config-catalog.md#worldapptechnologiesnulu-llm-pi-ai) — which is derived from the source, so it cannot fall behind what the adapter accepts.
 
 ## Troubleshooting
 

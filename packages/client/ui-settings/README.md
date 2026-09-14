@@ -1,9 +1,9 @@
 ---
-description: "Settings domain base plugin: the settings-namespace scope service, schema service, and the canonical settings slot-type contract for the dsh web client."
+description: "Settings domain base plugin: the settings-namespace scope service, schema service, and the canonical settings slot-type contract for the nulu web client."
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-client-ui-settings
+# @worldapptechnologies/nulu-client-ui-settings
 
 English | [中文](README.zh.md)
 

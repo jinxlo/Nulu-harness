@@ -1,15 +1,15 @@
 ---
-description: "dsh 的浏览器 GUI：交互式聊天、模型与设置管理、会话历史，供运行 dsh web 表层的用户使用。"
+description: "nulu 的浏览器 GUI：交互式聊天、模型与设置管理、会话历史，供运行 nulu web 表层的用户使用。"
 kind: "package-bundle"
 ---
 
-# @deepseek-ai/dsh-web-app
+# @worldapptechnologies/nulu-web-app
 
 [English](README.md) | 中文
 
 ## 概述
 
-运行 `dsh --profile web`，打开提供聊天、模型与设置管理以及会话历史的交互式浏览器 GUI。它使用与其他 dsh 表层相同的模型访问、工具与安全默认值。启动时会打印带认证信息的 URL，通常还会在默认浏览器中打开；SSH 会话和 `--no-open` 会保留该 URL，供你手动打开。你可以更改端口并允许额外主机，但不能绑定所有网络接口。需要在浏览器中交互式工作时选择本包；一次性的命令行任务应使用 `dsh-headless`。
+运行 `nulu --profile web`，打开提供聊天、模型与设置管理以及会话历史的交互式浏览器 GUI。它使用与其他 nulu 表层相同的模型访问、工具与安全默认值。启动时会打印带认证信息的 URL，通常还会在默认浏览器中打开；SSH 会话和 `--no-open` 会保留该 URL，供你手动打开。你可以更改端口并允许额外主机，但不能绑定所有网络接口。需要在浏览器中交互式工作时选择本包；一次性的命令行任务应使用 `nulu-headless`。
 
 ## 目录
 
@@ -30,11 +30,11 @@ kind: "package-bundle"
 ### 启动 Web GUI
 
 ```sh
-dsh --profile web
-dsh --profile web --no-open --port 8080
+nulu --profile web
+nulu --profile web --no-open --port 8080
 ```
 
-启动后你会看到 `dsh web:` 行，其根 URL 携带新的进程 token。除非 `--no-open` 或 SSH 会话抑制，否则默认浏览器会打开该 URL、取得签名 cookie，再重定向到不含认证参数的根页面。页面加载且你可以与 agent 对话，就说明成功了。两种可预期的失败：前端未构建时，启动会以构建提示停止（checkout 中运行 `pnpm run build`）；浏览器无法打开时，stderr 会打印不含凭据的诊断，但服务器会继续运行——请自行打开已打印的启动 URL。
+启动后你会看到 `nulu web:` 行，其根 URL 携带新的进程 token。除非 `--no-open` 或 SSH 会话抑制，否则默认浏览器会打开该 URL、取得签名 cookie，再重定向到不含认证参数的根页面。页面加载且你可以与 agent 对话，就说明成功了。两种可预期的失败：前端未构建时，启动会以构建提示停止（checkout 中运行 `pnpm run build`）；浏览器无法打开时，stderr 会打印不含凭据的诊断，但服务器会继续运行——请自行打开已打印的启动 URL。
 
 ### 配置
 
@@ -43,11 +43,11 @@ dsh --profile web --no-open --port 8080
 | 字段 | 默认值 | 含义 |
 |---|---|---|
 | `openBrowser` | `true` | 启动后用默认浏览器打开；SSH 启动会抑制它 |
-| `printUrl` | `true` | 启动时打印 `dsh web:` URL 行 |
-| `surfaceContext` | `true` | 给 agent 提供 GUI 定位上下文，并把 `DSH_WEB_URL` 暴露给其 shell 命令 |
+| `printUrl` | `true` | 启动时打印 `nulu web:` URL 行 |
+| `surfaceContext` | `true` | 给 agent 提供 GUI 定位上下文，并把 `NULU_WEB_URL` 暴露给其 shell 命令 |
 | `trustedHosts` | `[]` | 允许从网络访问 GUI 的额外主机 |
 
-生成的[配置目录](../../../docs/config-catalog.zh.md#deepseek-aidsh-web-app)是每个受支持字段及其 JSDoc 的穷尽式真源。
+生成的[配置目录](../../../docs/config-catalog.zh.md#worldapptechnologiesnulu-web-app)是每个受支持字段及其 JSDoc 的穷尽式真源。
 
 ### LAN 访问与可信主机
 
@@ -55,11 +55,11 @@ dsh --profile web --no-open --port 8080
 
 ### 通过 SSH 运行
 
-通过 SSH 启动 `dsh --profile web` 时，URL 行仍会打印，但不会为你打开浏览器：本地转发地址由 SSH 客户端或编辑器持有。请在自己的机器上打开转发后的 URL；打印出的 URL 指向远端宿主机 loopback 端点。
+通过 SSH 启动 `nulu --profile web` 时，URL 行仍会打印，但不会为你打开浏览器：本地转发地址由 SSH 客户端或编辑器持有。请在自己的机器上打开转发后的 URL；打印出的 URL 指向远端宿主机 loopback 端点。
 
 ### 按会话的 agent 设置
 
-每个浏览器会话都从随发行版交付的 preset（默认 `standard`）组合自己的 agent，而不是共享一套进程级工具集。你可以更改默认 preset，或在 `$DSH_HOME/.agent-presets` 下添加自己的 preset。
+每个浏览器会话都从随发行版交付的 preset（默认 `standard`）组合自己的 agent，而不是共享一套进程级工具集。你可以更改默认 preset，或在 `$NULU_HOME/.agent-presets` 下添加自己的 preset。
 
 -----
 
@@ -69,11 +69,11 @@ dsh --profile web --no-open --port 8080
 <details>
 <summary>实现细节——点击展开</summary>
 
-本组合包是一份 patch 加一个运行时粘合插件。存储栈与投影缓存来自 `dsh-base`；Web 叠加层的 workspace 与 message-feedback 行使用共享的 `storageDomain` 服务。patch 重述 base 刻意省略的表层专属值，插入仅 Web 使用的宿主行与浏览器名录，然后把 agent 层改由 preset 承载；粘合插件负责 dist 服务、信任采样、提示词段落、bash 变量与就绪宣告。
+本组合包是一份 patch 加一个运行时粘合插件。存储栈与投影缓存来自 `nulu-base`；Web 叠加层的 workspace 与 message-feedback 行使用共享的 `storageDomain` 服务。patch 重述 base 刻意省略的表层专属值，插入仅 Web 使用的宿主行与浏览器名录，然后把 agent 层改由 preset 承载；粘合插件负责 dist 服务、信任采样、提示词段落、bash 变量与就绪宣告。
 
 ### patch 语义
 
-patch 会替换目标行的整个 `config`，因此每个 Web 行都重述自己拥有的每个键：基础行上的 persona 前缀与后缀模板、`DSH_TOOLS_MODE` PTC mode 开关与 `session-query-sqlite` 值，随后 `insert` 添加 Web 宿主行、传输层与浏览器名录。base 以进程级挂载的按 agent 工具行在这里被禁用，由 preset 名录接管；每项宿主层与 preset 层归属决策的理由以行内注释写在 patch 里。
+patch 会替换目标行的整个 `config`，因此每个 Web 行都重述自己拥有的每个键：基础行上的 persona 前缀与后缀模板、`NULU_TOOLS_MODE` PTC mode 开关与 `session-query-sqlite` 值，随后 `insert` 添加 Web 宿主行、传输层与浏览器名录。base 以进程级挂载的按 agent 工具行在这里被禁用，由 preset 名录接管；每项宿主层与 preset 层归属决策的理由以行内注释写在 patch 里。
 
 ### 就绪宣告
 
@@ -110,10 +110,10 @@ URL 行与浏览器交接都是就绪信号：监督方一观察到该行就发�
 当你想深入了解共享核心、浏览器重载流水线或已构建的前端时，阅读以下页面。
 
 - [组合包索引](../README.zh.md)——基于同一核心构建的表层。
-- [dsh-base](../base/README.zh.md)——GUI 运行其上的共享核心。
-- [dsh-client-hmr](../../client/hmr/README.zh.md)——开发期间客户端插件变更如何重载。
+- [nulu-base](../base/README.zh.md)——GUI 运行其上的共享核心。
+- [nulu-client-hmr](../../client/hmr/README.zh.md)——开发期间客户端插件变更如何重载。
 - [frontend-static](../../host/frontend-static/README.zh.md)——已构建的前端如何被服务。
-- [生成配置目录](../../../docs/config-catalog.zh.md#deepseek-aidsh-web-app)——每个受支持配置字段及其源声明。
+- [生成配置目录](../../../docs/config-catalog.zh.md#worldapptechnologiesnulu-web-app)——每个受支持配置字段及其源声明。
 
 -----
 
@@ -124,7 +124,7 @@ URL 行与浏览器交接都是就绪信号：监督方一观察到该行就发�
 
 #### 模型看到什么
 
-当 `surfaceContext` 为 true 时，`harness:source` 段落标明磁盘上的 Harness 实现，但不会声称它就是工作目录；全局段落 `app:web-surface`（first-party 顺序 10100，位于可复用指令之后）则向模型说明 GUI：规范的本地 URL、「this page」指代什么、更新约定（重载接收端始终开启；无刷新重载还需要 `pnpm run dev:web` watcher），以及不要启动替代服务器的指令。`DSH_WEB_URL` 还会连同描述出现在受管 bash 环境中，每次调用时从运行中的服务器解析。当它为 false 时，这两个段落和该变量都不会注册。
+当 `surfaceContext` 为 true 时，`harness:source` 段落标明磁盘上的 Harness 实现，但不会声称它就是工作目录；全局段落 `app:web-surface`（first-party 顺序 10100，位于可复用指令之后）则向模型说明 GUI：规范的本地 URL、「this page」指代什么、更新约定（重载接收端始终开启；无刷新重载还需要 `pnpm run dev:web` watcher），以及不要启动替代服务器的指令。`NULU_WEB_URL` 还会连同描述出现在受管 bash 环境中，每次调用时从运行中的服务器解析。当它为 false 时，这两个段落和该变量都不会注册。
 
 #### Token 影响
 

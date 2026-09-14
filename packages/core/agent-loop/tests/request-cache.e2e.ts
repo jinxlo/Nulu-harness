@@ -1,15 +1,15 @@
-import { createUserMessage } from '@deepseek-ai/dsh-llm'
+import { createUserMessage } from '@worldapptechnologies/nulu-llm'
 import { afterEach, describe, expect, it } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import LlmRuntime from '@deepseek-ai/dsh-llm'
-import SessionStore, { SessionId } from '@deepseek-ai/dsh-session'
-import SystemPrompt from '@deepseek-ai/dsh-system-prompt'
-import ToolRuntime, { defineContentToolFixture } from '@deepseek-ai/dsh-tools'
-import AgentRegistry, { type Agent } from '@deepseek-ai/dsh-agent'
+import { Context } from '@worldapptechnologies/cordis'
+import LlmRuntime from '@worldapptechnologies/nulu-llm'
+import SessionStore, { SessionId } from '@worldapptechnologies/nulu-session'
+import SystemPrompt from '@worldapptechnologies/nulu-system-prompt'
+import ToolRuntime, { defineContentToolFixture } from '@worldapptechnologies/nulu-tools'
+import AgentRegistry, { type Agent } from '@worldapptechnologies/nulu-agent'
 
-import AgentLoop from '@deepseek-ai/dsh-agent-loop'
-import SessionProjectionRegistry from '@deepseek-ai/dsh-session-projection'
-import * as LlmDeepSeek from '@deepseek-ai/dsh-llm-deepseek'
+import AgentLoop from '@worldapptechnologies/nulu-agent-loop'
+import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projection'
+import * as LlmDeepSeek from '@worldapptechnologies/nulu-llm-deepseek'
 
 /**
  * With-key proof that log-derived requests translate into real provider cache hits: a

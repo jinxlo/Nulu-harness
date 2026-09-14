@@ -2,7 +2,7 @@
 
 English | [中文](deepseek-llm-api-wire-extensions.zh.md)
 
-This reference defines every DeepSeek Harness-specific HTTP header and additive JSON field sent by [`@deepseek-ai/dsh-llm-deepseek`](../packages/llm/llm-deepseek/README.md) on `deepseek-official` chat-completion requests. It does not redefine fields owned by the upstream DeepSeek API. The provider-neutral LLM interface and `llm-pi-ai` do not implement these additions.
+This reference defines every Nulu Harness-specific HTTP header and additive JSON field sent by [`@worldapptechnologies/nulu-llm-deepseek`](../packages/llm/llm-deepseek/README.md) on `deepseek-official` chat-completion requests. It does not redefine fields owned by the upstream DeepSeek API. The provider-neutral LLM interface and `llm-pi-ai` do not implement these additions.
 
 The adapter sends the additions to its resolved `baseURL`, including a configured gateway. They remain outside `messages`, system prompts, and tool schemas, so they do not add model-input tokens or alter the model-visible prefix.
 
@@ -10,9 +10,9 @@ The adapter sends the additions to its resolved `baseURL`, including a configure
 
 | Location | Naming | Examples |
 |---|---|---|
-| HTTP field names | Lowercase kebab-case; HTTP matching remains case-insensitive | `user-agent`, `x-deepseek-harness-session-id` |
-| DeepSeek request-body extension fields | Snake case with the reserved `dsh_` prefix | `dsh_plugin_packages`, `dsh_session_log` |
-| DSH-owned nested JSON members | Camel case | `afterSeq`, `throughSeq`, `sessionId` |
+| HTTP field names | Lowercase kebab-case; HTTP matching remains case-insensitive | `user-agent`, `x-nulu-harness-session-id` |
+| DeepSeek request-body extension fields | Snake case with the reserved `nulu_` prefix | `nulu_plugin_packages`, `nulu_session_log` |
+| NULU-owned nested JSON members | Camel case | `afterSeq`, `throughSeq`, `sessionId` |
 | Tagged values | Kebab-case strings; durable events use `domain/action` | `session-log-deepseek/delivery-accepted` |
 
 Each body extension owns its `version` independently. A version applies only to the object that contains it; no compatibility or ordering relationship exists between versions of different fields. JSON member order is not part of the protocol.
@@ -23,12 +23,12 @@ The [`DeepSeekLlmApiExtensionRegistry`](../packages/llm/deepseek-llm-api-extensi
 
 | Header | Presence | Value |
 |---|---|---|
-| `user-agent` | Every provider HTTP request, including Files API operations | Application identity in `product/version (+url)` form; the default product is `deepseek-harness` |
-| `x-deepseek-harness-user-id` | Every authorized chat-completion request | The stable anonymous UUID for the resolved Harness home |
-| `x-deepseek-harness-session-id` | Chat-completion requests carrying a Session id | The exact request `sessionId` string |
-| `x-deepseek-harness-compact` | Chat-completion requests whose purpose is `compaction` | The literal string `1` |
+| `user-agent` | Every provider HTTP request, including Files API operations | Application identity in `product/version (+url)` form; the default product is `nulu-harness` |
+| `x-nulu-harness-user-id` | Every authorized chat-completion request | The stable anonymous UUID for the resolved Harness home |
+| `x-nulu-harness-session-id` | Chat-completion requests carrying a Session id | The exact request `sessionId` string |
+| `x-nulu-harness-compact` | Chat-completion requests whose purpose is `compaction` | The literal string `1` |
 
-Credential failure happens before anonymous-user-id resolution, so an unauthorized request neither sends these headers nor creates the identity file. A direct request without a Session omits `x-deepseek-harness-session-id`. Session-title requests have no additional purpose header; the ordinary Session-id rule still applies when one carries a `sessionId`.
+Credential failure happens before anonymous-user-id resolution, so an unauthorized request neither sends these headers nor creates the identity file. A direct request without a Session omits `x-nulu-harness-session-id`. Session-title requests have no additional purpose header; the ordinary Session-id rule still applies when one carries a `sessionId`.
 
 ## Body-extension transaction
 
@@ -38,17 +38,17 @@ Prepared JSON values are detached from provider-owned state, merged as top-level
 
 After the configured endpoint returns HTTP 2xx, the adapter runs the prepared `accept()` transaction before reading the SSE response body. Transport failures and non-2xx responses do not accept any contribution. An acceptance failure fails the model request even though the endpoint returned 2xx. Acceptance records endpoint-level HTTP success; it does not assert that an SSE stream completed or that the endpoint persisted an extension.
 
-## `dsh_plugin_packages`
+## `nulu_plugin_packages`
 
-[`@deepseek-ai/dsh-plugin-package-inventory-deepseek`](../packages/llm/plugin-package-inventory-deepseek/README.md) contributes the complete active Loader-backed plugin package inventory. The field is enabled by default.
+[`@worldapptechnologies/nulu-plugin-package-inventory-deepseek`](../packages/llm/plugin-package-inventory-deepseek/README.md) contributes the complete active Loader-backed plugin package inventory. The field is enabled by default.
 
 ```json
 {
-  "dsh_plugin_packages": {
+  "nulu_plugin_packages": {
     "version": 1,
     "packages": [
       {
-        "name": "@deepseek-ai/dsh-example",
+        "name": "@worldapptechnologies/nulu-example",
         "version": "0.1.1-rc.2"
       }
     ]
@@ -58,7 +58,7 @@ After the configured endpoint returns HTTP 2xx, the adapter runs the prepared `a
 
 | Member | Type | Meaning |
 |---|---|---|
-| `version` | `1` | Schema version for `dsh_plugin_packages` |
+| `version` | `1` | Schema version for `nulu_plugin_packages` |
 | `packages` | array | Complete active set for this request |
 | `packages[].name` | string | Exact non-empty npm package name from the owning manifest |
 | `packages[].version` | string | Exact non-empty package version from the same manifest |
@@ -69,15 +69,15 @@ The sender deduplicates exact `(name, version)` pairs and sorts first by `name`,
 
 Disabled, pending, failed, unloading, disposed, and structural Loader entries are absent. Ordinary dependencies, loose modules without a named owning package, programmatically mounted child fibers, and in-memory dynamic plugins are also absent because they have no authoritative Loader package provenance.
 
-An enabled inventory with no qualifying entries sends `packages: []`; disabling the contributor omits the entire `dsh_plugin_packages` field. Package identities are provider metadata and never enter model input.
+An enabled inventory with no qualifying entries sends `packages: []`; disabling the contributor omits the entire `nulu_plugin_packages` field. Package identities are provider metadata and never enter model input.
 
-## `dsh_session_log`
+## `nulu_session_log`
 
-[`@deepseek-ai/dsh-session-log-deepseek`](../packages/session/session-log-deepseek/README.md) contributes one contiguous suffix of the canonical Session log. The field is disabled by default. When enabled, it applies to a request with a live Session and at least one event; a direct request, a stale Session id, or an empty log omits the field. The examples below use logical Session format 2 only to illustrate the wire fields; they do not identify the [current writer format](session-format-status.md).
+[`@worldapptechnologies/nulu-session-log-deepseek`](../packages/session/session-log-deepseek/README.md) contributes one contiguous suffix of the canonical Session log. The field is disabled by default. When enabled, it applies to a request with a live Session and at least one event; a direct request, a stale Session id, or an empty log omits the field. The examples below use logical Session format 2 only to illustrate the wire fields; they do not identify the [current writer format](session-format-status.md).
 
 ```json
 {
-  "dsh_session_log": {
+  "nulu_session_log": {
     "version": 2,
     "sessionFormatVersion": 2,
     "session": {
@@ -104,7 +104,7 @@ An enabled inventory with no qualifying entries sends `packages: []`; disabling 
 
 | Member | Type | Meaning |
 |---|---|---|
-| `version` | `2` | Schema version for `dsh_session_log` |
+| `version` | `2` | Schema version for `nulu_session_log` |
 | `sessionFormatVersion` | non-negative integer | Session format generation represented by this suffix |
 | `session` | object | Immutable wire projection of the current Session header |
 | `afterSeq` | integer | Greatest sequence recorded as accepted before this request, or `-1` |
@@ -115,7 +115,7 @@ The first upload uses `afterSeq: -1` and carries the complete current log. Each 
 
 ### Wire Session header
 
-The `session` member projects `Session.header`, not a complete runtime Session or the header object itself. It copies the current header facts, including the required `isSeeded` lineage bit; the exact `Session.inheritedEventCount` is not part of this request field. The outer `dsh_session_log.version` selects this extension schema, while `session.version` selects the logical Session format. Changing the Session header projection requires an extension-schema bump even when the embedded logical format also changes.
+The `session` member projects `Session.header`, not a complete runtime Session or the header object itself. It copies the current header facts, including the required `isSeeded` lineage bit; the exact `Session.inheritedEventCount` is not part of this request field. The outer `nulu_session_log.version` selects this extension schema, while `session.version` selects the logical Session format. Changing the Session header projection requires an extension-schema bump even when the embedded logical format also changes.
 
 | Member | Presence | Meaning |
 |---|---|---|
@@ -158,6 +158,6 @@ Transport and non-2xx failures append no watermark. A crash after endpoint accep
 
 ## Exposure and receiver requirements
 
-The request headers expose the Harness application version, one anonymous Harness-home identity, and an optional Session identity. `dsh_plugin_packages` exposes active npm package names and versions. When enabled, `dsh_session_log` may expose the Session working directory, system-prompt snapshots, user and Assistant content, embedded Assistant streams, failed-attempt output, tool arguments and results, compaction summaries, feedback, and plugin-owned events. Adapter API keys are not Session events and therefore do not enter the field. A gateway selected through `baseURL` receives the same values as the official endpoint.
+The request headers expose the Harness application version, one anonymous Harness-home identity, and an optional Session identity. `nulu_plugin_packages` exposes active npm package names and versions. When enabled, `nulu_session_log` may expose the Session working directory, system-prompt snapshots, user and Assistant content, embedded Assistant streams, failed-attempt output, tool arguments and results, compaction summaries, feedback, and plugin-owned events. Adapter API keys are not Session events and therefore do not enter the field. A gateway selected through `baseURL` receives the same values as the official endpoint.
 
 Receivers address extension fields by name, dispatch each field by its own `version`, preserve distinct package versions, and ignore JSON member ordering. A session-log receiver validates the contiguous sequence range before interpreting event types. An unrecognized canonical event without `ignorable: true` prevents lossless reconstruction. The base request remains usable without either the registry or a particular contribution; field absence means that contribution did not apply to that request.

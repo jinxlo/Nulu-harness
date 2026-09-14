@@ -28,7 +28,7 @@ async function fixture(
   version = '1.2.3',
   environment: 'test' | 'production' = 'test',
 ): Promise<Fixture> {
-  const root = await mkdtemp(join(tmpdir(), 'dsh-desktop-upload-'))
+  const root = await mkdtemp(join(tmpdir(), 'nulu-desktop-upload-'))
   temporaryDirectories.push(root)
   const repositoryRoot = join(root, 'repository')
   const appRoot = join(repositoryRoot, 'apps', 'desktop')
@@ -38,7 +38,7 @@ async function fixture(
   await writeFile(join(appRoot, 'package.json'), `${JSON.stringify({ version })}\n`)
 
   const [os, arch] = target.split('-') as ['mac' | 'win', 'arm64' | 'x64']
-  const base = `deepseek-harness-${version}-${os}-${arch}`
+  const base = `nulu-harness-${version}-${os}-${arch}`
   const origin = environment === 'test'
     ? TEST_ORIGIN
     : 'https://download.deepseek.com'
@@ -79,12 +79,12 @@ async function fixture(
     artifactsRoot,
     environment: environment === 'test'
       ? {
-        DSH_DESKTOP_AUTO_UPDATE_ENV: 'test',
+        NULU_DESKTOP_AUTO_UPDATE_ENV: 'test',
         DOWNLOAD_TEST_ORIGIN: TEST_ORIGIN,
         DOWNLOAD_TEST_COS_BUCKET: TEST_BUCKET,
       }
       : {
-        DSH_DESKTOP_AUTO_UPDATE_ENV: 'production',
+        NULU_DESKTOP_AUTO_UPDATE_ENV: 'production',
         DOWNLOAD_PROD_COS_BUCKET: PRODUCTION_BUCKET,
       },
   }
@@ -108,9 +108,9 @@ describe('desktop upload plan', () => {
       bucket: TEST_BUCKET,
     })
     expect(plan.artifacts.map(artifact => artifact.filename)).toEqual([
-      'deepseek-harness-1.2.3-mac-arm64.dmg',
-      'deepseek-harness-1.2.3-mac-arm64.zip',
-      'deepseek-harness-1.2.3-mac-arm64.zip.blockmap',
+      'nulu-harness-1.2.3-mac-arm64.dmg',
+      'nulu-harness-1.2.3-mac-arm64.zip',
+      'nulu-harness-1.2.3-mac-arm64.zip.blockmap',
       'latest-mac.yml',
     ])
     expect(plan.artifacts.at(-1)).toMatchObject({
@@ -123,9 +123,9 @@ describe('desktop upload plan', () => {
     const paths = await fixture('mac-arm64', '1.2.3-alpha.4')
     const plan = await createDesktopUploadPlan('mac-arm64', paths)
     expect(plan.artifacts.map(artifact => artifact.filename)).toEqual([
-      'deepseek-harness-1.2.3-alpha.4-mac-arm64.dmg',
-      'deepseek-harness-1.2.3-alpha.4-mac-arm64.zip',
-      'deepseek-harness-1.2.3-alpha.4-mac-arm64.zip.blockmap',
+      'nulu-harness-1.2.3-alpha.4-mac-arm64.dmg',
+      'nulu-harness-1.2.3-alpha.4-mac-arm64.zip',
+      'nulu-harness-1.2.3-alpha.4-mac-arm64.zip.blockmap',
       'alpha-mac.yml',
     ])
   })
@@ -134,7 +134,7 @@ describe('desktop upload plan', () => {
     const paths = await fixture('win-x64', '2.0.0', 'production')
     const plan = await createDesktopUploadPlan('win-x64', paths)
     expect(plan.artifacts.map(artifact => artifact.filename)).toEqual([
-      'deepseek-harness-2.0.0-win-x64.exe',
+      'nulu-harness-2.0.0-win-x64.exe',
       'latest.yml',
     ])
     expect(plan).toMatchObject({
@@ -149,7 +149,7 @@ describe('desktop upload plan', () => {
     await writeFile(join(paths.artifactsRoot, 'latest.yml'), `${JSON.stringify({
       version: '1.2.3',
       files: [{
-        url: 'deepseek-harness-1.2.3-win-x64.exe',
+        url: 'nulu-harness-1.2.3-win-x64.exe',
         size: Buffer.byteLength(executable),
         sha512: digest(executable),
       }],
@@ -157,7 +157,7 @@ describe('desktop upload plan', () => {
     await expect(createDesktopUploadPlan('win-x64', paths)).rejects.toThrow(/blockMapSize/u)
   })
 
-  it('rejects a completed build from another dsh version or deployment', async () => {
+  it('rejects a completed build from another nulu version or deployment', async () => {
     const paths = await fixture('mac-x64')
     await writeFile(join(paths.repositoryRoot, 'package.json'), '{"version":"1.2.4"}\n')
     await writeFile(join(paths.appRoot, 'package.json'), '{"version":"1.2.4"}\n')
@@ -167,7 +167,7 @@ describe('desktop upload plan', () => {
     await expect(createDesktopUploadPlan('mac-x64', {
       ...productionPaths,
       environment: {
-        DSH_DESKTOP_AUTO_UPDATE_ENV: 'test',
+        NULU_DESKTOP_AUTO_UPDATE_ENV: 'test',
         DOWNLOAD_TEST_ORIGIN: TEST_ORIGIN,
         DOWNLOAD_TEST_COS_BUCKET: TEST_BUCKET,
       },
@@ -177,7 +177,7 @@ describe('desktop upload plan', () => {
   it('rejects stale architecture metadata and modified updater bytes', async () => {
     const paths = await fixture('mac-arm64')
     const metadataPath = join(paths.artifactsRoot, 'latest-mac.yml')
-    const zipPath = join(paths.artifactsRoot, 'deepseek-harness-1.2.3-mac-arm64.zip')
+    const zipPath = join(paths.artifactsRoot, 'nulu-harness-1.2.3-mac-arm64.zip')
     await writeFile(zipPath, 'modified')
     await expect(createDesktopUploadPlan('mac-arm64', paths)).rejects.toThrow(/size.*metadata/u)
 
@@ -185,7 +185,7 @@ describe('desktop upload plan', () => {
     await writeFile(metadataPath, `${JSON.stringify({
       version: '1.2.3',
       files: [{
-        url: 'deepseek-harness-1.2.3-mac-x64.zip',
+        url: 'nulu-harness-1.2.3-mac-x64.zip',
         size: Buffer.byteLength(x64),
         sha512: digest(x64),
       }],

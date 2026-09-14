@@ -1,5 +1,5 @@
 {
-  "name": "@deepseek-ai/dsh-subagent-claude-code",
+  "name": "@worldapptechnologies/nulu-subagent-claude-code",
   "description": "One-shot Claude Code subagent provider over the official Agent SDK",
   "version": "0.1.5-rc.2",
   "publishConfig": {
@@ -7,7 +7,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/worldapptechnologies/nulu-harness.git",
     "directory": "packages/subagent/subagent-claude-code"
   },
   "type": "module",
@@ -27,44 +27,44 @@
     "lib/types/**/*.d.ts"
   ],
   "license": "MIT",
-  "dsh": {
+  "nulu": {
     "bundle": {
       "patch": "./cordis.patch.yml"
     }
   },
   "peerDependencies": {
-    "@deepseek-ai/cordis": "workspace:^",
-    "@deepseek-ai/dsh-llm": "workspace:^",
-    "@deepseek-ai/dsh-session": "workspace:^",
-    "@deepseek-ai/dsh-subagent": "workspace:^",
-    "@deepseek-ai/dsh-subprocess": "workspace:^",
-    "@deepseek-ai/dsh-timeout": "workspace:^"
+    "@worldapptechnologies/cordis": "workspace:^",
+    "@worldapptechnologies/nulu-llm": "workspace:^",
+    "@worldapptechnologies/nulu-session": "workspace:^",
+    "@worldapptechnologies/nulu-subagent": "workspace:^",
+    "@worldapptechnologies/nulu-subprocess": "workspace:^",
+    "@worldapptechnologies/nulu-timeout": "workspace:^"
   },
   "dependencies": {
     "@anthropic-ai/claude-agent-sdk": "0.3.263",
     "@anthropic-ai/sdk": "0.93.0",
-    "@deepseek-ai/dsh-brand": "workspace:^",
-    "@deepseek-ai/schemastery": "workspace:^",
+    "@worldapptechnologies/nulu-brand": "workspace:^",
+    "@worldapptechnologies/schemastery": "workspace:^",
     "@modelcontextprotocol/sdk": "^1.29.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@deepseek-ai/cordis": "workspace:^",
-    "@deepseek-ai/dsh-agent": "workspace:^",
-    "@deepseek-ai/dsh-app-boot": "workspace:^",
-    "@deepseek-ai/dsh-llm": "workspace:^",
-    "@deepseek-ai/dsh-loader-smoke": "workspace:^",
-    "@deepseek-ai/dsh-session": "workspace:^",
-    "@deepseek-ai/dsh-session-checkpoint-policy": "workspace:^",
-    "@deepseek-ai/dsh-session-persistence-jsonl": "workspace:^",
-    "@deepseek-ai/dsh-session-projection": "workspace:^",
-    "@deepseek-ai/dsh-subagent": "workspace:^",
-    "@deepseek-ai/dsh-subagent-codex": "workspace:^",
-    "@deepseek-ai/dsh-subprocess": "workspace:^",
-    "@deepseek-ai/dsh-subprocess-local": "workspace:^",
-    "@deepseek-ai/dsh-timeout": "workspace:^",
-    "@deepseek-ai/dsh-tool-jobs": "workspace:^",
-    "@deepseek-ai/dsh-tool-subagent": "workspace:^",
-    "@deepseek-ai/dsh-tools": "workspace:^"
+    "@worldapptechnologies/cordis": "workspace:^",
+    "@worldapptechnologies/nulu-agent": "workspace:^",
+    "@worldapptechnologies/nulu-app-boot": "workspace:^",
+    "@worldapptechnologies/nulu-llm": "workspace:^",
+    "@worldapptechnologies/nulu-loader-smoke": "workspace:^",
+    "@worldapptechnologies/nulu-session": "workspace:^",
+    "@worldapptechnologies/nulu-session-checkpoint-policy": "workspace:^",
+    "@worldapptechnologies/nulu-session-persistence-jsonl": "workspace:^",
+    "@worldapptechnologies/nulu-session-projection": "workspace:^",
+    "@worldapptechnologies/nulu-subagent": "workspace:^",
+    "@worldapptechnologies/nulu-subagent-codex": "workspace:^",
+    "@worldapptechnologies/nulu-subprocess": "workspace:^",
+    "@worldapptechnologies/nulu-subprocess-local": "workspace:^",
+    "@worldapptechnologies/nulu-timeout": "workspace:^",
+    "@worldapptechnologies/nulu-tool-jobs": "workspace:^",
+    "@worldapptechnologies/nulu-tool-subagent": "workspace:^",
+    "@worldapptechnologies/nulu-tools": "workspace:^"
   }
 }

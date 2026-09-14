@@ -3,13 +3,13 @@ description: "Model-facing Cordis runtime tools for agents and maintainers choos
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-tool-cordis
+# @worldapptechnologies/nulu-tool-cordis
 
 English | [中文](README.zh.md)
 
 ## Summary
 
-`dsh-tool-cordis` lets a model inspect the live Cordis runtime and create, run, stop, update, or remove temporary dynamic packages with host code, browser code, or both. Package versions are immutable, so a failed package can be corrected by adding a new version and updating the active one. Definitions exist only in process memory and disappear when DSH restarts; the package does not write repository files, install dependencies, or change `cordis.yml`. It also teaches the model this workflow. Compose it with `@deepseek-ai/dsh-cordis-host-runner`, which provides the sandbox and run round trip.
+`nulu-tool-cordis` lets a model inspect the live Cordis runtime and create, run, stop, update, or remove temporary dynamic packages with host code, browser code, or both. Package versions are immutable, so a failed package can be corrected by adding a new version and updating the active one. Definitions exist only in process memory and disappear when NULU restarts; the package does not write repository files, install dependencies, or change `cordis.yml`. It also teaches the model this workflow. Compose it with `@worldapptechnologies/nulu-cordis-host-runner`, which provides the sandbox and run round trip.
 
 ## Table of Contents
 
@@ -30,10 +30,10 @@ Mount this plugin when a session should be able to extend its own runtime tempor
 ### Minimal composition
 
 ```yaml
-- name: '@deepseek-ai/dsh-cordis-host-runner'
+- name: '@worldapptechnologies/nulu-cordis-host-runner'
   config:
     vmTimeoutMs: 5000
-- name: '@deepseek-ai/dsh-tool-cordis'
+- name: '@worldapptechnologies/nulu-tool-cordis'
 ```
 
 The CLI example [`apps/cli/config/examples/cordis/cordis.yml`](../../../apps/cli/config/examples/cordis/cordis.yml) composes both. A package with a browser half additionally needs the browser runner and the UI package in the client composition; a host-only package needs none of them.
@@ -56,7 +56,7 @@ Inspect before writing, then define, then run: `cordis_inspect_query` reads the 
 
 ### Boundaries to plan around
 
-Definitions are session-scoped and process-local: a package is visible and controllable only in the session that defined it, stays active across later turns, and can affect other sessions in the same process while running. Stopping, removing, unloading the toolset, or restarting DSH clears it. The sandbox isolates globals but is not a security boundary — treat a dynamic package like bash access, and load this plugin as deliberately as you would grant one.
+Definitions are session-scoped and process-local: a package is visible and controllable only in the session that defined it, stays active across later turns, and can affect other sessions in the same process while running. Stopping, removing, unloading the toolset, or restarting NULU clears it. The sandbox isolates globals but is not a security boundary — treat a dynamic package like bash access, and load this plugin as deliberately as you would grant one.
 
 -----
 
@@ -99,7 +99,7 @@ Read these pages when the package-level contract is not enough. They move from t
 - [Host runner](../cordis-host-runner/README.md) — the registry, sandbox, and run round trip these tools delegate to.
 - [Client runner](../cordis-client-runner/README.md) — the browser half that answers run requests and loads browser-half code.
 - [UI package](../ui-cordis/README.md) — the panel and tool cards users operate definitions with.
-- [Generated tool catalog](../../../docs/tool-catalog.md#deepseek-aidsh-tool-cordis) — the exact schemas the model receives.
+- [Generated tool catalog](../../../docs/tool-catalog.md#worldapptechnologiesnulu-tool-cordis) — the exact schemas the model receives.
 - [Extensions subsystem](../../../docs/subsystems/extensions.md) — the generated `ctx.cordisInspect` and `ctx.dynamicCordisRunner` API.
 - [Self-referential Cordis toolset Agent Note](../../../.agents/notes/implemented/feature/2026-07-08-self-referential-cordis-toolset.md) — design home: sandbox semantics, dynamic-package lifecycle, and composition.
 
@@ -112,7 +112,7 @@ Read these pages when the package-level contract is not enough. They move from t
 
 #### What the model sees
 
-The conversation model sees the generated [`cordis_inspect_list`, `cordis_inspect_query`, `cordis_inspect_self`, `cordis_define`, `cordis_run`, `cordis_stop`, and `cordis_undefine` schemas](../../../docs/tool-catalog.md#deepseek-aidsh-tool-cordis) whenever this plugin is visible.
+The conversation model sees the generated [`cordis_inspect_list`, `cordis_inspect_query`, `cordis_inspect_self`, `cordis_define`, `cordis_run`, `cordis_stop`, and `cordis_undefine` schemas](../../../docs/tool-catalog.md#worldapptechnologiesnulu-tool-cordis) whenever this plugin is visible.
 
 #### Token effect
 
@@ -133,7 +133,7 @@ This package registers one system-prompt section (`tool:cordis`, order 115) teac
 ```markdown
 # Dynamic Cordis Plugins
 
-Dynamic Cordis plugins temporarily extend the current DSH process. A Plugin uses apply(ctx) to consume Services, listen to Events, provide Services, register model Tools, or register browser UI in Slots.
+Dynamic Cordis plugins temporarily extend the current NULU process. A Plugin uses apply(ctx) to consume Services, listen to Events, provide Services, register model Tools, or register browser UI in Slots.
 ```
 
 #### Token effect

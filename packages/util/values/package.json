@@ -1,13 +1,13 @@
 {
-  "name": "@deepseek-ai/dsh-util-values",
-  "description": "Duplicate-install-safe value primitives for the DeepSeek Harness",
+  "name": "@worldapptechnologies/nulu-util-values",
+  "description": "Duplicate-install-safe value primitives for the Nulu Harness",
   "version": "0.1.5-rc.2",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/worldapptechnologies/nulu-harness.git",
     "directory": "packages/util/values"
   },
   "type": "module",
@@ -27,9 +27,9 @@
   ],
   "license": "MIT",
   "peerDependencies": {
-    "@deepseek-ai/cordis": "workspace:^"
+    "@worldapptechnologies/cordis": "workspace:^"
   },
   "devDependencies": {
-    "@deepseek-ai/cordis": "workspace:^"
+    "@worldapptechnologies/cordis": "workspace:^"
   }
 }

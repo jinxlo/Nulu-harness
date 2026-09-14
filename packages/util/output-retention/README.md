@@ -3,13 +3,13 @@ description: "Bounded model-facing output for tools that must cap how much conte
 kind: "package-library"
 ---
 
-# @deepseek-ai/dsh-output-retention
+# @worldapptechnologies/nulu-output-retention
 
 English | [中文](README.zh.md)
 
 ## Summary
 
-Use `dsh-output-retention` to cap the items or text a tool returns to a model while reporting what was omitted. `ItemRetainer` keeps an ordered head window and can report an exact omitted-item count; `TextRetainer` keeps head, tail, or head-and-tail byte windows without returning invalid UTF-8 cuts. `formatRetentionNotice` adds a consistent omission clause while each tool supplies its own recovery guidance. Grouping, line numbering, spill files, and provider errors remain tool responsibilities; consumers import this library directly rather than loading it through `cordis.yml`.
+Use `nulu-output-retention` to cap the items or text a tool returns to a model while reporting what was omitted. `ItemRetainer` keeps an ordered head window and can report an exact omitted-item count; `TextRetainer` keeps head, tail, or head-and-tail byte windows without returning invalid UTF-8 cuts. `formatRetentionNotice` adds a consistent omission clause while each tool supplies its own recovery guidance. Grouping, line numbering, spill files, and provider errors remain tool responsibilities; consumers import this library directly rather than loading it through `cordis.yml`.
 
 ## Table of Contents
 
@@ -30,7 +30,7 @@ Use a retainer wherever a tool must cap how much of its result reaches the model
 ### Bounding a list of items
 
 ```ts
-import { ItemRetainer } from '@deepseek-ai/dsh-output-retention'
+import { ItemRetainer } from '@worldapptechnologies/nulu-output-retention'
 
 declare const globMaxResults: number
 declare const candidates: AsyncIterable<{ path: string }>
@@ -46,7 +46,7 @@ const { items, truncated, omitted } = retainer.finish()
 ### Bounding a text stream
 
 ```text
-import { TextRetainer } from '@deepseek-ai/dsh-output-retention'
+import { TextRetainer } from '@worldapptechnologies/nulu-output-retention'
 
 const out = new TextRetainer({ kind: 'headTail', headBytes: headCap, tailBytes: tailCap })
 child.stdout.on('data', (chunk: Buffer) => { out.push(chunk) })
@@ -58,11 +58,11 @@ const { text, omittedBytes } = out.finish()
 ### Building the omission footer
 
 ```ts
-import { formatRetentionNotice } from '@deepseek-ai/dsh-output-retention'
+import { formatRetentionNotice } from '@worldapptechnologies/nulu-output-retention'
 
 declare const grepMaxMatches: number
 declare const items: { length: number }
-import type { Omitted } from '@deepseek-ai/dsh-output-retention'
+import type { Omitted } from '@worldapptechnologies/nulu-output-retention'
 
 declare const omitted: Omitted
 

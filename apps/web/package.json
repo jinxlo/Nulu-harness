@@ -1,13 +1,13 @@
 {
-  "name": "@deepseek-ai/dsh-web-frontend",
-  "description": "Web application entry: vite build over the @deepseek-ai/dsh-client-web shell library; dist/ served by apps/cli's dsh web",
+  "name": "@worldapptechnologies/nulu-web-frontend",
+  "description": "Web application entry: vite build over the @worldapptechnologies/nulu-client-web shell library; dist/ served by apps/cli's nulu web",
   "version": "0.1.5-rc.2",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/worldapptechnologies/nulu-harness.git",
     "directory": "apps/web"
   },
   "type": "module",
@@ -25,22 +25,22 @@
     "build": "vite build",
     "dev": "vite",
     "watch": "vite build --watch --no-emptyOutDir",
-    "build:preview": "pnpm --filter @deepseek-ai/dsh-experimental-webworker-runtime exec tsdown && pnpm --filter @deepseek-ai/dsh-experimental-webworker-packer exec tsdown && vite build && dsh-pack-vfs-image --out dist/preview/vfs-image.tar.gz",
+    "build:preview": "pnpm --filter @worldapptechnologies/nulu-experimental-webworker-runtime exec tsdown && pnpm --filter @worldapptechnologies/nulu-experimental-webworker-packer exec tsdown && vite build && nulu-pack-vfs-image --out dist/preview/vfs-image.tar.gz",
     "serve:preview": "http-server dist -a 0.0.0.0 -p 4173 -c-1"
   },
   "license": "MIT",
   "devDependencies": {
-    "@deepseek-ai/cordis-plugin-group": "workspace:^",
-    "@deepseek-ai/dsh-client-modules": "workspace:^",
-    "@deepseek-ai/dsh-client-store": "workspace:^",
-    "@deepseek-ai/dsh-client-ui-dockkit": "workspace:^",
-    "@deepseek-ai/dsh-client-ui-primitives": "workspace:^",
-    "@deepseek-ai/dsh-client-ui-slots": "workspace:^",
-    "@deepseek-ai/dsh-client-web": "workspace:^",
-    "@deepseek-ai/dsh-cmdline": "workspace:^",
-    "@deepseek-ai/dsh-pwsh-local": "workspace:^",
-    "@deepseek-ai/dsh-experimental-webworker-packer": "workspace:^",
-    "@deepseek-ai/dsh-experimental-webworker-runtime": "workspace:^",
+    "@worldapptechnologies/cordis-plugin-group": "workspace:^",
+    "@worldapptechnologies/nulu-client-modules": "workspace:^",
+    "@worldapptechnologies/nulu-client-store": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-dockkit": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-primitives": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-slots": "workspace:^",
+    "@worldapptechnologies/nulu-client-web": "workspace:^",
+    "@worldapptechnologies/nulu-cmdline": "workspace:^",
+    "@worldapptechnologies/nulu-pwsh-local": "workspace:^",
+    "@worldapptechnologies/nulu-experimental-webworker-packer": "workspace:^",
+    "@worldapptechnologies/nulu-experimental-webworker-runtime": "workspace:^",
     "@types/node": "^22.0.0",
     "@types/react": "~18.3.1",
     "@types/react-dom": "~18.3.0",
@@ -55,6 +55,6 @@
     "vite": "^6.0.0",
     "vitest": "^4.1.8",
     "ws": "8.21.0",
-    "@deepseek-ai/dsh-launch-environment": "workspace:^"
+    "@worldapptechnologies/nulu-launch-environment": "workspace:^"
   }
 }

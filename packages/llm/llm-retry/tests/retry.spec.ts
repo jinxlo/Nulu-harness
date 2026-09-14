@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, expectTypeOf, it, vi } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import type { Fiber } from '@deepseek-ai/cordis'
-import LlmRuntime, { createUserMessage, ToolCallId, EMPTY_RESPONSE_CODE, LlmAdapter, LlmError, expandAssistantStream, resolveRetryPolicy  } from '@deepseek-ai/dsh-llm'
+import { Context } from '@worldapptechnologies/cordis'
+import type { Fiber } from '@worldapptechnologies/cordis'
+import LlmRuntime, { createUserMessage, ToolCallId, EMPTY_RESPONSE_CODE, LlmAdapter, LlmError, expandAssistantStream, resolveRetryPolicy  } from '@worldapptechnologies/nulu-llm'
 import type {
   AlwaysRetryPolicyConfig,
   BackoffConfig,
@@ -10,16 +10,16 @@ import type {
   ResolvedRetryPolicy,
   RetryPolicyConfig,
   StreamChunk,
-} from '@deepseek-ai/dsh-llm'
-import SessionStore, { SessionId } from '@deepseek-ai/dsh-session'
-import SessionProjectionRegistry from '@deepseek-ai/dsh-session-projection'
-import type { SessionEvent, SessionEventMap } from '@deepseek-ai/dsh-session'
-import type { LlmRetryEventData } from '@deepseek-ai/dsh-llm-retry/types'
-import SystemPrompt from '@deepseek-ai/dsh-system-prompt'
-import ToolRuntime, { defineContentToolFixture } from '@deepseek-ai/dsh-tools'
-import AgentRegistry from '@deepseek-ai/dsh-agent'
-import type { Agent, RequestErrorAction } from '@deepseek-ai/dsh-agent'
-import AgentLoop from '@deepseek-ai/dsh-agent-loop'
+} from '@worldapptechnologies/nulu-llm'
+import SessionStore, { SessionId } from '@worldapptechnologies/nulu-session'
+import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projection'
+import type { SessionEvent, SessionEventMap } from '@worldapptechnologies/nulu-session'
+import type { LlmRetryEventData } from '@worldapptechnologies/nulu-llm-retry/types'
+import SystemPrompt from '@worldapptechnologies/nulu-system-prompt'
+import ToolRuntime, { defineContentToolFixture } from '@worldapptechnologies/nulu-tools'
+import AgentRegistry from '@worldapptechnologies/nulu-agent'
+import type { Agent, RequestErrorAction } from '@worldapptechnologies/nulu-agent'
+import AgentLoop from '@worldapptechnologies/nulu-agent-loop'
 import * as retry from '../src/index.ts'
 
 type ScriptEntry = Error | Iterable<StreamChunk> | AsyncIterable<StreamChunk>

@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { Context } from '@deepseek-ai/cordis'
+import { Context } from '@worldapptechnologies/cordis'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import {
   apply, createClientModuleSystem, parseBootManifest,
@@ -7,7 +7,7 @@ import {
   type ClientModuleLoader, type ClientModuleLoaderTarget, type DshWindow,
 } from '../src/client/index.ts'
 
-const MODULES_ID = '@deepseek-ai/dsh-client-modules'
+const MODULES_ID = '@worldapptechnologies/nulu-client-modules'
 
 const comboUrl = (ids: readonly string[], rev: string): string =>
   `/plugins/??${ids.map(id => `${id}/client.js`).join(',')}&rev=${rev}`
@@ -86,7 +86,7 @@ function bench(
       : url === APPLICATION_URL
         ? entries.filter(entry => entry.initialUrl === APPLICATION_URL).map(entry => entry.id)
         : undefined
-    const parsed = new URL(url, 'http://dsh.invalid')
+    const parsed = new URL(url, 'http://nulu.invalid')
     const combo = parsed.search.startsWith('??') ? parsed.search.slice(2).split('&', 1)[0] : undefined
     const singleId = combo?.split(',').length === 1 && combo.endsWith('/client.js')
       ? combo.slice(0, -'/client.js'.length)

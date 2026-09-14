@@ -1,12 +1,12 @@
 /** One-shot session-lineage and event-relationship tracing helpers. */
 
-import { foldSurface, isSurfaceEvent, snapshotSessionEvent } from '@deepseek-ai/dsh-session'
+import { foldSurface, isSurfaceEvent, snapshotSessionEvent } from '@worldapptechnologies/nulu-session'
 import type {
   SessionEvent,
   SessionId,
   SessionSeq,
   SurfaceEvent,
-} from '@deepseek-ai/dsh-session'
+} from '@worldapptechnologies/nulu-session'
 import { SessionQueryError } from './config.ts'
 import type {
   SessionEventRecord,

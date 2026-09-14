@@ -2,17 +2,17 @@
  * Opt-in request clock context. Eligible steps add durable,
  * source-attributed time readings to the request history.
  *
- * @module @deepseek-ai/dsh-time-context
+ * @module @worldapptechnologies/nulu-time-context
  */
 
-import type { Context } from '@deepseek-ai/cordis'
-import z from '@deepseek-ai/schemastery'
+import type { Context } from '@worldapptechnologies/cordis'
+import z from '@worldapptechnologies/schemastery'
 import { z as zod } from 'zod'
-import type { Agent, PreStepDecision } from '@deepseek-ai/dsh-agent'
-import { createUserMessage } from '@deepseek-ai/dsh-llm'
-import type { UserMessage } from '@deepseek-ai/dsh-llm'
-import { SessionSeq } from '@deepseek-ai/dsh-session'
-import type {} from '@deepseek-ai/dsh-session-projection'
+import type { Agent, PreStepDecision } from '@worldapptechnologies/nulu-agent'
+import { createUserMessage } from '@worldapptechnologies/nulu-llm'
+import type { UserMessage } from '@worldapptechnologies/nulu-llm'
+import { SessionSeq } from '@worldapptechnologies/nulu-session'
+import type {} from '@worldapptechnologies/nulu-session-projection'
 import {
   deriveBrowserTimeZoneContext,
   renderBrowserTimeZoneContext,
@@ -23,7 +23,7 @@ import { createTimestampFormatter, formatTimestamp } from './timestamp.ts'
 /** Cordis plugin name used by loader diagnostics. */
 export const name = 'time-context'
 
-declare module '@deepseek-ai/dsh-session-projection/types' {
+declare module '@worldapptechnologies/nulu-session-projection/types' {
   interface SessionProjectionStateMap {
     /** Latest time-context readings. */
     timeContext: TimeContextProjection

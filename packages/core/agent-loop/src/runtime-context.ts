@@ -2,16 +2,16 @@
  * Durable projection state for the two loop-owned surface messages the system
  * prompt plugin forms: the system prompt (surface node 0 and any in-history
  * replacement) and the dynamic runtime-context snapshot.
- * @module @deepseek-ai/dsh-agent-loop/runtime-context
+ * @module @worldapptechnologies/nulu-agent-loop/runtime-context
  */
 
-import { createSystemMessage, createUserMessage } from '@deepseek-ai/dsh-llm'
-import type { ContextSnapshotSection, Message } from '@deepseek-ai/dsh-llm'
-import type { Session, SessionEvent, SessionSeq, SurfaceIntent, SystemMessage, UserMessage } from '@deepseek-ai/dsh-session'
-import { isReplacementSurfaceEvent } from '@deepseek-ai/dsh-session'
-import type { Context } from '@deepseek-ai/cordis'
+import { createSystemMessage, createUserMessage } from '@worldapptechnologies/nulu-llm'
+import type { ContextSnapshotSection, Message } from '@worldapptechnologies/nulu-llm'
+import type { Session, SessionEvent, SessionSeq, SurfaceIntent, SystemMessage, UserMessage } from '@worldapptechnologies/nulu-session'
+import { isReplacementSurfaceEvent } from '@worldapptechnologies/nulu-session'
+import type { Context } from '@worldapptechnologies/cordis'
 
-const SOURCE = '@deepseek-ai/dsh-system-prompt'
+const SOURCE = '@worldapptechnologies/nulu-system-prompt'
 const CLEARED = 'Current runtime context: none. Earlier runtime-context snapshots no longer apply.'
 
 function isOwned(message: UserMessage): boolean {

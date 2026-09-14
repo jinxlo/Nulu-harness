@@ -1,13 +1,13 @@
 {
-  "name": "@deepseek-ai/dsh-web-search-exa",
-  "description": "Exa-backed search provider for the DeepSeek Harness web capability seam (ctx.web)",
+  "name": "@worldapptechnologies/nulu-web-search-exa",
+  "description": "Exa-backed search provider for the Nulu Harness web capability seam (ctx.web)",
   "version": "0.1.5-rc.2",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/worldapptechnologies/nulu-harness.git",
     "directory": "packages/web/web-search-exa"
   },
   "type": "module",
@@ -27,17 +27,17 @@
   ],
   "license": "MIT",
   "peerDependencies": {
-    "@deepseek-ai/dsh-launch-environment": "workspace:^",
-    "@deepseek-ai/dsh-web": "workspace:^",
-    "@deepseek-ai/cordis": "workspace:^"
+    "@worldapptechnologies/nulu-launch-environment": "workspace:^",
+    "@worldapptechnologies/nulu-web": "workspace:^",
+    "@worldapptechnologies/cordis": "workspace:^"
   },
   "dependencies": {
-    "@deepseek-ai/schemastery": "workspace:^"
+    "@worldapptechnologies/schemastery": "workspace:^"
   },
   "devDependencies": {
-    "@deepseek-ai/dsh-launch-environment": "workspace:^",
-    "@deepseek-ai/dsh-web": "workspace:^",
-    "@deepseek-ai/cordis": "workspace:^",
-    "@deepseek-ai/dsh-http-proxy": "workspace:^"
+    "@worldapptechnologies/nulu-launch-environment": "workspace:^",
+    "@worldapptechnologies/nulu-web": "workspace:^",
+    "@worldapptechnologies/cordis": "workspace:^",
+    "@worldapptechnologies/nulu-http-proxy": "workspace:^"
   }
 }

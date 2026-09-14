@@ -3,13 +3,13 @@ description: "面向模型的 bash 工具，供选择、配置或排查一次性
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-tool-bash
+# @worldapptechnologies/nulu-tool-bash
 
 [English](README.md) | 中文
 
 ## 概述
 
-`dsh-tool-bash` 让 agent（智能体）运行一次性 `bash` 命令，并接收 stdout、stderr 与退出标记。每次调用都使用全新 shell，因此 cwd、变量和函数不会保留；`run_in_background` 可启动长时间运行的工作，agent 能用 `job_output` 检查、用 `job_kill` 停止。命令会收到受管 `DSH_*` 环境；沙箱拒绝后，可携带更宽的 `sandbox_permissions`、一句 `justification` 并经用户批准重试一次。非零退出会作为结果报告，因此由 agent 决定如何响应；请使用 `dsh-bash-local` 或 `dsh-bash-sandbox` 等执行器，并加载 `dsh-shell-env`。
+`nulu-tool-bash` 让 agent（智能体）运行一次性 `bash` 命令，并接收 stdout、stderr 与退出标记。每次调用都使用全新 shell，因此 cwd、变量和函数不会保留；`run_in_background` 可启动长时间运行的工作，agent 能用 `job_output` 检查、用 `job_kill` 停止。命令会收到受管 `NULU_*` 环境；沙箱拒绝后，可携带更宽的 `sandbox_permissions`、一句 `justification` 并经用户批准重试一次。非零退出会作为结果报告，因此由 agent 决定如何响应；请使用 `nulu-bash-local` 或 `nulu-bash-sandbox` 等执行器，并加载 `nulu-shell-env`。
 
 ## 目录
 
@@ -25,20 +25,20 @@ kind: "package-reference"
 <a id="use-this-package"></a>
 ## 使用本包
 
-在 agent 需要运行 bash 命令的任何组合中加载本插件：一旦挂载执行器提供方与 `dsh-shell-env` 注册表，它就注册 `bash` 工具，并在 `tools`、`shell`、`systemPrompt` 与 `shellEnv` 服务就绪之前保持等待。
+在 agent 需要运行 bash 命令的任何组合中加载本插件：一旦挂载执行器提供方与 `nulu-shell-env` 注册表，它就注册 `bash` 工具，并在 `tools`、`shell`、`systemPrompt` 与 `shellEnv` 服务就绪之前保持等待。
 
 ### 最小配置
 
 常用路径是执行器提供方、环境注册表与本工具；当 agent 需要后台运行命令时，再添加任务运行时。
 
 ```yaml
-- name: '@deepseek-ai/dsh-bash-local'
-- name: '@deepseek-ai/dsh-shell-env'
-- name: '@deepseek-ai/dsh-tool-bash'
+- name: '@worldapptechnologies/nulu-bash-local'
+- name: '@worldapptechnologies/nulu-shell-env'
+- name: '@worldapptechnologies/nulu-tool-bash'
 
 # Optional: background jobs
-- name: '@deepseek-ai/dsh-jobs-local'
-- name: '@deepseek-ai/dsh-tool-jobs'
+- name: '@worldapptechnologies/nulu-jobs-local'
+- name: '@worldapptechnologies/nulu-tool-jobs'
 ```
 
 唯一的配置字段用于开关后台支持。
@@ -47,7 +47,7 @@ kind: "package-reference"
 |---|---|---|
 | `enableRunInBackground` | `true` | 暴露 `run_in_background`；为 `false` 时拒绝强制后台调用 |
 
-生成的[配置目录](../../../docs/config-catalog.zh.md#deepseek-aidsh-tool-bash)是每个受支持字段及其 JSDoc 的穷尽式真源；生成的[工具目录](../../../docs/tool-catalog.zh.md#deepseek-aidsh-tool-bash)携带完整参数 schema。
+生成的[配置目录](../../../docs/config-catalog.zh.md#worldapptechnologiesnulu-tool-bash)是每个受支持字段及其 JSDoc 的穷尽式真源；生成的[工具目录](../../../docs/tool-catalog.zh.md#worldapptechnologiesnulu-tool-bash)携带完整参数 schema。
 
 ### 运行命令
 
@@ -55,15 +55,15 @@ kind: "package-reference"
 
 ### 后台运行长时间命令
 
-传入 `run_in_background: true` 会立即返回 job id，不应用超时；命令继续运行，agent 同时处理其他事情。agent 用 `job_output` 读取输出（除非 `wait: true`，否则非阻塞）、用 `job_list` 列出任务、用 `job_kill` 停止任务；完成的任务会在会话内通知拥有它的 agent。后台支持需要挂载通用任务运行时（`dsh-jobs-local`）及其控制工具（`dsh-tool-jobs`）。
+传入 `run_in_background: true` 会立即返回 job id，不应用超时；命令继续运行，agent 同时处理其他事情。agent 用 `job_output` 读取输出（除非 `wait: true`，否则非阻塞）、用 `job_list` 列出任务、用 `job_kill` 停止任务；完成的任务会在会话内通知拥有它的 agent。后台支持需要挂载通用任务运行时（`nulu-jobs-local`）及其控制工具（`nulu-tool-jobs`）。
 
 ### 沙箱执行与升权
 
-当已挂载的执行器约束命令（例如 `dsh-bash-sandbox`）时，被阻止的文件操作会报告为 `[sandbox: file access denied under <mode> mode]`——这是策略拒绝，不是命令失败。模型随后可以在同一轮次中用 `sandbox_permissions`（满足需要的最窄更宽模式）与一句 `justification` 重试完全相同的命令一次；该重试引发的审批提示就是用户同意的方式。升权绝不能预先推测：没有真实拒绝依据的请求，或没有严格宽于当前模式的请求，都会直接失败且不执行任何操作；被拒绝的升权对该命令即为最终结果。
+当已挂载的执行器约束命令（例如 `nulu-bash-sandbox`）时，被阻止的文件操作会报告为 `[sandbox: file access denied under <mode> mode]`——这是策略拒绝，不是命令失败。模型随后可以在同一轮次中用 `sandbox_permissions`（满足需要的最窄更宽模式）与一句 `justification` 重试完全相同的命令一次；该重试引发的审批提示就是用户同意的方式。升权绝不能预先推测：没有真实拒绝依据的请求，或没有严格宽于当前模式的请求，都会直接失败且不执行任何操作；被拒绝的升权对该命令即为最终结果。
 
 ### 可能出什么问题
 
-没有执行器提供方的组合永远不会激活该工具。没有任务运行时的后台调用会以 `background jobs unavailable: load @deepseek-ai/dsh-jobs and @deepseek-ai/dsh-tool-jobs` 失败；没有沙箱执行器时的 `sandbox_permissions` 会以 `sandbox_permissions is not available in this composition (no sandboxing executor to escalate)` 失败。`enableRunInBackground: false` 会移除该参数，并在执行时拒绝强制后台调用。
+没有执行器提供方的组合永远不会激活该工具。没有任务运行时的后台调用会以 `background jobs unavailable: load @worldapptechnologies/nulu-jobs and @worldapptechnologies/nulu-tool-jobs` 失败；没有沙箱执行器时的 `sandbox_permissions` 会以 `sandbox_permissions is not available in this composition (no sandboxing executor to escalate)` 失败。`enableRunInBackground: false` 会移除该参数，并在执行时拒绝强制后台调用。
 
 -----
 
@@ -78,7 +78,7 @@ kind: "package-reference"
 ### 设计理念
 
 - **shell seam 的模型侧消费方。** 本工具是 bash 能力的消费方角色：它注册 `bash` schema、渲染结果并解析每次调用的策略，进程机制归执行器 seam 所有。
-- **请求只来自命名参数。** 工具从不暴露 `stdin`、`env` 或 `stdoutMaxBytes`；它只用命令／workdir／超时／信号字段加上注册表收集的 `dshEnv` 构建每个请求，因此模型提供的键无法替换受管值。
+- **请求只来自命名参数。** 工具从不暴露 `stdin`、`env` 或 `stdoutMaxBytes`；它只用命令／workdir／超时／信号字段加上注册表收集的 `nuluEnv` 构建每个请求，因此模型提供的键无法替换受管值。
 - **非零退出只报告、不失败。** 只有基础设施故障（spawn 错误、中止）才会作为工具错误暴露；模型解读退出码与标记。
 - **后台工作归任务运行时。** 后台调用把进程句柄注册到 `ctx.jobs`；job id、所有权、完成通知与释放都是运行时的职责，本工具只把 bash 退出与沙箱事实映射为任务输出。
 
@@ -97,7 +97,7 @@ kind: "package-reference"
 
 ### 渲染故事
 
-结果文本为 stdout，然后是带标记的 `[stderr]` 区段，再是条件标记：截断通知、沙箱拒绝（组合声明升权时附带同轮次升权提示）、超时、信号与退出码——每个占一行。退出标记同时充当 UI 卡片的退出状态 pill：`dsh-shell` 共享的 `parseExitStatus` 会从输出体中消费它，因此回放显示 pill 而不重复标记。
+结果文本为 stdout，然后是带标记的 `[stderr]` 区段，再是条件标记：截断通知、沙箱拒绝（组合声明升权时附带同轮次升权提示）、超时、信号与退出码——每个占一行。退出标记同时充当 UI 卡片的退出状态 pill：`nulu-shell` 共享的 `parseExitStatus` 会从输出体中消费它，因此回放显示 pill 而不重复标记。
 
 </details>
 
@@ -110,11 +110,11 @@ kind: "package-reference"
 
 - [shell 包映射](../README.zh.md)——bash 能力家族及其角色。
 - [Bash 执行器子系统](../../../docs/subsystems/shell.zh.md)——请求／spec 词汇、结果与后台进程。
-- [shell-env](../shell-env/README.zh.md)——每次调用都会收到的受管 `DSH_*` 环境。
+- [shell-env](../shell-env/README.zh.md)——每次调用都会收到的受管 `NULU_*` 环境。
 - [tool-jobs](../../jobs/tool-jobs/README.zh.md)——后台运行的 `job_output`、`job_list` 与 `job_kill` 控制。
 - [沙箱 Agent Note](../../../.agents/notes/implemented/feature/2026-07-06-sandbox.zh.md)——升权与模式切换的理由。
-- [生成的工具目录](../../../docs/tool-catalog.zh.md#deepseek-aidsh-tool-bash)——`bash` 参数 schema 的确切内容。
-- [生成的配置目录](../../../docs/config-catalog.zh.md#deepseek-aidsh-tool-bash)——每个受支持配置字段及其源声明。
+- [生成的工具目录](../../../docs/tool-catalog.zh.md#worldapptechnologiesnulu-tool-bash)——`bash` 参数 schema 的确切内容。
+- [生成的配置目录](../../../docs/config-catalog.zh.md#worldapptechnologiesnulu-tool-bash)——每个受支持配置字段及其源声明。
 
 -----
 
@@ -145,7 +145,7 @@ Check the [exit code: N] marker on every bash result; investigate failures befor
 
 #### 模型看到什么
 
-模型会看到生成的 [`bash` schema](../../../docs/tool-catalog.zh.md#deepseek-aidsh-tool-bash)。仅当本生产方启用 `run_in_background` 时，该字段才会出现；仅当已挂载执行器声明支持沙箱时，`sandbox_permissions` 和 `justification` 才会出现。按 agent 作用域限制工具可以移除该 agent 的定义。
+模型会看到生成的 [`bash` schema](../../../docs/tool-catalog.zh.md#worldapptechnologiesnulu-tool-bash)。仅当本生产方启用 `run_in_background` 时，该字段才会出现；仅当已挂载执行器声明支持沙箱时，`sandbox_permissions` 和 `justification` 才会出现。按 agent 作用域限制工具可以移除该 agent 的定义。
 
 #### Token 影响
 
@@ -159,7 +159,7 @@ Check the [exit code: N] marker on every bash result; investigate failures befor
 
 #### 模型看到什么
 
-renderer 输出依数据而定的 stdout 尾部，再输出可选的 `[stderr]` 和 stderr 尾部。没有输出时，它精确输出 `(no output)`。条件行精确为 `[output truncated; full output: <path-or-(unavailable)>]`、`[sandbox: file access denied under <mode> mode]`、`[timed out after <timeoutMs>ms]`、`[killed by signal: <signal>]` 与 `[exit code: <exitCode>]`；沙箱升权与 runner 故障行原文列于 [`dsh-bash-sandbox`](../bash-sandbox/README.zh.md)。
+renderer 输出依数据而定的 stdout 尾部，再输出可选的 `[stderr]` 和 stderr 尾部。没有输出时，它精确输出 `(no output)`。条件行精确为 `[output truncated; full output: <path-or-(unavailable)>]`、`[sandbox: file access denied under <mode> mode]`、`[timed out after <timeoutMs>ms]`、`[killed by signal: <signal>]` 与 `[exit code: <exitCode>]`；沙箱升权与 runner 故障行原文列于 [`nulu-bash-sandbox`](../bash-sandbox/README.zh.md)。
 
 #### Token 影响
 
@@ -173,7 +173,7 @@ renderer 输出依数据而定的 stdout 尾部，再输出可选的 `[stderr]` 
 
 #### 模型看到什么
 
-启动会精确返回 `started background job <jobId>`。本生产方会向通用任务运行时提供增量进程输出、可选的 `[some output was dropped from memory; full output: <paths-or-(unavailable)>]`、沙箱事实，以及 `exit code: <exitCode>` 或 `signal: <signal>` 等终止详情。[`dsh-tool-jobs`](../../jobs/tool-jobs/README.zh.md) 负责模型可见的状态行、完成通知、列表和取消响应。
+启动会精确返回 `started background job <jobId>`。本生产方会向通用任务运行时提供增量进程输出、可选的 `[some output was dropped from memory; full output: <paths-or-(unavailable)>]`、沙箱事实，以及 `exit code: <exitCode>` 或 `signal: <signal>` 等终止详情。[`nulu-tool-jobs`](../../jobs/tool-jobs/README.zh.md) 负责模型可见的状态行、完成通知、列表和取消响应。
 
 #### Token 影响
 
@@ -187,7 +187,7 @@ renderer 输出依数据而定的 stdout 尾部，再输出可选的 `[stderr]` 
 
 #### 模型看到什么
 
-验证与策略失败统一为 `Error: <message>`。本包的稳定消息包括 `invalid command: expected a non-empty string`、`invalid description: expected a non-empty string`、`invalid timeoutMs: expected a positive number, got <value>`、升权配对失败、`run_in_background is disabled for this deployment (enableRunInBackground: false)`、`background jobs unavailable: load @deepseek-ai/dsh-jobs and @deepseek-ai/dsh-tool-jobs`、`sandbox_permissions is not available in this composition (no sandboxing executor to escalate)`、审批不可用／拒绝／取消变体，以及 `tool call aborted`。
+验证与策略失败统一为 `Error: <message>`。本包的稳定消息包括 `invalid command: expected a non-empty string`、`invalid description: expected a non-empty string`、`invalid timeoutMs: expected a positive number, got <value>`、升权配对失败、`run_in_background is disabled for this deployment (enableRunInBackground: false)`、`background jobs unavailable: load @worldapptechnologies/nulu-jobs and @worldapptechnologies/nulu-tool-jobs`、`sandbox_permissions is not available in this composition (no sandboxing executor to escalate)`、审批不可用／拒绝／取消变体，以及 `tool call aborted`。
 
 #### Token 影响
 

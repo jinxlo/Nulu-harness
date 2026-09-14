@@ -28,7 +28,7 @@
 ## PDF
 
 - Viewer: PDF
-- Worker: dsh-pdf
+- Worker: nulu-pdf
 - Continuous pages: 2
 - Horizontal overflow: false
 - Canvas fills: red -> blue -> blue

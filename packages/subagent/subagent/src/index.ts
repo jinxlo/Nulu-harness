@@ -8,8 +8,8 @@
  * select one by name.
  *
  * This package owns the Service Definition role of the capability seam. Service Providers
- * (`@deepseek-ai/dsh-subagent-spawn-in-process`, `-fork`, `-acp`) and the model-facing
- * consumer (`@deepseek-ai/dsh-tool-subagent`) are separate packages.
+ * (`@worldapptechnologies/nulu-subagent-spawn-in-process`, `-fork`, `-acp`) and the model-facing
+ * consumer (`@worldapptechnologies/nulu-tool-subagent`) are separate packages.
  *
  * Public operations express caller intent: `start` returns one published owned
  * one-shot run, `startContinuable` establishes a durable continuable child, and
@@ -26,19 +26,19 @@
  * serialization and hostile-input validation belong at real process, worker,
  * persistence, and model boundaries.
  *
- * @module @deepseek-ai/dsh-subagent
+ * @module @worldapptechnologies/nulu-subagent
  */
 
-import { Context } from '@deepseek-ai/cordis'
-import type {} from '@deepseek-ai/dsh-attachment'
-import { scopeTarget } from '@deepseek-ai/dsh-scope'
-import type { Scoped } from '@deepseek-ai/dsh-scope'
-import { assertObjectJsonSchema } from '@deepseek-ai/dsh-tools'
-import type { ContentBlock, MessageId, MessageSource } from '@deepseek-ai/dsh-llm'
-import type { Agent } from '@deepseek-ai/dsh-agent'
-import type { SessionId } from '@deepseek-ai/dsh-session'
-import { canonicalClientTimeZone } from '@deepseek-ai/dsh-util-time'
-import { Remote, RemoteError, TypertRemoteService } from '@deepseek-ai/dsh-typert-protocol'
+import { Context } from '@worldapptechnologies/cordis'
+import type {} from '@worldapptechnologies/nulu-attachment'
+import { scopeTarget } from '@worldapptechnologies/nulu-scope'
+import type { Scoped } from '@worldapptechnologies/nulu-scope'
+import { assertObjectJsonSchema } from '@worldapptechnologies/nulu-tools'
+import type { ContentBlock, MessageId, MessageSource } from '@worldapptechnologies/nulu-llm'
+import type { Agent } from '@worldapptechnologies/nulu-agent'
+import type { SessionId } from '@worldapptechnologies/nulu-session'
+import { canonicalClientTimeZone } from '@worldapptechnologies/nulu-util-time'
+import { Remote, RemoteError, TypertRemoteService } from '@worldapptechnologies/nulu-typert-protocol'
 import {
   catalogView, rejectCatalogRead, rejectPrompt, validateControlRequest,
 } from './control.ts'
@@ -130,7 +130,7 @@ export type { SubagentDescendantListEntry } from './list-children.ts'
 export type { SubagentRunEndInfo, SubagentRunInfo } from './types.ts'
 export type { SubagentIdentityProjection, SubagentTimingProjection } from './projection-types.ts'
 
-declare module '@deepseek-ai/cordis' {
+declare module '@worldapptechnologies/cordis' {
   interface Context {
     subagents: SubagentRuntime
   }
@@ -155,7 +155,7 @@ declare module '@deepseek-ai/cordis' {
      * parent-scoped listener observes only its own delegations. Paired with
      * `subagent/end`.
      * @param info - the provider and published child identity.
-     * @dshScopeScan unsupported
+     * @nuluScopeScan unsupported
      * @mode emit
      */
     'subagent/start'(this: Scoped<SubagentRuntime>, info: SubagentRunInfo): void
@@ -164,7 +164,7 @@ declare module '@deepseek-ai/cordis' {
      * parent carrier as `subagent/start`, so the lifecycle pair reaches the
      * same scoped audience.
      * @param info - the run identity and terminal outcome.
-     * @dshScopeScan unsupported
+     * @nuluScopeScan unsupported
      * @mode emit
      */
     'subagent/end'(this: Scoped<SubagentRuntime>, info: SubagentRunEndInfo): void

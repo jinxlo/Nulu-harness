@@ -3,7 +3,7 @@ description: "面向用户的权限预设：供选择、配置或排查把沙箱
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-permission-presets
+# @worldapptechnologies/nulu-permission-presets
 
 [English](README.md) | 中文
 
@@ -32,7 +32,7 @@ kind: "package-reference"
 插件配置定义预设表与新会话的默认值。每个预设名称把一个沙箱模式与一个审批策略捆绑为一组；`name` 与 `description` 是可选的客户端呈现。
 
 ```yaml
-- name: '@deepseek-ai/dsh-permission-presets'
+- name: '@worldapptechnologies/nulu-permission-presets'
   config:
     presets:
       workspace-write:
@@ -49,7 +49,7 @@ kind: "package-reference"
 | `presets` | `workspace-write`、`danger-full-access` | 预设名称 → 沙箱／审批捆绑的表 |
 | `defaultPreset` | 推断 | 固定到新会话的预设；组合默认值不匹配任何预设时必填 |
 
-生成的[配置目录](../../../docs/config-catalog.zh.md#deepseek-aidsh-permission-presets)是每个受支持字段及其 JSDoc 的穷尽式真源。`custom` 这个名称保留给推导出的非预设状态，不能作为表条目。挂载需要具有约束能力的 bash 执行器（会报告 `sandboxMode` 的执行器）与审批服务。
+生成的[配置目录](../../../docs/config-catalog.zh.md#worldapptechnologiesnulu-permission-presets)是每个受支持字段及其 JSDoc 的穷尽式真源。`custom` 这个名称保留给推导出的非预设状态，不能作为表条目。挂载需要具有约束能力的 bash 执行器（会报告 `sandboxMode` 的执行器）与审批服务。
 
 ### 切换预设
 
@@ -83,7 +83,7 @@ kind: "package-reference"
 
 ### 写入路径
 
-`apply()` 解析预设，仅当有效预设变化时追加 `permission/preset`，然后通过各自的权威 setter——`dsh-sandbox-policy` 的 `setSandboxMode` 与 `dsh-user-approval` 的 `setApprovalPolicy`——写入每个变化的旋钮。选择事件先于旋钮事件，因此在两个预设共享同一组取值时保留用户意图；净变化为零的选择不追加任何内容。
+`apply()` 解析预设，仅当有效预设变化时追加 `permission/preset`，然后通过各自的权威 setter——`nulu-sandbox-policy` 的 `setSandboxMode` 与 `nulu-user-approval` 的 `setApprovalPolicy`——写入每个变化的旋钮。选择事件先于旋钮事件，因此在两个预设共享同一组取值时保留用户意图；净变化为零的选择不追加任何内容。
 
 ### 读取侧与 `custom`
 
@@ -116,7 +116,7 @@ kind: "package-reference"
 <a id="model-experience"></a>
 ## 模型体验
 
-间接地，通过 `dsh-user-approval` 和 `dsh-tool-bash`：二者渲染由此服务的旋钮事件所选择的审批策略提示词、切换通知与经沙箱执行的工具结果；`permission/preset` 本身只写入日志。
+间接地，通过 `nulu-user-approval` 和 `nulu-tool-bash`：二者渲染由此服务的旋钮事件所选择的审批策略提示词、切换通知与经沙箱执行的工具结果；`permission/preset` 本身只写入日志。
 
 #### KV Cache 影响
 

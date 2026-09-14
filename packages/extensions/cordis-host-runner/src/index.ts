@@ -1,16 +1,16 @@
 /**
  * Dynamic Cordis Plugin service: immutable package definitions, one active run
  * per Plugin, human-approved Client activation, and Host/Client invocation.
- * @module @deepseek-ai/dsh-cordis-host-runner
+ * @module @worldapptechnologies/nulu-cordis-host-runner
  */
 
-import { Context } from '@deepseek-ai/cordis'
-import type { Fiber } from '@deepseek-ai/cordis'
-import z from '@deepseek-ai/schemastery'
-import type { Agent } from '@deepseek-ai/dsh-agent'
-import { createUserMessage } from '@deepseek-ai/dsh-llm'
-import { TypertRemoteService, Remote } from '@deepseek-ai/dsh-typert-protocol'
-import type { JsonValue } from '@deepseek-ai/dsh-util-values'
+import { Context } from '@worldapptechnologies/cordis'
+import type { Fiber } from '@worldapptechnologies/cordis'
+import z from '@worldapptechnologies/schemastery'
+import type { Agent } from '@worldapptechnologies/nulu-agent'
+import { createUserMessage } from '@worldapptechnologies/nulu-llm'
+import { TypertRemoteService, Remote } from '@worldapptechnologies/nulu-typert-protocol'
+import type { JsonValue } from '@worldapptechnologies/nulu-util-values'
 import { isPlugin, normalizeHandler } from './guard.ts'
 import { CordisInspectRegistryService } from './inspect-registry.ts'
 import { missingServices, startHostHalf } from './lifecycle.ts'
@@ -77,7 +77,7 @@ export function ApprovalRequestId(id: string): ApprovalRequestId {
   return id as ApprovalRequestId
 }
 
-declare module '@deepseek-ai/cordis' {
+declare module '@worldapptechnologies/cordis' {
   interface Context {
     /** Process-local dynamic Plugin registry and lifecycle service. */
     dynamicCordisRunner: DynamicCordisRunnerService
@@ -1245,7 +1245,7 @@ function missingFor(ctx: Context, run: DynamicCordisRun): string[] {
 }
 
 function missingPluginMessage(id: CordisDynamicPluginId): string {
-  return `no dynamic plugin "${id}" in this process — it may have been removed or lost on DSH restart`
+  return `no dynamic plugin "${id}" in this process — it may have been removed or lost on NULU restart`
 }
 
 function errorDetails(error: unknown): CordisErrorDetails {

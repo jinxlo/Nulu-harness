@@ -44,19 +44,19 @@ function waitForLine(
   })
 }
 
-describe('Python SDK dsh profile keyless smoke', () => {
+describe('Python SDK nulu profile keyless smoke', () => {
   it.each([
     { label: 'reports max-token turns with the default mapping config', envValue: undefined, editorEnabled: false },
     { label: 'reports max-token turns with mapping enabled through env', envValue: 'true', editorEnabled: false },
     { label: 'reports max-token turns with mapping disabled through env', envValue: 'false', editorEnabled: false },
     { label: 'allows an explicit patch to enable str_replace_editor', envValue: undefined, editorEnabled: true },
   ])('$label', async ({ envValue, editorEnabled }) => {
-    const root = await mkdtemp(join(tmpdir(), 'dsh-python-sdk-runtime-smoke-'))
+    const root = await mkdtemp(join(tmpdir(), 'nulu-python-sdk-runtime-smoke-'))
     const editorPatch = join(root, 'editor.patch.yml')
     if (editorEnabled) await writeFile(editorPatch, [
       '- insert:',
       '    - id: tool-str-replace-editor',
-      "      name: '@deepseek-ai/dsh-tool-str-replace-editor'",
+      "      name: '@worldapptechnologies/nulu-tool-str-replace-editor'",
       '',
     ].join('\n'))
     const modelRequests: Record<string, unknown>[] = []
@@ -88,12 +88,12 @@ describe('Python SDK dsh profile keyless smoke', () => {
     ], {
       cwd: repoRoot,
       env: {
-        DSH_HOME: join(root, '.dsh'),
-        DSH_PERMISSION_MODE: 'danger-full-access',
-        DSH_TELEMETRY_DISABLED: '1',
+        NULU_HOME: join(root, '.nulu'),
+        NULU_PERMISSION_MODE: 'danger-full-access',
+        NULU_TELEMETRY_DISABLED: '1',
         DEEPSEEK_API_KEY: 'keyless-smoke-no-call',
         DEEPSEEK_BASE_URL: `http://127.0.0.1:${address.port}`,
-        ...(envValue === undefined ? {} : { DSH_MAX_TOKENS_AS_SUCCESS: envValue }),
+        ...(envValue === undefined ? {} : { NULU_MAX_TOKENS_AS_SUCCESS: envValue }),
       },
       timeout: 35_000,
       killSignal: 'SIGKILL',
@@ -127,7 +127,7 @@ describe('Python SDK dsh profile keyless smoke', () => {
       expect(initialized).toMatchObject({
         jsonrpc: '2.0',
         id: 1,
-        result: { serverInfo: { name: 'deepseek-harness-sdk-runtime' } },
+        result: { serverInfo: { name: 'nulu-harness-sdk-runtime' } },
       })
 
       child.stdin.write(`${JSON.stringify({
@@ -173,7 +173,7 @@ describe('Python SDK dsh profile keyless smoke', () => {
       expect(shutdown).toMatchObject({ jsonrpc: '2.0', id: 3, result: {} })
       const exit = await child
       expect(exit.exitCode, `signal=${String(exit.signal)}; stderr=${stderr}`).toBe(0)
-      const sessionsRoot = join(root, '.dsh', 'sessions')
+      const sessionsRoot = join(root, '.nulu', 'sessions')
       const files = await readdir(sessionsRoot, { recursive: true })
       const log = files.find(file => file.endsWith('.jsonl.zstd'))
       expect(log).toBeDefined()
@@ -193,7 +193,7 @@ describe('Python SDK dsh profile keyless smoke', () => {
     { label: 'boots the standalone minimal profile through its generated manifest', editorEnabled: false },
     { label: 'executes the documented editor opt-in patch with sdk-minimal', editorEnabled: true },
   ])('$label', async ({ editorEnabled }) => {
-    const root = await mkdtemp(join(tmpdir(), 'dsh-python-sdk-minimal-'))
+    const root = await mkdtemp(join(tmpdir(), 'nulu-python-sdk-minimal-'))
     const editorPatch = join(root, 'editor.patch.yml')
     if (editorEnabled) {
       const guide = await readFile(join(repoRoot, 'docs/user/guide/python-sdk.md'), 'utf8')
@@ -248,8 +248,8 @@ describe('Python SDK dsh profile keyless smoke', () => {
     ], {
       cwd: repoRoot,
       env: {
-        DSH_HOME: join(root, '.dsh'),
-        DSH_SYSTEM_PROMPT: 'Minimal allowlist prompt.',
+        NULU_HOME: join(root, '.nulu'),
+        NULU_SYSTEM_PROMPT: 'Minimal allowlist prompt.',
         DEEPSEEK_API_KEY: 'keyless-smoke-no-call',
         DEEPSEEK_BASE_URL: `http://127.0.0.1:${address.port}`,
       },
@@ -292,10 +292,10 @@ describe('Python SDK dsh profile keyless smoke', () => {
       })
 
       const profile = JSON.parse(
-        await readFile(join(root, '.dsh', 'profiles', 'sdk-minimal', 'package.json'), 'utf8'),
-      ) as { dsh?: { profile?: { bundles?: string[]; patchReload?: string } } }
-      expect(profile.dsh?.profile).toEqual({
-        bundles: ['@deepseek-ai/dsh-sdk-minimal'],
+        await readFile(join(root, '.nulu', 'profiles', 'sdk-minimal', 'package.json'), 'utf8'),
+      ) as { nulu?: { profile?: { bundles?: string[]; patchReload?: string } } }
+      expect(profile.nulu?.profile).toEqual({
+        bundles: ['@worldapptechnologies/nulu-sdk-minimal'],
         patchReload: 'startup',
       })
       expect(modelRequests[0]?.tools).toEqual(expect.any(Array))
@@ -331,7 +331,7 @@ describe('Python SDK dsh profile keyless smoke', () => {
   }, 40_000)
 
   it('rejects an invalid max-token success env value', async () => {
-    const root = await mkdtemp(join(tmpdir(), 'dsh-python-sdk-runtime-invalid-'))
+    const root = await mkdtemp(join(tmpdir(), 'nulu-python-sdk-runtime-invalid-'))
     try {
       const { exitCode, stdout, stderr } = await execa(process.execPath, [
         '--import',
@@ -342,9 +342,9 @@ describe('Python SDK dsh profile keyless smoke', () => {
       ], {
         cwd: repoRoot,
         env: {
-          DSH_HOME: join(root, '.dsh'),
+          NULU_HOME: join(root, '.nulu'),
           DEEPSEEK_API_KEY: 'keyless-smoke-no-call',
-          DSH_MAX_TOKENS_AS_SUCCESS: 'sometimes',
+          NULU_MAX_TOKENS_AS_SUCCESS: 'sometimes',
         },
         stdin: 'ignore',
         timeout: 25_000,
@@ -355,7 +355,7 @@ describe('Python SDK dsh profile keyless smoke', () => {
       expect(exitCode, stderr).toBe(1)
       expect(stdout).toBe('')
       expect(stderr).toContain('plugin tree failed to load')
-      expect(stderr).toContain('failed to apply loader entry sdk-jsonrpc-server (@deepseek-ai/dsh-sdk-jsonrpc-server)')
+      expect(stderr).toContain('failed to apply loader entry sdk-jsonrpc-server (@worldapptechnologies/nulu-sdk-jsonrpc-server)')
       expect(stderr).toContain('sometimes')
     } finally {
       await rm(root, { recursive: true, force: true })

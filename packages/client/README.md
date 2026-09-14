@@ -9,7 +9,7 @@ English | [中文](README.zh.md)
 
 ## Summary
 
-The `client/` group provides the browser experience for the dsh web GUI, including conversation, navigation, settings, approvals, file access, and other interactive features. Choose packages from this family when adding browser-visible behavior; use [`host/`](../host/README.md) for server-side page delivery and host integration. Packages cover both the shared browser foundation and focused UI features, while each child README owns its configuration and behavior. Authoring rules live in [AGENTS.md](AGENTS.md), and the related documentation below explains cross-package composition.
+The `client/` group provides the browser experience for the nulu web GUI, including conversation, navigation, settings, approvals, file access, and other interactive features. Choose packages from this family when adding browser-visible behavior; use [`host/`](../host/README.md) for server-side page delivery and host integration. Packages cover both the shared browser foundation and focused UI features, while each child README owns its configuration and behavior. Authoring rules live in [AGENTS.md](AGENTS.md), and the related documentation below explains cross-package composition.
 
 ## Table of Contents
 
@@ -44,7 +44,7 @@ The kernel packages boot and serve the page; the UI feature packages present it.
 | [`ui-sidebar/`](ui-sidebar/README.md) | Presents workspace and session navigation | — |
 | [`resources/`](resources/README.md) | Unified resource model: protocol providers behind the `useResource` session standard hook | `ctx.resources` |
 | [`ui-sidebar-files/`](ui-sidebar-files/README.md) | Right-Sidebar workspace file tree tab type | — |
-| [`ui-brand-official/`](ui-brand-official/README.md) | Fills the generic browser-brand slots with the official name and marks | — |
+| [`ui-brand/`](ui-brand/README.md) | Fills the generic browser-brand slots with the Nulu name and mark | — |
 | [`ui-workspace/`](ui-workspace/README.md) | Provides workspace selection and creation surfaces | — |
 | [`ui-conversation/`](ui-conversation/README.md) | Presents the active conversation and its input surface | — |
 | [`ui-chat/`](ui-chat/README.md) | Projects and renders the Chat conversation target | — |
@@ -83,7 +83,7 @@ The kernel packages boot and serve the page; the UI feature packages present it.
 
 Start with the subsystem reference and the two notes that own the cross-package composition decisions, then the host half that serves this page.
 
-- [Client modules subsystem](../../docs/subsystems/client-modules.md) — the web plugin table: `dsh.client` declarations, the boot graph wire, and the bundle route.
+- [Client modules subsystem](../../docs/subsystems/client-modules.md) — the web plugin table: `nulu.client` declarations, the boot graph wire, and the bundle route.
 - [Slot system standard](../../.agents/notes/implemented/architecture/2026-07-22-slot-type-chain-implementation.md) — the definitive slot model: registration, props shares, and stores.
 - [Web client architecture note](../../.agents/notes/implemented/architecture/2026-07-19-gui-web-client-architecture.md) — the loading chain, object layer, and client services.
 - [Host group map](../host/README.md) — the host half that serves this browser half.

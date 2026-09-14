@@ -1,4 +1,4 @@
-/** Published dsh web + pnpm dev:web → browser HMR, with no page reload. */
+/** Published nulu web + pnpm dev:web → browser HMR, with no page reload. */
 
 import { existsSync, globSync, statSync } from 'node:fs'
 import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
@@ -6,10 +6,10 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { chromium } from 'playwright'
 import { expect, it } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import type { Fiber } from '@deepseek-ai/cordis'
-import LocalSubprocessRuntime from '@deepseek-ai/dsh-subprocess-local'
-import type { SubprocessHandle, SubprocessSpawnSpec } from '@deepseek-ai/dsh-subprocess'
+import { Context } from '@worldapptechnologies/cordis'
+import type { Fiber } from '@worldapptechnologies/cordis'
+import LocalSubprocessRuntime from '@worldapptechnologies/nulu-subprocess-local'
+import type { SubprocessHandle, SubprocessSpawnSpec } from '@worldapptechnologies/nulu-subprocess'
 import { readClientBuildRecord } from '../../../scripts/client-build-environment.ts'
 import { REPO_ROOT } from './support.ts'
 
@@ -83,10 +83,10 @@ async function stopTree(child: SubprocessHandle): Promise<void> {
 }
 
 it('hot-reloads a real client-plugin source edit without refreshing the page', async () => {
-  const world = await mkdtemp(join(tmpdir(), 'dsh-web-hmr-world-'))
+  const world = await mkdtemp(join(tmpdir(), 'nulu-web-hmr-world-'))
   const sourcePath = join(REPO_ROOT, 'packages/client/ui-conversation/src/client/locales.ts')
   const binPath = join(REPO_ROOT, 'apps/cli/lib/bin.js')
-  if (!existsSync(binPath)) throw new Error('HMR browser test needs the built dsh bin; run pnpm run build first')
+  if (!existsSync(binPath)) throw new Error('HMR browser test needs the built nulu bin; run pnpm run build first')
   const clientBuildEnvironment = readClientBuildRecord(REPO_ROOT).environment
   const originalClientArtifacts = await Promise.all(clientArtifactPaths()
     .map(async path => [path, await readFile(path)] as const))
@@ -117,10 +117,10 @@ it('hot-reloads a real client-plugin source edit without refreshing the page', a
       world,
       {
         DEEPSEEK_API_KEY: 'keyless-hmr-no-call',
-        DSH_HOME: join(world, '.dsh'),
+        NULU_HOME: join(world, '.nulu'),
       },
     ))
-    const baseUrl = await waitForOutput(host, /dsh web: (http:\/\/[^\s]+)/, 'built dsh web')
+    const baseUrl = await waitForOutput(host, /nulu web: (http:\/\/[^\s]+)/, 'built nulu web')
     browser = await chromium.launch()
     const page = await browser.newPage()
     const pageErrors: string[] = []

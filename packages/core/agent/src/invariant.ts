@@ -1,10 +1,10 @@
-/** Package-owned agent lifecycle invariants. @module @deepseek-ai/dsh-agent/invariant */
+/** Package-owned agent lifecycle invariants. @module @worldapptechnologies/nulu-agent/invariant */
 
-import type { Context } from '@deepseek-ai/cordis'
-import type { InvariantInstaller } from '@deepseek-ai/dsh-invariants'
-import type { Agent, AgentStatus } from '@deepseek-ai/dsh-agent'
+import type { Context } from '@worldapptechnologies/cordis'
+import type { InvariantInstaller } from '@worldapptechnologies/nulu-invariants'
+import type { Agent, AgentStatus } from '@worldapptechnologies/nulu-agent'
 
-const PACKAGE_NAME = '@deepseek-ai/dsh-agent'
+const PACKAGE_NAME = '@worldapptechnologies/nulu-agent'
 
 /** Cordis companion plugin name. */
 export const name = 'agent-invariant'

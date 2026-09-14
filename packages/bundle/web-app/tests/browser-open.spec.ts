@@ -5,10 +5,10 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import Include from '@deepseek-ai/cordis-plugin-include'
-import Loader from '@deepseek-ai/cordis-plugin-loader'
-import WebServer from '@deepseek-ai/dsh-host-webserver'
+import { Context } from '@worldapptechnologies/cordis'
+import Include from '@worldapptechnologies/cordis-plugin-include'
+import Loader from '@worldapptechnologies/cordis-plugin-loader'
+import WebServer from '@worldapptechnologies/nulu-host-webserver'
 import { apply, internals } from '../src/index.ts'
 
 const contexts: Context[] = []
@@ -34,7 +34,7 @@ afterEach(async () => {
 
 describe('web app browser startup', () => {
   it('opens the canonical URL only after the complete page is reachable', async () => {
-    const root = mkdtempSync(join(tmpdir(), 'dsh-web-browser-open-'))
+    const root = mkdtempSync(join(tmpdir(), 'nulu-web-browser-open-'))
     tempRoots.push(root)
     const dist = join(root, 'dist')
     mkdirSync(dist)

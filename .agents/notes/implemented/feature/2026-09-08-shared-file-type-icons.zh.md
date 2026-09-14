@@ -6,13 +6,13 @@ Status: implemented
 
 ## 问题
 
-客户端功能插件只能通过 `@deepseek-ai/dsh-client-ui-primitives` 共享 React 组件，但文件卡片没有共享的文件类型呈现。`LinkIcon` 拥有唯一一份扩展名表，并有意把路径折叠为六种链接类别；附件卡片、已发送消息附件、排队文件和工作区文件行则统一使用一个通用文档图形。其中两个消费方还各自带着一份扩展名展示辅助函数。在其他位置增加精细文件图标，需要再复制一份扩展名表或让功能插件之间产生运行时 import。
+客户端功能插件只能通过 `@worldapptechnologies/nulu-client-ui-primitives` 共享 React 组件，但文件卡片没有共享的文件类型呈现。`LinkIcon` 拥有唯一一份扩展名表，并有意把路径折叠为六种链接类别；附件卡片、已发送消息附件、排队文件和工作区文件行则统一使用一个通用文档图形。其中两个消费方还各自带着一份扩展名展示辅助函数。在其他位置增加精细文件图标，需要再复制一份扩展名表或让功能插件之间产生运行时 import。
 
 ## 决策
 
 `ui-primitives` 统一拥有一套 Cordis-free 的文件分类与渲染 API。`fileExtension(path)` 对两种路径分隔符采用共享的 basename 与最终点号语义。`classifyFileType(path)` 不区分大小写，并返回闭合的 `FileType` 联合：传统的 `code`、`excel`、`folder`、`html`、`image`、`markdown`、`other`、`pdf`、`ppt`、`video`、`word` 类别，以及由 `CodeFileIcon` 渲染的细分 `CodeFileType` 集合。解析按完整文件名、文件名前缀、文件名后缀、可选项目上下文、扩展名的顺序执行。路径分类器返回 `folder` 之外的全部成员；调用方确认条目是目录时，通过 `FileTypeIcon` 的显式 `kind` 覆盖指定目录。未知扩展名、无扩展名和末尾点号回退到 `other`，但共享表识别 `Dockerfile`、`Makefile`、`package.json`、`.gitignore`、`README`、`CHANGELOG` 等具名文件。
 
-`FileTypeIcon` 接受路径、共享 `IconProps`、显式 `kind`和可选的项目文件快照。传统文件类型把所提供的 28px 文档与文件夹轮廓渲染为 inline SVG。Excel、Markdown、PDF、PPT、Word 的前景标记围绕自身视觉中心缩放至 122%，其余带标记的传统图形使用 112%；文件底板与折角保持源图几何，通用文件不凭空增加中心标记。底板使用实色分类颜色，前景标记与普通折角使用白色，通用文件使用较深的灰色折角。CSS 通过静态设计 token 分配所提供的分类调色板：code/HTML/Markdown 使用 DeepSeek 蓝，Word 使用较浅的 DeepSeek 蓝，Excel 使用绿色，folder/PPT 使用两档琥珀色，PDF 使用红色，未知文件使用中性灰。image 与 video 通过组件本地变量共用所提供的紫色，因为设计平台没有匹配的紫色 token。调用方可通过 `--dsh-file-type-icon-color` 覆盖传统底板颜色。
+`FileTypeIcon` 接受路径、共享 `IconProps`、显式 `kind`和可选的项目文件快照。传统文件类型把所提供的 28px 文档与文件夹轮廓渲染为 inline SVG。Excel、Markdown、PDF、PPT、Word 的前景标记围绕自身视觉中心缩放至 122%，其余带标记的传统图形使用 112%；文件底板与折角保持源图几何，通用文件不凭空增加中心标记。底板使用实色分类颜色，前景标记与普通折角使用白色，通用文件使用较深的灰色折角。CSS 通过静态设计 token 分配所提供的分类调色板：code/HTML/Markdown 使用 DeepSeek 蓝，Word 使用较浅的 DeepSeek 蓝，Excel 使用绿色，folder/PPT 使用两档琥珀色，PDF 使用红色，未知文件使用中性灰。image 与 video 通过组件本地变量共用所提供的紫色，因为设计平台没有匹配的紫色 token。调用方可通过 `--nulu-file-type-icon-color` 覆盖传统底板颜色。
 
 已识别的代码与配置文件把对应的 20px 方形图稿缩放到请求的图标尺寸。内嵌静态表只包含现有 48 个 `CodeFileType` 条目；资源包中额外的图稿不会新增类别，相邻 manifest 记录负责的设计归属方与来源摘要。测试会拒绝该表中的脚本、事件属性、外部引用与重复 id。`CodeFileIcon` 在插入前为本地 SVG id 加上组件实例前缀，使重复渐变与裁剪路径互不干扰。这些技术标记保留自身内嵌的多色填充，是普通 current-color 图标规则的明确例外。映射让 React 优先于 TypeScript/JavaScript、Angular 文件名后缀优先于基础扩展名，并按文件名识别 Docker/Node/Git/Make/CMake；只有可选项目快照包含内容带 `flutter:` 的 `pubspec.yaml` 时才选择 Flutter。Markdown 与 SVG 仍由传统 Markdown 和图片类别拥有。CSV 和 TSV 在文件卡片、文件行及预览标题中使用 code 图标，其可点击链接也使用 code。`.env` 和以 `.env` 结尾的文件名均使用环境配置图标。所有传统与技术 SVG 都是 `aria-hidden` 的，拥有文件身份的卡片、行或按钮提供无障碍名称。
 
@@ -38,7 +38,7 @@ Status: implemented
 
 - 客户端包使用一个文件名解析器与一份精细文件类型表，不再 import 或重新实现功能包本地逻辑。
 - 新后缀只在已有图形能准确表达它时加入精细表。若它的链接类别与当前适配不同，这次改动还必须决定是否改变 14px 链接外观。
-- 代码与配置图稿保留内嵌调色板，不接受传统图形的 `--dsh-file-type-icon-color` 覆盖。
+- 代码与配置图稿保留内嵌调色板，不接受传统图形的 `--nulu-file-type-icon-color` 覆盖。
 - 固定的 48 项图稿表为共享浏览器 bundle 增加约 35 kB 未压缩体积和 17 kB gzip 体积；新增类别必须证明这份静态基线成本是必要的。
-- primitive 不拥有文案，但拥有默认文件类型调色板。消费方继续拥有无障碍 label 与周围文字，并可通过 `--dsh-file-type-icon-color` 替换分类颜色。
+- primitive 不拥有文案，但拥有默认文件类型调色板。消费方继续拥有无障碍 label 与周围文字，并可通过 `--nulu-file-type-icon-color` 替换分类颜色。
 - 精细类别名称描述展示意图，不是 MIME 校验。后缀只是展示提示，不能证明文件内容或可信度。

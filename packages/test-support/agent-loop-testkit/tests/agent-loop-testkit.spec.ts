@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import { createUserMessage } from '@deepseek-ai/dsh-llm'
-import { Session, SessionId, SessionSeq } from '@deepseek-ai/dsh-session'
-import { renderPrompt } from '@deepseek-ai/dsh-system-prompt'
+import { Context } from '@worldapptechnologies/cordis'
+import { createUserMessage } from '@worldapptechnologies/nulu-llm'
+import { Session, SessionId, SessionSeq } from '@worldapptechnologies/nulu-session'
+import { renderPrompt } from '@worldapptechnologies/nulu-system-prompt'
 import {
   createInboxStub,
   mountAgentLoopTestDependencies,
@@ -14,7 +14,7 @@ function message(text: string) {
   return createUserMessage({ content: [{ type: 'text', text }], source: { kind: 'user' } })
 }
 
-describe('dsh-agent-loop-testkit', () => {
+describe('nulu-agent-loop-testkit', () => {
   it('rejects mutations through an unsupported Agent stub Inbox', () => {
     const inbox = unsupportedInbox()
 

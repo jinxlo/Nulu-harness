@@ -15,8 +15,8 @@ describe('desktop build paths', () => {
       'artifacts',
       'runtime',
       'packageSet',
-      'dsh',
-      'dshPnpm',
+      'nulu',
+      'nuluPnpm',
       'nodeExtract',
       'packedDsh',
       'packedVendor',
@@ -27,7 +27,7 @@ describe('desktop build paths', () => {
       expect(new Set([arm64[key], x64[key], windows[key]]).size).toBe(3)
     }
     expect(arm64.artifacts).toContain(join('targets', 'mac-arm64', 'artifacts'))
-    expect(x64.dsh).toContain(join('targets', 'mac-x64', 'dsh'))
+    expect(x64.nulu).toContain(join('targets', 'mac-x64', 'nulu'))
     expect(windows.runtime).toContain(join('targets', 'win-x64', 'runtime'))
   })
 
@@ -40,8 +40,8 @@ describe('desktop build paths', () => {
 
   it('resolves environment overrides and rejects unsupported targets', () => {
     expect(resolveDesktopBuildTarget({
-      DSH_DESKTOP_TARGET_PLATFORM: 'darwin',
-      DSH_DESKTOP_TARGET_ARCH: 'x64',
+      NULU_DESKTOP_TARGET_PLATFORM: 'darwin',
+      NULU_DESKTOP_TARGET_ARCH: 'x64',
     }, 'darwin', 'arm64')).toBe('mac-x64')
     expect(resolveDesktopBuildTarget({}, 'win32', 'x64')).toBe('win-x64')
     expect(() => resolveDesktopBuildTarget({}, 'linux', 'x64')).toThrow(/unsupported target/u)

@@ -1,8 +1,8 @@
-import type { Context } from '@deepseek-ai/cordis'
+import type { Context } from '@worldapptechnologies/cordis'
 import type {
   ContextMessageNode, ConversationNodeDefinition, SteeringMessageNode, UserMessageNode,
-} from '@deepseek-ai/dsh-client-ui-conversation/client'
-import { isAppendSurfaceEvent, isReplacementSurfaceEvent } from '@deepseek-ai/dsh-session/surface'
+} from '@worldapptechnologies/nulu-client-ui-conversation/client'
+import { isAppendSurfaceEvent, isReplacementSurfaceEvent } from '@worldapptechnologies/nulu-session/surface'
 import type { InboxState } from './inbox.ts'
 import { chatNode } from './common.ts'
 import { contextForm, contextProvenance } from './event-projection.ts'

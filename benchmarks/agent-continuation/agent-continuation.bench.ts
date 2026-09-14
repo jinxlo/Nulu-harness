@@ -27,7 +27,7 @@ const CATALOG_BUDGET_MS = Math.ceil(EXPECTED_CATALOG_CI_MS * PERFORMANCE_BUDGET_
 /** Reviewed hosted limit: floor(238 × 1.25); calibration records the original reference. */
 const REQUEST_HISTORY_BUDGET_MS = 297
 const EXPECTED_RETAINED_HEAP_MB = 23
-const WORKERS = join(import.meta.dirname, '..', '.dsh-build', 'agent-continuation')
+const WORKERS = join(import.meta.dirname, '..', '.nulu-build', 'agent-continuation')
 
 type Scenario = 'request-history' | 'catalog' | 'tool-continuation' | keyof typeof EXPECTED_MS
 type Report = ContinuationReport | CatalogReport | ProfileReport
@@ -137,7 +137,7 @@ describe('continuing tool-heavy Sessions with large histories', () => {
   const sources = new Map<Scenario, string>()
 
   beforeAll(async () => {
-    scratch = await mkdtemp(join(tmpdir(), 'dsh-agent-continuation-bench-'))
+    scratch = await mkdtemp(join(tmpdir(), 'nulu-agent-continuation-bench-'))
     for (const scenario of ['request-history', 'catalog'] as const) {
       const root = join(scratch, 'source-' + scenario)
       await run(root, scenario, 'seed')

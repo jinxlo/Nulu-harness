@@ -1,7 +1,7 @@
 /**
  * Default Agent driver over queued turns and step-boundary input. Every request
  * is derived from the session log.
- * @module dsh-agent-loop/agent
+ * @module nulu-agent-loop/agent
  */
 
 import type {
@@ -14,24 +14,24 @@ import type {
   InboxTarget,
   PreStepDecision,
   RequestErrorAction,
-} from '@deepseek-ai/dsh-agent'
-import { agentEvents, assembleContextFor } from '@deepseek-ai/dsh-agent'
-import type { GenerateOptions, LlmCallConfig, Message, PreparedLlmCall } from '@deepseek-ai/dsh-llm'
+} from '@worldapptechnologies/nulu-agent'
+import { agentEvents, assembleContextFor } from '@worldapptechnologies/nulu-agent'
+import type { GenerateOptions, LlmCallConfig, Message, PreparedLlmCall } from '@worldapptechnologies/nulu-llm'
 import {
   LlmError,
   createAssistantMessage,
   errorChain,
   markAgentLoopRequest,
-} from '@deepseek-ai/dsh-llm'
-import { deepFreeze } from '@deepseek-ai/dsh-util-values'
-import type { Scope } from '@deepseek-ai/dsh-scope'
-import { createScope } from '@deepseek-ai/dsh-scope'
-import type { EpochHeader, RequestContext, Session, SessionId, TurnEndReason, UserMessage } from '@deepseek-ai/dsh-session'
-import { canonicalHeader, headerEquals } from '@deepseek-ai/dsh-session'
-import { joinContextSections, renderContextSections, renderPrompt } from '@deepseek-ai/dsh-system-prompt'
-import type { PromptAssembly } from '@deepseek-ai/dsh-system-prompt'
-import type {} from '@deepseek-ai/dsh-session-projection'
-import type { Context } from '@deepseek-ai/cordis'
+} from '@worldapptechnologies/nulu-llm'
+import { deepFreeze } from '@worldapptechnologies/nulu-util-values'
+import type { Scope } from '@worldapptechnologies/nulu-scope'
+import { createScope } from '@worldapptechnologies/nulu-scope'
+import type { EpochHeader, RequestContext, Session, SessionId, TurnEndReason, UserMessage } from '@worldapptechnologies/nulu-session'
+import { canonicalHeader, headerEquals } from '@worldapptechnologies/nulu-session'
+import { joinContextSections, renderContextSections, renderPrompt } from '@worldapptechnologies/nulu-system-prompt'
+import type { PromptAssembly } from '@worldapptechnologies/nulu-system-prompt'
+import type {} from '@worldapptechnologies/nulu-session-projection'
+import type { Context } from '@worldapptechnologies/cordis'
 import { ReactLoopInbox } from './inbox.ts'
 import { RuntimeContextProjection } from './runtime-context.ts'
 import { AssistantStreamAttempt } from './assistant-stream.ts'

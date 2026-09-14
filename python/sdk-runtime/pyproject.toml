@@ -3,30 +3,30 @@ requires = ["hatchling==1.30.1"]
 build-backend = "hatchling.build"
 
 [project]
-name = "deepseek-harness-runtime-bin"
+name = "nulu-harness-runtime-bin"
 version = "0.0.0.dev0"
-description = "Bundled dsh CLI runtime for the DeepSeek Harness Python SDK"
+description = "Bundled nulu CLI runtime for the Nulu Harness Python SDK"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
-authors = [{ name = "DeepSeek" }]
+authors = [{ name = "World App Technologies" }]
 
 [project.urls]
-Homepage = "https://github.com/deepseek-ai/deepseek-harness"
-Documentation = "https://github.com/deepseek-ai/deepseek-harness/blob/master/python/sdk-runtime/README.md"
-Issues = "https://github.com/deepseek-ai/deepseek-harness/issues"
-Source = "https://github.com/deepseek-ai/deepseek-harness"
+Homepage = "https://github.com/worldapptechnologies/nulu-harness"
+Documentation = "https://github.com/worldapptechnologies/nulu-harness/blob/master/python/sdk-runtime/README.md"
+Issues = "https://github.com/worldapptechnologies/nulu-harness/issues"
+Source = "https://github.com/worldapptechnologies/nulu-harness"
 
 [project.scripts]
-dsh = "deepseek_harness_runtime:main"
+nulu = "nulu_harness_runtime:main"
 
-# Include the injected dsh executable and sidecars; exclude the dev-only node closure.
+# Include the injected nulu executable and sidecars; exclude the dev-only node closure.
 [tool.hatch.build]
-artifacts = ["src/deepseek_harness_runtime/runtime/deepseek-harness-sdk-runtime-*"]
-exclude = ["src/deepseek_harness_runtime/runtime/node"]
+artifacts = ["src/nulu_harness_runtime/runtime/nulu-harness-sdk-runtime-*"]
+exclude = ["src/nulu_harness_runtime/runtime/node"]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/deepseek_harness_runtime"]
+packages = ["src/nulu_harness_runtime"]
 
 [tool.hatch.build.targets.wheel.hooks.custom]
 

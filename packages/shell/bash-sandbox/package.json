@@ -1,13 +1,13 @@
 {
-  "name": "@deepseek-ai/dsh-bash-sandbox",
-  "description": "Sandbox-consuming implementation of the DeepSeek Harness bash executor seam (confines every command via ctx.sandbox, reports denial/enforcement result facts)",
+  "name": "@worldapptechnologies/nulu-bash-sandbox",
+  "description": "Sandbox-consuming implementation of the Nulu Harness bash executor seam (confines every command via ctx.sandbox, reports denial/enforcement result facts)",
   "version": "0.1.5-rc.2",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/worldapptechnologies/nulu-harness.git",
     "directory": "packages/shell/bash-sandbox"
   },
   "type": "module",
@@ -27,21 +27,21 @@
   ],
   "license": "MIT",
   "peerDependencies": {
-    "@deepseek-ai/dsh-shell": "workspace:^",
-    "@deepseek-ai/dsh-bash-local": "workspace:^",
-    "@deepseek-ai/dsh-sandbox": "workspace:^",
-    "@deepseek-ai/dsh-sandbox-policy": "workspace:^",
-    "@deepseek-ai/cordis": "workspace:^"
+    "@worldapptechnologies/nulu-shell": "workspace:^",
+    "@worldapptechnologies/nulu-bash-local": "workspace:^",
+    "@worldapptechnologies/nulu-sandbox": "workspace:^",
+    "@worldapptechnologies/nulu-sandbox-policy": "workspace:^",
+    "@worldapptechnologies/cordis": "workspace:^"
   },
   "devDependencies": {
-    "@deepseek-ai/dsh-shell": "workspace:^",
-    "@deepseek-ai/dsh-bash-local": "workspace:^",
-    "@deepseek-ai/dsh-subprocess-local": "workspace:^",
-    "@deepseek-ai/dsh-sandbox": "workspace:^",
-    "@deepseek-ai/dsh-sandbox-local": "workspace:^",
-    "@deepseek-ai/dsh-sandbox-policy": "workspace:^",
-    "@deepseek-ai/cordis": "workspace:^",
-    "@deepseek-ai/node-addon-system": "workspace:^",
-    "@deepseek-ai/dsh-session-projection": "workspace:^"
+    "@worldapptechnologies/nulu-shell": "workspace:^",
+    "@worldapptechnologies/nulu-bash-local": "workspace:^",
+    "@worldapptechnologies/nulu-subprocess-local": "workspace:^",
+    "@worldapptechnologies/nulu-sandbox": "workspace:^",
+    "@worldapptechnologies/nulu-sandbox-local": "workspace:^",
+    "@worldapptechnologies/nulu-sandbox-policy": "workspace:^",
+    "@worldapptechnologies/cordis": "workspace:^",
+    "@worldapptechnologies/node-addon-system": "workspace:^",
+    "@worldapptechnologies/nulu-session-projection": "workspace:^"
   }
 }

@@ -1,8 +1,8 @@
 /** Serialized Team transactions over the exact live Lead Session log. */
 
-import type { Agent } from '@deepseek-ai/dsh-agent'
-import type { Context } from '@deepseek-ai/cordis'
-import type { SessionEventMap, SessionId } from '@deepseek-ai/dsh-session'
+import type { Agent } from '@worldapptechnologies/nulu-agent'
+import type { Context } from '@worldapptechnologies/cordis'
+import type { SessionEventMap, SessionId } from '@worldapptechnologies/nulu-session'
 import type { TeamEventType, TeamState } from './projection.ts'
 
 type AppendTeamEvent = <T extends TeamEventType>(type: T, data: SessionEventMap[T]) => void

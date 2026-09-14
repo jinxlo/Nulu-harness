@@ -2,14 +2,14 @@
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { getStaticModules } from '@deepseek-ai/dsh-client-web/src/seed.ts'
+import { getStaticModules } from '@worldapptechnologies/nulu-client-web/src/seed.ts'
 import { afterAll, describe, expect, it } from 'vitest'
 import { MODULES_PACKAGE } from '../src/assembly/modules.ts'
 import { WEB_PROFILE_BUNDLES, bundleRoster, webApp } from '../src/assembly/bundle-roster.ts'
 
 describe('webApp (the real web profile)', () => {
-  it('composes dsh-base then dsh-web-app: unique names, inject edges on roster rows or platform seed words', () => {
-    expect(WEB_PROFILE_BUNDLES).toEqual(['@deepseek-ai/dsh-base', '@deepseek-ai/dsh-web-app'])
+  it('composes nulu-base then nulu-web-app: unique names, inject edges on roster rows or platform seed words', () => {
+    expect(WEB_PROFILE_BUNDLES).toEqual(['@worldapptechnologies/nulu-base', '@worldapptechnologies/nulu-web-app'])
     const names = webApp.rows.map(row => row.name)
     expect(new Set(names).size).toBe(names.length)
     const known = new Set([...names, ...Object.keys(getStaticModules())])
@@ -21,14 +21,14 @@ describe('webApp (the real web profile)', () => {
   it('keeps browser rows with their declarations and drops Host-only, disabled, and subpath rows', () => {
     const immediate = new Set(webApp.rows.filter(row => row.immediately).map(row => row.name))
     expect(immediate.has(MODULES_PACKAGE)).toBe(true)
-    expect(immediate.has('@deepseek-ai/dsh-client-connection')).toBe(true)
-    expect(webApp.rows.find(row => row.name === '@deepseek-ai/dsh-api-gateway')?.inject)
-      .toEqual(['@deepseek-ai/dsh-typert-registry', '@deepseek-ai/dsh-client-connection'])
+    expect(immediate.has('@worldapptechnologies/nulu-client-connection')).toBe(true)
+    expect(webApp.rows.find(row => row.name === '@worldapptechnologies/nulu-api-gateway')?.inject)
+      .toEqual(['@worldapptechnologies/nulu-typert-registry', '@worldapptechnologies/nulu-client-connection'])
     const names = webApp.rows.map(row => row.name)
-    expect(names).toContain('@deepseek-ai/dsh-client-ui-settings-general')
-    expect(names).not.toContain('@deepseek-ai/dsh-llm') // Host only
-    expect(names).not.toContain('@deepseek-ai/dsh-client-ui-schedule') // inserted disabled
-    expect(names).not.toContain('@deepseek-ai/dsh-web-app') // Host runtime glue, its `/startup` row is a subpath
+    expect(names).toContain('@worldapptechnologies/nulu-client-ui-settings-general')
+    expect(names).not.toContain('@worldapptechnologies/nulu-llm') // Host only
+    expect(names).not.toContain('@worldapptechnologies/nulu-client-ui-schedule') // inserted disabled
+    expect(names).not.toContain('@worldapptechnologies/nulu-web-app') // Host runtime glue, its `/startup` row is a subpath
   })
 })
 
@@ -50,11 +50,11 @@ class Scratch {
   }
 
   bundle(name: string, patch: string): void {
-    this.pkg(name, { dsh: { bundle: { patch: './cordis.patch.yml' } } }, { 'cordis.patch.yml': patch })
+    this.pkg(name, { nulu: { bundle: { patch: './cordis.patch.yml' } } }, { 'cordis.patch.yml': patch })
   }
 
   web(name: string, client: Record<string, unknown> = {}): void {
-    this.pkg(name, { dsh: { client: { platform: 'web', ...client } } })
+    this.pkg(name, { nulu: { client: { platform: 'web', ...client } } })
   }
 
   roster(bundles: readonly string[]): readonly string[] {
@@ -66,13 +66,13 @@ describe('bundleRoster on a scratch installation', () => {
   const scratch = new Scratch()
   afterAll(() => { rmSync(scratch.root, { recursive: true, force: true }) })
 
-  it('applies the layers in order and keeps enabled browser rows once, with their dsh.client declaration', () => {
+  it('applies the layers in order and keeps enabled browser rows once, with their nulu.client declaration', () => {
     scratch.web('@t/a', { inject: ['@t/b'], immediately: true })
     scratch.web('@t/b')
     scratch.web('@t/c')
     scratch.web('plain')
-    scratch.pkg('@t/host', { dsh: {} })
-    scratch.pkg('@t/node', { dsh: { client: { platform: 'node' } } })
+    scratch.pkg('@t/host', { nulu: {} })
+    scratch.pkg('@t/node', { nulu: { client: { platform: 'node' } } })
     scratch.bundle('@t/base', `
 - insert:
     - id: a
@@ -156,8 +156,8 @@ describe('bundleRoster on a scratch installation', () => {
 
   it('fails loud on a bundle that does not resolve, declares no patch, or whose patch is not a list', () => {
     expect(() => scratch.roster(['@t/missing'])).toThrow('cannot resolve bundle @t/missing from')
-    scratch.pkg('@t/no-patch', { dsh: {} })
-    expect(() => scratch.roster(['@t/no-patch'])).toThrow('bundle @t/no-patch declares no dsh.bundle.patch in')
+    scratch.pkg('@t/no-patch', { nulu: {} })
+    expect(() => scratch.roster(['@t/no-patch'])).toThrow('bundle @t/no-patch declares no nulu.bundle.patch in')
     scratch.bundle('@t/not-a-list', 'insert: []\n')
     expect(() => scratch.roster(['@t/not-a-list'])).toThrow('must be a top-level list of patches')
   })

@@ -3,13 +3,13 @@ description: "抽象代码执行 seam（`ctx.codeRuntime`），供用户与维�
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-code-runtime
+# @worldapptechnologies/nulu-code-runtime
 
 [English](README.md) | 中文
 
 ## 概述
 
-使用 `dsh-code-runtime`，可通过已配置的后端，针对宿主提供的异步函数运行一段模型编写的程序。请求返回无损 JSON 值、通道内有序的日志或结构化错误；程序失败在结果中 resolve，而 Promise reject 表示调用方误用。每次运行都与先前运行隔离，且运行时不了解工具或会话。执行后端需另行选择；其语言与隔离描述符标明所需的源语言和执行基底，但这些描述符本身不承诺安全边界。
+使用 `nulu-code-runtime`，可通过已配置的后端，针对宿主提供的异步函数运行一段模型编写的程序。请求返回无损 JSON 值、通道内有序的日志或结构化错误；程序失败在结果中 resolve，而 Promise reject 表示调用方误用。每次运行都与先前运行隔离，且运行时不了解工具或会话。执行后端需另行选择；其语言与隔离描述符标明所需的源语言和执行基底，但这些描述符本身不承诺安全边界。
 
 ## 目录
 
@@ -25,7 +25,7 @@ kind: "package-reference"
 <a id="use-this-package"></a>
 ## 使用本包
 
-当你要组合一个执行模型程序的部署、直接消费 `ctx.codeRuntime`，或构建运行程序的后端时，选择本包。在已发布的组合中，`dsh-tools` 里的 PTC mode 是消费方：只有程序打印和返回的内容重新进入对话。
+当你要组合一个执行模型程序的部署、直接消费 `ctx.codeRuntime`，或构建运行程序的后端时，选择本包。在已发布的组合中，`nulu-tools` 里的 PTC mode 是消费方：只有程序打印和返回的内容重新进入对话。
 
 ### 运行一个程序
 
@@ -41,7 +41,7 @@ const result = await ctx.codeRuntime.run({
 
 ### 选择后端
 
-后端声明两个你可以依赖的描述符：`language`——程序必须使用的源语言，已知值为 `'typescript'` 与 `'python'`——以及 `isolation`——执行基底（`'worker-thread'`、`'process'`、`'container'`），仅供部署与诊断使用，不构成安全声明。[`dsh-code-runtime-worker-thread`](../code-runtime-worker-thread/README.zh.md) 在全新的 Node Worker 线程中执行 TypeScript；私有的 [`dsh-experimental-code-runtime-python`](../../experimental/code-runtime-python/README.zh.md) 包在全新的 CPython 子进程中执行 Python，供选择性组合使用。
+后端声明两个你可以依赖的描述符：`language`——程序必须使用的源语言，已知值为 `'typescript'` 与 `'python'`——以及 `isolation`——执行基底（`'worker-thread'`、`'process'`、`'container'`），仅供部署与诊断使用，不构成安全声明。[`nulu-code-runtime-worker-thread`](../code-runtime-worker-thread/README.zh.md) 在全新的 Node Worker 线程中执行 TypeScript；私有的 [`nulu-experimental-code-runtime-python`](../../experimental/code-runtime-python/README.zh.md) 包在全新的 CPython 子进程中执行 Python，供选择性组合使用。
 
 ### 可移植地命名绑定
 
@@ -63,7 +63,7 @@ binding-global 与 error-class 名称是语言可移植的：必须匹配 `[A-Za
 
 ### 设计理念
 
-本包是代码执行能力 seam 的 Service Definition 角色（[能力 seam](../../../.agents/notes/implemented/architecture/2026-06-13-capability-seams.zh.md)）：一个注册为 `ctx.codeRuntime` 的抽象 `CodeRuntime extends Service`，加上两个后端与消费方共享的词汇。提供方继承 `CodeRuntime`、实现 `run` 并注册服务；消费方（`dsh-tools` 中的 PTC mode）生成面向模型的 SDK 并桥接工具分发。按约定，运行时不了解工具与会话：它接收程序与具名异步绑定，返回 `{ value, logs, error? }`。
+本包是代码执行能力 seam 的 Service Definition 角色（[能力 seam](../../../.agents/notes/implemented/architecture/2026-06-13-capability-seams.zh.md)）：一个注册为 `ctx.codeRuntime` 的抽象 `CodeRuntime extends Service`，加上两个后端与消费方共享的词汇。提供方继承 `CodeRuntime`、实现 `run` 并注册服务；消费方（`nulu-tools` 中的 PTC mode）生成面向模型的 SDK 并桥接工具分发。按约定，运行时不了解工具与会话：它接收程序与具名异步绑定，返回 `{ value, logs, error? }`。
 
 ### 服务 API
 
@@ -107,7 +107,7 @@ binding-global 与 error-class 名称是语言可移植的：必须匹配标识�
 <a id="model-experience"></a>
 ## 模型体验
 
-通过 `dsh-tools` 中的 PTC mode 间接提供；后者公开 `run_code`，并将程序日志、值或失败作为保留的工具结果 token 返回。
+通过 `nulu-tools` 中的 PTC mode 间接提供；后者公开 `run_code`，并将程序日志、值或失败作为保留的工具结果 token 返回。
 
 #### KV Cache 影响
 

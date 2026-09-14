@@ -6,7 +6,7 @@ Status: implemented
 
 ## 问题
 
-[故障切换支路](../process/2026-09-09-blacksmith-failover-leg.zh.md)会把这套测试跑在本仓库不拥有的池上——Blacksmith 的临时镜像，以及自有的 `vm-backup` 与 `dsh-win-ci` 备用池。在托管镜像上，coverage 各通道的失败来自用例从未点明的宿主属性：宿主是否提供可用的用户级 systemd scope，决定了被 mock 的 PTY 退出会与哪种 containment 竞争；托管 scope 接受 `SIGKILL` 之前所需的墙钟宽限，低于负载镜像实际提供的量；读端被抢占时会把非法 UTF-8 残余用例假定为独立分块的写入合并成一个分块；以及 Windows Server 镜像直接拒绝 `CoCreateInstance(CLSID_FileOpenDialog)`。
+[故障切换支路](../process/2026-09-09-blacksmith-failover-leg.zh.md)会把这套测试跑在本仓库不拥有的池上——Blacksmith 的临时镜像，以及自有的 `vm-backup` 与 `nulu-win-ci` 备用池。在托管镜像上，coverage 各通道的失败来自用例从未点明的宿主属性：宿主是否提供可用的用户级 systemd scope，决定了被 mock 的 PTY 退出会与哪种 containment 竞争；托管 scope 接受 `SIGKILL` 之前所需的墙钟宽限，低于负载镜像实际提供的量；读端被抢占时会把非法 UTF-8 残余用例假定为独立分块的写入合并成一个分块；以及 Windows Server 镜像直接拒绝 `CoCreateInstance(CLSID_FileOpenDialog)`。
 
 ## 决策
 
@@ -20,9 +20,9 @@ Status: implemented
 
 `packages/experimental/code-runtime-python/tests/runtime.spec.ts` 的两个非法 UTF-8 残余用例都用 `time.sleep(0.001)` 控制写入节奏：`os.sched_yield()` 会让被抢占的读端把多次写入合并成一个分块，而被包裹的 `Buffer.concat` 测量的正是该分块（在正确实现下，托管镜像测得 2563，超过了 2048 的界）。两个用例的载荷都保持在该界之上——`0xFF` 用例 3200 字节，CESU-8 用例 1100 个 `ED A0 80` 序列（3300 原始字节，超过按原始字节计费会触及的 3072 字节预算）——因此少计仍然会在 2048 之上触发 flush。两者各自带有 20s 的用例预算，容纳带节奏的写入与解释器启动。
 
-`packages/experimental/code-runtime-python/tests/stray-fragments.spec.ts` 的原生输出分块封存测试保留真实 Python 子进程，但把 stdout 读取拆成单字节事件。操作系统的管道合并无法保证达到封存一块所需的 1024 个片段：[run 34465259316](https://github.com/deepseek-harness/deepseek-harness/actions/runs/34465259316) 的全部断言通过，却未覆盖该分支。可控读取覆盖反复封存和末尾换行合并；精确输出与复制总量上限检测字节丢失和前缀反复复制。
+`packages/experimental/code-runtime-python/tests/stray-fragments.spec.ts` 的原生输出分块封存测试保留真实 Python 子进程，但把 stdout 读取拆成单字节事件。操作系统的管道合并无法保证达到封存一块所需的 1024 个片段：[run 34465259316](https://github.com/nulu-harness/nulu-harness/actions/runs/34465259316) 的全部断言通过，却未覆盖该分支。可控读取覆盖反复封存和末尾换行合并；精确输出与复制总量上限检测字节丢失和前缀反复复制。
 
-Linux coverage 通道授予 `DSH_COVERAGE_TEST_TIMEOUT_MS: '90000'`，与 Windows coverage 通道一致，因为当该通道的分区、worker 与同级门禁共用一个宿主时，`subprocess-local` 与 `bash-sandbox` 的处置用例会超过 5000ms 默认值。
+Linux coverage 通道授予 `NULU_COVERAGE_TEST_TIMEOUT_MS: '90000'`，与 Windows coverage 通道一致，因为当该通道的分区、worker 与同级门禁共用一个宿主时，`subprocess-local` 与 `bash-sandbox` 的处置用例会超过 5000ms 默认值。
 
 Windows 文件夹对话框冒烟测试改为通过 PowerShell 探测 `CoCreateInstance(CLSID_FileOpenDialog)`，而不再按 `process.platform` 分流。回答 `CLASS_E_CLASSNOTAVAILABLE`（0x80040111）的镜像会跑干净的拒绝用例并跳过真实对话框用例，因此 `win32-dialog.ts` 在没有可开对话框的宿主上仍保有文件覆盖率。该激活过程抛出的任何异常都按拒绝解读，因此因其它原因探测失败的宿主只会失去真实对话框用例；完全无法运行的探测则保留 win32 假设。
 
@@ -38,4 +38,4 @@ Windows 文件夹对话框冒烟测试改为通过 PowerShell 探测 `CoCreateIn
 
 ## 后果
 
-套件的结论不再取决于哪个池服务了这条通道，代价是被钉在某一 containment 选择上的 fixture：`linux-scope` 与 win32-job 两条路径仍由各自的专用用例覆盖，而不是经由这些用例抵达。ACP 处置用例每次运行约 10s 墙钟，每个残余用例约 3.5s，且都是确定成本而非随宿主浮动。托管镜像证据：[run 34449848541](https://github.com/deepseek-harness/deepseek-harness/actions/runs/34449848541) 在这些用例上失败，[run 34457655892](https://github.com/deepseek-harness/deepseek-harness/actions/runs/34457655892) 在本改动加 90000ms 通道预算下转绿，`windows node 24 / coverage` 在连续五次托管运行中为绿，其中探针报告拒绝（`clsid-probe=refused`）。
+套件的结论不再取决于哪个池服务了这条通道，代价是被钉在某一 containment 选择上的 fixture：`linux-scope` 与 win32-job 两条路径仍由各自的专用用例覆盖，而不是经由这些用例抵达。ACP 处置用例每次运行约 10s 墙钟，每个残余用例约 3.5s，且都是确定成本而非随宿主浮动。托管镜像证据：[run 34449848541](https://github.com/nulu-harness/nulu-harness/actions/runs/34449848541) 在这些用例上失败，[run 34457655892](https://github.com/nulu-harness/nulu-harness/actions/runs/34457655892) 在本改动加 90000ms 通道预算下转绿，`windows node 24 / coverage` 在连续五次托管运行中为绿，其中探针报告拒绝（`clsid-probe=refused`）。

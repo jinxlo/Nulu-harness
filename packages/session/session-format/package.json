@@ -1,5 +1,5 @@
 {
-  "name": "@deepseek-ai/dsh-session-format",
+  "name": "@worldapptechnologies/nulu-session-format",
   "description": "Streaming adjacent Session format migration machinery",
   "version": "0.1.5-rc.2",
   "publishConfig": {
@@ -7,7 +7,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/worldapptechnologies/nulu-harness.git",
     "directory": "packages/session/session-format"
   },
   "type": "module",
@@ -27,12 +27,12 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@deepseek-ai/dsh-util-values": "workspace:^"
+    "@worldapptechnologies/nulu-util-values": "workspace:^"
   },
   "peerDependencies": {
-    "@deepseek-ai/cordis": "workspace:^"
+    "@worldapptechnologies/cordis": "workspace:^"
   },
   "devDependencies": {
-    "@deepseek-ai/cordis": "workspace:^"
+    "@worldapptechnologies/cordis": "workspace:^"
   }
 }

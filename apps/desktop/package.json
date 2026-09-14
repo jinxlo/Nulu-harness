@@ -1,6 +1,6 @@
 {
-  "name": "@deepseek-ai/dsh-desktop",
-  "description": "Electron desktop shell for a bundled dsh runtime and external plugins",
+  "name": "@worldapptechnologies/nulu-desktop",
+  "description": "Electron desktop shell for a bundled nulu runtime and external plugins",
   "version": "0.1.5-rc.2",
   "private": true,
   "license": "MIT",
@@ -12,7 +12,7 @@
     "start": "tsx scripts/dev.ts --skip-build",
     "prepare:runtime": "tsx scripts/prepare-runtime.ts",
     "prepare:packages": "tsx scripts/prepare-package-set.ts",
-    "prepare:dsh": "tsx scripts/prepare-dsh.ts",
+    "prepare:nulu": "tsx scripts/prepare-nulu.ts",
     "prepare:package": "tsx scripts/package-target.ts --prepare-only",
     "verify:mac-signature": "node scripts/verify-macos-signature.mjs",
     "package": "tsx scripts/package-target.ts",
@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@aws-sdk/client-s3": "3.1067.0",
-    "@deepseek-ai/dsh-home-paths": "workspace:^",
+    "@worldapptechnologies/nulu-home-paths": "workspace:^",
     "@electron/notarize": "2.5.0",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^22.20.0",

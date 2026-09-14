@@ -1,14 +1,14 @@
 /** Test-only direct Remote face over the Session Controller's internal controllers. */
 
-import { SessionLogOffset } from '@deepseek-ai/dsh-session'
-import type { Context } from '@deepseek-ai/cordis'
-import type { ModelSelection as AgentModelSelection } from '@deepseek-ai/dsh-agent'
+import { SessionLogOffset } from '@worldapptechnologies/nulu-session'
+import type { Context } from '@worldapptechnologies/cordis'
+import type { ModelSelection as AgentModelSelection } from '@worldapptechnologies/nulu-agent'
 import type {
   AdmittedPromptContentPart,
   AttachmentAdmissionPart,
   ImageAttachmentLimits,
-} from '@deepseek-ai/dsh-attachment'
-import type { SessionEvent, SessionHeader, SessionId } from '@deepseek-ai/dsh-session'
+} from '@worldapptechnologies/nulu-attachment'
+import type { SessionEvent, SessionHeader, SessionId } from '@worldapptechnologies/nulu-session'
 import {
   SessionPersistenceNotFoundError,
   SessionPersistenceRevision,
@@ -20,15 +20,15 @@ import {
   type SessionPersistenceOpenOptions,
   type SessionPersistenceSnapshot,
   type SessionPersistenceStatOptions,
-} from '@deepseek-ai/dsh-session-persistence'
-import SessionProjectionRegistry from '@deepseek-ai/dsh-session-projection'
-import SessionQueryEngine from '@deepseek-ai/dsh-session-query'
+} from '@worldapptechnologies/nulu-session-persistence'
+import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projection'
+import SessionQueryEngine from '@worldapptechnologies/nulu-session-query'
 import { vi } from 'vitest'
 import {
   RemoteError,
   remoteErrorOf,
   type RemoteResult,
-} from '@deepseek-ai/dsh-typert-protocol'
+} from '@worldapptechnologies/nulu-typert-protocol'
 import SessionController from '../src/index.ts'
 import type {
   ModelCatalog,

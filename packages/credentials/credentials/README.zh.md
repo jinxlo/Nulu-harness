@@ -3,13 +3,13 @@ description: "面向用户与维护者的凭据 seam：在不把机密值写进�
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-credentials
+# @worldapptechnologies/nulu-credentials
 
 [English](README.md) | 中文
 
 ## 概述
 
-`dsh-credentials` 通过让 settings 与 `cordis.yml` 引用 `DEEPSEEK_API_KEY` 等密钥名称，使机密值留在配置之外。它还存储持久化的按插件组织的凭据记录，包括授权 grant 与提供方环境值。轮换后的已存储密钥会作用于下一次请求，无需重启或修改配置。配置界面可以报告密钥或记录是否已设置、来自哪里及能否写入，而不会暴露值。空密钥值视为不存在，而空记录仍表示一项有意存储的凭据。
+`nulu-credentials` 通过让 settings 与 `cordis.yml` 引用 `DEEPSEEK_API_KEY` 等密钥名称，使机密值留在配置之外。它还存储持久化的按插件组织的凭据记录，包括授权 grant 与提供方环境值。轮换后的已存储密钥会作用于下一次请求，无需重启或修改配置。配置界面可以报告密钥或记录是否已设置、来自哪里及能否写入，而不会暴露值。空密钥值视为不存在，而空记录仍表示一项有意存储的凭据。
 
 ## 目录
 
@@ -36,18 +36,18 @@ kind: "package-reference"
 加载本地存储包并给出文档路径：
 
 ```yaml
-- name: '@deepseek-ai/dsh-credentials-local'
+- name: '@worldapptechnologies/nulu-credentials-local'
   config:
     path: /absolute/path/to/.credentials.yaml
 ```
 
-本地存储 README 拥有完整配置面；生成的[配置目录](../../../docs/config-catalog.zh.md#deepseek-aidsh-credentials-local)是穷尽式字段清单。
+本地存储 README 拥有完整配置面；生成的[配置目录](../../../docs/config-catalog.zh.md#worldapptechnologiesnulu-credentials-local)是穷尽式字段清单。
 
 ### 存储、检查与移除密钥
 
 ```ts
-import type { Context } from '@deepseek-ai/cordis'
-import { credentialRef } from '@deepseek-ai/dsh-credentials'
+import type { Context } from '@worldapptechnologies/cordis'
+import { credentialRef } from '@worldapptechnologies/nulu-credentials'
 
 declare const ctx: Context
 
@@ -65,8 +65,8 @@ await ctx.credentials.unset(ref)                       // no-op when absent; sam
 插件按 `<scope>/<id>` 寻址每条记录——自身注册名加一个自选 id，例如提供方路由键——并读取、修改或移除它所持有的内容：
 
 ```ts
-import type { Context } from '@deepseek-ai/cordis'
-import { credentialKey } from '@deepseek-ai/dsh-credentials'
+import type { Context } from '@worldapptechnologies/cordis'
+import { credentialKey } from '@worldapptechnologies/nulu-credentials'
 
 declare const ctx: Context
 
@@ -92,7 +92,7 @@ apiKeyEnv: DEEPSEEK_API_KEY
 
 ### 可能出错的地方
 
-- **启动环境提供的密钥无法被覆盖**——`DEEPSEEK_API_KEY=… dsh`（或 CI 机密、容器 `-e`）在本轮运行中优先，并被报告为只读；请先在启动 shell 中清除该变量，再存储其他值。
+- **启动环境提供的密钥无法被覆盖**——`DEEPSEEK_API_KEY=… nulu`（或 CI 机密、容器 `-e`）在本轮运行中优先，并被报告为只读；请先在启动 shell 中清除该变量，再存储其他值。
 - **空值无法存储**——存储空字符串会被拒绝；请改为移除密钥。
 - **密钥值绝不会出现在配置界面或诊断信息中**——界面只显示密钥是否已设置、来自哪里、能否修改；值本身留在存储中。
 

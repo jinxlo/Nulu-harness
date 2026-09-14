@@ -1,8 +1,8 @@
-import type { Context } from '@deepseek-ai/cordis'
-import type {} from '@deepseek-ai/dsh-agent'
-import { CompactionId, compactCheckpointSource } from '@deepseek-ai/dsh-compaction'
-import { createUserMessage } from '@deepseek-ai/dsh-llm'
-import type {} from '@deepseek-ai/dsh-tools'
+import type { Context } from '@worldapptechnologies/cordis'
+import type {} from '@worldapptechnologies/nulu-agent'
+import { CompactionId, compactCheckpointSource } from '@worldapptechnologies/nulu-compaction'
+import { createUserMessage } from '@worldapptechnologies/nulu-llm'
+import type {} from '@worldapptechnologies/nulu-tools'
 
 export const name = 'workspace-context-compaction'
 

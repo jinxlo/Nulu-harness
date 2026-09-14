@@ -3,13 +3,13 @@ description: "worker-thread 工作流引擎：在宿主事件循环之外执行�
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-workflow-worker-thread
+# @worldapptechnologies/nulu-workflow-worker-thread
 
 [English](README.md) | 中文
 
 ## 概述
 
-使用 `dsh-workflow-worker-thread` 可让模型编写的工作流脚本在宿主事件循环之外运行。每次运行使用独立的 worker thread，因此同步循环不会阻塞 harness，忽略取消的脚本也可以被终止。本引擎支持已发布组合中的 `workflow` 与 `ralph` 工具，也可与 `dsh-tool-workflow` 配合，在其他组合中公开 `workflow`。这种隔离可以限制可用性故障，但不是安全边界；真正不可信的脚本需要独立进程或容器。
+使用 `nulu-workflow-worker-thread` 可让模型编写的工作流脚本在宿主事件循环之外运行。每次运行使用独立的 worker thread，因此同步循环不会阻塞 harness，忽略取消的脚本也可以被终止。本引擎支持已发布组合中的 `workflow` 与 `ralph` 工具，也可与 `nulu-tool-workflow` 配合，在其他组合中公开 `workflow`。这种隔离可以限制可用性故障，但不是安全边界；真正不可信的脚本需要独立进程或容器。
 
 ## 目录
 
@@ -29,11 +29,11 @@ kind: "package-reference"
 
 ### 最小配置
 
-加载本引擎即注册 `ctx.workflowEngine`；在其上添加 `dsh-tool-workflow` 会把 `workflow` 工具交给模型。每个配置字段都是可选的：
+加载本引擎即注册 `ctx.workflowEngine`；在其上添加 `nulu-tool-workflow` 会把 `workflow` 工具交给模型。每个配置字段都是可选的：
 
 ```yaml
-- name: '@deepseek-ai/dsh-workflow-worker-thread'
-- name: '@deepseek-ai/dsh-tool-workflow'
+- name: '@worldapptechnologies/nulu-workflow-worker-thread'
+- name: '@worldapptechnologies/nulu-tool-workflow'
 ```
 
 | 字段 | 默认值 | 含义 |
@@ -45,7 +45,7 @@ kind: "package-reference"
 | `syncTimeoutMs` | `5000` | 脚本最初同步片段的 VM 超时时间，单位为毫秒。 |
 | `disposeGraceMs` | `5000` | 强制结算与终止 worker 前的期限；同时约束 `dispose()`。 |
 
-负责该引擎的消费方可以为一次运行设置 `WorkflowStartRequest.subagentProvider` 与 `WorkflowStartRequest.maxTotalAgents`——这是引擎级策略，不是脚本钩子；普通 `workflow` 工具两者都不设置，单次运行的子 agent 总数上限可以降低、但绝不能提高已配置的上限。生成的[配置目录](../../../docs/config-catalog.zh.md#deepseek-aidsh-workflow-worker-thread)是每个受支持字段的穷尽式真源。
+负责该引擎的消费方可以为一次运行设置 `WorkflowStartRequest.subagentProvider` 与 `WorkflowStartRequest.maxTotalAgents`——这是引擎级策略，不是脚本钩子；普通 `workflow` 工具两者都不设置，单次运行的子 agent 总数上限可以降低、但绝不能提高已配置的上限。生成的[配置目录](../../../docs/config-catalog.zh.md#worldapptechnologiesnulu-workflow-worker-thread)是每个受支持字段的穷尽式真源。
 
 ### 运行会得到什么
 
@@ -147,7 +147,7 @@ kind: "package-reference"
 
 #### 模型看到什么
 
-通过 [`dsh-tool-workflow`](../tool-workflow/README.zh.md)，成功结果只会在该消费方的包装层中公开实体化的最终 JSON 值与子 agent 数量。本引擎提供稳定错误，包括 `workflow script does not parse: <error>`、`invalid meta: <violations>`、`agent() requires a non-empty prompt string`、`agent() could not start a child: <error>` 与 `child agent run failed: <error>`，以及其精确的 `parallel()`、`pipeline()`、`phase()`、选项、schema 与 JSON 边界校验消息。中间子 agent 输出可供脚本使用，但不提供给父模型。
+通过 [`nulu-tool-workflow`](../tool-workflow/README.zh.md)，成功结果只会在该消费方的包装层中公开实体化的最终 JSON 值与子 agent 数量。本引擎提供稳定错误，包括 `workflow script does not parse: <error>`、`invalid meta: <violations>`、`agent() requires a non-empty prompt string`、`agent() could not start a child: <error>` 与 `child agent run failed: <error>`，以及其精确的 `parallel()`、`pipeline()`、`phase()`、选项、schema 与 JSON 边界校验消息。中间子 agent 输出可供脚本使用，但不提供给父模型。
 
 #### Token 影响
 

@@ -10,17 +10,17 @@
  */
 
 import { describe, expect, it } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import LlmRuntime from '@deepseek-ai/dsh-llm'
-import { createUserMessage, LlmAdapter } from '@deepseek-ai/dsh-llm'
-import type { GenerateOptions, StreamChunk } from '@deepseek-ai/dsh-llm'
-import SessionStore, { SessionId } from '@deepseek-ai/dsh-session'
-import SystemPrompt from '@deepseek-ai/dsh-system-prompt'
-import ToolRuntime from '@deepseek-ai/dsh-tools'
-import AgentRegistry, { type Agent } from '@deepseek-ai/dsh-agent'
+import { Context } from '@worldapptechnologies/cordis'
+import LlmRuntime from '@worldapptechnologies/nulu-llm'
+import { createUserMessage, LlmAdapter } from '@worldapptechnologies/nulu-llm'
+import type { GenerateOptions, StreamChunk } from '@worldapptechnologies/nulu-llm'
+import SessionStore, { SessionId } from '@worldapptechnologies/nulu-session'
+import SystemPrompt from '@worldapptechnologies/nulu-system-prompt'
+import ToolRuntime from '@worldapptechnologies/nulu-tools'
+import AgentRegistry, { type Agent } from '@worldapptechnologies/nulu-agent'
 
-import AgentLoop from '@deepseek-ai/dsh-agent-loop'
-import SessionProjectionRegistry from '@deepseek-ai/dsh-session-projection'
+import AgentLoop from '@worldapptechnologies/nulu-agent-loop'
+import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projection'
 import fc from 'fast-check'
 
 /** A never-exhausting adapter: every model call returns the same short reply. */

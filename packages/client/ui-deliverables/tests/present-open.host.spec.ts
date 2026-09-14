@@ -2,15 +2,15 @@
 import { mkdtemp, rm, readFile, writeFile, mkdir, realpath, symlink, unlink } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { LocalFileSystem } from '@deepseek-ai/dsh-fs-local'
-import { WorkspaceFiles } from '@deepseek-ai/dsh-api-workspace-files'
-import { Context } from '@deepseek-ai/cordis'
-import { HostConnectionService } from '@deepseek-ai/dsh-client-connection'
-import type { BrowserAuth } from '@deepseek-ai/dsh-client-connection/src/browser-auth.ts'
-import { SessionId } from '@deepseek-ai/dsh-session'
-import type { SessionEvent } from '@deepseek-ai/dsh-session'
-import { SessionQueryError } from '@deepseek-ai/dsh-session-query'
-import type { SessionEventReadRequest } from '@deepseek-ai/dsh-session-query'
+import { LocalFileSystem } from '@worldapptechnologies/nulu-fs-local'
+import { WorkspaceFiles } from '@worldapptechnologies/nulu-api-workspace-files'
+import { Context } from '@worldapptechnologies/cordis'
+import { HostConnectionService } from '@worldapptechnologies/nulu-client-connection'
+import type { BrowserAuth } from '@worldapptechnologies/nulu-client-connection/src/browser-auth.ts'
+import { SessionId } from '@worldapptechnologies/nulu-session'
+import type { SessionEvent } from '@worldapptechnologies/nulu-session'
+import { SessionQueryError } from '@worldapptechnologies/nulu-session-query'
+import type { SessionEventReadRequest } from '@worldapptechnologies/nulu-session-query'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { registerPresentOpen } from '../src/present-open.ts'
 import { presentedFileUrl, PRESENT_OPEN_PATH } from '../src/presented.ts'
@@ -23,7 +23,7 @@ afterEach(async () => {
 })
 
 async function fixture() {
-  const root = await mkdtemp(join(tmpdir(), 'dsh-present-open-'))
+  const root = await mkdtemp(join(tmpdir(), 'nulu-present-open-'))
   cleanups.push(() => rm(root, { recursive: true, force: true }))
   const cwd = join(root, 'workspace')
   await mkdir(cwd)

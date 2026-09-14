@@ -1,4 +1,4 @@
-# DeepSeek Harness Architecture
+# Nulu Harness Architecture
 
 English | [中文](architecture.zh.md)
 
@@ -8,21 +8,21 @@ We recommend using an agent to explore the codebase and understand its architect
 
 ## Cordis
 
-[Cordis](cordis-primer.md) is the framework under dsh: plugins contribute services, typed events, and reversible effects to a shared context. Every part of the product is a plugin, including the model adapter, the tool registry, the session log, and the agent loop itself, so each is replaceable from configuration.
+[Cordis](cordis-primer.md) is the framework under nulu: plugins contribute services, typed events, and reversible effects to a shared context. Every part of the product is a plugin, including the model adapter, the tool registry, the session log, and the agent loop itself, so each is replaceable from configuration.
 
-There is no privileged core to patch: you extend dsh by mounting a plugin beside the others, and registrations are effects that unwind when their plugin unloads.
+There is no privileged core to patch: you extend nulu by mounting a plugin beside the others, and registrations are effects that unwind when their plugin unloads.
 
 ## Profiles and bundles
 
-A running `dsh` is a plugin tree composed at boot from ordered layers.
+A running `nulu` is a plugin tree composed at boot from ordered layers.
 
 A **profile** is a named composition stored in the Harness home. It lists the bundles it stacks, holds any out-of-tree plugins it installs, and keeps the user's own `cordis.patch.yml`. `web`, `headless`, `sdk`, `sdk-minimal`, and `acp` ship as templates.
 
 A **bundle** is a distribution format for Cordis config rows and the code they mount, so whatever it inserts stays patchable by the layers above it.
 
-Each declares itself in its own `package.json` under a `dsh` field: `dsh.profile` lists a profile's bundles, and `dsh.bundle` points at a bundle's patch file.
+Each declares itself in its own `package.json` under a `nulu` field: `nulu.profile` lists a profile's bundles, and `nulu.bundle` points at a bundle's patch file.
 
-[`dsh-base`](../packages/bundle/base/README.md) is the shared first layer of the `web`, `headless`, `sdk`, and `acp` profiles: model adapters, tools, persistence, sandbox and approval policy, settings, credentials, telemetry. [`dsh-web-app`](../packages/bundle/web-app/README.md) adds the browser application, [`dsh-headless`](../packages/bundle/headless/README.md) adds a one-shot runner with no server, [`dsh-sdk-app`](../packages/bundle/sdk-app/README.md) adds the SDK JSON-RPC server, and [`dsh-acp-app`](../packages/bundle/acp-app/README.md) adds the automation-only ACP server. [`dsh-sdk-minimal`](../packages/bundle/sdk-minimal/README.md) is the deliberate exception: one bundle owns its complete explicit SDK tree and does not apply `dsh-base`.
+[`nulu-base`](../packages/bundle/base/README.md) is the shared first layer of the `web`, `headless`, `sdk`, and `acp` profiles: model adapters, tools, persistence, sandbox and approval policy, settings, credentials, telemetry. [`nulu-web-app`](../packages/bundle/web-app/README.md) adds the browser application, [`nulu-headless`](../packages/bundle/headless/README.md) adds a one-shot runner with no server, [`nulu-sdk-app`](../packages/bundle/sdk-app/README.md) adds the SDK JSON-RPC server, and [`nulu-acp-app`](../packages/bundle/acp-app/README.md) adds the automation-only ACP server. [`nulu-sdk-minimal`](../packages/bundle/sdk-minimal/README.md) is the deliberate exception: one bundle owns its complete explicit SDK tree and does not apply `nulu-base`.
 
 Layers apply to an empty entry list in this order: each bundle in the profile's listed order, then the profile's `cordis.patch.yml`, then the home-level one, then any `--patch` overlay. A patch targets a row by id and replaces its whole config, or inserts new rows.
 
@@ -31,7 +31,7 @@ Custom profiles default to live patch reload. The shipped `web` profile is live;
 To see the tree your machine boots:
 
 ```sh
-dsh --profile web --dump-config
+nulu --profile web --dump-config
 ```
 
 Any row it prints can be replaced by a patch of your own.
@@ -40,17 +40,17 @@ Composition mechanics are in [app-boot](../packages/boot/app-boot/README.md#prof
 
 ## Application launch
 
-Every supported Node application starts at the `dsh` CLI with a named profile. The shipped applications are `dsh web` (the deliberate alias for `--profile web`), `dsh --profile headless`, `dsh --profile sdk`, `dsh --profile sdk-minimal`, and `dsh --profile acp`. The TypeScript SDK resolves its same-version `dsh` dependency and selects `sdk`; custom plugin composition remains a profile plus ordered patch files, not another executable or inline application tree. `sdk-minimal` is a repository-owned standalone bundle behind the same launcher, not a caller-supplied Cordis tree.
+Every supported Node application starts at the `nulu` CLI with a named profile. The shipped applications are `nulu web` (the deliberate alias for `--profile web`), `nulu --profile headless`, `nulu --profile sdk`, `nulu --profile sdk-minimal`, and `nulu --profile acp`. The TypeScript SDK resolves its same-version `nulu` dependency and selects `sdk`; custom plugin composition remains a profile plus ordered patch files, not another executable or inline application tree. `sdk-minimal` is a repository-owned standalone bundle behind the same launcher, not a caller-supplied Cordis tree.
 
-Vendored CLIs, build-only and test-only executables, direct in-process plugin mounting, and the private browser WebWorker preview are not Harness application launchers. [`verify-application-entrypoints`](../scripts/verify-application-entrypoints.ts) keeps every package bin, executable source, and root demo in an explicit class and rejects a Node application path that bypasses `dsh`.
+Vendored CLIs, build-only and test-only executables, direct in-process plugin mounting, and the private browser WebWorker preview are not Harness application launchers. [`verify-application-entrypoints`](../scripts/verify-application-entrypoints.ts) keeps every package bin, executable source, and root demo in an explicit class and rejects a Node application path that bypasses `nulu`.
 
-The Python SDK follows the same application architecture. Its runtime wheel packages the normal `dsh` CLI as `deepseek-harness-sdk-runtime-<platform>-<arch>`, and the client launches `dsh --profile sdk` with an explicit Harness home by default. The minimal example selects the shipped `sdk-minimal` profile. Python exposes profile selection and ordered patch files rather than a complete Cordis tree; persistent external plugins are installed through `dsh plugin`. The removed private direct-config carrier has no compatibility bin or fallback parser.
+The Python SDK follows the same application architecture. Its runtime wheel packages the normal `nulu` CLI as `nulu-harness-sdk-runtime-<platform>-<arch>`, and the client launches `nulu --profile sdk` with an explicit Harness home by default. The minimal example selects the shipped `sdk-minimal` profile. Python exposes profile selection and ordered patch files rather than a complete Cordis tree; persistent external plugins are installed through `nulu plugin`. The removed private direct-config carrier has no compatibility bin or fallback parser.
 
 ## Desktop application
 
-The [Electron desktop application](../apps/desktop/README.md) carries its exact dsh production runtime in signed application resources. The reserved `$DSH_HOME/profiles/desktop` contains external plugins and links to host-owned packages; compatible upgrades retain plugin files and refresh these links without installing core dependencies. CLI profiles share supported product data under `$DSH_HOME`, while executable packages, plugin activation, lockfiles, and package-manager state remain separate.
+The [Electron desktop application](../apps/desktop/README.md) carries its exact nulu production runtime in signed application resources. The reserved `$NULU_HOME/profiles/desktop` contains external plugins and links to host-owned packages; compatible upgrades retain plugin files and refresh these links without installing core dependencies. CLI profiles share supported product data under `$NULU_HOME`, while executable packages, plugin activation, lockfiles, and package-manager state remain separate.
 
-Electron starts the private Desktop Host package under its bundled upstream Node.js process; that package loads the bundled dsh backend and matching client graph together with enabled profile plugins. Unary RPC, Remote streams, and version-matched client assets cross versioned framed byte pipes with Node IPC reserved for lifecycle control, then reach the renderer through the secure `dsh-app://` protocol; the desktop composition opens no Web server or loopback port. Only shell-owned UI can run plugin transactions through the bundled pnpm and its private `$DSH_HOME/desktop/pnpm/store`.
+Electron starts the private Desktop Host package under its bundled upstream Node.js process; that package loads the bundled nulu backend and matching client graph together with enabled profile plugins. Unary RPC, Remote streams, and version-matched client assets cross versioned framed byte pipes with Node IPC reserved for lifecycle control, then reach the renderer through the secure `nulu-app://` protocol; the desktop composition opens no Web server or loopback port. Only shell-owned UI can run plugin transactions through the bundled pnpm and its private `$NULU_HOME/desktop/pnpm/store`.
 
 ## Core packages
 
@@ -120,7 +120,7 @@ Session consumers know only the current logical format. Header-only `stat` and `
 
 **Model-visible means logged.** Anything that reaches a model request must be reconstructable from the log, and a runtime invariant asserts it. This is why a new model-visible input requires a new session event: extend `SessionEventMap` and render from the log.
 
-**Projection seam.** `dsh-session-projection` owns `ctx.sessionProjections`: registered units fold committed events incrementally, host consumers read one typed state with `stateOf()`, and carriers batch cropped client views with `snapshot()`. A host reader either requires this service during activation or fails explicitly when the registry or required key is absent. Contributors may retain `ctx.inject(['sessionProjections'], ...)` registration without silently defaulting a missing host value. The agent loop registers shared `turnBoundary` state for its readers ([decision](../.agents/notes/implemented/architecture/2026-08-19-session-projection-mandatory-seam.md)).
+**Projection seam.** `nulu-session-projection` owns `ctx.sessionProjections`: registered units fold committed events incrementally, host consumers read one typed state with `stateOf()`, and carriers batch cropped client views with `snapshot()`. A host reader either requires this service during activation or fails explicitly when the registry or required key is absent. Contributors may retain `ctx.inject(['sessionProjections'], ...)` registration without silently defaulting a missing host value. The agent loop registers shared `turnBoundary` state for its readers ([decision](../.agents/notes/implemented/architecture/2026-08-19-session-projection-mandatory-seam.md)).
 
 ## Capability seams
 
@@ -140,7 +140,7 @@ New behavior attaches to a documented extension point. Changing the loop itself 
 | Add a model-facing capability | register on `ctx.tools`; its schema joins prompt assembly |
 | Give one session a different capability set | compose an agent preset; a service row there needs an `isolate` realm |
 | Add shell execution | register a `ctx.shell` backend; the local one spawns through `ctx.subprocess` |
-| Add persistent terminal execution | register a `ctx.terminals` backend plus `dsh-tool-terminal` |
+| Add persistent terminal execution | register a `ctx.terminals` backend plus `nulu-tool-terminal` |
 | Add a human command | register on `ctx.commands`; it dispatches without a model turn |
 | Add background work | register on `ctx.jobs`; `job_*` tools collect or stop it |
 | Start a Session from an external webhook | register a trusted rule on `ctx.webhookRuntime` and mount a provider adapter |

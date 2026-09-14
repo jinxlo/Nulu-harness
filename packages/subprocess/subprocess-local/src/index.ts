@@ -5,22 +5,22 @@
  * phase force-stops any ranges the service still owns. It has no config: every
  * disposition and limit arrives on the spec, so deployment-varying choices
  * stay with the caller's config (the bash executor's, the LSP host's, …).
- * @module @deepseek-ai/dsh-subprocess-local
+ * @module @worldapptechnologies/nulu-subprocess-local
  */
 
 import { constants } from 'node:fs'
 import { access, stat } from 'node:fs/promises'
 import { delimiter, extname, isAbsolute, resolve } from 'node:path'
-import { Context } from '@deepseek-ai/cordis'
+import { Context } from '@worldapptechnologies/cordis'
 import * as nodePty from 'node-pty'
 import type { IPtyForkOptions } from 'node-pty'
-import { SubprocessRuntime } from '@deepseek-ai/dsh-subprocess'
+import { SubprocessRuntime } from '@worldapptechnologies/nulu-subprocess'
 import type {
   SubprocessHandle,
   SubprocessSpawnSpec,
   SubprocessTerminalHandle,
   SubprocessTerminalSpawnSpec,
-} from '@deepseek-ai/dsh-subprocess'
+} from '@worldapptechnologies/nulu-subprocess'
 import {
   bindManagedProcess,
   childEnv,

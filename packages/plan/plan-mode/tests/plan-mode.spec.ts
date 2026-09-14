@@ -1,18 +1,18 @@
 import { describe, expect, it, vi } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import { createUserMessage, ToolCallId } from '@deepseek-ai/dsh-llm'
-import SystemPrompt from '@deepseek-ai/dsh-system-prompt'
-import ToolRuntime, { RUN_CODE_NAME, defineContentToolFixture } from '@deepseek-ai/dsh-tools'
-import { Session, SessionId, type SessionEvent, type UserMessage } from '@deepseek-ai/dsh-session'
-import AgentRegistry, { agentEvents, type Agent } from '@deepseek-ai/dsh-agent'
-import { createScope } from '@deepseek-ai/dsh-scope'
+import { Context } from '@worldapptechnologies/cordis'
+import { createUserMessage, ToolCallId } from '@worldapptechnologies/nulu-llm'
+import SystemPrompt from '@worldapptechnologies/nulu-system-prompt'
+import ToolRuntime, { RUN_CODE_NAME, defineContentToolFixture } from '@worldapptechnologies/nulu-tools'
+import { Session, SessionId, type SessionEvent, type UserMessage } from '@worldapptechnologies/nulu-session'
+import AgentRegistry, { agentEvents, type Agent } from '@worldapptechnologies/nulu-agent'
+import { createScope } from '@worldapptechnologies/nulu-scope'
 import UserQuestionService, {
   UserQuestionError, type AskUserQuestionAnswer, type AskUserQuestionRequest,
-} from '@deepseek-ai/dsh-user-questions'
-import CommandRuntime from '@deepseek-ai/dsh-commands'
-import { CodeRuntime, type CodeRunRequest, type CodeRunResult } from '@deepseek-ai/dsh-code-runtime'
-import SessionProjectionRegistry from '@deepseek-ai/dsh-session-projection'
-import { turnBoundaryProjectionDefinition } from '@deepseek-ai/dsh-agent-loop'
+} from '@worldapptechnologies/nulu-user-questions'
+import CommandRuntime from '@worldapptechnologies/nulu-commands'
+import { CodeRuntime, type CodeRunRequest, type CodeRunResult } from '@worldapptechnologies/nulu-code-runtime'
+import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projection'
+import { turnBoundaryProjectionDefinition } from '@worldapptechnologies/nulu-agent-loop'
 import PlanModeController, { EXIT_PLAN_MODE, planProjectionDefinition, resolveConfig } from '../src/index.ts'
 import type { PlanModeConfig } from '../src/index.ts'
 import type { PlanUnitState } from '../src/types.ts'
@@ -29,7 +29,7 @@ function registerQuestionAnswerer(ctx: Context, answerer: QuestionAnswerer): () 
 }
 
 /**
- * Drives the REAL plugin: mounts `dsh-plan-mode` beside real `SystemPrompt` and
+ * Drives the REAL plugin: mounts `nulu-plan-mode` beside real `SystemPrompt` and
  * `ToolRuntime` services, with fake Agents carrying real `Session`s and a
  * real scoped `agent.ctx` minted through `createScope`.
  * Request boundaries are simulated by dispatching the real pre-step waterfall
@@ -620,7 +620,7 @@ describe('/plan', () => {
     const plainSteer = vi.fn()
     ;(plainAgent as unknown as { steer: typeof plainSteer }).steer = plainSteer
     expect(ctx.commands.list(plainAgent)).toEqual([
-      { definitionId: '@deepseek-ai/dsh-plan-mode', name: 'plan', description: 'Enter or leave plan mode', input: { hint: '[off|message]', attachments: true } },
+      { definitionId: '@worldapptechnologies/nulu-plan-mode', name: 'plan', description: 'Enter or leave plan mode', input: { hint: '[off|message]', attachments: true } },
     ])
 
     const signal = new AbortController().signal

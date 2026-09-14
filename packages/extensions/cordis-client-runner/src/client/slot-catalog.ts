@@ -10,7 +10,7 @@
  * mounted for the seat to exist. Data only — this module is the one legitimate
  * meeting point of the two planes, so it carries strings, never client imports.
  *
- * @module @deepseek-ai/dsh-cordis-client-runner/client/slot-catalog
+ * @module @worldapptechnologies/nulu-cordis-client-runner/client/slot-catalog
  */
 
 /* jscpd:ignore-start */
@@ -2072,7 +2072,7 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
     kind: 'single',
     scope: 'root',
     summary: 'Brand mark rendered in the expanded brand row and collapsed rail.',
-    doc: 'Brand mark rendered in the expanded brand row and collapsed rail.\nDeclared by this package\'s `sidebar` entry; deployments may replace\nthe shell\'s fish fallback without replacing the surrounding controls.',
+    doc: 'Brand mark rendered in the expanded brand row and collapsed rail.\nDeclared by this package\'s `sidebar` entry; deployments may replace\nthe shell\'s mark fallback without replacing the surrounding controls.',
     registerOptions: [],
     ownerProps: [
       '/** Geometry supplied to the sidebar brand-mark occupant. */\nexport interface SidebarBrandMarkOwnerProps {\n  /** Requested square edge in pixels. */\n  size: number\n}',
@@ -2091,7 +2091,7 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
     slotInject: '',
     declaredBy: 'an entry in \'sidebar\' (client-ui-sidebar), so it exists while that entry is mounted',
     occupants: [
-      'client-ui-brand-official OfficialBrandMark',
+      'client-ui-brand NuluBrandMark',
     ],
     replaceRisk: 'shadows-shipped-ui',
     example: 'return {\n  inject: [\'slots\'],\n  apply(ctx) {\n    ctx.slots.inject(\'sidebar.brand.mark\', () => ctx.slots.register(\n      { name: \'sidebar.brand.mark\' },\n      () => React.createElement(\'div\', null, \'hello\'),\n    ))\n  },\n}',
@@ -2121,7 +2121,7 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
     slotInject: '',
     declaredBy: 'an entry in \'sidebar\' (client-ui-sidebar), so it exists while that entry is mounted',
     occupants: [
-      'client-ui-brand-official OfficialBrandName',
+      'client-ui-brand NuluBrandName',
     ],
     replaceRisk: 'shadows-shipped-ui',
     example: 'return {\n  inject: [\'slots\'],\n  apply(ctx) {\n    ctx.slots.inject(\'sidebar.brand.name\', () => ctx.slots.register(\n      { name: \'sidebar.brand.name\' },\n      () => React.createElement(\'div\', null, \'hello\'),\n    ))\n  },\n}',

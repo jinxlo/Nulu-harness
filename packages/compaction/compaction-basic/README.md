@@ -3,7 +3,7 @@ description: "Automatic conversation condensation for deployments choosing, tuni
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-compaction-basic
+# @worldapptechnologies/nulu-compaction-basic
 
 English | [中文](README.zh.md)
 
@@ -25,7 +25,7 @@ This package keeps long agent conversations working near the model's context lim
 <a id="use-this-package"></a>
 ## Use this package
 
-Mount this package to get automatic conversation condensation in a composition that already provides an LLM, session storage, and token measurement. The shipped `dsh` base enables it by default; mount it explicitly to control when condensation starts.
+Mount this package to get automatic conversation condensation in a composition that already provides an LLM, session storage, and token measurement. The shipped `nulu` base enables it by default; mount it explicitly to control when condensation starts.
 
 ### What you get
 
@@ -36,17 +36,17 @@ With the default settings you get four behaviors: automatic condensation as the 
 Mount session storage, token measurement, the optional pruner, this backend, and optionally the on-demand command:
 
 ```yaml
-- name: '@deepseek-ai/dsh-session'
-- name: '@deepseek-ai/dsh-token-meter'
-- name: '@deepseek-ai/dsh-compaction-tool-result-pruner'
-- name: '@deepseek-ai/dsh-compaction-basic'
-- name: '@deepseek-ai/dsh-command-compact'
+- name: '@worldapptechnologies/nulu-session'
+- name: '@worldapptechnologies/nulu-token-meter'
+- name: '@worldapptechnologies/nulu-compaction-tool-result-pruner'
+- name: '@worldapptechnologies/nulu-compaction-basic'
+- name: '@worldapptechnologies/nulu-command-compact'
 ```
 
 You can verify success by watching the conversation continue past the point where it would otherwise overflow, and by running `/compact` for an immediate condensation. If the composition lacks an LLM, session storage, or token measurement, the plugin fails to load. One backend can serve models with different context sizes; give each route its own threshold and retention with a per-model override:
 
 ```yaml
-- name: '@deepseek-ai/dsh-compaction-basic'
+- name: '@worldapptechnologies/nulu-compaction-basic'
   config:
     thresholdRatio: 0.8
     retainRatio: 0.16
@@ -59,7 +59,7 @@ You can verify success by watching the conversation continue past the point wher
 
 ### Tuning when condensation starts
 
-All settings are optional. The defaults start condensing at 80% of the routed model's context window and keep the newest 16% verbatim; the table below is the complete policy surface, and the generated [configuration catalog](../../../docs/config-catalog.md#deepseek-aidsh-compaction-basic) is the exhaustive source.
+All settings are optional. The defaults start condensing at 80% of the routed model's context window and keep the newest 16% verbatim; the table below is the complete policy surface, and the generated [configuration catalog](../../../docs/config-catalog.md#worldapptechnologiesnulu-compaction-basic) is the exhaustive source.
 
 | Field | Default | Meaning |
 |---|---|---|
@@ -82,11 +82,11 @@ The oldest balanced span is replaced by one summary message and the recent tail 
 
 ### On-demand condensation with /compact
 
-With `dsh-command-compact` mounted, type `/compact` in a chat UI to condense immediately, even below the pressure threshold. The command reports how many history items were condensed and the estimated tokens saved. While the agent is mid-turn or condensation is already running, `/compact` reports that condensation is unavailable; prompts you send while it runs are accepted and start after it finishes.
+With `nulu-command-compact` mounted, type `/compact` in a chat UI to condense immediately, even below the pressure threshold. The command reports how many history items were condensed and the estimated tokens saved. While the agent is mid-turn or condensation is already running, `/compact` reports that condensation is unavailable; prompts you send while it runs are accepted and start after it finishes.
 
 ### Trimming oversized tool outputs
 
-Mount `dsh-compaction-tool-result-pruner` before this package to trim oversized tool results as part of condensation. Trimming makes no model call and can remove the need to summarize at all: when the trimmed conversation fits within the threshold, condensation skips the summary. Trimming only runs after a condensation trigger qualifies — a below-pressure conversation is never touched.
+Mount `nulu-compaction-tool-result-pruner` before this package to trim oversized tool results as part of condensation. Trimming makes no model call and can remove the need to summarize at all: when the trimmed conversation fits within the threshold, condensation skips the summary. Trimming only runs after a condensation trigger qualifies — a below-pressure conversation is never touched.
 
 -----
 
@@ -150,7 +150,7 @@ Read these pages when the package-level contract is not enough; they move from t
 - [Tool-result pruner](../compaction-tool-result-pruner/README.md) — the optional companion that trims oversized tool outputs first.
 - [Human /compact command](../command-compact/README.md) — on-demand condensation without waiting for pressure.
 - [Token meter](../../llm/token-meter/README.md) — the measurement service that decides when to condense.
-- [Generated configuration catalog](../../../docs/config-catalog.md#deepseek-aidsh-compaction-basic) — every accepted config field and its source declaration.
+- [Generated configuration catalog](../../../docs/config-catalog.md#worldapptechnologiesnulu-compaction-basic) — every accepted config field and its source declaration.
 
 -----
 

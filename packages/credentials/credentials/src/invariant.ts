@@ -1,12 +1,12 @@
 /**
- * Package-owned invariant companion for `@deepseek-ai/dsh-credentials`.
- * @module @deepseek-ai/dsh-credentials/invariant
+ * Package-owned invariant companion for `@worldapptechnologies/nulu-credentials`.
+ * @module @worldapptechnologies/nulu-credentials/invariant
  */
 
-import type { Context } from '@deepseek-ai/cordis'
-import type { InvariantFailure, InvariantInstaller } from '@deepseek-ai/dsh-invariants'
+import type { Context } from '@worldapptechnologies/cordis'
+import type { InvariantFailure, InvariantInstaller } from '@worldapptechnologies/nulu-invariants'
 
-const PACKAGE_NAME = '@deepseek-ai/dsh-credentials'
+const PACKAGE_NAME = '@worldapptechnologies/nulu-credentials'
 
 /** Cordis companion plugin name. */
 export const name = 'credentials-invariant'

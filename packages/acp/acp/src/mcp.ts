@@ -1,11 +1,11 @@
-/** Standard ACP MCP-server declarations translated into Agent-scoped DSH MCP clients. */
+/** Standard ACP MCP-server declarations translated into Agent-scoped NULU MCP clients. */
 
-import type { Context } from '@deepseek-ai/cordis'
+import type { Context } from '@worldapptechnologies/cordis'
 import { createHash } from 'node:crypto'
 import { validateHeaderName, validateHeaderValue } from 'node:http'
 import { isAbsolute } from 'node:path'
 import type { McpServer } from '@agentclientprotocol/sdk'
-import * as McpClient from '@deepseek-ai/dsh-mcp-client'
+import * as McpClient from '@worldapptechnologies/nulu-mcp-client'
 
 const VALID_SERVER_NAME = /^[A-Za-z0-9_-]{1,32}$/
 
@@ -107,7 +107,7 @@ function entriesToRecord(
   return result
 }
 
-/** Produce a stable DSH tool namespace from ACP's human-readable server name. */
+/** Produce a stable NULU tool namespace from ACP's human-readable server name. */
 function normalizeServerName(name: string): string {
   if (name.trim().length === 0 || /[\u0000-\u001f\u007f]/.test(name)) {
     throw new AcpMcpConfigError('mcpServers contains an invalid server name')

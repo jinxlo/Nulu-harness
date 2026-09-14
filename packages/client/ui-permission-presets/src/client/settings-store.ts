@@ -6,14 +6,14 @@
  * back into the mirror.
  */
 
-import type { Context as ClientContext } from '@deepseek-ai/cordis'
-import type { SettingsNamespaceView } from '@deepseek-ai/dsh-api-remotes/client'
+import type { Context as ClientContext } from '@worldapptechnologies/cordis'
+import type { SettingsNamespaceView } from '@worldapptechnologies/nulu-api-remotes/client'
 import {
   createSnapshotStore, type SnapshotStore,
-} from '@deepseek-ai/dsh-client-store'
+} from '@worldapptechnologies/nulu-client-store'
 import type {
   SchemaNode, SettingsDescribeFace, SettingsSchemaService,
-} from '@deepseek-ai/dsh-client-ui-settings/client'
+} from '@worldapptechnologies/nulu-client-ui-settings/client'
 import { displayPermissionPreset } from './presentation.ts'
 
 /** Permission's settings namespace on the host wire. */

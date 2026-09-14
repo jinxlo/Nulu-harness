@@ -377,13 +377,13 @@ describe('normalizeSessionLog', () => {
       data: {
         content: [{
           type: 'text',
-          text: 'Full formatted result stored at: /tmp/dsh-acp-snapshot-spill/session-c22bc3f1d2af/8a7b6c5d4e3f-bash.txt. Use read with offset/limit, or grep this path to search within it.',
+          text: 'Full formatted result stored at: /tmp/nulu-acp-snapshot-spill/session-c22bc3f1d2af/8a7b6c5d4e3f-bash.txt. Use read with offset/limit, or grep this path to search within it.',
         }],
       },
     })
     const out = normalizeSessionLog(`${header({ cwd: ctx.cwd })}\n${ev}\n`, ctx)
     expect(out).toContain('{{spillLocator:bash.txt}}')
-    expect(out).not.toContain('/tmp/dsh-acp-snapshot-spill')
+    expect(out).not.toContain('/tmp/nulu-acp-snapshot-spill')
   })
 
   it('scrubs scenario-owned snapshot spill paths', () => {
@@ -392,13 +392,13 @@ describe('normalizeSessionLog', () => {
       data: {
         content: [{
           type: 'text',
-          text: 'Full formatted result stored at: /tmp/dsh-acp-snap-012345678/session-c22bc3f1d2af/8a7b6c5d4e3f-bash.txt. Use read with offset/limit, or grep this path to search within it.',
+          text: 'Full formatted result stored at: /tmp/nulu-acp-snap-012345678/session-c22bc3f1d2af/8a7b6c5d4e3f-bash.txt. Use read with offset/limit, or grep this path to search within it.',
         }],
       },
     })
     const out = normalizeSessionLog(`${header({ cwd: ctx.cwd })}\n${ev}\n`, ctx)
     expect(out).toContain('{{spillLocator:bash.txt}}')
-    expect(out).not.toContain('/tmp/dsh-acp-snap-012345678')
+    expect(out).not.toContain('/tmp/nulu-acp-snap-012345678')
   })
 
   it('scrubs scenario-owned snapshot spill paths with Windows drive and separators', () => {
@@ -407,13 +407,13 @@ describe('normalizeSessionLog', () => {
       data: {
         content: [{
           type: 'text',
-          text: String.raw`Full formatted result stored at: C:\t\dsh-acp-snap-012345678\session-c22bc3f1d2af\8a7b6c5d4e3f-bash.txt. Use read with offset/limit, or grep this path to search within it.`,
+          text: String.raw`Full formatted result stored at: C:\t\nulu-acp-snap-012345678\session-c22bc3f1d2af\8a7b6c5d4e3f-bash.txt. Use read with offset/limit, or grep this path to search within it.`,
         }],
       },
     })
     const out = normalizeSessionLog(`${header({ cwd: ctx.cwd })}\n${ev}\n`, ctx)
     expect(out).toContain('{{spillLocator:bash.txt}}')
-    expect(out).not.toContain('C:\\t\\dsh-acp-snap-012345678')
+    expect(out).not.toContain('C:\\t\\nulu-acp-snap-012345678')
   })
 
   it('shares cwd-rooted path handling with stdout normalization', () => {
@@ -706,7 +706,7 @@ describe('normalizeSessionSnapshot', () => {
           message: {
             id: 'v2-to-v3-system-590b72aa4994fd6d3c6e61bb4bf5bf2f80bae0bc7564d388378ba4f51b816fd6',
             role: 'system',
-            source: { kind: 'plugin', plugin: '@deepseek-ai/dsh-system-prompt' },
+            source: { kind: 'plugin', plugin: '@worldapptechnologies/nulu-system-prompt' },
             content: [],
           },
         },
@@ -978,7 +978,7 @@ describe('extractSnapshotSpillPaths', () => {
     ['/tmp', String.fromCharCode(92)],
     ['C:/t', String.fromCharCode(92)],
   ])('recognizes %s locators with %s separators in nested JSON omissions without scrubbing byte counts', (root, separator) => {
-    const locator = `${root}/dsh-acp-snap-123456789/session-123456abcdef/abcdef123456-session-reference-1.txt`.replaceAll('/', separator)
+    const locator = `${root}/nulu-acp-snap-123456789/session-123456abcdef/abcdef123456-session-reference-1.txt`.replaceAll('/', separator)
     const notice = { sessionId: 'source', omittedBytes: 42, fullSnapshot: { status: 'saved', locator, bytes: 1234 } }
     const log = JSON.stringify({ type: 'user/message', data: { content: [{ type: 'text', text: JSON.stringify([notice]) }] } })
     const encodedLocator = JSON.stringify(JSON.stringify(locator).slice(1, -1)).slice(1, -1)
@@ -1005,13 +1005,13 @@ describe('extractSnapshotSpillPaths', () => {
 
   it('maps each spill filename to its full matched path, last match wins per name', () => {
     const log = [
-      'Full formatted result stored at: /tmp/dsh-acp-snapshot-spill/session-c22bc3f1d2af/8a7b6c5d4e3f-bash.txt. Use read with offset/limit, or grep this path to search within it.',
-      'stale copy at /tmp/dsh-acp-snap-012345678/session-aaaaaaaaaaaa/bbbbbbbbbbbb-grep.txt then',
-      'fresh copy at /tmp/dsh-acp-snap-012345678/session-cccccccccccc/dddddddddddd-grep.txt then',
+      'Full formatted result stored at: /tmp/nulu-acp-snapshot-spill/session-c22bc3f1d2af/8a7b6c5d4e3f-bash.txt. Use read with offset/limit, or grep this path to search within it.',
+      'stale copy at /tmp/nulu-acp-snap-012345678/session-aaaaaaaaaaaa/bbbbbbbbbbbb-grep.txt then',
+      'fresh copy at /tmp/nulu-acp-snap-012345678/session-cccccccccccc/dddddddddddd-grep.txt then',
     ].join('\n')
     expect(extractSnapshotSpillPaths(log)).toEqual(new Map([
-      ['bash.txt', '/tmp/dsh-acp-snapshot-spill/session-c22bc3f1d2af/8a7b6c5d4e3f-bash.txt'],
-      ['grep.txt', '/tmp/dsh-acp-snap-012345678/session-cccccccccccc/dddddddddddd-grep.txt'],
+      ['bash.txt', '/tmp/nulu-acp-snapshot-spill/session-c22bc3f1d2af/8a7b6c5d4e3f-bash.txt'],
+      ['grep.txt', '/tmp/nulu-acp-snap-012345678/session-cccccccccccc/dddddddddddd-grep.txt'],
     ]))
   })
 
@@ -1033,7 +1033,7 @@ function systemMessageEvent(text: string, seq = 2): string {
         id: '11111111-1111-4111-8111-111111111111',
         role: 'system',
         content: text.length === 0 ? [] : [{ type: 'text', text }],
-        source: { kind: 'plugin', plugin: '@deepseek-ai/dsh-system-prompt' },
+        source: { kind: 'plugin', plugin: '@worldapptechnologies/nulu-system-prompt' },
       },
     },
   })
@@ -1114,7 +1114,7 @@ describe('scrubSessionSnapshot', () => {
 
     expect(scrubSessionSnapshot(`${header}\n${system}\n${request}\n${event}\n`)).toBe([
       header,
-      '{"type":"system/message","data":{"turn":1,"step":1,"message":{"id":"11111111-1111-4111-8111-111111111111","role":"system","content":[{"type":"text","text":"{{system}}"}],"source":{"kind":"plugin","plugin":"@deepseek-ai/dsh-system-prompt"}}}}',
+      '{"type":"system/message","data":{"turn":1,"step":1,"message":{"id":"11111111-1111-4111-8111-111111111111","role":"system","content":[{"type":"text","text":"{{system}}"}],"source":{"kind":"plugin","plugin":"@worldapptechnologies/nulu-system-prompt"}}}}',
       '{"type":"request/header","data":{"header":{"tools":"{{tools}}"},"reason":"initial"}}',
       '{"type":"turn/start","data":{"turn":1,"seq":41,"time":42}}',
       '',

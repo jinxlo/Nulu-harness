@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { SessionLogOffset } from '@deepseek-ai/dsh-session'
-import type { SessionEvent } from '@deepseek-ai/dsh-session'
+import { SessionLogOffset } from '@worldapptechnologies/nulu-session'
+import type { SessionEvent } from '@worldapptechnologies/nulu-session'
 import {
   ScheduleId,
   ScheduleInputError,

@@ -19,9 +19,9 @@
 import { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
 import {
-  FishLogo, IconNewChatOutline16, IconPanelLeftOutline16, Tooltip,
-} from '@deepseek-ai/dsh-client-ui-primitives'
-import type { InjectFace, PropsRenderSlots, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
+  IconNewChatOutline16, IconPanelLeftOutline16, NuluMark, Tooltip,
+} from '@worldapptechnologies/nulu-client-ui-primitives'
+import type { InjectFace, PropsRenderSlots, PropsRuntime } from '@worldapptechnologies/nulu-client-ui-slots'
 import type {
   SidebarPanelMetadata, SidebarRootComponentProps, SidebarRootInjected, SidebarSectionOwnerProps,
 } from './contract/slots.ts'
@@ -40,12 +40,12 @@ const SCROLLBAR_LINGER_MS = 2000
 
 /** Format complete-build metadata for the local brand badge. */
 function localBuildVersion(): string | undefined {
-  const version = process.env.DSH_CLIENT_VERSION
+  const version = process.env.NULU_CLIENT_VERSION
   if (version === undefined) return undefined
-  const commit = process.env.DSH_CLIENT_COMMIT_HASH
+  const commit = process.env.NULU_CLIENT_COMMIT_HASH
   return version
     + (commit === undefined ? '' : `-${commit}`)
-    + (process.env.DSH_CLIENT_GIT_DIRTY === 'true' ? '-dirty' : '')
+    + (process.env.NULU_CLIENT_GIT_DIRTY === 'true' ? '-dirty' : '')
 }
 
 type PanelRowProps =
@@ -189,7 +189,7 @@ export function SidebarRoot({
           >
             <span className={css.brandIdentity} aria-hidden="true">
               <span className={css.brandMark}>
-                {renderSlot('sidebar.brand.mark', { size: 24 }, { fallback: <FishLogo size={24} /> })}
+                {renderSlot('sidebar.brand.mark', { size: 24 }, { fallback: <NuluMark size={24} /> })}
               </span>
               <span className={css.brandName}>
                 {renderSlot('sidebar.brand.name', {}, {
@@ -206,7 +206,7 @@ export function SidebarRoot({
             </span>
           </button>
         )}
-        {/* Rail resting state is the whale mark; hovering swaps in the panel
+        {/* Rail resting state is the mark; hovering swaps in the panel
             icon (the expand affordance, figma sidebar-hover flow). */}
         <Tooltip label={collapsed ? t('toggle.open') : t('toggle.collapse')} delayMs={500}>
           <button
@@ -217,7 +217,7 @@ export function SidebarRoot({
           >
             {!wide && (
               <span className={css.railMark} aria-hidden="true">
-                {renderSlot('sidebar.brand.mark', { size: 24 }, { fallback: <FishLogo size={24} /> })}
+                {renderSlot('sidebar.brand.mark', { size: 24 }, { fallback: <NuluMark size={24} /> })}
               </span>
             )}
             {/* Rail icons render at 18 (figma rail spec); expanded keeps the glyph-native sizes. */}

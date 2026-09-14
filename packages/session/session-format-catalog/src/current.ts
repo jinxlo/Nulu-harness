@@ -5,9 +5,9 @@ import {
   Session,
   SessionId,
   SessionLogOffset,
-} from '@deepseek-ai/dsh-session'
-import type { SessionEvent, SessionHeader } from '@deepseek-ai/dsh-session'
-import type { SessionFormatArtifact, SessionFormatHeader } from '@deepseek-ai/dsh-session-format'
+} from '@worldapptechnologies/nulu-session'
+import type { SessionEvent, SessionHeader } from '@worldapptechnologies/nulu-session'
+import type { SessionFormatArtifact, SessionFormatHeader } from '@worldapptechnologies/nulu-session-format'
 
 /**
  * Validate current logical metadata through the installed Session package.

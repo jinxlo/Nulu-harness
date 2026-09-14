@@ -4,10 +4,10 @@ import { dirname, join } from 'node:path'
 import type { UserConfig } from 'tsdown'
 import { clientBundle } from '../tsdown.client.ts'
 
-const bundle = clientBundle('@deepseek-ai/dsh-client-ui-sidebar-documentpreview', ['lib/types/index.js'])
+const bundle = clientBundle('@worldapptechnologies/nulu-client-ui-sidebar-documentpreview', ['lib/types/index.js'])
 const require = createRequire(import.meta.url)
 const workerSpecifier = 'pdfjs-dist/build/pdf.worker.min.mjs?raw'
-const workerModule = '\0dsh-pdf-worker.mjs'
+const workerModule = '\0nulu-pdf-worker.mjs'
 
 /** License files for PDF.js and the data embedded beside its runtime. */
 function pdfLicenseFiles(root: string): string[] {
@@ -39,7 +39,7 @@ function pdfAssets(): string {
 
 /** The dynamic client factory has no module URL from which to resolve a Worker file. */
 const pdfWorker: NonNullable<UserConfig['plugins']> = [{
-  name: 'dsh-pdf-worker-source',
+  name: 'nulu-pdf-worker-source',
   resolveId(source) {
     return source === workerSpecifier ? workerModule : null
   },
@@ -56,6 +56,6 @@ export default (options: Parameters<typeof bundle>[0]): UserConfig[] => bundle(o
     ...config,
     banner: pdfLicenseBanner(),
     plugins: [config.plugins, pdfWorker],
-    define: { ...config.define, __DSH_PDFJS_ASSETS__: pdfAssets() },
+    define: { ...config.define, __NULU_PDFJS_ASSETS__: pdfAssets() },
   } : config,
 )

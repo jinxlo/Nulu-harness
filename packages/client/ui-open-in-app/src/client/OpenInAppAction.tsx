@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
-import { IconChevronDownOutline14, Menu, Tooltip, type MenuItem } from '@deepseek-ai/dsh-client-ui-primitives'
-import type { ObservableSnapshot } from '@deepseek-ai/dsh-client-store'
-import type { InjectFace, PropsLocale, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
-import type {} from '@deepseek-ai/dsh-client-ui-conversation/client'
+import { IconChevronDownOutline14, Menu, Tooltip, type MenuItem } from '@worldapptechnologies/nulu-client-ui-primitives'
+import type { ObservableSnapshot } from '@worldapptechnologies/nulu-client-store'
+import type { InjectFace, PropsLocale, PropsRuntime } from '@worldapptechnologies/nulu-client-ui-slots'
+import type {} from '@worldapptechnologies/nulu-client-ui-conversation/client'
 import { NS, type OpenInAppKey } from './locales.ts'
 import css from './OpenInAppAction.module.css'
 

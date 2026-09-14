@@ -1,8 +1,8 @@
 import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
-import { createAssistantMessage } from '@deepseek-ai/dsh-llm'
-import { SESSION_FORMAT_VERSION, SessionSeq, type SessionEvent } from '@deepseek-ai/dsh-session'
-import { parseSessionLog } from '@deepseek-ai/dsh-llm-replay'
+import { createAssistantMessage } from '@worldapptechnologies/nulu-llm'
+import { SESSION_FORMAT_VERSION, SessionSeq, type SessionEvent } from '@worldapptechnologies/nulu-session'
+import { parseSessionLog } from '@worldapptechnologies/nulu-llm-replay'
 import {
   canonicalSessionFixture,
   inspectSessionFixtureLayouts,
@@ -178,10 +178,10 @@ describe('canonicalSessionFixture', () => {
 describe('isPhysicalSessionFixture', () => {
   it('recognizes fixtures that preserve physical persistence encoding', () => {
     expect(isPhysicalSessionFixture(
-      'packages/experimental/webworker-runtime/tests/fixtures/vfs-example/home/sessions/--dsh-workspace--/main/session.jsonl',
+      'packages/experimental/webworker-runtime/tests/fixtures/vfs-example/home/sessions/--nulu-workspace--/main/session.jsonl',
     )).toBe(true)
     expect(isPhysicalSessionFixture(
-      'packages/experimental/webworker-runtime/tests/fixtures/vfs-example/home/sessions/--dsh-workspace--/main/session.v1.jsonl',
+      'packages/experimental/webworker-runtime/tests/fixtures/vfs-example/home/sessions/--nulu-workspace--/main/session.v1.jsonl',
     )).toBe(true)
     expect(isPhysicalSessionFixture(
       'scripts/snapshots/python-sdk-single-exe/advanced/session.1.jsonl',

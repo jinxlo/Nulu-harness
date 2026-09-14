@@ -4,153 +4,153 @@
 
 - insert:
     - id: tool-str-replace-editor
-      name: '@deepseek-ai/dsh-tool-str-replace-editor'
+      name: '@worldapptechnologies/nulu-tool-str-replace-editor'
       config:
         maxOutputChars: 16000
 
 - id: llm-deepseek
-  name: '@deepseek-ai/dsh-llm-deepseek'
+  name: '@worldapptechnologies/nulu-llm-deepseek'
   config:
     apiKeyEnv: DEEPSEEK_API_KEY
     streamIdleTimeoutMs: 172800000
     models:
-      - id: !!js process.env.DSH_MODEL ?? 'deepseek-v4-flash'
-        contextWindow: !!js Number(process.env.DSH_CONTEXT_WINDOW ?? 1000000)
+      - id: !!js process.env.NULU_MODEL ?? 'deepseek-v4-flash'
+        contextWindow: !!js Number(process.env.NULU_CONTEXT_WINDOW ?? 1000000)
 
 - id: sandbox-policy
-  name: '@deepseek-ai/dsh-sandbox-policy'
+  name: '@worldapptechnologies/nulu-sandbox-policy'
   config:
     mode: danger-full-access
     workspaceRoot: !!js process.cwd()
 
 - id: approval
-  name: '@deepseek-ai/dsh-user-approval'
+  name: '@worldapptechnologies/nulu-user-approval'
   config:
     policy: never
 
 - id: permission
-  name: '@deepseek-ai/dsh-permission-presets'
+  name: '@worldapptechnologies/nulu-permission-presets'
   disabled: true
 
 - id: bash-sandbox
-  name: '@deepseek-ai/dsh-bash-sandbox'
+  name: '@worldapptechnologies/nulu-bash-sandbox'
   disabled: true
 
 - id: pwsh-sandbox
-  name: '@deepseek-ai/dsh-pwsh-sandbox'
+  name: '@worldapptechnologies/nulu-pwsh-sandbox'
   disabled: true
 
 - id: fs-sandbox
-  name: '@deepseek-ai/dsh-fs-sandbox'
+  name: '@worldapptechnologies/nulu-fs-sandbox'
   disabled: true
 
 - id: tool-bash
-  name: '@deepseek-ai/dsh-tool-bash'
+  name: '@worldapptechnologies/nulu-tool-bash'
   disabled: true
 
 - id: tool-pwsh
-  name: '@deepseek-ai/dsh-tool-pwsh'
+  name: '@worldapptechnologies/nulu-tool-pwsh'
   disabled: true
 
 - id: agent-instructions
-  name: '@deepseek-ai/dsh-agent-instructions'
+  name: '@worldapptechnologies/nulu-agent-instructions'
   disabled: true
 
 - id: skill
-  name: '@deepseek-ai/dsh-skill'
+  name: '@worldapptechnologies/nulu-skill'
   disabled: true
 
 - id: skill-filesystem
-  name: '@deepseek-ai/dsh-skill-filesystem'
+  name: '@worldapptechnologies/nulu-skill-filesystem'
   disabled: true
 
 - id: tool-skill
-  name: '@deepseek-ai/dsh-tool-skill'
+  name: '@worldapptechnologies/nulu-tool-skill'
   disabled: true
 
 - id: tool-jobs
-  name: '@deepseek-ai/dsh-tool-jobs'
+  name: '@worldapptechnologies/nulu-tool-jobs'
   disabled: true
 
 - id: tool-fs
-  name: '@deepseek-ai/dsh-tool-fs'
+  name: '@worldapptechnologies/nulu-tool-fs'
   disabled: true
 
 - id: tool-fs-search
-  name: '@deepseek-ai/dsh-tool-fs-search'
+  name: '@worldapptechnologies/nulu-tool-fs-search'
   disabled: true
 
 - id: tool-subagent-control
-  name: '@deepseek-ai/dsh-tool-subagent-control'
+  name: '@worldapptechnologies/nulu-tool-subagent-control'
   disabled: true
 
 - id: tool-subagent-list-agents
-  name: '@deepseek-ai/dsh-tool-subagent-control/list-agents'
+  name: '@worldapptechnologies/nulu-tool-subagent-control/list-agents'
   disabled: true
 
 - id: tool-subagent
-  name: '@deepseek-ai/dsh-tool-subagent'
+  name: '@worldapptechnologies/nulu-tool-subagent'
   disabled: true
 
 - id: tool-subagent-fork
-  name: '@deepseek-ai/dsh-tool-subagent'
+  name: '@worldapptechnologies/nulu-tool-subagent'
   disabled: true
 
 - id: tool-workflow
-  name: '@deepseek-ai/dsh-tool-workflow'
+  name: '@worldapptechnologies/nulu-tool-workflow'
   disabled: true
 
 - id: tool-todo
-  name: '@deepseek-ai/dsh-tool-todo'
+  name: '@worldapptechnologies/nulu-tool-todo'
   disabled: true
 
 - id: tool-goal
-  name: '@deepseek-ai/dsh-tool-goal'
+  name: '@worldapptechnologies/nulu-tool-goal'
   disabled: true
 
 - id: tool-ralph
-  name: '@deepseek-ai/dsh-tool-ralph'
+  name: '@worldapptechnologies/nulu-tool-ralph'
   disabled: true
 
 - id: tool-web
-  name: '@deepseek-ai/dsh-tool-web'
+  name: '@worldapptechnologies/nulu-tool-web'
   disabled: true
 
 - id: plan-mode
-  name: '@deepseek-ai/dsh-plan-mode'
+  name: '@worldapptechnologies/nulu-plan-mode'
   disabled: true
 
 - id: system-prompt
-  name: '@deepseek-ai/dsh-system-prompt'
+  name: '@worldapptechnologies/nulu-system-prompt'
   config:
     includeHarnessIdentity: false
-    personaPrefix: !!js process.env.DSH_SYSTEM_PROMPT ?? 'You are a helpful software engineer assistant.'
+    personaPrefix: !!js process.env.NULU_SYSTEM_PROMPT ?? 'You are a helpful software engineer assistant.'
 
 - id: session-persistence-jsonl
-  name: '@deepseek-ai/dsh-session-persistence-jsonl'
+  name: '@worldapptechnologies/nulu-session-persistence-jsonl'
   config:
-    root: !!js dshHomePath('sessions')
+    root: !!js nuluHomePath('sessions')
     compression: none
 
 - insert:
     - id: bash-local
-      name: '@deepseek-ai/dsh-bash-local'
+      name: '@worldapptechnologies/nulu-bash-local'
 
     - id: fs-local
-      name: '@deepseek-ai/dsh-fs-local'
+      name: '@worldapptechnologies/nulu-fs-local'
       config:
         cwd: !!js process.cwd()
 
     - id: terminal
-      name: '@deepseek-ai/dsh-terminal'
+      name: '@worldapptechnologies/nulu-terminal'
 
     - id: terminal-bash
-      name: '@deepseek-ai/dsh-terminal-bash'
+      name: '@worldapptechnologies/nulu-terminal-bash'
       config:
         timeoutMs: 300000
 
     - id: persistent-bash
-      name: '@deepseek-ai/dsh-tool-bash-persistent'
+      name: '@worldapptechnologies/nulu-tool-bash-persistent'
       config:
         timeoutMs: 300000
         description: |-

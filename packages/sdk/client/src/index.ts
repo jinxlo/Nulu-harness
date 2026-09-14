@@ -1,15 +1,15 @@
 /**
- * TypeScript client SDK for the DeepSeek Harness runtime: spawn the
- * same-version `dsh --profile sdk` runtime as a subprocess and drive agent
- * turns over stdio JSON-RPC. `DeepSeekHarness` is the high-level run API;
+ * TypeScript client SDK for the Nulu Harness runtime: spawn the
+ * same-version `nulu --profile sdk` runtime as a subprocess and drive agent
+ * turns over stdio JSON-RPC. `NuluHarness` is the high-level run API;
  * `HarnessClient` is the lower-level protocol client. A pure library — it
  * registers nothing on a Cordis context; named profiles and ordered patch
  * files customize the runtime process it spawns.
  *
- * @module @deepseek-ai/dsh-sdk-client
+ * @module @worldapptechnologies/nulu-sdk-client
  */
 
-export { DeepSeekHarness, HarnessSession } from './api.ts'
+export { NuluHarness, HarnessSession } from './api.ts'
 export type { RunOptions } from './api.ts'
 export {
   HarnessClient,
@@ -18,11 +18,11 @@ export {
   TransportClosedError,
 } from './client.ts'
 export type { NotificationSubscription } from './client.ts'
-export { JsonRpcResponseError } from '@deepseek-ai/dsh-sdk-protocol'
+export { JsonRpcResponseError } from '@worldapptechnologies/nulu-sdk-protocol'
 export type {
   ContentBlock,
   SdkPromptContentBlock,
-  DeepSeekHarnessOptions,
+  NuluHarnessOptions,
   HarnessClientOptions,
   HarnessNotification,
   NotificationFilter,

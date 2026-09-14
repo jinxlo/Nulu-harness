@@ -1,16 +1,16 @@
 import { mkdtemp, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { Context } from '@deepseek-ai/cordis'
-import { createAssistantMessage, createUserMessage } from '@deepseek-ai/dsh-llm'
-import type { MessageId } from '@deepseek-ai/dsh-llm/brand'
+import { Context } from '@worldapptechnologies/cordis'
+import { createAssistantMessage, createUserMessage } from '@worldapptechnologies/nulu-llm'
+import type { MessageId } from '@worldapptechnologies/nulu-llm/brand'
 import SessionStore, { SessionLogOffset,
   SESSION_FORMAT_VERSION,
   Session,
   SessionId,
   type SessionEvent,
   type SessionHeader,
-} from '@deepseek-ai/dsh-session'
+} from '@worldapptechnologies/nulu-session'
 import SessionPersistence, {
   SessionAlreadyExistsError,
   SessionHandleClosedError,
@@ -20,7 +20,7 @@ import SessionPersistence, {
   type SessionAccess,
   type SessionHandle,
   type SessionPersistenceSnapshot,
-} from '@deepseek-ai/dsh-session-persistence'
+} from '@worldapptechnologies/nulu-session-persistence'
 import MessageFeedbackService from '../src/index.ts'
 
 export interface MessageFixture {
@@ -204,7 +204,7 @@ export interface TestHarness {
 
 /** Compose feedback over a controllable Session persistence backend. */
 export async function setupHarness(maxNoteBytes = 64): Promise<TestHarness> {
-  const root = await mkdtemp(join(tmpdir(), 'dsh-message-feedback-test-'))
+  const root = await mkdtemp(join(tmpdir(), 'nulu-message-feedback-test-'))
   const ctx = new Context()
   let disposeFeedback: (() => Promise<void>) | undefined
   try {

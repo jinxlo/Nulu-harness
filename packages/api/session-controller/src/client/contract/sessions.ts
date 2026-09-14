@@ -4,16 +4,16 @@
  * the concrete class. Widening this interface is the
  * explicit act of widening what features may do to the sessions domain.
  */
-import type { Context } from '@deepseek-ai/cordis'
-import type { SubagentAddress } from '@deepseek-ai/dsh-subagent/client'
-import type { SessionId } from '@deepseek-ai/dsh-session/types'
-import type { WorkspaceId } from '@deepseek-ai/dsh-workspace/types'
-import type { RemoteResult } from '@deepseek-ai/dsh-typert-protocol'
+import type { Context } from '@worldapptechnologies/cordis'
+import type { SubagentAddress } from '@worldapptechnologies/nulu-subagent/client'
+import type { SessionId } from '@worldapptechnologies/nulu-session/types'
+import type { WorkspaceId } from '@worldapptechnologies/nulu-workspace/types'
+import type { RemoteResult } from '@worldapptechnologies/nulu-typert-protocol'
 import type { AgentContext } from '../scope.ts'
 import type { SessionSearchResultItem } from '../sessions/manager.ts'
 import type { SessionBinding, SessionListState } from '../sessions/service.ts'
 import type { SessionFace } from './session.ts'
-import type { ObservableSnapshot } from '@deepseek-ai/dsh-client-store'
+import type { ObservableSnapshot } from '@worldapptechnologies/nulu-client-store'
 
 export type { AgentContext } from '../scope.ts'
 

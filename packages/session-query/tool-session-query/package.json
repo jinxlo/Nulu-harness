@@ -1,5 +1,5 @@
 {
-  "name": "@deepseek-ai/dsh-tool-session-query",
+  "name": "@worldapptechnologies/nulu-tool-session-query",
   "description": "Workspace-authorized model-facing session history search, trace, and event read tools",
   "version": "0.1.5-rc.2",
   "publishConfig": {
@@ -7,7 +7,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/worldapptechnologies/nulu-harness.git",
     "directory": "packages/session-query/tool-session-query"
   },
   "type": "module",
@@ -27,35 +27,35 @@
   ],
   "license": "MIT",
   "peerDependencies": {
-    "@deepseek-ai/cordis": "workspace:^",
-    "@deepseek-ai/dsh-agent": "workspace:^",
-    "@deepseek-ai/dsh-llm": "workspace:^",
-    "@deepseek-ai/dsh-session": "workspace:^",
-    "@deepseek-ai/dsh-session-projection": "workspace:^",
-    "@deepseek-ai/dsh-session-query": "workspace:^",
-    "@deepseek-ai/dsh-system-prompt": "workspace:^",
-    "@deepseek-ai/dsh-timeout": "workspace:^",
-    "@deepseek-ai/dsh-tools": "workspace:^"
+    "@worldapptechnologies/cordis": "workspace:^",
+    "@worldapptechnologies/nulu-agent": "workspace:^",
+    "@worldapptechnologies/nulu-llm": "workspace:^",
+    "@worldapptechnologies/nulu-session": "workspace:^",
+    "@worldapptechnologies/nulu-session-projection": "workspace:^",
+    "@worldapptechnologies/nulu-session-query": "workspace:^",
+    "@worldapptechnologies/nulu-system-prompt": "workspace:^",
+    "@worldapptechnologies/nulu-timeout": "workspace:^",
+    "@worldapptechnologies/nulu-tools": "workspace:^"
   },
   "dependencies": {
-    "@deepseek-ai/dsh-brand": "workspace:^",
-    "@deepseek-ai/schemastery": "workspace:^"
+    "@worldapptechnologies/nulu-brand": "workspace:^",
+    "@worldapptechnologies/schemastery": "workspace:^"
   },
   "devDependencies": {
-    "@deepseek-ai/cordis": "workspace:^",
-    "@deepseek-ai/dsh-agent": "workspace:^",
-    "@deepseek-ai/dsh-agent-loop": "workspace:^",
-    "@deepseek-ai/dsh-llm": "workspace:^",
-    "@deepseek-ai/dsh-session": "workspace:^",
-    "@deepseek-ai/dsh-session-persistence": "workspace:^",
-    "@deepseek-ai/dsh-session-persistence-jsonl": "workspace:^",
-    "@deepseek-ai/dsh-session-projection": "workspace:^",
-    "@deepseek-ai/dsh-session-query": "workspace:^",
-    "@deepseek-ai/dsh-session-query-sqlite": "workspace:^",
-    "@deepseek-ai/dsh-session-title": "workspace:^",
-    "@deepseek-ai/dsh-system-prompt": "workspace:^",
-    "@deepseek-ai/dsh-timeout": "workspace:^",
-    "@deepseek-ai/dsh-tool-call-timeout-policy": "workspace:^",
-    "@deepseek-ai/dsh-tools": "workspace:^"
+    "@worldapptechnologies/cordis": "workspace:^",
+    "@worldapptechnologies/nulu-agent": "workspace:^",
+    "@worldapptechnologies/nulu-agent-loop": "workspace:^",
+    "@worldapptechnologies/nulu-llm": "workspace:^",
+    "@worldapptechnologies/nulu-session": "workspace:^",
+    "@worldapptechnologies/nulu-session-persistence": "workspace:^",
+    "@worldapptechnologies/nulu-session-persistence-jsonl": "workspace:^",
+    "@worldapptechnologies/nulu-session-projection": "workspace:^",
+    "@worldapptechnologies/nulu-session-query": "workspace:^",
+    "@worldapptechnologies/nulu-session-query-sqlite": "workspace:^",
+    "@worldapptechnologies/nulu-session-title": "workspace:^",
+    "@worldapptechnologies/nulu-system-prompt": "workspace:^",
+    "@worldapptechnologies/nulu-timeout": "workspace:^",
+    "@worldapptechnologies/nulu-tool-call-timeout-policy": "workspace:^",
+    "@worldapptechnologies/nulu-tools": "workspace:^"
   }
 }

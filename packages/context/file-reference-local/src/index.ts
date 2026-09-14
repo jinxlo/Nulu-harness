@@ -1,17 +1,17 @@
 /**
  * Local-filesystem implementation of `ctx.fileReferences`.
  *
- * @module @deepseek-ai/dsh-file-reference-local
+ * @module @worldapptechnologies/nulu-file-reference-local
  */
 
-import { Context } from '@deepseek-ai/cordis'
-import z from '@deepseek-ai/schemastery'
-import type { Agent } from '@deepseek-ai/dsh-agent'
+import { Context } from '@worldapptechnologies/cordis'
+import z from '@worldapptechnologies/schemastery'
+import type { Agent } from '@worldapptechnologies/nulu-agent'
 import FileReferenceService, {
   FILE_REFERENCE_PROMPT,
   type FileReferenceCandidate,
-} from '@deepseek-ai/dsh-file-reference'
-import type {} from '@deepseek-ai/dsh-tools'
+} from '@worldapptechnologies/nulu-file-reference'
+import type {} from '@worldapptechnologies/nulu-tools'
 import {
   DEFAULT_FILE_SEARCH_EXCLUDED_DIRECTORIES,
   DEFAULT_FILE_SEARCH_MAX_ENTRIES,
@@ -27,8 +27,8 @@ export {
   WorkspaceFileSearch,
 } from './search.ts'
 export type { FileSearchConfig } from './search.ts'
-export { FILE_REFERENCE_PROMPT } from '@deepseek-ai/dsh-file-reference'
-export { activeAtToken, formatFileMention } from '@deepseek-ai/dsh-file-reference/grammar'
+export { FILE_REFERENCE_PROMPT } from '@worldapptechnologies/nulu-file-reference'
+export { activeAtToken, formatFileMention } from '@worldapptechnologies/nulu-file-reference/grammar'
 
 /** Local file-reference discovery configuration. */
 export interface Config {

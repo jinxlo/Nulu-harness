@@ -6,11 +6,11 @@ Status: implemented
 
 ## Problem
 
-工作区文件服务与浏览器资源提供者共同演进，但其编译图包含指向 Remote 装配和 Sidebar UI 的反向依赖。拆包避开了这些环，却分离了线路协议与其 Client 模型的归属。只有 Host 实现、Client 编译入口仅含类型的包，也缺少 Client 目录分析用于区分运行时导出的 `dsh.client` 与 `./client` 声明。
+工作区文件服务与浏览器资源提供者共同演进，但其编译图包含指向 Remote 装配和 Sidebar UI 的反向依赖。拆包避开了这些环，却分离了线路协议与其 Client 模型的归属。只有 Host 实现、Client 编译入口仅含类型的包，也缺少 Client 目录分析用于区分运行时导出的 `nulu.client` 与 `./client` 声明。
 
 ## Decision
 
-`packages/api/workspace-files` 拥有两面的实现。Host 与 Client 叶配置仍由各自的根聚合直接引用，solution 根配置引用两片叶子。Host 导出文件服务，`./client` 导出实际的资源提供者插件，`dsh.client` 声明浏览器插件。web-app 的一个条目加载两面。这只取代[工作区文件服务记录](2026-09-05-workspace-files-service.zh.md)中的拆包决定，其授权、分页与流语义保持不变。
+`packages/api/workspace-files` 拥有两面的实现。Host 与 Client 叶配置仍由各自的根聚合直接引用，solution 根配置引用两片叶子。Host 导出文件服务，`./client` 导出实际的资源提供者插件，`nulu.client` 声明浏览器插件。web-app 的一个条目加载两面。这只取代[工作区文件服务记录](2026-09-05-workspace-files-service.zh.md)中的拆包决定，其授权、分页与流语义保持不变。
 
 两条依赖方向使编译图保持无环：
 
@@ -25,7 +25,7 @@ Status: implemented
 
 **删除根 Client 引用。** 传递引用仍会编译该叶子，但两个根聚合必须显式命名本包对应的编译面。
 
-**修改目录分析或增加空 Client 插件。** 两者都不能提供要求的浏览器实现。实际的 `./client` 导出和 `dsh.client` 使用分析器已有的双面支持路径。
+**修改目录分析或增加空 Client 插件。** 两者都不能提供要求的浏览器实现。实际的 `./client` 导出和 `nulu.client` 使用分析器已有的双面支持路径。
 
 ## Consequences
 

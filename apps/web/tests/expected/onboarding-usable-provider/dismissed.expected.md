@@ -24,6 +24,10 @@
       - text: DeepSeek
       - img "API 密钥缺失"
       - button "编辑 DeepSeek (deepseek-official)": 编辑
+    - listitem:
+      - text: World App Technologies 自定义
+      - img "API 密钥缺失"
+      - button "编辑 World App Technologies (worldapp)": 编辑
   - text: 提供方
   - combobox "提供方":
     - option "amazon-bedrock"

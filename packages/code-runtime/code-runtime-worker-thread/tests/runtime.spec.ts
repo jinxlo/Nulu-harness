@@ -1,8 +1,8 @@
 import { describe, expect, it, onTestFinished } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import { WorkerThreadCodeRuntime } from '@deepseek-ai/dsh-code-runtime-worker-thread'
-import type { Config } from '@deepseek-ai/dsh-code-runtime-worker-thread'
-import type { CodeBindingFunction, CodeBindingNamespace, CodeRunResult } from '@deepseek-ai/dsh-code-runtime'
+import { Context } from '@worldapptechnologies/cordis'
+import { WorkerThreadCodeRuntime } from '@worldapptechnologies/nulu-code-runtime-worker-thread'
+import type { Config } from '@worldapptechnologies/nulu-code-runtime-worker-thread'
+import type { CodeBindingFunction, CodeBindingNamespace, CodeRunResult } from '@worldapptechnologies/nulu-code-runtime'
 
 /**
  * Integration suite over REAL worker threads (no mocks — workers are cheap

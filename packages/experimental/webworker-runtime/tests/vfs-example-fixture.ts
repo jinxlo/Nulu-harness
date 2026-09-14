@@ -10,12 +10,12 @@ import {
   type SessionHeader,
   type SessionLogOffset as SessionLogOffsetType,
   type SessionSeq as SessionSeqType,
-} from '@deepseek-ai/dsh-session'
+} from '@worldapptechnologies/nulu-session'
 import {
   eventLines, generationLogFilename, projectKey, toHeaderLine,
-} from '@deepseek-ai/dsh-session-persistence-jsonl/src/format.ts'
-import { projectionCacheDomainSpec } from '@deepseek-ai/dsh-session-projection-cache'
-import { snapshotSubagentDescriptor } from '@deepseek-ai/dsh-subagent'
+} from '@worldapptechnologies/nulu-session-persistence-jsonl/src/format.ts'
+import { projectionCacheDomainSpec } from '@worldapptechnologies/nulu-session-projection-cache'
+import { snapshotSubagentDescriptor } from '@worldapptechnologies/nulu-subagent'
 
 /** Root copied by the preview image's repository adapter. */
 export const VFS_EXAMPLE_ROOT = fileURLToPath(new URL('./fixtures/vfs-example', import.meta.url))
@@ -36,7 +36,7 @@ export const VFS_EXAMPLE_OLDEST_MESSAGE = 'History checkpoint 01: verify determi
 /** Settled tail marker used by browser acceptance and the demonstration GIF. */
 export const VFS_EXAMPLE_TAIL_MESSAGE = 'Preview tour complete'
 
-const WORKSPACE = '/dsh/workspace'
+const WORKSPACE = '/nulu/workspace'
 const CREATED_AT = 1_787_472_000_000
 const HISTORICAL_TURNS = 28
 

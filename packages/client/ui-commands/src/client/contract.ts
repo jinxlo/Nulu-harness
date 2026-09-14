@@ -4,9 +4,9 @@
  * consume `register` alone.
  */
 import type { ComponentType } from 'react'
-import type { Context as ClientContext } from '@deepseek-ai/cordis'
-import type { ClientSessionContext } from '@deepseek-ai/dsh-client-ui-input-trigger/client'
-import type { IconProps } from '@deepseek-ai/dsh-client-ui-primitives'
+import type { Context as ClientContext } from '@worldapptechnologies/cordis'
+import type { ClientSessionContext } from '@worldapptechnologies/nulu-client-ui-input-trigger/client'
+import type { IconProps } from '@worldapptechnologies/nulu-client-ui-primitives'
 
 /** Copy for an option that must be acknowledged before onSelect can run. */
 export interface SelectConfirmation {

@@ -1,5 +1,5 @@
 {
-  "name": "@deepseek-ai/dsh-session-log-deepseek",
+  "name": "@worldapptechnologies/nulu-session-log-deepseek",
   "description": "Incremental lossless session-log request extension for the official DeepSeek LLM API",
   "version": "0.1.5-rc.2",
   "publishConfig": {
@@ -7,7 +7,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/worldapptechnologies/nulu-harness.git",
     "directory": "packages/session/session-log-deepseek"
   },
   "type": "module",
@@ -37,28 +37,28 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@deepseek-ai/dsh-brand": "workspace:^",
-    "@deepseek-ai/dsh-util-values": "workspace:^",
-    "@deepseek-ai/schemastery": "workspace:^"
+    "@worldapptechnologies/nulu-brand": "workspace:^",
+    "@worldapptechnologies/nulu-util-values": "workspace:^",
+    "@worldapptechnologies/schemastery": "workspace:^"
   },
   "peerDependencies": {
-    "@deepseek-ai/cordis": "workspace:^",
-    "@deepseek-ai/dsh-deepseek-llm-api-extensions": "workspace:^",
-    "@deepseek-ai/dsh-invariants": "workspace:^",
-    "@deepseek-ai/dsh-session": "workspace:^"
+    "@worldapptechnologies/cordis": "workspace:^",
+    "@worldapptechnologies/nulu-deepseek-llm-api-extensions": "workspace:^",
+    "@worldapptechnologies/nulu-invariants": "workspace:^",
+    "@worldapptechnologies/nulu-session": "workspace:^"
   },
   "devDependencies": {
-    "@deepseek-ai/cordis": "workspace:^",
-    "@deepseek-ai/cordis-plugin-include": "workspace:^",
-    "@deepseek-ai/cordis-plugin-loader": "workspace:^",
-    "@deepseek-ai/dsh-command-feedback": "workspace:^",
-    "@deepseek-ai/dsh-deepseek-llm-api-extensions": "workspace:^",
-    "@deepseek-ai/dsh-invariants": "workspace:^",
-    "@deepseek-ai/dsh-llm": "workspace:^",
-    "@deepseek-ai/dsh-llm-deepseek": "workspace:^",
-    "@deepseek-ai/dsh-llm-mock-server": "workspace:^",
-    "@deepseek-ai/dsh-message-feedback": "workspace:^",
-    "@deepseek-ai/dsh-session": "workspace:^",
-    "@deepseek-ai/dsh-session-persistence-jsonl": "workspace:^"
+    "@worldapptechnologies/cordis": "workspace:^",
+    "@worldapptechnologies/cordis-plugin-include": "workspace:^",
+    "@worldapptechnologies/cordis-plugin-loader": "workspace:^",
+    "@worldapptechnologies/nulu-command-feedback": "workspace:^",
+    "@worldapptechnologies/nulu-deepseek-llm-api-extensions": "workspace:^",
+    "@worldapptechnologies/nulu-invariants": "workspace:^",
+    "@worldapptechnologies/nulu-llm": "workspace:^",
+    "@worldapptechnologies/nulu-llm-deepseek": "workspace:^",
+    "@worldapptechnologies/nulu-llm-mock-server": "workspace:^",
+    "@worldapptechnologies/nulu-message-feedback": "workspace:^",
+    "@worldapptechnologies/nulu-session": "workspace:^",
+    "@worldapptechnologies/nulu-session-persistence-jsonl": "workspace:^"
   }
 }

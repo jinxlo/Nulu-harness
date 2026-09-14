@@ -32,7 +32,7 @@ const projectGraphqlData = ({
   organization: {
     projectV2: {
       id: 'project-id',
-      title: 'DSH Issue Management',
+      title: 'NULU Issue Management',
       fields: {
         nodes: [
           {
@@ -279,11 +279,11 @@ test('removes reserved labels from Issues before validation', async (t) => {
   assert.deepEqual(validateIssue(repaired), [])
   assert.deepEqual(requests, [
     {
-      url: 'https://api.github.com/repos/deepseek-harness/deepseek-harness/issues/42/labels/kind%2Fbug-fix',
+      url: 'https://api.github.com/repos/nulu-harness/nulu-harness/issues/42/labels/kind%2Fbug-fix',
       method: 'DELETE',
     },
     {
-      url: 'https://api.github.com/repos/deepseek-harness/deepseek-harness/issues/42/labels/bug-fix',
+      url: 'https://api.github.com/repos/nulu-harness/nulu-harness/issues/42/labels/bug-fix',
       method: 'DELETE',
     },
   ])
@@ -315,7 +315,7 @@ test('deletes a stale audit comment after repairing its only violation', async (
         {
           id: 99,
           user: { type: 'Bot' },
-          body: '<!-- dsh-issue-policy -->\nold audit',
+          body: '<!-- nulu-issue-policy -->\nold audit',
         },
       ])
     }
@@ -327,18 +327,18 @@ test('deletes a stale audit comment after repairing its only violation', async (
   assert.deepEqual(
     requests.map(({ url, method }) => ({ path: new URL(url).pathname + new URL(url).search, method })),
     [
-      { path: '/repos/deepseek-harness/deepseek-harness/issues/42', method: 'GET' },
+      { path: '/repos/nulu-harness/nulu-harness/issues/42', method: 'GET' },
       { path: '/graphql', method: 'POST' },
       {
-        path: '/repos/deepseek-harness/deepseek-harness/issues/42/labels/kind%2Fbug-fix',
+        path: '/repos/nulu-harness/nulu-harness/issues/42/labels/kind%2Fbug-fix',
         method: 'DELETE',
       },
       {
-        path: '/repos/deepseek-harness/deepseek-harness/issues/42/comments?per_page=100',
+        path: '/repos/nulu-harness/nulu-harness/issues/42/comments?per_page=100',
         method: 'GET',
       },
       {
-        path: '/repos/deepseek-harness/deepseek-harness/issues/comments/99',
+        path: '/repos/nulu-harness/nulu-harness/issues/comments/99',
         method: 'DELETE',
       },
     ],
@@ -365,8 +365,8 @@ test('keeps terminal Status aligned with the native close reason', () => {
 test('separates resolving and informational references', () => {
   assert.deepEqual(
     parseReferences({
-      body: 'Fixes #12\nRelated to #4\nRefs deepseekharness/dsh-test#7',
-      repository: 'deepseekharness/dsh-test',
+      body: 'Fixes #12\nRelated to #4\nRefs deepseekharness/nulu-test#7',
+      repository: 'deepseekharness/nulu-test',
     }),
     { all: [4, 7, 12], resolving: [12], related: [4, 7] },
   )
@@ -440,7 +440,7 @@ test('reads Priority and Status from Project custom fields', async (t) => {
   assert.equal(issue.priority, 'P1')
   assert.equal(issue.status, 'Inbox')
   assert.deepEqual(urls, [
-    'https://api.github.com/repos/deepseek-harness/deepseek-harness/issues/42',
+    'https://api.github.com/repos/nulu-harness/nulu-harness/issues/42',
     'https://api.github.com/graphql',
   ])
 })
@@ -655,7 +655,7 @@ test('toggles automation-owned work on request changes and repeated review reque
   let status = nextResolvingIssueStatus(
     'In review',
     'changes-requested',
-    'dsh-issue-management',
+    'nulu-issue-management',
   )
   assert.equal(status, 'In progress')
   status = nextResolvingIssueStatus(status, 'review-requested')

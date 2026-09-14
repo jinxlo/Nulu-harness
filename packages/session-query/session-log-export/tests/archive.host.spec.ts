@@ -6,18 +6,18 @@
  * 404, missing descendant → errored stream).
  */
 
-import { SESSION_FORMAT_VERSION, SessionSeq } from '@deepseek-ai/dsh-session'
+import { SESSION_FORMAT_VERSION, SessionSeq } from '@worldapptechnologies/nulu-session'
 import { randomBytes } from 'node:crypto'
 import { describe, expect, it, vi } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
+import { Context } from '@worldapptechnologies/cordis'
 import { unzipSync, strFromU8 } from 'fflate'
-import type { FileAttachmentRef, ImageAttachmentRef } from '@deepseek-ai/dsh-attachment'
-import type { SessionEvent, SessionHeader, SessionId } from '@deepseek-ai/dsh-session'
-import type { SessionLineageNode } from '@deepseek-ai/dsh-session-query'
-import { SessionPersistenceNotFoundError } from '@deepseek-ai/dsh-session-persistence'
-import type { SessionAccess, SessionHandle } from '@deepseek-ai/dsh-session-persistence'
-import { HostConnectionService } from '@deepseek-ai/dsh-client-connection'
-import type { BrowserAuth } from '@deepseek-ai/dsh-client-connection/src/browser-auth.ts'
+import type { FileAttachmentRef, ImageAttachmentRef } from '@worldapptechnologies/nulu-attachment'
+import type { SessionEvent, SessionHeader, SessionId } from '@worldapptechnologies/nulu-session'
+import type { SessionLineageNode } from '@worldapptechnologies/nulu-session-query'
+import { SessionPersistenceNotFoundError } from '@worldapptechnologies/nulu-session-persistence'
+import type { SessionAccess, SessionHandle } from '@worldapptechnologies/nulu-session-persistence'
+import { HostConnectionService } from '@worldapptechnologies/nulu-client-connection'
+import type { BrowserAuth } from '@worldapptechnologies/nulu-client-connection/src/browser-auth.ts'
 import * as SessionLogExport from '../src/index.ts'
 
 const sid = (id: string): SessionId => id as SessionId
@@ -307,7 +307,7 @@ describe('session.export download endpoint', () => {
     )
     expect(response.status).toBe(200)
     expect(response.headers.get('content-type')).toBe('application/zip')
-    expect(response.headers.get('content-disposition')).toContain('dsh-session-session-root.zip')
+    expect(response.headers.get('content-disposition')).toContain('nulu-session-session-root.zip')
     const files = unzipSync(await responseBytes(response))
     expect(Object.keys(files)).toEqual([exportLogName])
     expect(strFromU8(files[exportLogName] as Uint8Array)).toBe(logText(stored))
@@ -322,7 +322,7 @@ describe('session.export download endpoint', () => {
 
     expect(response.status).toBe(200)
     expect(response.headers.get('content-type')).toBe('application/zip')
-    expect(response.headers.get('content-disposition')).toContain('dsh-session-session-root.zip')
+    expect(response.headers.get('content-disposition')).toContain('nulu-session-session-root.zip')
     expect(response.body).toBeNull()
     expect(open).toHaveBeenCalledOnce()
   })

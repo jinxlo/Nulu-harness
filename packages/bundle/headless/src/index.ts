@@ -1,28 +1,28 @@
 /**
- * @deepseek-ai/dsh-headless — one-shot direct Agent driver. The bundle patch
- * rides over dsh-base without Host, HTTP, or browser plugins; this runner
+ * @worldapptechnologies/nulu-headless — one-shot direct Agent driver. The bundle patch
+ * rides over nulu-base without Host, HTTP, or browser plugins; this runner
  * creates one Agent through the core registry, drives the task to quiescence,
  * streams provider reasoning to stderr, flushes its Session, prints the final
  * assistant text to stdout, and exits.
  *
- * @module @deepseek-ai/dsh-headless
+ * @module @worldapptechnologies/nulu-headless
  */
 
 import { randomUUID } from 'node:crypto'
-import type { Context } from '@deepseek-ai/cordis'
-import z from '@deepseek-ai/schemastery'
-import { brandString } from '@deepseek-ai/dsh-brand'
-import { installModelSelection } from '@deepseek-ai/dsh-agent'
-import type { Agent, ModelSelectionRef } from '@deepseek-ai/dsh-agent'
-import type {} from '@deepseek-ai/dsh-agent-default-model'
-import { createUserMessage } from '@deepseek-ai/dsh-llm'
-import { assertNever } from '@deepseek-ai/dsh-util-values'
-import { SessionSeq } from '@deepseek-ai/dsh-session'
-import type { Session, SessionEvent, SessionId, SessionLogOffset } from '@deepseek-ai/dsh-session'
+import type { Context } from '@worldapptechnologies/cordis'
+import z from '@worldapptechnologies/schemastery'
+import { brandString } from '@worldapptechnologies/nulu-brand'
+import { installModelSelection } from '@worldapptechnologies/nulu-agent'
+import type { Agent, ModelSelectionRef } from '@worldapptechnologies/nulu-agent'
+import type {} from '@worldapptechnologies/nulu-agent-default-model'
+import { createUserMessage } from '@worldapptechnologies/nulu-llm'
+import { assertNever } from '@worldapptechnologies/nulu-util-values'
+import { SessionSeq } from '@worldapptechnologies/nulu-session'
+import type { Session, SessionEvent, SessionId, SessionLogOffset } from '@worldapptechnologies/nulu-session'
 // Empty type imports carry the loader Context merge for the settlement await
 // and the cmdline Context merge for the appExit host value.
-import type {} from '@deepseek-ai/cordis-plugin-loader'
-import type {} from '@deepseek-ai/dsh-cmdline'
+import type {} from '@worldapptechnologies/cordis-plugin-loader'
+import type {} from '@worldapptechnologies/nulu-cmdline'
 
 /** Stable Cordis plugin name. */
 export const name = 'headless-runner'
@@ -125,7 +125,7 @@ function streamReasoning(
       case 'reasoning-delta':
         if (chunk.text === '') return
         if (!open) {
-          stderr.write('dsh: reasoning:\n')
+          stderr.write('nulu: reasoning:\n')
           open = true
         }
         stderr.write(chunk.text)
@@ -157,7 +157,7 @@ function streamReasoning(
 
 /** Report an unexpected direct-driver failure and request a failing exit. */
 function fail(io: HeadlessIo, error: unknown): void {
-  io.stderr.write(`dsh: ${error instanceof Error ? error.message : String(error)}\n`)
+  io.stderr.write(`nulu: ${error instanceof Error ? error.message : String(error)}\n`)
   io.exit(1)
 }
 
@@ -181,7 +181,7 @@ async function run(ctx: Context, task: string, io: HeadlessIo): Promise<void> {
   // This bundle composes no preset roster, so the model-facing rows sit in the
   // host plane and the agent reads them from the global layer. A deployment
   // that DOES configure one has to join it here first
-  // (@deepseek-ai/dsh-agent-presets README, "Composing a child agent").
+  // (@worldapptechnologies/nulu-agent-presets README, "Composing a child agent").
   const { agent } = await agents.create({
     sessionId: brandString<SessionId>(`session-${randomUUID()}`),
     meta: { cwd: process.cwd() },
@@ -207,7 +207,7 @@ async function run(ctx: Context, task: string, io: HeadlessIo): Promise<void> {
   const outcome = summarize(agent.session, firstSeq)
   io.stdout.write(outcome.text + '\n')
   if (outcome.reason?.kind === 'error') {
-    io.stderr.write(`dsh: ${outcome.reason.error.code}: ${outcome.reason.error.message}\n`)
+    io.stderr.write(`nulu: ${outcome.reason.error.code}: ${outcome.reason.error.message}\n`)
   }
   io.exit(outcome.reason?.kind === 'completed' ? 0 : 1)
 }

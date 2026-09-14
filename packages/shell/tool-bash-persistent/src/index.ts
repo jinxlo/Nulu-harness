@@ -1,15 +1,15 @@
 /**
  * Model-facing persistent `bash` tool over the owner-scoped PTY seam.
- * @module @deepseek-ai/dsh-tool-bash-persistent
+ * @module @worldapptechnologies/nulu-tool-bash-persistent
  */
 
 import { randomUUID } from 'node:crypto'
-import type { Context } from '@deepseek-ai/cordis'
-import z from '@deepseek-ai/schemastery'
-import type { Agent } from '@deepseek-ai/dsh-agent'
-import type { TerminalReadResult, TerminalSessionId } from '@deepseek-ai/dsh-terminal'
-import { deadline, timeoutOf } from '@deepseek-ai/dsh-timeout'
-import { defineTool } from '@deepseek-ai/dsh-tools'
+import type { Context } from '@worldapptechnologies/cordis'
+import z from '@worldapptechnologies/schemastery'
+import type { Agent } from '@worldapptechnologies/nulu-agent'
+import type { TerminalReadResult, TerminalSessionId } from '@worldapptechnologies/nulu-terminal'
+import { deadline, timeoutOf } from '@worldapptechnologies/nulu-timeout'
+import { defineTool } from '@worldapptechnologies/nulu-tools'
 
 // TODO: Replace the file-search advice; arbitrary command output need not come from a searchable file.
 const TRUNCATED_MESSAGE = '<response clipped><NOTE>To save on context only part of this file has been shown to you. You should retry this tool after you have searched inside the file with `grep -n` in order to find the line numbers of what you are looking for.</NOTE>'
@@ -64,8 +64,8 @@ function maybeTruncate(content: string, maxOutputChars: number, incomplete = fal
 function markers(): CommandMarkers {
   const nonce = randomUUID()
   return {
-    start: `__DSH_PERSISTENT_BASH_START_${nonce}__`,
-    end: `__DSH_PERSISTENT_BASH_END_${nonce}:`,
+    start: `__NULU_PERSISTENT_BASH_START_${nonce}__`,
+    end: `__NULU_PERSISTENT_BASH_END_${nonce}:`,
   }
 }
 

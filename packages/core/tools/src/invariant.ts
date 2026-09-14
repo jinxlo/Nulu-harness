@@ -1,11 +1,11 @@
-/** Package-owned tool-pipeline invariants. @module @deepseek-ai/dsh-tools/invariant */
+/** Package-owned tool-pipeline invariants. @module @worldapptechnologies/nulu-tools/invariant */
 
-import type { Context } from '@deepseek-ai/cordis'
-import type { Session, SessionEvent } from '@deepseek-ai/dsh-session'
-import type { InvariantFailure, InvariantInstaller } from '@deepseek-ai/dsh-invariants'
+import type { Context } from '@worldapptechnologies/cordis'
+import type { Session, SessionEvent } from '@worldapptechnologies/nulu-session'
+import type { InvariantFailure, InvariantInstaller } from '@worldapptechnologies/nulu-invariants'
 import type { ToolExecution, ToolExecutionResult } from './index.ts'
 
-const PACKAGE_NAME = '@deepseek-ai/dsh-tools'
+const PACKAGE_NAME = '@worldapptechnologies/nulu-tools'
 
 /** Cordis companion plugin name. */
 export const name = 'tools-invariant'

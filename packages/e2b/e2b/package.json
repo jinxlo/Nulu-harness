@@ -1,13 +1,13 @@
 {
-  "name": "@deepseek-ai/dsh-e2b",
-  "description": "Shared E2B sandbox lifecycle for DeepSeek Harness provider adapters",
+  "name": "@worldapptechnologies/nulu-e2b",
+  "description": "Shared E2B sandbox lifecycle for Nulu Harness provider adapters",
   "version": "0.1.5-rc.2",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/worldapptechnologies/nulu-harness.git",
     "directory": "packages/e2b/e2b"
   },
   "type": "module",
@@ -27,30 +27,30 @@
   ],
   "license": "MIT",
   "peerDependencies": {
-    "@deepseek-ai/cordis": "workspace:^",
-    "@deepseek-ai/dsh-http-proxy": "workspace:^"
+    "@worldapptechnologies/cordis": "workspace:^",
+    "@worldapptechnologies/nulu-http-proxy": "workspace:^"
   },
   "dependencies": {
-    "@deepseek-ai/schemastery": "workspace:^",
+    "@worldapptechnologies/schemastery": "workspace:^",
     "e2b": "2.29.1"
   },
   "devDependencies": {
-    "@deepseek-ai/cordis": "workspace:^",
-    "@deepseek-ai/dsh-agent": "workspace:^",
-    "@deepseek-ai/dsh-agent-loop-testkit": "workspace:^",
-    "@deepseek-ai/dsh-app-boot": "workspace:^",
-    "@deepseek-ai/dsh-bash-local": "workspace:^",
-    "@deepseek-ai/dsh-fs-e2b": "workspace:^",
-    "@deepseek-ai/dsh-loader-smoke": "workspace:^",
-    "@deepseek-ai/dsh-lsp": "workspace:^",
-    "@deepseek-ai/dsh-lsp-stdio": "workspace:^",
-    "@deepseek-ai/dsh-sandbox-policy": "workspace:^",
-    "@deepseek-ai/dsh-session": "workspace:^",
-    "@deepseek-ai/dsh-session-projection": "workspace:^",
-    "@deepseek-ai/dsh-subprocess-e2b": "workspace:^",
-    "@deepseek-ai/dsh-terminal": "workspace:^",
-    "@deepseek-ai/dsh-terminal-bash": "workspace:^",
-    "@deepseek-ai/dsh-http-proxy": "workspace:^",
-    "@deepseek-ai/dsh-launch-environment": "workspace:^"
+    "@worldapptechnologies/cordis": "workspace:^",
+    "@worldapptechnologies/nulu-agent": "workspace:^",
+    "@worldapptechnologies/nulu-agent-loop-testkit": "workspace:^",
+    "@worldapptechnologies/nulu-app-boot": "workspace:^",
+    "@worldapptechnologies/nulu-bash-local": "workspace:^",
+    "@worldapptechnologies/nulu-fs-e2b": "workspace:^",
+    "@worldapptechnologies/nulu-loader-smoke": "workspace:^",
+    "@worldapptechnologies/nulu-lsp": "workspace:^",
+    "@worldapptechnologies/nulu-lsp-stdio": "workspace:^",
+    "@worldapptechnologies/nulu-sandbox-policy": "workspace:^",
+    "@worldapptechnologies/nulu-session": "workspace:^",
+    "@worldapptechnologies/nulu-session-projection": "workspace:^",
+    "@worldapptechnologies/nulu-subprocess-e2b": "workspace:^",
+    "@worldapptechnologies/nulu-terminal": "workspace:^",
+    "@worldapptechnologies/nulu-terminal-bash": "workspace:^",
+    "@worldapptechnologies/nulu-http-proxy": "workspace:^",
+    "@worldapptechnologies/nulu-launch-environment": "workspace:^"
   }
 }

@@ -9,13 +9,13 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { Context } from '@deepseek-ai/cordis'
-import { ToolCallId } from '@deepseek-ai/dsh-llm'
-import SystemPrompt from '@deepseek-ai/dsh-system-prompt'
-import ToolRuntime, { TOOL_ABORTED_BEFORE_DISPATCH } from '@deepseek-ai/dsh-tools'
-import { LocalFileSystem } from '@deepseek-ai/dsh-fs-local'
-import * as FsPolicy from '@deepseek-ai/dsh-fs-observation-policy'
-import * as ToolFs from '@deepseek-ai/dsh-tool-fs'
+import { Context } from '@worldapptechnologies/cordis'
+import { ToolCallId } from '@worldapptechnologies/nulu-llm'
+import SystemPrompt from '@worldapptechnologies/nulu-system-prompt'
+import ToolRuntime, { TOOL_ABORTED_BEFORE_DISPATCH } from '@worldapptechnologies/nulu-tools'
+import { LocalFileSystem } from '@worldapptechnologies/nulu-fs-local'
+import * as FsPolicy from '@worldapptechnologies/nulu-fs-observation-policy'
+import * as ToolFs from '@worldapptechnologies/nulu-tool-fs'
 
 const testToolSignal = new AbortController().signal
 
@@ -52,9 +52,9 @@ afterEach(async () => {
 // --------------------------------------------------------------------------
 // DEFAULT deployment: the policy gate plugin is loaded.
 // --------------------------------------------------------------------------
-describe('default deployment (with dsh-fs-observation-policy)', () => {
+describe('default deployment (with nulu-fs-observation-policy)', () => {
   beforeEach(async () => {
-    dir = await mkdtemp(join(tmpdir(), 'dsh-tool-fs-'))
+    dir = await mkdtemp(join(tmpdir(), 'nulu-tool-fs-'))
     ctx = new Context()
     await ctx.plugin(SystemPrompt)
     await ctx.plugin(ToolRuntime)
@@ -310,9 +310,9 @@ describe('default deployment (with dsh-fs-observation-policy)', () => {
 // --------------------------------------------------------------------------
 // BARE deployment: the tool suite WITHOUT the policy gate.
 // --------------------------------------------------------------------------
-describe('bare provider (no dsh-fs-observation-policy)', () => {
+describe('bare provider (no nulu-fs-observation-policy)', () => {
   beforeEach(async () => {
-    dir = await mkdtemp(join(tmpdir(), 'dsh-tool-fs-bare-'))
+    dir = await mkdtemp(join(tmpdir(), 'nulu-tool-fs-bare-'))
     ctx = new Context()
     await ctx.plugin(SystemPrompt)
     await ctx.plugin(ToolRuntime)
@@ -375,12 +375,12 @@ describe('bare provider (no dsh-fs-observation-policy)', () => {
 
 // Per-session cwd: a relative file_path resolves against the calling session's workspace
 // (`exec.agent.session.header.cwd`), not the backend's config.cwd, so the
-// caller-selected session workspace wins, matching dsh-tool-bash.
+// caller-selected session workspace wins, matching nulu-tool-bash.
 describe('per-session cwd', () => {
   let sessionDir: string
   beforeEach(async () => {
-    dir = await mkdtemp(join(tmpdir(), 'dsh-tool-fs-cfg-'))
-    sessionDir = await mkdtemp(join(tmpdir(), 'dsh-tool-fs-session-'))
+    dir = await mkdtemp(join(tmpdir(), 'nulu-tool-fs-cfg-'))
+    sessionDir = await mkdtemp(join(tmpdir(), 'nulu-tool-fs-session-'))
     ctx = new Context()
     await ctx.plugin(SystemPrompt)
     await ctx.plugin(ToolRuntime)
@@ -425,7 +425,7 @@ describe('per-session cwd', () => {
 // --------------------------------------------------------------------------
 describe('signal, concurrency, and the fs/observed contract', () => {
   beforeEach(async () => {
-    dir = await mkdtemp(join(tmpdir(), 'dsh-tool-fs-'))
+    dir = await mkdtemp(join(tmpdir(), 'nulu-tool-fs-'))
     ctx = new Context()
     await ctx.plugin(SystemPrompt)
     await ctx.plugin(ToolRuntime)

@@ -3,7 +3,7 @@ description: "Worker 线程代码执行，面向组装、容量规划或调试�
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-code-runtime-worker-thread
+# @worldapptechnologies/nulu-code-runtime-worker-thread
 
 [English](README.md) | 中文
 
@@ -25,13 +25,13 @@ kind: "package-reference"
 <a id="use-this-package"></a>
 ## 使用本包
 
-当组合需要执行模型编写的 TypeScript 程序时，连同 code-runtime seam 一起挂载此后端；只要模型调用 `run_code`，`dsh-tools` 中的 PTC mode 就会通过 `ctx.codeRuntime` 驱动它。每个执行上限都是已验证的配置，因此你可以从 `cordis.yml` 为部署调整运行时规模。
+当组合需要执行模型编写的 TypeScript 程序时，连同 code-runtime seam 一起挂载此后端；只要模型调用 `run_code`，`nulu-tools` 中的 PTC mode 就会通过 `ctx.codeRuntime` 驱动它。每个执行上限都是已验证的配置，因此你可以从 `cordis.yml` 为部署调整运行时规模。
 
 ### 最小配置
 
 ```yaml
-- name: '@deepseek-ai/dsh-code-runtime'
-- name: '@deepseek-ai/dsh-code-runtime-worker-thread'
+- name: '@worldapptechnologies/nulu-code-runtime'
+- name: '@worldapptechnologies/nulu-code-runtime-worker-thread'
   config:
     computeMs: 60000            # busy-time budget (measured event-loop active time)
     maxWallMs: 600000           # wall-clock ceiling; never pauses for anything
@@ -46,7 +46,7 @@ kind: "package-reference"
 | `maxOutputBytes` | `67,108,864` | 序列化日志加完成值或失败消息的硬上限；至少 `4` |
 | `maxOldGenerationSizeMb` | `512` | worker 堆上限；溢出会杀死 worker，并以 `worker-exit` 呈现 |
 
-每个字段在加载时都会验证并提供默认值；没有其他可调项。生成的[配置目录](../../../docs/config-catalog.zh.md#deepseek-aidsh-code-runtime-worker-thread)是所有受支持字段的完整参考。
+每个字段在加载时都会验证并提供默认值；没有其他可调项。生成的[配置目录](../../../docs/config-catalog.zh.md#worldapptechnologiesnulu-code-runtime-worker-thread)是所有受支持字段的完整参考。
 
 ### 运行返回什么
 
@@ -116,16 +116,16 @@ kind: "package-reference"
 当后端约定不够用时阅读以下内容。它们从 seam 定义进入消费方与配置面。
 
 - [代码运行时 seam](../code-runtime/README.zh.md)——此后端实现的抽象约定。
-- [PTC mode Agent Note](../../../.agents/notes/implemented/feature/2026-06-15-ptc.zh.md)——`dsh-tools` 如何消费 `ctx.codeRuntime` 并呈现 `run_code`。
+- [PTC mode Agent Note](../../../.agents/notes/implemented/feature/2026-06-15-ptc.zh.md)——`nulu-tools` 如何消费 `ctx.codeRuntime` 并呈现 `run_code`。
 - [代码运行时子系统参考](../../../docs/subsystems/code-runtime.zh.md)——请求／结果词汇、绑定与失败分类体系。
-- [生成配置目录](../../../docs/config-catalog.zh.md#deepseek-aidsh-code-runtime-worker-thread)——每个受支持配置字段及其源声明。
+- [生成配置目录](../../../docs/config-catalog.zh.md#worldapptechnologiesnulu-code-runtime-worker-thread)——每个受支持配置字段及其源声明。
 
 -----
 
 <a id="model-experience"></a>
 ## 模型体验
 
-通过 `dsh-tools` 中的 PTC mode 间接提供，如果外层值能容纳则原样渲染，否则返回明确的 `invalid-output`／`output-limit` 失败，且只有外层 `run_code` 结果在其普通 spill 策略下进入模型上下文，绑定通信与中间值始终只存在于执行环境中。
+通过 `nulu-tools` 中的 PTC mode 间接提供，如果外层值能容纳则原样渲染，否则返回明确的 `invalid-output`／`output-limit` 失败，且只有外层 `run_code` 结果在其普通 spill 策略下进入模型上下文，绑定通信与中间值始终只存在于执行环境中。
 
 #### KV Cache 影响
 

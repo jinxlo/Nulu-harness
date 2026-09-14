@@ -8,11 +8,11 @@ Status: implemented
 
 Issue 生命周期工作流需要结构化规划元数据，但组织 Issue 字段使用的 GitHub App 权限独立于组织 Project 权限。具有 Project 写权限的工作流 token 可以读取和更新 Project custom field，而 GitHub 会拒绝读取 Issue 字段，因此同时使用两套存储会让同一策略依赖两组独立管理的权限。
 
-Priority、影响面、解决代价和日期用于在 `DSH Issue Management` 中规划工作。把这些值保存在 Issue 上还会让它们在该 Project 之外可见，但仓库没有需要跨 Project 值的工作流。
+Priority、影响面、解决代价和日期用于在 `NULU Issue Management` 中规划工作。把这些值保存在 Issue 上还会让它们在该 Project 之外可见，但仓库没有需要跨 Project 值的工作流。
 
 ## 决策
 
-`DSH Issue Management` Project 使用 Project custom field 存储 `Priority`、`Severity`、`Cost`、`Start Date` 和 `Target Date`。`Severity` 沿用组织字段 `影响面` 的选项含义，`Cost` 沿用 `解决代价` 的选项含义。
+`NULU Issue Management` Project 使用 Project custom field 存储 `Priority`、`Severity`、`Cost`、`Start Date` 和 `Target Date`。`Severity` 沿用组织字段 `影响面` 的选项含义，`Cost` 沿用 `解决代价` 的选项含义。
 
 仓库策略从配置的 Project 解析 `Priority` 和 `Start Date`。策略拒绝 Issue 字段投影或错误的数据类型，从 Project item 读取 Priority，并通过 `updateProjectV2ItemFieldValue` 写入 Start Date。组织 Issue 字段仅作为带有 `Legacy ...` 前缀的迁移源保留，仓库工作流不会读取它们。
 
@@ -36,7 +36,7 @@ Issue 生命周期工作流仅在 `pull_request.opened` 时初始化 `Start Date
 
 ## 后果
 
-规划元数据限定在一个 Project 归属中。同一个 Issue 可以在另一个 Project 中使用不同的值，`DSH Issue Management` 之外的 Issue 没有 Project 局部规划值。
+规划元数据限定在一个 Project 归属中。同一个 Issue 可以在另一个 Project 中使用不同的值，`NULU Issue Management` 之外的 Issue 没有 Project 局部规划值。
 
 GitHub App 通过 Project 权限而不是组织 Issue Fields 权限访问策略元数据。字段改名或类型变化会让工作流失败，而不会回退到旧字段。
 

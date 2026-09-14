@@ -1,9 +1,9 @@
 /** Model-facing discovery of LLM routes available to child Agents. */
 
-import type { Context } from '@deepseek-ai/cordis'
-import type LlmRuntime from '@deepseek-ai/dsh-llm'
-import type { LlmProviderInfo } from '@deepseek-ai/dsh-llm'
-import { defineTool } from '@deepseek-ai/dsh-tools'
+import type { Context } from '@worldapptechnologies/cordis'
+import type LlmRuntime from '@worldapptechnologies/nulu-llm'
+import type { LlmProviderInfo } from '@worldapptechnologies/nulu-llm'
+import { defineTool } from '@worldapptechnologies/nulu-tools'
 import type { ModelSelectionPolicy } from './model-selection.ts'
 
 interface ListSubagentModelsRequest {

@@ -1,5 +1,5 @@
 {
-  "name": "@deepseek-ai/dsh-client-ui-reference",
+  "name": "@worldapptechnologies/nulu-client-ui-reference",
   "description": "Unified Web @file and @session reference source",
   "version": "0.1.5-rc.2",
   "publishConfig": {
@@ -7,7 +7,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/worldapptechnologies/nulu-harness.git",
     "directory": "packages/client/ui-reference"
   },
   "type": "module",
@@ -25,15 +25,15 @@
     "./src/*": "./src/*",
     "./package.json": "./package.json"
   },
-  "dsh": {
+  "nulu": {
     "client": {
       "inject": [
-        "@deepseek-ai/dsh-api-remotes",
-        "@deepseek-ai/dsh-api-session-controller",
-        "@deepseek-ai/dsh-client-connection",
-        "@deepseek-ai/dsh-client-locale",
-        "@deepseek-ai/dsh-client-ui-input-trigger",
-        "@deepseek-ai/dsh-client-ui-sidebar-right"
+        "@worldapptechnologies/nulu-api-remotes",
+        "@worldapptechnologies/nulu-api-session-controller",
+        "@worldapptechnologies/nulu-client-connection",
+        "@worldapptechnologies/nulu-client-locale",
+        "@worldapptechnologies/nulu-client-ui-input-trigger",
+        "@worldapptechnologies/nulu-client-ui-sidebar-right"
       ],
       "platform": "web"
     }
@@ -44,23 +44,23 @@
   },
   "license": "MIT",
   "peerDependencies": {
-    "@deepseek-ai/cordis": "workspace:^"
+    "@worldapptechnologies/cordis": "workspace:^"
   },
   "devDependencies": {
-    "@deepseek-ai/dsh-api-remotes": "workspace:^",
-    "@deepseek-ai/dsh-api-session-controller": "workspace:^",
-    "@deepseek-ai/dsh-client-connection": "workspace:^",
-    "@deepseek-ai/dsh-client-locale": "workspace:^",
-    "@deepseek-ai/dsh-client-test-runtime": "workspace:^",
-    "@deepseek-ai/dsh-client-ui-input-trigger": "workspace:^",
-    "@deepseek-ai/dsh-client-ui-primitives": "workspace:^",
-    "@deepseek-ai/dsh-client-ui-slots": "workspace:^",
-    "@deepseek-ai/dsh-file-reference": "workspace:^",
-    "@deepseek-ai/dsh-session-reference": "workspace:^",
-    "@deepseek-ai/dsh-typert-protocol": "workspace:^",
-    "@deepseek-ai/dsh-util-workspace-path": "workspace:^",
-    "@deepseek-ai/cordis": "workspace:^",
-    "@deepseek-ai/dsh-client-ui-sidebar-right": "workspace:^"
+    "@worldapptechnologies/nulu-api-remotes": "workspace:^",
+    "@worldapptechnologies/nulu-api-session-controller": "workspace:^",
+    "@worldapptechnologies/nulu-client-connection": "workspace:^",
+    "@worldapptechnologies/nulu-client-locale": "workspace:^",
+    "@worldapptechnologies/nulu-client-test-runtime": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-input-trigger": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-primitives": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-slots": "workspace:^",
+    "@worldapptechnologies/nulu-file-reference": "workspace:^",
+    "@worldapptechnologies/nulu-session-reference": "workspace:^",
+    "@worldapptechnologies/nulu-typert-protocol": "workspace:^",
+    "@worldapptechnologies/nulu-util-workspace-path": "workspace:^",
+    "@worldapptechnologies/cordis": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-sidebar-right": "workspace:^"
   },
   "files": [
     "lib/index.js",

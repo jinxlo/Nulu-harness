@@ -4,18 +4,18 @@
  * producers. It also delivers unreported completions to the owning agent:
  * injected into a busy owner's next step, or opening a turn on an idle one
  * under the default `wakeup` delivery, bounded per owner.
- * @module @deepseek-ai/dsh-tool-jobs
+ * @module @worldapptechnologies/nulu-tool-jobs
  */
 
-import type { Context } from '@deepseek-ai/cordis'
-import z from '@deepseek-ai/schemastery'
-import { boundContextSummary, createUserMessage, type ContentBlock } from '@deepseek-ai/dsh-llm'
-import { TextRetainer } from '@deepseek-ai/dsh-output-retention'
-import { defineTool } from '@deepseek-ai/dsh-tools'
-import type { GenericCallView, ToolDefinition, ToolExecution } from '@deepseek-ai/dsh-tools'
-import { JobId } from '@deepseek-ai/dsh-jobs'
-import type { JobSnapshot } from '@deepseek-ai/dsh-jobs'
-import type { Agent } from '@deepseek-ai/dsh-agent'
+import type { Context } from '@worldapptechnologies/cordis'
+import z from '@worldapptechnologies/schemastery'
+import { boundContextSummary, createUserMessage, type ContentBlock } from '@worldapptechnologies/nulu-llm'
+import { TextRetainer } from '@worldapptechnologies/nulu-output-retention'
+import { defineTool } from '@worldapptechnologies/nulu-tools'
+import type { GenericCallView, ToolDefinition, ToolExecution } from '@worldapptechnologies/nulu-tools'
+import { JobId } from '@worldapptechnologies/nulu-jobs'
+import type { JobSnapshot } from '@worldapptechnologies/nulu-jobs'
+import type { Agent } from '@worldapptechnologies/nulu-agent'
 
 export const name = 'tool-jobs'
 export const inject = ['tools', 'jobs', 'systemPrompt']

@@ -1,5 +1,5 @@
 /**
- * ic_ds_* icon set for the dsh web UI. All glyphs ride currentColor (filled
+ * ic_ds_* icon set for the nulu web UI. All glyphs ride currentColor (filled
  * or stroked) and take {size, className}. Batch A mirrors the deepsuite icon
  * library (same figma source); batch B glyphs are harness-only figma
  * extracts; the product glyphs at the end are hand-authored.

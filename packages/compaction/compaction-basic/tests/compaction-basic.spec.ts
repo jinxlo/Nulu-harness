@@ -1,19 +1,19 @@
 import { describe, expect, expectTypeOf, it, vi } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import { AttachmentId } from '@deepseek-ai/dsh-attachment'
-import BasicCompactionEngine from '@deepseek-ai/dsh-compaction-basic'
-import type { BasicCompactionConfig } from '@deepseek-ai/dsh-compaction-basic'
-import { selectCompactableRange } from '@deepseek-ai/dsh-compaction-basic/src/region.ts'
-import { frameSummary } from '@deepseek-ai/dsh-compaction-basic/src/summarizer.ts'
-import type { SummarizationInput, SummaryResult } from '@deepseek-ai/dsh-compaction-basic/src/summarizer.ts'
-import { CompactionId, toolPairingBalancedAfter, toolPairingBalancedBefore } from '@deepseek-ai/dsh-compaction'
+import { Context } from '@worldapptechnologies/cordis'
+import { AttachmentId } from '@worldapptechnologies/nulu-attachment'
+import BasicCompactionEngine from '@worldapptechnologies/nulu-compaction-basic'
+import type { BasicCompactionConfig } from '@worldapptechnologies/nulu-compaction-basic'
+import { selectCompactableRange } from '@worldapptechnologies/nulu-compaction-basic/src/region.ts'
+import { frameSummary } from '@worldapptechnologies/nulu-compaction-basic/src/summarizer.ts'
+import type { SummarizationInput, SummaryResult } from '@worldapptechnologies/nulu-compaction-basic/src/summarizer.ts'
+import { CompactionId, toolPairingBalancedAfter, toolPairingBalancedBefore } from '@worldapptechnologies/nulu-compaction'
 import {
   resolveCompactSpec,
   resolveConfig,
   resolveTargetPolicy,
-} from '@deepseek-ai/dsh-compaction-basic/src/config.ts'
-import type { CompactionResult } from '@deepseek-ai/dsh-compaction'
-import LlmRuntime, { createUserMessage, ToolCallId, CONTEXT_WINDOW_EXCEEDED_CODE, createSystemMessage, createToolResultMessage, LlmAdapter , createMessage } from '@deepseek-ai/dsh-llm'
+} from '@worldapptechnologies/nulu-compaction-basic/src/config.ts'
+import type { CompactionResult } from '@worldapptechnologies/nulu-compaction'
+import LlmRuntime, { createUserMessage, ToolCallId, CONTEXT_WINDOW_EXCEEDED_CODE, createSystemMessage, createToolResultMessage, LlmAdapter , createMessage } from '@worldapptechnologies/nulu-llm'
 import type {
   ContentBlock,
   GenerateOptions,
@@ -22,12 +22,12 @@ import type {
   Message,
   StreamChunk,
   TokenUsage,
-} from '@deepseek-ai/dsh-llm'
-import SessionStore, { Session, SessionId, SessionSeq } from '@deepseek-ai/dsh-session'
-import SessionProjectionRegistry from '@deepseek-ai/dsh-session-projection'
-import TokenMeter from '@deepseek-ai/dsh-token-meter'
-import { agentEvents, type Agent, type RequestErrorAction } from '@deepseek-ai/dsh-agent'
-import ToolResultPruner from '@deepseek-ai/dsh-compaction-tool-result-pruner'
+} from '@worldapptechnologies/nulu-llm'
+import SessionStore, { Session, SessionId, SessionSeq } from '@worldapptechnologies/nulu-session'
+import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projection'
+import TokenMeter from '@worldapptechnologies/nulu-token-meter'
+import { agentEvents, type Agent, type RequestErrorAction } from '@worldapptechnologies/nulu-agent'
+import ToolResultPruner from '@worldapptechnologies/nulu-compaction-tool-result-pruner'
 
 const SIGNAL = new AbortController().signal
 const MODEL = 'test-model'
@@ -107,7 +107,7 @@ function promptInput(text: string): SummarizationInput {
   })] }
 }
 
-const SYSTEM_PROMPT_PLUGIN = '@deepseek-ai/dsh-system-prompt'
+const SYSTEM_PROMPT_PLUGIN = '@worldapptechnologies/nulu-system-prompt'
 
 /**
  * Closed two-message turns followed by one open turn for durable compaction events.

@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
-import { createSessionFormatCatalog, SessionFormatEventCollector } from '@deepseek-ai/dsh-session-format'
-import type { SessionFormatArtifact, SessionFormatEvent, SessionFormatHeader, SessionFormatJsonObject } from '@deepseek-ai/dsh-session-format'
-import { releasedV0SessionFormatCodec, releasedV1SessionFormatCodec, sessionFormatV0ToV1 } from '@deepseek-ai/dsh-session-format-v0-to-v1'
-import { sessionFormatV1ToV2 } from '@deepseek-ai/dsh-session-format-v1-to-v2'
+import { createSessionFormatCatalog, SessionFormatEventCollector } from '@worldapptechnologies/nulu-session-format'
+import type { SessionFormatArtifact, SessionFormatEvent, SessionFormatHeader, SessionFormatJsonObject } from '@worldapptechnologies/nulu-session-format'
+import { releasedV0SessionFormatCodec, releasedV1SessionFormatCodec, sessionFormatV0ToV1 } from '@worldapptechnologies/nulu-session-format-v0-to-v1'
+import { sessionFormatV1ToV2 } from '@worldapptechnologies/nulu-session-format-v1-to-v2'
 import { assertReleasedV3Header, releasedV2SessionFormatCodec, releasedV3SessionFormatCodec, restoreReleasedV3Artifact, sessionFormatV2ToV3 } from '../src/index.ts'
 
 function deepFreeze<T>(value: T): T {
@@ -165,7 +165,7 @@ describe('streaming V2 system prompt migration', () => {
 
   it('preserves other-session captures, workflow-local seq, and model input containing source numbers', () => {
     const reference = { kind: 'session-reference', form: 'recall', version: 1, references: [{ sessionId: 'other', label: 'other', capturedThroughSeq: 99, capturedFormatVersion: 2, compacted: false, originalMessages: 1, retainedMessages: 1, omittedMessages: 0, omittedBytes: 0, truncated: false, inputIndex: 0 }] }
-    const input = [...opening(), event('user/message', { ...user(), source: reference }, 'append'), event('tool-workflow/agent-start', { runId: 'run', seq: 99, label: 'child', childId: 'other' }), event('user/message', user('human'), 'append'), event('session/title-llm-request', { titleProvider: 'mock', messageSeqs: [4], route: { provider: 'mock', model: 'mock' }, system: 'title system', messages: [{ ...user('title'), source: { kind: 'plugin', plugin: 'dsh-session-title-llm' }, content: [{ type: 'text', text: 'source seq=4 (preserved model input)' }] }], maxTokens: 20 })]
+    const input = [...opening(), event('user/message', { ...user(), source: reference }, 'append'), event('tool-workflow/agent-start', { runId: 'run', seq: 99, label: 'child', childId: 'other' }), event('user/message', user('human'), 'append'), event('session/title-llm-request', { titleProvider: 'mock', messageSeqs: [4], route: { provider: 'mock', model: 'mock' }, system: 'title system', messages: [{ ...user('title'), source: { kind: 'plugin', plugin: 'nulu-session-title-llm' }, content: [{ type: 'text', text: 'source seq=4 (preserved model input)' }] }], maxTokens: 20 })]
     const target = migrate(input)
     const kept = target.events.filter(e => e.type !== 'system/message')
     expect(kept[2]?.data).toEqual(input[2]?.data)

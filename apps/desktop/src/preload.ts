@@ -35,4 +35,4 @@ const api: DshDesktopApi = {
   },
 }
 
-contextBridge.exposeInMainWorld('dshDesktop', api)
+contextBridge.exposeInMainWorld('nuluDesktop', api)

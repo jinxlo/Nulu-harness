@@ -1,5 +1,5 @@
 {
-  "name": "@deepseek-ai/dsh-host-plugin-inventory",
+  "name": "@worldapptechnologies/nulu-host-plugin-inventory",
   "description": "Read-only Remote projection of current Cordis Loader plugin state",
   "version": "0.1.5-rc.2",
   "publishConfig": {
@@ -7,7 +7,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/worldapptechnologies/nulu-harness.git",
     "directory": "packages/host/plugin-inventory"
   },
   "type": "module",
@@ -47,22 +47,22 @@
     "zod": "^4.4.3"
   },
   "peerDependencies": {
-    "@deepseek-ai/cordis-plugin-loader": "workspace:^",
-    "@deepseek-ai/dsh-agent-presets": "workspace:^",
-    "@deepseek-ai/dsh-brand": "workspace:^",
-    "@deepseek-ai/dsh-typert-protocol": "workspace:^",
-    "@deepseek-ai/cordis": "workspace:^"
+    "@worldapptechnologies/cordis-plugin-loader": "workspace:^",
+    "@worldapptechnologies/nulu-agent-presets": "workspace:^",
+    "@worldapptechnologies/nulu-brand": "workspace:^",
+    "@worldapptechnologies/nulu-typert-protocol": "workspace:^",
+    "@worldapptechnologies/cordis": "workspace:^"
   },
   "peerDependenciesMeta": {
-    "@deepseek-ai/dsh-agent-presets": {
+    "@worldapptechnologies/nulu-agent-presets": {
       "optional": true
     }
   },
   "devDependencies": {
-    "@deepseek-ai/cordis-plugin-loader": "workspace:^",
-    "@deepseek-ai/dsh-agent-presets": "workspace:^",
-    "@deepseek-ai/dsh-brand": "workspace:^",
-    "@deepseek-ai/dsh-typert-protocol": "workspace:^",
-    "@deepseek-ai/cordis": "workspace:^"
+    "@worldapptechnologies/cordis-plugin-loader": "workspace:^",
+    "@worldapptechnologies/nulu-agent-presets": "workspace:^",
+    "@worldapptechnologies/nulu-brand": "workspace:^",
+    "@worldapptechnologies/nulu-typert-protocol": "workspace:^",
+    "@worldapptechnologies/cordis": "workspace:^"
   }
 }

@@ -18,16 +18,16 @@ import type { ChangeEvent, CSSProperties, KeyboardEvent, MouseEvent, ReactNode }
 import clsx from 'clsx'
 import {
   IconPlusOutline16, IconWarningOutline16, Toast, Tooltip,
-} from '@deepseek-ai/dsh-client-ui-primitives'
+} from '@worldapptechnologies/nulu-client-ui-primitives'
 // Type-only: the `plan` projection key merge (the TodoDock posture — the
 // composer reads a host-computed value; the domain owns the key).
-import type {} from '@deepseek-ai/dsh-plan-mode/client'
+import type {} from '@worldapptechnologies/nulu-plan-mode/client'
 // Type-only: the `goal` projection key merge (hint disambiguation).
-import type {} from '@deepseek-ai/dsh-goal/client'
+import type {} from '@worldapptechnologies/nulu-goal/client'
 // The `imageLimits` projection key merge (intake pre-check) arrives with the
 // wire types: apiproxy's sessions contract declares it, and client-runtime's
 // api-remotes import already places it in every client program.
-import type { Translate } from '@deepseek-ai/dsh-client-ui-slots'
+import type { Translate } from '@worldapptechnologies/nulu-client-ui-slots'
 import type { ComposerBarProps } from '../contract/slots.ts'
 import { ComposerContentEditable } from '../input/editor/ComposerContentEditable.tsx'
 import { DecoratorPortals } from '../input/editor/DecoratorPortals.tsx'
@@ -474,7 +474,7 @@ export const InputBar = memo(function InputBar({
               aria-expanded={workspaceTrigger ? workspacePickerOpen : undefined}
               tabIndex={workspaceTrigger ? 0 : undefined}
               onKeyDown={workspaceTrigger ? onWorkspaceKeyDown : undefined}
-              style={hint === null ? undefined : { '--dsh-composer-hint': JSON.stringify(hint) } as CSSProperties}
+              style={hint === null ? undefined : { '--nulu-composer-hint': JSON.stringify(hint) } as CSSProperties}
             />
             {draft === '' && attachments.length === 0 && !claimActive && (
               <div aria-hidden className={css.placeholder} data-composer-placeholder>

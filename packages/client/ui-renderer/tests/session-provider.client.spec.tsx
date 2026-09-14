@@ -1,14 +1,14 @@
 // @vitest-environment jsdom
 import { Fragment, useEffect, useRef } from 'react'
-import { Context } from '@deepseek-ai/cordis'
+import { Context } from '@worldapptechnologies/cordis'
 import { describe, expect, it, vi } from 'vitest'
 import { act, render } from '@testing-library/react'
 import type {
   SessionProviderComponent, StoredEntry,
-} from '@deepseek-ai/dsh-client-ui-slots'
+} from '@worldapptechnologies/nulu-client-ui-slots'
 import type {
   ScopedStandardSourceBinding, SlotRendererHost, SlotScopeAdapter, StandardSourceBinding,
-} from '@deepseek-ai/dsh-client-ui-renderer/client'
+} from '@worldapptechnologies/nulu-client-ui-renderer/client'
 import { createSlotRenderer } from '../src/client/scoped-slots.tsx'
 
 type SessionBinding = ScopedStandardSourceBinding

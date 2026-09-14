@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import type { GlobalStandardProps } from '@deepseek-ai/dsh-client-ui-slots'
+import type { GlobalStandardProps } from '@worldapptechnologies/nulu-client-ui-slots'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { act, cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { useEffect } from 'react'
@@ -10,22 +10,22 @@ import type {
   LegacyConversationSlice, ModelRetryNode, RunningToolCall, SteeringMessageNode,
   ToolCallBlock, ToolResultNode, TurnErrorNode, TurnMaxTokensNode, UseChatNodeTurnData,
   TranscriptViewMode, UserMessageNode,
-} from '@deepseek-ai/dsh-client-ui-chat/client'
+} from '@worldapptechnologies/nulu-client-ui-chat/client'
 import type {
   SessionListState, SessionSnapshot,
-} from '@deepseek-ai/dsh-api-session-controller/client'
+} from '@worldapptechnologies/nulu-api-session-controller/client'
 import type {
   ConversationLocationDataStore, ConversationTurnDataMap,
-} from '@deepseek-ai/dsh-client-ui-conversation/client'
-import type { WorkspaceSnapshot } from '@deepseek-ai/dsh-api-workspace-controller/client'
-import type { SessionId } from '@deepseek-ai/dsh-session/types'
-import type { SessionPendingInteractionSnapshot } from '@deepseek-ai/dsh-client-ui-session/client'
-import type { KeyedSnapshotSelectorHook, SnapshotSelectorHook } from '@deepseek-ai/dsh-client-ui-slots'
-import { bindSnapshotSelector, makeTranslate } from '@deepseek-ai/dsh-client-test-runtime'
-import { createSnapshotStore, type ObservableSnapshot } from '@deepseek-ai/dsh-client-store'
-import { EMPTY_CONVERSATION_SNAPSHOT } from '@deepseek-ai/dsh-client-ui-conversation/client'
-import { en as commonEn } from '@deepseek-ai/dsh-client-locale/src/locales/en.ts'
-import { zh as commonZh } from '@deepseek-ai/dsh-client-locale/src/locales/zh.ts'
+} from '@worldapptechnologies/nulu-client-ui-conversation/client'
+import type { WorkspaceSnapshot } from '@worldapptechnologies/nulu-api-workspace-controller/client'
+import type { SessionId } from '@worldapptechnologies/nulu-session/types'
+import type { SessionPendingInteractionSnapshot } from '@worldapptechnologies/nulu-client-ui-session/client'
+import type { KeyedSnapshotSelectorHook, SnapshotSelectorHook } from '@worldapptechnologies/nulu-client-ui-slots'
+import { bindSnapshotSelector, makeTranslate } from '@worldapptechnologies/nulu-client-test-runtime'
+import { createSnapshotStore, type ObservableSnapshot } from '@worldapptechnologies/nulu-client-store'
+import { EMPTY_CONVERSATION_SNAPSHOT } from '@worldapptechnologies/nulu-client-ui-conversation/client'
+import { en as commonEn } from '@worldapptechnologies/nulu-client-locale/src/locales/en.ts'
+import { zh as commonZh } from '@worldapptechnologies/nulu-client-locale/src/locales/zh.ts'
 import { createChatStore } from '../src/client/stores.ts'
 import { ChatView } from '../src/client/chat/ChatView.tsx'
 import { ChatNodeSeat } from '../src/client/chat/ChatNodeSeat.tsx'
@@ -2118,7 +2118,7 @@ describe('ChatView', () => {
     const view = render(<h.ChatView {...h.props} />)
     expect(view.getByTestId('tool-seat-r1')).toBeTruthy()
     expect(h.toolOwners[0]?.block).toMatchObject({ callId: 'r1', argsRaw: '{"command":"cmd-r1"}' })
-    expect(view.getByRole('status').textContent).toBe('深度求索中...')
+    expect(view.getByRole('status').textContent).toBe('深度探索中...')
   })
 
   it('keeps the Tool renderer mounted when a running call settles into log order', () => {
@@ -2178,7 +2178,7 @@ describe('ChatView', () => {
     const view = render(<h.ChatView {...h.props} />)
     // Freshly mounted (as after a reload) yet already past the 15s gate.
     const status = view.getByRole('status')
-    expect(status.textContent).toMatch(/^深度求索中\.\.\.2分0\d秒$/)
+    expect(status.textContent).toMatch(/^深度探索中\.\.\.2分0\d秒$/)
     expect(status.querySelector('[aria-hidden="true"]')).not.toBeNull()
     act(() => {
       h.setSession({ queue: [{
@@ -2190,7 +2190,7 @@ describe('ChatView', () => {
         text: 'also',
       }] })
     })
-    expect(status.textContent).toMatch(/^深度求索中\.\.\.2分0\d秒$/)
+    expect(status.textContent).toMatch(/^深度探索中\.\.\.2分0\d秒$/)
   })
 
   it('the running clock reads hours once the turn passes an hour', () => {
@@ -2201,7 +2201,7 @@ describe('ChatView', () => {
       { running: true },
     )
     const view = render(<h.ChatView {...h.props} />)
-    expect(view.getByRole('status').textContent).toMatch(/^深度求索中\.\.\.1小时05分0\d秒$/)
+    expect(view.getByRole('status').textContent).toMatch(/^深度探索中\.\.\.1小时05分0\d秒$/)
   })
 
   it('hands each ordered root call to the keyed business-node slot', () => {

@@ -10,7 +10,7 @@ import { runtimeFixture } from './runtime-fixture.ts'
 const roots: string[] = []
 const releaseWorkers: Array<() => Promise<void>> = []
 function temporaryRoot(): string {
-  const root = mkdtempSync(join(tmpdir(), 'dsh-desktop-test-'))
+  const root = mkdtempSync(join(tmpdir(), 'nulu-desktop-test-'))
   roots.push(root)
   return root
 }
@@ -39,7 +39,7 @@ if (command !== 'rebuild') {
     const packageRoot = join(project, 'node_modules', name)
     mkdirSync(packageRoot, { recursive: true })
     writeFileSync(join(packageRoot, 'package.json'), JSON.stringify({name, version,
-      peerDependencies: {'@deepseek-ai/cordis': '^1.0.0'}, dsh: {bundle: {patch: './bundle.yml'}}}))
+      peerDependencies: {'@worldapptechnologies/cordis': '^1.0.0'}, nulu: {bundle: {patch: './bundle.yml'}}}))
     writeFileSync(join(packageRoot, 'bundle.yml'), '[]\\n')
   }
   writeFileSync(join(project, 'pnpm-lock.yaml'), JSON.stringify(manifest.dependencies))
@@ -52,9 +52,9 @@ function hooks(overrides: Partial<DesktopProjectHooks> = {}): DesktopProjectHook
 }
 function setup(): { root: string; manager: DesktopProjectManager } {
   const root = temporaryRoot()
-  const dsh = join(root, 'resources', 'dsh')
-  runtimeFixture(dsh)
-  return { root, manager: new DesktopProjectManager(resolveDesktopPaths(join(root, '.dsh')), { node: process.execPath, pnpm: writeFakePnpm(root), dsh }) }
+  const nulu = join(root, 'resources', 'nulu')
+  runtimeFixture(nulu)
+  return { root, manager: new DesktopProjectManager(resolveDesktopPaths(join(root, '.nulu')), { node: process.execPath, pnpm: writeFakePnpm(root), nulu }) }
 }
 function calls(root: string): { args: string[]; registry: string }[] {
   const path = join(root, 'pnpm-log.jsonl')
@@ -93,12 +93,12 @@ describe('desktop external plugin profile', () => {
     unlinkSync(patch)
     await manager.mutate({ type: 'plugins-disable-all' }, hooks({ afterChange: async () => {
       expect((JSON.parse(readFileSync(join(manager.paths.profile, 'package.json'), 'utf8')) as {
-        dsh: { profile: { bundles: string[] } }
-      }).dsh.profile.bundles).not.toContain('plugin')
+        nulu: { profile: { bundles: string[] } }
+      }).nulu.profile.bundles).not.toContain('plugin')
     } }))
     expect((JSON.parse(readFileSync(join(manager.paths.profile, 'package.json'), 'utf8')) as {
-      dsh: { profile: { bundles: string[] } }
-    }).dsh.profile.bundles).not.toContain('plugin')
+      nulu: { profile: { bundles: string[] } }
+    }).nulu.profile.bundles).not.toContain('plugin')
     expect(existsSync(join(manager.paths.profile, 'node_modules/plugin/package.json'))).toBe(true)
     expect(calls(root)).toHaveLength(2)
     await expect(manager.applyRelease()).resolves.toBe(false)
@@ -110,8 +110,8 @@ describe('desktop external plugin profile', () => {
     await manager.mutate({ type: 'plugin-add', spec: 'plugin@1.0.0' }, hooks())
     const profile = manager.paths.profile
     expect(manager.paths.lock).toBe(join(profile, 'lock'))
-    const task = join(root, '.dsh', 'task-sentinel')
-    const homeEnvironment = join(root, '.dsh', '.env')
+    const task = join(root, '.nulu', 'task-sentinel')
+    const homeEnvironment = join(root, '.nulu', '.env')
     writeFileSync(homeEnvironment, 'HOME_SETTING=retained')
     writeFileSync(task, 'retained task')
     writeFileSync(join(profile, 'desktop-runtime-state.json'), '{broken')
@@ -149,7 +149,7 @@ describe('desktop external plugin profile', () => {
 
   it('reports damaged application metadata as a reinstall failure', async () => {
     const { manager } = setup()
-    writeFileSync(join(manager.runtime.dsh, 'desktop-runtime.json'), '{broken')
+    writeFileSync(join(manager.runtime.nulu, 'desktop-runtime.json'), '{broken')
     await expect(manager.applyRelease()).rejects.toThrow()
     expect(manager.canRecoverProfile()).toBe(false)
   })
@@ -166,14 +166,14 @@ describe('desktop external plugin profile', () => {
     const { root, manager } = setup()
     await manager.applyRelease()
     await manager.mutate({ type: 'plugin-add', spec: 'plugin@1.0.0' }, hooks())
-    const dsh = join(root, 'new-node')
-    runtimeFixture(dsh, '1.1.0', '24.18.0')
+    const nulu = join(root, 'new-node')
+    runtimeFixture(nulu, '1.1.0', '24.18.0')
     const failing = join(root, 'fail-install.mjs')
     writeFileSync(failing, 'process.exitCode = 1')
-    const worker = new DesktopProjectManager(manager.paths, { ...manager.runtime, dsh, pnpm: failing })
+    const worker = new DesktopProjectManager(manager.paths, { ...manager.runtime, nulu, pnpm: failing })
     await expect(worker.applyRelease()).rejects.toThrow('pnpm exited with 1')
     expect(existsSync(join(manager.paths.profile, 'node_modules/plugin'))).toBe(false)
-    const retry = new DesktopProjectManager(manager.paths, { ...manager.runtime, dsh })
+    const retry = new DesktopProjectManager(manager.paths, { ...manager.runtime, nulu })
     await expect(retry.applyRelease()).resolves.toBe(true)
     expect(retry.listPlugins()).toEqual([{ name: 'plugin', version: '1.0.0', enabled: true }])
     await expect(retry.applyRelease()).resolves.toBe(false)
@@ -192,22 +192,22 @@ describe('desktop external plugin profile', () => {
   it.each(['plugin-add', 'runtime-change'] as const)('retries failed rebuild after %s across manager instances', async (operation) => {
     const { root, manager } = setup()
     await manager.applyRelease()
-    let dsh = manager.runtime.dsh
+    let nulu = manager.runtime.nulu
     if (operation === 'runtime-change') {
       await manager.mutate({ type: 'plugin-add', spec: 'plugin@1.0.0' }, hooks())
-      dsh = join(root, 'new-node')
-      runtimeFixture(dsh, '1.1.0', '24.18.0')
+      nulu = join(root, 'new-node')
+      runtimeFixture(nulu, '1.1.0', '24.18.0')
     }
     const failing = join(root, 'fail-rebuild.mjs')
     writeFileSync(failing, `await import(${JSON.stringify(pathToFileURL(manager.runtime.pnpm).href)}); if (process.argv.includes('rebuild')) process.exitCode = 1`)
-    const worker = new DesktopProjectManager(manager.paths, { ...manager.runtime, dsh, pnpm: failing })
+    const worker = new DesktopProjectManager(manager.paths, { ...manager.runtime, nulu, pnpm: failing })
     if (operation === 'plugin-add') {
       await worker.applyRelease()
       await expect(worker.mutate({ type: 'plugin-add', spec: 'plugin@1.0.0' }, hooks())).rejects.toThrow('pnpm exited with 1')
     } else await expect(worker.applyRelease()).rejects.toThrow('pnpm exited with 1')
     expect(() => { worker.assertProfileRuntime(worker.paths.profile) }).toThrow('package preparation is incomplete')
     const count = calls(root).length
-    const retry = new DesktopProjectManager(manager.paths, { ...manager.runtime, dsh })
+    const retry = new DesktopProjectManager(manager.paths, { ...manager.runtime, nulu })
     await expect(retry.applyRelease()).resolves.toBe(true)
     expect(calls(root).slice(count).map(call => call.args.find(arg => !arg.startsWith('--config.')))).toEqual(['install', 'rebuild'])
     await expect(retry.applyRelease()).resolves.toBe(false)
@@ -221,14 +221,14 @@ describe('desktop external plugin profile', () => {
     expect(manager.listPlugins()).toEqual([])
     expect(calls(root)).toEqual([])
     expect(existsSync(manager.paths.pnpm.store)).toBe(false)
-    expect(realpathSync(join(manager.paths.profile, 'node_modules/@deepseek-ai/cordis'))).toBe(realpathSync(join(manager.runtime.dsh, 'node_modules/@deepseek-ai/cordis')))
+    expect(realpathSync(join(manager.paths.profile, 'node_modules/@worldapptechnologies/cordis'))).toBe(realpathSync(join(manager.runtime.nulu, 'node_modules/@worldapptechnologies/cordis')))
     expect(JSON.parse(readFileSync(join(manager.paths.profile, 'package.json'), 'utf8'))).toMatchObject({ dependencies: {} })
   })
 
   it('repairs a removed managed link without running pnpm', async () => {
     const { root, manager } = setup()
     await manager.applyRelease()
-    unlinkSync(join(manager.paths.profile, 'node_modules/@deepseek-ai/cordis'))
+    unlinkSync(join(manager.paths.profile, 'node_modules/@worldapptechnologies/cordis'))
     await expect(manager.applyRelease()).resolves.toBe(true)
     expect(calls(root)).toEqual([])
   })
@@ -236,16 +236,16 @@ describe('desktop external plugin profile', () => {
   it.skipIf(process.platform !== 'win32')('reuses the profile when the launch path changes only Windows letter casing', async () => {
     const { manager } = setup()
     await manager.applyRelease()
-    const relaunched = new DesktopProjectManager(manager.paths, { ...manager.runtime, dsh: manager.runtime.dsh.toUpperCase() })
+    const relaunched = new DesktopProjectManager(manager.paths, { ...manager.runtime, nulu: manager.runtime.nulu.toUpperCase() })
     await expect(relaunched.applyRelease()).resolves.toBe(false)
   })
 
   it.each(['changed', 'same-size', 'extra', 'missing'])('starts and reuses a profile without checking %s runtime bytes', async (operation) => {
     const { root, manager } = setup()
-    if (operation === 'changed') writeFileSync(join(manager.runtime.dsh, 'package.json'), '{}')
-    if (operation === 'same-size') writeFileSync(join(manager.runtime.dsh, 'package.json'), '{"type":"Module"}\n')
-    if (operation === 'extra') writeFileSync(join(manager.runtime.dsh, 'extra'), '')
-    if (operation === 'missing') unlinkSync(join(manager.runtime.dsh, 'package.json'))
+    if (operation === 'changed') writeFileSync(join(manager.runtime.nulu, 'package.json'), '{}')
+    if (operation === 'same-size') writeFileSync(join(manager.runtime.nulu, 'package.json'), '{"type":"Module"}\n')
+    if (operation === 'extra') writeFileSync(join(manager.runtime.nulu, 'extra'), '')
+    if (operation === 'missing') unlinkSync(join(manager.runtime.nulu, 'package.json'))
     await expect(manager.applyRelease()).resolves.toBe(true)
     const relaunched = new DesktopProjectManager(manager.paths, manager.runtime)
     await expect(relaunched.applyRelease()).resolves.toBe(false)
@@ -263,7 +263,7 @@ describe('desktop external plugin profile', () => {
     ])
     expect(calls(root).every(call => call.registry === 'https://registry.npmjs.org/')).toBe(true)
     expect(JSON.parse(readFileSync(join(manager.paths.profile, 'package.json'), 'utf8'))).toMatchObject({ dependencies: { '@scope/plugin': '2.0.0' } })
-    await expect(manager.mutate({ type: 'plugin-add', spec: '@deepseek-ai/cordis' }, hooks())).rejects.toThrow(/host-owned/u)
+    await expect(manager.mutate({ type: 'plugin-add', spec: '@worldapptechnologies/cordis' }, hooks())).rejects.toThrow(/host-owned/u)
     await expect(manager.applyRelease()).resolves.toBe(false)
     expect(calls(root)).toHaveLength(2)
   })
@@ -288,15 +288,15 @@ describe('desktop external plugin profile', () => {
     await manager.applyRelease()
     await manager.mutate({ type: 'plugin-add', spec: 'plugin@1.0.0' }, hooks())
     writeFileSync(join(manager.paths.profile, 'cordis.patch.yml'), '[]\n')
-    const nextRoot = join(root, 'relocated', 'dsh')
+    const nextRoot = join(root, 'relocated', 'nulu')
     runtimeFixture(nextRoot, '1.1.0')
-    const next = new DesktopProjectManager(manager.paths, { ...manager.runtime, dsh: nextRoot })
+    const next = new DesktopProjectManager(manager.paths, { ...manager.runtime, nulu: nextRoot })
     await expect(next.applyRelease()).resolves.toBe(true)
     expect(next.listPlugins()).toEqual(manager.listPlugins())
     expect(next.releaseVersion()).toBe('1.1.0')
     expect(readFileSync(join(manager.paths.profile, 'cordis.patch.yml'), 'utf8')).toBe('[]\n')
     expect(calls(root)).toHaveLength(2)
-    expect(realpathSync(join(manager.paths.profile, 'node_modules/@deepseek-ai/cordis'))).toBe(realpathSync(join(nextRoot, 'node_modules/@deepseek-ai/cordis')))
+    expect(realpathSync(join(manager.paths.profile, 'node_modules/@worldapptechnologies/cordis'))).toBe(realpathSync(join(nextRoot, 'node_modules/@worldapptechnologies/cordis')))
     expect(readFileSync(join(manager.paths.profile, 'node_modules/plugin/bundle.yml'), 'utf8')).toBe('[]\n')
   })
 
@@ -304,9 +304,9 @@ describe('desktop external plugin profile', () => {
     const { root, manager } = setup()
     await manager.applyRelease()
     await manager.mutate({ type: 'plugin-add', spec: 'plugin@1.0.0' }, hooks())
-    const dsh = join(root, 'new-node')
-    runtimeFixture(dsh, '1.1.0', '24.18.0')
-    const next = new DesktopProjectManager(manager.paths, { ...manager.runtime, dsh })
+    const nulu = join(root, 'new-node')
+    runtimeFixture(nulu, '1.1.0', '24.18.0')
+    const next = new DesktopProjectManager(manager.paths, { ...manager.runtime, nulu })
     await next.applyRelease()
     expect(calls(root).slice(2).map(call => call.args.filter(arg => !arg.startsWith('--config.')))).toEqual([
       ['install', '--frozen-lockfile', '--ignore-scripts'], ['rebuild', '--pending'],
@@ -318,10 +318,10 @@ describe('desktop external plugin profile', () => {
     const { root, manager } = setup()
     await manager.applyRelease()
     await manager.mutate({ type: 'plugin-add', spec: 'plugin@1.0.0' }, hooks())
-    const dsh = join(root, 'next-major')
-    runtimeFixture(dsh, '2.0.0')
-    const next = new DesktopProjectManager(manager.paths, { ...manager.runtime, dsh })
-    await expect(next.applyRelease()).rejects.toThrow(/requires @deepseek-ai\/cordis/u)
+    const nulu = join(root, 'next-major')
+    runtimeFixture(nulu, '2.0.0')
+    const next = new DesktopProjectManager(manager.paths, { ...manager.runtime, nulu })
+    await expect(next.applyRelease()).rejects.toThrow(/requires @worldapptechnologies\/cordis/u)
     expect(next.releaseVersion()).toBe('2.0.0')
     await next.mutate({ type: 'plugins-disable-all' }, hooks())
     expect(next.releaseVersion()).toBe('2.0.0')
@@ -360,8 +360,8 @@ describe('desktop external plugin profile', () => {
     expect(worker.listPlugins()).toEqual([{ name: 'plugin', version: '1.0.0', enabled: false }])
     expect(starts).toBe(0)
     expect(existsSync(manager.paths.lock)).toBe(false)
-    expect(realpathSync(join(manager.paths.profile, 'node_modules/@deepseek-ai/cordis')))
-      .toBe(realpathSync(join(manager.runtime.dsh, 'node_modules/@deepseek-ai/cordis')))
+    expect(realpathSync(join(manager.paths.profile, 'node_modules/@worldapptechnologies/cordis')))
+      .toBe(realpathSync(join(manager.runtime.nulu, 'node_modules/@worldapptechnologies/cordis')))
     await manager.mutate({ type: 'plugin-remove', name: 'plugin' }, hooks())
     expect(manager.listPlugins()).toEqual([])
   })

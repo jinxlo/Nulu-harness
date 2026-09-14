@@ -1,9 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import AgentRegistry from '@deepseek-ai/dsh-agent'
-import type { Agent, AgentCancelCause, InboxTarget } from '@deepseek-ai/dsh-agent'
-import type { UserMessage } from '@deepseek-ai/dsh-llm'
-import SessionStore, { SessionId } from '@deepseek-ai/dsh-session'
+import { Context } from '@worldapptechnologies/cordis'
+import AgentRegistry from '@worldapptechnologies/nulu-agent'
+import type { Agent, AgentCancelCause, InboxTarget } from '@worldapptechnologies/nulu-agent'
+import type { UserMessage } from '@worldapptechnologies/nulu-llm'
+import SessionStore, { SessionId } from '@worldapptechnologies/nulu-session'
 import {
   ScheduleId,
   createAfterScheduleRecord,
@@ -11,7 +11,7 @@ import {
   foldScheduleEvents,
 } from '../src/domain.ts'
 import { MAX_TIMER_DELAY_MS, ScheduleRuntime } from '../src/runtime.ts'
-import { unsupportedInbox } from '@deepseek-ai/dsh-agent-loop-testkit'
+import { unsupportedInbox } from '@worldapptechnologies/nulu-agent-loop-testkit'
 
 const contexts: Context[] = []
 const runtimes: ScheduleRuntime[] = []
@@ -679,7 +679,7 @@ describe('Schedule runtime failure and teardown boundaries', () => {
 
     const runFailure = await harness()
     appendAfter(runFailure, 'schedule-1', 1, Date.now() - 1_000)
-    // The reminder message mints its id through dsh-util-crypto, whose
+    // The reminder message mints its id through nulu-util-crypto, whose
     // entropy source is getRandomValues — the failure injection follows it.
     const uuidSpy = vi.spyOn(globalThis.crypto, 'getRandomValues').mockImplementation(() => { throw 'message failed' })
     const failingRuntime = runtimeFor(runFailure)

@@ -1,7 +1,7 @@
-/** Canonical tool-definition fixtures for repository tests. @module dsh-tools/testing */
+/** Canonical tool-definition fixtures for repository tests. @module nulu-tools/testing */
 
-import type { ContentBlock } from '@deepseek-ai/dsh-llm'
-import type { JsonValue } from '@deepseek-ai/dsh-util-values'
+import type { ContentBlock } from '@worldapptechnologies/nulu-llm'
+import type { JsonValue } from '@worldapptechnologies/nulu-util-values'
 import { defineTool } from './schema.ts'
 import type { DefineToolOptions, ParameterSchemaSpec } from './schema.ts'
 import type { ToolDefinition, ToolRunContext } from './index.ts'

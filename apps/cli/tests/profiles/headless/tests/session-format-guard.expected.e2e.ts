@@ -8,16 +8,16 @@
 import { join, dirname } from 'node:path'
 import { mkdir, readFile, readdir, stat, writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
-import { Context } from '@deepseek-ai/cordis'
-import { LOADER_SMOKE_TEST_TIMEOUT_MS, runLoaderSmoke } from '@deepseek-ai/dsh-loader-smoke'
+import { Context } from '@worldapptechnologies/cordis'
+import { LOADER_SMOKE_TEST_TIMEOUT_MS, runLoaderSmoke } from '@worldapptechnologies/nulu-loader-smoke'
 import {
   SESSION_FORMAT_VERSION,
   SessionId,
   SessionSeq,
   type SessionEvent,
   type SessionHeader,
-} from '@deepseek-ai/dsh-session'
-import JsonlSessionPersistence from '@deepseek-ai/dsh-session-persistence-jsonl'
+} from '@worldapptechnologies/nulu-session'
+import JsonlSessionPersistence from '@worldapptechnologies/nulu-session-persistence-jsonl'
 import {
   generationLogFilename,
   generationLogPath,
@@ -78,13 +78,13 @@ describe('session format guard through the assembled app', () => {
     let sourceIdentity: { readonly dev: bigint; readonly ino: bigint } | undefined
     await runLoaderSmoke({
       label: 'v0 migration before resume',
-      tempDirPrefix: 'dsh-format-migrate-v0-',
+      tempDirPrefix: 'nulu-format-migrate-v0-',
       binScript,
       libBinScript: binScript,
       configPath,
       binArgs: [configPath, 'Continue the migrated session.'],
       tsconfigPath,
-      env: { DSH_SNAPSHOT_FILE: replayFixture },
+      env: { NULU_SNAPSHOT_FILE: replayFixture },
       prepare: async (runCwd) => {
         sourcePath = await seedSession(join(runCwd, '.sessions'), runCwd, 0, closedTurn())
         source = await readFile(sourcePath)
@@ -118,13 +118,13 @@ describe('session format guard through the assembled app', () => {
     let sessionPath = ''
     const result = await runLoaderSmoke({
       label: 'newer-format resume refusal',
-      tempDirPrefix: 'dsh-format-guard-version-',
+      tempDirPrefix: 'nulu-format-guard-version-',
       binScript,
       libBinScript: binScript,
       configPath,
       binArgs: [configPath, 'Try to resume.'],
       tsconfigPath,
-      env: { DSH_SNAPSHOT_FILE: replayFixture },
+      env: { NULU_SNAPSHOT_FILE: replayFixture },
       expectedExitCode: 1,
       prepare: async (runCwd) => {
         sessionPath = await seedSession(join(runCwd, '.sessions'), runCwd, SESSION_FORMAT_VERSION + 99, closedTurn())
@@ -145,13 +145,13 @@ describe('session format guard through the assembled app', () => {
     let sourceIdentity: { readonly dev: bigint; readonly ino: bigint } | undefined
     const result = await runLoaderSmoke({
       label: 'unaudited V2 content resume refusal',
-      tempDirPrefix: 'dsh-format-guard-content-',
+      tempDirPrefix: 'nulu-format-guard-content-',
       binScript,
       libBinScript: binScript,
       configPath,
       binArgs: [configPath, 'Try to resume.'],
       tsconfigPath,
-      env: { DSH_SNAPSHOT_FILE: replayFixture },
+      env: { NULU_SNAPSHOT_FILE: replayFixture },
       expectedExitCode: 1,
       prepare: async (runCwd) => {
         sourcePath = generationLogPath(join(runCwd, '.sessions'), runCwd, sessionId, 2, 'none')
@@ -191,13 +191,13 @@ describe('session format guard through the assembled app', () => {
     let sessionPath = ''
     const result = await runLoaderSmoke({
       label: 'unknown-event resume refusal',
-      tempDirPrefix: 'dsh-format-guard-event-',
+      tempDirPrefix: 'nulu-format-guard-event-',
       binScript,
       libBinScript: binScript,
       configPath,
       binArgs: [configPath, 'Try to resume.'],
       tsconfigPath,
-      env: { DSH_SNAPSHOT_FILE: replayFixture },
+      env: { NULU_SNAPSHOT_FILE: replayFixture },
       expectedExitCode: 1,
       prepare: async (runCwd) => {
         sessionPath = await seedSession(join(runCwd, '.sessions'), runCwd, SESSION_FORMAT_VERSION, [

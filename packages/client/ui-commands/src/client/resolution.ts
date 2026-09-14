@@ -1,15 +1,15 @@
 /** Command identity and localized input spelling over the effective Host catalog. */
-import type { CommandDescriptor } from '@deepseek-ai/dsh-commands/types'
-import type { TranslateNS } from '@deepseek-ai/dsh-client-locale/client'
+import type { CommandDescriptor } from '@worldapptechnologies/nulu-commands/types'
+import type { TranslateNS } from '@worldapptechnologies/nulu-client-locale/client'
 import { en, zh } from './locales.ts'
 
 const BUILTINS = {
-  goal: '@deepseek-ai/dsh-command-goal',
-  plan: '@deepseek-ai/dsh-plan-mode',
-  feedback: '@deepseek-ai/dsh-command-feedback',
-  compact: '@deepseek-ai/dsh-command-compact',
-  permission: '@deepseek-ai/dsh-permission-presets',
-  export: '@deepseek-ai/dsh-session-log-export',
+  goal: '@worldapptechnologies/nulu-command-goal',
+  plan: '@worldapptechnologies/nulu-plan-mode',
+  feedback: '@worldapptechnologies/nulu-command-feedback',
+  compact: '@worldapptechnologies/nulu-command-compact',
+  permission: '@worldapptechnologies/nulu-permission-presets',
+  export: '@worldapptechnologies/nulu-session-log-export',
 } as const
 
 /** Names whose first-party definitions have localized client presentation. */

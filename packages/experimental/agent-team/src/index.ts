@@ -1,10 +1,10 @@
 /** Agent Teams service façade over roster, mailbox, task, and runtime lifecycle owners. */
 
-import { Context } from '@deepseek-ai/cordis'
-import z from '@deepseek-ai/schemastery'
-import type { Agent } from '@deepseek-ai/dsh-agent'
-import type {} from '@deepseek-ai/dsh-session-persistence'
-import { Remote, TypertRemoteService } from '@deepseek-ai/dsh-typert-protocol'
+import { Context } from '@worldapptechnologies/cordis'
+import z from '@worldapptechnologies/schemastery'
+import type { Agent } from '@worldapptechnologies/nulu-agent'
+import type {} from '@worldapptechnologies/nulu-session-persistence'
+import { Remote, TypertRemoteService } from '@worldapptechnologies/nulu-typert-protocol'
 import { TeamActivity } from './activity.ts'
 import { errorMessage, TeamError } from './error.ts'
 import { TeamJournal } from './journal.ts'
@@ -35,7 +35,7 @@ export type { TeamMembership } from './roster.ts'
 export { TeamId, TeamMessageId, TeamTaskId } from './types.ts'
 export { TeamError } from './error.ts'
 
-declare module '@deepseek-ai/cordis' {
+declare module '@worldapptechnologies/cordis' {
   interface Context {
     agentTeams: TeamService
   }

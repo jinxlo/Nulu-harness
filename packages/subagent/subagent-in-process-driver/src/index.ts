@@ -8,17 +8,17 @@
  * composes and drives them directly, so this driver owns exactly one turn with
  * one result.
  *
- * @module @deepseek-ai/dsh-subagent-in-process-driver
+ * @module @worldapptechnologies/nulu-subagent-in-process-driver
  */
 
 import { randomUUID } from 'node:crypto'
-import type { Context } from '@deepseek-ai/cordis'
-import { brandString } from '@deepseek-ai/dsh-brand'
-import { foldConsumedWork } from '@deepseek-ai/dsh-agent'
-import type { Agent, AgentHandle } from '@deepseek-ai/dsh-agent'
-import { SessionLogOffset } from '@deepseek-ai/dsh-session'
-import type { SessionEvent, SessionId, SessionLogOffset as SessionLogOffsetType, TurnEndReason } from '@deepseek-ai/dsh-session'
-import { createUserMessage, type ContentBlock } from '@deepseek-ai/dsh-llm'
+import type { Context } from '@worldapptechnologies/cordis'
+import { brandString } from '@worldapptechnologies/nulu-brand'
+import { foldConsumedWork } from '@worldapptechnologies/nulu-agent'
+import type { Agent, AgentHandle } from '@worldapptechnologies/nulu-agent'
+import { SessionLogOffset } from '@worldapptechnologies/nulu-session'
+import type { SessionEvent, SessionId, SessionLogOffset as SessionLogOffsetType, TurnEndReason } from '@worldapptechnologies/nulu-session'
+import { createUserMessage, type ContentBlock } from '@worldapptechnologies/nulu-llm'
 import {
   appendDelegatedPolicyOverrides,
   applyChildComposition,
@@ -28,14 +28,14 @@ import {
   finalAssistantOutput,
   resolveChildAgentOptions,
   resolveChildDepth,
-} from '@deepseek-ai/dsh-subagent'
+} from '@worldapptechnologies/nulu-subagent'
 import type {
   ResolvedSubagentStartRequest,
   SubagentDescriptorData,
   SubagentResult,
   SubagentRun,
   SubagentStopReason,
-} from '@deepseek-ai/dsh-subagent'
+} from '@worldapptechnologies/nulu-subagent'
 import {
   attachStructuredRuntime,
   type StructuredAttachment,

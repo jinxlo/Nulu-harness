@@ -11,25 +11,25 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { mkdtemp, readFile, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { Context } from '@deepseek-ai/cordis'
+import { Context } from '@worldapptechnologies/cordis'
 import { z } from 'zod'
-import AgentRegistry from '@deepseek-ai/dsh-agent'
-import { AttachmentStore } from '@deepseek-ai/dsh-attachment'
-import { agentPresetProjectionDefinition } from '@deepseek-ai/dsh-agent-presets'
-import { createUserMessage } from '@deepseek-ai/dsh-llm'
-import SessionStore, { SESSION_FORMAT_VERSION, SessionId, SessionLogOffset, SessionSeq } from '@deepseek-ai/dsh-session'
-import type { Session, SessionEvent, SessionHeader, UserMessage } from '@deepseek-ai/dsh-session'
-import SessionProjectionRegistry from '@deepseek-ai/dsh-session-projection'
-import type { ProjectionDefinition } from '@deepseek-ai/dsh-session-projection'
-import SessionProjectionCache, { projectionCacheDomainSpec } from '@deepseek-ai/dsh-session-projection-cache'
-import Storage from '@deepseek-ai/dsh-storage'
-import * as StorageDomain from '@deepseek-ai/dsh-storage-domain'
-import * as StorageJson from '@deepseek-ai/dsh-storage-json'
-import type { SessionControlFrame, SessionFollowFrame } from '@deepseek-ai/dsh-api-session-controller/types'
+import AgentRegistry from '@worldapptechnologies/nulu-agent'
+import { AttachmentStore } from '@worldapptechnologies/nulu-attachment'
+import { agentPresetProjectionDefinition } from '@worldapptechnologies/nulu-agent-presets'
+import { createUserMessage } from '@worldapptechnologies/nulu-llm'
+import SessionStore, { SESSION_FORMAT_VERSION, SessionId, SessionLogOffset, SessionSeq } from '@worldapptechnologies/nulu-session'
+import type { Session, SessionEvent, SessionHeader, UserMessage } from '@worldapptechnologies/nulu-session'
+import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projection'
+import type { ProjectionDefinition } from '@worldapptechnologies/nulu-session-projection'
+import SessionProjectionCache, { projectionCacheDomainSpec } from '@worldapptechnologies/nulu-session-projection-cache'
+import Storage from '@worldapptechnologies/nulu-storage'
+import * as StorageDomain from '@worldapptechnologies/nulu-storage-domain'
+import * as StorageJson from '@worldapptechnologies/nulu-storage-json'
+import type { SessionControlFrame, SessionFollowFrame } from '@worldapptechnologies/nulu-api-session-controller/types'
 import {
   mountAgentLoopTestDependencies,
   mountAgentLoopTestHarness,
-} from '@deepseek-ai/dsh-agent-loop-testkit'
+} from '@worldapptechnologies/nulu-agent-loop-testkit'
 import { createSessionTestRemote, testSessionPersistence, type TestSessionRemote } from './test-remote.ts'
 
 const ownedContexts = new Set<Context>()
@@ -39,7 +39,7 @@ afterEach(async () => {
 })
 let nextHarnessSession = 1
 
-declare module '@deepseek-ai/dsh-session-projection/types' {
+declare module '@worldapptechnologies/nulu-session-projection/types' {
   interface SessionProjectionStateMap {
     'test/last-user': LastUserState
     'test/internal-count': number
@@ -566,7 +566,7 @@ describe('session.list projections column', () => {
   })
 
   it('keeps persisted host-only state out of a cold session.list response', async () => {
-    const root = await mkdtemp(join(tmpdir(), 'dsh-api-projcache-'))
+    const root = await mkdtemp(join(tmpdir(), 'nulu-api-projcache-'))
     const ctx = new Context()
     try {
       await ctx.plugin(Storage)

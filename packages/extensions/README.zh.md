@@ -9,7 +9,7 @@ kind: "package-group"
 
 ## 概述
 
-extensions 组让 agent（智能体）检查并修改实时 DSH 运行时，而不编辑仓库文件或配置。该组支持通过模型工具或浏览器面板定义、运行、更新、停止和移除动态 Cordis 包。包可以作用于 host、浏览器或两者，不可变版本支持受控更新。定义只存在于进程内存中，并在 DSH 重启时消失。按模型工具、host 执行、浏览器执行或浏览器控件选择对应的子包。
+extensions 组让 agent（智能体）检查并修改实时 NULU 运行时，而不编辑仓库文件或配置。该组支持通过模型工具或浏览器面板定义、运行、更新、停止和移除动态 Cordis 包。包可以作用于 host、浏览器或两者，不可变版本支持受控更新。定义只存在于进程内存中，并在 NULU 重启时消失。按模型工具、host 执行、浏览器执行或浏览器控件选择对应的子包。
 
 ## 目录
 
@@ -35,8 +35,8 @@ extensions 组让 agent（智能体）检查并修改实时 DSH 运行时，而�
 ## 相关文档
 
 - [extensions 子系统](../../docs/subsystems/extensions.zh.md)——生成的 `ctx.cordisInspect` 与 `ctx.dynamicCordisRunner` 服务 API。
-- [生成的工具目录](../../docs/tool-catalog.zh.md#deepseek-aidsh-tool-cordis)——七个模型侧工具 schema。
-- [生成的配置目录](../../docs/config-catalog.zh.md#deepseek-aidsh-cordis-host-runner)——runner 的受支持配置字段。
+- [生成的工具目录](../../docs/tool-catalog.zh.md#worldapptechnologiesnulu-tool-cordis)——七个模型侧工具 schema。
+- [生成的配置目录](../../docs/config-catalog.zh.md#worldapptechnologiesnulu-cordis-host-runner)——runner 的受支持配置字段。
 - [自引用 Cordis 工具集 Agent Note](../../.agents/notes/implemented/feature/2026-07-08-self-referential-cordis-toolset.zh.md)——沙箱语义、生命周期与组合的设计居所。
 - [客户端外壳与动态包 Agent Note](../../.agents/notes/implemented/architecture/2026-08-15-client-shells-and-dynamic-packages.zh.md)——浏览器半的包归属与构建面。
 

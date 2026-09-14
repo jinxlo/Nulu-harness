@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import { createSystemMessage, createUserMessage } from '@deepseek-ai/dsh-llm'
-import SessionStore, { SessionId, SessionSeq } from '@deepseek-ai/dsh-session'
-import type { Session, SurfaceIntent } from '@deepseek-ai/dsh-session'
+import { Context } from '@worldapptechnologies/cordis'
+import { createSystemMessage, createUserMessage } from '@worldapptechnologies/nulu-llm'
+import SessionStore, { SessionId, SessionSeq } from '@worldapptechnologies/nulu-session'
+import type { Session, SurfaceIntent } from '@worldapptechnologies/nulu-session'
 import { SystemPromptProjection } from '../src/runtime-context.ts'
 import type { SystemPromptCommit, SystemPromptDecisionInput } from '../src/runtime-context.ts'
 
-const SOURCE = '@deepseek-ai/dsh-system-prompt'
+const SOURCE = '@worldapptechnologies/nulu-system-prompt'
 const REPLACING: SystemPromptDecisionInput = { inHistory: false, startsSeries: false }
 const CONTINUING: SystemPromptDecisionInput = { inHistory: true, startsSeries: false }
 const NEW_SERIES: SystemPromptDecisionInput = { inHistory: true, startsSeries: true }

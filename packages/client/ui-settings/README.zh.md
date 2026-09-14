@@ -1,9 +1,9 @@
 ---
-description: "设置领域底座插件：设置命名空间 scope 服务、schema 服务，以及 dsh Web 客户端的规范设置 slot 类型约定。"
+description: "设置领域底座插件：设置命名空间 scope 服务、schema 服务，以及 nulu Web 客户端的规范设置 slot 类型约定。"
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-client-ui-settings
+# @worldapptechnologies/nulu-client-ui-settings
 
 [English](README.md) | 中文
 

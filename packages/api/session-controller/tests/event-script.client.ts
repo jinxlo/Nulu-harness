@@ -1,11 +1,11 @@
 import {
   ToolCallId, createMessage, createToolResultMessage, createUserMessage,
-} from '@deepseek-ai/dsh-llm'
-import { SessionSeq } from '@deepseek-ai/dsh-session/types'
+} from '@worldapptechnologies/nulu-llm'
+import { SessionSeq } from '@worldapptechnologies/nulu-session/types'
 // Minimal SessionEvent builders for orchestration tests (shape mirrors what the
 // host emits; only the fields the object layer reads).
-import type { ContentBlock } from '@deepseek-ai/dsh-llm/types'
-import type { SessionEvent } from '@deepseek-ai/dsh-session/types'
+import type { ContentBlock } from '@worldapptechnologies/nulu-llm/types'
+import type { SessionEvent } from '@worldapptechnologies/nulu-session/types'
 import type {
   SessionEventEntry,
   SessionPage,

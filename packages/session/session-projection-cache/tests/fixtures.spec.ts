@@ -17,25 +17,25 @@ import { cp, mkdir, mkdtemp, readFile, readdir, rm, writeFile } from 'node:fs/pr
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { Context } from '@deepseek-ai/cordis'
+import { Context } from '@worldapptechnologies/cordis'
 import { z } from 'zod'
-import SessionStore, { SESSION_FORMAT_VERSION, SessionId, SessionLogOffset } from '@deepseek-ai/dsh-session'
-import type { SessionHeader } from '@deepseek-ai/dsh-session'
-import SessionProjectionRegistry from '@deepseek-ai/dsh-session-projection'
-import type { ProjectionDefinition } from '@deepseek-ai/dsh-session-projection'
-import Storage from '@deepseek-ai/dsh-storage'
+import SessionStore, { SESSION_FORMAT_VERSION, SessionId, SessionLogOffset } from '@worldapptechnologies/nulu-session'
+import type { SessionHeader } from '@worldapptechnologies/nulu-session'
+import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projection'
+import type { ProjectionDefinition } from '@worldapptechnologies/nulu-session-projection'
+import Storage from '@worldapptechnologies/nulu-storage'
 import {
   apply as storageJsonApply, Config as storageJsonConfig, inject as storageJsonInject, name as storageJsonName,
-} from '@deepseek-ai/dsh-storage-json'
+} from '@worldapptechnologies/nulu-storage-json'
 import {
   apply as storageDomainApply, Config as storageDomainConfig, inject as storageDomainInject, name as storageDomainName,
-} from '@deepseek-ai/dsh-storage-domain'
+} from '@worldapptechnologies/nulu-storage-domain'
 import SessionProjectionCache from '../src/index.ts'
 import { projectionCacheDomainSpec } from '../src/spec.ts'
 
 // Declarations must match the shipped title unit's exactly (the repo-wide
 // compile face sees both).
-declare module '@deepseek-ai/dsh-session-projection/types' {
+declare module '@worldapptechnologies/nulu-session-projection/types' {
   interface SessionProjectionStateMap {
     title: string | null
   }
@@ -44,7 +44,7 @@ declare module '@deepseek-ai/dsh-session-projection/types' {
   }
 }
 
-declare module '@deepseek-ai/dsh-session/types' {
+declare module '@worldapptechnologies/nulu-session/types' {
   interface SessionEventMap {
     'fixtures-test/set-title': { title: string }
   }
@@ -146,7 +146,7 @@ afterEach(async () => {
 
 describe('archived version recovery', () => {
   it('recovers the v3 whole-unit archive through the legacy bootstrap', async () => {
-    const root = await mkdtemp(join(tmpdir(), 'dsh-projcache-fx-'))
+    const root = await mkdtemp(join(tmpdir(), 'nulu-projcache-fx-'))
     await cp(join(FIXTURES, 'v3-single-unit.json'), join(root, `${projectionCacheDomainSpec.name}.json`))
     type SingleUnit = {
       unit: { version: number }
@@ -185,7 +185,7 @@ describe('archived version recovery', () => {
     ['v5-lineageless-doc.json', 5],
   ] as const) {
     it(`opens ${fixture} without serving its unbound fold, then rewrites it current`, async () => {
-      const root = await mkdtemp(join(tmpdir(), 'dsh-projcache-fx-'))
+      const root = await mkdtemp(join(tmpdir(), 'nulu-projcache-fx-'))
       const id = SessionId('fixture-session')
       const doc = await placeDoc(root, id, fixture)
       expect(doc.version).toBe(storedVersion)
@@ -209,7 +209,7 @@ describe('archived version recovery', () => {
   }
 
   it('serves an explicitly older format title but never a current or newer one through the predecessor path', async () => {
-    const root = await mkdtemp(join(tmpdir(), 'dsh-projcache-fx-'))
+    const root = await mkdtemp(join(tmpdir(), 'nulu-projcache-fx-'))
     const sessionsDir = join(root, projectionCacheDomainSpec.name, 'sessions')
     await mkdir(sessionsDir, { recursive: true })
     const write = async (id: string, formatVersion: number, rowVersion = 1): Promise<void> => {
@@ -251,7 +251,7 @@ describe('archived version recovery', () => {
   })
 
   it('refuses a lineage-less archive for a seeded caller (identity mismatch, cold rebuild)', async () => {
-    const root = await mkdtemp(join(tmpdir(), 'dsh-projcache-fx-'))
+    const root = await mkdtemp(join(tmpdir(), 'nulu-projcache-fx-'))
     const id = SessionId('fixture-seeded')
     const doc = await placeDoc(root, id, 'v5-lineageless-doc.json')
 
@@ -262,7 +262,7 @@ describe('archived version recovery', () => {
   })
 
   it('backs up and skips a record that fails schema validation instead of failing the boot', async () => {
-    const root = await mkdtemp(join(tmpdir(), 'dsh-projcache-fx-'))
+    const root = await mkdtemp(join(tmpdir(), 'nulu-projcache-fx-'))
     roots.push(root)
     const sessionsDir = join(root, projectionCacheDomainSpec.name, 'sessions')
     await mkdir(sessionsDir, { recursive: true })

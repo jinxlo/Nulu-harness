@@ -2,10 +2,10 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { Context } from '@deepseek-ai/cordis'
-import { AttachmentId, ImageVariantId } from '@deepseek-ai/dsh-attachment'
-import type { AttachmentStore, ImageAttachmentRef, RequestImageAttachment } from '@deepseek-ai/dsh-attachment'
-import { createLaunchEnvironmentSnapshot } from '@deepseek-ai/dsh-launch-environment'
+import { Context } from '@worldapptechnologies/cordis'
+import { AttachmentId, ImageVariantId } from '@worldapptechnologies/nulu-attachment'
+import type { AttachmentStore, ImageAttachmentRef, RequestImageAttachment } from '@worldapptechnologies/nulu-attachment'
+import { createLaunchEnvironmentSnapshot } from '@worldapptechnologies/nulu-launch-environment'
 import LlmRuntime, { ToolCallId, createUserMessage,
   CONTEXT_WINDOW_EXCEEDED_CODE,
   LlmError,
@@ -13,14 +13,14 @@ import LlmRuntime, { ToolCallId, createUserMessage,
   QUOTA_EXCEEDED_CODE,
   ReasoningEffortId,
   userAgent,
-} from '@deepseek-ai/dsh-llm'
-import { MAX_TIMER_DELAY_MS } from '@deepseek-ai/dsh-timeout'
-import { getOrCreateAnonymousUserId, type AnonymousUserId } from '@deepseek-ai/dsh-anonymous-user-id'
-import { SessionId } from '@deepseek-ai/dsh-session'
-import DeepSeekLlmApiExtensionRegistry from '@deepseek-ai/dsh-deepseek-llm-api-extensions'
-import type { PreparedDeepSeekLlmApiExtensions } from '@deepseek-ai/dsh-deepseek-llm-api-extensions'
-import * as LlmDeepSeek from '@deepseek-ai/dsh-llm-deepseek'
-import { DeepSeekAdapter, resolveAdapterOptions } from '@deepseek-ai/dsh-llm-deepseek'
+} from '@worldapptechnologies/nulu-llm'
+import { MAX_TIMER_DELAY_MS } from '@worldapptechnologies/nulu-timeout'
+import { getOrCreateAnonymousUserId, type AnonymousUserId } from '@worldapptechnologies/nulu-anonymous-user-id'
+import { SessionId } from '@worldapptechnologies/nulu-session'
+import DeepSeekLlmApiExtensionRegistry from '@worldapptechnologies/nulu-deepseek-llm-api-extensions'
+import type { PreparedDeepSeekLlmApiExtensions } from '@worldapptechnologies/nulu-deepseek-llm-api-extensions'
+import * as LlmDeepSeek from '@worldapptechnologies/nulu-llm-deepseek'
+import { DeepSeekAdapter, resolveAdapterOptions } from '@worldapptechnologies/nulu-llm-deepseek'
 import { httpErrorCode } from '../src/adapter.ts'
 import { resolveRequestImagePolicy } from '../src/request-pricing.ts'
 import { assemble } from './assemble.ts'
@@ -31,8 +31,8 @@ const TEST_USER_ID = '00000000-0000-4000-8000-000000000001' as AnonymousUserId
 let testHome: string
 
 beforeEach(() => {
-  testHome = mkdtempSync(join(tmpdir(), 'dsh-llm-deepseek-'))
-  vi.stubEnv('DSH_HOME', testHome)
+  testHome = mkdtempSync(join(tmpdir(), 'nulu-llm-deepseek-'))
+  vi.stubEnv('NULU_HOME', testHome)
 })
 
 afterEach(async () => {
@@ -192,7 +192,7 @@ describe('DeepSeekAdapter against a mock server', () => {
     const server = await mockServer([{ kind: 'sse', events: textEvents }])
     const accept = vi.fn()
     const prepareExtensions = vi.fn(async () => ({
-      fields: { dsh_test: { version: 1 } },
+      fields: { nulu_test: { version: 1 } },
       accept: async () => { accept() },
     }))
     const adapter = new DeepSeekAdapter({
@@ -203,7 +203,7 @@ describe('DeepSeekAdapter against a mock server', () => {
     })
 
     await drain(adapter.stream({ provider: 'deepseek-official', model: 'm', messages: [], sessionId: SessionId('s') }))
-    expect(server.requests[0]).toMatchObject({ dsh_test: { version: 1 } })
+    expect(server.requests[0]).toMatchObject({ nulu_test: { version: 1 } })
     expect(prepareExtensions).toHaveBeenCalledWith(expect.objectContaining({ sessionId: 's' }))
     expect(accept).toHaveBeenCalledOnce()
   })
@@ -305,7 +305,7 @@ describe('DeepSeekAdapter against a mock server', () => {
       options: () => resolveAdapterOptions({ baseURL: server.url }),
       resolveApiKey: () => Promise.resolve('k'),
       resolveUserId: () => TEST_USER_ID,
-      prepareExtensions: () => Promise.resolve({ fields: { dsh_test: 1 }, accept: async () => { accept() } }) as never,
+      prepareExtensions: () => Promise.resolve({ fields: { nulu_test: 1 }, accept: async () => { accept() } }) as never,
     })
     const request = { provider: 'deepseek-official', model: 'm', messages: [] }
 
@@ -323,7 +323,7 @@ describe('DeepSeekAdapter against a mock server', () => {
       resolveApiKey: () => Promise.resolve('k'),
       resolveUserId: () => TEST_USER_ID,
       prepareExtensions: () => Promise.resolve({
-        fields: { dsh_test: 1 },
+        fields: { nulu_test: 1 },
         accept: () => Promise.reject(failure),
       }) as never,
     })
@@ -358,12 +358,12 @@ describe('DeepSeekAdapter against a mock server', () => {
     })
     // App attribution and DeepSeek request identity are independent wire facts.
     expect(server.headers[0]?.['user-agent']).toBe(userAgent())
-    expect(server.headers[0]?.['x-deepseek-harness-user-id']).toBe(getOrCreateAnonymousUserId())
-    expect(server.headers[0]).not.toHaveProperty('x-deepseek-harness-session-id')
+    expect(server.headers[0]?.['x-nulu-harness-user-id']).toBe(getOrCreateAnonymousUserId())
+    expect(server.headers[0]).not.toHaveProperty('x-nulu-harness-session-id')
     expect(server.headers[0]).not.toHaveProperty('http-referer')
     expect(server.headers[0]).not.toHaveProperty('x-openrouter-title')
     expect(server.headers[0]).not.toHaveProperty('x-openrouter-categories')
-    expect(server.headers[0]).not.toHaveProperty('x-deepseek-harness-compact')
+    expect(server.headers[0]).not.toHaveProperty('x-nulu-harness-compact')
   })
 
   it('uploads a durable image once and sends only its Files API id to the vision model', async () => {
@@ -403,7 +403,7 @@ describe('DeepSeekAdapter against a mock server', () => {
     expect(server.fileRequests).toEqual([{
       method: 'POST',
       path: '/files',
-      filename: `dsh-${'a'.repeat(16)}-${'b'.repeat(8)}.png`,
+      filename: `nulu-${'a'.repeat(16)}-${'b'.repeat(8)}.png`,
       bytes: 3,
     }])
     expect(signalSeen[0]).toBeInstanceOf(AbortSignal)
@@ -711,7 +711,7 @@ describe('DeepSeekAdapter against a mock server', () => {
       { messages: [{ content: [expect.objectContaining({ type: 'text' }), { file_id: 'file-api-1' }] }] },
       { messages: [{ content: [expect.objectContaining({ type: 'text' }), { file_id: 'file-api-1' }] }] },
     ])
-    expect(server.headers[1]?.['x-deepseek-harness-compact']).toBe('1')
+    expect(server.headers[1]?.['x-nulu-harness-compact']).toBe('1')
   })
 
   it('explains a provider rejection of a normalized image and retains the raw response as cause', async () => {
@@ -1136,8 +1136,8 @@ describe('DeepSeekAdapter against a mock server', () => {
       sessionId: SessionId('child-session'),
     })
 
-    expect(server.headers[0]?.['x-deepseek-harness-session-id']).toBe('child-session')
-    expect(server.headers[0]?.['x-deepseek-harness-user-id']).toBe(getOrCreateAnonymousUserId())
+    expect(server.headers[0]?.['x-nulu-harness-session-id']).toBe('child-session')
+    expect(server.headers[0]?.['x-nulu-harness-user-id']).toBe(getOrCreateAnonymousUserId())
   })
 
   it('marks the auxiliary compaction call on the wire', async () => {
@@ -1153,7 +1153,7 @@ describe('DeepSeekAdapter against a mock server', () => {
       purpose: 'compaction',
     })
 
-    expect(server.headers[0]?.['x-deepseek-harness-compact']).toBe('1')
+    expect(server.headers[0]?.['x-nulu-harness-compact']).toBe('1')
   })
 
   it('switches dynamically from the configured low default through off to max', async () => {
@@ -2224,7 +2224,7 @@ describe('plugin registration and config', () => {
 
   it('takes DEEPSEEK_BASE_URL from any environment layer, with explicit config still on top', () => {
     const trusted = createLaunchEnvironmentSnapshot([
-      { source: 'user-env', path: '/home/.dsh/.env', values: { DEEPSEEK_BASE_URL: 'https://user.example' } },
+      { source: 'user-env', path: '/home/.nulu/.env', values: { DEEPSEEK_BASE_URL: 'https://user.example' } },
     ])
     expect(resolveAdapterOptions({}, trusted).baseURL).toBe('https://user.example')
     // The product trusts the project it is launched in, so a checkout can

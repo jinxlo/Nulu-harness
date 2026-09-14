@@ -3,7 +3,7 @@ description: "工具结果 spill 策略：部署如何用预览和可检索的 s
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-spill-policy
+# @worldapptechnologies/nulu-spill-policy
 
 [English](README.md) | 中文
 
@@ -32,8 +32,8 @@ kind: "package-reference"
 以 UTF-8 字节计的 `maxInlineBytes` 预算加载策略，并同时挂载 spill 后端：
 
 ```yaml
-- name: '@deepseek-ai/dsh-spill-local'
-- name: '@deepseek-ai/dsh-spill-policy'
+- name: '@worldapptechnologies/nulu-spill-local'
+- name: '@worldapptechnologies/nulu-spill-policy'
   config:
     maxInlineBytes: 50000
 ```
@@ -42,7 +42,7 @@ kind: "package-reference"
 |---|---|---|
 | `maxInlineBytes` | 省略 | 纯文本结果面向模型的上下文上限（UTF-8 字节）；省略时完全禁用该策略 |
 
-生成的[配置目录](../../../docs/config-catalog.zh.md#deepseek-aidsh-spill-policy)是每个受支持字段的穷尽式真源。负数或小数上限会让插件加载失败，而不是破坏每次调用的行为。
+生成的[配置目录](../../../docs/config-catalog.zh.md#worldapptechnologiesnulu-spill-policy)是每个受支持字段的穷尽式真源。负数或小数上限会让插件加载失败，而不是破坏每次调用的行为。
 
 ### 模型看到什么
 
@@ -80,7 +80,7 @@ kind: "package-reference"
 
 ### 设计理念
 
-该策略刻意保持狭窄：它只决定**何时** spill，并组合通知。它不注册服务、不负责存储、也不负责预览机制——`dsh-output-retention` 的 `TextRetainer` 负责构建首尾预览。两个不变式塑造了代码：面向模型的替换永远不会超过 `maxInlineBytes`（先为通知预留字节成本），且 spill 失败永远不会改变工具调用的结果。
+该策略刻意保持狭窄：它只决定**何时** spill，并组合通知。它不注册服务、不负责存储、也不负责预览机制——`nulu-output-retention` 的 `TextRetainer` 负责构建首尾预览。两个不变式塑造了代码：面向模型的替换永远不会超过 `maxInlineBytes`（先为通知预留字节成本），且 spill 失败永远不会改变工具调用的结果。
 
 ### 两条分支
 
@@ -89,7 +89,7 @@ kind: "package-reference"
 <a id="shared-notice-ownership"></a>
 ### 共享通知的所有权
 
-浏览器安全入口 `@deepseek-ai/dsh-spill-policy/notice` 同时负责生产方使用的 `formatSpillNotice(omitted, ref)` 和展示消费方使用的 `hasSpillNotice(text)`。格式化与识别共用通知分隔符；省略信息通过现有的 `describeOmitted` 格式化函数校验，而非复制一套文案。识别支持预览之后或单独出现的完整末尾通知，并保留持久化通知的原有拼写。它只读取已记录的文本，不改写文本。
+浏览器安全入口 `@worldapptechnologies/nulu-spill-policy/notice` 同时负责生产方使用的 `formatSpillNotice(omitted, ref)` 和展示消费方使用的 `hasSpillNotice(text)`。格式化与识别共用通知分隔符；省略信息通过现有的 `describeOmitted` 格式化函数校验，而非复制一套文案。识别支持预览之后或单独出现的完整末尾通知，并保留持久化通知的原有拼写。它只读取已记录的文本，不改写文本。
 
 ### 源码地图
 
@@ -114,8 +114,8 @@ kind: "package-reference"
 当包级约定不够用时阅读以下页面。
 
 - [spill 存储服务](../spill/README.zh.md)——策略替换背后的 `saveText` 约定。
-- [dsh-spill-local](../spill-local/README.zh.md)——保存 spill 文本的本地后端。
-- [dsh-output-retention](../../util/output-retention/README.zh.md)——策略组合的预览机制（`TextRetainer`）。
+- [nulu-spill-local](../spill-local/README.zh.md)——保存 spill 文本的本地后端。
+- [nulu-output-retention](../../util/output-retention/README.zh.md)——策略组合的预览机制（`TextRetainer`）。
 - [工具输出 spill 决策](../../../.agents/notes/implemented/architecture/2026-07-08-tool-output-spill-files.zh.md)——能力边界与设计依据。
 
 -----

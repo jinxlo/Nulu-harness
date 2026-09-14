@@ -3,13 +3,13 @@ description: "面向 agent（智能体）与维护者的 Cordis 运行时工具�
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-tool-cordis
+# @worldapptechnologies/nulu-tool-cordis
 
 [English](README.md) | 中文
 
 ## 概述
 
-`dsh-tool-cordis` 让模型检查实时 Cordis 运行时，并创建、运行、停止、更新或移除包含 host 代码、浏览器代码或两者的临时动态包。包版本不可变，因此包失败后，模型可以添加新版本并更新当前运行的版本。定义只存在于进程内存中，DSH 重启即消失；本包不写仓库文件、不安装依赖，也不改 `cordis.yml`。它还会把这套工作流教给模型。请与 `@deepseek-ai/dsh-cordis-host-runner` 一同组合，后者提供沙箱与运行往返。
+`nulu-tool-cordis` 让模型检查实时 Cordis 运行时，并创建、运行、停止、更新或移除包含 host 代码、浏览器代码或两者的临时动态包。包版本不可变，因此包失败后，模型可以添加新版本并更新当前运行的版本。定义只存在于进程内存中，NULU 重启即消失；本包不写仓库文件、不安装依赖，也不改 `cordis.yml`。它还会把这套工作流教给模型。请与 `@worldapptechnologies/nulu-cordis-host-runner` 一同组合，后者提供沙箱与运行往返。
 
 ## 目录
 
@@ -30,10 +30,10 @@ kind: "package-reference"
 ### 最小组合
 
 ```yaml
-- name: '@deepseek-ai/dsh-cordis-host-runner'
+- name: '@worldapptechnologies/nulu-cordis-host-runner'
   config:
     vmTimeoutMs: 5000
-- name: '@deepseek-ai/dsh-tool-cordis'
+- name: '@worldapptechnologies/nulu-tool-cordis'
 ```
 
 CLI 示例 [`apps/cli/config/examples/cordis/cordis.yml`](../../../apps/cli/config/examples/cordis/cordis.yml) 同时组合了这两者。带浏览器半的包还额外需要客户端组合里的浏览器 runner 与 UI 包；纯 host 包则两者都不需要。
@@ -56,7 +56,7 @@ CLI 示例 [`apps/cli/config/examples/cordis/cordis.yml`](../../../apps/cli/conf
 
 ### 需要规划的边界
 
-定义以会话为界、以进程为本：包只在定义它的会话里可见可控，可跨后续轮次保持活跃，运行时也可能影响同一进程中的其他会话。停止、移除、卸载工具集或重启 DSH 都会清除它。沙箱隔离全局变量，但不是安全边界——对待动态包要像对待 bash 访问一样，加载本插件时也要像授予 bash 工具那样慎重。
+定义以会话为界、以进程为本：包只在定义它的会话里可见可控，可跨后续轮次保持活跃，运行时也可能影响同一进程中的其他会话。停止、移除、卸载工具集或重启 NULU 都会清除它。沙箱隔离全局变量，但不是安全边界——对待动态包要像对待 bash 访问一样，加载本插件时也要像授予 bash 工具那样慎重。
 
 -----
 
@@ -99,7 +99,7 @@ CLI 示例 [`apps/cli/config/examples/cordis/cordis.yml`](../../../apps/cli/conf
 - [Host runner](../cordis-host-runner/README.zh.md)——这些工具委托的注册表、沙箱与运行往返。
 - [Client runner](../cordis-client-runner/README.zh.md)——应答运行请求并装载浏览器半代码的浏览器半。
 - [UI 包](../ui-cordis/README.zh.md)——用户操作定义所用的面板与工具卡片。
-- [生成的工具目录](../../../docs/tool-catalog.zh.md#deepseek-aidsh-tool-cordis)——模型收到的确切 schema。
+- [生成的工具目录](../../../docs/tool-catalog.zh.md#worldapptechnologiesnulu-tool-cordis)——模型收到的确切 schema。
 - [extensions 子系统](../../../docs/subsystems/extensions.zh.md)——生成的 `ctx.cordisInspect` 与 `ctx.dynamicCordisRunner` API。
 - [自引用 Cordis 工具集 Agent Note](../../../.agents/notes/implemented/feature/2026-07-08-self-referential-cordis-toolset.zh.md)——设计居所：沙箱语义、动态包生命周期与组合。
 
@@ -112,7 +112,7 @@ CLI 示例 [`apps/cli/config/examples/cordis/cordis.yml`](../../../apps/cli/conf
 
 #### 模型看到的内容
 
-该插件可见时，会话模型会看到生成的 [`cordis_inspect_list`、`cordis_inspect_query`、`cordis_inspect_self`、`cordis_define`、`cordis_run`、`cordis_stop` 和 `cordis_undefine` schema](../../../docs/tool-catalog.zh.md#deepseek-aidsh-tool-cordis)。
+该插件可见时，会话模型会看到生成的 [`cordis_inspect_list`、`cordis_inspect_query`、`cordis_inspect_self`、`cordis_define`、`cordis_run`、`cordis_stop` 和 `cordis_undefine` schema](../../../docs/tool-catalog.zh.md#worldapptechnologiesnulu-tool-cordis)。
 
 #### Token 影响
 
@@ -133,7 +133,7 @@ CLI 示例 [`apps/cli/config/examples/cordis/cordis.yml`](../../../apps/cli/conf
 ```markdown
 # Dynamic Cordis Plugins
 
-Dynamic Cordis plugins temporarily extend the current DSH process. A Plugin uses apply(ctx) to consume Services, listen to Events, provide Services, register model Tools, or register browser UI in Slots.
+Dynamic Cordis plugins temporarily extend the current NULU process. A Plugin uses apply(ctx) to consume Services, listen to Events, provide Services, register model Tools, or register browser UI in Slots.
 ```
 
 #### Token 影响

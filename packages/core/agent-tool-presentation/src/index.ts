@@ -11,18 +11,18 @@
  * process. One row per composition, not one per session.
  *
  * A PTC mode needs a TypeScript code runtime, which is a host-plane service
- * ([`dsh-code-runtime-worker-thread`](../../code-runtime/code-runtime-worker/README.md)).
+ * ([`nulu-code-runtime-worker-thread`](../../code-runtime/code-runtime-worker/README.md)).
  * This row therefore waits for it rather than assuming it: a preset selecting
  * PTC mode against a deployment that composes no runtime fails at mount, named
  * in the preset's own activation audit, instead of at the first prompt.
- * @module @deepseek-ai/dsh-agent-tool-presentation
+ * @module @worldapptechnologies/nulu-agent-tool-presentation
  */
 
-import type { Context } from '@deepseek-ai/cordis'
-import z from '@deepseek-ai/schemastery'
-import type { ToolPresentationMode } from '@deepseek-ai/dsh-tools'
+import type { Context } from '@worldapptechnologies/cordis'
+import z from '@worldapptechnologies/schemastery'
+import type { ToolPresentationMode } from '@worldapptechnologies/nulu-tools'
 // Type-only: brings the `ctx.tools` Context merge into this program.
-import type {} from '@deepseek-ai/dsh-tools'
+import type {} from '@worldapptechnologies/nulu-tools'
 
 /** Cordis plugin name. */
 export const name = 'tool-presentation'
@@ -65,7 +65,7 @@ export function apply(ctx: Context, config: Config): void {
     return
   }
   // The wait is the loud failure: an entry still pending on `codeRuntime` is
-  // what `dsh-agent-presets` reports as an unusable row, naming this id.
+  // what `nulu-agent-presets` reports as an unusable row, naming this id.
   ctx.inject(['codeRuntime'], (runtimeCtx: Context) => {
     runtimeCtx.tools.presentAs(config.mode)
   })

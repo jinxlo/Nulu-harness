@@ -3,13 +3,13 @@ description: "面向部署方与维护者的随产品交付 JSONL 会话持久�
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-session-persistence-jsonl
+# @worldapptechnologies/nulu-session-persistence-jsonl
 
 [English](README.md) | 中文
 
 ## 概述
 
-`dsh-session-persistence-jsonl` 把每个会话存为当前的仅追加 JSONL 日志，并保留不可变的历史格式 generation——默认以带校验和的 Zstandard 帧存储，禁用压缩时以换行分隔的原始文本行存储。它通过持久化句柄提供当前逻辑 `SessionEvent` 流，因此格式迁移、压缩、历史解码与崩溃恢复仍是存储内部细节。当消费方需要按会话的磁盘文件时选择它；选择 `compression: 'none'` 后日志可作为纯文本按行读取。根目录是唯一必填配置；持久性、延迟实体化、[受支持的历史格式迁移](../session-format-catalog/README.zh.md)与撕裂尾部崩溃恢复都随后端提供。
+`nulu-session-persistence-jsonl` 把每个会话存为当前的仅追加 JSONL 日志，并保留不可变的历史格式 generation——默认以带校验和的 Zstandard 帧存储，禁用压缩时以换行分隔的原始文本行存储。它通过持久化句柄提供当前逻辑 `SessionEvent` 流，因此格式迁移、压缩、历史解码与崩溃恢复仍是存储内部细节。当消费方需要按会话的磁盘文件时选择它；选择 `compression: 'none'` 后日志可作为纯文本按行读取。根目录是唯一必填配置；持久性、延迟实体化、[受支持的历史格式迁移](../session-format-catalog/README.zh.md)与撕裂尾部崩溃恢复都随后端提供。
 
 ## 目录
 
@@ -34,8 +34,8 @@ kind: "package-reference"
 ### 最小配置
 
 ```yaml
-- name: '@deepseek-ai/dsh-session'
-- name: '@deepseek-ai/dsh-session-persistence-jsonl'
+- name: '@worldapptechnologies/nulu-session'
+- name: '@worldapptechnologies/nulu-session-persistence-jsonl'
   config:
     root: /absolute/path/to/session-logs
 ```
@@ -49,7 +49,7 @@ kind: "package-reference"
 
 实时事件的写入批处理不是配置：批处理窗口是该 seam 在每个写句柄内部的调度策略。
 
-生成的[配置目录](../../../docs/config-catalog.zh.md#deepseek-aidsh-session-persistence-jsonl)是每个受支持字段及其 JSDoc 的穷尽式真源。
+生成的[配置目录](../../../docs/config-catalog.zh.md#worldapptechnologiesnulu-session-persistence-jsonl)是每个受支持字段及其 JSDoc 的穷尽式真源。
 
 ### 磁盘布局
 

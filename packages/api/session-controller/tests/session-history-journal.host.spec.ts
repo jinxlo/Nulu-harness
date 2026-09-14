@@ -1,13 +1,13 @@
 /** Raw Session journal transport and message-aligned pagination coverage. */
 
 import { describe, expect, it, vi } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import AgentRegistry, { type Agent, type AssistantStreamFrame } from '@deepseek-ai/dsh-agent'
-import SessionStore from '@deepseek-ai/dsh-session'
-import { LlmAttemptId, ToolCallId, createMessage, createToolResultMessage, createUserMessage } from '@deepseek-ai/dsh-llm'
-import type { Session, SessionEvent, SessionId } from '@deepseek-ai/dsh-session'
-import { SessionHistoryController } from '@deepseek-ai/dsh-api-session-controller/src/history.ts'
-import type { SessionFollowFrame, SessionPage, SessionWireEvent } from '@deepseek-ai/dsh-api-session-controller/types'
+import { Context } from '@worldapptechnologies/cordis'
+import AgentRegistry, { type Agent, type AssistantStreamFrame } from '@worldapptechnologies/nulu-agent'
+import SessionStore from '@worldapptechnologies/nulu-session'
+import { LlmAttemptId, ToolCallId, createMessage, createToolResultMessage, createUserMessage } from '@worldapptechnologies/nulu-llm'
+import type { Session, SessionEvent, SessionId } from '@worldapptechnologies/nulu-session'
+import { SessionHistoryController } from '@worldapptechnologies/nulu-api-session-controller/src/history.ts'
+import type { SessionFollowFrame, SessionPage, SessionWireEvent } from '@worldapptechnologies/nulu-api-session-controller/types'
 import { createSessionTestRemote, installSessionReadTestServices } from './test-remote.ts'
 
 /** Append a production-shaped human prompt to the session surface. */

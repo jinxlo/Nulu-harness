@@ -1,13 +1,13 @@
 {
-  "name": "@deepseek-ai/dsh-llm",
-  "description": "Provider-neutral LLM service interface for the DeepSeek Harness",
+  "name": "@worldapptechnologies/nulu-llm",
+  "description": "Provider-neutral LLM service interface for the Nulu Harness",
   "version": "0.1.5-rc.2",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/worldapptechnologies/nulu-harness.git",
     "directory": "packages/llm/llm"
   },
   "type": "module",
@@ -61,20 +61,20 @@
   ],
   "license": "MIT",
   "peerDependencies": {
-    "@deepseek-ai/cordis": "workspace:^"
+    "@worldapptechnologies/cordis": "workspace:^"
   },
   "dependencies": {
-    "@deepseek-ai/dsh-util-crypto": "workspace:^",
-    "@deepseek-ai/schemastery": "workspace:^",
+    "@worldapptechnologies/nulu-util-crypto": "workspace:^",
+    "@worldapptechnologies/schemastery": "workspace:^",
     "zod": "^4.4.3",
-    "@deepseek-ai/dsh-timeout": "workspace:^",
-    "@deepseek-ai/dsh-brand": "workspace:^",
-    "@deepseek-ai/dsh-util-values": "workspace:^",
-    "@deepseek-ai/dsh-typert-protocol": "workspace:^"
+    "@worldapptechnologies/nulu-timeout": "workspace:^",
+    "@worldapptechnologies/nulu-brand": "workspace:^",
+    "@worldapptechnologies/nulu-util-values": "workspace:^",
+    "@worldapptechnologies/nulu-typert-protocol": "workspace:^"
   },
   "devDependencies": {
-    "@deepseek-ai/dsh-attachment": "workspace:^",
-    "@deepseek-ai/dsh-invariants": "workspace:^",
-    "@deepseek-ai/cordis": "workspace:^"
+    "@worldapptechnologies/nulu-attachment": "workspace:^",
+    "@worldapptechnologies/nulu-invariants": "workspace:^",
+    "@worldapptechnologies/cordis": "workspace:^"
   }
 }

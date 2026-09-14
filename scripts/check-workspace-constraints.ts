@@ -23,53 +23,53 @@ const workspaceGlobs = [
   { dir: 'apps', depth: 1 },
 ] as const
 const vendoredPackages = new Set([
-  '@deepseek-ai/cordis',
-  '@deepseek-ai/cosmokit',
-  '@deepseek-ai/schemastery',
-  '@deepseek-ai/cordis-plugin-loader',
-  '@deepseek-ai/cordis-plugin-include',
-  '@deepseek-ai/cordis-plugin-group',
-  '@deepseek-ai/cordis-plugin-timer',
-  '@deepseek-ai/cordis-plugin-hmr',
-  '@deepseek-ai/cordis-plugin-logger-console',
+  '@worldapptechnologies/cordis',
+  '@worldapptechnologies/cosmokit',
+  '@worldapptechnologies/schemastery',
+  '@worldapptechnologies/cordis-plugin-loader',
+  '@worldapptechnologies/cordis-plugin-include',
+  '@worldapptechnologies/cordis-plugin-group',
+  '@worldapptechnologies/cordis-plugin-timer',
+  '@worldapptechnologies/cordis-plugin-hmr',
+  '@worldapptechnologies/cordis-plugin-logger-console',
 ])
 const publicNativePackages = new Set([
-  '@deepseek-ai/node-addon-system',
-  '@deepseek-ai/node-addon-system-darwin-arm64',
-  '@deepseek-ai/node-addon-system-darwin-x64',
-  '@deepseek-ai/node-addon-system-linux-arm64',
-  '@deepseek-ai/node-addon-system-linux-x64',
+  '@worldapptechnologies/node-addon-system',
+  '@worldapptechnologies/node-addon-system-darwin-arm64',
+  '@worldapptechnologies/node-addon-system-darwin-x64',
+  '@worldapptechnologies/node-addon-system-linux-arm64',
+  '@worldapptechnologies/node-addon-system-linux-x64',
 ])
 /** Deliberate source payloads whose exact bytes are part of the package's audit surface. */
 const publicationSourceAllowlist: Readonly<Record<string, readonly string[]>> = {
-  '@deepseek-ai/node-addon-system': ['src/main.c', 'src/flock.c'],
+  '@worldapptechnologies/node-addon-system': ['src/main.c', 'src/flock.c'],
 }
-const repositoryUrl = 'git+https://github.com/deepseek-harness/deepseek-harness.git'
+const repositoryUrl = 'git+https://github.com/nulu-harness/nulu-harness.git'
 /**
  * Source home the published packages point consumers at. It differs from
  * {@link repositoryUrl}, which the Landlock packages keep because npm resolves
  * their trusted publishing against the repository that runs the workflow.
  */
-const publishedRepositoryUrl = 'git+https://github.com/deepseek-ai/deepseek-harness.git'
+const publishedRepositoryUrl = 'git+https://github.com/worldapptechnologies/nulu-harness.git'
 /** Packages that participate in the experimental policy. */
 const experimentalPackageDirectory = /^packages\/experimental\/[^/]+$/
 /** npm namespace reserved for experimental packages. */
-const experimentalPackageNamePrefix = '@deepseek-ai/dsh-experimental-'
+const experimentalPackageNamePrefix = '@worldapptechnologies/nulu-experimental-'
 /** Ordinary directories whose packages this repository publishes: one release member each. */
 const standardReleaseMemberDirectory = /^(?:packages\/(?!experimental\/)[^/]+\/[^/]+|apps\/(?!desktop(?:-host)?$)[^/]+|vendor\/[^/]+)$/
 /** Installable application assembled by electron-builder rather than published to npm. */
 const desktopApplicationDirectory = 'apps/desktop'
 const localArtifactDirs = new Set(['node_modules'])
 const appPackageFiles: Readonly<Record<string, readonly string[]>> = {
-  '@deepseek-ai/dsh': ['lib/*.js'],
-  '@deepseek-ai/dsh-desktop-host': [
+  '@worldapptechnologies/nulu': ['lib/*.js'],
+  '@worldapptechnologies/nulu-desktop-host': [
     'lib/index.js',
     'config/desktop.cordis.patch.yml',
   ],
   // Sourcemaps stay out by payload policy; the worker-preview surface
   // (dist/preview.html and dist/preview/) backs private experimental
   // packages and is not published.
-  '@deepseek-ai/dsh-web-frontend': ['dist', '!dist/**/*.map', '!dist/preview.html', '!dist/preview'],
+  '@worldapptechnologies/nulu-web-frontend': ['dist', '!dist/**/*.map', '!dist/preview.html', '!dist/preview'],
 }
 
 /** The subset of package.json fields this constraint check cares about. */
@@ -98,7 +98,7 @@ export interface PackageManifest {
   devDependencies?: Record<string, string>
   dependencies?: Record<string, string>
   optionalDependencies?: Record<string, string>
-  dsh?: {
+  nulu?: {
     bundle?: {
       patch?: string
     }
@@ -155,28 +155,28 @@ const packageFileExtras: Readonly<Record<string, readonly string[]>> = {
   // them through its own CSS pipeline, so the sheets are published artifacts.
   // The glob covers whichever sheets a package emits; sourcemaps stay
   // unpublished, as everywhere else in the repository.
-  '@deepseek-ai/dsh-client-ui-primitives': ['lib/**/*.css'],
-  '@deepseek-ai/dsh-client-ui-dockkit': ['lib/**/*.css'],
-  '@deepseek-ai/dsh-client-web': ['lib/**/*.css'],
-  '@deepseek-ai/dsh-client-ui-theme': ['lib/styles'],
+  '@worldapptechnologies/nulu-client-ui-primitives': ['lib/**/*.css'],
+  '@worldapptechnologies/nulu-client-ui-dockkit': ['lib/**/*.css'],
+  '@worldapptechnologies/nulu-client-web': ['lib/**/*.css'],
+  '@worldapptechnologies/nulu-client-ui-theme': ['lib/styles'],
   // The CPython side ships as source .py files, published as-is rather than built.
-  '@deepseek-ai/dsh-experimental-code-runtime-python': ['py/**/*.py'],
+  '@worldapptechnologies/nulu-experimental-code-runtime-python': ['py/**/*.py'],
   // The shipped preset compositions travel inside the roster package.
-  '@deepseek-ai/dsh-agent-presets': ['presets'],
+  '@worldapptechnologies/nulu-agent-presets': ['presets'],
   // The Web Host mounts the default-off settings owner independently of each
   // Agent-scoped delegation-tool instance.
-  '@deepseek-ai/dsh-tool-subagent': ['lib/model-selection-settings.js'],
+  '@worldapptechnologies/nulu-tool-subagent': ['lib/model-selection-settings.js'],
   // The JSONL backend resolves its private verification Worker relative to
   // import.meta.url; it is shipped without a public package subpath.
-  '@deepseek-ai/dsh-session-persistence-jsonl': ['lib/worker.cjs'],
+  '@worldapptechnologies/nulu-session-persistence-jsonl': ['lib/worker.cjs'],
   // The argv-prefix runner entry ships beside the lib as its own bundle;
   // sandbox-local resolves it through the package's ./runner export. tsdown
   // also shares its generated FFI code through a hashed runtime chunk.
-  '@deepseek-ai/dsh-sandbox-windows-acl': ['lib/runner.js', 'lib/types-*.js'],
-  '@deepseek-ai/dsh-skill-badge': ['assets'],
+  '@worldapptechnologies/nulu-sandbox-windows-acl': ['lib/runner.js', 'lib/types-*.js'],
+  '@worldapptechnologies/nulu-skill-badge': ['assets'],
   // Ordinary native containment ships a path-loaded runner and its shared
   // runner chunk beside the existing node-pty permission repair.
-  '@deepseek-ai/dsh-subprocess-local': [
+  '@worldapptechnologies/nulu-subprocess-local': [
     'lib/runner.js',
     'lib/runner-*.js',
     'scripts/ensure-spawn-helper.mjs',
@@ -184,7 +184,7 @@ const packageFileExtras: Readonly<Record<string, readonly string[]>> = {
   // tsdown shares the repository/pack code between the lib entry and the bin
   // through a hashed chunk. The committed bin.js is the link target pnpm can
   // resolve at install time, before the build produces lib/bin.js.
-  '@deepseek-ai/dsh-experimental-webworker-packer': ['bin.js', 'lib/repository-*.js'],
+  '@worldapptechnologies/nulu-experimental-webworker-packer': ['bin.js', 'lib/repository-*.js'],
 }
 
 function sameStringList(actual: readonly string[] | undefined, expected: readonly string[]): boolean {
@@ -192,7 +192,7 @@ function sameStringList(actual: readonly string[] | undefined, expected: readonl
 }
 
 export function expectedDshPackageFiles(manifest: PackageManifest): readonly string[] {
-  const declaredPatch = manifest.dsh?.bundle?.patch
+  const declaredPatch = manifest.nulu?.bundle?.patch
   const bundleFiles = declaredPatch === undefined ? [] : [declaredPatch.replace(/^\.\//, '')]
   const extras = [
     ...bundleFiles,
@@ -293,21 +293,21 @@ function isReleaseMemberDirectory(dir: string): boolean {
 }
 
 /**
- * Require a dsh-family manifest to carry the workspace version.
+ * Require a nulu-family manifest to carry the workspace version.
  *
- * The dsh release sequence publishes packages/ and apps/ members and every
- * private dsh package on one shared version, written by `release:dsh` and
+ * The nulu release sequence publishes packages/ and apps/ members and every
+ * private nulu package on one shared version, written by `release:nulu` and
  * shared with the workspace root. This name test is that boundary: it covers
  * the family wherever the manifest lives, so apps/ members cannot drift with
  * only the release lane noticing.
  * @param manifest - the workspace package manifest.
- * @param expected - the version every dsh-family manifest must carry (the root's).
+ * @param expected - the version every nulu-family manifest must carry (the root's).
  * @returns one violation naming the manifest and the expected version, or
  * undefined when the manifest is compliant or not in the family.
  */
 export function checkDshFamilyVersion(manifest: PackageManifest, expected: string | undefined): string | undefined {
   const name = manifest.name
-  if (name !== '@deepseek-ai/dsh' && name?.startsWith('@deepseek-ai/dsh-') !== true) return undefined
+  if (name !== '@worldapptechnologies/nulu' && name?.startsWith('@worldapptechnologies/nulu-') !== true) return undefined
   if (manifest.version !== expected) {
     return `${name}: package.json version must match root version ${expected ?? '(missing)'}`
   }
@@ -315,7 +315,7 @@ export function checkDshFamilyVersion(manifest: PackageManifest, expected: strin
 }
 
 /**
- * Check one workspace manifest against publication and dsh-package policy.
+ * Check one workspace manifest against publication and nulu-package policy.
  * @param workspace - package directory and parsed manifest.
  * @returns path-qualified policy violations.
  */
@@ -349,7 +349,7 @@ export function checkWorkspaceManifest({ dir, manifest }: WorkspaceManifest): st
     //
     // Access is per release sequence, not per scope: the vendored framework and
     // the Landlock packages publish publicly because outside consumers install
-    // them, and the dsh family published publicly with its own sequence on
+    // them, and the nulu family published publicly with its own sequence on
     // 2026-08-13. No publish path passes `--access`; each packed manifest declares
     // it, and this gate requires every release member to be public.
     if (manifest.private === true) {
@@ -371,7 +371,7 @@ export function checkWorkspaceManifest({ dir, manifest }: WorkspaceManifest): st
     return errors
   }
 
-  if (manifest.name?.startsWith('@deepseek-ai/')) {
+  if (manifest.name?.startsWith('@worldapptechnologies/')) {
     const allowedSources = publicationSourceAllowlist[manifest.name] ?? []
     for (const file of manifest.files ?? []) {
       if (isForbiddenPublicationFile(file) && !allowedSources.includes(file)) {
@@ -380,7 +380,7 @@ export function checkWorkspaceManifest({ dir, manifest }: WorkspaceManifest): st
     }
   }
 
-  if (dir.startsWith('apps/') && dir !== desktopApplicationDirectory && manifest.name?.startsWith('@deepseek-ai/')) {
+  if (dir.startsWith('apps/') && dir !== desktopApplicationDirectory && manifest.name?.startsWith('@worldapptechnologies/')) {
     const expectedFiles = appPackageFiles[manifest.name]
     if (expectedFiles === undefined) {
       errors.push(`${label}: app package has no publication files policy`)
@@ -398,14 +398,14 @@ export function checkWorkspaceManifest({ dir, manifest }: WorkspaceManifest): st
     }
   }
 
-  if (dir.startsWith('packages/') && manifest.name?.startsWith('@deepseek-ai/dsh-')) {
-    const peer = manifest.peerDependencies?.['@deepseek-ai/cordis']
-    const dev = manifest.devDependencies?.['@deepseek-ai/cordis']
+  if (dir.startsWith('packages/') && manifest.name?.startsWith('@worldapptechnologies/nulu-')) {
+    const peer = manifest.peerDependencies?.['@worldapptechnologies/cordis']
+    const dev = manifest.devDependencies?.['@worldapptechnologies/cordis']
 
-    if (!peer) errors.push(`${label}: @deepseek-ai/cordis must be a peerDependency`)
-    if (!dev) errors.push(`${label}: @deepseek-ai/cordis must also be a devDependency`)
+    if (!peer) errors.push(`${label}: @worldapptechnologies/cordis must be a peerDependency`)
+    if (!dev) errors.push(`${label}: @worldapptechnologies/cordis must also be a devDependency`)
     if (peer && dev && peer !== dev) {
-      errors.push(`${label}: @deepseek-ai/cordis peer (${peer}) and dev (${dev}) ranges must match`)
+      errors.push(`${label}: @worldapptechnologies/cordis peer (${peer}) and dev (${dev}) ranges must match`)
     }
     if (manifest.type !== 'module') {
       errors.push(`${label}: package.json must set "type": "module"`)
@@ -471,8 +471,8 @@ function checkHierarchyShape(): string[] {
 }
 
 function checkRepositoryVersion(): string[] {
-  // The root carries the dsh release family's version, so a prerelease such as
-  // 0.0.1-rc.1 is a valid state between `release:dsh` and its publication.
+  // The root carries the nulu release family's version, so a prerelease such as
+  // 0.0.1-rc.1 is a valid state between `release:nulu` and its publication.
   if (repositoryVersion && /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(repositoryVersion)) return []
   return ['package.json: version must be X.Y.Z with an optional prerelease segment']
 }

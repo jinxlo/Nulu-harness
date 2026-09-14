@@ -1,6 +1,6 @@
 /**
  * Browser-safe Workspace path and display helpers.
- * @module @deepseek-ai/dsh-util-workspace-path
+ * @module @worldapptechnologies/nulu-util-workspace-path
  */
 import { sessionFileAddress } from './file-address.ts'
 
@@ -87,7 +87,7 @@ export * from './file-address.ts'
  * @param sessionId - the Session the path is read in.
  * @param cwd - that Session's workspace root, when known.
  * @param path - absolute or workspace-relative path, in either separator spelling.
- * @returns the `dsh-resource://file/…` address.
+ * @returns the `nulu-resource://file/…` address.
  */
 export function fileAddressFor(sessionId: string, cwd: string | undefined, path: string): string {
   const normalized = path.replace(/\\/g, '/')

@@ -40,12 +40,12 @@ describe('Python runtime executable builder CLI', () => {
     expect(cliConfig).not.toContain('runtime-bootstrap')
     expect(cliConfig).toContain("clean: ['lib/*.js']")
     expect(cliTsconfig).not.toContain('packages/subprocess/subprocess-local')
-    expect(cliManifest.dependencies).not.toHaveProperty('@deepseek-ai/dsh-subprocess-local')
-    expect(cliManifest.devDependencies).toHaveProperty('@deepseek-ai/dsh-subprocess-local')
-    expect(runtimeManifest.dependencies).toHaveProperty('@deepseek-ai/dsh-subprocess-local')
-    expect(bootstrap).toContain("import('@deepseek-ai/dsh/lib/bin.js')")
+    expect(cliManifest.dependencies).not.toHaveProperty('@worldapptechnologies/nulu-subprocess-local')
+    expect(cliManifest.devDependencies).toHaveProperty('@worldapptechnologies/nulu-subprocess-local')
+    expect(runtimeManifest.dependencies).toHaveProperty('@worldapptechnologies/nulu-subprocess-local')
+    expect(bootstrap).toContain("import('@worldapptechnologies/nulu/lib/bin.js')")
     expect(bootstrap).toContain('await runCli()')
-    expect(bootstrap).toContain("import('@deepseek-ai/dsh-subprocess-local/runner')")
+    expect(bootstrap).toContain("import('@worldapptechnologies/nulu-subprocess-local/runner')")
     expect(bootstrap).toContain('await runSelectedSubprocessRunner(selection)')
   })
 
@@ -59,8 +59,8 @@ describe('Python runtime executable builder CLI', () => {
 
     expect(result.status).toBe(0)
     expect(result.stdout).toContain(`${process.execPath} C:\\tools\\pnpm.cjs run verify-runtime-closure`)
-    expect(result.stdout).toContain(`${process.execPath} C:\\tools\\pnpm.cjs --filter dsh-python-runtime-closure deploy`)
-    const deploy = result.stdout.split('\n').find(line => line.includes(' --filter dsh-python-runtime-closure deploy'))
+    expect(result.stdout).toContain(`${process.execPath} C:\\tools\\pnpm.cjs --filter nulu-python-runtime-closure deploy`)
+    const deploy = result.stdout.split('\n').find(line => line.includes(' --filter nulu-python-runtime-closure deploy'))
     expect(deploy).toContain('--prod --config.allow-unused-patches=true')
     expect(result.stdout.split('--config.allow-unused-patches=true')).toHaveLength(2)
     expect(result.stdout).not.toContain(resolve(root, 'python/sdk-runtime/runtime-bootstrap.mjs'))
@@ -70,7 +70,7 @@ describe('Python runtime executable builder CLI', () => {
   })
 
   it('resolves the pnpm package behind a Windows command shim', () => {
-    const setup = mkdtempSync(join(tmpdir(), 'dsh-pnpm-home-'))
+    const setup = mkdtempSync(join(tmpdir(), 'nulu-pnpm-home-'))
     temporaryDirectories.push(setup)
     const home = join(setup, 'node_modules', '.bin')
     const entrypoint = join(setup, 'node_modules', 'pnpm', 'bin', 'pnpm.mjs')

@@ -14,7 +14,7 @@ const OMITTED_COMPANION_REASON = /No (?:(?:runtime )?invariant )?companion is pu
 
 interface PackageManifest {
   name?: string
-  dsh?: unknown
+  nulu?: unknown
   exports?: Record<string, { types?: string; default?: string } | string | null | undefined>
   files?: string[]
   peerDependencies?: Record<string, string>
@@ -127,24 +127,24 @@ function checkManifest(
   if (!manifest.files?.includes('lib/invariant.js')) {
     addViolation(violations, owner.manifestPath, 'files must publish lib/invariant.js')
   }
-  if (owner.packageName === '@deepseek-ai/dsh-invariants') return
+  if (owner.packageName === '@worldapptechnologies/nulu-invariants') return
   const developmentOnlyInvariant = usesFlattenedPackageDependencies(
     owner.manifestPath,
     owner.packageName,
-    manifest.dsh,
+    manifest.nulu,
   )
   const expectedRange = 'workspace:^'
-  const peerRange = manifest.peerDependencies?.['@deepseek-ai/dsh-invariants']
+  const peerRange = manifest.peerDependencies?.['@worldapptechnologies/nulu-invariants']
   if (developmentOnlyInvariant ? peerRange !== undefined : peerRange !== expectedRange) {
     addViolation(violations, owner.manifestPath, developmentOnlyInvariant
-      ? '@deepseek-ai/dsh-invariants must not be a peerDependency under this package dependency policy'
-      : '@deepseek-ai/dsh-invariants must be a workspace:^ peerDependency')
+      ? '@worldapptechnologies/nulu-invariants must not be a peerDependency under this package dependency policy'
+      : '@worldapptechnologies/nulu-invariants must be a workspace:^ peerDependency')
   }
-  if (manifest.devDependencies?.['@deepseek-ai/dsh-invariants'] !== expectedRange) {
+  if (manifest.devDependencies?.['@worldapptechnologies/nulu-invariants'] !== expectedRange) {
     addViolation(
       violations,
       owner.manifestPath,
-      `@deepseek-ai/dsh-invariants must be a ${expectedRange} devDependency`,
+      `@worldapptechnologies/nulu-invariants must be a ${expectedRange} devDependency`,
     )
   }
 }
@@ -157,7 +157,7 @@ function checkBuild(
 ): void {
   const tsconfigPath = `${owner.dir}/tsconfig.json`
   if (hasCompanion
-    && owner.packageName !== '@deepseek-ai/dsh-invariants'
+    && owner.packageName !== '@worldapptechnologies/nulu-invariants'
     && !projectReferencesInvariants(root, owner.dir, tsconfigPath)) {
     addViolation(
       violations,

@@ -1,15 +1,15 @@
 import { describe, expect, it } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
+import { Context } from '@worldapptechnologies/cordis'
 import {
   LlmRuntime, LlmAdapter, createMessage, createUserMessage, projectFilesToText,
-} from '@deepseek-ai/dsh-llm'
-import type { GenerateOptions, LlmImageRequestPricing, Message, StreamChunk, TokenUsage, UserMessage } from '@deepseek-ai/dsh-llm'
-import { AttachmentId } from '@deepseek-ai/dsh-attachment'
-import type { FileAttachmentRef, ImageAttachmentRef } from '@deepseek-ai/dsh-attachment'
-import { Session, SessionId, canonicalHeader } from '@deepseek-ai/dsh-session'
-import type { EpochHeader } from '@deepseek-ai/dsh-session'
-import SessionProjectionRegistry from '@deepseek-ai/dsh-session-projection'
-import TokenMeter from '@deepseek-ai/dsh-token-meter'
+} from '@worldapptechnologies/nulu-llm'
+import type { GenerateOptions, LlmImageRequestPricing, Message, StreamChunk, TokenUsage, UserMessage } from '@worldapptechnologies/nulu-llm'
+import { AttachmentId } from '@worldapptechnologies/nulu-attachment'
+import type { FileAttachmentRef, ImageAttachmentRef } from '@worldapptechnologies/nulu-attachment'
+import { Session, SessionId, canonicalHeader } from '@worldapptechnologies/nulu-session'
+import type { EpochHeader } from '@worldapptechnologies/nulu-session'
+import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projection'
+import TokenMeter from '@worldapptechnologies/nulu-token-meter'
 import { estimateContent, estimateMessage } from '../src/estimate.ts'
 
 /** Adapter double declaring fixed per-occurrence image prices for one route. */

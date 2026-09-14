@@ -1,7 +1,7 @@
-// Keyless browser e2e: the shipped DeepSeek adapter stays mounted while its
-// credential is absent, both ordered steps share the shipped modal chrome,
-// and the inline key write lands in an isolated harness home without a reload
-// or model call.
+// Keyless browser e2e: the shipped World App Technologies gateway route stays
+// mounted while its credential is absent, both ordered steps share the shipped
+// modal chrome, and the inline key write lands in an isolated harness home
+// without a reload or model call.
 import { randomBytes } from 'node:crypto'
 import { readFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
@@ -24,7 +24,7 @@ const MODELS_EXPECTED = join(SNAPSHOT_DIR, 'models.expected.md')
 const DEFAULT_MODELS_EXPECTED = join(SNAPSHOT_DIR, 'default-models.expected.md')
 const MODE = webSnapshotMode()
 
-describe.skipIf(MODE === 'record')('web e2e: first-run DeepSeek credential setup', () => {
+describe.skipIf(MODE === 'record')('web e2e: first-run shipped provider credential setup', () => {
   let scaffold: WebScaffold
   let browser: Browser
   let page: Page
@@ -78,14 +78,14 @@ describe.skipIf(MODE === 'record')('web e2e: first-run DeepSeek credential setup
     const initial = await captureStableAria(page, '[role="dialog"]', scaffold.workspaceCwd)
     await compareOrRefreshGolden(MISSING_EXPECTED, initial, MODE)
 
-    const secret = `dsh_onboarding_${randomBytes(12).toString('hex')}`
+    const secret = `nulu_onboarding_${randomBytes(12).toString('hex')}`
     await keyInput.fill(secret)
     await credentialStep.getByRole('button', { name: '保存并继续' }).click()
     await credentialStep.waitFor({ state: 'detached', timeout: 15_000 })
     expect(await page.locator('#root').evaluate(root => (root as HTMLElement).inert)).toBe(false)
 
     const stored = await readFile(join(scaffold.harnessHome, '.credentials.yaml'), 'utf8')
-    expect(stored.includes(`DEEPSEEK_API_KEY: ${secret}`)).toBe(true)
+    expect(stored.includes(`WORLD_APP_TECHNOLOGIES_API_KEY: ${secret}`)).toBe(true)
     expect((await page.content()).includes(secret)).toBe(false)
     expect((await page.locator('body').ariaSnapshot()).includes(secret)).toBe(false)
     expect(browserConsole.some(line => line.includes(secret))).toBe(false)
@@ -99,9 +99,9 @@ describe.skipIf(MODE === 'record')('web e2e: first-run DeepSeek credential setup
     const settings = page.getByRole('dialog', { name: '设置' })
     await settings.waitFor({ timeout: 10_000 })
     await settings.getByRole('button', { name: '模型' }).click()
-    const deepSeekRow = settings.getByText('DeepSeek', { exact: true }).first()
-    await deepSeekRow.waitFor({ timeout: 10_000 })
-    await deepSeekRow.locator('xpath=ancestor::li').getByRole('button', { name: '编辑' }).click()
+    const shippedRow = settings.getByRole('button', { name: '编辑 World App Technologies (worldapp)' })
+    await shippedRow.waitFor({ timeout: 10_000 })
+    await shippedRow.click()
     const configuredInput = settings.getByLabel('API 密钥', { exact: true })
     await configuredInput.waitFor({ timeout: 10_000 })
     await expect.poll(
@@ -237,10 +237,9 @@ describe.skipIf(MODE === 'record')('web e2e: first-run DeepSeek credential setup
     await settings.getByLabel('上下文窗口 1').fill('131072')
     await settings.getByLabel('最大输出 token 数 1').fill('64K')
 
-    await expect.poll(
-      () => settings.getByLabel('API 密钥', { exact: true }).getAttribute('placeholder'),
-      { timeout: 10_000 },
-    ).toBe('已配置——输入新值可替换')
+    // Model edits leave credentials untouched: the native route never
+    // received one here, and the editor says so instead of fabricating it.
+    expect(await settings.getByLabel('API 密钥', { exact: true }).inputValue()).toBe('')
     const modelEditor = await captureStableAria(page, '[role="dialog"]', scaffold.workspaceCwd)
     await compareOrRefreshGolden(MODELS_EXPECTED, modelEditor, MODE)
     await settings.getByRole('button', { name: '保存', exact: true }).click()

@@ -1,7 +1,7 @@
 /**
  * Electron child-process entry: boots the desktop project without a listening
  * socket and carries API plus validated Web assets over framed byte pipes.
- * @module @deepseek-ai/dsh-desktop-host
+ * @module @worldapptechnologies/nulu-desktop-host
  */
 
 import { createRequire } from 'node:module'
@@ -10,21 +10,21 @@ import { once } from 'node:events'
 import { readFile } from 'node:fs/promises'
 import { dirname, extname, join, normalize, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import type { Context } from '@deepseek-ai/cordis'
-import type { PatchOptions } from '@deepseek-ai/cordis-plugin-include'
+import type { Context } from '@worldapptechnologies/cordis'
+import type { PatchOptions } from '@worldapptechnologies/cordis-plugin-include'
 import {
   boot,
   composeEntries,
   loadLayeredEnv,
   loadProfileDirectory,
   loadOverlayPatches,
-} from '@deepseek-ai/dsh-app-boot'
-import { provideCmdline } from '@deepseek-ai/dsh-cmdline'
-import { DSH_LAUNCH_ENVIRONMENT_KEY } from '@deepseek-ai/dsh-launch-environment'
-import type {} from '@deepseek-ai/dsh-api-gateway'
-import type { ConnectionFetchHandler } from '@deepseek-ai/dsh-client-connection'
-import type {} from '@deepseek-ai/dsh-client-modules'
-import { renderIndexInjections, type IndexInjection } from '@deepseek-ai/dsh-host-webserver'
+} from '@worldapptechnologies/nulu-app-boot'
+import { provideCmdline } from '@worldapptechnologies/nulu-cmdline'
+import { NULU_LAUNCH_ENVIRONMENT_KEY } from '@worldapptechnologies/nulu-launch-environment'
+import type {} from '@worldapptechnologies/nulu-api-gateway'
+import type { ConnectionFetchHandler } from '@worldapptechnologies/nulu-client-connection'
+import type {} from '@worldapptechnologies/nulu-client-modules'
+import { renderIndexInjections, type IndexInjection } from '@worldapptechnologies/nulu-host-webserver'
 import {
   DESKTOP_HOST_PROTOCOL_VERSION,
   DESKTOP_PIPE_CHUNK_BYTES,
@@ -40,7 +40,7 @@ import {
 
 export { DESKTOP_HOST_PROTOCOL_VERSION } from './wire.ts'
 
-/** One request forwarded from Electron's `dsh-app://` handler. */
+/** One request forwarded from Electron's `nulu-app://` handler. */
 export interface DesktopHostFetchCommand {
   readonly streamId: number
   readonly request: {
@@ -59,7 +59,7 @@ export type DesktopHostCommand = {
 export type DesktopHostEvent = {
   readonly type: 'ready'
   readonly protocolVersion: typeof DESKTOP_HOST_PROTOCOL_VERSION
-  readonly dshVersion: string
+  readonly nuluVersion: string
 } | {
   readonly type: 'fatal'
   readonly message: string
@@ -67,8 +67,8 @@ export type DesktopHostEvent = {
 
 /** Controller returned to tests and the self-executing process entry. */
 export interface DesktopHostController {
-  /** Installed dsh version carried by this host. */
-  readonly dshVersion: string
+  /** Installed nulu version carried by this host. */
+  readonly nuluVersion: string
   /** Dispatch one custom-protocol request and stream its response to the response pipe. */
   fetch(command: DesktopHostFetchCommand, body: ReadableStream<Uint8Array> | null): Promise<void>
   /** Abort one in-flight request. */
@@ -94,9 +94,9 @@ interface PackageManifest {
 const DESKTOP_PATCH = fileURLToPath(new URL('../config/desktop.cordis.patch.yml', import.meta.url))
 const ROOT_CONFIG = '# Electron desktop composition root; package transactions own this file.\n[]\n'
 const ROOT_CONFIG_FILENAME = 'desktop.cordis.yml'
-const DESKTOP_STREAM_PATH = '/.dsh/remote-stream'
+const DESKTOP_STREAM_PATH = '/.nulu/remote-stream'
 
-const DESKTOP_TRANSPORT_SCRIPT = `globalThis.__DSH_TRANSPORT__={
+const DESKTOP_TRANSPORT_SCRIPT = `globalThis.__NULU_TRANSPORT__={
   ownsHost:true,
   async *openStream(endpoint,payload,signal){
     const response=await fetch(${JSON.stringify(DESKTOP_STREAM_PATH)},{
@@ -130,7 +130,7 @@ const MIME: Readonly<Record<string, string>> = {
 
 function readManifest(path: string): PackageManifest {
   const value: unknown = JSON.parse(readFileSync(path, 'utf8'))
-  if (!isRecord(value)) throw new Error(`dsh desktop: ${path} must contain a package manifest`)
+  if (!isRecord(value)) throw new Error(`nulu desktop: ${path} must contain a package manifest`)
   return {
     ...(typeof value.name === 'string' ? { name: value.name } : {}),
     ...(typeof value.version === 'string' ? { version: value.version } : {}),
@@ -139,7 +139,7 @@ function readManifest(path: string): PackageManifest {
 
 function packageManifestPath(projectDir: string, packageName: string): string {
   const path = join(projectDir, 'node_modules', ...packageName.split('/'), 'package.json')
-  if (!existsSync(path)) throw new Error(`dsh desktop: installed package ${JSON.stringify(packageName)} has no manifest`)
+  if (!existsSync(path)) throw new Error(`nulu desktop: installed package ${JSON.stringify(packageName)} has no manifest`)
   return path
 }
 
@@ -150,17 +150,17 @@ function isProjectPath(projectDir: string, target: string): boolean {
 }
 
 function desktopPatches(runtimeDir: string, projectDir: string, allowLinkedPackages: boolean): PatchOptions[] {
-  const dshRoot = dirname(packageManifestPath(runtimeDir, '@deepseek-ai/dsh'))
-  const profile = loadProfileDirectory('dsh desktop', projectDir, join(dshRoot, 'package.json'))
+  const nuluRoot = dirname(packageManifestPath(runtimeDir, '@worldapptechnologies/nulu'))
+  const profile = loadProfileDirectory('nulu desktop', projectDir, join(nuluRoot, 'package.json'))
   for (const layer of profile.layers) {
     if (!allowLinkedPackages && !isProjectPath(projectDir, layer.packageDir) && !isProjectPath(runtimeDir, layer.packageDir)) {
-      throw new Error(`dsh desktop: profile bundle ${JSON.stringify(layer.packageName)} resolved outside the Desktop runtime and profile`)
+      throw new Error(`nulu desktop: profile bundle ${JSON.stringify(layer.packageName)} resolved outside the Desktop runtime and profile`)
     }
   }
   const layers = [
     ...profile.layers.map(layer => layer.patches),
     profile.patches,
-    loadOverlayPatches('dsh desktop', DESKTOP_PATCH),
+    loadOverlayPatches('nulu desktop', DESKTOP_PATCH),
   ]
   const rows = new Map(composeEntries(layers).flatMap(row => typeof row.id === 'string' ? [[row.id, row] as const] : []))
   const agentPresets = rows.get('agent-presets')
@@ -169,22 +169,22 @@ function desktopPatches(runtimeDir: string, projectDir: string, allowLinkedPacka
       id: 'agent-presets',
       config: {
         ...(agentPresets.config ?? {}) as Record<string, unknown>,
-        roots: [{ path: join(dshRoot, 'config', 'agent-presets'), trust: 'system' }],
+        roots: [{ path: join(nuluRoot, 'config', 'agent-presets'), trust: 'system' }],
       },
     }])
   }
   return layers.flat()
 }
 
-function dshVersion(runtimeDir: string): string {
-  const manifest = readManifest(packageManifestPath(runtimeDir, '@deepseek-ai/dsh'))
-  if (typeof manifest.version !== 'string') throw new Error('dsh desktop: installed dsh manifest has no version')
+function nuluVersion(runtimeDir: string): string {
+  const manifest = readManifest(packageManifestPath(runtimeDir, '@worldapptechnologies/nulu'))
+  if (typeof manifest.version !== 'string') throw new Error('nulu desktop: installed nulu manifest has no version')
   return manifest.version
 }
 
 function assetHandler(ctx: Context, runtimeDir: string): ConnectionFetchHandler {
   const require = createRequire(join(runtimeDir, 'package.json'))
-  const distIndex = require.resolve('@deepseek-ai/dsh-web-frontend/dist/index.html')
+  const distIndex = require.resolve('@worldapptechnologies/nulu-web-frontend/dist/index.html')
   const distRoot = realpathSync(dirname(distIndex))
   const renderIndex = async (): Promise<Response> => {
     const rows: IndexInjection[] = [{ kind: 'script', placement: 'head', text: DESKTOP_TRANSPORT_SCRIPT }]
@@ -270,7 +270,7 @@ interface NodeRequestInit extends RequestInit {
 
 /**
  * Boot one installed desktop npm project.
- * @param runtimeDir - immutable dsh packages supplied by the Electron application.
+ * @param runtimeDir - immutable nulu packages supplied by the Electron application.
  * @param projectDir - active or staged Electron-owned desktop profile.
  * @param writeResponse - serialized response-pipe writer that applies byte backpressure.
  * @param options - development-only allowance for workspace-linked bundle packages.
@@ -286,15 +286,15 @@ export async function runDesktopHost(
   mkdirSync(absoluteProject, { recursive: true })
   const rootConfig = join(absoluteProject, ROOT_CONFIG_FILENAME)
   writeFileSync(rootConfig, ROOT_CONFIG)
-  const environment = loadLayeredEnv('dsh desktop')
+  const environment = loadLayeredEnv('nulu desktop')
   let current: Context | undefined
-  const ctx = await boot('dsh desktop', rootConfig, structuredClone(desktopPatches(
+  const ctx = await boot('nulu desktop', rootConfig, structuredClone(desktopPatches(
     resolve(runtimeDir),
     absoluteProject,
     options.allowLinkedPackages === true,
   )), (hostCtx) => {
     current = hostCtx
-    hostCtx.provide(DSH_LAUNCH_ENVIRONMENT_KEY, environment)
+    hostCtx.provide(NULU_LAUNCH_ENVIRONMENT_KEY, environment)
     provideCmdline(hostCtx, { args: [], exit: () => {} })
   })
   current = ctx
@@ -303,7 +303,7 @@ export async function runDesktopHost(
   const gateway = ctx.get('typertGateway')
   if (connection === undefined || clientModules === undefined || gateway === undefined) {
     await ctx.fiber.dispose()
-    throw new Error('dsh desktop: composition did not provide connection, typertGateway, and clientModules')
+    throw new Error('nulu desktop: composition did not provide connection, typertGateway, and clientModules')
   }
   const api = connection.createSharedFetchHandler('/api')
   const assets = assetHandler(ctx, resolve(runtimeDir))
@@ -322,12 +322,12 @@ export async function runDesktopHost(
   }
 
   return {
-    dshVersion: dshVersion(resolve(runtimeDir)),
+    nuluVersion: nuluVersion(resolve(runtimeDir)),
     cancel(streamId) {
       requests.get(streamId)?.abort()
     },
     async fetch(command, body) {
-      if (disposing !== undefined) throw new Error('dsh desktop: host is disposing')
+      if (disposing !== undefined) throw new Error('nulu desktop: host is disposing')
       const controller = new AbortController()
       requests.set(command.streamId, controller)
       try {
@@ -380,18 +380,18 @@ async function main(): Promise<void> {
   const runtimeDir = process.argv[2]
   const projectDir = process.argv[3]
   if (runtimeDir === undefined || projectDir === undefined || process.send === undefined) {
-    throw new Error('dsh desktop: expected runtime and profile directories, byte pipes, and a Node IPC channel')
+    throw new Error('nulu desktop: expected runtime and profile directories, byte pipes, and a Node IPC channel')
   }
   const option = process.argv[4]
   if (option !== undefined && option !== '--allow-linked-profile') {
-    throw new Error(`dsh desktop: unsupported internal option ${JSON.stringify(option)}`)
+    throw new Error(`nulu desktop: unsupported internal option ${JSON.stringify(option)}`)
   }
   const requestPipe = createReadStream('', { fd: DESKTOP_REQUEST_PIPE_FD, autoClose: false })
   const responsePipe = createWriteStream('', { fd: DESKTOP_RESPONSE_PIPE_FD, autoClose: false })
   let responseWriteTail: Promise<void> = Promise.resolve()
   const writeResponse = (frame: Buffer): Promise<void> => {
     const write = responseWriteTail.then(async () => {
-      if (responsePipe.destroyed) throw new Error('dsh desktop: Electron response pipe is unavailable')
+      if (responsePipe.destroyed) throw new Error('nulu desktop: Electron response pipe is unavailable')
       if (!responsePipe.write(frame)) await once(responsePipe, 'drain')
     })
     responseWriteTail = write.catch(() => undefined)
@@ -411,7 +411,7 @@ async function main(): Promise<void> {
   send({
     type: 'ready',
     protocolVersion: DESKTOP_HOST_PROTOCOL_VERSION,
-    dshVersion: controller.dshVersion,
+    nuluVersion: controller.nuluVersion,
   })
   const decoder = new DesktopHostRequestDecoder()
   const requestBodies = new Map<number, ReadableStreamDefaultController<Uint8Array>>()
@@ -431,7 +431,7 @@ async function main(): Promise<void> {
     stopping ??= (async () => {
       requestPipe.pause()
       requestPipe.removeAllListeners('data')
-      const stopped = new Error('dsh desktop: Host is stopping')
+      const stopped = new Error('nulu desktop: Host is stopping')
       for (const body of requestBodies.values()) body.error(stopped)
       requestBodies.clear()
       blockedRequests.clear()
@@ -460,7 +460,7 @@ async function main(): Promise<void> {
 
   const beginRequest = (frame: Extract<DesktopHostRequestFrame, { type: 'start' }>): void => {
     if (frame.streamId <= lastStreamId) {
-      throw new Error(`dsh desktop: Electron reused or reordered request stream ${String(frame.streamId)}`)
+      throw new Error(`nulu desktop: Electron reused or reordered request stream ${String(frame.streamId)}`)
     }
     lastStreamId = frame.streamId
     let body: ReadableStream<Uint8Array> | null = null
@@ -494,7 +494,7 @@ async function main(): Promise<void> {
       runs.delete(run)
       const openBody = requestBodies.get(frame.streamId)
       if (openBody === undefined) return
-      openBody.error(new Error('dsh desktop: response completed before the request body ended'))
+      openBody.error(new Error('nulu desktop: response completed before the request body ended'))
       requestBodies.delete(frame.streamId)
       blockedRequests.delete(frame.streamId)
       discardedRequestBodies.add(frame.streamId)
@@ -511,7 +511,7 @@ async function main(): Promise<void> {
         const body = requestBodies.get(frame.streamId)
         if (body === undefined) {
           if (discardedRequestBodies.has(frame.streamId)) return
-          throw new Error(`dsh desktop: Electron sent body data for inactive stream ${String(frame.streamId)}`)
+          throw new Error(`nulu desktop: Electron sent body data for inactive stream ${String(frame.streamId)}`)
         }
         body.enqueue(frame.data)
         if ((body.desiredSize ?? 0) <= 0) {
@@ -524,7 +524,7 @@ async function main(): Promise<void> {
         const body = requestBodies.get(frame.streamId)
         if (body === undefined) {
           if (discardedRequestBodies.delete(frame.streamId)) return
-          throw new Error(`dsh desktop: Electron ended inactive body stream ${String(frame.streamId)}`)
+          throw new Error(`nulu desktop: Electron ended inactive body stream ${String(frame.streamId)}`)
         }
         body.close()
         requestBodies.delete(frame.streamId)
@@ -534,10 +534,10 @@ async function main(): Promise<void> {
       }
       case 'cancel': {
         if (frame.streamId > lastStreamId) {
-          throw new Error(`dsh desktop: Electron canceled unknown stream ${String(frame.streamId)}`)
+          throw new Error(`nulu desktop: Electron canceled unknown stream ${String(frame.streamId)}`)
         }
         const body = requestBodies.get(frame.streamId)
-        body?.error(new Error('dsh desktop: Electron canceled the request'))
+        body?.error(new Error('nulu desktop: Electron canceled the request'))
         requestBodies.delete(frame.streamId)
         blockedRequests.delete(frame.streamId)
         discardedRequestBodies.delete(frame.streamId)
@@ -561,7 +561,7 @@ async function main(): Promise<void> {
     if (stopping !== undefined) return
     try {
       decoder.finish()
-      failTransport(new Error('dsh desktop: Electron request pipe ended'))
+      failTransport(new Error('nulu desktop: Electron request pipe ended'))
     } catch (error) {
       failTransport(error)
     }
@@ -570,7 +570,7 @@ async function main(): Promise<void> {
   responsePipe.once('error', failTransport)
   process.on('message', (message: unknown) => {
     if (!isDesktopHostCommand(message)) {
-      send({ type: 'fatal', message: 'dsh desktop: invalid Electron IPC command' })
+      send({ type: 'fatal', message: 'nulu desktop: invalid Electron IPC command' })
       void stop(1)
       return
     }
@@ -585,7 +585,7 @@ if (import.meta.main) {
   main().catch((error: unknown) => {
     const message = error instanceof Error ? error.message : String(error)
     if (process.send !== undefined) process.send({ type: 'fatal', message } satisfies DesktopHostEvent)
-    else process.stderr.write(`dsh desktop: ${message}\n`)
+    else process.stderr.write(`nulu desktop: ${message}\n`)
     process.exitCode = 1
   })
 }

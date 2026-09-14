@@ -2,11 +2,11 @@
 import { describe, expect, it, vi } from 'vitest'
 import {
   SlotTestRuntime, stubSettingsScope, usePinnedBrowserLanguages,
-} from '@deepseek-ai/dsh-client-test-runtime'
-import { LocaleRuntime } from '@deepseek-ai/dsh-client-locale/client'
-import type { ObservableSnapshot } from '@deepseek-ai/dsh-client-store'
-import type { SessionId } from '@deepseek-ai/dsh-session/types'
-import { apply, inject, type ViewTab } from '@deepseek-ai/dsh-client-ui-conversation/client'
+} from '@worldapptechnologies/nulu-client-test-runtime'
+import { LocaleRuntime } from '@worldapptechnologies/nulu-client-locale/client'
+import type { ObservableSnapshot } from '@worldapptechnologies/nulu-client-store'
+import type { SessionId } from '@worldapptechnologies/nulu-session/types'
+import { apply, inject, type ViewTab } from '@worldapptechnologies/nulu-client-ui-conversation/client'
 
 usePinnedBrowserLanguages('zh-CN')
 

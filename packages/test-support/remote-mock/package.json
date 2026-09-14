@@ -1,5 +1,5 @@
 {
-  "name": "@deepseek-ai/dsh-remote-mock",
+  "name": "@worldapptechnologies/nulu-remote-mock",
   "description": "Endpoint-named mock for Typert Remote traffic: unary answers and stream scripts per <namespace>/<method>, live stream control, a log, and the Connection carrier face whole-client specs install",
   "version": "0.1.5-rc.2",
   "publishConfig": {
@@ -7,7 +7,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/worldapptechnologies/nulu-harness.git",
     "directory": "packages/test-support/remote-mock"
   },
   "type": "module",
@@ -26,13 +26,13 @@
     "@vitest/spy": "^4.1.8"
   },
   "peerDependencies": {
-    "@deepseek-ai/cordis": "workspace:^"
+    "@worldapptechnologies/cordis": "workspace:^"
   },
   "devDependencies": {
-    "@deepseek-ai/cordis": "workspace:^",
-    "@deepseek-ai/dsh-api-settings-controller": "workspace:^",
-    "@deepseek-ai/dsh-client-connection": "workspace:^",
-    "@deepseek-ai/dsh-typert-protocol": "workspace:^",
+    "@worldapptechnologies/cordis": "workspace:^",
+    "@worldapptechnologies/nulu-api-settings-controller": "workspace:^",
+    "@worldapptechnologies/nulu-client-connection": "workspace:^",
+    "@worldapptechnologies/nulu-typert-protocol": "workspace:^",
     "typescript": "^6.0.3"
   },
   "files": [

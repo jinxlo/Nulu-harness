@@ -3,11 +3,11 @@ import {
   RemoteStream,
   RemoteStreamCarrierError,
   type RemoteStreamOptions,
-} from '@deepseek-ai/dsh-api-gateway/client'
-import { RemoteError } from '@deepseek-ai/dsh-typert-protocol'
-import { LlmAttemptId } from '@deepseek-ai/dsh-llm'
-import { SESSION_FORMAT_VERSION } from '@deepseek-ai/dsh-session/types'
-import type { RemoteResult } from '@deepseek-ai/dsh-typert-protocol'
+} from '@worldapptechnologies/nulu-api-gateway/client'
+import { RemoteError } from '@worldapptechnologies/nulu-typert-protocol'
+import { LlmAttemptId } from '@worldapptechnologies/nulu-llm'
+import { SESSION_FORMAT_VERSION } from '@worldapptechnologies/nulu-session/types'
+import type { RemoteResult } from '@worldapptechnologies/nulu-typert-protocol'
 import {
   createSessionControlStream,
   SessionEventStream,

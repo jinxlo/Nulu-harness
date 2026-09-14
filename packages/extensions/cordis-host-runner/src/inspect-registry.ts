@@ -1,11 +1,11 @@
 /** Host registry for model-visible, read-only Cordis capability queries. */
 
-import { Service } from '@deepseek-ai/cordis'
-import type { Context } from '@deepseek-ai/cordis'
-import type { Agent } from '@deepseek-ai/dsh-agent'
-import { snapshotJsonValue, type JsonValue } from '@deepseek-ai/dsh-util-values'
-import { assertSupportedJsonSchema, validateJsonSchemaValue } from '@deepseek-ai/dsh-tools'
-import type { JsonSchemaNode } from '@deepseek-ai/dsh-tools'
+import { Service } from '@worldapptechnologies/cordis'
+import type { Context } from '@worldapptechnologies/cordis'
+import type { Agent } from '@worldapptechnologies/nulu-agent'
+import { snapshotJsonValue, type JsonValue } from '@worldapptechnologies/nulu-util-values'
+import { assertSupportedJsonSchema, validateJsonSchemaValue } from '@worldapptechnologies/nulu-tools'
+import type { JsonSchemaNode } from '@worldapptechnologies/nulu-tools'
 import type {
   CordisInspectMethodManifest, CordisInspectPlatform, CordisInspectProviderManifest,
   CordisInspectProviderView, CordisInspectQueryRequest, CordisInspectQueryResolution,
@@ -34,7 +34,7 @@ interface PendingClientQuery {
   settle(resolution: CordisInspectQueryResolution): void
 }
 
-declare module '@deepseek-ai/cordis' {
+declare module '@worldapptechnologies/cordis' {
   interface Context {
     /** Host registry for Cordis inspect providers and Client manifest/query routing. */
     cordisInspect: CordisInspectRegistryService

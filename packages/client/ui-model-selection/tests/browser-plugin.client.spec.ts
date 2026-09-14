@@ -8,15 +8,15 @@
  * (and the reverse), the one-shared-state contract of the dual entry.
  * Scope disposal drops the directory (HMR safety).
  */
-import { Context } from '@deepseek-ai/cordis'
+import { Context } from '@worldapptechnologies/cordis'
 import { describe, expect, it, vi } from 'vitest'
-import { createScope } from '@deepseek-ai/dsh-api-session-controller/client'
-import type { SessionId } from '@deepseek-ai/dsh-session/types'
-import { LocaleRuntime } from '@deepseek-ai/dsh-client-locale/client'
-import { createSnapshotStore, type SnapshotStore } from '@deepseek-ai/dsh-client-store'
-import { TestRemote } from '@deepseek-ai/dsh-client-test-runtime'
-import type { ModelSelection, ModelSelectionProjection } from '@deepseek-ai/dsh-api-session-controller/types'
-import type { CommandContribution, PopupSelectSpec, SelectOption } from '@deepseek-ai/dsh-client-ui-commands/client'
+import { createScope } from '@worldapptechnologies/nulu-api-session-controller/client'
+import type { SessionId } from '@worldapptechnologies/nulu-session/types'
+import { LocaleRuntime } from '@worldapptechnologies/nulu-client-locale/client'
+import { createSnapshotStore, type SnapshotStore } from '@worldapptechnologies/nulu-client-store'
+import { TestRemote } from '@worldapptechnologies/nulu-client-test-runtime'
+import type { ModelSelection, ModelSelectionProjection } from '@worldapptechnologies/nulu-api-session-controller/types'
+import type { CommandContribution, PopupSelectSpec, SelectOption } from '@worldapptechnologies/nulu-client-ui-commands/client'
 import type { ModelSelectInjected } from '../src/client/slots.ts'
 import { apply, inject } from '../src/client/index.ts'
 import { zh } from '../src/client/locales.ts'

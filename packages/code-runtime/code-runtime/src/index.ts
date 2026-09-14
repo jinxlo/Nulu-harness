@@ -1,10 +1,10 @@
 /**
  * Service Definition for the code-execution capability seam that runs one model-written program against host async bindings.
  * Runtimes know nothing about tools or sessions; consumers own those concerns.
- * @module @deepseek-ai/dsh-code-runtime
+ * @module @worldapptechnologies/nulu-code-runtime
  */
 
-import { Context, Service } from '@deepseek-ai/cordis'
+import { Context, Service } from '@worldapptechnologies/cordis'
 import type { CodeRunRequest, CodeRunResult } from './types.ts'
 
 export type {
@@ -85,7 +85,7 @@ export const PORTABLE_RESERVED_WORDS: ReadonlySet<string> = new Set([
   'global', 'is', 'lambda', 'nonlocal', 'not', 'or', 'pass', 'raise', 'match', 'type', '_',
 ])
 
-declare module '@deepseek-ai/cordis' {
+declare module '@worldapptechnologies/cordis' {
   interface Context {
     codeRuntime: CodeRuntime
   }
@@ -105,7 +105,7 @@ export abstract class CodeRuntime extends Service {
    * generates language-specific presentation (typed SDK stubs, usage
    * instructions) switches on it and fails loud on a language it cannot
    * present. Well-known values: `'typescript'` and `'python'`, those
-   * `dsh-tools` presents; the TypeScript backend is released, the Python
+   * `nulu-tools` presents; the TypeScript backend is released, the Python
    * backend is experimental and private (not published).
    */
   abstract readonly language: string

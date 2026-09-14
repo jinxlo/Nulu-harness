@@ -1,14 +1,14 @@
 /**
- * Package-owned invariant companion for `@deepseek-ai/dsh-workspace`.
- * @module @deepseek-ai/dsh-workspace/invariant
+ * Package-owned invariant companion for `@worldapptechnologies/nulu-workspace`.
+ * @module @worldapptechnologies/nulu-workspace/invariant
  */
 
-import type { Context } from '@deepseek-ai/cordis'
-import type { InvariantInstaller } from '@deepseek-ai/dsh-invariants'
-import type { DomainChanged } from '@deepseek-ai/dsh-storage-domain'
-import { WorkspaceId } from '@deepseek-ai/dsh-workspace'
+import type { Context } from '@worldapptechnologies/cordis'
+import type { InvariantInstaller } from '@worldapptechnologies/nulu-invariants'
+import type { DomainChanged } from '@worldapptechnologies/nulu-storage-domain'
+import { WorkspaceId } from '@worldapptechnologies/nulu-workspace'
 
-const PACKAGE_NAME = '@deepseek-ai/dsh-workspace'
+const PACKAGE_NAME = '@worldapptechnologies/nulu-workspace'
 
 /** Cordis companion plugin name. */
 export const name = 'workspace-invariant'

@@ -1,15 +1,15 @@
 /**
  * Shared ownership of one E2B sandbox. Capability adapters await the same SDK
  * handle, so filesystem and process operations inhabit one remote Linux world.
- * @module @deepseek-ai/dsh-e2b
+ * @module @worldapptechnologies/nulu-e2b
  */
 
 import { randomUUID } from 'node:crypto'
 import { posix } from 'node:path'
-import { Context, Service } from '@deepseek-ai/cordis'
-import z from '@deepseek-ai/schemastery'
+import { Context, Service } from '@worldapptechnologies/cordis'
+import z from '@worldapptechnologies/schemastery'
 import { FileType, Sandbox, SandboxNotFoundError } from 'e2b'
-import { proxyRouteFor } from '@deepseek-ai/dsh-http-proxy'
+import { proxyRouteFor } from '@worldapptechnologies/nulu-http-proxy'
 import { e2bApiUrl } from './api-url.ts'
 
 export {
@@ -38,7 +38,7 @@ export function quoteE2BShellArg(value: string): string {
 export function e2bControlEnvs(
   overrides: Readonly<Record<string, string>> = {},
 ): Record<string, string> {
-  return { ...overrides, HOME: `/.dsh-e2b-control-${randomUUID()}` }
+  return { ...overrides, HOME: `/.nulu-e2b-control-${randomUUID()}` }
 }
 
 /** Configuration for the shared E2B sandbox owner. */
@@ -62,7 +62,7 @@ interface SchemaResolvedConfig extends Config {
   timeoutMs: number
 }
 
-declare module '@deepseek-ai/cordis' {
+declare module '@worldapptechnologies/cordis' {
   interface Context {
     e2b: E2BRuntime
   }
@@ -102,7 +102,7 @@ export class E2BRuntime extends Service {
     }
     this.validate()
     this.cwd = this.config.cwd
-    this.runtimeRoot = posix.join(this.cwd, '.dsh-e2b')
+    this.runtimeRoot = posix.join(this.cwd, '.nulu-e2b')
     this.ready = this.open()
     // A deployment may load the owner before any adapter uses it. Keep a
     // failed eager connection observed; getSandbox() still returns the error.
@@ -141,13 +141,13 @@ export class E2BRuntime extends Service {
 
   private validate(): void {
     if (this.config.apiKey.length === 0) {
-      throw new Error('dsh-e2b: configure apiKey or set E2B_API_KEY')
+      throw new Error('nulu-e2b: configure apiKey or set E2B_API_KEY')
     }
     if (!posix.isAbsolute(this.config.cwd)) {
-      throw new Error(`dsh-e2b: cwd must be an absolute Linux path: ${this.config.cwd}`)
+      throw new Error(`nulu-e2b: cwd must be an absolute Linux path: ${this.config.cwd}`)
     }
     if (!Number.isFinite(this.config.timeoutMs) || this.config.timeoutMs <= 0) {
-      throw new Error('dsh-e2b: timeoutMs must be a positive finite number')
+      throw new Error('nulu-e2b: timeoutMs must be a positive finite number')
     }
   }
 
@@ -169,7 +169,7 @@ export class E2BRuntime extends Service {
       await sandbox.files.makeDir(this.runtimeRoot)
       const runtimeRoot = await sandbox.files.getInfo(this.runtimeRoot)
       if (runtimeRoot.type !== FileType.DIR || runtimeRoot.symlinkTarget !== undefined) {
-        throw new Error(`dsh-e2b: runtime root must be a real directory: ${this.runtimeRoot}`)
+        throw new Error(`nulu-e2b: runtime root must be a real directory: ${this.runtimeRoot}`)
       }
       await sandbox.commands.run(
         `chmod 700 -- ${quoteE2BShellArg(this.runtimeRoot)}`,

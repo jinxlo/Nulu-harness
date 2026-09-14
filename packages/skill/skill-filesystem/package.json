@@ -1,13 +1,13 @@
 {
-  "name": "@deepseek-ai/dsh-skill-filesystem",
-  "description": "Local filesystem skill provider for the DeepSeek Harness",
+  "name": "@worldapptechnologies/nulu-skill-filesystem",
+  "description": "Local filesystem skill provider for the Nulu Harness",
   "version": "0.1.5-rc.2",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/worldapptechnologies/nulu-harness.git",
     "directory": "packages/skill/skill-filesystem"
   },
   "type": "module",
@@ -27,20 +27,20 @@
   ],
   "license": "MIT",
   "peerDependencies": {
-    "@deepseek-ai/dsh-fs": "workspace:^",
-    "@deepseek-ai/dsh-home-paths": "workspace:^",
-    "@deepseek-ai/dsh-skill": "workspace:^",
-    "@deepseek-ai/cordis": "workspace:^"
+    "@worldapptechnologies/nulu-fs": "workspace:^",
+    "@worldapptechnologies/nulu-home-paths": "workspace:^",
+    "@worldapptechnologies/nulu-skill": "workspace:^",
+    "@worldapptechnologies/cordis": "workspace:^"
   },
   "dependencies": {
     "chokidar": "^5.0.0",
-    "@deepseek-ai/schemastery": "workspace:^",
+    "@worldapptechnologies/schemastery": "workspace:^",
     "yaml": "^2.4.2"
   },
   "devDependencies": {
-    "@deepseek-ai/dsh-fs": "workspace:^",
-    "@deepseek-ai/dsh-home-paths": "workspace:^",
-    "@deepseek-ai/dsh-skill": "workspace:^",
-    "@deepseek-ai/cordis": "workspace:^"
+    "@worldapptechnologies/nulu-fs": "workspace:^",
+    "@worldapptechnologies/nulu-home-paths": "workspace:^",
+    "@worldapptechnologies/nulu-skill": "workspace:^",
+    "@worldapptechnologies/cordis": "workspace:^"
   }
 }

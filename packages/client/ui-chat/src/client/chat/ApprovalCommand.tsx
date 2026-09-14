@@ -1,6 +1,6 @@
 /** Chat-owned approval detail resolving a correlated Tool call's command. */
-import type { PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
-import type {} from '@deepseek-ai/dsh-client-ui-approval/client'
+import type { PropsRuntime } from '@worldapptechnologies/nulu-client-ui-slots'
+import type {} from '@worldapptechnologies/nulu-client-ui-approval/client'
 import type { ChatNode } from '../contract/chat-nodes.ts'
 
 interface ApprovalToolCall {

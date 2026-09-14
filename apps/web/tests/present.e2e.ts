@@ -6,8 +6,8 @@ import { chromium, type Browser, type Page } from 'playwright'
 import { unzipSync, strFromU8 } from 'fflate'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import { tmpdir, release } from 'node:os'
-import type { SessionEvent, SessionId } from '@deepseek-ai/dsh-session'
-import type {} from '@deepseek-ai/dsh-tool-present/types'
+import type { SessionEvent, SessionId } from '@worldapptechnologies/nulu-session'
+import type {} from '@worldapptechnologies/nulu-tool-present/types'
 import {
   acknowledgeReloadConnectionLoss, assertFinalWorkspaceSnapshot, captureExpandedTurnProcessAria,
   compareOrRefreshGolden, fixtureUserPrompts, launchWebScaffold, recordFixture,
@@ -39,7 +39,7 @@ describe.skipIf(process.platform === 'win32' || release().toLowerCase().includes
   const downloads: string[] = []
 
   beforeAll(async () => {
-    nativeRoot = await mkdtemp(join(tmpdir(), 'dsh-present-native-'))
+    nativeRoot = await mkdtemp(join(tmpdir(), 'nulu-present-native-'))
     openLog = join(nativeRoot, 'opened.jsonl')
     await writeFile(openLog, '')
     // Exercise the built Host through its actual OS command, replacing only the desktop application.
@@ -130,7 +130,7 @@ fs.appendFileSync(${JSON.stringify(openLog)}, JSON.stringify({ path, action, con
         await mention.click()
         const preview = column.locator('[data-document-preview]')
         await expect.poll(() => preview.getAttribute('data-textpreview-url'))
-          .toBe(`dsh-resource://file/session/${sessionId}/${encodeURIComponent(name)}`)
+          .toBe(`nulu-resource://file/session/${sessionId}/${encodeURIComponent(name)}`)
         await preview.getByText(content, { exact: true }).waitFor()
         await mention.click()
         expect(await column.locator('[data-dockkit-tab]').filter({ hasText: name }).count()).toBe(1)

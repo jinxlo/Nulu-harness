@@ -1,5 +1,5 @@
 {
-  "name": "@deepseek-ai/dsh-client-ui-settings",
+  "name": "@worldapptechnologies/nulu-client-ui-settings",
   "description": "Settings domain base plugin: the settings-namespace scope service and the canonical settings slot-type contract",
   "version": "0.1.5-rc.2",
   "publishConfig": {
@@ -7,7 +7,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/worldapptechnologies/nulu-harness.git",
     "directory": "packages/client/ui-settings"
   },
   "type": "module",
@@ -25,10 +25,10 @@
     "./src/*": "./src/*",
     "./package.json": "./package.json"
   },
-  "dsh": {
+  "nulu": {
     "client": {
       "inject": [
-        "@deepseek-ai/dsh-api-remotes"
+        "@worldapptechnologies/nulu-api-remotes"
       ],
       "platform": "web"
     }
@@ -39,19 +39,19 @@
   },
   "license": "MIT",
   "peerDependencies": {
-    "@deepseek-ai/cordis": "workspace:^"
+    "@worldapptechnologies/cordis": "workspace:^"
   },
   "devDependencies": {
-    "@deepseek-ai/cordis": "workspace:^",
-    "@deepseek-ai/dsh-api-remotes": "workspace:^",
-    "@deepseek-ai/dsh-client-store": "workspace:^",
-    "@deepseek-ai/dsh-client-test-runtime": "workspace:^",
-    "@deepseek-ai/dsh-client-ui-slots": "workspace:^",
-    "@deepseek-ai/dsh-settings": "workspace:^",
+    "@worldapptechnologies/cordis": "workspace:^",
+    "@worldapptechnologies/nulu-api-remotes": "workspace:^",
+    "@worldapptechnologies/nulu-client-store": "workspace:^",
+    "@worldapptechnologies/nulu-client-test-runtime": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-slots": "workspace:^",
+    "@worldapptechnologies/nulu-settings": "workspace:^",
     "@types/react": "~18.3.1",
     "react": "^18.2.0",
-    "@deepseek-ai/schemastery": "workspace:^",
-    "@deepseek-ai/dsh-util-values": "workspace:^"
+    "@worldapptechnologies/schemastery": "workspace:^",
+    "@worldapptechnologies/nulu-util-values": "workspace:^"
   },
   "files": [
     "lib/index.js",

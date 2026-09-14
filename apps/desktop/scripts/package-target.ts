@@ -1,4 +1,4 @@
-/** Build one release target with matching Electron, Node.js, and dsh architecture. */
+/** Build one release target with matching Electron, Node.js, and nulu architecture. */
 
 import { spawn } from 'node:child_process'
 import { mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
@@ -13,12 +13,12 @@ import { packageMacOSArtifacts, type DesktopPrepackagedArtifact } from './packag
 
 const APP_ROOT = resolve(import.meta.dirname, '..')
 const REPOSITORY_ROOT = resolve(APP_ROOT, '..', '..')
-const WINDOWS_SIGNING_ENV_PREFIX = 'DSH_DESKTOP_WINDOWS_'
+const WINDOWS_SIGNING_ENV_PREFIX = 'NULU_DESKTOP_WINDOWS_'
 const WINDOWS_SIGNING_ENV_NAMES = [
-  'DSH_DESKTOP_WINDOWS_CER_FILE',
-  'DSH_DESKTOP_WINDOWS_KEY_CONTAINER',
-  'DSH_DESKTOP_WINDOWS_SIGNTOOL',
-  'DSH_DESKTOP_WINDOWS_TOKEN_PIN',
+  'NULU_DESKTOP_WINDOWS_CER_FILE',
+  'NULU_DESKTOP_WINDOWS_KEY_CONTAINER',
+  'NULU_DESKTOP_WINDOWS_SIGNTOOL',
+  'NULU_DESKTOP_WINDOWS_TOKEN_PIN',
 ] as const
 const DESKTOP_UPLOAD_CREDENTIAL_ENV_NAMES = new Set([
   'DOWNLOAD_TEST_COS_SECRET_ID',
@@ -80,15 +80,15 @@ export function withoutWindowsSigningEnvironment(environment: NodeJS.ProcessEnv)
  * @returns Packaging environment without certificate inputs for unsigned builds.
  */
 export function desktopElectronBuilderEnvironment(environment: NodeJS.ProcessEnv, unsigned: boolean): NodeJS.ProcessEnv {
-  const selected: NodeJS.ProcessEnv = { ...environment, DSH_DESKTOP_UNSIGNED: unsigned ? '1' : '0' }
+  const selected: NodeJS.ProcessEnv = { ...environment, NULU_DESKTOP_UNSIGNED: unsigned ? '1' : '0' }
   // The bundled NSIS decoder cannot extract 7-Zip's automatic ARM64-filtered entries.
-  if (environment.DSH_DESKTOP_TARGET_PLATFORM === 'win32') selected.ELECTRON_BUILDER_7Z_FILTER = 'BCJ'
+  if (environment.NULU_DESKTOP_TARGET_PLATFORM === 'win32') selected.ELECTRON_BUILDER_7Z_FILTER = 'BCJ'
   if (!unsigned) return selected
   return {
     ...Object.fromEntries(Object.entries(withoutWindowsSigningEnvironment(selected))
       .filter(([name]) => !/^(?:WIN_)?CSC_/iu.test(name))),
     CSC_IDENTITY_AUTO_DISCOVERY: 'false',
-    DSH_DESKTOP_UNSIGNED: '1',
+    NULU_DESKTOP_UNSIGNED: '1',
   }
 }
 
@@ -120,9 +120,9 @@ function writeReleaseRecord(
   artifactsRoot: string,
 ): void {
   const desktopVersion = packageVersion(join(APP_ROOT, 'package.json'), 'desktop package')
-  const dshVersion = packageVersion(join(REPOSITORY_ROOT, 'package.json'), 'dsh package')
-  if (desktopVersion !== dshVersion) {
-    throw new Error(`desktop package: desktop version ${desktopVersion} does not match dsh version ${dshVersion}`)
+  const nuluVersion = packageVersion(join(REPOSITORY_ROOT, 'package.json'), 'nulu package')
+  if (desktopVersion !== nuluVersion) {
+    throw new Error(`desktop package: desktop version ${desktopVersion} does not match nulu version ${nuluVersion}`)
   }
   const update = resolveDesktopAutoUpdateConfig(environment, target.platform, target.arch)
   const recordPath = join(artifactsRoot, desktopBuildRecordFilename(target.name))
@@ -130,7 +130,7 @@ function writeReleaseRecord(
   writeFileSync(temporaryPath, `${JSON.stringify({
     schemaVersion: 1,
     target: target.name,
-    version: dshVersion,
+    version: nuluVersion,
     environment: update.environment,
     publicUrl: update.publicUrl,
   }, null, 2)}\n`)
@@ -280,15 +280,15 @@ async function main(): Promise<void> {
   const buildEnv = withoutWindowsSigningEnvironment(withoutDesktopUploadCredentials(process.env))
   const targetEnv: NodeJS.ProcessEnv = {
     ...buildEnv,
-    DSH_DESKTOP_TARGET_PLATFORM: target.platform,
-    DSH_DESKTOP_TARGET_ARCH: target.arch,
+    NULU_DESKTOP_TARGET_PLATFORM: target.platform,
+    NULU_DESKTOP_TARGET_ARCH: target.arch,
   }
   const electronBuilderEnv = desktopElectronBuilderEnvironment(targetEnv, invocation.unsigned)
   for (const name of WINDOWS_SIGNING_ENV_NAMES) {
     if (!invocation.unsigned && process.env[name] !== undefined) electronBuilderEnv[name] = process.env[name]
   }
   await runPnpm(['run', 'build:official'], buildEnv, REPOSITORY_ROOT)
-  await runPnpm(['run', 'release:pack', '--family', 'dsh', '--out', buildPaths.packedDsh], buildEnv, REPOSITORY_ROOT)
+  await runPnpm(['run', 'release:pack', '--family', 'nulu', '--out', buildPaths.packedDsh], buildEnv, REPOSITORY_ROOT)
   await runPnpm([
     '--dir',
     'apps/desktop-host',
@@ -309,7 +309,7 @@ async function main(): Promise<void> {
   ], buildEnv, REPOSITORY_ROOT)
   await runPnpm(['run', 'prepare:runtime'], targetEnv)
   await runPnpm(['run', 'prepare:packages'], targetEnv)
-  await runPnpm(['run', 'prepare:dsh'], targetEnv)
+  await runPnpm(['run', 'prepare:nulu'], targetEnv)
   if (invocation.prepareOnly) return
   if (target.platform === 'darwin' && !invocation.directory) {
     await runPnpm([

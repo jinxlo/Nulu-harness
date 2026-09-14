@@ -1,9 +1,9 @@
-import type { Context } from '@deepseek-ai/cordis'
-import { notifySubscribers } from '@deepseek-ai/dsh-client-store'
+import type { Context } from '@worldapptechnologies/cordis'
+import { notifySubscribers } from '@worldapptechnologies/nulu-client-store'
 import type {
   ConversationLocation, ConversationNode, ConversationTimelineSnapshot, ConversationViewBuilder,
   ConversationViewDefinition, PartialAssistant, RunningToolCall,
-} from '@deepseek-ai/dsh-client-ui-conversation/client'
+} from '@worldapptechnologies/nulu-client-ui-conversation/client'
 import type { ChatConversationViewNode, ChatNode } from '../contract/chat-nodes.ts'
 import { isRunningTool } from '../contract/chat-nodes.ts'
 import type {

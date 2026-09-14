@@ -1,19 +1,19 @@
 /** Default-off settings and per-session model-selection decisions. */
 
 import { describe, expect, it, vi } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import { ToolCallId } from '@deepseek-ai/dsh-llm'
-import { Session, SESSION_FORMAT_VERSION, SessionId } from '@deepseek-ai/dsh-session'
-import type { SessionEvent } from '@deepseek-ai/dsh-session'
-import { bindScopeParent, createScope, scopeOf, scopeTarget } from '@deepseek-ai/dsh-scope'
-import { SettingsProvider } from '@deepseek-ai/dsh-settings'
-import type { SettingsNamespace } from '@deepseek-ai/dsh-settings'
-import InvariantRegistry from '@deepseek-ai/dsh-invariants'
-import AgentLoop from '@deepseek-ai/dsh-agent-loop'
-import { mountAgentLoopTestDependencies } from '@deepseek-ai/dsh-agent-loop-testkit'
-import SessionProjectionRegistry from '@deepseek-ai/dsh-session-projection'
-import SubagentRuntime from '@deepseek-ai/dsh-subagent'
-import * as SubagentSpawn from '@deepseek-ai/dsh-subagent-spawn-in-process'
+import { Context } from '@worldapptechnologies/cordis'
+import { ToolCallId } from '@worldapptechnologies/nulu-llm'
+import { Session, SESSION_FORMAT_VERSION, SessionId } from '@worldapptechnologies/nulu-session'
+import type { SessionEvent } from '@worldapptechnologies/nulu-session'
+import { bindScopeParent, createScope, scopeOf, scopeTarget } from '@worldapptechnologies/nulu-scope'
+import { SettingsProvider } from '@worldapptechnologies/nulu-settings'
+import type { SettingsNamespace } from '@worldapptechnologies/nulu-settings'
+import InvariantRegistry from '@worldapptechnologies/nulu-invariants'
+import AgentLoop from '@worldapptechnologies/nulu-agent-loop'
+import { mountAgentLoopTestDependencies } from '@worldapptechnologies/nulu-agent-loop-testkit'
+import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projection'
+import SubagentRuntime from '@worldapptechnologies/nulu-subagent'
+import * as SubagentSpawn from '@worldapptechnologies/nulu-subagent-spawn-in-process'
 import * as tool from '../src/index.ts'
 import * as ToolInvariant from '../src/invariant.ts'
 import SubagentModelSelectionConfig, {
@@ -375,7 +375,7 @@ describe('SubagentModelSelectionConfig', () => {
         modelSelectionSettings: true,
         maxDepth: 'provider-managed',
       })
-    }).toThrow('requires @deepseek-ai/dsh-tool-subagent/model-selection-settings')
+    }).toThrow('requires @worldapptechnologies/nulu-tool-subagent/model-selection-settings')
     await withoutSettings.fiber.dispose()
 
     const withoutAgent = await boot(false)

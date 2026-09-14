@@ -18,7 +18,7 @@ Sidebar 随包交付三个 tab 类型：**引导页**（`ui-sidebar-right`）、
 
 [默认页与关闭保护](2026-09-08-sidebar-default-pages.zh.md)取代本节的默认引导选择；引导页注册、替换和唯一性保持不变。
 
-引导页是 pane 承载内容之前显示的东西。它的注册定义是 `{ id: '@deepseek-ai/dsh-client-ui-sidebar-right/guide', kind: 'guide', priority: 'builtin', title }`，没有 `patterns`：引导页不查看任何东西，所以经 `openTab` 按 kind 打开，并记在页地址 `sidebar://guide` 之下——那是注册表自己的记账，调用方从不拼它。tab 标题是 `开始` / `Start`，在 pane 播种时捕获进布局记录，于是之后切换语言只重标类型，不改已开着的 tab。
+引导页是 pane 承载内容之前显示的东西。它的注册定义是 `{ id: '@worldapptechnologies/nulu-client-ui-sidebar-right/guide', kind: 'guide', priority: 'builtin', title }`，没有 `patterns`：引导页不查看任何东西，所以经 `openTab` 按 kind 打开，并记在页地址 `sidebar://guide` 之下——那是注册表自己的记账，调用方从不拼它。tab 标题是 `开始` / `Start`，在 pane 播种时捕获进布局记录，于是之后切换语言只重标类型，不改已开着的 tab。
 
 正文按 `order` 从每个已注册类型的 `guide[]` 投影入口，并通过注册表可观察的 `guide()` 列表更新，因此后注册的类型无需引导页感知即可出现。[引导起始页与统计 pill 的细化](2026-09-10-guide-start-page-and-stat-pill-refinements.zh.md)负责罗盘、可选描述、兜底图标和当前胶囊布局。点选胶囊会调用 `tabActions.openTab(entry.kind, { replaceTab: true })`：被选的类型在引导页自己的 tab 里打开，引导页随之消失。引导页是一扇门，不是留在被打开者旁边的一页。
 
@@ -30,9 +30,9 @@ Sidebar 随包交付三个 tab 类型：**引导页**（`ui-sidebar-right`）、
 
 [Document Preview 决议](../architecture/2026-09-08-document-preview-operations.zh.md)取代本节的渲染器、加载和资源观察细节。兜底 tab 注册、分页源码导航与正文自有控件仍然有效。
 
-`text` 是 Session 作用域文件的兜底查看器。它的注册定义是 `{ id: '@deepseek-ai/dsh-client-ui-sidebar-documentpreview', kind: 'text', patterns: ['dsh-resource://file/**'], priority: 'fallback', canOpen, title: basenameOf }`。`canOpen` 只接受解析后 scope 为 `session` 的地址。pattern 含 `:`，因此匹配整个地址；`fallback` 是最低档，所以 `extension` 或 `builtin` 档上一个 pattern 更窄的类型（比如 `*.png`）接走那些地址，其余一切落到这里，而 text 类型对任何文件都留在候选列表中。`id` 是包名，兼作体坑位的 `key`，于是一个接管了 `text` kind 的扩展不可能让坑位误拿到这个体。标题是地址解码后的最后一段：整个地址仍是内容身份——不同目录下同名的两个文件、或同一路径在两个会话之下，是两个 tab——只有 chip 上的文字被缩短。
+`text` 是 Session 作用域文件的兜底查看器。它的注册定义是 `{ id: '@worldapptechnologies/nulu-client-ui-sidebar-documentpreview', kind: 'text', patterns: ['nulu-resource://file/**'], priority: 'fallback', canOpen, title: basenameOf }`。`canOpen` 只接受解析后 scope 为 `session` 的地址。pattern 含 `:`，因此匹配整个地址；`fallback` 是最低档，所以 `extension` 或 `builtin` 档上一个 pattern 更窄的类型（比如 `*.png`）接走那些地址，其余一切落到这里，而 text 类型对任何文件都留在候选列表中。`id` 是包名，兼作体坑位的 `key`，于是一个接管了 `text` kind 的扩展不可能让坑位误拿到这个体。标题是地址解码后的最后一段：整个地址仍是内容身份——不同目录下同名的两个文件、或同一路径在两个会话之下，是两个 tab——只有 chip 上的文字被缩短。
 
-tab 使用 `dsh-resource://file/session/<sessionId>/<path>`，其中路径可以是相对路径或绝对路径（[Workspace Files](../architecture/2026-09-05-workspace-files-service.zh.md)负责该语法与 `fileAddressFor` / `parseFileAddress` 辅助函数）。`hostFileOf` 只接受这种 Session scope，并从地址取得 Session 与路径；不认领不带 Session 的 `absolute` 地址。被认领的地址若格式错误，则作为程序错误抛出。
+tab 使用 `nulu-resource://file/session/<sessionId>/<path>`，其中路径可以是相对路径或绝对路径（[Workspace Files](../architecture/2026-09-05-workspace-files-service.zh.md)负责该语法与 `fileAddressFor` / `parseFileAddress` 辅助函数）。`hostFileOf` 只接受这种 Session scope，并从地址取得 Session 与路径；不认领不带 Session 的 `absolute` 地址。被认领的地址若格式错误，则作为程序错误抛出。
 
 元数据与内容来自不同的地方。`useResource<'file'>(tab.contentId)`——[client 资源模型](../architecture/2026-09-05-client-resource-model.zh.md)提供的全局标准 hook——产生 `WorkspaceFileStat`；正文把其观察版本与已加载内容版本比较。Preview face 通过 `remote.workspaceFiles.read` 读取文本，通过 `readAll` 读取完整字节。后续文本页若来自更新版本，则从第一页重新开始；被重载或 tab 销毁淘汰的请求不能再写入。[Document Preview 决议](../architecture/2026-09-08-document-preview-operations.zh.md)负责各渲染器的加载方式。
 
@@ -48,9 +48,9 @@ store 是 Slot 标准件：每会话一个独占实例，按 tab id 分桶，持
 
 ### 文件树
 
-`files` 是页类型，不是查看器：它不认领任何地址。注册定义是 `{ kind: 'files', id: '@deepseek-ai/dsh-client-ui-sidebar-files', priority: 'builtin', title, guide: [{ order: 10, title, description, icon: FolderSheetGlyph }] }`——没有 `patterns`，因为没有谁按地址导航*到*一棵文件树；引导页的入口框打开的是类型本身。`FolderSheetGlyph` 把共享的彩色文件夹页适配到引导页请求的图标尺寸；[引导页细化记录](2026-09-10-guide-start-page-and-stat-pill-refinements.zh.md)负责这项展示选择。`id` 是这个实现在 Tab 系统里的唯一键，同时也是体坑位 `sidebar.right.pane.tab` 的 `key`，于是同一个串既命名类型也命名画它的组件。`register()` 返回 disposer 并经 `ctx.effect` 注册，与所有注册一致。
+`files` 是页类型，不是查看器：它不认领任何地址。注册定义是 `{ kind: 'files', id: '@worldapptechnologies/nulu-client-ui-sidebar-files', priority: 'builtin', title, guide: [{ order: 10, title, description, icon: FolderSheetGlyph }] }`——没有 `patterns`，因为没有谁按地址导航*到*一棵文件树；引导页的入口框打开的是类型本身。`FolderSheetGlyph` 把共享的彩色文件夹页适配到引导页请求的图标尺寸；[引导页细化记录](2026-09-10-guide-start-page-and-stat-pill-refinements.zh.md)负责这项展示选择。`id` 是这个实现在 Tab 系统里的唯一键，同时也是体坑位 `sidebar.right.pane.tab` 的 `key`，于是同一个串既命名类型也命名画它的组件。`register()` 返回 disposer 并经 `ctx.effect` 注册，与所有注册一致。
 
-根是 Host 在会话列表里上报的会话工作目录（`useSessions().byId[sessionId].cwd`），标签由 `dsh-util-workspace-path` 的 `workspaceTitleOf` 给出——路径最后一个非空段——路径只有分隔符时用根串本身作标签。没有工作目录的会话只显示一行（`noWorkspace`），不发请求。没有根选择器，也不能往上浏览：Host 的 `list` 拒绝会话工作区根之外的路径，所以客户端能列的那一个目录就是它显示的目录。
+根是 Host 在会话列表里上报的会话工作目录（`useSessions().byId[sessionId].cwd`），标签由 `nulu-util-workspace-path` 的 `workspaceTitleOf` 给出——路径最后一个非空段——路径只有分隔符时用根串本身作标签。没有工作目录的会话只显示一行（`noWorkspace`），不发请求。没有根选择器，也不能往上浏览：Host 的 `list` 拒绝会话工作区根之外的路径，所以客户端能列的那一个目录就是它显示的目录。
 
 树不是一个资源，这决定了它的状态住在哪。逐层懒加载的目录列表是类型自己拥有的视图状态，所以它住在 Slot 标准的独占 store（每会话一实例）里、按 tab id 分桶：`{ root, levels, expanded }`，`levels` 以绝对路径为键取 `loading | ready | failed`，`expanded` 是当前展开的绝对路径集合，含根。资源有一个地址和一个当前值；一棵为每个展开层钉一个资源的树，会让资源模型背上「读者展开了哪些目录」，而那是类型的事。`useResource` 留给只有一个地址的内容。
 
@@ -58,7 +58,7 @@ face 是树唯一的异步半边。`start(tabId, root, signal)` 以根展开态�
 
 行序是读者的序，不是端点的序：目录在前，文件与其他条目在后，组内按 `Intl.Collator(undefined, { numeric: true, sensitivity: 'base' })`，于是 `file2` 排在 `file10` 前、大小写不拆开列表。dotfiles 与其他名字一样显示；Host 返回的东西树一个不过滤。三种条目类型画法不同：`directory` 是带 `aria-expanded` 的按钮、开/闭文件夹图标，子层每级缩进 14px；`file` 是带文档图标的按钮，没有大小列；`other`（符号链接、套接字、设备）是灰色、不可聚焦的 span，带 `aria-disabled` 与「不能打开」的提示，这样目录被完整报告，又不提供一个注定失败的点击。被 Host 按 `maxEntries` 上限截断的层在条目末尾以 `truncated` 标记收尾；空层显示 `empty`；进行中的列表在其目录下显示 `loading`。
 
-点文件即 `tabActions.openResource(fileAddressFor(sessionId, root, absolutePath))`：条目在树根之下的绝对路径成为每段百分号编码的 `dsh-resource://file/session/<sessionId>/<相对根的路径>` 地址。树从不指名查看器：由注册表的认领决定谁画这个地址（今天是 `fallback` 档的 `text`），一个在其上认领 `dsh-resource://file/**` 的扩展接走点击而树无需改动。打开落在点击时文件树 tab 所在的那个 pane，同地址已开着的 tab 被聚焦而不复制——两者都是导航控制器的缺省。用户明确拍过：从树里打开的文件不强制分格；它在树所在处开一个新 tab。
+点文件即 `tabActions.openResource(fileAddressFor(sessionId, root, absolutePath))`：条目在树根之下的绝对路径成为每段百分号编码的 `nulu-resource://file/session/<sessionId>/<相对根的路径>` 地址。树从不指名查看器：由注册表的认领决定谁画这个地址（今天是 `fallback` 档的 `text`），一个在其上认领 `nulu-resource://file/**` 的扩展接走点击而树无需改动。打开落在点击时文件树 tab 所在的那个 pane，同地址已开着的 tab 被聚焦而不复制——两者都是导航控制器的缺省。用户明确拍过：从树里打开的文件不强制分格；它在树所在处开一个新 tab。
 
 重新读取是树唯一的控件，是根标题行右端的图标按钮（`reload`）。它重置所有层，并恰好重新列出 `expanded` 里的那些路径；曾列出后又折叠的层被丢弃，下次展开时重新拉取。控件住在体内，因为类型的控件属于它的体：pane 的 tab 条只承载布局库与面板自身的动作，不存在按类型的工具坑位。树不监听文件系统；一层只在重新读取或首次展开时变化，`changes` 流是文本查看器的事。
 
