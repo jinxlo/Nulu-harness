@@ -3,9 +3,8 @@ description: "Client command API for the Web GUI: the / command source, three di
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-client-ui-commands
+# @worldapptechnologies/nulu-client-ui-commands
 
-English | [中文](README.zh.md)
 
 ## Summary
 

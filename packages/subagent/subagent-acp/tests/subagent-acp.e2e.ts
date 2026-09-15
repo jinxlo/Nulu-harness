@@ -3,39 +3,41 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { afterEach, describe, expect, it } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import type { Agent } from '@deepseek-ai/dsh-agent'
-import SubagentRuntime from '@deepseek-ai/dsh-subagent'
-import SessionProjectionRegistry from '@deepseek-ai/dsh-session-projection'
-import LocalSubprocessRuntime from '@deepseek-ai/dsh-subprocess-local'
-import { resolveExampleLaunch } from '@deepseek-ai/dsh-loader-smoke'
+import { Context } from '@worldapptechnologies/cordis'
+import type { Agent } from '@worldapptechnologies/nulu-agent'
+import SubagentRuntime from '@worldapptechnologies/nulu-subagent'
+import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projection'
+import LocalSubprocessRuntime from '@worldapptechnologies/nulu-subprocess-local'
+import { resolveExampleLaunch } from '@worldapptechnologies/nulu-loader-smoke'
 import * as acp from '../src/index.ts'
 
 /**
- * With-key cross-process boundary proof: the backend spawns the real dsh ACP profile, speaks ACP over
+ * With-key cross-process boundary proof: the backend spawns the real nulu ACP profile, speaks ACP over
  * stdio, and returns its real model answer. This is the out-of-process counterpart to in-process
- * spawn coverage and self-skips without `DEEPSEEK_API_KEY`.
+ * spawn coverage and self-skips without `WORLD_APP_TECHNOLOGIES_API_KEY`.
  */
 
-// The real ACP profile: dsh plus the example's live DeepSeek patch.
+// The real ACP profile: nulu plus the example's live Nulu patch.
 const binScript = fileURLToPath(new URL('../../../../apps/cli/src/bin.ts', import.meta.url))
 const exampleConfig = fileURLToPath(new URL('../../../../snapshots/acp/escalation-approved/cordis.yml', import.meta.url))
 const repoTsconfig = fileURLToPath(new URL('../../../../tsconfig.json', import.meta.url))
 
-// How to launch the child ACP profile (src via tsx / lib via plain node, per DSH_EXAMPLE_MODE).
+// How to launch the child ACP profile (src via tsx / lib via plain node, per NULU_EXAMPLE_MODE).
 // The subprocess seam scrubs ambient creds while spec.env merges after it, so the model key is
 // forwarded explicitly; TSX_TSCONFIG_PATH is added by the resolver in src mode only.
-function resolveChildLaunch(dshHome: string) {
+function resolveChildLaunch(nuluHome: string) {
+  const modelKey = process.env.WORLD_APP_TECHNOLOGIES_API_KEY
+  const baseUrl = process.env.WORLD_APP_TECHNOLOGIES_BASE_URL
   return resolveExampleLaunch({
     srcBin: binScript,
     sourceImport: 'tsx/esm',
     configArgs: ['--profile', 'acp', '--patch', exampleConfig],
     tsconfigPath: repoTsconfig,
     env: {
-      ...process.env.DEEPSEEK_API_KEY !== undefined ? { DEEPSEEK_API_KEY: process.env.DEEPSEEK_API_KEY } : {},
-      ...process.env.DEEPSEEK_BASE_URL !== undefined ? { DEEPSEEK_BASE_URL: process.env.DEEPSEEK_BASE_URL } : {},
-      DSH_HOME: dshHome,
-      DSH_PERMISSION_MODE: 'danger-full-access',
+      ...modelKey !== undefined ? { WORLD_APP_TECHNOLOGIES_API_KEY: modelKey } : {},
+      ...baseUrl !== undefined ? { WORLD_APP_TECHNOLOGIES_BASE_URL: baseUrl } : {},
+      NULU_HOME: nuluHome,
+      NULU_PERMISSION_MODE: 'danger-full-access',
     },
   })
 }
@@ -53,10 +55,10 @@ afterEach(async () => {
   workdir = undefined
 })
 
-describe.skipIf(!process.env.DEEPSEEK_API_KEY)('ACP backend with-key e2e (drive our own acp-agent)', () => {
+describe.skipIf(!process.env.WORLD_APP_TECHNOLOGIES_API_KEY)('ACP backend with-key e2e (drive our own acp-agent)', () => {
   it('drives the real acp-agent example process to answer a prompt', async () => {
-    workdir = await mkdtemp(join(tmpdir(), 'dsh-subagent-acp-e2e-'))
-    const childLaunch = resolveChildLaunch(join(workdir, '.dsh-child'))
+    workdir = await mkdtemp(join(tmpdir(), 'nulu-subagent-acp-e2e-'))
+    const childLaunch = resolveChildLaunch(join(workdir, '.nulu-child'))
     ctx = new Context()
     await ctx.plugin(SessionProjectionRegistry)
     await ctx.plugin(SubagentRuntime)
@@ -87,8 +89,8 @@ describe.skipIf(!process.env.DEEPSEEK_API_KEY)('ACP backend with-key e2e (drive 
   }, 180_000)
 
   it('drives the child to do real file work via its own bash tool', async () => {
-    workdir = await mkdtemp(join(tmpdir(), 'dsh-subagent-acp-e2e-'))
-    const childLaunch = resolveChildLaunch(join(workdir, '.dsh-child'))
+    workdir = await mkdtemp(join(tmpdir(), 'nulu-subagent-acp-e2e-'))
+    const childLaunch = resolveChildLaunch(join(workdir, '.nulu-child'))
     ctx = new Context()
     await ctx.plugin(SessionProjectionRegistry)
     await ctx.plugin(SubagentRuntime)

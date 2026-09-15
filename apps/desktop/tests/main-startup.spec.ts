@@ -28,7 +28,7 @@ const harness = await vi.hoisted(async () => {
       openDevTools: vi.fn(),
       getURL: () => this.urls.at(-1) ?? '',
       send: vi.fn((channel: string, state: { phase?: string }) => {
-        if (channel === 'dsh-desktop:backend-state' && state.phase === 'error') errorPublished.resolve()
+        if (channel === 'nulu-desktop:backend-state' && state.phase === 'error') errorPublished.resolve()
       }),
     })
     readonly show = vi.fn()
@@ -39,7 +39,7 @@ const harness = await vi.hoisted(async () => {
     isMinimized() { return false }
     async loadURL(url: string) {
       this.urls.push(url)
-      if (url === 'dsh-app://app/index.html') navigated.resolve()
+      if (url === 'nulu-app://app/index.html') navigated.resolve()
     }
     static getAllWindows() { return windows.filter(window => !window.destroyed) }
     close() { this.destroyed = true; this.emit('closed') }
@@ -126,7 +126,7 @@ vi.mock('../src/update-coordinator.ts', () => ({ DesktopUpdateCoordinator: vi.fn
 function invoke(channel: string): unknown {
   const handler = harness.handlers.get(channel)
   if (handler === undefined) throw new Error(`missing handler ${channel}`)
-  return handler({ senderFrame: { url: 'dsh-app://shell/startup.html' } })
+  return handler({ senderFrame: { url: 'nulu-app://shell/startup.html' } })
 }
 
 beforeEach(() => {
@@ -134,11 +134,11 @@ beforeEach(() => {
   vi.clearAllMocks()
   vi.useFakeTimers()
   harness.reset()
-  vi.stubEnv('DSH_DESKTOP_NODE_BINARY', 'test-node')
-  vi.stubEnv('DSH_DESKTOP_PNPM_ENTRY', 'test-pnpm')
-  vi.stubEnv('DSH_DESKTOP_DSH_DIR', 'test-runtime')
+  vi.stubEnv('NULU_DESKTOP_NODE_BINARY', 'test-node')
+  vi.stubEnv('NULU_DESKTOP_PNPM_ENTRY', 'test-pnpm')
+  vi.stubEnv('NULU_DESKTOP_NULU_DIR', 'test-runtime')
   vi.stubGlobal('process', { ...process, resourcesPath: 'desktop-test-resources' })
-  vi.stubEnv('DSH_DESKTOP_HOST_INSPECT_PORT', undefined)
+  vi.stubEnv('NULU_DESKTOP_HOST_INSPECT_PORT', undefined)
 })
 
 afterEach(async () => {
@@ -177,9 +177,9 @@ describe('desktop main startup', () => {
     const window = harness.windows[0]!
     window.webContents.emit('preload-error', {}, 'preload-app.cjs', new Error('preload unavailable'))
     const html = decodeURIComponent(window.urls.at(-1)!)
-    expect(html).toContain('dsh-recovery://restart')
-    expect(html).not.toContain('dsh-recovery://reset')
-    expect(html).not.toContain('dsh-recovery://plugins')
+    expect(html).toContain('nulu-recovery://restart')
+    expect(html).not.toContain('nulu-recovery://reset')
+    expect(html).not.toContain('nulu-recovery://plugins')
   })
 
   it('reloads a crashed startup renderer in the same window', async () => {
@@ -188,7 +188,7 @@ describe('desktop main startup', () => {
     const window = harness.windows[0]!
     window.webContents.emit('render-process-gone', {}, { reason: 'crashed' })
     await harness.errorPublished.promise
-    expect(window.urls).toEqual(['dsh-app://shell/startup.html', 'dsh-app://shell/startup.html'])
+    expect(window.urls).toEqual(['nulu-app://shell/startup.html', 'nulu-app://shell/startup.html'])
     expect(invoke(DESKTOP_IPC.backendStatus)).toMatchObject({ phase: 'error', message: 'Desktop renderer exited: crashed' })
   })
 
@@ -203,14 +203,14 @@ describe('desktop main startup', () => {
     await Promise.resolve(invoke(DESKTOP_IPC.backendRetry))
     const started = harness.nextHostStart()
     const event = { preventDefault: vi.fn() }
-    window.webContents.emit('will-navigate', event, `dsh-recovery://${action}/?`)
+    window.webContents.emit('will-navigate', event, `nulu-recovery://${action}/?`)
     await harness.hosts[0]!.stopping.promise
     harness.hosts[0]!.exited.resolve()
     await started
     harness.hosts[1]!.ready.resolve()
     await harness.navigated.promise
     expect(event.preventDefault).toHaveBeenCalled()
-    expect(window.urls.at(-1)).toBe('dsh-app://app/index.html')
+    expect(window.urls.at(-1)).toBe('nulu-app://app/index.html')
   })
 
   it('allows a full profile reset for an unclassified startup failure', async () => {
@@ -286,26 +286,26 @@ describe('desktop main startup', () => {
     expect(harness.windows).toHaveLength(1)
     const window = harness.windows[0]!
     expect(window.options.show).toBe(true)
-    expect(window.urls).toEqual(['dsh-app://shell/startup.html'])
+    expect(window.urls).toEqual(['nulu-app://shell/startup.html'])
     expect(harness.hosts).toHaveLength(0)
     const retry = invoke(DESKTOP_IPC.backendRetry)
     const secondRetry = invoke(DESKTOP_IPC.backendRetry)
     harness.prepared.resolve()
     await harness.hostStarted.promise
     expect(harness.hosts).toHaveLength(1)
-    expect(window.urls).toEqual(['dsh-app://shell/startup.html'])
+    expect(window.urls).toEqual(['nulu-app://shell/startup.html'])
     harness.hosts[0]!.ready.resolve()
     await Promise.all([retry, secondRetry, harness.navigated.promise])
     expect(harness.applyRelease).toHaveBeenCalledTimes(1)
     expect(harness.assertProfileRuntime).toHaveBeenCalledWith('desktop-test-profile')
     expect(harness.hosts[0]).toMatchObject({
       node: join('desktop-test-resources', 'runtime', 'node', process.platform === 'win32' ? 'node.exe' : 'node'),
-      runtime: join('desktop-test-resources', 'dsh'),
+      runtime: join('desktop-test-resources', 'nulu'),
       profile: 'desktop-test-profile',
     })
     expect(harness.hosts[0]!.start).toHaveBeenCalledTimes(1)
     expect(harness.windows).toHaveLength(1)
-    expect(window.urls).toEqual(['dsh-app://shell/startup.html', 'dsh-app://app/index.html'])
+    expect(window.urls).toEqual(['nulu-app://shell/startup.html', 'nulu-app://app/index.html'])
     expect(invoke(DESKTOP_IPC.backendStatus)).toEqual({ phase: 'ready' })
   })
 
@@ -334,7 +334,7 @@ describe('desktop main startup', () => {
     await harness.errorPublished.promise
     await failedRetry
     expect(invoke(DESKTOP_IPC.backendStatus)).toEqual({ phase: 'error', message: 'plugin composition failed', profileRecovery: true })
-    expect(harness.windows[0]!.urls).toEqual(['dsh-app://shell/startup.html'])
+    expect(harness.windows[0]!.urls).toEqual(['nulu-app://shell/startup.html'])
     const nextStarted = harness.nextHostStart()
     const retry = Promise.resolve(invoke(DESKTOP_IPC.backendRetry))
     await nextStarted
@@ -342,7 +342,7 @@ describe('desktop main startup', () => {
     harness.hosts[1]!.ready.resolve()
     await retry
     expect(harness.windows).toHaveLength(1)
-    expect(harness.windows[0]!.urls.at(-1)).toBe('dsh-app://app/index.html')
+    expect(harness.windows[0]!.urls.at(-1)).toBe('nulu-app://app/index.html')
     expect(harness.dialog.showErrorBox).not.toHaveBeenCalled()
   })
 
@@ -362,7 +362,7 @@ describe('desktop main startup', () => {
     host.exited.resolve()
     await harness.quitCompleted.promise
     expect(host.stop).toHaveBeenCalledTimes(1)
-    expect(window.urls).toEqual(['dsh-app://shell/startup.html'])
+    expect(window.urls).toEqual(['nulu-app://shell/startup.html'])
     expect(harness.windows).toHaveLength(1)
   })
 })

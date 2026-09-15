@@ -1,6 +1,5 @@
 # PR preview runner sizing
 
-English | [中文](README.zh.md)
 
 ## Summary
 

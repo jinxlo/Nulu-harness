@@ -13,13 +13,13 @@
   overflow: hidden;
   /* Elevated surface: the scrollbar thumb takes the l2 elevation tokens
      (see ui-theme styles/scrollbar.css for the rebinding contract). */
-  --dsh-scrollbar-thumb: var(--dsw-alias-scrollbar-bg-l2);
-  --dsh-scrollbar-thumb-hover: var(--dsw-alias-scrollbar-hover-l2);
+  --nulu-scrollbar-thumb: var(--dsw-alias-scrollbar-bg-l2);
+  --nulu-scrollbar-thumb-hover: var(--dsw-alias-scrollbar-hover-l2);
   /* A 10px draggable rail carries a quiet 4px thumb, inset from the card's
      rounded ends. ui-theme's global scrollbar sheet renders these values. */
-  --dsh-scrollbar-width: 10px;
-  --dsh-scrollbar-thumb-border: 3px;
-  --dsh-scrollbar-track-margin: 12px;
+  --nulu-scrollbar-width: 10px;
+  --nulu-scrollbar-thumb-border: 3px;
+  --nulu-scrollbar-track-margin: 12px;
   padding: 4px;
   display: flex;
   flex-direction: column;
@@ -209,10 +209,10 @@
   height: 20px;
   border-radius: 4px;
   background: var(--dsw-alias-bg-skeleton);
-  animation: dsh-menu-skeleton 2s cubic-bezier(0.36, 0, 0.64, 1) infinite;
+  animation: nulu-menu-skeleton 2s cubic-bezier(0.36, 0, 0.64, 1) infinite;
 }
 
-@keyframes dsh-menu-skeleton {
+@keyframes nulu-menu-skeleton {
   0% { opacity: 1; }
   40% { opacity: 0.6; }
   80%, 100% { opacity: 1; }

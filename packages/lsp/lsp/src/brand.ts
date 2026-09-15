@@ -1,11 +1,11 @@
 /**
- * dsh-lsp's owned branded id: {@link LspProviderId}, the opaque identity a provider reserves on
- * `ctx.lsp`. The `Branded<B>` primitive lives in `@deepseek-ai/dsh-brand`; keeping the type and its
+ * nulu-lsp's owned branded id: {@link LspProviderId}, the opaque identity a provider reserves on
+ * `ctx.lsp`. The `Branded<B>` primitive lives in `@worldapptechnologies/nulu-brand`; keeping the type and its
  * factory together here lets `index.ts` re-export both under one name.
- * @module @deepseek-ai/dsh-lsp/brand
+ * @module @worldapptechnologies/nulu-lsp/brand
  */
 
-import type { Branded } from '@deepseek-ai/dsh-brand'
+import type { Branded } from '@worldapptechnologies/nulu-brand'
 
 /** Opaque provider identity, reserved atomically with its extension mappings at registration. */
 export type LspProviderId = Branded<'LspProviderId'>

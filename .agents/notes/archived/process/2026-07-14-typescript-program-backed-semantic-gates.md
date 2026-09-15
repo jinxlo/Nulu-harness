@@ -3,7 +3,6 @@
 Status: implemented
 Archived: 2026-09-04
 
-English | [中文](2026-07-14-typescript-program-backed-semantic-gates.zh.md)
 
 ## Problem
 
@@ -43,7 +42,7 @@ Exactly one match generates a resolver. Multiple matches are ambiguous and fail.
 
 The committed [`scoped-events.generated.ts`](../../../../packages/core/scope/src/scoped-events.generated.ts) is a runtime-only map in the package that owns scoped dispatch and imports no event-owner package. Semantic completeness lives in the generator: its root Program enumerates every scoped `Events` declaration and real `scopeTarget` contract, resolves the unique payload path with the checker, and refuses missing, stale, or ambiguous entries before rendering the `unknown[]` runtime boundary.
 
-The `dsh-scope/invariant` companion consumes this map instead of maintaining a handwritten table. Because Program analysis happens in the repository gate rather than through generated type imports, neither `dsh-scope` nor `dsh-invariants` acquires dependencies on every event owner.
+The `nulu-scope/invariant` companion consumes this map instead of maintaining a handwritten table. Because Program analysis happens in the repository gate rather than through generated type imports, neither `nulu-scope` nor `nulu-invariants` acquires dependencies on every event owner.
 
 ### Semantic gaps fail explicitly
 

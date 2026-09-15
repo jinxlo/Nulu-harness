@@ -14,7 +14,7 @@
       "request/header",
       "request/context",
       "session/title",
-      "session-log-deepseek/delivery-accepted",
+      "session-log-gateway/delivery-accepted",
       "assistant/message",
       "step/end",
       "turn/end"
@@ -53,7 +53,7 @@
       "request/header",
       "request/context",
       "session/title",
-      "session-log-deepseek/delivery-accepted",
+      "session-log-gateway/delivery-accepted",
       "assistant/message",
       "step/end",
       "turn/end"

@@ -1,11 +1,11 @@
 // @vitest-environment jsdom
 import { cleanup, render } from '@testing-library/react'
 import { afterEach, describe, expect, it } from 'vitest'
-import * as primitives from '@deepseek-ai/dsh-client-ui-primitives'
+import * as primitives from '@worldapptechnologies/nulu-client-ui-primitives'
 import {
   IconAlarmClockOutline16, IconApiOutline14, IconArchiveOutline20, IconFolderClose16,
   IconGoalOutline16, IconSendOutline16,
-} from '@deepseek-ai/dsh-client-ui-primitives'
+} from '@worldapptechnologies/nulu-client-ui-primitives'
 
 afterEach(cleanup)
 
@@ -17,7 +17,7 @@ const icons = Object.fromEntries(
 const iconNames = Object.keys(icons)
 
 describe('ic_ds_ icon set', () => {
-  it('exports the full icon set (46 deepsuite + 21 figma extracts + eleven product glyphs outside those sets)', () => {
+  it('exports the full icon set (46 first-party + 21 figma extracts + eleven product glyphs outside those sets)', () => {
     expect(iconNames.length).toBe(78)
     // The composer menu's own glyphs, pinned by name.
     expect(iconNames).toEqual(expect.arrayContaining(['IconPlanOutline14', 'IconCompactOutline16', 'IconShieldOutline16']))
@@ -65,16 +65,22 @@ describe('ic_ds_ icon set', () => {
   })
 })
 
-describe('FishLogo', () => {
-  it('renders the fish path in currentColor at the native ratio', () => {
-    const { container } = render(<primitives.FishLogo />)
+describe('NuluMark', () => {
+  it('renders the monogram path in currentColor on a square canvas', () => {
+    const { container } = render(<primitives.NuluMark />)
     const svg = container.querySelector('svg')!
     expect(svg.getAttribute('width')).toBe('24')
-    expect(Number(svg.getAttribute('height'))).toBeCloseTo(17.66, 1)
-    expect(svg.getAttribute('viewBox')).toBe('0 0 23.16 17.04')
+    expect(svg.getAttribute('height')).toBe('24')
+    expect(svg.getAttribute('viewBox')).toBe('0 0 24 24')
     expect(container.querySelectorAll('path')).toHaveLength(1)
     expect(container.innerHTML).toContain('currentColor')
-    expect(container.innerHTML).not.toContain('M0 0L23.16')
+  })
+
+  it('scales both edges together for non-default sizes', () => {
+    const { container } = render(<primitives.NuluMark size={32} />)
+    const svg = container.querySelector('svg')!
+    expect(svg.getAttribute('width')).toBe('32')
+    expect(svg.getAttribute('height')).toBe('32')
   })
 })
 
@@ -82,11 +88,11 @@ describe('BrandWordmark', () => {
   it('can render the name artwork with or without its leading mark', () => {
     const view = render(<primitives.BrandWordmark />)
     const svg = view.container.querySelector('svg')!
-    expect(svg.getAttribute('width')).toBe('182')
-    expect(svg.getAttribute('viewBox')).toBe('0 0 182 24')
+    expect(svg.getAttribute('width')).toBe('168')
+    expect(svg.getAttribute('viewBox')).toBe('0 0 168 24')
 
     view.rerender(<primitives.BrandWordmark includeMark={false} />)
-    expect(svg.getAttribute('width')).toBe('156')
-    expect(svg.getAttribute('viewBox')).toBe('26 0 156 24')
+    expect(svg.getAttribute('width')).toBe('136')
+    expect(svg.getAttribute('viewBox')).toBe('32 0 136 24')
   })
 })

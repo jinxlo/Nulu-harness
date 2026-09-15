@@ -13,13 +13,13 @@ import { mkdir, mkdtemp, readFile, rm, symlink, writeFile } from 'node:fs/promis
 import { existsSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, parse } from 'node:path'
-import { Context } from '@deepseek-ai/cordis'
-import { FsError, FsTargetKey } from '@deepseek-ai/dsh-fs'
-import type { FsTarget } from '@deepseek-ai/dsh-fs'
-import SandboxPolicyService from '@deepseek-ai/dsh-sandbox-policy'
-import SessionProjectionRegistry from '@deepseek-ai/dsh-session-projection'
-import type { SandboxMode } from '@deepseek-ai/dsh-sandbox'
-import { SandboxedFileSystem } from '@deepseek-ai/dsh-fs-sandbox'
+import { Context } from '@worldapptechnologies/cordis'
+import { FsError, FsTargetKey } from '@worldapptechnologies/nulu-fs'
+import type { FsTarget } from '@worldapptechnologies/nulu-fs'
+import SandboxPolicyService from '@worldapptechnologies/nulu-sandbox-policy'
+import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projection'
+import type { SandboxMode } from '@worldapptechnologies/nulu-sandbox'
+import { SandboxedFileSystem } from '@worldapptechnologies/nulu-fs-sandbox'
 import { assertWorkspaceOutsideTemp, outsideTempWorkspaceParent } from '../../../../scripts/snapshot-workspace-parent.ts'
 
 let base: string
@@ -39,7 +39,7 @@ async function boot(mode: SandboxMode): Promise<void> {
 
 beforeEach(async ({ onTestFinished }) => {
   // Both siblings must be outside automatic temp grants for containment denials to be meaningful.
-  const directory = await mkdtemp(join(outsideTempWorkspaceParent(), '.dsh-fssbx-'))
+  const directory = await mkdtemp(join(outsideTempWorkspaceParent(), '.nulu-fssbx-'))
   onTestFinished(async () => { await rm(directory, { recursive: true, force: true }) })
   base = directory
   assertWorkspaceOutsideTemp(base)
@@ -99,7 +99,7 @@ describe('workspace-write containment', () => {
   })
 
   it('a write to the platform temp area lands (parity with the bash runner grant)', async () => {
-    const dir = await mkdtemp(join(tmpdir(), 'dsh-fssbx-tmp-'))
+    const dir = await mkdtemp(join(tmpdir(), 'nulu-fssbx-tmp-'))
     try {
       const path = join(dir, 'temp.txt')
       await fs.writeText(await target(path), 'temp')

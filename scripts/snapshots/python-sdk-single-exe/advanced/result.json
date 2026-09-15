@@ -71,7 +71,7 @@
           ],
           "source": {
             "kind": "plugin",
-            "plugin": "@deepseek-ai/dsh-system-prompt"
+            "plugin": "@worldapptechnologies/nulu-system-prompt"
           },
           "id": "{{messageId}}"
         }
@@ -105,17 +105,17 @@
         "content": [
           {
             "type": "text",
-            "text": "Current runtime context. This snapshot supersedes earlier runtime-context snapshots.\n\nCurrent DSH file policy: danger-full-access. The DSH file sandbox does not restrict file modifications by available operations.\n\nApproval prompts are disabled in this session: actions that require approval are rejected automatically — do not request sandbox escalation (do not set `sandbox_permissions`)."
+            "text": "Current runtime context. This snapshot supersedes earlier runtime-context snapshots.\n\nCurrent NULU file policy: danger-full-access. The NULU file sandbox does not restrict file modifications by available operations.\n\nApproval prompts are disabled in this session: actions that require approval are rejected automatically — do not request sandbox escalation (do not set `sandbox_permissions`)."
           }
         ],
         "source": {
           "kind": "plugin",
-          "plugin": "@deepseek-ai/dsh-system-prompt",
+          "plugin": "@worldapptechnologies/nulu-system-prompt",
           "form": "snapshot",
           "sections": [
             {
               "name": "sandbox:policy",
-              "text": "Current DSH file policy: danger-full-access. The DSH file sandbox does not restrict file modifications by available operations."
+              "text": "Current NULU file policy: danger-full-access. The NULU file sandbox does not restrict file modifications by available operations."
             },
             {
               "name": "approval:policy",
@@ -135,7 +135,7 @@
       "data": {
         "header": {
           "config": {
-            "provider": "deepseek-official",
+            "provider": "worldapp-gateway",
             "model": "smoke-model",
             "maxTokens": 256000,
             "reasoningEffort": "high"
@@ -168,7 +168,7 @@
       "seq": 11,
       "time": 0,
       "data": {
-        "provider": "deepseek-official",
+        "provider": "worldapp-gateway",
         "model": "smoke-model",
         "contextWindow": 1000000
       }
@@ -188,7 +188,7 @@
       }
     },
     {
-      "type": "session-log-deepseek/delivery-accepted",
+      "type": "session-log-gateway/delivery-accepted",
       "seq": 13,
       "time": 0,
       "data": {
@@ -216,7 +216,7 @@
           ],
           "source": {
             "kind": "model",
-            "provider": "deepseek-official",
+            "provider": "worldapp-gateway",
             "model": "smoke-model"
           },
           "id": "{{messageId}}"
@@ -356,7 +356,7 @@
       }
     },
     {
-      "type": "session-log-deepseek/delivery-accepted",
+      "type": "session-log-gateway/delivery-accepted",
       "seq": 19,
       "time": 0,
       "data": {
@@ -384,7 +384,7 @@
           ],
           "source": {
             "kind": "model",
-            "provider": "deepseek-official",
+            "provider": "worldapp-gateway",
             "model": "smoke-model"
           },
           "id": "{{messageId}}"
@@ -541,7 +541,7 @@
           ],
           "source": {
             "kind": "plugin",
-            "plugin": "@deepseek-ai/dsh-system-prompt"
+            "plugin": "@worldapptechnologies/nulu-system-prompt"
           },
           "id": "{{messageId}}"
         }
@@ -562,7 +562,7 @@
       "data": {
         "header": {
           "config": {
-            "provider": "deepseek-official",
+            "provider": "worldapp-gateway",
             "model": "smoke-model",
             "maxTokens": 256000,
             "reasoningEffort": "high"
@@ -593,7 +593,7 @@
       }
     },
     {
-      "type": "session-log-deepseek/delivery-accepted",
+      "type": "session-log-gateway/delivery-accepted",
       "seq": 27,
       "time": 0,
       "data": {
@@ -621,7 +621,7 @@
           ],
           "source": {
             "kind": "model",
-            "provider": "deepseek-official",
+            "provider": "worldapp-gateway",
             "model": "smoke-model"
           },
           "id": "{{messageId}}"
@@ -792,7 +792,7 @@
       }
     },
     {
-      "type": "session-log-deepseek/delivery-accepted",
+      "type": "session-log-gateway/delivery-accepted",
       "seq": 35,
       "time": 0,
       "data": {
@@ -820,7 +820,7 @@
           ],
           "source": {
             "kind": "model",
-            "provider": "deepseek-official",
+            "provider": "worldapp-gateway",
             "model": "smoke-model"
           },
           "id": "{{messageId}}"
@@ -968,7 +968,7 @@
       }
     },
     {
-      "type": "session-log-deepseek/delivery-accepted",
+      "type": "session-log-gateway/delivery-accepted",
       "seq": 42,
       "time": 0,
       "data": {
@@ -996,7 +996,7 @@
           ],
           "source": {
             "kind": "model",
-            "provider": "deepseek-official",
+            "provider": "worldapp-gateway",
             "model": "smoke-model"
           },
           "id": "{{messageId}}"
@@ -1183,7 +1183,7 @@
       }
     },
     {
-      "type": "session-log-deepseek/delivery-accepted",
+      "type": "session-log-gateway/delivery-accepted",
       "seq": 53,
       "time": 0,
       "data": {
@@ -1211,7 +1211,7 @@
           ],
           "source": {
             "kind": "model",
-            "provider": "deepseek-official",
+            "provider": "worldapp-gateway",
             "model": "smoke-model"
           },
           "id": "{{messageId}}"
@@ -1363,7 +1363,7 @@
           ],
           "source": {
             "kind": "plugin",
-            "plugin": "@deepseek-ai/dsh-system-prompt"
+            "plugin": "@worldapptechnologies/nulu-system-prompt"
           },
           "id": "{{messageId}}"
         }
@@ -1384,7 +1384,7 @@
       "data": {
         "header": {
           "config": {
-            "provider": "deepseek-official",
+            "provider": "worldapp-gateway",
             "model": "smoke-model",
             "maxTokens": 256000,
             "reasoningEffort": "high"
@@ -1414,7 +1414,7 @@
       }
     },
     {
-      "type": "session-log-deepseek/delivery-accepted",
+      "type": "session-log-gateway/delivery-accepted",
       "seq": 61,
       "time": 0,
       "data": {
@@ -1440,7 +1440,7 @@
           ],
           "source": {
             "kind": "model",
-            "provider": "deepseek-official",
+            "provider": "worldapp-gateway",
             "model": "smoke-model"
           },
           "id": "{{message:1}}"
@@ -1713,7 +1713,7 @@
               ],
               "source": {
                 "kind": "plugin",
-                "plugin": "@deepseek-ai/dsh-system-prompt"
+                "plugin": "@worldapptechnologies/nulu-system-prompt"
               },
               "id": "{{messageId}}"
             }
@@ -1759,17 +1759,17 @@
             "content": [
               {
                 "type": "text",
-                "text": "Current runtime context. This snapshot supersedes earlier runtime-context snapshots.\n\nCurrent DSH file policy: danger-full-access. The DSH file sandbox does not restrict file modifications by available operations.\n\nApproval prompts are disabled in this session: actions that require approval are rejected automatically — do not request sandbox escalation (do not set `sandbox_permissions`)."
+                "text": "Current runtime context. This snapshot supersedes earlier runtime-context snapshots.\n\nCurrent NULU file policy: danger-full-access. The NULU file sandbox does not restrict file modifications by available operations.\n\nApproval prompts are disabled in this session: actions that require approval are rejected automatically — do not request sandbox escalation (do not set `sandbox_permissions`)."
               }
             ],
             "source": {
               "kind": "plugin",
-              "plugin": "@deepseek-ai/dsh-system-prompt",
+              "plugin": "@worldapptechnologies/nulu-system-prompt",
               "form": "snapshot",
               "sections": [
                 {
                   "name": "sandbox:policy",
-                  "text": "Current DSH file policy: danger-full-access. The DSH file sandbox does not restrict file modifications by available operations."
+                  "text": "Current NULU file policy: danger-full-access. The NULU file sandbox does not restrict file modifications by available operations."
                 },
                 {
                   "name": "approval:policy",
@@ -1795,7 +1795,7 @@
           "data": {
             "header": {
               "config": {
-                "provider": "deepseek-official",
+                "provider": "worldapp-gateway",
                 "model": "smoke-model",
                 "maxTokens": 256000,
                 "reasoningEffort": "high"
@@ -1834,7 +1834,7 @@
           "seq": 11,
           "time": 0,
           "data": {
-            "provider": "deepseek-official",
+            "provider": "worldapp-gateway",
             "model": "smoke-model",
             "contextWindow": 1000000
           }
@@ -1866,7 +1866,7 @@
       "payload": {
         "sessionId": "{{parent}}",
         "event": {
-          "type": "session-log-deepseek/delivery-accepted",
+          "type": "session-log-gateway/delivery-accepted",
           "seq": 13,
           "time": 0,
           "data": {
@@ -1900,7 +1900,7 @@
               ],
               "source": {
                 "kind": "model",
-                "provider": "deepseek-official",
+                "provider": "worldapp-gateway",
                 "model": "smoke-model"
               },
               "id": "{{messageId}}"
@@ -2070,7 +2070,7 @@
       "payload": {
         "sessionId": "{{parent}}",
         "event": {
-          "type": "session-log-deepseek/delivery-accepted",
+          "type": "session-log-gateway/delivery-accepted",
           "seq": 19,
           "time": 0,
           "data": {
@@ -2104,7 +2104,7 @@
               ],
               "source": {
                 "kind": "model",
-                "provider": "deepseek-official",
+                "provider": "worldapp-gateway",
                 "model": "smoke-model"
               },
               "id": "{{messageId}}"
@@ -2291,7 +2291,7 @@
               ],
               "source": {
                 "kind": "plugin",
-                "plugin": "@deepseek-ai/dsh-system-prompt"
+                "plugin": "@worldapptechnologies/nulu-system-prompt"
               },
               "id": "{{messageId}}"
             }
@@ -2318,7 +2318,7 @@
           "data": {
             "header": {
               "config": {
-                "provider": "deepseek-official",
+                "provider": "worldapp-gateway",
                 "model": "smoke-model",
                 "maxTokens": 256000,
                 "reasoningEffort": "high"
@@ -2355,7 +2355,7 @@
       "payload": {
         "sessionId": "{{parent}}",
         "event": {
-          "type": "session-log-deepseek/delivery-accepted",
+          "type": "session-log-gateway/delivery-accepted",
           "seq": 27,
           "time": 0,
           "data": {
@@ -2389,7 +2389,7 @@
               ],
               "source": {
                 "kind": "model",
-                "provider": "deepseek-official",
+                "provider": "worldapp-gateway",
                 "model": "smoke-model"
               },
               "id": "{{messageId}}"
@@ -2602,7 +2602,7 @@
       "payload": {
         "sessionId": "{{parent}}",
         "event": {
-          "type": "session-log-deepseek/delivery-accepted",
+          "type": "session-log-gateway/delivery-accepted",
           "seq": 35,
           "time": 0,
           "data": {
@@ -2636,7 +2636,7 @@
               ],
               "source": {
                 "kind": "model",
-                "provider": "deepseek-official",
+                "provider": "worldapp-gateway",
                 "model": "smoke-model"
               },
               "id": "{{messageId}}"
@@ -2887,7 +2887,7 @@
               ],
               "source": {
                 "kind": "plugin",
-                "plugin": "@deepseek-ai/dsh-system-prompt"
+                "plugin": "@worldapptechnologies/nulu-system-prompt"
               },
               "id": "{{messageId}}"
             }
@@ -2933,17 +2933,17 @@
             "content": [
               {
                 "type": "text",
-                "text": "Current runtime context. This snapshot supersedes earlier runtime-context snapshots.\n\nCurrent DSH file policy: danger-full-access. The DSH file sandbox does not restrict file modifications by available operations.\n\nApproval prompts are disabled in this session: actions that require approval are rejected automatically — do not request sandbox escalation (do not set `sandbox_permissions`).\n\nYou are a delegated subagent: your permission scope was fixed when you were started and cannot be widened from inside this session — operations that require approval are rejected automatically. When the task needs access beyond that scope, do not retry the denied operation; state the limitation in your reply so the delegating agent can handle it."
+                "text": "Current runtime context. This snapshot supersedes earlier runtime-context snapshots.\n\nCurrent NULU file policy: danger-full-access. The NULU file sandbox does not restrict file modifications by available operations.\n\nApproval prompts are disabled in this session: actions that require approval are rejected automatically — do not request sandbox escalation (do not set `sandbox_permissions`).\n\nYou are a delegated subagent: your permission scope was fixed when you were started and cannot be widened from inside this session — operations that require approval are rejected automatically. When the task needs access beyond that scope, do not retry the denied operation; state the limitation in your reply so the delegating agent can handle it."
               }
             ],
             "source": {
               "kind": "plugin",
-              "plugin": "@deepseek-ai/dsh-system-prompt",
+              "plugin": "@worldapptechnologies/nulu-system-prompt",
               "form": "snapshot",
               "sections": [
                 {
                   "name": "sandbox:policy",
-                  "text": "Current DSH file policy: danger-full-access. The DSH file sandbox does not restrict file modifications by available operations."
+                  "text": "Current NULU file policy: danger-full-access. The NULU file sandbox does not restrict file modifications by available operations."
                 },
                 {
                   "name": "approval:policy",
@@ -2973,7 +2973,7 @@
           "data": {
             "header": {
               "config": {
-                "provider": "deepseek-official",
+                "provider": "worldapp-gateway",
                 "model": "smoke-model",
                 "reasoningEffort": "high",
                 "maxTokens": 256000
@@ -3012,7 +3012,7 @@
           "seq": 12,
           "time": 0,
           "data": {
-            "provider": "deepseek-official",
+            "provider": "worldapp-gateway",
             "model": "smoke-model",
             "contextWindow": 1000000
           }
@@ -3044,7 +3044,7 @@
       "payload": {
         "sessionId": "{{child-1}}",
         "event": {
-          "type": "session-log-deepseek/delivery-accepted",
+          "type": "session-log-gateway/delivery-accepted",
           "seq": 14,
           "time": 0,
           "data": {
@@ -3076,7 +3076,7 @@
               ],
               "source": {
                 "kind": "model",
-                "provider": "deepseek-official",
+                "provider": "worldapp-gateway",
                 "model": "smoke-model"
               },
               "id": "{{messageId}}"
@@ -3276,7 +3276,7 @@
       "payload": {
         "sessionId": "{{parent}}",
         "event": {
-          "type": "session-log-deepseek/delivery-accepted",
+          "type": "session-log-gateway/delivery-accepted",
           "seq": 42,
           "time": 0,
           "data": {
@@ -3310,7 +3310,7 @@
               ],
               "source": {
                 "kind": "model",
-                "provider": "deepseek-official",
+                "provider": "worldapp-gateway",
                 "model": "smoke-model"
               },
               "id": "{{messageId}}"
@@ -3592,7 +3592,7 @@
               ],
               "source": {
                 "kind": "plugin",
-                "plugin": "@deepseek-ai/dsh-system-prompt"
+                "plugin": "@worldapptechnologies/nulu-system-prompt"
               },
               "id": "{{messageId}}"
             }
@@ -3638,17 +3638,17 @@
             "content": [
               {
                 "type": "text",
-                "text": "Current runtime context. This snapshot supersedes earlier runtime-context snapshots.\n\nCurrent DSH file policy: danger-full-access. The DSH file sandbox does not restrict file modifications by available operations.\n\nApproval prompts are disabled in this session: actions that require approval are rejected automatically — do not request sandbox escalation (do not set `sandbox_permissions`).\n\nYou are a delegated subagent: your permission scope was fixed when you were started and cannot be widened from inside this session — operations that require approval are rejected automatically. When the task needs access beyond that scope, do not retry the denied operation; state the limitation in your reply so the delegating agent can handle it."
+                "text": "Current runtime context. This snapshot supersedes earlier runtime-context snapshots.\n\nCurrent NULU file policy: danger-full-access. The NULU file sandbox does not restrict file modifications by available operations.\n\nApproval prompts are disabled in this session: actions that require approval are rejected automatically — do not request sandbox escalation (do not set `sandbox_permissions`).\n\nYou are a delegated subagent: your permission scope was fixed when you were started and cannot be widened from inside this session — operations that require approval are rejected automatically. When the task needs access beyond that scope, do not retry the denied operation; state the limitation in your reply so the delegating agent can handle it."
               }
             ],
             "source": {
               "kind": "plugin",
-              "plugin": "@deepseek-ai/dsh-system-prompt",
+              "plugin": "@worldapptechnologies/nulu-system-prompt",
               "form": "snapshot",
               "sections": [
                 {
                   "name": "sandbox:policy",
-                  "text": "Current DSH file policy: danger-full-access. The DSH file sandbox does not restrict file modifications by available operations."
+                  "text": "Current NULU file policy: danger-full-access. The NULU file sandbox does not restrict file modifications by available operations."
                 },
                 {
                   "name": "approval:policy",
@@ -3678,7 +3678,7 @@
           "data": {
             "header": {
               "config": {
-                "provider": "deepseek-official",
+                "provider": "worldapp-gateway",
                 "model": "smoke-model",
                 "reasoningEffort": "high",
                 "maxTokens": 256000
@@ -3717,7 +3717,7 @@
           "seq": 12,
           "time": 0,
           "data": {
-            "provider": "deepseek-official",
+            "provider": "worldapp-gateway",
             "model": "smoke-model",
             "contextWindow": 1000000
           }
@@ -3749,7 +3749,7 @@
       "payload": {
         "sessionId": "{{child-2}}",
         "event": {
-          "type": "session-log-deepseek/delivery-accepted",
+          "type": "session-log-gateway/delivery-accepted",
           "seq": 14,
           "time": 0,
           "data": {
@@ -3781,7 +3781,7 @@
               ],
               "source": {
                 "kind": "model",
-                "provider": "deepseek-official",
+                "provider": "worldapp-gateway",
                 "model": "smoke-model"
               },
               "id": "{{messageId}}"
@@ -4012,7 +4012,7 @@
       "payload": {
         "sessionId": "{{parent}}",
         "event": {
-          "type": "session-log-deepseek/delivery-accepted",
+          "type": "session-log-gateway/delivery-accepted",
           "seq": 53,
           "time": 0,
           "data": {
@@ -4046,7 +4046,7 @@
               ],
               "source": {
                 "kind": "model",
-                "provider": "deepseek-official",
+                "provider": "worldapp-gateway",
                 "model": "smoke-model"
               },
               "id": "{{messageId}}"
@@ -4228,7 +4228,7 @@
               ],
               "source": {
                 "kind": "plugin",
-                "plugin": "@deepseek-ai/dsh-system-prompt"
+                "plugin": "@worldapptechnologies/nulu-system-prompt"
               },
               "id": "{{messageId}}"
             }
@@ -4255,7 +4255,7 @@
           "data": {
             "header": {
               "config": {
-                "provider": "deepseek-official",
+                "provider": "worldapp-gateway",
                 "model": "smoke-model",
                 "maxTokens": 256000,
                 "reasoningEffort": "high"
@@ -4291,7 +4291,7 @@
       "payload": {
         "sessionId": "{{parent}}",
         "event": {
-          "type": "session-log-deepseek/delivery-accepted",
+          "type": "session-log-gateway/delivery-accepted",
           "seq": 61,
           "time": 0,
           "data": {
@@ -4323,7 +4323,7 @@
               ],
               "source": {
                 "kind": "model",
-                "provider": "deepseek-official",
+                "provider": "worldapp-gateway",
                 "model": "smoke-model"
               },
               "id": "{{message:1}}"

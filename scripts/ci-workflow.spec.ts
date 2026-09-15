@@ -168,11 +168,11 @@ describe('CI workflow', () => {
     // The split native jobs all resolve their pool through the Windows switch.
     for (const [jobName, job] of [['windows-build', windowsBuild], ['windows-coverage', windowsCoverage], ['windows-native-tests', windowsNativeTests], ['windows-observational', windowsObservational]] as const) {
       expect(typeof job['runs-on']).toBe('string')
-      expect(job['runs-on'], `${jobName} runs-on must use the Windows failover switch`).toContain('DSH_CI_FAILOVER_WINDOWS')
-      expect(job['runs-on'], `${jobName} runs-on must not use the Linux failover switch`).not.toContain('DSH_CI_FAILOVER_LINUX')
+      expect(job['runs-on'], `${jobName} runs-on must use the Windows failover switch`).toContain('NULU_CI_FAILOVER_WINDOWS')
+      expect(job['runs-on'], `${jobName} runs-on must not use the Linux failover switch`).not.toContain('NULU_CI_FAILOVER_LINUX')
       expect(job['runs-on']).toContain('self-hosted')
-      expect(job['runs-on']).toContain('dsh-win-ci')
-      expect(job['runs-on']).toContain('dsh-windows-2025-16core')
+      expect(job['runs-on']).toContain('nulu-win-ci')
+      expect(job['runs-on']).toContain('nulu-windows-2025-16core')
       expect(job['runs-on']).toContain('blacksmith-16vcpu-windows-2025')
       expect(job.if).toBe("github.event_name == 'pull_request'")
     }
@@ -216,7 +216,7 @@ describe('CI workflow', () => {
 
     // windows-coverage uses the lower 4-partition profile.
     expect(windowsCoverage.name).toBe('windows node 24 / coverage')
-    expect(windowsCoverage.env).toMatchObject({ DSH_COVERAGE_PARTITIONS: '4' })
+    expect(windowsCoverage.env).toMatchObject({ NULU_COVERAGE_PARTITIONS: '4' })
     const coverageSteps = windowsCoverage.steps as unknown[]
     const coverageCommands = coverageSteps.filter((step): step is Record<string, unknown> & { run: string } => (
       isRecord(step) && typeof step.run === 'string'
@@ -249,7 +249,7 @@ describe('CI workflow', () => {
 
     // serial-windows: master-only standby, self-hosted, non-blocking, lives in ci-master.
     expect(serialWindows.if).toBe("github.event_name == 'push' && github.ref == 'refs/heads/master'")
-    expect(serialWindows['runs-on']).toEqual(['self-hosted', 'dsh-win-ci', 'windows'])
+    expect(serialWindows['runs-on']).toEqual(['self-hosted', 'nulu-win-ci', 'windows'])
     expect(serialWindows.name).toBe('serial / windows (self-hosted standby)')
     // Its store must share the ReFS workspace volume for clone; the install
     // must carry the same filesystem branch as the PR jobs.
@@ -278,7 +278,7 @@ describe('CI workflow', () => {
       isRecord(step) && step.name === 'Run complete unsharded Windows gate inventory serially'
     ))
     expect(serialGate).toBeDefined()
-    expect(serialGate!.env).toMatchObject({ DSH_COVERAGE_TEST_TIMEOUT_MS: '90000' })
+    expect(serialGate!.env).toMatchObject({ NULU_COVERAGE_TEST_TIMEOUT_MS: '90000' })
 
     // windows-coverage is temporarily non-blocking while Windows ACP
     // half-close tests are stabilized; observational stays out too.
@@ -291,12 +291,12 @@ describe('CI workflow', () => {
     expect(node24Bench.env).toBeUndefined()
     expect(node24Bench.steps).toContainEqual({
       name: 'Install benchmark browser and hosted dependencies',
-      run: 'pnpm --filter @deepseek-ai/dsh-benchmarks exec playwright install --with-deps chromium',
+      run: 'pnpm --filter @worldapptechnologies/nulu-benchmarks exec playwright install --with-deps chromium',
     })
-    expect(JSON.stringify(node24Bench.steps)).not.toContain('DSH_CI_FAILOVER_LINUX')
+    expect(JSON.stringify(node24Bench.steps)).not.toContain('NULU_CI_FAILOVER_LINUX')
     expect(node24Bench.steps).toContainEqual({
       name: 'Run performance benchmarks',
-      env: { DSH_GATE_VERBOSE: '1' },
+      env: { NULU_GATE_VERBOSE: '1' },
       run: 'pnpm run check:ci:bench',
     })
     expect(aggregate.needs).not.toContain('windows-coverage')
@@ -305,17 +305,17 @@ describe('CI workflow', () => {
     expect(aggregate.needs).not.toContain('serial-windows')
 
     // Linux failover is a separate switch: the three enterprise Linux workers
-    // and the verdict job resolve their pool through DSH_CI_FAILOVER_LINUX,
+    // and the verdict job resolve their pool through NULU_CI_FAILOVER_LINUX,
     // never the Windows switch.
     for (const [jobName, job] of [['node-24', node24], ['node-24-coverage', node24Coverage], ['node-24-consumers', node24Consumers]] as const) {
       expect(typeof job['runs-on']).toBe('string')
-      expect(job['runs-on'], `${jobName} runs-on must use the Linux failover switch`).toContain('DSH_CI_FAILOVER_LINUX')
-      expect(job['runs-on'], `${jobName} runs-on must not use the Windows failover switch`).not.toContain('DSH_CI_FAILOVER_WINDOWS')
+      expect(job['runs-on'], `${jobName} runs-on must use the Linux failover switch`).toContain('NULU_CI_FAILOVER_LINUX')
+      expect(job['runs-on'], `${jobName} runs-on must not use the Windows failover switch`).not.toContain('NULU_CI_FAILOVER_WINDOWS')
       expect(job['runs-on']).toContain('vm-backup')
       expect(job['runs-on']).toContain('blacksmith-16vcpu-ubuntu-2404')
     }
-    expect(aggregate['runs-on']).toContain('DSH_CI_FAILOVER_LINUX')
-    expect(aggregate['runs-on']).not.toContain('DSH_CI_FAILOVER_WINDOWS')
+    expect(aggregate['runs-on']).toContain('NULU_CI_FAILOVER_LINUX')
+    expect(aggregate['runs-on']).not.toContain('NULU_CI_FAILOVER_WINDOWS')
     expect(aggregate['runs-on']).toContain('vm-backup')
     expect(aggregate['runs-on']).toContain('blacksmith-4vcpu-ubuntu-2404')
 
@@ -336,9 +336,9 @@ describe('CI workflow', () => {
       }, { timeout: 1000 })
     }
     for (const [name, selector, variable, pool, hosted] of [
-      ['linux gates', selectors.linux, 'DSH_CI_FAILOVER_LINUX', ['self-hosted', 'linux', 'x64', 'vm-backup'], 'dsh-ubuntu-24-04-16core'],
-      ['linux aggregate', selectors.linuxAggregate, 'DSH_CI_FAILOVER_LINUX', ['self-hosted', 'linux', 'x64', 'vm-backup'], 'ubuntu-latest'],
-      ['windows lanes', selectors.windows, 'DSH_CI_FAILOVER_WINDOWS', ['self-hosted', 'dsh-win-ci', 'windows'], 'dsh-windows-2025-16core'],
+      ['linux gates', selectors.linux, 'NULU_CI_FAILOVER_LINUX', ['self-hosted', 'linux', 'x64', 'vm-backup'], 'nulu-ubuntu-24-04-16core'],
+      ['linux aggregate', selectors.linuxAggregate, 'NULU_CI_FAILOVER_LINUX', ['self-hosted', 'linux', 'x64', 'vm-backup'], 'ubuntu-latest'],
+      ['windows lanes', selectors.windows, 'NULU_CI_FAILOVER_WINDOWS', ['self-hosted', 'nulu-win-ci', 'windows'], 'nulu-windows-2025-16core'],
     ] as const) {
       expect(evaluate(selector, { [variable]: 'blacksmith' }), `${name} blacksmith value`).toMatch(/^blacksmith-/)
       expect(evaluate(selector, { [variable]: 'selfhosted' }), `${name} selfhosted value`).toEqual(pool)
@@ -355,31 +355,31 @@ describe('CI workflow', () => {
     // gates. Removing the flag silently reverts to running every independent
     // gate to completion.
     for (const [jobName, job] of [['node-24', node24], ['node-24-coverage', node24Coverage], ['node-24-consumers', node24Consumers], ['node-compat', nodeCompat]] as const) {
-      expect(job.env, `${jobName} must enable fail-fast`).toMatchObject({ DSH_GATE_FAIL_FAST: '1' })
+      expect(job.env, `${jobName} must enable fail-fast`).toMatchObject({ NULU_GATE_FAIL_FAST: '1' })
     }
 
     // The native Windows lanes with run-gates aggregates fail fast for the
     // same reason: a failing gate aborts the sibling gate instead of waiting
     // out the multi-minute instrumented coverage run.
-    expect(windowsBuild.env, 'windows-build must enable fail-fast').toMatchObject({ DSH_GATE_FAIL_FAST: '1' })
-    expect(windowsCoverage.env, 'windows-coverage must enable fail-fast').toMatchObject({ DSH_GATE_FAIL_FAST: '1' })
+    expect(windowsBuild.env, 'windows-build must enable fail-fast').toMatchObject({ NULU_GATE_FAIL_FAST: '1' })
+    expect(windowsCoverage.env, 'windows-coverage must enable fail-fast').toMatchObject({ NULU_GATE_FAIL_FAST: '1' })
 
     // The observational lane stays complete: it is continue-on-error by design
     // and exists to collect as much Windows-native evidence per run as
     // possible, so the first failure must not truncate the rest.
     expect(windowsObservational.env).toBeDefined()
-    expect(windowsObservational.env).not.toMatchObject({ DSH_GATE_FAIL_FAST: '1' })
+    expect(windowsObservational.env).not.toMatchObject({ NULU_GATE_FAIL_FAST: '1' })
   })
 
   it('gates standalone keyless blacksmith jobs and benchmark tiers on the failover variables', () => {
     const expectedFilenames = workflowJob(loadWorkflow('.github/workflows/expected-filenames.yml'), 'expected-filenames')
     const sandbox = workflowJob(loadWorkflow('.github/workflows/sandbox.yml'), 'sandbox-e2e')
-    expect(expectedFilenames['runs-on']).toContain('DSH_CI_FAILOVER_LINUX')
+    expect(expectedFilenames['runs-on']).toContain('NULU_CI_FAILOVER_LINUX')
     expect(expectedFilenames['runs-on']).toContain("== 'blacksmith'")
     expect(expectedFilenames['runs-on']).toContain('blacksmith-4vcpu-ubuntu-2404')
     expect(expectedFilenames['runs-on']).toContain("'ubuntu-latest'")
     expect(sandbox['runs-on']).toContain("matrix.runner == 'bwrap'")
-    expect(sandbox['runs-on']).toContain('DSH_CI_FAILOVER_LINUX')
+    expect(sandbox['runs-on']).toContain('NULU_CI_FAILOVER_LINUX')
     expect(sandbox['runs-on']).toContain('blacksmith-4vcpu-ubuntu-2404')
     for (const name of ['larger-runner-benchmark', 'consolidated-runner-benchmark'] as const) {
       const benchmark = workflowJob(loadWorkflow('.github/workflows/ci-master.yml'), name)
@@ -387,8 +387,8 @@ describe('CI workflow', () => {
         throw new TypeError(`${name} must define a matrix include list`)
       }
       expect(benchmark['runs-on']).toContain('matrix.blacksmith')
-      expect(benchmark['runs-on']).toContain('DSH_CI_FAILOVER_LINUX')
-      expect(benchmark['runs-on']).toContain('DSH_CI_FAILOVER_WINDOWS')
+      expect(benchmark['runs-on']).toContain('NULU_CI_FAILOVER_LINUX')
+      expect(benchmark['runs-on']).toContain('NULU_CI_FAILOVER_WINDOWS')
       for (const row of benchmark.strategy.matrix.include as Array<Record<string, string>>) {
         expect(typeof row.blacksmith, `${name} ${row.cores}-core row must declare a blacksmith label`).toBe('string')
         if (row.cores === '64' || row.cores === '96') {
@@ -434,7 +434,7 @@ describe('CI workflow', () => {
     expect(benchmark['timeout-minutes']).toBe(15)
     expect(benchmark.steps).toContainEqual({
       name: 'Run performance benchmarks',
-      env: { DSH_GATE_VERBOSE: '1' },
+      env: { NULU_GATE_VERBOSE: '1' },
       run: 'pnpm run check:ci:bench',
     })
   })
@@ -565,7 +565,7 @@ describe('CI workflow', () => {
         ci: true,
       },
       secrets: {
-        DEEPSEEK_API_KEY_EXTERNAL: '${{ secrets.DEEPSEEK_API_KEY_EXTERNAL }}',
+        WORLD_APP_TECHNOLOGIES_API_KEY_EXTERNAL: '${{ secrets.WORLD_APP_TECHNOLOGIES_API_KEY_EXTERNAL }}',
       },
     })
     expect(aggregate.needs).toContain('python-runtime')
@@ -579,11 +579,11 @@ describe('CI workflow', () => {
   })
 })
 
-describe('DeepSeek e2e workflow', () => {
+describe('Nulu e2e workflow', () => {
   it('prepares bubblewrap from the pinned payload without a package transaction', () => {
     const workflow = loadWorkflow('.github/workflows/e2e.yml')
     const e2e = workflowJob(workflow, 'e2e')
-    if (!Array.isArray(e2e.steps)) throw new TypeError('DeepSeek e2e workflow must define steps')
+    if (!Array.isArray(e2e.steps)) throw new TypeError('Nulu e2e workflow must define steps')
 
     const steps = e2e.steps.filter(isRecord)
     expect(steps.find(step => step.name === 'Prepare bubblewrap (unrestrict userns)')).toMatchObject({
@@ -595,10 +595,10 @@ describe('DeepSeek e2e workflow', () => {
   it('bounds profile subprocess fan-out to the tested e2e default', () => {
     const workflow = loadWorkflow('.github/workflows/e2e.yml')
     const e2e = workflowJob(workflow, 'e2e')
-    if (!Array.isArray(e2e.steps)) throw new TypeError('DeepSeek e2e workflow must define steps')
+    if (!Array.isArray(e2e.steps)) throw new TypeError('Nulu e2e workflow must define steps')
 
-    const step = e2e.steps.filter(isRecord).find(candidate => candidate.name === 'E2E tests (real DeepSeek API)')
-    expect(step).toMatchObject({ env: { DSH_E2E_MAX_WORKERS: 4 } })
+    const step = e2e.steps.filter(isRecord).find(candidate => candidate.name === 'E2E tests (real Nulu API)')
+    expect(step).toMatchObject({ env: { NULU_E2E_MAX_WORKERS: 4 } })
   })
 })
 
@@ -621,8 +621,8 @@ describe('E2B e2e workflow', () => {
     expect(e2b).toMatchObject({
       env: {
         E2B_API_KEY: '${{ secrets.E2B_API_KEY_EXTERNAL }}',
-        DSH_E2E_MAX_WORKERS: '1',
-        DSH_EXAMPLE_MODE: 'lib',
+        NULU_E2E_MAX_WORKERS: '1',
+        NULU_EXAMPLE_MODE: 'lib',
       },
     })
     expect(e2b?.run).toContain('packages/e2b/e2b/tests/composition.e2e.ts')
@@ -659,8 +659,8 @@ describe('Python release workflows', () => {
     })
     expect(pythonCompat.strategy).toMatchObject({ matrix: { python: ['3.10', '3.14'] } })
     const pythonCompatSteps = JSON.stringify(pythonCompat.steps)
-    expect(pythonCompatSteps).toContain('dist/deepseek_harness_sdk-$VERSION-py3-none-any.whl')
-    expect(pythonCompatSteps).toContain('dist/deepseek_harness_runtime_bin-$VERSION-py3-none-manylinux_2_28_x86_64.whl')
+    expect(pythonCompatSteps).toContain('dist/nulu_harness_sdk-$VERSION-py3-none-any.whl')
+    expect(pythonCompatSteps).toContain('dist/nulu_harness_runtime_bin-$VERSION-py3-none-manylinux_2_28_x86_64.whl')
     expect(pythonCompatSteps).not.toContain('--find-links')
     const validateSteps = JSON.stringify(validate.steps)
     const authorize = validate.steps.filter(isRecord).find(step => step.name === 'Authorize publication request')
@@ -745,7 +745,7 @@ describe('Python release workflows', () => {
       release: { type: 'boolean', default: false },
     })
     expect(call.secrets).toMatchObject({
-      DEEPSEEK_API_KEY_EXTERNAL: { required: false },
+      WORLD_APP_TECHNOLOGIES_API_KEY_EXTERNAL: { required: false },
     })
     expect(workflow.concurrency).toMatchObject({
       group: 'build-single-exe-${{ github.workflow }}-${{ github.ref }}',
@@ -789,7 +789,7 @@ describe('Python release workflows', () => {
     expect(cleanVenvWindows).toMatchObject({ if: "runner.os == 'Windows'", shell: 'pwsh' })
     expect(JSON.stringify(cleanVenvWindows)).toContain('Scripts\\\\python.exe')
     expect(realApiPreflightPosix).toMatchObject({
-      env: { DEEPSEEK_API_KEY: '${{ secrets.DEEPSEEK_API_KEY_EXTERNAL }}' },
+      env: { WORLD_APP_TECHNOLOGIES_API_KEY: '${{ secrets.WORLD_APP_TECHNOLOGIES_API_KEY_EXTERNAL }}' },
     })
     expect(String(realApiPreflightPosix.if)).toContain('inputs.ci')
     expect(String(realApiPreflightPosix.if)).toContain('head.repo.fork')
@@ -797,16 +797,16 @@ describe('Python release workflows', () => {
     expect(realApiPreflightWindows).toMatchObject({ shell: 'pwsh' })
     expect(installedRealApiPosix).toMatchObject({
       env: {
-        DEEPSEEK_API_KEY: '${{ secrets.DEEPSEEK_API_KEY_EXTERNAL }}',
-        DEEPSEEK_BASE_URL: 'https://api.deepseek.com',
+        WORLD_APP_TECHNOLOGIES_API_KEY: '${{ secrets.WORLD_APP_TECHNOLOGIES_API_KEY_EXTERNAL }}',
+        WORLD_APP_TECHNOLOGIES_BASE_URL: 'https://platform.worldapptechnologies.com/api/v1',
       },
     })
     expect(JSON.stringify(installedRealApiPosix)).toContain('--scenario sdk-live')
-    expect(JSON.stringify(installedRealApiPosix)).toContain('-u DSH_RUNTIME_MODE')
+    expect(JSON.stringify(installedRealApiPosix)).toContain('-u NULU_RUNTIME_MODE')
     expect(installedRealApiWindows).toMatchObject({ shell: 'pwsh' })
     expect(JSON.stringify(installedRealApiWindows)).toContain('--scenario sdk-live --installed-wheel')
     expect(manylinuxSmoke).toMatchObject({ if: "runner.os == 'Linux'" })
-    expect(JSON.stringify(manylinuxSmoke)).toContain('-e DSH_TELEMETRY_DISABLED')
+    expect(JSON.stringify(manylinuxSmoke)).toContain('-e NULU_TELEMETRY_DISABLED')
   })
 
   it('uses the shared macOS deployment-target check in GitLab', () => {
@@ -983,10 +983,10 @@ describe('Issue lifecycle workflow', () => {
       if: humanPullRequest,
       uses: 'actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1',
       with: {
-        'client-id': '${{ vars.DSH_ISSUE_APP_CLIENT_ID }}',
-        'private-key': '${{ secrets.DSH_ISSUE_APP_PRIVATE_KEY }}',
-        owner: 'deepseek-harness',
-        repositories: 'deepseek-harness',
+        'client-id': '${{ vars.NULU_ISSUE_APP_CLIENT_ID }}',
+        'private-key': '${{ secrets.NULU_ISSUE_APP_PRIVATE_KEY }}',
+        owner: 'nulu-harness',
+        repositories: 'nulu-harness',
         'permission-issues': 'read',
         'permission-organization-projects': 'read',
       },
@@ -1023,11 +1023,11 @@ describe('npm release workflows', () => {
     }
   })
 
-  it('runs dependency policy and npm layout checks in the DSH release workflow', () => {
+  it('runs dependency policy and npm layout checks in the NULU release workflow', () => {
     const workflow = loadWorkflow('.github/workflows/release.yml')
     const dependencies = workflowJob(workflow, 'dependencies')
     if (!isRecord(workflow.on) || !Array.isArray(dependencies.steps)) {
-      throw new TypeError('DSH release workflow must define triggers and dependency steps')
+      throw new TypeError('NULU release workflow must define triggers and dependency steps')
     }
     const commands = dependencies.steps.flatMap(step =>
       isRecord(step) && typeof step.run === 'string' ? [step.run] : [])
@@ -1039,7 +1039,7 @@ describe('npm release workflows', () => {
 })
 
 describe('Documentation site publication', () => {
-  it('keeps Pages deployment dispatch-only from a dsh-v* tag', () => {
+  it('keeps Pages deployment dispatch-only from a nulu-v* tag', () => {
     const workflow = loadWorkflow('.github/workflows/docs-pages.yml')
     const build = workflowJob(workflow, 'build')
     const deploy = workflowJob(workflow, 'deploy')
@@ -1051,7 +1051,7 @@ describe('Documentation site publication', () => {
     // publication must never appear as a PR check.
     expect(Object.keys(workflow.on)).toEqual(['workflow_dispatch'])
 
-    // RELEASE_PUBLISH makes release:verify reject every ref that is not a dsh-v*
+    // RELEASE_PUBLISH makes release:verify reject every ref that is not a nulu-v*
     // tag naming this tree's version, so the site and the npm sequence share one
     // definition of a released version.
     const steps = build.steps.filter(isRecord)
@@ -1061,7 +1061,7 @@ describe('Documentation site publication', () => {
     )
     expect(verify).toMatchObject({
       env: { RELEASE_PUBLISH: 'true' },
-      run: 'pnpm run release:verify --family dsh',
+      run: 'pnpm run release:verify --family nulu',
     })
     // Complete history: the release scripts read tags.
     expect(checkout).toMatchObject({ with: { 'fetch-depth': 0 } })
@@ -1087,11 +1087,14 @@ describe('Git hooks', () => {
       if (!isRecord(hook) || !Array.isArray(hook.jobs)) {
         throw new TypeError(`lefthook must define ${hookName} jobs`)
       }
-      const pairing: unknown = hook.jobs.find(
-        (job: unknown) => isRecord(job) && job.name === 'translation pairing (staged records)',
+      const archived: unknown = hook.jobs.find(
+        (job: unknown) => isRecord(job) && job.name === 'archived agent notes',
       )
 
-      expect(pairing).toMatchObject({ exclude: ['.agents/notes/archived/**'] })
+      expect(archived).toMatchObject({
+        glob: '.agents/notes/archived/**',
+        run: 'node_modules/.bin/tsx scripts/verify-archived-agent-notes.ts',
+      })
     }
   })
 })

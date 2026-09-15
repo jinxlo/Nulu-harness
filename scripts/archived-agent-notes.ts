@@ -1,4 +1,4 @@
-/** Pure archive-format, triplet, and immutable-manifest helpers. */
+/** Pure archive-format and immutable-manifest helpers. */
 
 import { createHash } from 'node:crypto'
 import { basename } from 'node:path'
@@ -6,21 +6,13 @@ import { AGENT_NOTE_CLASSES } from './agent-note-tree.ts'
 
 /** Versioned fields in the frozen-content manifest. */
 export interface ArchiveManifest {
-  version: 1
+  version: 1 | 2
   files: Readonly<Record<string, string>>
 }
 
 /** Hash one archived artifact independently of the repository's Git object format. */
 function archiveContentHash(content: Buffer): string {
   return `sha256:${createHash('sha256').update(content).digest('hex')}`
-}
-
-/** Compute the SHA-1 Git blob id used by bilingual consistency sidecars. */
-export function gitBlobHash(content: Buffer): string {
-  const hash = createHash('sha1')
-  hash.update(`blob ${content.byteLength}\0`)
-  hash.update(content)
-  return hash.digest('hex')
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -33,7 +25,7 @@ export function parseArchiveManifest(content: string): ArchiveManifest {
   if (!isRecord(value)) throw new Error('expected a JSON object')
   const fields = Object.keys(value).sort()
   if (fields.join(',') !== 'files,version') throw new Error('expected exactly the fields `version` and `files`')
-  if (value.version !== 1) throw new Error('unsupported manifest version (expected 1)')
+  if (value.version !== 1 && value.version !== 2) throw new Error('unsupported manifest version (expected 1 or 2)')
   if (!isRecord(value.files)) throw new Error('`files` must be an object')
   const files: Record<string, string> = {}
   for (const [path, hash] of Object.entries(value.files)) {
@@ -42,23 +34,50 @@ export function parseArchiveManifest(content: string): ArchiveManifest {
     }
     files[path] = hash
   }
-  return { version: 1, files }
+  return { version: value.version, files }
 }
 
 /** Render the archive manifest with deterministic path ordering. */
 export function renderArchiveManifest(files: Readonly<Record<string, string>>): string {
   return `${JSON.stringify({
-    version: 1,
+    version: 2,
     files: Object.fromEntries(Object.entries(files).sort(([left], [right]) => left.localeCompare(right))),
   }, null, 2)}\n`
 }
 
-/** Reject changes or removals of entries sealed by a prior manifest. */
+function documentCounts(files: Readonly<Record<string, string>>): Map<string, number> {
+  const counts = new Map<string, number>()
+  for (const path of Object.keys(files)) {
+    if (!path.endsWith('.md') || path.endsWith('.zh.md')) continue
+    const match = /^([^/]+)\/(\d{4}-\d{2}-\d{2})-/.exec(path)
+    if (match?.[1] === undefined || match[2] === undefined) continue
+    const group = `${match[1]}/${match[2]}`
+    counts.set(group, (counts.get(group) ?? 0) + 1)
+  }
+  return counts
+}
+
+/**
+ * Reject changes or removals of entries sealed by a prior manifest.
+ * Version 1 sealed bilingual triplets whose every document hash changed while
+ * its path or filename moved, so the one-time migration retires `.zh.md` and
+ * `.i18n.yaml` entries and admits renames, removals of a switcher line, and
+ * `.md` hash changes per surviving kind/date group. Later baselines compare
+ * every hash strictly.
+ */
 export function validateArchiveManifestExtension(
   baseline: ArchiveManifest,
   current: ArchiveManifest,
 ): string[] {
   const errors: string[] = []
+  if (baseline.version === 1) {
+    const currentCounts = documentCounts(current.files)
+    for (const [group, expected] of documentCounts(baseline.files)) {
+      const actual = currentCounts.get(group) ?? 0
+      if (actual < expected) errors.push(`${group}: sealed archive lost ${expected - actual} document(s)`)
+    }
+    return errors
+  }
   for (const [path, expected] of Object.entries(baseline.files)) {
     const actual = current.files[path]
     if (actual === undefined) errors.push(`${path}: sealed manifest entry is missing`)
@@ -77,24 +96,7 @@ function validDate(value: string): boolean {
   return date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day
 }
 
-interface Triplet {
-  source?: Buffer
-  zh?: Buffer
-  meta?: Buffer
-}
-
-function pairMeta(content: string): Map<string, string> | undefined {
-  const entries = new Map<string, string>()
-  for (const line of content.split('\n')) {
-    if (line === '' || line.startsWith('#')) continue
-    const match = /^([^:#]+\.md): ([0-9a-f]{40})$/.exec(line)
-    if (match?.[1] === undefined || match[2] === undefined) return undefined
-    entries.set(match[1], match[2])
-  }
-  return entries
-}
-
-function validateHeader(path: string, content: Buffer, sourceBase: string, chinese: boolean): string[] {
+function validateHeader(path: string, content: Buffer, sourceBase: string): string[] {
   const errors: string[] = []
   const lines = content.toString('utf8').split('\n')
   if (!/^# Agent Note: \S/.test(lines[0] ?? '')) errors.push(`${path}: line 1 must be \`# Agent Note: <title>\``)
@@ -107,63 +109,29 @@ function validateHeader(path: string, content: Buffer, sourceBase: string, chine
     errors.push(`${path}: archive date ${archived} predates the note filename`)
   }
   if (lines[4] !== '') errors.push(`${path}: line 5 must be blank`)
-  const switcher = chinese
-    ? `[English](${sourceBase}.md) | 中文`
-    : `English | [中文](${sourceBase}.zh.md)`
-  if (lines[5] !== switcher) errors.push(`${path}: line 6 must be ${JSON.stringify(switcher)}`)
+  if (lines[5] !== '') errors.push(`${path}: line 6 must be blank`)
   return errors
 }
 
-/** Validate the closed kind tree, implemented/archive headers, and complete bilingual triplets. */
+/** Validate the closed kind tree and implemented/archive headers. */
 export function validateArchiveArtifacts(artifacts: ReadonlyMap<string, Buffer>): string[] {
   const errors: string[] = []
-  const triplets = new Map<string, Triplet>()
+  const sources = new Map<string, Buffer>()
   for (const [path, content] of artifacts) {
-    const match = /^([^/]+)\/(\d{4}-\d{2}-\d{2}-.+?)(\.zh\.md|\.i18n\.yaml|\.md)$/.exec(path)
-    if (match?.[1] === undefined || match[2] === undefined || match[3] === undefined) {
-      errors.push(`${path}: expected {kind}/yyyy-mm-dd-topic.{md,zh.md,i18n.yaml}`)
+    const match = /^([^/]+)\/(\d{4}-\d{2}-\d{2}-.+?)\.md$/.exec(path)
+    if (path.endsWith('.zh.md') || match?.[1] === undefined || match[2] === undefined) {
+      errors.push(`${path}: expected {kind}/yyyy-mm-dd-topic.md`)
       continue
     }
     if (!(AGENT_NOTE_CLASSES as readonly string[]).includes(match[1])) {
       errors.push(`${path}: unknown Agent Note kind ${JSON.stringify(match[1])}`)
       continue
     }
-    const key = `${match[1]}/${match[2]}`
-    const triplet = triplets.get(key) ?? {}
-    if (match[3] === '.md') triplet.source = content
-    else if (match[3] === '.zh.md') triplet.zh = content
-    else triplet.meta = content
-    triplets.set(key, triplet)
+    sources.set(`${match[1]}/${match[2]}`, content)
   }
 
-  for (const [key, triplet] of [...triplets].sort(([left], [right]) => left.localeCompare(right))) {
-    const sourcePath = `${key}.md`
-    const zhPath = `${key}.zh.md`
-    const metaPath = `${key}.i18n.yaml`
-    const { source, zh, meta } = triplet
-    const missing = [
-      source === undefined ? sourcePath : undefined,
-      zh === undefined ? zhPath : undefined,
-      meta === undefined ? metaPath : undefined,
-    ].filter((path): path is string => path !== undefined)
-    if (source === undefined || zh === undefined || meta === undefined) {
-      errors.push(`${key}: incomplete archived triplet; missing ${missing.join(', ')}`)
-      continue
-    }
-    const sourceBase = basename(key)
-    errors.push(...validateHeader(sourcePath, source, sourceBase, false))
-    errors.push(...validateHeader(zhPath, zh, sourceBase, true))
-    const sourceDate = /^Archived: (\d{4}-\d{2}-\d{2})$/m.exec(source.toString('utf8'))?.[1]
-    const zhDate = /^Archived: (\d{4}-\d{2}-\d{2})$/m.exec(zh.toString('utf8'))?.[1]
-    if (sourceDate !== undefined && zhDate !== undefined && sourceDate !== zhDate) {
-      errors.push(`${key}: English and Chinese archive dates differ (${sourceDate} vs ${zhDate})`)
-    }
-    const pair = pairMeta(meta.toString('utf8'))
-    if (pair === undefined || pair.size !== 2
-      || pair.get(`${sourceBase}.md`) !== gitBlobHash(source)
-      || pair.get(`${sourceBase}.zh.md`) !== gitBlobHash(zh)) {
-      errors.push(`${metaPath}: consistency record must contain the current Git blob hashes of both archived sides`)
-    }
+  for (const [key, source] of [...sources].sort(([left], [right]) => left.localeCompare(right))) {
+    errors.push(...validateHeader(`${key}.md`, source, basename(key)))
   }
   return errors
 }
@@ -179,6 +147,35 @@ export function extendArchiveManifest(
     const content = artifacts.get(path)
     if (content === undefined) errors.push(`${path}: sealed artifact is missing`)
     else if (archiveContentHash(content) !== expected) errors.push(`${path}: sealed content hash changed`)
+  }
+  const added: string[] = []
+  for (const [path, content] of [...artifacts].sort(([left], [right]) => left.localeCompare(right))) {
+    if (files[path] !== undefined) continue
+    files[path] = archiveContentHash(content)
+    added.push(path)
+  }
+  return { files, added, errors }
+}
+
+/**
+ * Resolve the manifest to write. Version 2 requires every sealed document to
+ * survive unchanged; a version-1 manifest retires `.zh.md` and `.i18n.yaml`
+ * entries, re-seals each surviving document once, and appends artifacts that
+ * were never sealed. Renamed documents surface as retired entries whose
+ * successor is appended; the migration's document floor is enforced by
+ * `validateArchiveManifestExtension`.
+ */
+export function sealArchiveManifest(
+  existing: ArchiveManifest,
+  artifacts: ReadonlyMap<string, Buffer>,
+): { files: Record<string, string>; added: string[]; errors: string[] } {
+  if (existing.version === 2) return extendArchiveManifest(existing, artifacts)
+  const errors: string[] = []
+  const files: Record<string, string> = {}
+  for (const path of Object.keys(existing.files)) {
+    if (path.endsWith('.zh.md') || !path.endsWith('.md')) continue
+    const content = artifacts.get(path)
+    if (content !== undefined) files[path] = archiveContentHash(content)
   }
   const added: string[] = []
   for (const [path, content] of [...artifacts].sort(([left], [right]) => left.localeCompare(right))) {

@@ -1,12 +1,12 @@
 /**
- * Package-owned invariant companion for `@deepseek-ai/dsh-client-hmr`.
- * @module @deepseek-ai/dsh-client-hmr/invariant
+ * Package-owned invariant companion for `@worldapptechnologies/nulu-client-hmr`.
+ * @module @worldapptechnologies/nulu-client-hmr/invariant
  */
 
-import type { Context, Fiber } from '@deepseek-ai/cordis'
-import type { InvariantInstaller } from '@deepseek-ai/dsh-invariants'
+import type { Context, Fiber } from '@worldapptechnologies/cordis'
+import type { InvariantInstaller } from '@worldapptechnologies/nulu-invariants'
 
-const PACKAGE_NAME = '@deepseek-ai/dsh-client-hmr'
+const PACKAGE_NAME = '@worldapptechnologies/nulu-client-hmr'
 
 /** Cordis companion plugin name. */
 export const name = 'client-hmr-invariant'

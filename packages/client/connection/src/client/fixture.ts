@@ -5,9 +5,9 @@ import {
   createSystemMessage,
   createToolResultMessage,
   createUserMessage,
-} from '@deepseek-ai/dsh-llm/message'
-import { brandString } from '@deepseek-ai/dsh-brand'
-import type { MessageId, ToolCallId } from '@deepseek-ai/dsh-llm/brand'
+} from '@worldapptechnologies/nulu-llm/message'
+import { brandString } from '@worldapptechnologies/nulu-brand'
+import type { MessageId, ToolCallId } from '@worldapptechnologies/nulu-llm/brand'
 import type {
   AssistantMessage,
   ContentBlock,
@@ -16,30 +16,30 @@ import type {
   TokenUsage,
   ToolResultMessage,
   UserMessage,
-} from '@deepseek-ai/dsh-llm'
-import { LlmAttemptId } from '@deepseek-ai/dsh-llm/brand'
+} from '@worldapptechnologies/nulu-llm'
+import { LlmAttemptId } from '@worldapptechnologies/nulu-llm/brand'
 import {
   AssistantStreamAccumulator,
   expandAssistantStream,
   type AssistantStreamRecord,
-} from '@deepseek-ai/dsh-llm/assistant-stream'
-import type { AttachmentIdType, ImageAttachmentRef } from '@deepseek-ai/dsh-attachment'
+} from '@worldapptechnologies/nulu-llm/assistant-stream'
+import type { AttachmentIdType, ImageAttachmentRef } from '@worldapptechnologies/nulu-attachment'
 import type {
   SessionEvent,
   SessionId,
   SessionSeqCursor,
-} from '@deepseek-ai/dsh-session/types'
-import { SESSION_FORMAT_VERSION, SessionSeq } from '@deepseek-ai/dsh-session/types'
-import type { JsonValue } from '@deepseek-ai/dsh-util-values'
-import type { TodoItem } from '@deepseek-ai/dsh-tool-todo/client'
+} from '@worldapptechnologies/nulu-session/types'
+import { SESSION_FORMAT_VERSION, SessionSeq } from '@worldapptechnologies/nulu-session/types'
+import type { JsonValue } from '@worldapptechnologies/nulu-util-values'
+import type { TodoItem } from '@worldapptechnologies/nulu-tool-todo/client'
 // Type-only: the brand constructor is host-side; the fixture casts at its
 // wire-fabrication boundary (the schema layer's one-cast-point posture).
-import type { CommandDefinitionId, CommandId } from '@deepseek-ai/dsh-commands/brand'
-import type { CommandDescriptor, CommandExecution, CommandResult } from '@deepseek-ai/dsh-commands/types'
-import type { CredentialInfo } from '@deepseek-ai/dsh-credentials/types'
-import type { DirectoryListing as FixtureDirectoryListing } from '@deepseek-ai/dsh-host-directory-picker/types'
-import type { SettingsDescribeValue, SettingsNamespaceView } from '@deepseek-ai/dsh-settings/types'
-import { deriveEventMessage, foldSurface } from '@deepseek-ai/dsh-session/surface'
+import type { CommandDefinitionId, CommandId } from '@worldapptechnologies/nulu-commands/brand'
+import type { CommandDescriptor, CommandExecution, CommandResult } from '@worldapptechnologies/nulu-commands/types'
+import type { CredentialInfo } from '@worldapptechnologies/nulu-credentials/types'
+import type { DirectoryListing as FixtureDirectoryListing } from '@worldapptechnologies/nulu-host-directory-picker/types'
+import type { SettingsDescribeValue, SettingsNamespaceView } from '@worldapptechnologies/nulu-settings/types'
+import { deriveEventMessage, foldSurface } from '@worldapptechnologies/nulu-session/surface'
 import type { RpcResult } from './api.ts'
 import { randomUuid } from './random-uuid.ts'
 import type {
@@ -423,7 +423,7 @@ const MARKDOWN_FIXTURE = [
   '| history | rendered |',
   '| streaming | stable |',
   '',
-  '[DeepSeek](https://www.deepseek.com)',
+  '[Nulu](https://worldapptechnologies.com)',
   '',
   '```ts',
   'const markdown = true',
@@ -567,20 +567,20 @@ const READ_SAMPLE_TEXT = [
  * titled source without a snippet; `truncated` exercises the capped indicator.
  */
 const WEB_SEARCH_META = {
-  answer: 'DeepSeek Harness is a plugin-based agent harness on vendored Cordis where **every capability is a plugin**.',
+  answer: 'Nulu Harness is a plugin-based agent harness on vendored Cordis where **every capability is a plugin**.',
   sources: [
     {
-      url: 'https://github.com/deepseek-ai/deepseek-harness',
-      title: 'DeepSeek Harness — plugin-based agent harness',
+      url: 'https://github.com/worldapptechnologies/nulu-harness',
+      title: 'Nulu Harness — plugin-based agent harness',
       snippet: 'Everything is a plugin: session, tools, agent-loop, and LLM adapters all mount on the same Cordis context.',
       publishedAt: '2026-07-01',
     },
     {
-      url: 'https://www.deepseek.com/blog/harness-architecture',
+      url: 'https://worldapptechnologies.com',
       snippet: 'The capability-seam pattern splits each capability into interface, implementation, and consumer packages.',
     },
     {
-      url: 'https://docs.deepseek.com/harness/plugins',
+      url: 'https://docs.nulu.com/harness/plugins',
       title: 'Writing a harness plugin',
       publishedAt: '2026-06-15',
     },
@@ -590,12 +590,12 @@ const WEB_SEARCH_META = {
 
 /** The `web_fetch` result metadata for the web-fetch turn. */
 const WEB_FETCH_META = {
-  url: 'https://www.deepseek.com/blog/harness-architecture',
+  url: 'https://worldapptechnologies.com',
   statusCode: 200,
   truncated: false,
 } satisfies JsonValue
 
-const DEEPSEEK_REASONING = {
+const GATEWAY_REASONING = {
   efforts: [
     { id: 'off', name: 'Off' },
     { id: 'high', name: 'High' },
@@ -618,20 +618,20 @@ const OPENAI_REASONING = {
 function fixtureModelGroups(): ModelProviderGroup[] {
   return [
     {
-      id: 'deepseek-official',
-      name: 'DeepSeek',
+      id: 'worldapp-gateway',
+      name: 'Nulu',
       models: [
         {
-          id: 'deepseek-v4-flash',
-          name: 'DeepSeek-V4-Flash',
+          id: 'nulu-5',
+          name: 'Nulu 5',
           description: '快速响应',
-          reasoning: DEEPSEEK_REASONING,
+          reasoning: GATEWAY_REASONING,
         },
         {
-          id: 'deepseek-v4-pro',
-          name: 'DeepSeek-V4-Pro',
+          id: 'nulu-5-ultra',
+          name: 'Nulu 5 Ultra',
           description: '复杂任务',
-          reasoning: DEEPSEEK_REASONING,
+          reasoning: GATEWAY_REASONING,
         },
       ],
     },
@@ -688,7 +688,7 @@ function fixtureSettledStream(
 }
 
 /** Rendered system prompt of the fx-alpha history: surface node 0. */
-const FIXTURE_SYSTEM_PROMPT = '你是 DeepSeek Harness 的 fixture 助手。用简洁的中文回答，并在需要时调用工具。'
+const FIXTURE_SYSTEM_PROMPT = '你是 Nulu Harness 的 fixture 助手。用简洁的中文回答，并在需要时调用工具。'
 
 /** fx-alpha history script: 75 turns (~150+ messages -> 4 pages at PAGE_MESSAGES=50),
  *  mixing reasoning blocks / tool call+result / context. */
@@ -719,7 +719,7 @@ function buildAlphaLog(): SessionEvent[] {
   // Completed fixture requests retain the route capacity recorded with them.
   push({
     type: 'request/context',
-    data: { provider: 'deepseek-official', model: 'deepseek-v4-flash', contextWindow: 128_000 },
+    data: { provider: 'worldapp-gateway', model: 'nulu-5', contextWindow: 128_000 },
   })
   for (let turn = 0; turn < 60; turn++) {
     push({ type: 'turn/start', data: { turn } })
@@ -727,7 +727,7 @@ function buildAlphaLog(): SessionEvent[] {
     if (turn === 0) {
       push({
         type: 'system/message', surfaceOp: 'append',
-        data: { turn, step: 0, message: createSystemMessage(FIXTURE_SYSTEM_PROMPT, '@deepseek-ai/dsh-system-prompt') },
+        data: { turn, step: 0, message: createSystemMessage(FIXTURE_SYSTEM_PROMPT, '@worldapptechnologies/nulu-system-prompt') },
       })
     }
     const userSeq = push({
@@ -957,14 +957,14 @@ function buildAlphaLog(): SessionEvent[] {
   toolTurn(
     70,
     'web_search',
-    '{"queries":["deepseek harness architecture"]}',
-    'Search results for deepseek harness architecture.',
+    '{"queries":["nulu harness architecture"]}',
+    'Search results for nulu harness architecture.',
     WEB_SEARCH_META,
   )
   toolTurn(
     71,
     'web_fetch',
-    '{"url":"https://www.deepseek.com/blog/harness-architecture"}',
+    '{"url":"https://worldapptechnologies.com"}',
     '# Harness architecture\n\nEverything is a plugin.',
     WEB_FETCH_META,
   )
@@ -1703,7 +1703,7 @@ function backscanTodos(log: readonly SessionEvent[]): TodoItem[] | undefined {
   return undefined
 }
 
-/** Fixture-local mirror of the goal projection value (dsh-goal's GoalProjection shape). */
+/** Fixture-local mirror of the goal projection value (nulu-goal's GoalProjection shape). */
 interface FxGoalProjection {
   goal: {
     id: string
@@ -1857,7 +1857,7 @@ function createFixtureWorld(options: FixtureOptions): FixtureWorld {
   const goalActivations = new Map<SessionId, 'armed' | 'disarmed'>()
   const modelSelections = new Map<SessionId, ModelSelection>(sessions.map(session => [
     session.sessionId,
-    { provider: 'deepseek-official', model: 'deepseek-v4-flash' },
+    { provider: 'worldapp-gateway', model: 'nulu-5' },
   ]))
   const attachments = new Map<string, { attachment: ImageAttachmentRef; data: string }>([[
     String(FIXTURE_IMAGE_REF.attachmentId),
@@ -1866,13 +1866,13 @@ function createFixtureWorld(options: FixtureOptions): FixtureWorld {
   /** Credential store double: set/unset flip the describe badge, values never read back. */
   const fixtureCredentials = new Map<string, true>([
     // The assembled fixture represents an already-configured shipped
-    // DeepSeek route so unrelated GUI journeys do not enter first-run setup.
-    ['DEEPSEEK_API_KEY', true],
+    // Nulu route so unrelated GUI journeys do not enter first-run setup.
+    ['WORLD_APP_TECHNOLOGIES_API_KEY', true],
   ])
 
   /** Canonical fixture implementation of the generated Settings Remote contract. */
   const settingsRemotes = {
-    // Only the resolved DeepSeek address needed by first-run readiness is
+    // Only the resolved Nulu address needed by first-run readiness is
     // represented here. Fixture-backed journeys do not open its Models editor;
     // real schema-driven forms ride the HTTP transport.
     describe(): RpcResult<SettingsDescribeValue> {
@@ -1882,9 +1882,9 @@ function createFixtureWorld(options: FixtureOptions): FixtureWorld {
           writable: true,
           hasDocument: true,
           namespaces: [{
-            ns: 'llm-deepseek',
+            ns: 'llm-gateway',
             schema: {},
-            value: { apiKeyEnv: 'DEEPSEEK_API_KEY' },
+            value: { apiKeyEnv: 'WORLD_APP_TECHNOLOGIES_API_KEY' },
             applies: 'live',
             secrets: [{ path: ['apiKey'], set: false }],
             revision: 0,
@@ -1971,9 +1971,9 @@ function createFixtureWorld(options: FixtureOptions): FixtureWorld {
    * roster a GUI journey sees after writing is the text it wrote.
    */
   const fixturePresets = new Map<string, { trust: 'system' | 'user'; content: string }>([
-    ['standard', { trust: 'system', content: "- id: tool-bash\n  name: '@deepseek-ai/dsh-tool-bash'\n" }],
-    ['minimal', { trust: 'system', content: "- id: tool-web-search\n  name: '@deepseek-ai/dsh-tool-web-search'\n" }],
-    ['my-agent', { trust: 'user', content: "- id: tool-read\n  name: '@deepseek-ai/dsh-tool-read'\n" }],
+    ['standard', { trust: 'system', content: "- id: tool-bash\n  name: '@worldapptechnologies/nulu-tool-bash'\n" }],
+    ['minimal', { trust: 'system', content: "- id: tool-web-search\n  name: '@worldapptechnologies/nulu-tool-web-search'\n" }],
+    ['my-agent', { trust: 'user', content: "- id: tool-read\n  name: '@worldapptechnologies/nulu-tool-read'\n" }],
   ])
   let fixtureDefaultPreset = 'standard'
   const nextTurn = new Map<SessionId, number>([[sid('fx-alpha'), 75]])
@@ -2023,8 +2023,8 @@ function createFixtureWorld(options: FixtureOptions): FixtureWorld {
     ['/home', ['fixture']],
     [FIXTURE_HOME, ['Documents', 'Downloads', '.config']],
     [`${FIXTURE_HOME}/Documents`, [
-      'project', 'deepseek-iOS', 'deepseek-android', 'deepseek-platform',
-      'deepseek-web', 'deepseek-harness', 'deepseek-app', 'deepseek-landing-blog',
+      'project', 'nulu-iOS', 'nulu-android', 'nulu-platform',
+      'nulu-web', 'nulu-harness', 'nulu-app', 'nulu-landing-blog',
     ]],
   ])
   const childrenOf = (path: string): string[] | undefined => {
@@ -2262,9 +2262,9 @@ function createFixtureWorld(options: FixtureOptions): FixtureWorld {
         value: [
           { name: 'compact', description: 'fixture：压缩当前会话上下文' },
           { name: 'echo', description: 'fixture：回显参数', input: { hint: 'text to echo' } },
-          { definitionId: brandString<CommandDefinitionId>('@deepseek-ai/dsh-command-goal'), name: 'goal', description: 'Set or view the goal for a long-running task', input: { hint: '<objective>', attachments: true } },
-          { definitionId: brandString<CommandDefinitionId>('@deepseek-ai/dsh-permission-presets'), name: 'permission', description: 'Switch the permission preset (sandbox mode + approval policy)', input: { hint: '<preset>' } },
-          { definitionId: brandString<CommandDefinitionId>('@deepseek-ai/dsh-plan-mode'), name: 'plan', description: 'Enter or leave plan mode', input: { hint: '[off|message]', attachments: true } },
+          { definitionId: brandString<CommandDefinitionId>('@worldapptechnologies/nulu-command-goal'), name: 'goal', description: 'Set or view the goal for a long-running task', input: { hint: '<objective>', attachments: true } },
+          { definitionId: brandString<CommandDefinitionId>('@worldapptechnologies/nulu-permission-presets'), name: 'permission', description: 'Switch the permission preset (sandbox mode + approval policy)', input: { hint: '<preset>' } },
+          { definitionId: brandString<CommandDefinitionId>('@worldapptechnologies/nulu-plan-mode'), name: 'plan', description: 'Enter or leave plan mode', input: { hint: '[off|message]', attachments: true } },
         ],
       }
     },
@@ -2415,7 +2415,7 @@ function createFixtureWorld(options: FixtureOptions): FixtureWorld {
             label,
             ...item.cwd === undefined ? {} : { cwd: item.cwd },
             createdAt: item.updatedAt,
-            mention: `@[${label}](dsh-session:${encoded})`,
+            mention: `@[${label}](nulu-session:${encoded})`,
           }
         })
       return { ok: true, value }
@@ -3182,7 +3182,7 @@ function createFixtureWorld(options: FixtureOptions): FixtureWorld {
         sessionId: requestedId ?? sid(`fx-${nextSession++}`), updatedAt: Date.now(), running: false, blank: true, cwd,
       }
       sessions.push(created)
-      modelSelections.set(created.sessionId, { provider: 'deepseek-official', model: 'deepseek-v4-flash' })
+      modelSelections.set(created.sessionId, { provider: 'worldapp-gateway', model: 'nulu-5' })
       const emitSession = (): void => {
         emitRemote('api-session/added', [created])
       }
@@ -3335,7 +3335,7 @@ function createFixtureWorld(options: FixtureOptions): FixtureWorld {
       })
       // The host echoes the prompt's requestId as the user source's rpcId;
       // the Session object retires its local submission echo on it. The
-      // user-rpc source member is declared by dsh-api-session-controller,
+      // user-rpc source member is declared by nulu-api-session-controller,
       // which this standalone fixture does not import — hence the assertion.
       const promptSource = { kind: 'user', rpcId: request.requestId } as MessageSource
       if (mode === 'steer' && replays.has(id)) {
@@ -3357,7 +3357,7 @@ function createFixtureWorld(options: FixtureOptions): FixtureWorld {
       // Capacity parallel of the host token-meter's request/context record:
       // log-only, appended inside the open turn, and deduplicated against the
       // route already recorded (the fixture never varies contextWindow).
-      const selection = modelSelections.get(id) ?? { provider: 'deepseek', model: 'deepseek-v4-flash' }
+      const selection = modelSelections.get(id) ?? { provider: 'nulu', model: 'nulu-5' }
       const previousHeader = logOf(id).findLast(event => event.type === 'request/header')
       const previousSelection = previousHeader?.type === 'request/header'
         ? {
@@ -3912,8 +3912,8 @@ function createFixtureWorld(options: FixtureOptions): FixtureWorld {
         case 'session/modelCatalog': return Promise.resolve({
           ok: true,
           value: {
-            default: { provider: 'deepseek-official', model: 'deepseek-v4-flash' },
-            routableProviders: ['deepseek-official', 'openai', 'acme-gateway'],
+            default: { provider: 'worldapp-gateway', model: 'nulu-5' },
+            routableProviders: ['worldapp-gateway', 'openai', 'acme-gateway'],
             groups: fixtureModelGroups(),
             failures: [],
           },
@@ -3921,7 +3921,7 @@ function createFixtureWorld(options: FixtureOptions): FixtureWorld {
         case 'llm/listProviders': return Promise.resolve({
           ok: true,
           value: [
-            { id: 'deepseek-official', name: 'DeepSeek' },
+            { id: 'worldapp-gateway', name: 'Nulu' },
             { id: 'openai', name: 'openai' },
             { id: 'acme-gateway', name: 'Acme Gateway' },
           ],
@@ -3929,7 +3929,7 @@ function createFixtureWorld(options: FixtureOptions): FixtureWorld {
         case 'llm/listConfigurableProviders': return Promise.resolve({
           ok: true,
           value: [
-            { provider: 'deepseek-official', displayName: 'DeepSeek', settingsNs: 'llm-deepseek', settingsPath: [] },
+            { provider: 'worldapp-gateway', displayName: 'Nulu', settingsNs: 'llm-gateway', settingsPath: [] },
             { provider: 'openai', displayName: 'openai', settingsNs: 'llm-pi-ai', settingsPath: ['providers', 'openai'], declared: false },
             { provider: 'anthropic', displayName: 'anthropic', settingsNs: 'llm-pi-ai', settingsPath: ['providers', 'anthropic'], declared: false },
             { provider: 'acme-gateway', displayName: 'Acme Gateway', settingsNs: 'llm-pi-ai', settingsPath: ['providers', 'acme-gateway'], declared: true },

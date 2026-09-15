@@ -13,14 +13,14 @@
  * projections. Direct driving is deliberate: this spec owns only the
  * source's own contract.
  */
-import { Context } from '@deepseek-ai/cordis'
+import { Context } from '@worldapptechnologies/cordis'
 import { describe, expect, it, onTestFinished, vi } from 'vitest'
-import type { SessionId } from '@deepseek-ai/dsh-session/types'
-import { SlotRegistry } from '@deepseek-ai/dsh-client-ui-renderer/client'
-import { InputTriggerService } from '@deepseek-ai/dsh-client-ui-input-trigger/client'
-import { RemoteError, TestRemote } from '@deepseek-ai/dsh-client-test-runtime'
-import type { RemoteFailure } from '@deepseek-ai/dsh-api-remotes/client'
-import type { ClientSessionContext, InputTriggerSource } from '@deepseek-ai/dsh-client-ui-input-trigger/client'
+import type { SessionId } from '@worldapptechnologies/nulu-session/types'
+import { SlotRegistry } from '@worldapptechnologies/nulu-client-ui-renderer/client'
+import { InputTriggerService } from '@worldapptechnologies/nulu-client-ui-input-trigger/client'
+import { RemoteError, TestRemote } from '@worldapptechnologies/nulu-client-test-runtime'
+import type { RemoteFailure } from '@worldapptechnologies/nulu-api-remotes/client'
+import type { ClientSessionContext, InputTriggerSource } from '@worldapptechnologies/nulu-client-ui-input-trigger/client'
 import { apply, inject } from '../src/client/index.ts'
 import { SkillRow as SkillToolRow } from '../src/client/SkillRow.tsx'
 
@@ -409,7 +409,7 @@ describe('reference preview', () => {
     expect(list).toHaveBeenCalledTimes(1)
     gate.resolve({ ok: true, value: { skills: rows } })
     await candidates
-    expect(openResource).toHaveBeenCalledExactlyOnceWith('dsh-resource://file/session/preview//skills/review/SKILL.md')
+    expect(openResource).toHaveBeenCalledExactlyOnceWith('nulu-resource://file/session/preview//skills/review/SKILL.md')
     expect(source.openReference!(session, { ref: '/virtual' })).toBe(false)
     expect(source.openReference!(session, { ref: '/missing' })).toBe(false)
     expect(source.openReference!(session, { ref: '/review' })).toBe(true)
@@ -431,10 +431,10 @@ describe('reference preview', () => {
     const secondDone = source.candidates(proj('second'), req(''))
     second.resolve({ ok: true, value: { skills: [{ ...rows[0]!, path: '/second/SKILL.md' }] } })
     await secondDone
-    expect(openResource).toHaveBeenLastCalledWith('dsh-resource://file/session/second//second/SKILL.md')
+    expect(openResource).toHaveBeenLastCalledWith('nulu-resource://file/session/second//second/SKILL.md')
     first.resolve({ ok: true, value: { skills: rows } })
     await firstDone
-    expect(openResource).toHaveBeenLastCalledWith('dsh-resource://file/session/first//skills/review/SKILL.md')
+    expect(openResource).toHaveBeenLastCalledWith('nulu-resource://file/session/first//skills/review/SKILL.md')
     expect(list.mock.calls.map(([payload]) => payload)).toEqual([{ sessionId: 'first' }, { sessionId: 'second' }])
   })
 

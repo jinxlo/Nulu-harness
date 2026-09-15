@@ -1,26 +1,26 @@
 # Keyless replay keeps both recorded model routes in the replay catalog and
 # applies the same second-assembly selection change as the live composition.
-- id: llm-deepseek
-  name: '@deepseek-ai/dsh-llm-deepseek'
+- id: llm-gateway
+  name: '@worldapptechnologies/nulu-llm-gateway'
   disabled: true
 
-- id: plugin-package-inventory-deepseek
+- id: plugin-package-inventory
   disabled: true
 
 - insert:
     - id: llm-replay
-      name: '@deepseek-ai/dsh-llm-replay'
+      name: '@worldapptechnologies/nulu-llm-replay'
       config:
         providers:
-          - id: deepseek-official
-            name: DeepSeek
+          - id: worldapp-gateway
+            name: Nulu
             models:
-              - id: deepseek-v4-flash
+              - id: nulu-5
                 contextWindow: 1000000
                 defaultMaxTokens: 256000
                 reasoningEfforts: ['off', 'low', 'high', 'max']
                 defaultReasoningEffort: max
-              - id: deepseek-v4-pro
+              - id: nulu-5-ultra
                 contextWindow: 1000000
                 defaultMaxTokens: 256000
                 reasoningEfforts: ['off', 'low', 'high', 'max']

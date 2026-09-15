@@ -1,0 +1,52 @@
+{
+  "name": "@worldapptechnologies/nulu-web-search-gateway",
+  "description": "Nulu-backed search provider (native web_search via the Anthropic-compatible API) for the Nulu Harness web capability seam (ctx.web)",
+  "version": "0.1.5-rc.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/worldapptechnologies/nulu-harness.git",
+    "directory": "packages/web/web-search-gateway"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@worldapptechnologies/nulu-agent": "workspace:^",
+    "@worldapptechnologies/nulu-credentials": "workspace:^",
+    "@worldapptechnologies/nulu-launch-environment": "workspace:^",
+    "@worldapptechnologies/nulu-session": "workspace:^",
+    "@worldapptechnologies/nulu-web": "workspace:^",
+    "@worldapptechnologies/cordis": "workspace:^",
+    "@worldapptechnologies/nulu-settings": "workspace:^"
+  },
+  "dependencies": {
+    "@worldapptechnologies/schemastery": "workspace:^"
+  },
+  "devDependencies": {
+    "@worldapptechnologies/nulu-agent": "workspace:^",
+    "@worldapptechnologies/nulu-credentials": "workspace:^",
+    "@worldapptechnologies/nulu-credentials-local": "workspace:^",
+    "@worldapptechnologies/nulu-launch-environment": "workspace:^",
+    "@worldapptechnologies/nulu-session": "workspace:^",
+    "@worldapptechnologies/nulu-web": "workspace:^",
+    "@worldapptechnologies/cordis": "workspace:^",
+    "@worldapptechnologies/nulu-settings": "workspace:^",
+    "@worldapptechnologies/nulu-http-proxy": "workspace:^"
+  }
+}

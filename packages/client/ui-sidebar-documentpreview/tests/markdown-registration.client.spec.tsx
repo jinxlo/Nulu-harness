@@ -2,9 +2,9 @@
 /** Markdown metadata, deferred slot registration, localization, and unload through the real renderer. */
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { act } from '@testing-library/react'
-import { SlotTestRuntime } from '@deepseek-ai/dsh-client-test-runtime'
-import { LocaleRuntime } from '@deepseek-ai/dsh-client-locale/client'
-import type { UseSidebarRightTabInfo } from '@deepseek-ai/dsh-client-ui-sidebar-right/client'
+import { SlotTestRuntime } from '@worldapptechnologies/nulu-client-test-runtime'
+import { LocaleRuntime } from '@worldapptechnologies/nulu-client-locale/client'
+import type { UseSidebarRightTabInfo } from '@worldapptechnologies/nulu-client-ui-sidebar-right/client'
 import { DocumentPreviewRegistry } from '../src/client/document/registry.ts'
 import { documentTabInfoFactory } from '../src/client/document/contract.ts'
 import { apply, MARKDOWN_BODY_ID, markdownDefinition } from '../src/client/markdown/index.ts'
@@ -51,7 +51,7 @@ describe('Markdown implementation registration', () => {
         kind: 'keyed', scope: 'session', inject: { hooks: { tabInfo: documentTabInfoFactory } },
       },
     }, ({ renderSlot }) => renderSlot('sidebar.right.tab.document', {
-      resourceAddress: 'dsh-resource://file/session/markdown-registration/notes.md',
+      resourceAddress: 'nulu-resource://file/session/markdown-registration/notes.md',
       content: { kind: 'text', text: '# Notes\n\n```ts\nconst value = 1\n```', pages: [], eof: true },
       wrap: false,
       scrollportRef: vi.fn(),

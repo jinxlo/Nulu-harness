@@ -1,11 +1,11 @@
 /** Environment variable that selects the Desktop update deployment. */
-export const DESKTOP_AUTO_UPDATE_ENV: 'DSH_DESKTOP_AUTO_UPDATE_ENV'
+export const DESKTOP_AUTO_UPDATE_ENV: 'NULU_DESKTOP_AUTO_UPDATE_ENV'
 
 /** Supported Desktop update deployment. */
 export type DesktopAutoUpdateEnvironment = 'test' | 'production'
 
 /** Directory name of one supported Desktop release target. */
-export type DesktopAutoUpdateTarget = 'mac-arm64' | 'mac-x64' | 'win-x64'
+export type DesktopAutoUpdateTarget = 'mac-arm64' | 'mac-x64' | 'win-x64' | 'linux-x64'
 
 /** Public updater URL for one release target. */
 export interface DesktopAutoUpdateConfig {

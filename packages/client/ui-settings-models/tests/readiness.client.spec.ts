@@ -1,23 +1,41 @@
 /** Pure first-run readiness projection over the shared Models join. */
 import { describe, expect, it } from 'vitest'
-import type { CredentialInfo } from '@deepseek-ai/dsh-api-remotes/client'
+import type { CredentialInfo } from '@worldapptechnologies/nulu-api-remotes/client'
 import type { ModelsSettingsState, ProviderRow } from '../src/client/store.ts'
-import { onboardingReadiness, providerUsable } from '../src/client/store.ts'
+import { onboardingProviderRow, onboardingReadiness, providerUsable } from '../src/client/store.ts'
 
 const missingCredential: CredentialInfo = { configured: false, writable: true }
 
 function row(overrides: Partial<ProviderRow> = {}): ProviderRow {
   return {
     entry: {
-      provider: 'deepseek-official',
-      displayName: 'DeepSeek',
-      settingsNs: 'llm-deepseek',
+      provider: 'worldapp-gateway',
+      displayName: 'Nulu',
+      settingsNs: 'llm-gateway',
       settingsPath: [],
       active: true,
     },
     configured: true,
     removable: false,
-    apiKeyEnv: 'DEEPSEEK_API_KEY',
+    apiKeyEnv: 'WORLD_APP_TECHNOLOGIES_API_KEY',
+    credential: missingCredential,
+    ...overrides,
+  }
+}
+
+/** The shipped pi-ai gateway route the default model selection resolves to. */
+function worldAppRow(overrides: Partial<ProviderRow> = {}): ProviderRow {
+  return {
+    entry: {
+      provider: 'worldapp',
+      displayName: 'World App Technologies',
+      settingsNs: 'llm-pi-ai',
+      settingsPath: ['providers', 'worldapp'],
+      active: true,
+    },
+    configured: true,
+    removable: false,
+    apiKeyEnv: 'WORLD_APP_TECHNOLOGIES_API_KEY',
     credential: missingCredential,
     ...overrides,
   }
@@ -66,6 +84,21 @@ describe('providerUsable', () => {
   })
 })
 
+describe('onboardingProviderRow', () => {
+  it('prefers the shipped World App Technologies route over the native fallback', () => {
+    const nulu = row()
+    const worldApp = worldAppRow()
+    expect(onboardingProviderRow(state({ rows: [nulu, worldApp] }))).toBe(worldApp)
+    expect(onboardingProviderRow(state({ rows: [worldApp, nulu] }))).toBe(worldApp)
+  })
+
+  it('falls back to the native route and reports nothing when neither is declared', () => {
+    const nulu = row()
+    expect(onboardingProviderRow(state({ rows: [nulu] }))).toBe(nulu)
+    expect(onboardingProviderRow(state({ rows: [] }))).toBeUndefined()
+  })
+})
+
 describe('onboardingReadiness', () => {
   it('waits for the first join and skips onboarding when the adapter directory entry is absent', () => {
     expect(onboardingReadiness(state({ status: 'idle', rows: [] }))).toEqual({ kind: 'loading' })
@@ -83,6 +116,13 @@ describe('onboardingReadiness', () => {
 
   it('reports a missing writable effective credential', () => {
     expect(onboardingReadiness(state())).toEqual({ kind: 'credential-missing' })
+  })
+
+  it('prompts for the shipped World App Technologies route when it is mounted', () => {
+    expect(onboardingReadiness(state({ rows: [worldAppRow()] }))).toEqual({ kind: 'credential-missing' })
+    expect(onboardingReadiness(state({
+      rows: [worldAppRow({ entry: { ...worldAppRow().entry, active: false } })],
+    }))).toEqual({ kind: 'unavailable', reason: 'provider-inactive' })
   })
 
   it('ends onboarding once any other registered provider can serve requests', () => {

@@ -7,7 +7,7 @@ import { describe, expect, it, onTestFinished } from 'vitest'
 import { auditSubsystemPages } from './verify-subsystem-pages.ts'
 
 function fixture(): string {
-  const root = mkdtempSync(join(tmpdir(), 'dsh-subsystem-pages-'))
+  const root = mkdtempSync(join(tmpdir(), 'nulu-subsystem-pages-'))
   onTestFinished(() => {
     rmSync(root, { recursive: true, force: true })
   })
@@ -46,15 +46,14 @@ describe('package-group subsystem pages', () => {
     ])
   })
 
-  it('does not treat the subsystem index or a Chinese counterpart as an owning page', () => {
+  it('does not treat the subsystem index as an owning page', () => {
     const root = fixture()
     write(
       root,
       'packages/wrong/README.md',
-      '[index](../../docs/subsystems/README.md) [Chinese](../../docs/subsystems/wrong.zh.md)\n',
+      '[index](../../docs/subsystems/README.md) [types](../../docs/subsystems/README.md#contract)\n',
     )
     write(root, 'docs/subsystems/README.md', '# Subsystems\n')
-    write(root, 'docs/subsystems/wrong.zh.md', '# Wrong\n')
 
     expect(auditSubsystemPages(root, {}).violations).toEqual([
       'packages/wrong/README.md: no reader-visible direct docs/subsystems/*.md link; add the owning page and link, or add a justified GROUPS_WITHOUT_SUBSYSTEM_PAGE entry',

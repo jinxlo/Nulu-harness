@@ -1,16 +1,16 @@
-import { createUserMessage, expandAssistantStream } from '@deepseek-ai/dsh-llm'
+import { createUserMessage, expandAssistantStream } from '@worldapptechnologies/nulu-llm'
 import { createServer } from 'node:http'
 import type { AddressInfo } from 'node:net'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import type { Agent } from '@deepseek-ai/dsh-agent'
-import AgentLoop from '@deepseek-ai/dsh-agent-loop'
-import { mountAgentLoopTestDependencies } from '@deepseek-ai/dsh-agent-loop-testkit'
-import * as LlmDeepSeek from '@deepseek-ai/dsh-llm-deepseek'
-import type { MockLlmBehavior, MockLlmServer } from '@deepseek-ai/dsh-llm-mock-server'
-import { startMockLlmServer } from '@deepseek-ai/dsh-llm-mock-server'
-import { SessionId } from '@deepseek-ai/dsh-session'
-import type { SessionEvent } from '@deepseek-ai/dsh-session'
+import { Context } from '@worldapptechnologies/cordis'
+import type { Agent } from '@worldapptechnologies/nulu-agent'
+import AgentLoop from '@worldapptechnologies/nulu-agent-loop'
+import { mountAgentLoopTestDependencies } from '@worldapptechnologies/nulu-agent-loop-testkit'
+import * as LlmGateway from '@worldapptechnologies/nulu-llm-gateway'
+import type { MockLlmBehavior, MockLlmServer } from '@worldapptechnologies/nulu-llm-mock-server'
+import { startMockLlmServer } from '@worldapptechnologies/nulu-llm-mock-server'
+import { SessionId } from '@worldapptechnologies/nulu-session'
+import type { SessionEvent } from '@worldapptechnologies/nulu-session'
 import * as Retry from '../src/index.ts'
 
 let context: Context | undefined
@@ -35,10 +35,10 @@ async function harness(
   baseURL: string,
   options: { streamIdleTimeoutMs?: number; initialDelayMs?: number } = {},
 ): Promise<Context> {
-  vi.stubEnv('DEEPSEEK_API_KEY', 'mock-key')
+  vi.stubEnv('WORLD_APP_TECHNOLOGIES_API_KEY', 'mock-key')
   const ctx = new Context()
   await mountAgentLoopTestDependencies(ctx)
-  await ctx.plugin(LlmDeepSeek, {
+  await ctx.plugin(LlmGateway, {
     baseURL,
     streamIdleTimeoutMs: options.streamIdleTimeoutMs ?? 1_000,
     retryPolicy: {
@@ -83,12 +83,12 @@ async function unusedPort(): Promise<number> {
   return port
 }
 
-describe('bounded retry through the real DeepSeek HTTP/SSE adapter', () => {
+describe('bounded retry through the real Nulu HTTP/SSE adapter', () => {
   it('recovers from a true refused connection after the endpoint starts during backoff', async () => {
     const port = await unusedPort()
     context = await harness(`http://127.0.0.1:${port}`, { initialDelayMs: 100 })
     const agent = await context.agentLoop.create(SessionId('wire-refused'), {
-      provider: 'deepseek-official',
+      provider: 'worldapp-gateway',
       model: 'mock-model',
     })
     let recoveryServer: Promise<MockLlmServer> | undefined
@@ -123,7 +123,7 @@ describe('bounded retry through the real DeepSeek HTTP/SSE adapter', () => {
     })
     context = await harness(server.baseURL)
     const agent = await context.agentLoop.create(SessionId(`wire-${behavior}`), {
-      provider: 'deepseek-official',
+      provider: 'worldapp-gateway',
       model: 'mock-model',
     })
 
@@ -154,7 +154,7 @@ describe('bounded retry through the real DeepSeek HTTP/SSE adapter', () => {
     })
     context = await harness(server.baseURL)
     const agent = await context.agentLoop.create(SessionId('wire-empty'), {
-      provider: 'deepseek-official',
+      provider: 'worldapp-gateway',
       model: 'mock-model',
     })
 
@@ -182,7 +182,7 @@ describe('bounded retry through the real DeepSeek HTTP/SSE adapter', () => {
     })
     context = await harness(server.baseURL)
     const agent = await context.agentLoop.create(SessionId('wire-partial-eof'), {
-      provider: 'deepseek-official',
+      provider: 'worldapp-gateway',
       model: 'mock-model',
     })
 
@@ -208,7 +208,7 @@ describe('bounded retry through the real DeepSeek HTTP/SSE adapter', () => {
     // the stalled attempt and the mock server's immediate successful response.
     context = await harness(server.baseURL, { streamIdleTimeoutMs: 1_000 })
     const agent = await context.agentLoop.create(SessionId('wire-stall'), {
-      provider: 'deepseek-official',
+      provider: 'worldapp-gateway',
       model: 'mock-model',
     })
 
@@ -226,7 +226,7 @@ describe('bounded retry through the real DeepSeek HTTP/SSE adapter', () => {
     })
     context = await harness(server.baseURL)
     const agent = await context.agentLoop.create(SessionId('wire-exhausted'), {
-      provider: 'deepseek-official',
+      provider: 'worldapp-gateway',
       model: 'mock-model',
     })
 
@@ -241,7 +241,7 @@ describe('bounded retry through the real DeepSeek HTTP/SSE adapter', () => {
       data: { reason: { kind: 'error', error: { code: 'TRANSPORT' } } },
     })
     if (end?.type === 'turn/end' && end.data.reason.kind === 'error') {
-      expect(end.data.reason.error.message).toContain('DeepSeek API request to')
+      expect(end.data.reason.error.message).toContain('Nulu API request to')
     }
   })
 })

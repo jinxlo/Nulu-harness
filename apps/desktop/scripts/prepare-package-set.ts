@@ -1,4 +1,4 @@
-/** Select and copy the local npm tarball closures that supply Desktop dsh and its private Host. */
+/** Select and copy the local npm tarball closures that supply Desktop nulu and its private Host. */
 
 import { createHash } from 'node:crypto'
 import {
@@ -25,8 +25,8 @@ import { capture } from '../../../scripts/release/process.ts'
 import { tarballFiles } from '../../../scripts/release/tarball.ts'
 import { resolveDesktopTargetBuildPaths } from './desktop-build-paths.mjs'
 
-const DSH_PACKAGE = '@deepseek-ai/dsh'
-const ROOT_PACKAGES = [DSH_PACKAGE, DESKTOP_HOST_PACKAGE] as const
+const NULU_PACKAGE = '@worldapptechnologies/nulu'
+const ROOT_PACKAGES = [NULU_PACKAGE, DESKTOP_HOST_PACKAGE] as const
 const APP_ROOT = resolve(import.meta.dirname, '..')
 const REPOSITORY_ROOT = resolve(APP_ROOT, '..', '..')
 
@@ -49,7 +49,7 @@ function dependencyNames(manifest: Readonly<Record<string, unknown>>, section: s
 }
 
 /**
- * Select the complete available first-party dependency closures rooted at dsh and its private Host.
+ * Select the complete available first-party dependency closures rooted at nulu and its private Host.
  * @param available - Packed packages indexed by package name.
  * @returns Selected packages sorted by name.
  */
@@ -65,7 +65,7 @@ export function selectDesktopPackageClosure(
     for (const section of REQUIRED_DEPENDENCY_SECTIONS) {
       for (const dependency of dependencyNames(packed.manifest, section)) {
         if (available.has(dependency)) visit(dependency)
-        else if (dependency.startsWith('@deepseek-ai/')) {
+        else if (dependency.startsWith('@worldapptechnologies/')) {
           throw new Error(`desktop package set: ${name} requires unpacked internal package ${dependency}`)
         }
       }
@@ -155,7 +155,7 @@ export function prepareDesktopPackageSet(inputs: readonly string[], output: stri
 function main(): void {
   const buildPaths = resolveDesktopTargetBuildPaths()
   const defaultInputs = [
-    buildPaths.packedDsh,
+    buildPaths.packedNulu,
     buildPaths.packedVendor,
     buildPaths.packedLandlock,
   ]

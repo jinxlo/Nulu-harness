@@ -10,25 +10,27 @@ describe('desktop build paths', () => {
     const arm64 = desktopTargetBuildPaths('mac-arm64')
     const x64 = desktopTargetBuildPaths('mac-x64')
     const windows = desktopTargetBuildPaths('win-x64')
+    const linux = desktopTargetBuildPaths('linux-x64')
     const mutableKeys = [
       'root',
       'artifacts',
       'runtime',
       'packageSet',
-      'dsh',
-      'dshPnpm',
+      'nulu',
+      'nuluPnpm',
       'nodeExtract',
-      'packedDsh',
+      'packedNulu',
       'packedVendor',
       'packedLandlock',
     ] as const
 
     for (const key of mutableKeys) {
-      expect(new Set([arm64[key], x64[key], windows[key]]).size).toBe(3)
+      expect(new Set([arm64[key], x64[key], windows[key], linux[key]]).size).toBe(4)
     }
     expect(arm64.artifacts).toContain(join('targets', 'mac-arm64', 'artifacts'))
-    expect(x64.dsh).toContain(join('targets', 'mac-x64', 'dsh'))
+    expect(x64.nulu).toContain(join('targets', 'mac-x64', 'nulu'))
     expect(windows.runtime).toContain(join('targets', 'win-x64', 'runtime'))
+    expect(linux.runtime).toContain(join('targets', 'linux-x64', 'runtime'))
   })
 
   it('shares only the immutable upstream download cache', () => {
@@ -40,11 +42,12 @@ describe('desktop build paths', () => {
 
   it('resolves environment overrides and rejects unsupported targets', () => {
     expect(resolveDesktopBuildTarget({
-      DSH_DESKTOP_TARGET_PLATFORM: 'darwin',
-      DSH_DESKTOP_TARGET_ARCH: 'x64',
+      NULU_DESKTOP_TARGET_PLATFORM: 'darwin',
+      NULU_DESKTOP_TARGET_ARCH: 'x64',
     }, 'darwin', 'arm64')).toBe('mac-x64')
     expect(resolveDesktopBuildTarget({}, 'win32', 'x64')).toBe('win-x64')
-    expect(() => resolveDesktopBuildTarget({}, 'linux', 'x64')).toThrow(/unsupported target/u)
-    expect(() => desktopTargetBuildPaths('linux-x64' as 'mac-x64')).toThrow(/unsupported target/u)
+    expect(resolveDesktopBuildTarget({}, 'linux', 'x64')).toBe('linux-x64')
+    expect(() => resolveDesktopBuildTarget({}, 'linux', 'arm64')).toThrow(/unsupported target/u)
+    expect(() => desktopTargetBuildPaths('freebsd-x64' as 'mac-x64')).toThrow(/unsupported target/u)
   })
 })

@@ -30,6 +30,10 @@
       - button "编辑 zai": 编辑
       - button "删除 zai": 删除
     - listitem:
+      - text: World App Technologies 自定义
+      - img "API 密钥缺失"
+      - button "编辑 World App Technologies (worldapp)": 编辑
+    - listitem:
       - text: acme-gateway 自定义
       - button "编辑 acme-gateway": 编辑
       - button "删除 acme-gateway": 删除

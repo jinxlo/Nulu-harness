@@ -27,24 +27,26 @@ export function createElectronBuilderConfig(
   hostArch = process.arch,
 ) {
   const appId = resolveDesktopAppId(env)
-  const targetPlatform = env.DSH_DESKTOP_TARGET_PLATFORM
+  const targetPlatform = env.NULU_DESKTOP_TARGET_PLATFORM
   const resolvedPlatform = targetPlatform ?? hostPlatform
-  const resolvedArch = env.DSH_DESKTOP_TARGET_ARCH ?? hostArch
-  if (env.DSH_DESKTOP_UNSIGNED !== undefined && !['0', '1'].includes(env.DSH_DESKTOP_UNSIGNED)) {
-    throw new Error('desktop package: DSH_DESKTOP_UNSIGNED must be 0 or 1')
+  const resolvedArch = env.NULU_DESKTOP_TARGET_ARCH ?? hostArch
+  if (env.NULU_DESKTOP_UNSIGNED !== undefined && !['0', '1'].includes(env.NULU_DESKTOP_UNSIGNED)) {
+    throw new Error('desktop package: NULU_DESKTOP_UNSIGNED must be 0 or 1')
   }
-  const unsigned = env.DSH_DESKTOP_UNSIGNED === '1'
-  if (unsigned && resolvedPlatform !== 'win32') throw new Error('desktop package: unsigned builds require Windows')
+  const unsigned = env.NULU_DESKTOP_UNSIGNED === '1'
+  if (unsigned && resolvedPlatform !== 'win32' && resolvedPlatform !== 'darwin') {
+    throw new Error('desktop package: unsigned builds require Windows or macOS')
+  }
   const packagesMacOS = targetPlatform === 'darwin' || (targetPlatform === undefined && hostPlatform === 'darwin')
   const packagesWindows = targetPlatform === 'win32'
-  const macOSSigning = packagesMacOS ? resolveMacOSSigningEnvironment(env) : undefined
-  if (packagesMacOS) resolveMacOSNotarizationEnvironment(env)
+  const macOSSigning = packagesMacOS && !unsigned ? resolveMacOSSigningEnvironment(env) : undefined
+  if (packagesMacOS && !unsigned) resolveMacOSNotarizationEnvironment(env)
   const windowsSigner = packagesWindows && !unsigned
     ? createWindowsTokenSigner({
-        certificateFile: env.DSH_DESKTOP_WINDOWS_CER_FILE,
-        signTool: env.DSH_DESKTOP_WINDOWS_SIGNTOOL,
-        tokenPin: env.DSH_DESKTOP_WINDOWS_TOKEN_PIN,
-        keyContainer: env.DSH_DESKTOP_WINDOWS_KEY_CONTAINER,
+        certificateFile: env.NULU_DESKTOP_WINDOWS_CER_FILE,
+        signTool: env.NULU_DESKTOP_WINDOWS_SIGNTOOL,
+        tokenPin: env.NULU_DESKTOP_WINDOWS_TOKEN_PIN,
+        keyContainer: env.NULU_DESKTOP_WINDOWS_KEY_CONTAINER,
       })
     : undefined
   if (windowsSigner !== undefined) {
@@ -54,8 +56,8 @@ export function createElectronBuilderConfig(
   const buildPaths = desktopTargetBuildPaths(resolveDesktopBuildTarget(env, hostPlatform, hostArch))
   return {
     appId,
-    productName: 'DeepSeek Harness',
-    artifactName: 'deepseek-harness-${version}-${os}-${arch}.${ext}',
+    productName: 'Nulu Harness',
+    artifactName: 'nulu-harness-${version}-${os}-${arch}.${ext}',
     directories: { output: unsigned ? join(buildPaths.root, 'unsigned-artifacts') : buildPaths.artifacts },
     asar: true,
     files: [
@@ -66,18 +68,18 @@ export function createElectronBuilderConfig(
     ],
     extraResources: [
       { from: buildPaths.runtime, to: 'runtime' },
-      { from: buildPaths.dsh, to: 'dsh' },
+      { from: buildPaths.nulu, to: 'nulu' },
       // electron-builder excludes a source directory's root node_modules.
-      { from: join(buildPaths.dsh, 'node_modules'), to: 'dsh/node_modules' },
+      { from: join(buildPaths.nulu, 'node_modules'), to: 'nulu/node_modules' },
     ],
     mac: {
       category: 'public.app-category.developer-tools',
-      identity: macOSSigning?.signingIdentity,
-      forceCodeSigning: true,
+      identity: unsigned ? null : macOSSigning?.signingIdentity,
+      forceCodeSigning: !unsigned,
       hardenedRuntime: true,
       // Native runtime files are pre-signed; PAK resources are sealed by their enclosing bundle.
-      signIgnore: ['/Contents/Resources/dsh(?:/|$)', '\\.pak$'],
-      notarize: true,
+      signIgnore: ['/Contents/Resources/nulu(?:/|$)', '\\.pak$'],
+      notarize: !unsigned,
       target: ['dmg', 'zip'],
     },
     dmg: {
@@ -86,18 +88,18 @@ export function createElectronBuilderConfig(
     },
     afterPack: async context => {
       const { verifyDesktopRuntime } = await import('./lib/types/runtime-tree.js')
-      await verifyDesktopRuntime(join(context.packager.getResourcesDir(context.appOutDir), 'dsh'),
+      await verifyDesktopRuntime(join(context.packager.getResourcesDir(context.appOutDir), 'nulu'),
         context.packager.appInfo.version, { platform: resolvedPlatform, arch: resolvedArch })
     },
     afterSign: async context => {
-      if (context.electronPlatformName !== 'darwin') return
+      if (unsigned || context.electronPlatformName !== 'darwin') return
       const { verifyDesktopRuntime } = await import('./lib/types/runtime-tree.js')
-      await verifyDesktopRuntime(join(context.appOutDir, `${context.packager.appInfo.productFilename}.app`, 'Contents', 'Resources', 'dsh'),
+      await verifyDesktopRuntime(join(context.appOutDir, `${context.packager.appInfo.productFilename}.app`, 'Contents', 'Resources', 'nulu'),
         context.packager.appInfo.version, { platform: 'darwin', arch: resolvedArch })
       verifyMacOSSignatureAfterSign(context, macOSSigning ?? resolveMacOSSigningEnvironment(env))
     },
     artifactBuildCompleted: artifact => {
-      if (!artifact.file.endsWith('.dmg')) return
+      if (unsigned || !artifact.file.endsWith('.dmg')) return
       return notarizeMacOSDiskImageArtifact(
         artifact,
         env,
@@ -114,6 +116,8 @@ export function createElectronBuilderConfig(
     },
     linux: {
       category: 'Development',
+      // The scoped package name cannot become the AppImage executable name.
+      executableName: 'nulu-harness',
       target: ['AppImage'],
     },
     nsis: {

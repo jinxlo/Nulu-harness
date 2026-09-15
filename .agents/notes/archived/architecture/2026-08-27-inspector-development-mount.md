@@ -3,11 +3,10 @@
 Status: implemented
 Archived: 2026-09-04
 
-English | [中文](2026-08-27-inspector-development-mount.zh.md)
 
 ## Problem
 
-`@deepseek-ai/dsh-experimental-inspector` is a private package no published dsh installation carries, yet development launches need to mount it into the shipped Web composition on demand. A row in a shipped bundle patch cannot express this: `verify-cordis-config` requires every named row of a bundle patch to resolve from that bundle's own `dependencies` — disabled rows included — and a published manifest must not depend on an unpublished package.
+`@worldapptechnologies/nulu-experimental-inspector` is a private package no published nulu installation carries, yet development launches need to mount it into the shipped Web composition on demand. A row in a shipped bundle patch cannot express this: `verify-cordis-config` requires every named row of a bundle patch to resolve from that bundle's own `dependencies` — disabled rows included — and a published manifest must not depend on an unpublished package.
 
 ## Decision
 
@@ -23,5 +22,5 @@ Published packages carry no trace of the inspector: no manifest entry, no compos
 
 - A `disabled: !!js` row in the shipped web-app patch: the dependency gate and npm publication both force the private package into the published manifest.
 - A `--inspector` launcher flag mounting the package as an extra bundle layer: the launcher owns neither app flags nor plugin package names.
-- An optional `peerDependencies` entry on `dsh-web-app` plus a dynamic `ctx.loader.create` from its glue plugin: it writes a never-published name into a published manifest and mounts a row no config layer declares.
+- An optional `peerDependencies` entry on `nulu-web-app` plus a dynamic `ctx.loader.create` from its glue plugin: it writes a never-published name into a published manifest and mounts a row no config layer declares.
 - One bare-package overlay for both launch modes: source resolution can use the workspace facade, but built resolution would require persistent profile installation state unrelated to the launch command.

@@ -2,7 +2,7 @@
 
 import { fileURLToPath } from 'node:url'
 import { expect, it } from 'vitest'
-import { LOADER_SMOKE_TEST_TIMEOUT_MS, runLoaderSmoke } from '@deepseek-ai/dsh-loader-smoke'
+import { LOADER_SMOKE_TEST_TIMEOUT_MS, runLoaderSmoke } from '@worldapptechnologies/nulu-loader-smoke'
 
 const fixtureRoot = new URL('../../../../../../packages/mcp/mcp-client/tests/fixtures/', import.meta.url)
 const configPath = fileURLToPath(new URL('repeated-cursor.patch.yml', fixtureRoot))
@@ -11,7 +11,7 @@ const expectedPath = fileURLToPath(new URL('./expected/mcp-pagination/stderr-cau
 it('reports a repeated MCP discovery cursor and exits before starting a turn', async () => {
   const { stdout, stderr } = await runLoaderSmoke({
     label: 'MCP discovery pagination cycle',
-    tempDirPrefix: 'dsh-mcp-pagination-',
+    tempDirPrefix: 'nulu-mcp-pagination-',
     binScript: fileURLToPath(new URL('../../../../src/bin.ts', import.meta.url)),
     libBinScript: fileURLToPath(new URL('../../../../lib/bin.js', import.meta.url)),
     configPath,
@@ -19,8 +19,8 @@ it('reports a repeated MCP discovery cursor and exits before starting a turn', a
     tsconfigPath: fileURLToPath(new URL('../../../../../../tsconfig.json', import.meta.url)),
     expectedExitCode: 1,
     env: {
-      DSH_MCP_PAGINATION_FIXTURE: fileURLToPath(new URL('repeated-cursor-server.ts', fixtureRoot)),
-      DSH_TELEMETRY_DISABLED: '1',
+      NULU_MCP_PAGINATION_FIXTURE: fileURLToPath(new URL('repeated-cursor-server.ts', fixtureRoot)),
+      NULU_TELEMETRY_DISABLED: '1',
     },
   })
   expect(stdout).toBe('')

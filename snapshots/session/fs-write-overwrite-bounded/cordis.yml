@@ -2,27 +2,27 @@
 # the fs backend's overwrite diff-basis limit shrunk so a modest replacement
 # crosses the exclusive bound and the write result falls back to a whole-file
 # diff. A config patch replaces the row's whole config, so `cwd` is restated
-# verbatim, and the acp-agent restatement re-pins `deepseek-v4-flash` to match
+# verbatim, and the acp-agent restatement re-pins `nulu-5` to match
 # the recorded corpus and its pinned request headers.
 - id: agent-default-model
-  name: '@deepseek-ai/dsh-agent-default-model'
+  name: '@worldapptechnologies/nulu-agent-default-model'
   config:
-    provider: deepseek-official
-    model: deepseek-v4-flash
+    provider: worldapp-gateway
+    model: nulu-5
 
 - id: session-persistence-jsonl
-  name: '@deepseek-ai/dsh-session-persistence-jsonl'
+  name: '@worldapptechnologies/nulu-session-persistence-jsonl'
   config:
-    root: !!js dshHomePath('sessions')
-    compression: !!js 'process.env.DSH_SNAPSHOT === undefined ? ''zstd'' : ''none'''
+    root: !!js nuluHomePath('sessions')
+    compression: !!js 'process.env.NULU_SNAPSHOT === undefined ? ''zstd'' : ''none'''
 
 - id: agent-instructions
-  name: '@deepseek-ai/dsh-agent-instructions'
+  name: '@worldapptechnologies/nulu-agent-instructions'
   config:
     maxBytes: 65536
 
 - id: system-prompt
-  name: '@deepseek-ai/dsh-system-prompt'
+  name: '@worldapptechnologies/nulu-system-prompt'
   config:
     personaPrefix: |
       You are a coding assistant powered by the {{model}} model. Your working directory is {{cwd}}. Your bash tool runs under a file sandbox — a `[sandbox: file access denied …]` result is policy, not a command bug.
@@ -30,7 +30,7 @@
       Verify your work by running the code or tests. Keep answers brief and factual.
 
 - id: fs-sandbox
-  name: '@deepseek-ai/dsh-fs-sandbox'
+  name: '@worldapptechnologies/nulu-fs-sandbox'
   config:
     cwd: !!js process.cwd()
     diffBasisMaxBytes: 64

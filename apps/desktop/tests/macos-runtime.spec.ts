@@ -2,10 +2,20 @@ import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, expect, it, vi } from 'vitest'
-import { signMacOSRuntime } from '../scripts/macos-runtime.ts'
-import { signMacOSRuntimeCode, verifyMacOSRuntimeCode } from '../scripts/verify-macos-signature.mjs'
+import { adhocSignMacOSRuntime, signMacOSRuntime } from '../scripts/macos-runtime.ts'
+import {
+  signMacOSRuntimeCode,
+  signMacOSRuntimeCodeAdhoc,
+  verifyAdhocMacOSRuntimeCode,
+  verifyMacOSRuntimeCode,
+} from '../scripts/verify-macos-signature.mjs'
 
-vi.mock('../scripts/verify-macos-signature.mjs', () => ({ signMacOSRuntimeCode: vi.fn(), verifyMacOSRuntimeCode: vi.fn() }))
+vi.mock('../scripts/verify-macos-signature.mjs', () => ({
+  signMacOSRuntimeCode: vi.fn(),
+  signMacOSRuntimeCodeAdhoc: vi.fn(),
+  verifyAdhocMacOSRuntimeCode: vi.fn(),
+  verifyMacOSRuntimeCode: vi.fn(),
+}))
 const roots: string[] = []
 function root(): string {
   const path = mkdtempSync(join(tmpdir(), 'desktop-signing-'))
@@ -24,6 +34,18 @@ it('signs Mach-O files in their final locations and verifies each signature', as
   await expect(signMacOSRuntime(path, 'com.example.app', identity)).resolves.toBe(1)
   expect(signMacOSRuntimeCode).toHaveBeenCalledWith(join(path, 'addon.node'), expect.stringMatching(/^com\.example\.app\.runtime\.[a-f0-9]{64}$/u), identity)
   expect(verifyMacOSRuntimeCode).toHaveBeenCalledWith(join(path, 'addon.node'), identity)
+})
+it('ad-hoc signs Mach-O files for unsigned local builds without the release identity', async () => {
+  const path = root()
+  writeFileSync(join(path, 'addon.node'), Buffer.from('cffaedfe00000000', 'hex'))
+  writeFileSync(join(path, 'source.js'), 'export {}')
+  await expect(adhocSignMacOSRuntime(path, 'com.example.app')).resolves.toBe(1)
+  expect(signMacOSRuntimeCodeAdhoc).toHaveBeenCalledWith(
+    join(path, 'addon.node'),
+    expect.stringMatching(/^com\.example\.app\.runtime\.[a-f0-9]{64}$/u),
+  )
+  expect(verifyAdhocMacOSRuntimeCode).toHaveBeenCalledWith(join(path, 'addon.node'))
+  expect(signMacOSRuntimeCode).not.toHaveBeenCalled()
 })
 it('awaits other signers before rejecting and permitting output cleanup', async () => {
   const path = root()

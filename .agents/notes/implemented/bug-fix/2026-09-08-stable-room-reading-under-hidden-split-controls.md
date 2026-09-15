@@ -2,7 +2,6 @@
 
 Status: implemented
 
-English | [中文](2026-09-08-stable-room-reading-under-hidden-split-controls.zh.md)
 
 ## Problem
 

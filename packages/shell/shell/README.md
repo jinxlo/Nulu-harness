@@ -3,9 +3,8 @@ description: "The shell executor seam for developers and maintainers choosing, c
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-shell
+# @worldapptechnologies/nulu-shell
 
-English | [中文](README.zh.md)
 
 ## Summary
 
@@ -42,15 +41,15 @@ Call `start` with a resolved spec to launch a background process; it returns a h
 
 ### Requests and resolved specs
 
-Every execution starts from a `ShellExecRequest` with optional fields; the executor's `resolve()` turns it into a fully-resolved `ShellExecSpec` with explicit defaults and caps before anything runs. This request/spec split is the repository's template for explicit resolution at package boundaries: callers never rely on hidden defaults inside `run` or `start`. `resolve()` fills the working directory and timeout from the executor's configuration, caps per-call overrides, and carries optional inputs — `stdin`, ordinary `env`, and the trusted `DSH_*` snapshot — through verbatim.
+Every execution starts from a `ShellExecRequest` with optional fields; the executor's `resolve()` turns it into a fully-resolved `ShellExecSpec` with explicit defaults and caps before anything runs. This request/spec split is the repository's template for explicit resolution at package boundaries: callers never rely on hidden defaults inside `run` or `start`. `resolve()` fills the working directory and timeout from the executor's configuration, caps per-call overrides, and carries optional inputs — `stdin`, ordinary `env`, and the trusted `NULU_*` snapshot — through verbatim.
 
 ### Choosing and composing an executor
 
-The seam is not an executor: mount exactly one provider per composition, and the tools work unchanged. On POSIX, `dsh-bash-local` runs commands as fresh `bash -c` processes and `dsh-bash-sandbox` confines every command through the sandbox capability; on Windows, `dsh-pwsh-local` and `dsh-pwsh-sandbox` are the counterparts. The `bash` and `pwsh` tools advertise escalation fields only while a sandboxing executor is mounted. The smallest composition is the executor alone:
+The seam is not an executor: mount exactly one provider per composition, and the tools work unchanged. On POSIX, `nulu-bash-local` runs commands as fresh `bash -c` processes and `nulu-bash-sandbox` confines every command through the sandbox capability; on Windows, `nulu-pwsh-local` and `nulu-pwsh-sandbox` are the counterparts. The `bash` and `pwsh` tools advertise escalation fields only while a sandboxing executor is mounted. The smallest composition is the executor alone:
 
 ```yaml
 - id: bash
-  name: '@deepseek-ai/dsh-bash-local'
+  name: '@worldapptechnologies/nulu-bash-local'
   config:
     cwd: /path/to/workspace
 ```
@@ -113,7 +112,7 @@ Read these pages when the seam contract is not enough. They move from the shared
 <a id="model-experience"></a>
 ## Model Experience
 
-Indirectly, through `dsh-tool-bash`, which turns executor output and sandbox facts into guidance and retained tool-result tokens.
+Indirectly, through `nulu-tool-bash`, which turns executor output and sandbox facts into guidance and retained tool-result tokens.
 
 #### KV Cache effect
 

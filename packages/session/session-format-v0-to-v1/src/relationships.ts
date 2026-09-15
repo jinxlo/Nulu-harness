@@ -1,6 +1,6 @@
-import { deepEqualJson } from '@deepseek-ai/dsh-util-values'
-import { SessionFormatError } from '@deepseek-ai/dsh-session-format'
-import type { SessionFormatArtifact, SessionFormatEvent, SessionFormatJsonValue } from '@deepseek-ai/dsh-session-format'
+import { deepEqualJson } from '@worldapptechnologies/nulu-util-values'
+import { SessionFormatError } from '@worldapptechnologies/nulu-session-format'
+import type { SessionFormatArtifact, SessionFormatEvent, SessionFormatJsonValue } from '@worldapptechnologies/nulu-session-format'
 import { releasedV0Record } from './validation-helpers.ts'
 import { RELEASED_V0_EVENT_DISPOSITIONS } from './dispositions.ts'
 
@@ -271,7 +271,7 @@ export function assertReleasedArtifactRelationships(
         }
         break
       }
-      case 'session-log-deepseek/delivery-accepted': {
+      case 'session-log-gateway/delivery-accepted': {
         const acceptedVersion = data['sessionFormatVersion'] ?? 0
         if (acceptedVersion === artifact.header.version) {
           const inherited = artifact.header.parentSession !== undefined && event.seq < artifact.inheritedEventCount
@@ -454,7 +454,7 @@ function assertTitleSources(
     const content = message?.['content'] as readonly Record<string, SessionFormatJsonValue>[] | undefined
     const source = message === undefined ? undefined : releasedV0Record(message['source'], 'session/title-llm-request message source')
     if (messages.length !== 1 || message?.['role'] !== 'user' || content?.length !== 1
-      || source?.['kind'] !== 'plugin' || source['plugin'] !== 'dsh-session-title-llm') {
+      || source?.['kind'] !== 'plugin' || source['plugin'] !== 'nulu-session-title-llm') {
       throw new SessionFormatError('session/title-llm-request messages do not represent messageSeqs')
     }
     const framed = content[0]

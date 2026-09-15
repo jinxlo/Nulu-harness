@@ -1,26 +1,26 @@
-# TypeScript SDK snapshot-record patch over `dsh --profile sdk`.
+# TypeScript SDK snapshot-record patch over `nulu --profile sdk`.
 
 # The fixture corpus must not depend on the developer's personal skill roots.
 # Ordinary product launches retain the sdk profile's default skill discovery.
 - id: skill-filesystem
-  name: '@deepseek-ai/dsh-skill-filesystem'
+  name: '@worldapptechnologies/nulu-skill-filesystem'
   config:
     includeDefaultRoots: false
 
-- id: llm-deepseek
-  name: '@deepseek-ai/dsh-llm-deepseek'
+- id: llm-gateway
+  name: '@worldapptechnologies/nulu-llm-gateway'
   config:
     thinking: enabled
     reasoningEffort: max
 
 - id: session-persistence-jsonl
-  name: '@deepseek-ai/dsh-session-persistence-jsonl'
+  name: '@worldapptechnologies/nulu-session-persistence-jsonl'
   config:
-    root: !!js dshHomePath('sessions')
-    compression: !!js "process.env.DSH_SNAPSHOT === undefined ? 'zstd' : 'none'"
+    root: !!js nuluHomePath('sessions')
+    compression: !!js "process.env.NULU_SNAPSHOT === undefined ? 'zstd' : 'none'"
 
 - id: tool-subagent
-  name: '@deepseek-ai/dsh-tool-subagent'
+  name: '@worldapptechnologies/nulu-tool-subagent'
   config:
     provider: spawn
     toolName: subagent
@@ -28,17 +28,17 @@
     enableRunInBackground: false
     maxDepth: 1
 
-- id: session-log-deepseek
-  name: '@deepseek-ai/dsh-session-log-deepseek'
+- id: session-log-gateway
+  name: '@worldapptechnologies/nulu-session-log-gateway'
   config:
     enabled: true
 
 - insert:
     - id: snapshot-message-feedback
-      name: '@deepseek-ai/dsh-message-feedback'
-      disabled: !!js "process.env.DSH_SNAPSHOT_FEEDBACK !== '1'"
+      name: '@worldapptechnologies/nulu-message-feedback'
+      disabled: !!js "process.env.NULU_SNAPSHOT_FEEDBACK !== '1'"
       config:
         maxNoteBytes: 1024
     - id: snapshot-feedback-producer
       name: './feedback-producer.mjs'
-      disabled: !!js "process.env.DSH_SNAPSHOT_FEEDBACK !== '1'"
+      disabled: !!js "process.env.NULU_SNAPSHOT_FEEDBACK !== '1'"

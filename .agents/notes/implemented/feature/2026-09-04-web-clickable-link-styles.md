@@ -2,7 +2,6 @@
 
 Status: implemented
 
-English | [中文](2026-09-04-web-clickable-link-styles.zh.md)
 
 ## Problem
 
@@ -12,7 +11,7 @@ Clickable artifact links in the chat transcript wore four different costumes: ma
 
 One link language across the transcript's clickable-link surfaces — markdown anchors (including reference links, mailto, and URL-promoted inline code), prose file mentions, web search source links and the fetch URL, produced-file chips, and workflow member links:
 
-- Color comes through a dedicated `--dsw-alias-link` alias in `design-platform.css` (light `deepseek-500`, dark `deepseek-400`), decoupled from `state-business-primary`; links render at `font-weight: 500` with no underline at rest and `underline dotted` at 3px offset on hover/focus.
+- Color comes through a dedicated `--dsw-alias-link` alias in `design-platform.css` (light `nulu-500`, dark `nulu-400`), decoupled from `state-business-primary`; links render at `font-weight: 500` with no underline at rest and `underline dotted` at 3px offset on hover/focus.
 - A leading category glyph — the new `LinkIcon` in ui-primitives with kinds `url` (globe), `folder`, `code`, `image`, `document`, and `other` (paper) — renders `currentColor` only; `classifyLinkPath` folds the [shared detailed file-type classification](2026-09-08-shared-file-type-icons.md) into those six link categories, and code, web, and data extensions share the code glyph by design. Two anchor shapes carry no glyph: workflow member links (an in-app member view fits no file or URL category) and anchors wrapping only images (a badge or thumbnail — a dangling globe beside the picture leads no text). Inline glyphs sit at 1.1em with a −0.25em baseline offset; the flex-centered produced-file glyphs instead nudge 1.2px down because the 22px text box carries its glyphs below box center.
 - Produced-file chips drop the grey pill and the 96px cap: plain link-blue text at natural width that shrinks with ellipsis only when the row overflows; the container-query bands still budget 96px per chip when choosing how many chips to show.
 - Deliberately untouched: ToolRow's grey dotted file links, and the grey "Show in folder" action (it gains the folder glyph but keeps its grey style).

@@ -1,14 +1,14 @@
 /** Startup controls for shell documents; application documents receive only the carrier marker. */
 
 import { contextBridge, ipcRenderer } from 'electron'
-import { DESKTOP_IPC, type DshDesktopStartupApi } from './ipc.ts'
+import { DESKTOP_IPC, type NuluDesktopStartupApi } from './ipc.ts'
 import type { DesktopBackendState } from './backend-controller.ts'
 
-const startup: DshDesktopStartupApi = {
+const startup: NuluDesktopStartupApi = {
   protocolVersion: 1,
-  locale: () => ipcRenderer.invoke(DESKTOP_IPC.localeGet) as ReturnType<DshDesktopStartupApi['locale']>,
+  locale: () => ipcRenderer.invoke(DESKTOP_IPC.localeGet) as ReturnType<NuluDesktopStartupApi['locale']>,
   backend: {
-    status: () => ipcRenderer.invoke(DESKTOP_IPC.backendStatus) as ReturnType<DshDesktopStartupApi['backend']['status']>,
+    status: () => ipcRenderer.invoke(DESKTOP_IPC.backendStatus) as ReturnType<NuluDesktopStartupApi['backend']['status']>,
     subscribe(listener) {
       const handle = (_event: Electron.IpcRendererEvent, state: DesktopBackendState): void => { listener(state) }
       ipcRenderer.on(DESKTOP_IPC.backendState, handle)
@@ -20,5 +20,5 @@ const startup: DshDesktopStartupApi = {
   resetConfiguration: () => ipcRenderer.invoke(DESKTOP_IPC.configurationReset) as Promise<void>,
 }
 
-contextBridge.exposeInMainWorld('dshDesktop', location.protocol === 'dsh-app:' && location.hostname === 'shell'
+contextBridge.exposeInMainWorld('nuluDesktop', location.protocol === 'nulu-app:' && location.hostname === 'shell'
   ? startup : { protocolVersion: 1 })

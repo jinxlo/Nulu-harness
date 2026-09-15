@@ -2,9 +2,8 @@
 description: "JavaScript entry for the prebuilt Landlock launcher and asynchronous POSIX flock."
 kind: "package-library"
 ---
-# @deepseek-ai/node-addon-system
+# @worldapptechnologies/node-addon-system
 
-English | [中文](README.zh.md)
 
 The `./landlock-run` entry exports the Landlock launcher path, enforcement probe, grant arguments, and protocol constants. The independent `./flock` entry exports `tryLockExclusive(fd): Promise<void>`; importing either entry does not load `system.node`. The package has no root export.
 

@@ -2,9 +2,9 @@
 import type { Browser, Page } from 'playwright'
 import { chromium } from 'playwright'
 import { afterAll, beforeAll, describe, expect, it, onTestFailed } from 'vitest'
-import { ToolCallId, createAssistantMessage, createToolResultMessage, createUserMessage } from '@deepseek-ai/dsh-llm'
-import { SESSION_FORMAT_VERSION, Session, SessionId } from '@deepseek-ai/dsh-session'
-import type {} from '@deepseek-ai/dsh-session-title'
+import { ToolCallId, createAssistantMessage, createToolResultMessage, createUserMessage } from '@worldapptechnologies/nulu-llm'
+import { SESSION_FORMAT_VERSION, Session, SessionId } from '@worldapptechnologies/nulu-session'
+import type {} from '@worldapptechnologies/nulu-session-title'
 import {
   launchWebScaffold, seedSession, watchConsole, webSnapshotMode, type WebScaffold,
 } from './scaffold.ts'
@@ -53,7 +53,7 @@ function mentionFixture(): string {
         name: 'write',
         arguments: call.args,
       })),
-      source: { provider: 'deepseek-official', model: 'deepseek-v4-flash' },
+      source: { provider: 'worldapp-gateway', model: 'nulu-5' },
     }),
   }, { surfaceOp: 'append' })
   for (const call of calls) {
@@ -89,7 +89,7 @@ function mentionFixture(): string {
           DONE,
         ].join('\n'),
       }],
-      source: { provider: 'deepseek-official', model: 'deepseek-v4-flash' },
+      source: { provider: 'worldapp-gateway', model: 'nulu-5' },
     }),
   }, { surfaceOp: 'append' })
   session.append('step/end', { turn: 1, step: 2 })

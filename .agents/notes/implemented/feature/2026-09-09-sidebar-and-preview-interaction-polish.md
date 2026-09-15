@@ -2,7 +2,6 @@
 
 Status: implemented
 
-English | [中文](2026-09-09-sidebar-and-preview-interaction-polish.zh.md)
 
 ## Problem
 

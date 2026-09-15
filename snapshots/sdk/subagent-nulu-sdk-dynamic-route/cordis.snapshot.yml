@@ -1,0 +1,22 @@
+# Keyless replay layer for the NULU SDK dynamic-route snapshot.
+
+- insert:
+    - id: llm-replay
+      name: '@worldapptechnologies/nulu-llm-replay'
+      config:
+        providers:
+          - id: worldapp-gateway
+            name: Nulu
+            models:
+              - id: mock-delegate
+          - id: mock
+            name: Mock
+            models:
+              - id: mock-routed
+                reasoningEfforts: [max]
+
+    - id: sdk-jsonrpc-server-dynamic-replay
+      name: '@worldapptechnologies/nulu-sdk-jsonrpc-server'
+      inject: [sdkAppStartup, loader]
+      config:
+        maxTokensAsSuccess: true

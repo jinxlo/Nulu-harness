@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import type { StreamChunk, TokenUsage } from '@deepseek-ai/dsh-llm'
-import type { SessionEvent } from '@deepseek-ai/dsh-session'
+import type { StreamChunk, TokenUsage } from '@worldapptechnologies/nulu-llm'
+import type { SessionEvent } from '@worldapptechnologies/nulu-session'
 import { deriveTurnTokenUsage } from '../src/turn-usage.ts'
 
 function event(seq: number, type: string, data: unknown): SessionEvent {
@@ -23,8 +23,8 @@ function usage(overrides: UsageOverrides = {}): TokenUsage {
 function message(
   seq: number,
   tokenUsage?: TokenUsage,
-  provider = 'deepseek',
-  model = 'deepseek-chat',
+  provider = 'nulu',
+  model = 'nulu-5',
   step = 1,
   streamTokenUsage = tokenUsage,
 ) {
@@ -77,7 +77,7 @@ describe('deriveTurnTokenUsage', () => {
       cacheReadTokens: 50,
       cacheWriteTokens: 0,
       reasoningTokens: 8,
-      routes: [{ provider: 'deepseek', model: 'deepseek-chat' }],
+      routes: [{ provider: 'nulu', model: 'nulu-5' }],
     })
   })
 
@@ -101,8 +101,8 @@ describe('deriveTurnTokenUsage', () => {
       message(
         4,
         usage({ inputTokens: 30, outputTokens: 5, totalTokens: 45, cacheReadTokens: 10 }),
-        'deepseek',
-        'deepseek-chat',
+        'nulu',
+        'nulu-5',
         1,
         usage(),
       ),
@@ -112,7 +112,7 @@ describe('deriveTurnTokenUsage', () => {
 
   it('keeps the latest streaming sample when the final message omits usage', () => {
     const result = deriveTurnTokenUsage(completeAttempt(
-      message(4, undefined, 'deepseek', 'deepseek-chat', 1, usage()),
+      message(4, undefined, 'nulu', 'nulu-5', 1, usage()),
     ))
     expect(result).toMatchObject({ uncachedInputTokens: 100, outputTokens: 20, totalTokens: 170 })
   })
@@ -221,7 +221,7 @@ describe('deriveTurnTokenUsage', () => {
       totalTokens: 340,
       cacheReadTokens: 100,
       routes: [
-        { provider: 'deepseek', model: 'deepseek-chat' },
+        { provider: 'nulu', model: 'nulu-5' },
         { provider: 'openai', model: 'gpt-5' },
       ],
     })
@@ -241,7 +241,7 @@ describe('deriveTurnTokenUsage', () => {
         step: 2,
         message: {
           id: 'message-6', role: 'assistant', content: [],
-          source: { kind: 'model', provider: 'deepseek', model: 'deepseek-chat' },
+          source: { kind: 'model', provider: 'nulu', model: 'nulu-5' },
         },
         usage: attempt,
       }),

@@ -2,7 +2,6 @@
 
 Status: implemented
 
-English | [中文](2026-09-05-read-only-session-migration-preparation.zh.md)
 
 ## Problem
 

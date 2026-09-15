@@ -21,9 +21,13 @@
   - paragraph: 填入各提供方的 API 密钥即可使用其模型。
   - list:
     - listitem:
-      - text: DeepSeek
+      - text: Nulu
       - img "API 密钥缺失"
-      - button "编辑 DeepSeek (deepseek-official)": 编辑
+      - button "编辑 Nulu (worldapp-gateway)": 编辑
+    - listitem:
+      - text: World App Technologies 自定义
+      - img "API 密钥缺失"
+      - button "编辑 World App Technologies (worldapp)": 编辑
   - text: 提供方
   - combobox "提供方":
     - option "amazon-bedrock"

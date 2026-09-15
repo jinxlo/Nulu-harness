@@ -104,12 +104,12 @@ async function main(args: string[]): Promise<number> {
   const mode = parseMode(args[0])
   const gates = gatesForMode(mode)
   const concurrencyDefault = defaultConcurrency(mode, gates.length)
-  const concurrencyOverride = process.env.DSH_GATE_CONCURRENCY
-  const maxConcurrency = concurrencyFromEnv('DSH_GATE_CONCURRENCY', concurrencyDefault.workers)
+  const concurrencyOverride = process.env.NULU_GATE_CONCURRENCY
+  const maxConcurrency = concurrencyFromEnv('NULU_GATE_CONCURRENCY', concurrencyDefault.workers)
   const concurrencySource = concurrencyOverride === undefined || concurrencyOverride === ''
     ? concurrencyDefault.source
-    : '$DSH_GATE_CONCURRENCY'
-  const failFast = flagEnabled('DSH_GATE_FAIL_FAST')
+    : '$NULU_GATE_CONCURRENCY'
+  const failFast = flagEnabled('NULU_GATE_FAIL_FAST')
   const startedAt = performance.now()
   console.log(`run-gates: ${mode} running ${gates.length} gate(s) with ${maxConcurrency} worker(s) from ${concurrencySource}${failFast ? ', fail-fast after first blocking failure' : ''}.`)
 
@@ -124,7 +124,7 @@ async function main(args: string[]): Promise<number> {
  * The options the CLI entrypoint hands to the scheduler. Host signal
  * forwarding always follows fail-fast: children are detached only then, so
  * without it the forwarding would have no tree to drain.
- * @param failFast - whether `DSH_GATE_FAIL_FAST` is enabled.
+ * @param failFast - whether `NULU_GATE_FAIL_FAST` is enabled.
  * @returns the scheduler options for the entrypoint.
  */
 export function cliGateOptions(failFast: boolean): RunGatesOptions {
@@ -276,7 +276,7 @@ export function gatesForMode(selected: Mode): Gate[] {
         ...hygieneLeafGates({ artifactNeeds: ['build'] }),
         ...docSyncLeafGates({
           docTypecheckNeeds: ['build'],
-          docTypecheckEnv: { DSH_DOC_TYPECHECK_USE_BUILD_OUTPUT: '1' },
+          docTypecheckEnv: { NULU_DOC_TYPECHECK_USE_BUILD_OUTPUT: '1' },
           docTypecheckScript: 'doc-typecheck:contracts-ready',
         }),
         pnpmScript('module-graph', 'verify-module-graph', { label: 'module graph' }),
@@ -301,7 +301,7 @@ function ciSharedStaticGates(): Gate[] {
     pnpmScript('application-entrypoints', 'verify-application-entrypoints', { label: 'application entrypoints' }),
     pnpmScript('constraints', 'constraints'),
     pnpmScript('package-dependencies', 'verify-package-dependencies', { label: 'package dependencies' }),
-    pnpmScript('dsh-package-licenses', 'verify-dsh-package-licenses', { label: 'DSH package licenses' }),
+    pnpmScript('nulu-package-licenses', 'verify-nulu-package-licenses', { label: 'NULU package licenses' }),
     pnpmScript('package-invariants', 'verify-package-invariants', { label: 'package invariants' }),
     pnpmScript('cordis-config', 'verify-cordis-config', { label: 'Cordis config' }),
     pnpmScript('optional-dependency-imports', 'verify-optional-dependency-imports', {
@@ -345,7 +345,7 @@ function ciPrimaryGates(): Gate[] {
 }
 
 function nodeCompatGates(): Gate[] {
-  const typecheck = flagEnabled('DSH_NODE_COMPAT_SKIP_TYPECHECK')
+  const typecheck = flagEnabled('NULU_NODE_COMPAT_SKIP_TYPECHECK')
     ? []
     : [pnpmScript('typecheck', 'typecheck')]
   if (runningNodeMajor() !== 22) {
@@ -376,11 +376,11 @@ function nodeCompatSmokeGates(options: { cliSmoke?: boolean } = {}): Gate[] {
       'run',
       'packages/session/session-persistence-jsonl/tests/zstd.compat.spec.ts',
     ], { label: 'JSONL Zstandard smoke' }),
-    pnpmExec('dsh-source-launch-smoke', [
+    pnpmExec('nulu-source-launch-smoke', [
       'vitest',
       'run',
       'apps/cli/tests/source-launch.compat.spec.ts',
-    ], { label: 'dsh source-launch smoke' }),
+    ], { label: 'nulu source-launch smoke' }),
     pnpmExec('vitest-jsdom-smoke', [
       'vitest',
       'run',
@@ -395,7 +395,7 @@ function nodeCompatSmokeGates(options: { cliSmoke?: boolean } = {}): Gate[] {
         'apps/cli/tests/lazy-search-startup.compat.spec.ts',
       ], {
         label: 'CLI lazy-search startup smoke',
-        env: { DSH_REQUIRE_BUILT_CLI_SMOKE: '1' },
+        env: { NULU_REQUIRE_BUILT_CLI_SMOKE: '1' },
         needs: ['build:web'],
       }),
     )
@@ -421,7 +421,7 @@ function ciStaticGates(options: { ownsBuild: boolean }): Gate[] {
       ...options.ownsBuild
         ? {
           docTypecheckNeeds: ['build'],
-          docTypecheckEnv: { DSH_DOC_TYPECHECK_USE_BUILD_OUTPUT: '1' },
+          docTypecheckEnv: { NULU_DOC_TYPECHECK_USE_BUILD_OUTPUT: '1' },
           docTypecheckScript: 'doc-typecheck:contracts-ready',
         }
         : {},
@@ -476,7 +476,7 @@ function ciConsumerGates(): Gate[] {
     webSnapshotGate(validatedBuild, buildArtifactReaders),
     pnpmScript('doc-typecheck', 'doc-typecheck:contracts-ready', {
       needs: validatedBuild,
-      env: { DSH_DOC_TYPECHECK_USE_BUILD_OUTPUT: '1' },
+      env: { NULU_DOC_TYPECHECK_USE_BUILD_OUTPUT: '1' },
     }),
     pnpmScript('node-next-types', 'verify-node-next-types', {
       label: 'node-next types',
@@ -488,24 +488,24 @@ function ciConsumerGates(): Gate[] {
 
 function webSnapshotGate(needs: string[], after?: string[]): Gate {
   const order = after === undefined ? { needs } : { needs, after }
-  const workerRaw = process.env.DSH_WEB_SNAPSHOT_WORKERS
+  const workerRaw = process.env.NULU_WEB_SNAPSHOT_WORKERS
   if (workerRaw !== undefined && workerRaw !== '') {
     const workers = Number.parseInt(workerRaw, 10)
     if (!Number.isSafeInteger(workers) || workers < 2 || String(workers) !== workerRaw) {
-      throw new Error(`run-gates: DSH_WEB_SNAPSHOT_WORKERS must be an integer greater than 1, got ${JSON.stringify(workerRaw)}.`)
+      throw new Error(`run-gates: NULU_WEB_SNAPSHOT_WORKERS must be an integer greater than 1, got ${JSON.stringify(workerRaw)}.`)
     }
     return pnpmScript('web-snapshot', 'test:web:ci', {
       label: 'web browser snapshot',
-      displayCommand: `DSH_SNAPSHOT=replay DSH_WEB_SNAPSHOT_WORKERS=${workers} pnpm run test:web:ci`,
-      env: { DSH_SNAPSHOT: 'replay' },
+      displayCommand: `NULU_SNAPSHOT=replay NULU_WEB_SNAPSHOT_WORKERS=${workers} pnpm run test:web:ci`,
+      env: { NULU_SNAPSHOT: 'replay' },
       ...order,
       streamOutput: true,
     })
   }
   return pnpmScript('web-snapshot', 'test:web:built', {
     label: 'web browser snapshot',
-    displayCommand: 'DSH_SNAPSHOT=replay pnpm run test:web:built',
-    env: { DSH_SNAPSHOT: 'replay' },
+    displayCommand: 'NULU_SNAPSHOT=replay pnpm run test:web:built',
+    env: { NULU_SNAPSHOT: 'replay' },
     ...order,
   })
 }
@@ -571,12 +571,12 @@ function typertContractsGate(): Gate {
 }
 
 function lintGate(options: { needs?: string[] } = {}): Gate {
-  const raw = process.env.DSH_OXLINT_THREADS
+  const raw = process.env.NULU_OXLINT_THREADS
   const script = 'lint:contracts-ready'
   return pnpmScript('lint', script, {
     ...raw === undefined || raw === ''
       ? {}
-      : { displayCommand: `DSH_OXLINT_THREADS=${raw} pnpm run ${script}` },
+      : { displayCommand: `NULU_OXLINT_THREADS=${raw} pnpm run ${script}` },
     ...options.needs === undefined ? {} : { needs: options.needs },
   })
 }
@@ -586,19 +586,19 @@ function lintGate(options: { needs?: string[] } = {}): Gate {
 // under v8 instrumentation while contributing nothing the thresholds need
 // (membership rules in scripts/coverage-exempt.ts).
 //
-// DSH_COVERAGE_MAX_WORKERS is the ordinary lane's worker budget, so the two
+// NULU_COVERAGE_MAX_WORKERS is the ordinary lane's worker budget, so the two
 // parallel gates split it instead of each claiming it whole. When
-// DSH_COVERAGE_PARTITIONS is set, its single-worker processes replace the
+// NULU_COVERAGE_PARTITIONS is set, its single-worker processes replace the
 // instrumented share while this budget still sizes the exempt gate. The exempt
 // gate's wall clock is dominated by its longest single file, so it takes the
 // small share. A budget of 1 gives each gate 1 worker; lanes that need a strict
-// total of one (the serial reference jobs) also set DSH_GATE_CONCURRENCY=1,
+// total of one (the serial reference jobs) also set NULU_GATE_CONCURRENCY=1,
 // which keeps the gates from overlapping at all.
-// DSH_COVERAGE_TEST_TIMEOUT_MS raises Vitest's per-test, expect.poll, and hook
+// NULU_COVERAGE_TEST_TIMEOUT_MS raises Vitest's per-test, expect.poll, and hook
 // defaults together for instrumented lanes whose scheduling overhead exceeds
 // those defaults. Explicit fixture timeouts remain authoritative.
 function coverageWorkerArgs(): { instrumented: string[]; exempt: string[] } {
-  const [flag] = positiveIntArg('DSH_COVERAGE_MAX_WORKERS', '--maxWorkers')
+  const [flag] = positiveIntArg('NULU_COVERAGE_MAX_WORKERS', '--maxWorkers')
   if (flag === undefined) return { instrumented: [], exempt: [] }
   const total = Number.parseInt(flag.split('=')[1] ?? '', 10)
   const exempt = Math.max(1, Math.floor(total / 3))
@@ -650,7 +650,7 @@ function coverageGates(): Gate[] {
 // either on `build` or on a validation gate that transitively owns that build.
 function snapshotGate(needs: string[] = ['build']): Gate {
   return pnpmScript('snapshot', 'test:snapshot', {
-    env: { DSH_EXAMPLE_MODE: 'lib' },
+    env: { NULU_EXAMPLE_MODE: 'lib' },
     needs,
   })
 }
@@ -659,7 +659,7 @@ function snapshotGate(needs: string[] = ['build']): Gate {
 // the recorded-session corpus or the credentialed provider lane.
 function expectedOutputGate(needs: string[] = ['build']): Gate {
   return pnpmScript('expected-output', 'test:expected', {
-    env: { DSH_EXAMPLE_MODE: 'lib' },
+    env: { NULU_EXAMPLE_MODE: 'lib' },
     needs,
   })
 }
@@ -696,7 +696,7 @@ function hygieneLeafGates(options: { artifactNeeds?: string[] } = {}): Gate[] {
     pnpmScript('constraints', 'constraints'),
     pnpmScript('package-dependencies', 'verify-package-dependencies', { label: 'package dependencies' }),
     pnpmScript('application-entrypoints', 'verify-application-entrypoints', { label: 'application entrypoints' }),
-    pnpmScript('dsh-package-licenses', 'verify-dsh-package-licenses', { label: 'DSH package licenses' }),
+    pnpmScript('nulu-package-licenses', 'verify-nulu-package-licenses', { label: 'NULU package licenses' }),
     pnpmScript('package-invariants', 'verify-package-invariants', { label: 'package invariants' }),
     builtPackageInvariantsGate(options.artifactNeeds),
     pnpmScript('node-next-types', 'verify-node-next-types', {
@@ -735,7 +735,6 @@ function docSyncLeafGates(options: {
     pnpmScript('cordis-inspect-catalog', 'verify-cordis-inspect-catalog', { label: 'Cordis inspect catalog' }),
     pnpmScript('mermaid', 'verify-mermaid'),
     pnpmScript('scoped-events', 'verify-scoped-events', { label: 'scoped events' }),
-    pnpmScript('translation-pairing', 'verify-translation-pairing', { label: 'translation pairing', quick: true }),
     pnpmScript('markdown-wrap', 'verify-md-wrap', { label: 'markdown wrap', quick: true }),
     pnpmScript('client-catalog', 'verify-client-catalog', { label: 'client catalog' }),
     pnpmScript('export-jsdoc', 'verify-export-jsdoc', { label: 'export jsdoc' }),
@@ -755,7 +754,6 @@ function docSyncLeafGates(options: {
     pnpmScript('agent-note-format', 'verify-agent-note-format', { label: 'agent note format', quick: true }),
     pnpmScript('archived-agent-notes', 'verify-archived-agent-notes', { label: 'archived agent notes', quick: true }),
     pnpmScript('skill-invocation-metadata', 'verify-skill-invocation-metadata', { label: 'skill invocation metadata', quick: true }),
-    pnpmScript('translation-prompt', 'verify-translation-prompt', { label: 'translation prompt', quick: true }),
     pnpmScript('doc-budgets', 'verify-doc-budgets', { label: 'doc budgets', quick: true }),
     pnpmExec('doc-standard-tests', ['vitest', 'run', 'scripts/doc-standard.spec.ts'], {
       label: 'documentation standard tests',
@@ -803,7 +801,7 @@ function builtBinSmokeGate(needs: string[] = ['build']): Gate {
   ], {
     label: 'built-bin smoke',
     needs,
-    env: { DSH_EXAMPLE_MODE: 'lib' },
+    env: { NULU_EXAMPLE_MODE: 'lib' },
   })
 }
 
@@ -1539,7 +1537,7 @@ export function formatGateResultReason(result: GateResult): string {
 }
 
 function printResult(result: GateResult): void {
-  const verbose = process.env.DSH_GATE_VERBOSE === '1'
+  const verbose = process.env.NULU_GATE_VERBOSE === '1'
   const seconds = (result.durationMs / 1000).toFixed(2)
   if (result.status === 'passed' && !verbose) {
     console.log(`run-gates: PASS ${result.gate.label} (${seconds}s)`)

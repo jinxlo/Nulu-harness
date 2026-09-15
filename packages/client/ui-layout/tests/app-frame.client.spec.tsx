@@ -1,15 +1,15 @@
 // @vitest-environment jsdom
 /** Frame interactions with a real store and explicitly driven browser measurements. */
-import type { GlobalStandardProps, RenderOpts } from '@deepseek-ai/dsh-client-ui-slots'
-import { bindSnapshotSelector } from '@deepseek-ai/dsh-client-test-runtime'
+import type { GlobalStandardProps, RenderOpts } from '@worldapptechnologies/nulu-client-ui-slots'
+import { bindSnapshotSelector } from '@worldapptechnologies/nulu-client-test-runtime'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { act, cleanup, render } from '@testing-library/react'
 import { AppFrame } from '../src/client/AppFrame.tsx'
 import type { AppFrameProps } from '../src/client/AppFrame.tsx'
 import type { MainPanelId, RightbarOwnerProps, SidebarOwnerProps } from '../src/client/index.ts'
 import { createLayoutStore } from '../src/client/stores.ts'
-import type { WorkspaceSnapshot } from '@deepseek-ai/dsh-api-workspace-controller/client'
-import type { SessionId } from '@deepseek-ai/dsh-session/types'
+import type { WorkspaceSnapshot } from '@worldapptechnologies/nulu-api-workspace-controller/client'
+import type { SessionId } from '@worldapptechnologies/nulu-session/types'
 
 const useResource = (() => ({ status: 'none' as const, value: undefined, failure: undefined })) as GlobalStandardProps['useResource']
 let selectedSession: SessionId | undefined
@@ -101,7 +101,7 @@ function mountFrame(windowWidth = frameWidth) {
       useSessionPendingInteraction={useSessionPendingInteraction}
       useResource={useResource}
       useWorkspaces={sel => sel(workspaceState)}
-      t={key => key === 'brand.localBuild' ? 'DSH Local Build' : key}
+      t={key => key === 'brand.localBuild' ? 'NULU Local Build' : key}
     />
   )
   const utils = render(element())
@@ -146,7 +146,7 @@ beforeEach(() => {
   observers = []
   animationFrames = new Map()
   nextFrame = 1
-  vi.stubEnv('DSH_CLIENT_TITLE', undefined)
+  vi.stubEnv('NULU_CLIENT_TITLE', undefined)
   vi.stubGlobal('ResizeObserver', ResizeObserverStub)
   vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
     const id = nextFrame++
@@ -181,11 +181,11 @@ afterEach(() => {
 describe('AppFrame', () => {
   it('localizes the product title without a configured build title', () => {
     mountFrame()
-    expect(document.title).toBe('DSH Local Build')
+    expect(document.title).toBe('NULU Local Build')
   })
 
   it('follows the selected durable Session title', () => {
-    vi.stubEnv('DSH_CLIENT_TITLE', 'Product')
+    vi.stubEnv('NULU_CLIENT_TITLE', 'Product')
     selectedSessionTitle = 'First'
     const { rerenderFrame } = mountFrame()
     expect(document.title).toBe('First — Product')
@@ -244,7 +244,7 @@ describe('AppFrame', () => {
       expect(instance.getSnapshot().layoutInfo).toBe(layoutInfo)
       expect(tracks(frame)).toEqual([280, 0])
       expect(selectedSession).toBe(sessionId)
-      expect(document.title).toBe(panelId === null ? 'Session title — DSH Local Build' : 'DSH Local Build')
+      expect(document.title).toBe(panelId === null ? 'Session title — NULU Local Build' : 'NULU Local Build')
     }
   })
 })

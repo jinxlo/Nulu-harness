@@ -2,17 +2,16 @@
 
 Status: implemented
 
-English | [中文](2026-09-02-project-local-issue-planning-fields.zh.md)
 
 ## Problem
 
 The Issue lifecycle workflow needs structured planning metadata, but organization Issue fields require a separate GitHub App permission from organization Projects. A workflow token with Project write access can read and update Project custom fields while GitHub rejects Issue-field reads, so using both storage systems makes one policy depend on two independently administered permission sets.
 
-Priority, impact, cost, and dates are used to plan work in `DSH Issue Management`. Keeping those values on the Issue also exposes them outside that Project, but the repository has no workflow that needs cross-Project values.
+Priority, impact, cost, and dates are used to plan work in `NULU Issue Management`. Keeping those values on the Issue also exposes them outside that Project, but the repository has no workflow that needs cross-Project values.
 
 ## Decision
 
-The `DSH Issue Management` Project owns `Priority`, `Severity`, `Cost`, `Start Date`, and `Target Date` as Project custom fields. `Severity` uses the option meanings from the organization `影响面` field, and `Cost` uses the option meanings from `解决代价`.
+The `NULU Issue Management` Project owns `Priority`, `Severity`, `Cost`, `Start Date`, and `Target Date` as Project custom fields. `Severity` uses the option meanings from the organization `影响面` field, and `Cost` uses the option meanings from `解决代价`.
 
 Repository policy resolves `Priority` and `Start Date` from the configured Project. It rejects an Issue-backed field or the wrong data type, reads Priority from the Project item, and writes Start Date through `updateProjectV2ItemFieldValue`. Organization Issue fields are retained only as `Legacy ...` migration sources and are not read by repository workflows.
 
@@ -36,7 +35,7 @@ The [organization-field implementation](../../archived/process/2026-08-31-pr-ope
 
 ## Consequences
 
-Planning metadata is scoped to one Project membership. The same Issue can have different values in another Project, and an Issue outside `DSH Issue Management` has no Project-local planning values.
+Planning metadata is scoped to one Project membership. The same Issue can have different values in another Project, and an Issue outside `NULU Issue Management` has no Project-local planning values.
 
 The GitHub App needs Project access rather than organization Issue Fields access for policy metadata. Field renames or type changes fail the workflow instead of falling back to legacy fields.
 

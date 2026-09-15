@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import { sessionFormatCatalog } from '@deepseek-ai/dsh-session-format-catalog'
-import { SessionFormatEventCollector, SessionFormatUnsupportedMigrationError } from '@deepseek-ai/dsh-session-format'
-import type { SessionFormatEvent, SessionFormatJsonObject } from '@deepseek-ai/dsh-session-format'
+import { sessionFormatCatalog } from '@worldapptechnologies/nulu-session-format-catalog'
+import { SessionFormatEventCollector, SessionFormatUnsupportedMigrationError } from '@worldapptechnologies/nulu-session-format'
+import type { SessionFormatEvent, SessionFormatJsonObject } from '@worldapptechnologies/nulu-session-format'
 import { releasedV3SessionFormatCodec, restoreReleasedV3Artifact } from '../src/index.ts'
 
 const header = { type: 'session', version: 2, id: 'combined', createdAt: 1, isSeeded: false, delegationDepth: 0 }
@@ -139,7 +139,7 @@ describe('combined structural, canonical-envelope and PTC catalog migration', ()
 
   it.each([undefined, 0, 1, 2, 4])('preserves historical delivery generation %s while remapping its envelope and inherited cut', (version) => {
     const reader = sessionFormatCatalog.createRestore({ ...header, isSeeded: true, parentSession: 'parent' }, { recovery: 'strict', validation: 'current' })
-    const marker = event('session-log-deepseek/delivery-accepted', source.length, {
+    const marker = event('session-log-gateway/delivery-accepted', source.length, {
       sessionId: 'parent', throughSeq: source.length - 1, ...(version === undefined ? {} : { sessionFormatVersion: version }),
     })
     const cut = event('session/end-seed', source.length + 1, { inherited: true })
@@ -159,7 +159,7 @@ describe('combined structural, canonical-envelope and PTC catalog migration', ()
     const reader = sessionFormatCatalog.createRestore(header, { recovery: 'strict', validation: 'current' })
     for (const row of source) reader.decodeRow(row)
     expect(() => {
-      reader.decodeRow(event('session-log-deepseek/delivery-accepted', source.length, {
+      reader.decodeRow(event('session-log-gateway/delivery-accepted', source.length, {
         sessionId: header.id, throughSeq: source.length - 1, sessionFormatVersion: 3,
       }))
       reader.finish()

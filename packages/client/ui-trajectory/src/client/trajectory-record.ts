@@ -1,8 +1,8 @@
 /** Shared trajectory record data and formatting contracts. */
 
 import type { HTMLAttributes } from 'react'
-import type { ImageAttachmentRef } from '@deepseek-ai/dsh-attachment'
-import type { ConversationPromptSnapshot } from '@deepseek-ai/dsh-client-ui-conversation/client'
+import type { ImageAttachmentRef } from '@worldapptechnologies/nulu-attachment'
+import type { ConversationPromptSnapshot } from '@worldapptechnologies/nulu-client-ui-conversation/client'
 import type { TrajectoryTranslate } from './locales.ts'
 
 /** Closed set of trajectory record kinds. */

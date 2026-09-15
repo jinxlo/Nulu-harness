@@ -3,7 +3,6 @@
 Status: implemented
 Archived: 2026-09-04
 
-English | [中文](2026-07-30-command-row-copy-contract.zh.md)
 
 ## Problem
 

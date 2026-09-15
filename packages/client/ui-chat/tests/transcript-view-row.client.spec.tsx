@@ -1,12 +1,12 @@
 // @vitest-environment jsdom
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
-import type { SessionListState } from '@deepseek-ai/dsh-api-session-controller/client'
-import type { WorkspaceSnapshot } from '@deepseek-ai/dsh-api-workspace-controller/client'
-import type { SessionPendingInteractionSnapshot } from '@deepseek-ai/dsh-client-ui-session/client'
-import type { GlobalStandardProps } from '@deepseek-ai/dsh-client-ui-slots'
-import { createSnapshotStore } from '@deepseek-ai/dsh-client-store'
-import { bindSnapshotSelector, makeTranslate } from '@deepseek-ai/dsh-client-test-runtime'
+import type { SessionListState } from '@worldapptechnologies/nulu-api-session-controller/client'
+import type { WorkspaceSnapshot } from '@worldapptechnologies/nulu-api-workspace-controller/client'
+import type { SessionPendingInteractionSnapshot } from '@worldapptechnologies/nulu-client-ui-session/client'
+import type { GlobalStandardProps } from '@worldapptechnologies/nulu-client-ui-slots'
+import { createSnapshotStore } from '@worldapptechnologies/nulu-client-store'
+import { bindSnapshotSelector, makeTranslate } from '@worldapptechnologies/nulu-client-test-runtime'
 import { TranscriptViewRow, type TranscriptViewRowProps } from '../src/client/settings/TranscriptViewRow.tsx'
 import { en, zh } from '../src/client/locale.ts'
 

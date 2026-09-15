@@ -3,7 +3,6 @@
 Status: implemented
 Archived: 2026-09-04
 
-English | [中文](2026-08-10-subagent-empty-terminal-message-output.zh.md)
 
 ## Problem
 
@@ -11,7 +10,7 @@ The agent loop appends an empty-content `assistant/message` when a `max-tokens` 
 
 ## Decision
 
-`dsh-subagent` owns one canonical selection rule in `src/assistant-output.ts`: select the last non-empty Assistant message; without one, select accumulated `text-delta` content from embedded `assistant/message` and `assistant/attempt` streams or a chunk-only transport; ignore empty-content messages. The incremental `AssistantOutputFold` implements the rule through `push(event)`, `pushText(text)`, and `collect()`. `finalAssistantOutput(events)` applies it to a complete event suffix for the in-process `readResult` and Activation capture. The SDK backend folds notification events; the ACP backend exposes no complete Assistant messages and folds raw chunk text. `SubagentResult.output` defines the result contract, and `subagent/end.lastAssistantMessage` uses the same rule. When a child produces neither form of output, the lifecycle field is absent rather than an empty array for both one-shot and continuable runs. A `max-tokens` or `aborted` result retains its actual stop reason.
+`nulu-subagent` owns one canonical selection rule in `src/assistant-output.ts`: select the last non-empty Assistant message; without one, select accumulated `text-delta` content from embedded `assistant/message` and `assistant/attempt` streams or a chunk-only transport; ignore empty-content messages. The incremental `AssistantOutputFold` implements the rule through `push(event)`, `pushText(text)`, and `collect()`. `finalAssistantOutput(events)` applies it to a complete event suffix for the in-process `readResult` and Activation capture. The SDK backend folds notification events; the ACP backend exposes no complete Assistant messages and folds raw chunk text. `SubagentResult.output` defines the result contract, and `subagent/end.lastAssistantMessage` uses the same rule. When a child produces neither form of output, the lifecycle field is absent rather than an empty array for both one-shot and continuable runs. A `max-tokens` or `aborted` result retains its actual stop reason.
 
 The foreground delegation tool uses the same selection. A non-`completed` result remains an `isError` tool result, but its message presents the optional safe Provider diagnostic owned by the [non-interactive permissions decision](../feature/2026-08-15-product-subagent-noninteractive-permissions.md) after the stop-reason headline and appends the child's partial text afterward. The parent model receives the failure, separate infrastructure detail, and available assistant output without conflating them.
 

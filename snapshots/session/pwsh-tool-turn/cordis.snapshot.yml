@@ -1,85 +1,85 @@
 # Minimal keyless composition: real app, pwsh executor, and pwsh tool; replayed model.
-- id: llm-deepseek
-  name: '@deepseek-ai/dsh-llm-deepseek'
+- id: llm-gateway
+  name: '@worldapptechnologies/nulu-llm-gateway'
   disabled: true
 
 - insert:
     - id: llm-replay
-      name: '@deepseek-ai/dsh-llm-replay'
+      name: '@worldapptechnologies/nulu-llm-replay'
       config:
         providers:
-          - id: deepseek-official
-            name: DeepSeek
+          - id: worldapp-gateway
+            name: Nulu
             models:
-              - id: deepseek-v4-pro
+              - id: nulu-5-ultra
 
 - id: subprocess
-  name: '@deepseek-ai/dsh-subprocess-local'
+  name: '@worldapptechnologies/nulu-subprocess-local'
 
 - id: bash-sandbox
-  name: '@deepseek-ai/dsh-bash-sandbox'
+  name: '@worldapptechnologies/nulu-bash-sandbox'
   disabled: true
 
 - id: pwsh-sandbox
-  name: '@deepseek-ai/dsh-pwsh-sandbox'
+  name: '@worldapptechnologies/nulu-pwsh-sandbox'
   disabled: false
 
 - id: shell-env
-  name: '@deepseek-ai/dsh-shell-env'
+  name: '@worldapptechnologies/nulu-shell-env'
 
 - id: agent-default-model
-  name: '@deepseek-ai/dsh-agent-default-model'
+  name: '@worldapptechnologies/nulu-agent-default-model'
   config:
-    provider: deepseek-official
-    model: deepseek-v4-pro
+    provider: worldapp-gateway
+    model: nulu-5-ultra
 
 - id: session-persistence-jsonl
-  name: '@deepseek-ai/dsh-session-persistence-jsonl'
+  name: '@worldapptechnologies/nulu-session-persistence-jsonl'
   config:
-    root: !!js dshHomePath('sessions')
+    root: !!js nuluHomePath('sessions')
     compression: none
 
 - id: agent-instructions
-  name: '@deepseek-ai/dsh-agent-instructions'
+  name: '@worldapptechnologies/nulu-agent-instructions'
   disabled: true
 
 - id: system-prompt
-  name: '@deepseek-ai/dsh-system-prompt'
+  name: '@worldapptechnologies/nulu-system-prompt'
   config:
     personaPrefix: You are a concise snapshot agent working in {{cwd}}.
 
 - id: goal
-  name: '@deepseek-ai/dsh-goal'
+  name: '@worldapptechnologies/nulu-goal'
   disabled: true
 
 - id: goal-round-driver
-  name: '@deepseek-ai/dsh-goal-round-driver'
+  name: '@worldapptechnologies/nulu-goal-round-driver'
   disabled: true
 
 - id: command-goal
-  name: '@deepseek-ai/dsh-command-goal'
+  name: '@worldapptechnologies/nulu-command-goal'
   disabled: true
 
 - id: tool-goal
-  name: '@deepseek-ai/dsh-tool-goal'
+  name: '@worldapptechnologies/nulu-tool-goal'
   disabled: true
 
 - id: skill
-  name: '@deepseek-ai/dsh-skill'
+  name: '@worldapptechnologies/nulu-skill'
   disabled: true
 
 - id: skill-filesystem
-  name: '@deepseek-ai/dsh-skill-filesystem'
+  name: '@worldapptechnologies/nulu-skill-filesystem'
   disabled: true
 
 - id: tool-skill
-  name: '@deepseek-ai/dsh-tool-skill'
+  name: '@worldapptechnologies/nulu-tool-skill'
   disabled: true
 
 - id: tool-bash
-  name: '@deepseek-ai/dsh-tool-bash'
+  name: '@worldapptechnologies/nulu-tool-bash'
   disabled: true
 
 - id: tool-pwsh
-  name: '@deepseek-ai/dsh-tool-pwsh'
+  name: '@worldapptechnologies/nulu-tool-pwsh'
   disabled: false

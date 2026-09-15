@@ -3,9 +3,8 @@ description: "The read-only Web catalog for active Schedule reminders, for users
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-client-ui-schedule
+# @worldapptechnologies/nulu-client-ui-schedule
 
-English | [中文](README.zh.md)
 
 ## Summary
 
@@ -28,10 +27,10 @@ This package renders a read-only catalog of the current Session's active Schedul
 Enable the Schedule overlay before starting the Web Session that should expose reminders:
 
 ```sh
-dsh web --patch apps/cli/config/examples/schedule/cordis.yml
+nulu web --patch apps/cli/config/examples/schedule/cordis.yml
 ```
 
-The shipped Web graph already resolves `@deepseek-ai/dsh-client-ui-schedule` through a disabled `ui-schedule` row; the overlay enables that row together with `@deepseek-ai/dsh-schedule`. The trigger appears only while the Session is successfully open and the projection contains at least one active record. Opening it shows overdue rows first, then future rows by target time, with exact ties preserving the projection's creation order.
+The shipped Web graph already resolves `@worldapptechnologies/nulu-client-ui-schedule` through a disabled `ui-schedule` row; the overlay enables that row together with `@worldapptechnologies/nulu-schedule`. The trigger appears only while the Session is successfully open and the projection contains at least one active record. Opening it shows overdue rows first, then future rows by target time, with exact ties preserving the projection's creation order.
 
 ### Read and dismiss the catalog
 

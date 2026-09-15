@@ -2,13 +2,11 @@
  * Generate the per-subsystem Cordis service/event reference regions from the
  * Typert catalog projection. Every harness `ctx.<key>` service and event scope
  * maps to exactly one `docs/subsystems/` page through the curated tables below;
- * the generator injects each page's Cordis API reference between its GENERATED markers —
- * into both language sides of the pair, localizing paired document paths for
- * the Chinese side while retaining every other byte — and re-records a pair's
- * `.i18n.yaml` only when nothing outside the region changed. The
- * projection enforces event modes, JSDoc parameter/return completeness, and
- * signature type-link coverage; the inherited (vendor) tier renders to
- * `docs/cordis-api/inherited.md`. `--check` verifies every generated artifact.
+ * the generator injects each page's Cordis API reference between its GENERATED
+ * markers. The projection enforces event modes, JSDoc parameter/return
+ * completeness, and signature type-link coverage; the inherited (vendor) tier
+ * renders to `docs/cordis-api/inherited.md`. `--check` verifies every generated
+ * artifact.
  *
  * Generated regions embed `file:line` source pointers, so inserting lines ABOVE a
  * recorded symbol makes the committed output stale even though nothing about the
@@ -26,19 +24,10 @@ import {
   renderPageRegion,
   REGION_BEGIN,
   REGION_END,
-} from '@deepseek-ai/dsh-typert-generator'
-import type { CordisCatalogPolicy } from '@deepseek-ai/dsh-typert-generator'
+} from '@worldapptechnologies/nulu-typert-generator'
+import type { CordisCatalogPolicy } from '@worldapptechnologies/nulu-typert-generator'
 import { renderCordisCoreApiPages } from './cordis-core-api.ts'
 import { contextKeyMap, contextMergeFiles, eventNameList } from './cordis-walk.ts'
-import {
-  blobHash,
-  parsePairMeta,
-  parseTranslationPairingManifest,
-  partitionGeneratedRegions,
-  renderPairMeta,
-  translationPairSourcePredicate,
-} from './translation-pairing.ts'
-import { rewriteTranslationLinkLocales } from './translation-links.ts'
 
 const root = resolve(import.meta.dirname, '..')
 const SUBSYSTEMS_DIR = 'docs/subsystems'
@@ -72,7 +61,7 @@ export const SERVICE_PAGE: Record<string, string> = {
   credentialsController: 'credentials.md',
   settingsController: 'settings.md',
   directoryPicker: 'workspace.md',
-  deepseekLlmApiExtensions: 'llm-streaming.md',
+  nuluLlmApiExtensions: 'llm-streaming.md',
   dynamicCordisRunner: 'extensions.md',
   e2b: 'subprocess.md',
   fileUploads: 'attachment.md',
@@ -131,7 +120,7 @@ export const SERVICE_PAGE: Record<string, string> = {
 /**
  * Context keys declared in `interface Context` merges that the rendering
  * projection cannot see, each with the reason and its documentation owner.
- * The scan that enforces this list reads EVERY `declare module '@deepseek-ai/cordis'`
+ * The scan that enforces this list reads EVERY `declare module '@worldapptechnologies/cordis'`
  * Context merge under `packages/x/x/src/**` — any depth, not only root
  * `index.ts` files with a same-named service class — so a new service can
  * never silently join this blind spot: it either enters {@link SERVICE_PAGE}
@@ -152,7 +141,7 @@ export const SERVICE_WALK_EXEMPTIONS: Record<string, string> = {
   cmdlineArgs: 'not a service: launcher-provided immutable app argument accessor — packages/boot/cmdline/README.md owns the launcher contract',
   configuredAgentIdentities: 'not a service: launcher-provided boot-context value (ConfiguredAgentIdentities | undefined) — packages/core/agent-loop/README.md owns this launcher contract',
   launcherSessionQueryPath: 'not a service: launcher-provided boot-context value (string | undefined) — packages/session-query/session-query-sqlite/README.md owns this launcher contract',
-  dshHomePath: 'not a service: boot-provided root accessor function (typeof dshHomePath | undefined) for Loader !!js config expressions — packages/boot/app-boot/README.md owns the boot contract',
+  nuluHomePath: 'not a service: boot-provided root accessor function (typeof nuluHomePath | undefined) for Loader !!js config expressions — packages/boot/app-boot/README.md owns the boot contract',
   launchEnvironment: 'not a service: launcher-provided root accessor value (LaunchEnvironmentSnapshot | undefined) — packages/util/launch-environment/README.md owns this launcher contract',
   connection: 'interface-typed (HostConnectionHandle); implementing class HostConnectionService is declared in rpc-host.ts — packages/client/connection/README.md owns the API',
   fileUpload: 'client-side browser upload service — packages/client/file-upload/README.md owns the API',
@@ -220,7 +209,7 @@ export const EVENT_SCOPE_PAGE: Record<string, string> = {
  * Event names declared in `interface Events` merges that the rendering
  * projection cannot see, each with the reason and its documentation owner.
  * The mirror of {@link SERVICE_WALK_EXEMPTIONS} for events: an independent
- * scan reads EVERY `declare module '@deepseek-ai/cordis'` Events merge under
+ * scan reads EVERY `declare module '@worldapptechnologies/cordis'` Events merge under
  * `packages/x/x/src/**`, so a declared event either renders onto a subsystems
  * page (via {@link EVENT_SCOPE_PAGE}) or names itself here — never vanishes
  * silently. Keys are full event names rather than scopes, so a scope-level
@@ -267,9 +256,9 @@ export const LINK_MAP: Readonly<Record<string, string>> = {
   SettleReason: 'core.md',
   AdapterRegistrationHandle: 'llm-streaming.md',
   DirectoryRegistrationHandle: 'llm-streaming.md',
-  DeepSeekLlmApiExtensionMap: 'llm-streaming.md',
-  DeepSeekLlmApiExtensionProvider: 'llm-streaming.md',
-  DeepSeekLlmApiExtensionRequest: 'llm-streaming.md',
+  NuluLlmApiExtensionMap: 'llm-streaming.md',
+  NuluLlmApiExtensionProvider: 'llm-streaming.md',
+  NuluLlmApiExtensionRequest: 'llm-streaming.md',
   LlmCallConfig: 'llm-streaming.md',
   LlmModelContext: 'llm-streaming.md',
   LlmModelReasoningInfo: 'llm-streaming.md',
@@ -387,7 +376,7 @@ export const LINK_MAP: Readonly<Record<string, string>> = {
   ShellExecSpec: 'shell.md',
   ShellProcess: 'shell.md',
   ShellRunResult: 'shell.md',
-  DshEnvironment: 'subprocess.md',
+  NuluEnvironment: 'subprocess.md',
   SubprocessHandle: 'subprocess.md',
   SubprocessOutcome: 'subprocess.md',
   SubprocessOutputRead: 'subprocess.md',
@@ -432,7 +421,7 @@ export const LINK_MAP: Readonly<Record<string, string>> = {
   LspQueryResult: 'lsp.md',
   LlmAdapter: 'llm-streaming.md',
   PreparedLlmCall: 'llm-streaming.md',
-  PreparedDeepSeekLlmApiExtensions: 'llm-streaming.md',
+  PreparedNuluLlmApiExtensions: 'llm-streaming.md',
   LlmRuntime: 'llm-streaming.md',
   StreamChunk: 'llm-streaming.md',
   SkillProviderControl: 'skills.md',
@@ -892,19 +881,6 @@ export interface WalkPartitionMaps {
   readonly eventWalkExemptions: Readonly<Record<string, string>>
 }
 
-/** Project paired Markdown destinations in one generated region to the page's locale. */
-export function localizePageRegion(region: string, pageRel: string, scanRoot: string = root): string {
-  if (!pageRel.endsWith('.zh.md')) return region
-  const manifest = parseTranslationPairingManifest(
-    readFileSync(resolve(scanRoot, 'scripts/translation-pairing.manifest.json'), 'utf8'),
-  )
-  return rewriteTranslationLinkLocales(region, {
-    repoRoot: scanRoot,
-    sourcePath: pageRel,
-    isTranslationPairSource: translationPairSourcePredicate(manifest),
-  }).content
-}
-
 /**
  * Judge the rendered API and the independent AST scan against the curated
  * partition maps, fail-closed in both directions for services AND events: a
@@ -1026,72 +1002,24 @@ export function computeOutputs(): [string, string][] {
       events.filter(e => EVENT_SCOPE_PAGE[e.scope] === page),
       CORDIS_CATALOG_POLICY,
     )
-    for (const side of [page, page.replace(/\.md$/, '.zh.md')]) {
-      const rel = `${SUBSYSTEMS_DIR}/${side}`
-      const localizedRegion = localizePageRegion(region, rel)
-      let current: string
-      try {
-        current = readFileSync(resolve(root, rel), 'utf8')
-      } catch {
-        // Both pair sides must exist before a region can be injected; the
-        // pairing gate owns pair completeness, this generator names the miss.
-        problems.push(`${rel}: mapped subsystems page does not exist.`)
-        continue
-      }
-      try {
-        outputs.push([rel, spliceRegion(current, localizedRegion)])
-      } catch (error) {
-        problems.push(`${rel}: ${error instanceof Error ? error.message : String(error)}`)
-      }
+    const rel = `${SUBSYSTEMS_DIR}/${page}`
+    let current: string
+    try {
+      current = readFileSync(resolve(root, rel), 'utf8')
+    } catch {
+      // A mapped page must exist before a region can be injected; this
+      // generator names the miss.
+      problems.push(`${rel}: mapped subsystems page does not exist.`)
+      continue
+    }
+    try {
+      outputs.push([rel, spliceRegion(current, region)])
+    } catch (error) {
+      problems.push(`${rel}: ${error instanceof Error ? error.message : String(error)}`)
     }
   }
   if (problems.length > 0) throw new Error(`gen-cordis-catalog: ${problems.length} page violation(s):\n${problems.map(p => `  ${p}`).join('\n')}`)
   return outputs
-}
-
-/**
- * Re-record a pair's `.i18n.yaml` after a region write ONLY when the write is
- * region-confined: both sides' region-stripped content must be byte-equal to
- * the region-stripped previous content whose hashes the record holds. The
- * caller supplies the previous bytes (read before writing); human-content
- * drift leaves the record untouched so the pairing gate still demands the
- * normal translation flow.
- * @param pageRel - repo-relative English page path (`docs/subsystems/x.md`).
- * @param before - pre-write bytes per repo-relative path.
- * @param scanRoot - repository root override for tests.
- * @returns true when the record was refreshed.
- */
-export function maybeRecordPair(pageRel: string, before: Map<string, Buffer>, scanRoot: string = root): boolean {
-  const zhRel = pageRel.replace(/\.md$/, '.zh.md')
-  const metaRel = pageRel.replace(/\.md$/, '.i18n.yaml')
-  const metaAbs = resolve(scanRoot, metaRel)
-  let meta: string
-  try {
-    meta = readFileSync(metaAbs, 'utf8')
-  } catch {
-    // No record yet: a brand-new pair is recorded by the author's --write
-    // after review, never silently by regeneration.
-    return false
-  }
-  // The record must contain exactly the two valid entries for THIS pair;
-  // a malformed or renamed-key sidecar is the pairing gate's problem to
-  // report, never something regeneration silently repairs into validity.
-  const recorded = parsePairMeta(meta)
-  const names = [pageRel, zhRel].map(rel => rel.split('/').at(-1) ?? rel)
-  if (!recorded || recorded.size !== 2 || !names.every(name => recorded.has(name))) return false
-  for (const rel of [pageRel, zhRel]) {
-    const previous = before.get(rel)
-    if (!previous) return false
-    if (recorded.get(rel.split('/').at(-1) ?? rel) !== blobHash(previous)) return false
-    const current = readFileSync(resolve(scanRoot, rel))
-    const strippedBefore = partitionGeneratedRegions(previous.toString('utf8')).stripped
-    const strippedAfter = partitionGeneratedRegions(current.toString('utf8')).stripped
-    if (strippedBefore !== strippedAfter) return false
-  }
-  const source = readFileSync(resolve(scanRoot, pageRel))
-  const zh = readFileSync(resolve(scanRoot, zhRel))
-  writeFileSync(metaAbs, renderPairMeta(pageRel, blobHash(source), zhRel, blobHash(zh)))
-  return true
 }
 
 /** CLI entry: default regenerates every artifact, `--check` fails if any is
@@ -1126,33 +1054,21 @@ export function main(): void {
     process.exit(1)
   }
 
-  const before = new Map<string, Buffer>()
-  for (const [out] of outputs) {
-    try {
-      before.set(out, readFileSync(resolve(root, out)))
-    } catch {
-      // First generation of this artifact; nothing to guard, nothing to record.
-    }
-  }
   let changedPages = 0
-  let recorded = 0
   for (const [out, content] of outputs) {
     const destination = resolve(root, out)
-    if (before.get(out)?.toString('utf8') === content) continue
+    let before: string | null = null
+    try {
+      before = readFileSync(destination, 'utf8')
+    } catch {
+      // First generation of this artifact; nothing to compare against.
+    }
+    if (before === content) continue
     mkdirSync(dirname(destination), { recursive: true })
     writeFileSync(destination, content)
     changedPages++
   }
-  for (const page of [...new Set([...Object.values(SERVICE_PAGE), ...Object.values(EVENT_SCOPE_PAGE)])]) {
-    const rel = `${SUBSYSTEMS_DIR}/${page}`
-    const zhRel = rel.replace(/\.md$/, '.zh.md')
-    const wroteEither = [rel, zhRel].some((side) => {
-      const previous = before.get(side)
-      return previous !== undefined && previous.toString('utf8') !== readFileSync(resolve(root, side), 'utf8')
-    })
-    if (wroteEither && maybeRecordPair(rel, before)) recorded++
-  }
-  console.log(`gen-cordis-catalog: ${outputs.length} artifact(s) computed, ${changedPages} written, ${recorded} pair record(s) refreshed.`)
+  console.log(`gen-cordis-catalog: ${outputs.length} artifact(s) computed, ${changedPages} written.`)
 }
 
 if (process.argv[1] && import.meta.filename === resolve(process.argv[1])) {

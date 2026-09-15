@@ -1,4 +1,4 @@
-/** Recorded-session replay through the shipped headless `dsh` profile. */
+/** Recorded-session replay through the shipped headless `nulu` profile. */
 
 import { cp, copyFile, mkdir, mkdtemp, readFile, readdir, rm, utimes, writeFile } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
@@ -8,9 +8,9 @@ import { basename, delimiter, dirname, join, relative, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
 import ts from 'typescript'
-import { SESSION_FORMAT_VERSION } from '@deepseek-ai/dsh-session'
-import { releasedV0SessionFormatCodec } from '@deepseek-ai/dsh-session-format-v0-to-v1'
-import type { SessionFormatEvent, SessionFormatMigrationContext } from '@deepseek-ai/dsh-session-format'
+import { SESSION_FORMAT_VERSION } from '@worldapptechnologies/nulu-session'
+import { releasedV0SessionFormatCodec } from '@worldapptechnologies/nulu-session-format-v0-to-v1'
+import type { SessionFormatEvent, SessionFormatMigrationContext } from '@worldapptechnologies/nulu-session-format'
 import { assertWorkspaceOutsideTemp, outsideTempWorkspaceParent } from '../../scripts/snapshot-workspace-parent.ts'
 import {
   assertPersistedSessionVersion,
@@ -48,14 +48,14 @@ import {
   type NormalizeContext,
   type SnapshotManifest,
   type WorkspaceSnapshotEntry,
-} from '@deepseek-ai/dsh-session-snapshot'
-import { LOADER_SMOKE_TEST_TIMEOUT_MS, runLoaderSmoke } from '@deepseek-ai/dsh-loader-smoke'
-import { resolvePwshPath } from '@deepseek-ai/dsh-pwsh-local'
-import { parseSessionLog, prepareSessionSnapshotFixtureForComparison } from '@deepseek-ai/dsh-llm-replay'
+} from '@worldapptechnologies/nulu-session-snapshot'
+import { LOADER_SMOKE_TEST_TIMEOUT_MS, runLoaderSmoke } from '@worldapptechnologies/nulu-loader-smoke'
+import { resolvePwshPath } from '@worldapptechnologies/nulu-pwsh-local'
+import { parseSessionLog, prepareSessionSnapshotFixtureForComparison } from '@worldapptechnologies/nulu-llm-replay'
 
 const repoRoot = fileURLToPath(new URL('../../', import.meta.url))
 const snapshotsRoot = fileURLToPath(new URL('./', import.meta.url))
-const dshBin = join(repoRoot, 'apps/cli/src/bin.ts')
+const nuluBin = join(repoRoot, 'apps/cli/src/bin.ts')
 const tsconfigPath = join(repoRoot, 'tsconfig.json')
 const editingCordisSkill = join(
   repoRoot,
@@ -71,12 +71,12 @@ function snapshotMode(value: string | undefined): SnapshotMode {
     case 'replay': return 'replay'
     case 'record': return 'record'
     case 'refresh': return 'refresh'
-    default: throw new Error(`unknown DSH_SNAPSHOT mode: ${value}`)
+    default: throw new Error(`unknown NULU_SNAPSHOT mode: ${value}`)
   }
 }
 
-const mode = snapshotMode(process.env.DSH_SNAPSHOT)
-const RUNTIME_WORKSPACE_ENTRIES = ['.agents', '.dsh', '.snapshot-patches'] as const
+const mode = snapshotMode(process.env.NULU_SNAPSHOT)
+const RUNTIME_WORKSPACE_ENTRIES = ['.agents', '.nulu', '.snapshot-patches'] as const
 
 interface JsonObject {
   [key: string]: unknown
@@ -168,7 +168,7 @@ function contextOf(logs: readonly string[]): NormalizeContext {
 }
 
 async function persistedSessions(cwd: string): Promise<SessionLog[]> {
-  const root = join(cwd, '.dsh', 'sessions')
+  const root = join(cwd, '.nulu', 'sessions')
   const files = latestPersistedSessionPaths(await readdir(root, { recursive: true }))
   const logs = await Promise.all(files.map(async (file): Promise<SessionLog> => {
     const content = await readFile(join(root, file), 'utf8')
@@ -351,7 +351,7 @@ function stderrFromSession(log: string): string {
   const appendReasoning = (text: string): void => {
     if (text === '') return
     if (!open) {
-      output += 'dsh: reasoning:\n'
+      output += 'nulu: reasoning:\n'
       open = true
     }
     output += text
@@ -428,7 +428,7 @@ function stderrFromSession(log: string): string {
   if (typeof error?.code !== 'string' || typeof error.message !== 'string') {
     throw new Error('headless snapshot error reason has no code and message')
   }
-  return `${output}dsh: ${error.code}: ${error.message}\n`
+  return `${output}nulu: ${error.code}: ${error.message}\n`
 }
 
 function modelFromSession(log: string): { provider: string; model: string } {
@@ -460,7 +460,7 @@ async function seedWorkspace(scenario: HeadlessScenario, cwd: string): Promise<v
 
 const workspaceSetups: Record<string, (cwd: string) => Promise<void>> = {
   async 'editing-cordis-skill'(cwd) {
-    const target = join(cwd, '.dsh', 'skills', 'editing-cordis-compositions', 'SKILL.md')
+    const target = join(cwd, '.nulu', 'skills', 'editing-cordis-compositions', 'SKILL.md')
     await mkdir(dirname(target), { recursive: true })
     await copyFile(editingCordisSkill, target)
   },
@@ -708,7 +708,7 @@ describe('headless recorded-session snapshots', () => {
 
   it('replays original inbox mentions before normalized user messages', () => {
     const message = (text: string) => ({ source: { kind: 'user' }, content: [{ type: 'text', text }] })
-    const original = 'Use @[Research](dsh-session:InJlZmVyZW5jZS1zb3VyY2Ui)'
+    const original = 'Use @[Research](nulu-session:InJlZmVyZW5jZS1zb3VyY2Ui)'
     const log = [
       { type: 'agent/inbox/spliced', data: { inserted: [message(original)] } },
       { type: 'user/message', data: message('Use @Research') },
@@ -729,11 +729,11 @@ describe('headless recorded-session snapshots', () => {
     ].map(record => JSON.stringify(record)).join('\n')
 
     expect(stderrFromSession(log)).toBe([
-      'dsh: reasoning:',
+      'nulu: reasoning:',
       'first',
-      'dsh: reasoning:',
+      'nulu: reasoning:',
       'second',
-      'dsh: reasoning:',
+      'nulu: reasoning:',
       'third',
       '',
     ].join('\n'))
@@ -757,7 +757,7 @@ describe('headless recorded-session snapshots', () => {
         { type: 'turn/end', data: { turn: 1, reason: { kind: 'completed' } } },
       ].map(record => JSON.stringify(record)).join('\n')
 
-      expect(stderrFromSession(log)).toBe('dsh: reasoning:\nfirst thought\n')
+      expect(stderrFromSession(log)).toBe('nulu: reasoning:\nfirst thought\n')
     },
   )
 
@@ -780,11 +780,11 @@ describe('headless recorded-session snapshots', () => {
       { type: 'turn/end', data: { turn: 1, reason: { kind: 'completed' } } },
     ].map(record => JSON.stringify(record)).join('\n')
 
-    expect(stderrFromSession(log)).toBe('dsh: reasoning:\nfirst thought\ndsh: reasoning:\nsecond\n')
+    expect(stderrFromSession(log)).toBe('nulu: reasoning:\nfirst thought\nnulu: reasoning:\nsecond\n')
   })
 
   it.each([10, 20])('assigns sibling roles by catalog order when the first child timestamp is %i', async (firstCreatedAt) => {
-    const cwd = await mkdtemp(join(tmpdir(), 'dsh-headless-catalog-order-'))
+    const cwd = await mkdtemp(join(tmpdir(), 'nulu-headless-catalog-order-'))
     try {
       const logs = [
         [
@@ -796,7 +796,7 @@ describe('headless recorded-session snapshots', () => {
         [{ type: 'session', version: SESSION_FORMAT_VERSION, id: 'child-a', createdAt: 10, parentSession: 'parent' }],
       ].map(rows => rows.map(row => JSON.stringify(row)).join('\n') + '\n')
       for (const content of logs) {
-        const directory = join(cwd, '.dsh', 'sessions', String(headerOf(content).id))
+        const directory = join(cwd, '.nulu', 'sessions', String(headerOf(content).id))
         await mkdir(directory, { recursive: true })
         await writeFile(join(directory, `session.v${SESSION_FORMAT_VERSION}.jsonl`), content)
       }
@@ -809,7 +809,7 @@ describe('headless recorded-session snapshots', () => {
   })
 
   it('writes header sidecars without replacing a retained Session generation', async () => {
-    const directory = await mkdtemp(join(tmpdir(), 'dsh-headless-sidecars-'))
+    const directory = await mkdtemp(join(tmpdir(), 'nulu-headless-sidecars-'))
     try {
       const scenario: HeadlessScenario = {
         name: 'retained-pin',
@@ -835,7 +835,7 @@ describe('headless recorded-session snapshots', () => {
         { type: 'system/message', seq: 2, time: 3, data: {
           turn: 1, step: 1,
           message: { role: 'system', content: [{ type: 'text', text: 'fresh system prompt' }],
-            source: { kind: 'plugin', plugin: '@deepseek-ai/dsh-system-prompt' }, id: 'fresh-msg' },
+            source: { kind: 'plugin', plugin: '@worldapptechnologies/nulu-system-prompt' }, id: 'fresh-msg' },
         }, surfaceOp: 'append' },
         {
           type: 'request/header',
@@ -876,7 +876,7 @@ describe('headless recorded-session snapshots', () => {
       || mode === 'record' && scenario.manifest.recording === 'authored'
       || mode === 'record' && scenario.manifest.sessionFormat !== undefined
     const scenarioTest = skipped ? it.skip : mode === 'replay' ? it.concurrent : it
-    scenarioTest(`${mode}s ${scenario.name} through dsh --profile headless`, async () => {
+    scenarioTest(`${mode}s ${scenario.name} through nulu --profile headless`, async () => {
       let fixtures = await fixtureSessions(scenario)
       const primaryFixture = fixtures[0]
       if (primaryFixture === undefined) throw new Error(`${scenario.name}: missing primary session fixture`)
@@ -914,9 +914,9 @@ describe('headless recorded-session snapshots', () => {
       try {
         result = await runLoaderSmoke({
           label: `${scenario.name} headless snapshot`,
-          tempDirPrefix: 'dsh-log-snap-',
+          tempDirPrefix: 'nulu-log-snap-',
           ...(scenario.manifest.workspace?.parent === 'outside-temp' ? { tempDirParent: outsideTempWorkspaceParent() } : {}),
-          binScript: dshBin,
+          binScript: nuluBin,
           configPath: join(baseComposition.dir, 'cordis.yml'),
           binArgs: [
             '--profile', 'headless',
@@ -929,24 +929,24 @@ describe('headless recorded-session snapshots', () => {
             ? 0
             : 1,
           env: {
-            DSH_SNAPSHOT: replaying ? 'replay' : 'record',
-            DSH_SNAPSHOT_PROVIDER: model.provider,
-            DSH_SNAPSHOT_MODEL: model.model,
-            DSH_SNAPSHOT_SPILL_ROOT: spillRoot,
-            DSH_SNAPSHOT_SPILL_LOCATOR_ROOT: locatorRoot,
-            DSH_SNAPSHOT_FILE: join(scenario.dir, fixtureFiles[0] as string),
+            NULU_SNAPSHOT: replaying ? 'replay' : 'record',
+            NULU_SNAPSHOT_PROVIDER: model.provider,
+            NULU_SNAPSHOT_MODEL: model.model,
+            NULU_SNAPSHOT_SPILL_ROOT: spillRoot,
+            NULU_SNAPSHOT_SPILL_LOCATOR_ROOT: locatorRoot,
+            NULU_SNAPSHOT_FILE: join(scenario.dir, fixtureFiles[0] as string),
             ...(replaying && fixtureFiles.length > 1
-              ? { DSH_SNAPSHOT_CHILD_FILES: fixtureFiles.slice(1).map(file => join(scenario.dir, file)).join(delimiter) }
+              ? { NULU_SNAPSHOT_CHILD_FILES: fixtureFiles.slice(1).map(file => join(scenario.dir, file)).join(delimiter) }
               : {}),
             ...(replaying && scenario.manifest.replay?.override === true
-              ? { DSH_SNAPSHOT_OVERRIDE: join(scenario.dir, 'replay.override.json') }
+              ? { NULU_SNAPSHOT_OVERRIDE: join(scenario.dir, 'replay.override.json') }
               : {}),
             ...(scenario.manifest.permission === undefined
               ? {}
-              : { DSH_PERMISSION_MODE: scenario.manifest.permission }),
+              : { NULU_PERMISSION_MODE: scenario.manifest.permission }),
             ...scenario.manifest.environment,
             NODE_OPTIONS: [process.env.NODE_OPTIONS, '--disable-warning=ExperimentalWarning'].filter(Boolean).join(' '),
-            DSH_TELEMETRY_DISABLED: '1',
+            NULU_TELEMETRY_DISABLED: '1',
           },
           prepare: async (cwd) => {
             if (scenario.manifest.workspace?.parent === 'outside-temp') assertWorkspaceOutsideTemp(cwd)

@@ -2,7 +2,7 @@
  * Cordis catalog-specific projection over the compiler-independent Typert
  * model. This module owns Cordis validation and text projection mechanics;
  * callers supply repository-specific type classifications and inherited data.
- * @module @deepseek-ai/dsh-typert-generator
+ * @module @worldapptechnologies/nulu-typert-generator
  */
 
 import { WorkspaceAnalyzer, WorkspaceCaches } from './analyzer.ts'
@@ -682,7 +682,7 @@ function renderRuntimeApi(
     ' * the same AST walk as docs/cordis-catalog, so this data and the rendered',
     ' * docs cannot diverge.',
     ' *',
-    ' * @module @deepseek-ai/dsh-tool-cordis/api-catalog',
+    ' * @module @worldapptechnologies/nulu-tool-cordis/api-catalog',
     ' */',
     '',
     '/* jscpd:ignore-start */',
@@ -1016,7 +1016,7 @@ export function renderPageRegion(page: string, services: ServiceEntry[], events:
     '',
     '## Cordis API',
     '',
-    'Generated from source by `scripts/gen-cordis-catalog.ts` (verified fresh by `pnpm run verify-cordis-catalog` in doc-sync; regenerate with `pnpm run gen-cordis-catalog`) — the language sides differ only in locale-specific paired document paths. Signature blocks use a `ts cordis-catalog` fence and keep the original source JSDoc; dispatch modes are defined in the [primer](../cordis-primer.md#dispatch-modes), and the framework-inherited `ctx` API lives in [cordis-api/inherited.md](../cordis-api/inherited.md).',
+    'Generated from source by `scripts/gen-cordis-catalog.ts` (verified fresh by `pnpm run verify-cordis-catalog` in doc-sync; regenerate with `pnpm run gen-cordis-catalog`). Signature blocks use a `ts cordis-catalog` fence and keep the original source JSDoc; dispatch modes are defined in the [primer](../cordis-primer.md#dispatch-modes), and the framework-inherited `ctx` API lives in [cordis-api/inherited.md](../cordis-api/inherited.md).',
     '',
   ]
   for (const s of services) lines.push(...renderService(s, page, policy.linkedTypePages))

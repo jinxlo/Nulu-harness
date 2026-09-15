@@ -4,11 +4,11 @@
  * chooser; the unchanged Host connector then owns the Worker handshake.
  * Everything after those calls is the served startup chain verbatim.
  */
-import DshWorker from '@deepseek-ai/dsh-experimental-webworker-runtime/worker?worker'
+import NuluWorker from '@worldapptechnologies/nulu-experimental-webworker-runtime/worker?worker'
 import {
   chooseWorkerHostSource, connectWorkerHost, IMAGE_FILE_NAME,
-} from '@deepseek-ai/dsh-experimental-webworker-runtime/client'
+} from '@worldapptechnologies/nulu-experimental-webworker-runtime/client'
 
 const image = `preview/${IMAGE_FILE_NAME}`
 const source = await chooseWorkerHostSource({ image })
-await connectWorkerHost(new DshWorker({ name: 'dsh-host' }), { image, overlays: source.overlays })
+await connectWorkerHost(new NuluWorker({ name: 'nulu-host' }), { image, overlays: source.overlays })

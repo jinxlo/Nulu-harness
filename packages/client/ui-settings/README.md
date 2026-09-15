@@ -1,11 +1,10 @@
 ---
-description: "Settings domain base plugin: the settings-namespace scope service, schema service, and the canonical settings slot-type contract for the dsh web client."
+description: "Settings domain base plugin: the settings-namespace scope service, schema service, and the canonical settings slot-type contract for the nulu web client."
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-client-ui-settings
+# @worldapptechnologies/nulu-client-ui-settings
 
-English | [中文](README.zh.md)
 
 ## Summary
 
@@ -72,7 +71,7 @@ These pages cover the settings surface family and the durable seam behind it.
 
 - [ui-settings-general](../ui-settings-general/README.md) — the settings shell: trigger chrome, navigation, General section, onboarding projection.
 - [ui-settings-plugins](../ui-settings-plugins/README.md) — the Plugins section and its configurable host-plane cards.
-- [ui-settings-models](../ui-settings-models/README.md) — the Models page and DeepSeek onboarding over this base.
+- [ui-settings-models](../ui-settings-models/README.md) — the Models page and Nulu onboarding over this base.
 - [settings](../../settings/README.md) — the durable user-settings seam and its file provider.
 - [ui-sidebar](../ui-sidebar/README.md) — the sidebar shell whose bottom seat hosts the settings trigger.
 

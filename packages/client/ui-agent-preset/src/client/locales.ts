@@ -152,8 +152,8 @@ export const zh: Record<AgentPresetSettingsKey, string> = {
   enablePickerToCreate: '请先开启 Agent 模式选择，再启动创造模式',
 }
 
-// The resolution itself is the shared fold in `dsh-agent-presets/display`,
+// The resolution itself is the shared fold in `nulu-agent-presets/display`,
 // re-exported here so every surface in this plugin reads one path; the
 // Settings plugin list inlines the same fold over this plugin's dictionaries.
-export { presetDisplayText } from '@deepseek-ai/dsh-agent-presets/display'
-export type { PresetDisplaySource, PresetDisplayText } from '@deepseek-ai/dsh-agent-presets/display'
+export { presetDisplayText } from '@worldapptechnologies/nulu-agent-presets/display'
+export type { PresetDisplaySource, PresetDisplayText } from '@worldapptechnologies/nulu-agent-presets/display'

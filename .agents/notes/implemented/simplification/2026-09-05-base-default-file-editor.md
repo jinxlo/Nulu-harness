@@ -2,11 +2,10 @@
 
 Status: implemented
 
-English | [中文](2026-09-05-base-default-file-editor.zh.md)
 
 ## Problem
 
-The shared base selects both `read`/`write`/`edit` and `str_replace_editor`, which offer overlapping file editing interfaces. [Issue #3599](https://github.com/deepseek-harness/deepseek-harness/issues/3599) requests one default interface for base-backed profiles while preserving the dedicated minimal compositions.
+The shared base selects both `read`/`write`/`edit` and `str_replace_editor`, which offer overlapping file editing interfaces. [Issue #3599](https://github.com/nulu-harness/nulu-harness/issues/3599) requests one default interface for base-backed profiles while preserving the dedicated minimal compositions.
 
 ## Decision
 
@@ -14,7 +13,7 @@ The [base patch](../../../../packages/bundle/base/cordis.patch.yml) selects `rea
 
 Web minimal and the standalone `sdk-minimal` bundle own their tool selection independently of base. The [persistent-shell-only decision](2026-09-03-minimal-profiles-persistent-shell-only.md) owns their single-tool defaults.
 
-This refines the shared tool defaults in [one dsh launcher](../architecture/2026-08-22-single-dsh-application-launcher.md). That note remains active for launch ownership, shared services, and patch precedence; no active note is fully superseded.
+This refines the shared tool defaults in [one nulu launcher](../architecture/2026-08-22-single-nulu-application-launcher.md). That note remains active for launch ownership, shared services, and patch precedence; no active note is fully superseded.
 
 ## Alternatives considered
 

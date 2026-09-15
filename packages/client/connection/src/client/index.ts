@@ -1,5 +1,5 @@
 /** Browser wire client: Remote transport and connection generations. */
-import type { Context } from '@deepseek-ai/cordis'
+import type { Context } from '@worldapptechnologies/cordis'
 import {
   ConnectionController,
   type ConnectionRecoveryConfig,
@@ -14,7 +14,7 @@ import { isLoopbackHostname } from '../loopback-hostname.ts'
 import type { ClientConnectionRpc } from '../rpc.ts'
 import { resolveConnectionConfig } from '../recovery-config.ts'
 
-declare module '@deepseek-ai/cordis' {
+declare module '@worldapptechnologies/cordis' {
   interface Events {
     /**
      * A connection generation was established. Wire-derived caches must
@@ -107,8 +107,8 @@ export interface ClientTransportHooks {
 
 /** Page global carrying {@link ClientTransportHooks}; absent in the served web app. */
 interface ClientTransportGlobal {
-  __DSH_TRANSPORT__?: ClientTransportHooks
-  __DSH_CONNECTION_RECOVERY__?: unknown
+  __NULU_TRANSPORT__?: ClientTransportHooks
+  __NULU_CONNECTION_RECOVERY__?: unknown
 }
 
 /**
@@ -189,8 +189,8 @@ export function apply(ctx: Context): void {
   const pageLocation = typeof location === 'undefined' ? undefined : location
   const fixture = pageLocation !== undefined && new URLSearchParams(pageLocation.search).has('fixture')
   const fixtureRpc = fixture ? createFixtureConnectionRpc() : undefined
-  const transport = (globalThis as ClientTransportGlobal).__DSH_TRANSPORT__
-  const recovery = resolveConnectionConfig((globalThis as ClientTransportGlobal).__DSH_CONNECTION_RECOVERY__)
+  const transport = (globalThis as ClientTransportGlobal).__NULU_TRANSPORT__
+  const recovery = resolveConnectionConfig((globalThis as ClientTransportGlobal).__NULU_CONNECTION_RECOVERY__)
   const rpc = fixtureRpc ?? transport?.rpc ?? createWebConnectionRpc(transport?.fetch, transport?.openStream)
   let generationSource: ConnectionGenerationSource | undefined
   let owner: ConnectionOwner | undefined

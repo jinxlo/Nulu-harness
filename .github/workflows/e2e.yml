@@ -1,9 +1,9 @@
-name: E2E (real DeepSeek API)
+name: E2E (real Nulu API)
 
 # Real-API end-to-end suite (`pnpm run test:e2e`). Unlike ci.yml this job
-# consumes the DEEPSEEK_API_KEY_EXTERNAL secret (mapped to the env var
-# DEEPSEEK_API_KEY the tests read) and hits the external API at
-# https://api.deepseek.com (DEEPSEEK_BASE_URL is pinned to it explicitly so a
+# consumes the WORLD_APP_TECHNOLOGIES_API_KEY_EXTERNAL secret (mapped to the env var
+# WORLD_APP_TECHNOLOGIES_API_KEY the tests read) and hits the external API at
+# https://platform.worldapptechnologies.com/api/v1 (WORLD_APP_TECHNOLOGIES_BASE_URL is pinned to it explicitly so a
 # stray repo-root .env can't redirect the run).
 #
 # pull_request IS a trigger, but GitHub withholds repo secrets from BOTH forked
@@ -49,7 +49,7 @@ permissions:
 env:
   # CI runs must never report to the production telemetry endpoint baked
   # into apps/cli/cordis.yml (AppCLIEntry disables the row when set).
-  DSH_TELEMETRY_DISABLED: '1'
+  NULU_TELEMETRY_DISABLED: '1'
 
 jobs:
   e2e:
@@ -60,7 +60,7 @@ jobs:
     if: >-
       github.event_name != 'pull_request'
       || !(github.event.pull_request.head.repo.fork || github.event.pull_request.user.login == 'dependabot[bot]')
-    # Profile e2e files can each own several complete dsh subprocess trees, so
+    # Profile e2e files can each own several complete nulu subprocess trees, so
     # four file workers preserve process/PTY headroom. Tests retain 120s/test
     # and retry 2; 45m still bounds retry storms against a slow API.
     timeout-minutes: 45
@@ -87,21 +87,21 @@ jobs:
       # absent, so a missing/misconfigured secret would otherwise pass as
       # "all skipped". This job only runs on trusted events (the `if:` above
       # excludes keyless PRs), so the secret MUST be present — fail loudly if not.
-      - name: Preflight (require DEEPSEEK_API_KEY)
+      - name: Preflight (require WORLD_APP_TECHNOLOGIES_API_KEY)
         env:
-          # Repo secret DEEPSEEK_API_KEY_EXTERNAL holds the external-API key;
-          # the tests read process.env.DEEPSEEK_API_KEY, so map it across here.
-          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY_EXTERNAL }}
+          # Repo secret WORLD_APP_TECHNOLOGIES_API_KEY_EXTERNAL holds the external-API key;
+          # the tests read process.env.WORLD_APP_TECHNOLOGIES_API_KEY, so map it across here.
+          WORLD_APP_TECHNOLOGIES_API_KEY: ${{ secrets.WORLD_APP_TECHNOLOGIES_API_KEY_EXTERNAL }}
         run: |
           set -euo pipefail
-          if [ -z "${DEEPSEEK_API_KEY:-}" ]; then
-            echo "::error::DEEPSEEK_API_KEY is empty. The e2e suite would self-skip and"
-            echo "::error::report a false green. Configure the repo secret DEEPSEEK_API_KEY_EXTERNAL."
+          if [ -z "${WORLD_APP_TECHNOLOGIES_API_KEY:-}" ]; then
+            echo "::error::WORLD_APP_TECHNOLOGIES_API_KEY is empty. The e2e suite would self-skip and"
+            echo "::error::report a false green. Configure the repo secret WORLD_APP_TECHNOLOGIES_API_KEY_EXTERNAL."
             exit 1
           fi
-          echo "DEEPSEEK_API_KEY present."
+          echo "WORLD_APP_TECHNOLOGIES_API_KEY present."
 
-      # The e2e suites boot the example bins in `lib` mode (DSH_EXAMPLE_MODE=lib):
+      # The e2e suites boot the example bins in `lib` mode (NULU_EXAMPLE_MODE=lib):
       # the built artifact under plain Node, resolving plugins through real package
       # exports — the shape a real consumer runs. That requires a prior build.
       - name: Build (lib for the e2e example bins)
@@ -110,12 +110,12 @@ jobs:
       # Real-API end-to-end tests only. The keyless gates (lint/typecheck/
       # coverage/snapshot/etc.) already run in ci.yml (pull requests) and
       # ci-master.yml (master push standby).
-      # DEEPSEEK_BASE_URL is pinned to the external API; the secret is scoped to
+      # WORLD_APP_TECHNOLOGIES_BASE_URL is pinned to the external API; the secret is scoped to
       # this step (and preflight) only — never exposed to checkout/setup/install.
-      - name: E2E tests (real DeepSeek API)
+      - name: E2E tests (real Nulu API)
         env:
-          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY_EXTERNAL }}
-          DEEPSEEK_BASE_URL: https://api.deepseek.com
-          DSH_E2E_MAX_WORKERS: 4
-          DSH_EXAMPLE_MODE: lib
+          WORLD_APP_TECHNOLOGIES_API_KEY: ${{ secrets.WORLD_APP_TECHNOLOGIES_API_KEY_EXTERNAL }}
+          WORLD_APP_TECHNOLOGIES_BASE_URL: https://platform.worldapptechnologies.com/api/v1
+          NULU_E2E_MAX_WORKERS: 4
+          NULU_EXAMPLE_MODE: lib
         run: pnpm run test:e2e

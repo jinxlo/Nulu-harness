@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url'
 import type { Browser, Page } from 'playwright'
 import { chromium } from 'playwright'
 import { afterAll, beforeAll, describe, expect, it, onTestFailed } from 'vitest'
-import { SessionId } from '@deepseek-ai/dsh-session'
+import { SessionId } from '@worldapptechnologies/nulu-session'
 import {
   assertFixtureInventory, captureStableAria, compareOrRefreshGolden, fixtureUserPrompts,
   launchWebScaffold, parseSeedFixture, renderSeedFixture, seedSession, watchConsole, webSnapshotMode, type WebScaffold,
@@ -123,7 +123,7 @@ function completedTailFixture(raw: string): string {
         message: {
           role: 'assistant',
           content: [{ type: 'text', text: 'DONE' }],
-          source: { kind: 'model', provider: 'deepseek-official', model: 'deepseek-v4-flash' },
+          source: { kind: 'model', provider: 'worldapp-gateway', model: 'nulu-5' },
           id: '{{message:99}}',
         },
         stream: [

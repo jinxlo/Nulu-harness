@@ -8,7 +8,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from deepseek_harness import RunResult
+from nulu_harness import RunResult
 
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -29,7 +29,7 @@ def live_result(**overrides: object) -> RunResult:
 
 @pytest.fixture
 def live_smoke(monkeypatch: pytest.MonkeyPatch) -> SimpleNamespace:
-    import deepseek_harness
+    import nulu_harness
 
     state = SimpleNamespace(
         prompts=[], session_ids=[], challenges=[], checked_logs=[], closed=False,
@@ -90,9 +90,9 @@ def live_smoke(monkeypatch: pytest.MonkeyPatch) -> SimpleNamespace:
                 raise AssertionError(state.receipt_mode)
             return state.verify_result
 
-    monkeypatch.setenv("DEEPSEEK_API_KEY", "unit-test-key")
-    monkeypatch.setenv("DEEPSEEK_BASE_URL", "https://api.invalid")
-    monkeypatch.setattr(deepseek_harness, "DeepSeekHarness", ScriptedHarness)
+    monkeypatch.setenv("WORLD_APP_TECHNOLOGIES_API_KEY", "unit-test-key")
+    monkeypatch.setenv("WORLD_APP_TECHNOLOGIES_BASE_URL", "https://api.invalid")
+    monkeypatch.setattr(nulu_harness, "NuluHarness", ScriptedHarness)
     monkeypatch.setattr(globals_["secrets"], "token_hex", fresh_challenge)
     monkeypatch.setitem(globals_, "assert_zstd_session_log", state.checked_logs.append)
     return state
@@ -249,7 +249,7 @@ def test_snapshot_comparison_preserves_opaque_generation_provenance() -> None:
     expected = {
         "header": {"type": "session", "version": 0, "otherVersion": 7},
         "accepted": {
-            "type": "session-log-deepseek/delivery-accepted",
+            "type": "session-log-gateway/delivery-accepted",
             "data": {"sessionId": "s", "throughSeq": 4},
         },
         "source": {
@@ -260,7 +260,7 @@ def test_snapshot_comparison_preserves_opaque_generation_provenance() -> None:
     actual = {
         "header": {"type": "session", "version": 1, "otherVersion": 7},
         "accepted": {
-            "type": "session-log-deepseek/delivery-accepted",
+            "type": "session-log-gateway/delivery-accepted",
             "data": {"sessionId": "s", "sessionFormatVersion": 1, "throughSeq": 4},
         },
         "source": {

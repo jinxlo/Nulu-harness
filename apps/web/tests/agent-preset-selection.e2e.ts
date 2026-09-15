@@ -17,9 +17,9 @@ import { chromium } from 'playwright'
 import { afterAll, beforeAll, describe, expect, it, onTestFailed } from 'vitest'
 import {
   SESSION_FORMAT_VERSION, SessionId as sessionId, type SessionEvent, type SessionHeader, type SessionId,
-} from '@deepseek-ai/dsh-session'
-import { snapshotSubagentDescriptor } from '@deepseek-ai/dsh-subagent'
-import { createSystemMessage, createUserMessage } from '@deepseek-ai/dsh-llm'
+} from '@worldapptechnologies/nulu-session'
+import { snapshotSubagentDescriptor } from '@worldapptechnologies/nulu-subagent'
+import { createSystemMessage, createUserMessage } from '@worldapptechnologies/nulu-llm'
 import {
   captureStableAria, compareOrRefreshGolden, launchWebScaffold, seedSession, watchConsole,
   webSnapshotMode, type WebScaffold,
@@ -99,7 +99,7 @@ function seedLog(): string {
     at(1, { type: 'step/start', data: { turn: 1, step: 1 } }),
     at(2, {
       type: 'system/message',
-      data: { turn: 1, step: 1, message: createSystemMessage('', '@deepseek-ai/dsh-system-prompt') },
+      data: { turn: 1, step: 1, message: createSystemMessage('', '@worldapptechnologies/nulu-system-prompt') },
       surfaceOp: 'append',
     }),
     at(3, {
@@ -223,7 +223,7 @@ describe('web e2e: agent-preset selection', () => {
   beforeAll(async () => {
     // The shipped presets, plus one lane-owned preset that mounts and refuses:
     // the chip's own failure path needs a preset the roster offers.
-    presetRoot = await realpath(await mkdtemp(join(tmpdir(), 'dsh-web-e2e-refusing-')))
+    presetRoot = await realpath(await mkdtemp(join(tmpdir(), 'nulu-web-e2e-refusing-')))
     await seedRefusingPreset(presetRoot)
     scaffold = await launchWebScaffold({
       agentPresets: { roots: [{ path: presetRoot, trust: 'user' }], default: 'standard' },

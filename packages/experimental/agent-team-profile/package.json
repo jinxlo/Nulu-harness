@@ -1,13 +1,13 @@
 {
-  "name": "@deepseek-ai/dsh-experimental-agent-team-profile",
-  "description": "Experimental profile bundle enabling Agent Teams over dsh-base",
+  "name": "@worldapptechnologies/nulu-experimental-agent-team-profile",
+  "description": "Experimental profile bundle enabling Agent Teams over nulu-base",
   "version": "0.1.5-rc.2",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/worldapptechnologies/nulu-harness.git",
     "directory": "packages/experimental/agent-team-profile"
   },
   "type": "module",
@@ -28,21 +28,21 @@
     "lib/types/**/*.d.ts"
   ],
   "license": "MIT",
-  "dsh": {
+  "nulu": {
     "bundle": {
       "patch": "./cordis.patch.yml"
     }
   },
   "dependencies": {
-    "@deepseek-ai/dsh-experimental-agent-team": "workspace:^",
-    "@deepseek-ai/dsh-experimental-tool-agent-team": "workspace:^"
+    "@worldapptechnologies/nulu-experimental-agent-team": "workspace:^",
+    "@worldapptechnologies/nulu-experimental-tool-agent-team": "workspace:^"
   },
   "peerDependencies": {
-    "@deepseek-ai/cordis": "workspace:^"
+    "@worldapptechnologies/cordis": "workspace:^"
   },
   "devDependencies": {
-    "@deepseek-ai/cordis-plugin-include": "workspace:^",
-    "@deepseek-ai/cordis": "workspace:^",
+    "@worldapptechnologies/cordis-plugin-include": "workspace:^",
+    "@worldapptechnologies/cordis": "workspace:^",
     "js-yaml": "^4.2.0"
   }
 }

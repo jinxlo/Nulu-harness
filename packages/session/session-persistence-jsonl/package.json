@@ -1,13 +1,13 @@
 {
-  "name": "@deepseek-ai/dsh-session-persistence-jsonl",
-  "description": "JSONL durable session persistence backend for the DeepSeek Harness",
+  "name": "@worldapptechnologies/nulu-session-persistence-jsonl",
+  "description": "JSONL durable session persistence backend for the Nulu Harness",
   "version": "0.1.5-rc.2",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/worldapptechnologies/nulu-harness.git",
     "directory": "packages/session/session-persistence-jsonl"
   },
   "type": "module",
@@ -28,23 +28,23 @@
   ],
   "license": "MIT",
   "peerDependencies": {
-    "@deepseek-ai/dsh-session": "workspace:^",
-    "@deepseek-ai/dsh-session-persistence": "workspace:^",
-    "@deepseek-ai/cordis": "workspace:^"
+    "@worldapptechnologies/nulu-session": "workspace:^",
+    "@worldapptechnologies/nulu-session-persistence": "workspace:^",
+    "@worldapptechnologies/cordis": "workspace:^"
   },
   "dependencies": {
-    "@deepseek-ai/dsh-llm": "workspace:^",
-    "@deepseek-ai/dsh-session-format": "workspace:^",
-    "@deepseek-ai/dsh-session-format-catalog": "workspace:^",
-    "@deepseek-ai/dsh-session-format-v2-to-v3": "workspace:^",
-    "@deepseek-ai/node-addon-system": "workspace:^",
+    "@worldapptechnologies/nulu-llm": "workspace:^",
+    "@worldapptechnologies/nulu-session-format": "workspace:^",
+    "@worldapptechnologies/nulu-session-format-catalog": "workspace:^",
+    "@worldapptechnologies/nulu-session-format-v2-to-v3": "workspace:^",
+    "@worldapptechnologies/node-addon-system": "workspace:^",
     "koffi": "^3.1.0",
-    "@deepseek-ai/schemastery": "workspace:^"
+    "@worldapptechnologies/schemastery": "workspace:^"
   },
   "devDependencies": {
-    "@deepseek-ai/dsh-session": "workspace:^",
-    "@deepseek-ai/dsh-session-format-v0-to-v1": "workspace:^",
-    "@deepseek-ai/dsh-session-persistence": "workspace:^",
-    "@deepseek-ai/cordis": "workspace:^"
+    "@worldapptechnologies/nulu-session": "workspace:^",
+    "@worldapptechnologies/nulu-session-format-v0-to-v1": "workspace:^",
+    "@worldapptechnologies/nulu-session-persistence": "workspace:^",
+    "@worldapptechnologies/cordis": "workspace:^"
   }
 }

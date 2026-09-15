@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import { SessionFormatEventCollector } from '@deepseek-ai/dsh-session-format'
+import { SessionFormatEventCollector } from '@worldapptechnologies/nulu-session-format'
 import type {
   SessionFormatEvent,
   SessionFormatEventRun,
-} from '@deepseek-ai/dsh-session-format'
+} from '@worldapptechnologies/nulu-session-format'
 import {
   RELEASED_V0_EVENT_TYPES,
   releasedV1SessionFormatCodec,
@@ -106,7 +106,7 @@ describe('released Session format v0 to v1', () => {
       sourceKind: 'decoded',
     })
     const marker = {
-      type: 'session-log-deepseek/delivery-accepted', seq: 1, time: 2,
+      type: 'session-log-gateway/delivery-accepted', seq: 1, time: 2,
       data: { sessionId: 'parent', throughSeq: 0 },
     } as const
     const output = new SessionFormatEventCollector()
@@ -187,7 +187,7 @@ describe('released Session format v0 to v1', () => {
 
   it('refuses v1-only generation fields in v0 and accepts them in v1', () => {
     const event = {
-      type: 'session-log-deepseek/delivery-accepted',
+      type: 'session-log-gateway/delivery-accepted',
       seq: 1,
       time: 2,
       data: { sessionId: 'delivery', throughSeq: 0, sessionFormatVersion: 1 },
@@ -359,7 +359,7 @@ describe('released Session format v0 to v1', () => {
       },
       { type: 'compaction/end', seq: 17, time: 18, data: { compactionId: 'compact', sourceCommandId: 'command', turn: 1 } },
       {
-        type: 'session-log-deepseek/delivery-accepted', seq: 18, time: 19,
+        type: 'session-log-gateway/delivery-accepted', seq: 18, time: 19,
         data: { sessionId: 'full-identity', throughSeq: 17 },
       },
       { type: 'turn/end', seq: 19, time: 20, data: { turn: 1, reason: { kind: 'completed' } } },

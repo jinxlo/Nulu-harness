@@ -1,6 +1,5 @@
 # Plugin configuration
 
-English | [中文](config.zh.md)
 
 Accept configuration supplied through `cordis.yml`.
 
@@ -9,8 +8,8 @@ Accept configuration supplied through `cordis.yml`.
 Export a `Config` type and a same-named Schemastery schema. Put defaults directly on the schema fields:
 
 ```ts
-import type { Context } from '@deepseek-ai/cordis'
-import Schema from '@deepseek-ai/schemastery'
+import type { Context } from '@worldapptechnologies/cordis'
+import Schema from '@worldapptechnologies/schemastery'
 
 export const name = 'my-plugin'
 
@@ -49,8 +48,8 @@ When loading the plugin, Cordis uses the exported schema to validate configurati
 Use Schemastery to express stricter validation:
 
 ```ts
-import type { Context } from '@deepseek-ai/cordis'
-import Schema from '@deepseek-ai/schemastery'
+import type { Context } from '@worldapptechnologies/cordis'
+import Schema from '@worldapptechnologies/schemastery'
 
 export const name = 'validated-plugin'
 

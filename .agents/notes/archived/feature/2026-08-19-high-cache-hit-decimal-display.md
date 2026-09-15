@@ -3,7 +3,6 @@
 Status: implemented
 Archived: 2026-08-22
 
-English | [中文](2026-08-19-high-cache-hit-decimal-display.zh.md)
 
 ## Problem
 
@@ -13,7 +12,7 @@ Users therefore could not distinguish a nearly complete cache hit from a true fu
 
 ## Decision
 
-`StatsLine` continues to derive the ratio from the whole-session `tokenUsage` projection owned by `@deepseek-ai/dsh-token-meter`; the projection remains the only owner of the uncached-input, cache-read, cache-write, and output counts ([projection decision](../architecture/2026-07-29-projected-token-usage-and-request-context.md)). The presentation layer changes only the text inserted into the existing `stats.cacheHit` locale template.
+`StatsLine` continues to derive the ratio from the whole-session `tokenUsage` projection owned by `@worldapptechnologies/nulu-token-meter`; the projection remains the only owner of the uncached-input, cache-read, cache-write, and output counts ([projection decision](../architecture/2026-07-29-projected-token-usage-and-request-context.md)). The presentation layer changes only the text inserted into the existing `stats.cacheHit` locale template.
 
 | Actual ratio | Display |
 |---|---|

@@ -27,8 +27,8 @@ on:
         required: false
         default: false
     secrets:
-      DEEPSEEK_API_KEY_EXTERNAL:
-        description: Real DeepSeek API key for trusted installed-wheel pull-request tests.
+      WORLD_APP_TECHNOLOGIES_API_KEY_EXTERNAL:
+        description: Real Nulu API key for trusted installed-wheel pull-request tests.
         required: false
   workflow_dispatch:
     inputs:
@@ -55,7 +55,7 @@ permissions:
 env:
   # CI runs must never report to the production telemetry endpoint baked
   # into apps/cli/cordis.yml (AppCLIEntry disables the row when set).
-  DSH_TELEMETRY_DISABLED: '1'
+  NULU_TELEMETRY_DISABLED: '1'
 
 jobs:
   # Job-level conditions cannot inspect `matrix`, so validate target names and
@@ -122,7 +122,7 @@ jobs:
 
   sdk-wheel:
     needs: plan
-    name: deepseek_harness_sdk-${{ needs.plan.outputs.version }}-py3-none-any.whl
+    name: nulu_harness_sdk-${{ needs.plan.outputs.version }}-py3-none-any.whl
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -143,8 +143,8 @@ jobs:
 
       - uses: actions/upload-artifact@v7
         with:
-          name: deepseek_harness_sdk-${{ needs.plan.outputs.version }}-py3-none-any.whl
-          path: dist-python/deepseek_harness_sdk-${{ needs.plan.outputs.version }}-py3-none-any.whl
+          name: nulu_harness_sdk-${{ needs.plan.outputs.version }}-py3-none-any.whl
+          path: dist-python/nulu_harness_sdk-${{ needs.plan.outputs.version }}-py3-none-any.whl
           if-no-files-found: error
           retention-days: 7
 
@@ -248,7 +248,7 @@ jobs:
 
       - name: Build single-exe
         env:
-          DSH_BUILD_CLIENT_PROFILE: official
+          NULU_BUILD_CLIENT_PROFILE: official
         run: pnpm exec tsx scripts/build-exe-for-python-sdk.ts --targets=${{ matrix.target }}
 
       - name: Resolve platform outputs (POSIX)
@@ -260,12 +260,12 @@ jobs:
         run: |
           set -euo pipefail
           platform="${TARGET#node24-}"
-          exe="$PWD/dist-exe/deepseek-harness-sdk-runtime-$platform"
+          exe="$PWD/dist-exe/nulu-harness-sdk-runtime-$platform"
           case "$platform" in
-            linux-x64) wheel=deepseek_harness_runtime_bin-$VERSION-py3-none-manylinux_2_28_x86_64.whl ;;
-            linux-arm64) wheel=deepseek_harness_runtime_bin-$VERSION-py3-none-manylinux_2_28_aarch64.whl ;;
-            macos-arm64) wheel=deepseek_harness_runtime_bin-$VERSION-py3-none-macosx_14_0_arm64.whl ;;
-            macos-x64) wheel=deepseek_harness_runtime_bin-$VERSION-py3-none-macosx_14_0_x86_64.whl ;;
+            linux-x64) wheel=nulu_harness_runtime_bin-$VERSION-py3-none-manylinux_2_28_x86_64.whl ;;
+            linux-arm64) wheel=nulu_harness_runtime_bin-$VERSION-py3-none-manylinux_2_28_aarch64.whl ;;
+            macos-arm64) wheel=nulu_harness_runtime_bin-$VERSION-py3-none-macosx_14_0_arm64.whl ;;
+            macos-x64) wheel=nulu_harness_runtime_bin-$VERSION-py3-none-macosx_14_0_x86_64.whl ;;
             *) echo "::error::Unsupported runtime platform $platform"; exit 1 ;;
           esac
           [ -x "$exe" ] || { echo "::error::$exe missing or not executable"; exit 1; }
@@ -283,8 +283,8 @@ jobs:
         run: |
           if ($env:TARGET -ne 'node24-win-x64') { throw "Unsupported runtime target $env:TARGET" }
           $platform = 'win-x64'
-          $exe = Join-Path $PWD 'dist-exe\deepseek-harness-sdk-runtime-win-x64.exe'
-          $wheel = "deepseek_harness_runtime_bin-$env:VERSION-py3-none-win_amd64.whl"
+          $exe = Join-Path $PWD 'dist-exe\nulu-harness-sdk-runtime-win-x64.exe'
+          $wheel = "nulu_harness_runtime_bin-$env:VERSION-py3-none-win_amd64.whl"
           if (-not (Test-Path -LiteralPath $exe -PathType Leaf)) { throw "Runtime executable is missing at $exe" }
           "platform=$platform" >> $env:GITHUB_OUTPUT
           "exe=$exe" >> $env:GITHUB_OUTPUT
@@ -300,7 +300,7 @@ jobs:
 
       - uses: actions/download-artifact@v8
         with:
-          name: deepseek_harness_sdk-${{ needs.plan.outputs.version }}-py3-none-any.whl
+          name: nulu_harness_sdk-${{ needs.plan.outputs.version }}-py3-none-any.whl
           path: dist-python
 
       - name: Install local SDK and runtime wheels into a clean venv (POSIX)
@@ -308,10 +308,10 @@ jobs:
         if: runner.os != 'Windows'
         env:
           RUNTIME_WHEEL: ${{ steps.runtime-posix.outputs.wheel }}
-          SDK_WHEEL: deepseek_harness_sdk-${{ needs.plan.outputs.version }}-py3-none-any.whl
+          SDK_WHEEL: nulu_harness_sdk-${{ needs.plan.outputs.version }}-py3-none-any.whl
         run: |
           set -euo pipefail
-          venv="$(python -c 'import tempfile; print(tempfile.mkdtemp(prefix="dsh-sdk-smoke-"))')"
+          venv="$(python -c 'import tempfile; print(tempfile.mkdtemp(prefix="nulu-sdk-smoke-"))')"
           python -m venv "$venv"
           smoke_python="$venv/bin/python"
           "$smoke_python" -m pip install \
@@ -325,9 +325,9 @@ jobs:
         shell: pwsh
         env:
           RUNTIME_WHEEL: ${{ steps.runtime-windows.outputs.wheel }}
-          SDK_WHEEL: deepseek_harness_sdk-${{ needs.plan.outputs.version }}-py3-none-any.whl
+          SDK_WHEEL: nulu_harness_sdk-${{ needs.plan.outputs.version }}-py3-none-any.whl
         run: |
-          $venv = (& python -c 'import tempfile; print(tempfile.mkdtemp(prefix="dsh-sdk-smoke-"))').Trim()
+          $venv = (& python -c 'import tempfile; print(tempfile.mkdtemp(prefix="nulu-sdk-smoke-"))').Trim()
           python -m venv $venv
           $smokePython = Join-Path $venv 'Scripts\python.exe'
           & $smokePython -m pip install "dist-python/$env:SDK_WHEEL" "dist-python/$env:RUNTIME_WHEEL"
@@ -338,9 +338,9 @@ jobs:
         if: runner.os != 'Windows'
         run: |
           set -euo pipefail
-          blackbox_root="$(python -c 'import tempfile; print(tempfile.mkdtemp(prefix="dsh-sdk-blackbox-"))')"
+          blackbox_root="$(python -c 'import tempfile; print(tempfile.mkdtemp(prefix="nulu-sdk-blackbox-"))')"
           cd "$blackbox_root"
-          env -u PYTHONPATH -u DSH_RUNTIME_MODE \
+          env -u PYTHONPATH -u NULU_RUNTIME_MODE \
             "${{ steps.smoke-venv-posix.outputs.python }}" \
             "$GITHUB_WORKSPACE/scripts/smoke-python-runtime.py" \
             --scenario all \
@@ -350,9 +350,9 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          $blackboxRoot = (& python -c 'import tempfile; print(tempfile.mkdtemp(prefix="dsh-sdk-blackbox-"))').Trim()
+          $blackboxRoot = (& python -c 'import tempfile; print(tempfile.mkdtemp(prefix="nulu-sdk-blackbox-"))').Trim()
           Remove-Item Env:PYTHONPATH -ErrorAction SilentlyContinue
-          Remove-Item Env:DSH_RUNTIME_MODE -ErrorAction SilentlyContinue
+          Remove-Item Env:NULU_RUNTIME_MODE -ErrorAction SilentlyContinue
           Push-Location $blackboxRoot
           try {
             & "${{ steps.smoke-venv-windows.outputs.python }}" "$env:GITHUB_WORKSPACE\scripts\smoke-python-runtime.py" --scenario all --installed-wheel
@@ -369,11 +369,11 @@ jobs:
               || !(github.event.pull_request.head.repo.fork
                    || github.event.pull_request.user.login == 'dependabot[bot]'))
         env:
-          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY_EXTERNAL }}
+          WORLD_APP_TECHNOLOGIES_API_KEY: ${{ secrets.WORLD_APP_TECHNOLOGIES_API_KEY_EXTERNAL }}
         run: |
           set -euo pipefail
-          if [ -z "${DEEPSEEK_API_KEY:-}" ]; then
-            echo "::error::DEEPSEEK_API_KEY_EXTERNAL is empty; the installed-wheel real API test cannot self-skip."
+          if [ -z "${WORLD_APP_TECHNOLOGIES_API_KEY:-}" ]; then
+            echo "::error::WORLD_APP_TECHNOLOGIES_API_KEY_EXTERNAL is empty; the installed-wheel real API test cannot self-skip."
             exit 1
           fi
 
@@ -386,10 +386,10 @@ jobs:
                    || github.event.pull_request.user.login == 'dependabot[bot]'))
         shell: pwsh
         env:
-          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY_EXTERNAL }}
+          WORLD_APP_TECHNOLOGIES_API_KEY: ${{ secrets.WORLD_APP_TECHNOLOGIES_API_KEY_EXTERNAL }}
         run: |
-          if ([string]::IsNullOrWhiteSpace($env:DEEPSEEK_API_KEY)) {
-            throw 'DEEPSEEK_API_KEY_EXTERNAL is empty; the installed-wheel real API test cannot self-skip.'
+          if ([string]::IsNullOrWhiteSpace($env:WORLD_APP_TECHNOLOGIES_API_KEY)) {
+            throw 'WORLD_APP_TECHNOLOGIES_API_KEY_EXTERNAL is empty; the installed-wheel real API test cannot self-skip.'
           }
 
       - name: Run installed-wheel real API black-box test (POSIX)
@@ -400,13 +400,13 @@ jobs:
               || !(github.event.pull_request.head.repo.fork
                    || github.event.pull_request.user.login == 'dependabot[bot]'))
         env:
-          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY_EXTERNAL }}
-          DEEPSEEK_BASE_URL: https://api.deepseek.com
+          WORLD_APP_TECHNOLOGIES_API_KEY: ${{ secrets.WORLD_APP_TECHNOLOGIES_API_KEY_EXTERNAL }}
+          WORLD_APP_TECHNOLOGIES_BASE_URL: https://platform.worldapptechnologies.com/api/v1
         run: |
           set -euo pipefail
-          blackbox_root="$(python -c 'import tempfile; print(tempfile.mkdtemp(prefix="dsh-sdk-blackbox-live-"))')"
+          blackbox_root="$(python -c 'import tempfile; print(tempfile.mkdtemp(prefix="nulu-sdk-blackbox-live-"))')"
           cd "$blackbox_root"
-          env -u PYTHONPATH -u DSH_RUNTIME_MODE \
+          env -u PYTHONPATH -u NULU_RUNTIME_MODE \
             "${{ steps.smoke-venv-posix.outputs.python }}" \
             "$GITHUB_WORKSPACE/scripts/smoke-python-runtime.py" \
             --scenario sdk-live \
@@ -421,12 +421,12 @@ jobs:
                    || github.event.pull_request.user.login == 'dependabot[bot]'))
         shell: pwsh
         env:
-          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY_EXTERNAL }}
-          DEEPSEEK_BASE_URL: https://api.deepseek.com
+          WORLD_APP_TECHNOLOGIES_API_KEY: ${{ secrets.WORLD_APP_TECHNOLOGIES_API_KEY_EXTERNAL }}
+          WORLD_APP_TECHNOLOGIES_BASE_URL: https://platform.worldapptechnologies.com/api/v1
         run: |
-          $blackboxRoot = (& python -c 'import tempfile; print(tempfile.mkdtemp(prefix="dsh-sdk-blackbox-live-"))').Trim()
+          $blackboxRoot = (& python -c 'import tempfile; print(tempfile.mkdtemp(prefix="nulu-sdk-blackbox-live-"))').Trim()
           Remove-Item Env:PYTHONPATH -ErrorAction SilentlyContinue
-          Remove-Item Env:DSH_RUNTIME_MODE -ErrorAction SilentlyContinue
+          Remove-Item Env:NULU_RUNTIME_MODE -ErrorAction SilentlyContinue
           Push-Location $blackboxRoot
           try {
             & "${{ steps.smoke-venv-windows.outputs.python }}" "$env:GITHUB_WORKSPACE\scripts\smoke-python-runtime.py" --scenario sdk-live --installed-wheel
@@ -470,7 +470,7 @@ jobs:
         env:
           RUNNER_ARCH: ${{ runner.arch }}
           RUNTIME_WHEEL: ${{ steps.runtime-posix.outputs.wheel }}
-          SDK_WHEEL: deepseek_harness_sdk-${{ needs.plan.outputs.version }}-py3-none-any.whl
+          SDK_WHEEL: nulu_harness_sdk-${{ needs.plan.outputs.version }}-py3-none-any.whl
         run: |
           set -euo pipefail
           case "$RUNNER_ARCH" in
@@ -478,13 +478,13 @@ jobs:
             ARM64) image=quay.io/pypa/manylinux_2_28_aarch64 ;;
             *) echo "::error::Unsupported Linux runner architecture $RUNNER_ARCH"; exit 1 ;;
           esac
-          docker run --rm -e RUNTIME_WHEEL -e SDK_WHEEL -e DSH_TELEMETRY_DISABLED -v "$PWD:/work" -w /work "$image" bash -euxo pipefail -c '
-            /opt/python/cp310-cp310/bin/python -m venv /tmp/dsh-sdk
-            /tmp/dsh-sdk/bin/python -m pip install "/work/dist-python/$SDK_WHEEL" "/work/dist-python/$RUNTIME_WHEEL"
-            mkdir -p /tmp/dsh-sdk-manylinux-smoke
-            cd /tmp/dsh-sdk-manylinux-smoke
-            env -u PYTHONPATH -u DSH_RUNTIME_MODE /tmp/dsh-sdk/bin/python /work/scripts/smoke-python-runtime.py --scenario sdk-default --installed-wheel
-            env -u PYTHONPATH -u DSH_RUNTIME_MODE /tmp/dsh-sdk/bin/python /work/scripts/smoke-python-runtime.py --scenario sdk-mcp --installed-wheel
+          docker run --rm -e RUNTIME_WHEEL -e SDK_WHEEL -e NULU_TELEMETRY_DISABLED -v "$PWD:/work" -w /work "$image" bash -euxo pipefail -c '
+            /opt/python/cp310-cp310/bin/python -m venv /tmp/nulu-sdk
+            /tmp/nulu-sdk/bin/python -m pip install "/work/dist-python/$SDK_WHEEL" "/work/dist-python/$RUNTIME_WHEEL"
+            mkdir -p /tmp/nulu-sdk-manylinux-smoke
+            cd /tmp/nulu-sdk-manylinux-smoke
+            env -u PYTHONPATH -u NULU_RUNTIME_MODE /tmp/nulu-sdk/bin/python /work/scripts/smoke-python-runtime.py --scenario sdk-default --installed-wheel
+            env -u PYTHONPATH -u NULU_RUNTIME_MODE /tmp/nulu-sdk/bin/python /work/scripts/smoke-python-runtime.py --scenario sdk-mcp --installed-wheel
           '
 
       - uses: actions/upload-artifact@v7

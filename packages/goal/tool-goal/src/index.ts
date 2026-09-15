@@ -1,16 +1,16 @@
 /**
  * Model-facing `get_goal`, `create_goal`, and `update_goal` tools over the
  * persisted same-session goal domain.
- * @module @deepseek-ai/dsh-tool-goal
+ * @module @worldapptechnologies/nulu-tool-goal
  */
 
-import type { Context } from '@deepseek-ai/cordis'
-import z from '@deepseek-ai/schemastery'
-import { GoalId } from '@deepseek-ai/dsh-goal'
-import type { GoalRef, GoalView } from '@deepseek-ai/dsh-goal'
-import { boundContextSummary, createUserMessage, HarnessError } from '@deepseek-ai/dsh-llm'
-import { defineTool } from '@deepseek-ai/dsh-tools'
-import type { GenericCallView } from '@deepseek-ai/dsh-tools'
+import type { Context } from '@worldapptechnologies/cordis'
+import z from '@worldapptechnologies/schemastery'
+import { GoalId } from '@worldapptechnologies/nulu-goal'
+import type { GoalRef, GoalView } from '@worldapptechnologies/nulu-goal'
+import { boundContextSummary, createUserMessage, HarnessError } from '@worldapptechnologies/nulu-llm'
+import { defineTool } from '@worldapptechnologies/nulu-tools'
+import type { GenericCallView } from '@worldapptechnologies/nulu-tools'
 import {
   completionAuthority,
   goalToolExecution,

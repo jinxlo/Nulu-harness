@@ -5,11 +5,11 @@ import { accessSync, constants as fsConstants, lstatSync, statSync } from 'node:
 import { extname, isAbsolute } from 'node:path'
 import { inspect } from 'node:util'
 import { fileURLToPath } from 'node:url'
-import type { SubprocessSpawnSpec } from '@deepseek-ai/dsh-subprocess'
+import type { SubprocessSpawnSpec } from '@worldapptechnologies/nulu-subprocess'
 import { childEnv } from './spawn.ts'
 
 /** The one private environment variable consumed before target state is restored. */
-export const SUBPROCESS_RUNNER_ENV = 'DSH_SUBPROCESS_RUNNER' as const
+export const SUBPROCESS_RUNNER_ENV = 'NULU_SUBPROCESS_RUNNER' as const
 
 /** Sentinel used by the packaged bootstrap for the Windows IPC runner. */
 export const WINDOWS_RUNNER_SELECTION = 'windows' as const
@@ -29,7 +29,7 @@ export function spawnRunnerInvocation(): RunnerInvocation {
   /* v8 ignore next -- built-artifact smoke imports the emitted JavaScript runner entry;
    * source-unit coverage cannot change import.meta.url. */
   if (extname(fileURLToPath(import.meta.url)) !== '.ts') {
-    return [process.execPath, fileURLToPath(import.meta.resolve('@deepseek-ai/dsh-subprocess-local/runner'))]
+    return [process.execPath, fileURLToPath(import.meta.resolve('@worldapptechnologies/nulu-subprocess-local/runner'))]
   }
   return [
     process.execPath,

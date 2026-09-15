@@ -1,4 +1,4 @@
-import type { ConversationNodeContext } from '@deepseek-ai/dsh-client-ui-conversation/client'
+import type { ConversationNodeContext } from '@worldapptechnologies/nulu-client-ui-conversation/client'
 import type {
   TrajectoryContribution, TrajectoryConversationViewNode,
 } from './trajectory-contract.ts'

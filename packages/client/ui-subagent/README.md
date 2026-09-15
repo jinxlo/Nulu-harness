@@ -1,11 +1,10 @@
 ---
-description: "Subagent conversation catalog, continuation routing UI, and '@' reference source for the dsh web client."
+description: "Subagent conversation catalog, continuation routing UI, and '@' reference source for the nulu web client."
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-client-ui-subagent
+# @worldapptechnologies/nulu-client-ui-subagent
 
-English | [中文](README.zh.md)
 
 ## Summary
 

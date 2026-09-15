@@ -2,7 +2,6 @@
 
 Status: implemented
 
-English | [中文](2026-09-07-win32-picker-foreground-alt-key.zh.md)
 
 ## Problem
 
@@ -14,7 +13,7 @@ The web GUI host picks a workspace directory through the native Win32 folder dia
 
 ## Alternatives considered
 
-**Custom URL protocol with a browser click gesture.** Draft PR #3544 granted the foreground by navigating the foreground browser to a registered `dsh-picker://` URL, which makes the shell launch the dialog process as a foreground descendant. The grant is deterministic by design, but the mechanism spans registry and VBS launcher files, a protocol entry point, a picker-result HTTP route with per-boot tokens, and a first-use browser confirmation, and it adds a server route the browser can reach. The synthesized press removes that entire surface.
+**Custom URL protocol with a browser click gesture.** Draft PR #3544 granted the foreground by navigating the foreground browser to a registered `nulu-picker://` URL, which makes the shell launch the dialog process as a foreground descendant. The grant is deterministic by design, but the mechanism spans registry and VBS launcher files, a protocol entry point, a picker-result HTTP route with per-boot tokens, and a first-use browser confirmation, and it adds a server route the browser can reach. The synthesized press removes that entire surface.
 
 **AllowSetForegroundWindow from the clicker.** The API must be called by the current foreground process — the browser — and may name only one permitted process; the spawner cannot invoke it on the browser's behalf.
 

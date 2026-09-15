@@ -5,16 +5,16 @@
  * popupSelect shell self-registers into conversation.input.overlay with
  * per-session resolution.
  */
-import type { Context as ClientContext } from '@deepseek-ai/cordis'
-import type { ISessions } from '@deepseek-ai/dsh-api-session-controller/client'
+import type { Context as ClientContext } from '@worldapptechnologies/cordis'
+import type { ISessions } from '@worldapptechnologies/nulu-api-session-controller/client'
 // Type-only: pulls the 'conversation.input.overlay' SlotMap declaration (the
 // key's owner) into this program so the overlay registration below typechecks
 // against the real declaration — no runtime edge to ui-conversation.
-import type {} from '@deepseek-ai/dsh-client-ui-conversation/client'
+import type {} from '@worldapptechnologies/nulu-client-ui-conversation/client'
 // Type-only: pulls the locale plugin's Context merge (ctx.locale).
-import type {} from '@deepseek-ai/dsh-client-locale/client'
-import type {} from '@deepseek-ai/dsh-client-ui-renderer/client'
-import type {} from '@deepseek-ai/dsh-client-ui-session/client'
+import type {} from '@worldapptechnologies/nulu-client-locale/client'
+import type {} from '@worldapptechnologies/nulu-client-ui-renderer/client'
+import type {} from '@worldapptechnologies/nulu-client-ui-session/client'
 import { CommandUiRuntime } from './service.ts'
 import type { PopupSelectInjected } from './PopupSelectView.tsx'
 import { PopupSelectView } from './PopupSelectView.tsx'
@@ -32,13 +32,13 @@ export type {
 } from './contract.ts'
 export type { CommandKey } from './locales.ts'
 
-declare module '@deepseek-ai/cordis' {
+declare module '@worldapptechnologies/cordis' {
   interface Context {
     commandUi: CommandUiRuntime
   }
 }
 
-declare module '@deepseek-ai/dsh-client-ui-slots' {
+declare module '@worldapptechnologies/nulu-client-ui-slots' {
   interface LocaleNamespaceMap {
     /** The menu rows' and the popupSelect shell's copy. */
     command: CommandKey

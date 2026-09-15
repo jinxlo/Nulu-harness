@@ -3,7 +3,7 @@
  * internal plumbing event, the silent drop for an unsubscribed name, and the
  * `$mount` refusal that sends a spec to the real Client Remote service.
  */
-import { Context } from '@deepseek-ai/cordis'
+import { Context } from '@worldapptechnologies/cordis'
 import { describe, expect, it } from 'vitest'
 import { TestRemote } from '../src/remote.ts'
 
@@ -30,7 +30,7 @@ describe('TestRemote', () => {
     const remote = new TestRemote(ctx)
     // No subscriber for this name: the emit must be inert rather than throwing,
     // because the wire carries whatever the Host allowlist selected.
-    expect(() => { remote.emit('credentials/reference-updated', ['DEEPSEEK_API_KEY']) }).not.toThrow()
+    expect(() => { remote.emit('credentials/reference-updated', ['WORLD_APP_TECHNOLOGIES_API_KEY']) }).not.toThrow()
     await ctx.fiber.dispose()
   })
 

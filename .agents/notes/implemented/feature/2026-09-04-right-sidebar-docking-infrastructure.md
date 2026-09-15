@@ -2,7 +2,6 @@
 
 Status: implemented
 
-English | [中文](2026-09-04-right-sidebar-docking-infrastructure.zh.md)
 
 ## Problem
 
@@ -18,7 +17,7 @@ The right column is a per-session docking surface — split panes, tabs, floatin
 
 | Package | Kind | Owns |
 |---|---|---|
-| `packages/client/ui-dockkit` | static-linked library, zero DSH dependencies | the layout engine and the React components that render and drive it; consumers compile its sources, and it keeps exactly one stylesheet because a consumer de-duplicates injected sheets by file name |
+| `packages/client/ui-dockkit` | static-linked library, zero NULU dependencies | the layout engine and the React components that render and drive it; consumers compile its sources, and it keeps exactly one stylesheet because a consumer de-duplicates injected sheets by file name |
 | `packages/client/ui-sidebar-right` | dynamic plugin | the `rightbar` panel seat and the `conversation.session.header.corner` expand button over one store, one surface per session, both presentations, the float host, `ctx.sidebarRight`, `ctx.sidebarRightTabs`, the tab domain (one occurrence per tab record), the three extension seats, the guide tab type, and the `sidebarRight` copy namespace |
 
 The kit is the product's first embedder and knows nothing about it: every string arrives through `DockLabels`, every tab body through a `TabRenderer` dispatching on an opaque `kind`, and every gesture leaves through `DockIntents`. The integration package supplies what the kit refuses to know.
@@ -96,7 +95,6 @@ The surface renders tabs whose bodies it does not know: each tab carries a `kind
 
 - A z-index token layer, then the panel's, the float host's, and the menu's hard-coded values.
 - The assembled session-switch case, blocked on the fixture composition opening its settings surface by default.
-- Chinese counterparts for the new packages' READMEs and for the English documentation this change edited.
 - Snap or priority pane sizing, touch tuning, and keyboard routes for split, move, and float.
 - Persistence of the layout, popout windows, and a content navigation stack (entries keyed by pane and content, adjacent duplicates replaced, a `navigating` guard, closed tabs left in the stack).
 - A non-closable tab (a `closable` flag on `TabRecord`, drawn as a fixed leading marker rather than a capsule) once a tab type needs one.

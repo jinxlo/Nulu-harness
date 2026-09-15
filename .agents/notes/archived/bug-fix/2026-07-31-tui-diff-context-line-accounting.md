@@ -3,7 +3,6 @@
 Status: implemented
 Archived: 2026-08-04
 
-English | [中文](2026-07-31-tui-diff-context-line-accounting.zh.md)
 
 ## Problem
 
@@ -15,7 +14,7 @@ The TUI compares each `FileDiff` whose old and new text are both available. Adde
 
 When `oldText` is `null`, the renderer cannot distinguish a create from a pending overwrite or an argument fallback whose prior text is unavailable. It therefore shows every non-empty new-side row as added, without claiming those rows were absent from an existing file. Empty new content renders no synthetic added row.
 
-This remains a consumer-side interpretation of the existing `FileDiff` contract. Filesystem tools continue to persist contextual before/after snippets, so other consumers keep their placement context and existing session logs replay with corrected TUI presentation. The TUI uses the same maintained `diff` package as `dsh-tool-fs` instead of introducing a second line-diff implementation.
+This remains a consumer-side interpretation of the existing `FileDiff` contract. Filesystem tools continue to persist contextual before/after snippets, so other consumers keep their placement context and existing session logs replay with corrected TUI presentation. The TUI uses the same maintained `diff` package as `nulu-tool-fs` instead of introducing a second line-diff implementation.
 
 ## Alternatives considered
 

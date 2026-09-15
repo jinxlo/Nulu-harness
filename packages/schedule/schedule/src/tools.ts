@@ -1,13 +1,13 @@
 /**
  * Agent-scoped Schedule management tools over the durable session fold.
- * @module @deepseek-ai/dsh-schedule
+ * @module @worldapptechnologies/nulu-schedule
  */
 
-import type { Context } from '@deepseek-ai/cordis'
-import type { Agent } from '@deepseek-ai/dsh-agent'
-import type { ContentBlock } from '@deepseek-ai/dsh-llm'
-import { defineTool } from '@deepseek-ai/dsh-tools'
-import type { GenericCallView } from '@deepseek-ai/dsh-tools'
+import type { Context } from '@worldapptechnologies/cordis'
+import type { Agent } from '@worldapptechnologies/nulu-agent'
+import type { ContentBlock } from '@worldapptechnologies/nulu-llm'
+import { defineTool } from '@worldapptechnologies/nulu-tools'
+import type { GenericCallView } from '@worldapptechnologies/nulu-tools'
 import {
   allocateScheduleId,
   createAfterScheduleRecord,

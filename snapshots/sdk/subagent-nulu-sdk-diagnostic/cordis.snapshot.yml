@@ -1,0 +1,15 @@
+# Keyless parent-model overlay for the NULU SDK diagnostic snapshot.
+
+- id: llm-gateway
+  name: '@worldapptechnologies/nulu-llm-gateway'
+  disabled: true
+
+- insert:
+    - id: llm-replay
+      name: '@worldapptechnologies/nulu-llm-replay'
+      config:
+        providers:
+          - id: worldapp-gateway
+            name: Nulu
+            models:
+              - id: nulu-5

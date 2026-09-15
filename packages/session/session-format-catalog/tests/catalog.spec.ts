@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import type { SessionFormatEvent } from '@deepseek-ai/dsh-session-format'
+import type { SessionFormatEvent } from '@worldapptechnologies/nulu-session-format'
 import { sessionFormatCatalog } from '../src/index.ts'
 
 function deepFreeze<T>(value: T): T {
@@ -118,7 +118,7 @@ describe('first-party Session format catalog', () => {
             turn: 1, step: 1,
             message: {
               id: 'v2-to-v3-system-9673c4ed630de6c21ea6bd6b573094ea8e5e216843a1b572a68657499ad9667b',
-              role: 'system', source: { kind: 'plugin', plugin: '@deepseek-ai/dsh-system-prompt' }, content: [],
+              role: 'system', source: { kind: 'plugin', plugin: '@worldapptechnologies/nulu-system-prompt' }, content: [],
             },
           },
         },
@@ -241,7 +241,7 @@ describe('first-party Session format catalog', () => {
     const restore = sessionFormatCatalog.createRestore(header, { recovery: 'strict', validation })
     restore.decodeRow({ type: 'feedback/record', seq: 0, time: 1, data: { text: 'unaccepted' } })
     expect(() => {
-      restore.decodeRow({ type: 'session-log-deepseek/delivery-accepted', seq: 1, time: 2,
+      restore.decodeRow({ type: 'session-log-gateway/delivery-accepted', seq: 1, time: 2,
         data: { sessionId: header.id, throughSeq: 0, sessionFormatVersion: 3 } })
       restore.finish()
     }).toThrow(/format v2 delivery marker claims target format v3/)

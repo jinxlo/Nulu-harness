@@ -1,11 +1,10 @@
 ---
-description: "Package map for verified external events, programmatic rules, and fire-and-forget DSH Session creation."
+description: "Package map for verified external events, programmatic rules, and fire-and-forget NULU Session creation."
 kind: "package-group"
 ---
 
-# webhook/ — verified external events to DSH Sessions
+# webhook/ — verified external events to NULU Sessions
 
-English | [中文](README.zh.md)
 
 ## Summary
 

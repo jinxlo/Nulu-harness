@@ -1,21 +1,21 @@
 // Web e2e scenario: fresh round trip. A real chromium types a prompt into the
 // real composer; the wire, Remote gateway, agent loop, and the REAL bash tool (echo
-// in the temp workspace) all run; the model adapter is dsh-llm-replay (keyless)
+// in the temp workspace) all run; the model adapter is nulu-llm-replay (keyless)
 // or the live adapter (record). Drive steps run in every mode and wait only
 // on generic completion (whenTurnSettled — never model-content selectors, so
 // record cannot hang on a live model answering differently); assertion steps
 // run in replay/refresh only. Settled states only — streaming fidelity is
 // asserted from the durable embedded Assistant stream, not transient DOM.
-// Record: DSH_SNAPSHOT=record writes session.v3.jsonl, then a keyless
-// DSH_SNAPSHOT=refresh regenerates ui.expected.md.
+// Record: NULU_SNAPSHOT=record writes session.v3.jsonl, then a keyless
+// NULU_SNAPSHOT=refresh regenerates ui.expected.md.
 import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { Browser, Page } from 'playwright'
 import { chromium } from 'playwright'
 import { afterAll, beforeAll, describe, expect, it, onTestFailed } from 'vitest'
-import { ToolCallId, expandAssistantStream } from '@deepseek-ai/dsh-llm'
-import type { Session, SessionEvent, SessionId } from '@deepseek-ai/dsh-session'
+import { ToolCallId, expandAssistantStream } from '@worldapptechnologies/nulu-llm'
+import type { Session, SessionEvent, SessionId } from '@worldapptechnologies/nulu-session'
 import {
   assertFixtureInventory, captureExpandedTurnProcessAria, captureStableAria,
   compareOrRefreshGolden, fixtureUserPrompts,
@@ -115,8 +115,8 @@ describe('web e2e: fresh round trip through the real assembly', () => {
     if (system === undefined) throw new Error('the settled Web request has no system prompt')
     const paragraphs = system.split('\n\n')
     expect(paragraphs.slice(0, 2)).toEqual([
-      'You are an AI agent powered by DeepSeek Harness.',
-      'You are a coding agent powered by the deepseek-v4-flash model.',
+      'You are an AI agent powered by Nulu Harness.',
+      'You are a coding agent powered by the nulu-5 model.',
     ])
     const suffix = paragraphs.slice(-3).join('\n\n')
       .split(REPO_ROOT).join('{{sourceRoot}}')
@@ -134,7 +134,7 @@ describe('web e2e: fresh round trip through the real assembly', () => {
       callId: ToolCallId('web-url-probe'),
       name: 'bash',
       arguments: {
-        command: 'printf \'%s\\n\' "$DSH_WEB_URL"',
+        command: 'printf \'%s\\n\' "$NULU_WEB_URL"',
         description: 'Print current Web runtime',
       },
       agent,
@@ -178,7 +178,7 @@ describe('web e2e: fresh round trip through the real assembly', () => {
     await expect(page.getByRole('textbox').first().isVisible()).resolves.toBe(true)
     expect(await page.getByText('WEB_E2E_OK', { exact: false }).count()).toBeGreaterThanOrEqual(1)
     await page.getByRole('button', {
-      name: 'Select model, current DeepSeek-V4-Flash',
+      name: 'Select model, current Nulu 5',
     }).waitFor({ timeout: 10_000 })
     const snapshot = await captureStableAria(page, '[class*="centerCol"]', scaffold.workspaceCwd)
     await compareOrRefreshGolden(UI_EXPECTED, snapshot, MODE)
@@ -203,7 +203,7 @@ describe('web e2e: fresh round trip through the real assembly', () => {
     await expect.poll(() => disclosure.getAttribute('aria-expanded')).toBe('true')
     const opaque = body.locator('[data-context-text]')
     await expect.poll(() => opaque.count(), { timeout: 5_000 }).toBe(1)
-    expect(await opaque.textContent()).toContain('You are an AI agent powered by DeepSeek Harness.')
+    expect(await opaque.textContent()).toContain('You are an AI agent powered by Nulu Harness.')
 
     await disclosure.click()
     await expect.poll(() => disclosure.getAttribute('aria-expanded')).toBe('false')

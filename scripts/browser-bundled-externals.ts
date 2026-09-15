@@ -10,7 +10,7 @@ import ts from 'typescript'
 interface Manifest {
   name: string
   private?: boolean
-  dsh?: { client?: unknown }
+  nulu?: { client?: unknown }
   exports?: Record<string, unknown>
 }
 
@@ -33,7 +33,7 @@ export function browserPackageOfFile(file: string): string | undefined {
 
 function recorder(seen: Set<string>, workspaceNames: ReadonlySet<string>, followWorkspace = false) {
   return {
-    name: 'dsh-browser-direct-dependencies',
+    name: 'nulu-browser-direct-dependencies',
     enforce: 'pre' as const,
     resolveId: {
       order: 'pre' as const,
@@ -86,7 +86,7 @@ async function collectClientBundles(
   seen: Set<string>,
 ): Promise<void> {
   for (const [manifestPath, manifest] of manifests) {
-    if (manifest.private === true || manifest.dsh?.client === undefined) continue
+    if (manifest.private === true || manifest.nulu?.client === undefined) continue
     const dir = dirname(manifestPath)
     const loaded = await import(pathToFileURL(resolve(dir, 'tsdown.config.ts')).href) as { default: UserConfigExport }
     const factory = await loaded.default

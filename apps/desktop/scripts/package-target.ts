@@ -1,7 +1,7 @@
-/** Build one release target with matching Electron, Node.js, and dsh architecture. */
+/** Build one release target with matching Electron, Node.js, and nulu architecture. */
 
 import { spawn } from 'node:child_process'
-import { mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
 import { parseArgs } from 'node:util'
 import { join, resolve } from 'node:path'
 import {
@@ -13,12 +13,12 @@ import { packageMacOSArtifacts, type DesktopPrepackagedArtifact } from './packag
 
 const APP_ROOT = resolve(import.meta.dirname, '..')
 const REPOSITORY_ROOT = resolve(APP_ROOT, '..', '..')
-const WINDOWS_SIGNING_ENV_PREFIX = 'DSH_DESKTOP_WINDOWS_'
+const WINDOWS_SIGNING_ENV_PREFIX = 'NULU_DESKTOP_WINDOWS_'
 const WINDOWS_SIGNING_ENV_NAMES = [
-  'DSH_DESKTOP_WINDOWS_CER_FILE',
-  'DSH_DESKTOP_WINDOWS_KEY_CONTAINER',
-  'DSH_DESKTOP_WINDOWS_SIGNTOOL',
-  'DSH_DESKTOP_WINDOWS_TOKEN_PIN',
+  'NULU_DESKTOP_WINDOWS_CER_FILE',
+  'NULU_DESKTOP_WINDOWS_KEY_CONTAINER',
+  'NULU_DESKTOP_WINDOWS_SIGNTOOL',
+  'NULU_DESKTOP_WINDOWS_TOKEN_PIN',
 ] as const
 const DESKTOP_UPLOAD_CREDENTIAL_ENV_NAMES = new Set([
   'DOWNLOAD_TEST_COS_SECRET_ID',
@@ -28,14 +28,14 @@ const DESKTOP_UPLOAD_CREDENTIAL_ENV_NAMES = new Set([
 ])
 
 /** Fixed platform and architecture identifiers exposed by package scripts. */
-export type DesktopPackageTargetName = 'mac-arm64' | 'mac-x64' | 'win-x64'
+export type DesktopPackageTargetName = 'mac-arm64' | 'mac-x64' | 'win-x64' | 'linux-x64'
 
 /** One supported release target and its electron-builder selectors. */
 export interface DesktopPackageTarget {
   readonly name: DesktopPackageTargetName
-  readonly platform: 'darwin' | 'win32'
+  readonly platform: 'darwin' | 'win32' | 'linux'
   readonly arch: 'arm64' | 'x64'
-  readonly builderPlatform: '--mac' | '--win'
+  readonly builderPlatform: '--mac' | '--win' | '--linux'
   readonly builderArch: '--arm64' | '--x64'
 }
 
@@ -61,6 +61,13 @@ const TARGETS: Record<DesktopPackageTargetName, DesktopPackageTarget> = {
     builderPlatform: '--win',
     builderArch: '--x64',
   },
+  'linux-x64': {
+    name: 'linux-x64',
+    platform: 'linux',
+    arch: 'x64',
+    builderPlatform: '--linux',
+    builderArch: '--x64',
+  },
 }
 
 /**
@@ -74,21 +81,41 @@ export function withoutWindowsSigningEnvironment(environment: NodeJS.ProcessEnv)
 }
 
 /**
+ * Resolve the target and signing selectors shared by runtime preparation and electron-builder.
+ * @param environment - Packaging command environment.
+ * @param target - Supported release target.
+ * @param unsigned - Whether to create a local unsigned Windows or macOS artifact.
+ * @returns A copy with explicit target and unsigned selectors.
+ */
+export function desktopTargetEnvironment(
+  environment: NodeJS.ProcessEnv,
+  target: DesktopPackageTarget,
+  unsigned: boolean,
+): NodeJS.ProcessEnv {
+  return {
+    ...environment,
+    NULU_DESKTOP_TARGET_PLATFORM: target.platform,
+    NULU_DESKTOP_TARGET_ARCH: target.arch,
+    NULU_DESKTOP_UNSIGNED: unsigned ? '1' : '0',
+  }
+}
+
+/**
  * Select signing and NSIS-compatible archive filters for electron-builder.
  * @param environment - Target packaging environment.
- * @param unsigned - Whether to create a local unsigned Windows artifact.
+ * @param unsigned - Whether to create a local unsigned Windows or macOS artifact.
  * @returns Packaging environment without certificate inputs for unsigned builds.
  */
 export function desktopElectronBuilderEnvironment(environment: NodeJS.ProcessEnv, unsigned: boolean): NodeJS.ProcessEnv {
-  const selected: NodeJS.ProcessEnv = { ...environment, DSH_DESKTOP_UNSIGNED: unsigned ? '1' : '0' }
+  const selected: NodeJS.ProcessEnv = { ...environment, NULU_DESKTOP_UNSIGNED: unsigned ? '1' : '0' }
   // The bundled NSIS decoder cannot extract 7-Zip's automatic ARM64-filtered entries.
-  if (environment.DSH_DESKTOP_TARGET_PLATFORM === 'win32') selected.ELECTRON_BUILDER_7Z_FILTER = 'BCJ'
+  if (environment.NULU_DESKTOP_TARGET_PLATFORM === 'win32') selected.ELECTRON_BUILDER_7Z_FILTER = 'BCJ'
   if (!unsigned) return selected
   return {
     ...Object.fromEntries(Object.entries(withoutWindowsSigningEnvironment(selected))
       .filter(([name]) => !/^(?:WIN_)?CSC_/iu.test(name))),
     CSC_IDENTITY_AUTO_DISCOVERY: 'false',
-    DSH_DESKTOP_UNSIGNED: '1',
+    NULU_DESKTOP_UNSIGNED: '1',
   }
 }
 
@@ -120,9 +147,9 @@ function writeReleaseRecord(
   artifactsRoot: string,
 ): void {
   const desktopVersion = packageVersion(join(APP_ROOT, 'package.json'), 'desktop package')
-  const dshVersion = packageVersion(join(REPOSITORY_ROOT, 'package.json'), 'dsh package')
-  if (desktopVersion !== dshVersion) {
-    throw new Error(`desktop package: desktop version ${desktopVersion} does not match dsh version ${dshVersion}`)
+  const nuluVersion = packageVersion(join(REPOSITORY_ROOT, 'package.json'), 'nulu package')
+  if (desktopVersion !== nuluVersion) {
+    throw new Error(`desktop package: desktop version ${desktopVersion} does not match nulu version ${nuluVersion}`)
   }
   const update = resolveDesktopAutoUpdateConfig(environment, target.platform, target.arch)
   const recordPath = join(artifactsRoot, desktopBuildRecordFilename(target.name))
@@ -130,7 +157,7 @@ function writeReleaseRecord(
   writeFileSync(temporaryPath, `${JSON.stringify({
     schemaVersion: 1,
     target: target.name,
-    version: dshVersion,
+    version: nuluVersion,
     environment: update.environment,
     publicUrl: update.publicUrl,
   }, null, 2)}\n`)
@@ -158,6 +185,9 @@ export function resolveDesktopPackageTarget(
   }
   if (target.platform === 'darwin' && hostPlatform !== 'darwin') {
     throw new Error(`desktop package: ${name} requires a macOS build host`)
+  }
+  if (target.platform === 'linux' && (hostPlatform !== 'linux' || hostArch !== 'x64')) {
+    throw new Error(`desktop package: ${name} requires a Linux x64 build host`)
   }
   if (name === 'mac-arm64' && hostArch !== 'arm64') {
     throw new Error('desktop package: mac-arm64 requires an Apple Silicon build host')
@@ -204,7 +234,7 @@ export function parseDesktopPackageInvocation(
   })
   if (positionals.length > 1) throw new Error('desktop package: expected at most one target')
   const name = positionals[0] ?? hostTargetName(hostPlatform, hostArch)
-  if (values.unsigned && name !== 'win-x64') throw new Error('desktop package: --unsigned requires win-x64')
+  if (values.unsigned && name === 'linux-x64') throw new Error('desktop package: --unsigned requires a Windows or macOS target')
   if (values.unsigned && values['prepare-only']) throw new Error('desktop package: --unsigned cannot use --prepare-only')
   return {
     target: resolveDesktopPackageTarget(name, hostPlatform, hostArch),
@@ -278,28 +308,40 @@ async function main(): Promise<void> {
     rmSync(`${releaseRecordPath}.tmp`, { force: true })
   }
   const buildEnv = withoutWindowsSigningEnvironment(withoutDesktopUploadCredentials(process.env))
-  const targetEnv: NodeJS.ProcessEnv = {
-    ...buildEnv,
-    DSH_DESKTOP_TARGET_PLATFORM: target.platform,
-    DSH_DESKTOP_TARGET_ARCH: target.arch,
-  }
+  const targetEnv = desktopTargetEnvironment(buildEnv, target, invocation.unsigned)
   const electronBuilderEnv = desktopElectronBuilderEnvironment(targetEnv, invocation.unsigned)
   for (const name of WINDOWS_SIGNING_ENV_NAMES) {
     if (!invocation.unsigned && process.env[name] !== undefined) electronBuilderEnv[name] = process.env[name]
   }
   await runPnpm(['run', 'build:official'], buildEnv, REPOSITORY_ROOT)
-  await runPnpm(['run', 'release:pack', '--family', 'dsh', '--out', buildPaths.packedDsh], buildEnv, REPOSITORY_ROOT)
+  await runPnpm(['run', 'release:pack', '--family', 'nulu', '--out', buildPaths.packedNulu], buildEnv, REPOSITORY_ROOT)
   await runPnpm([
     '--dir',
     'apps/desktop-host',
     'pack',
     '--pack-destination',
-    buildPaths.packedDsh,
+    buildPaths.packedNulu,
   ], buildEnv, REPOSITORY_ROOT)
   await runPnpm(['run', 'release:pack', '--family', 'vendor', '--out', buildPaths.packedVendor], buildEnv, REPOSITORY_ROOT)
   rmSync(buildPaths.packedLandlock, { recursive: true, force: true })
   mkdirSync(buildPaths.packedLandlock, { recursive: true })
   await runPnpm(['--dir', 'native/system', 'run', 'build:ts'], buildEnv, REPOSITORY_ROOT)
+  const nativePlatform = `${target.platform}-${target.arch}`
+  if (existsSync(join(REPOSITORY_ROOT, 'native', 'system', 'packages', nativePlatform, 'prebuilds.json'))) {
+    if (nativePlatform !== `${process.platform}-${process.arch}`) {
+      throw new Error(
+        `desktop package: ${target.name} needs the ${nativePlatform} native payload; build it on a matching host`,
+      )
+    }
+    await runPnpm(['--dir', 'native/system', 'run', 'build:native'], buildEnv, REPOSITORY_ROOT)
+    await runPnpm([
+      '--dir',
+      `native/system/packages/${nativePlatform}`,
+      'pack',
+      '--pack-destination',
+      buildPaths.packedLandlock,
+    ], buildEnv, REPOSITORY_ROOT)
+  }
   await runPnpm([
     '--dir',
     'native/system/packages/entry',
@@ -309,9 +351,9 @@ async function main(): Promise<void> {
   ], buildEnv, REPOSITORY_ROOT)
   await runPnpm(['run', 'prepare:runtime'], targetEnv)
   await runPnpm(['run', 'prepare:packages'], targetEnv)
-  await runPnpm(['run', 'prepare:dsh'], targetEnv)
+  await runPnpm(['run', 'prepare:nulu'], targetEnv)
   if (invocation.prepareOnly) return
-  if (target.platform === 'darwin' && !invocation.directory) {
+  if (target.platform === 'darwin' && !invocation.directory && !invocation.unsigned) {
     await runPnpm([
       ...desktopElectronBuilderArguments(target, true),
       '--config.mac.notarize=false',

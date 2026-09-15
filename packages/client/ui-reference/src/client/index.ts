@@ -9,23 +9,23 @@
  * workspace is not the current one. A session is dated from the Host session
  * list, so the `@` menu and the session list never disagree about its age.
  *
- * @module @deepseek-ai/dsh-client-ui-reference/client
+ * @module @worldapptechnologies/nulu-client-ui-reference/client
  */
 // Type-only: pulls the generated Remote API and ctx.remote merge through the Client assembly boundary.
-import type {} from '@deepseek-ai/dsh-api-remotes/client'
+import type {} from '@worldapptechnologies/nulu-api-remotes/client'
 // Type-only: pulls the locale plugin's Context merge (ctx.locale).
-import type {} from '@deepseek-ai/dsh-client-locale/client'
-import type {} from '@deepseek-ai/dsh-client-ui-sidebar-right/client'
-import type { Context as ClientContext } from '@deepseek-ai/cordis'
-import type { ISessions } from '@deepseek-ai/dsh-api-session-controller/client'
-import { relativeTime } from '@deepseek-ai/dsh-client-ui-primitives'
+import type {} from '@worldapptechnologies/nulu-client-locale/client'
+import type {} from '@worldapptechnologies/nulu-client-ui-sidebar-right/client'
+import type { Context as ClientContext } from '@worldapptechnologies/cordis'
+import type { ISessions } from '@worldapptechnologies/nulu-api-session-controller/client'
+import { relativeTime } from '@worldapptechnologies/nulu-client-ui-primitives'
 import type {
   ClientSessionContext, InputTriggerCrumb, InputTriggerServiceContract, InputTriggerSource,
-} from '@deepseek-ai/dsh-client-ui-input-trigger/client'
-import { formatFileMention } from '@deepseek-ai/dsh-file-reference/grammar'
-import type { FileReferenceCandidate } from '@deepseek-ai/dsh-file-reference/types'
-import type { SessionReferenceMentionCandidate } from '@deepseek-ai/dsh-session-reference/types'
-import { abbreviateHomePath, fileAddressFor } from '@deepseek-ai/dsh-util-workspace-path'
+} from '@worldapptechnologies/nulu-client-ui-input-trigger/client'
+import { formatFileMention } from '@worldapptechnologies/nulu-file-reference/grammar'
+import type { FileReferenceCandidate } from '@worldapptechnologies/nulu-file-reference/types'
+import type { SessionReferenceMentionCandidate } from '@worldapptechnologies/nulu-session-reference/types'
+import { abbreviateHomePath, fileAddressFor } from '@worldapptechnologies/nulu-util-workspace-path'
 import { en, NS, zh, type ReferenceKey } from './locales.ts'
 
 /** Required services: the trigger registry, the Remote namespaces, and the copy. */

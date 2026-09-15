@@ -1,0 +1,62 @@
+{
+  "name": "@worldapptechnologies/nulu-plugin-package-inventory",
+  "description": "Active Loader-backed plugin package inventory for official Nulu LLM API requests",
+  "version": "0.1.5-rc.2",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/worldapptechnologies/nulu-harness.git",
+    "directory": "packages/llm/plugin-package-inventory"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./types": {
+      "types": "./lib/types/types.d.ts",
+      "default": "./lib/types/types.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/types/**/*.js",
+    "lib/types/**/*.d.ts"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@worldapptechnologies/nulu-brand": "workspace:^",
+    "@worldapptechnologies/schemastery": "workspace:^"
+  },
+  "peerDependencies": {
+    "@worldapptechnologies/cordis": "workspace:^",
+    "@worldapptechnologies/cordis-plugin-loader": "workspace:^",
+    "@worldapptechnologies/nulu-agent": "workspace:^",
+    "@worldapptechnologies/nulu-agent-presets": "workspace:^",
+    "@worldapptechnologies/nulu-llm-api-extensions": "workspace:^",
+    "@worldapptechnologies/nulu-session": "workspace:^"
+  },
+  "peerDependenciesMeta": {
+    "@worldapptechnologies/nulu-agent-presets": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@worldapptechnologies/cordis": "workspace:^",
+    "@worldapptechnologies/cordis-plugin-include": "workspace:^",
+    "@worldapptechnologies/cordis-plugin-loader": "workspace:^",
+    "@worldapptechnologies/nulu-agent": "workspace:^",
+    "@worldapptechnologies/nulu-agent-presets": "workspace:^",
+    "@worldapptechnologies/nulu-llm-api-extensions": "workspace:^",
+    "@worldapptechnologies/nulu-scope": "workspace:^",
+    "@worldapptechnologies/nulu-session": "workspace:^",
+    "@worldapptechnologies/nulu-session-projection": "workspace:^"
+  }
+}

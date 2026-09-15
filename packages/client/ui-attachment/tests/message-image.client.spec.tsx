@@ -1,11 +1,11 @@
 // @vitest-environment jsdom
 
-import type { GlobalStandardProps } from '@deepseek-ai/dsh-client-ui-slots'
+import type { GlobalStandardProps } from '@worldapptechnologies/nulu-client-ui-slots'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { cleanup, fireEvent, render, waitFor } from '@testing-library/react'
-import { AttachmentId } from '@deepseek-ai/dsh-attachment'
-import { EMPTY_CHAT_SNAPSHOT, type MessageImagesProps } from '@deepseek-ai/dsh-client-ui-chat/client'
-import { EMPTY_CONVERSATION_SNAPSHOT } from '@deepseek-ai/dsh-client-ui-conversation/client'
+import { AttachmentId } from '@worldapptechnologies/nulu-attachment'
+import { EMPTY_CHAT_SNAPSHOT, type MessageImagesProps } from '@worldapptechnologies/nulu-client-ui-chat/client'
+import { EMPTY_CONVERSATION_SNAPSHOT } from '@worldapptechnologies/nulu-client-ui-conversation/client'
 import { ImageGallery, MessageImage } from '../src/MessageImage.tsx'
 import type { MessageImageLabels } from '../src/MessageImage.tsx'
 import { MessageImages } from '../src/client/MessageImages.tsx'

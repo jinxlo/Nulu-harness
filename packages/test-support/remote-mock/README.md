@@ -3,13 +3,12 @@ description: "Endpoint-named mock for Typert Remote traffic: a table of unary an
 kind: "package-library"
 ---
 
-# @deepseek-ai/dsh-remote-mock
+# @worldapptechnologies/nulu-remote-mock
 
-English | [中文](README.zh.md)
 
 ## Summary
 
-`dsh-remote-mock` lets tests configure Host responses through `mock.remote.<namespace>.<method>` using native Vitest mock methods. The same functions answer direct calls and real Connection traffic; reusable tables supply default responses, and explicitly declared streams support test-driven frames and cancellation. Missing responses fail the call and are reported again by `assertNoUnmatched()` at teardown. The package runs without a business Host in Node or a browser page, imports no DOM, React, or Node modules, and is consumed from `devDependencies` only.
+`nulu-remote-mock` lets tests configure Host responses through `mock.remote.<namespace>.<method>` using native Vitest mock methods. The same functions answer direct calls and real Connection traffic; reusable tables supply default responses, and explicitly declared streams support test-driven frames and cancellation. Missing responses fail the call and are reported again by `assertNoUnmatched()` at teardown. The package runs without a business Host in Node or a browser page, imports no DOM, React, or Node modules, and is consumed from `devDependencies` only.
 
 ## Table of Contents
 
@@ -26,7 +25,7 @@ English | [中文](README.zh.md)
 
 ### When to use it
 
-Use it when a spec boots real client plugins that talk to `ctx.remote` and wants to script the Host side by endpoint name: whole-client jsdom specs through `__DSH_TRANSPORT__`, and unit specs that call `dispatch` / `open` directly. Endpoints are the Gateway's wire names (`session/page`, `settings/describe`); `args` is the caller's positional argument list with a trailing `AbortSignal` removed; a value is whatever the test registers and is answered unchanged. The only declaration is whether an endpoint is unary (`unary`) or a stream (`stream`).
+Use it when a spec boots real client plugins that talk to `ctx.remote` and wants to script the Host side by endpoint name: whole-client jsdom specs through `__NULU_TRANSPORT__`, and unit specs that call `dispatch` / `open` directly. Endpoints are the Gateway's wire names (`session/page`, `settings/describe`); `args` is the caller's positional argument list with a trailing `AbortSignal` removed; a value is whatever the test registers and is answered unchanged. The only declaration is whether an endpoint is unary (`unary`) or a stream (`stream`).
 
 <a id="remote-proxy"></a>
 ### Use the Remote proxy
@@ -77,7 +76,7 @@ A failed stream rejects the consumer's next read with the given `Error`. Consume
 
 ### Connect a client
 
-`mock.rpc` is the `ClientConnectionRpc` face: install it as `globalThis.__DSH_TRANSPORT__ = { rpc: mock.rpc }` and the production `connection` plugin uses it in place of the HTTP caller, so every Remote call reaches `dispatch` and every stream `open` with no envelopes in between. Payloads carry `{ args }` as the whole-client proxies send them (an array) or as the Gateway's own endpoints send them (one object, delivered as one positional arg); a call whose signal aborts rejects with the abort reason. `RemoteMock.create()` registers one stream, `$events`, that answers the Gateway client's opening with `{ type: 'ready', clientId, host: { home } }` (host from `RemoteMockOptions.host`, default `/home/mock`) and stays open, which is what lets the assembled client reach `connected`; a spec overrides or fails it like any other stream.
+`mock.rpc` is the `ClientConnectionRpc` face: install it as `globalThis.__NULU_TRANSPORT__ = { rpc: mock.rpc }` and the production `connection` plugin uses it in place of the HTTP caller, so every Remote call reaches `dispatch` and every stream `open` with no envelopes in between. Payloads carry `{ args }` as the whole-client proxies send them (an array) or as the Gateway's own endpoints send them (one object, delivered as one positional arg); a call whose signal aborts rejects with the abort reason. `RemoteMock.create()` registers one stream, `$events`, that answers the Gateway client's opening with `{ type: 'ready', clientId, host: { home } }` (host from `RemoteMockOptions.host`, default `/home/mock`) and stays open, which is what lets the assembled client reach `connected`; a spec overrides or fails it like any other stream.
 
 ### Observe and assert
 
@@ -129,7 +128,7 @@ None; this package neither assembles nor sends a provider request.
 
 <a id="known-limitations-and-deferred-work"></a>
 
-- **In-process carrier only** — `rpc` serves a client in the same realm through `__DSH_TRANSPORT__.rpc`; no HTTP or WebSocket carrier for browser-lane specs is provided.
+- **In-process carrier only** — `rpc` serves a client in the same realm through `__NULU_TRANSPORT__.rpc`; no HTTP or WebSocket carrier for browser-lane specs is provided.
 - **Values cross by reference** — answers and stream items reach the client unserialized, so a non-JSON value that the real wire would reject passes through unchanged.
 - **Values are not checked** — a unary answer must be the result the caller reads (`{ ok, value }` or `{ ok: false, error }`); the mock passes it through unchanged and does not check those fields.
 - **No payload matching** — rules match on endpoint only; discriminate on business arguments inside a handler.

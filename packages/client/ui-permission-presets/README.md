@@ -3,9 +3,8 @@ description: "Permission preset surfaces for the Web GUI: the General settings d
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-client-ui-permission-presets
+# @worldapptechnologies/nulu-client-ui-permission-presets
 
-English | [中文](README.zh.md)
 
 ## Summary
 
@@ -54,7 +53,7 @@ The General row reads the explicitly exposed `permission` Settings descriptor th
 
 Read these pages when the permission surface is not enough. They move from the browser surfaces to the host policy and the command shell.
 
-- [dsh-permission-presets](../../interaction/permission-presets/README.md) — the host-side permission preset policy these surfaces write.
+- [nulu-permission-presets](../../interaction/permission-presets/README.md) — the host-side permission preset policy these surfaces write.
 - [ui-commands](../ui-commands/README.md) — the popupSelect shell the `/permission` decoration registers into.
 - [ui-conversation](../ui-conversation/README.md) — the composer chip that renders the same permissions projection.
 - [Client package map](../README.md) — adjacent browser UI packages.

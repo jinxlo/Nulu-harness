@@ -7,17 +7,17 @@
  * `sidebar.settings` registrant's (ui-settings), followed by optional footer
  * actions in `sidebar.footer.action`.
  */
-import type { InjectFace, PropsLocale, PropsRenderSlots, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
-import type { ObservableSnapshot } from '@deepseek-ai/dsh-client-store'
-import type { WorkspaceId } from '@deepseek-ai/dsh-api-workspace-controller/client'
-import type { MainPanelId } from '@deepseek-ai/dsh-client-ui-layout/client'
+import type { InjectFace, PropsLocale, PropsRenderSlots, PropsRuntime } from '@worldapptechnologies/nulu-client-ui-slots'
+import type { ObservableSnapshot } from '@worldapptechnologies/nulu-client-store'
+import type { WorkspaceId } from '@worldapptechnologies/nulu-api-workspace-controller/client'
+import type { MainPanelId } from '@worldapptechnologies/nulu-client-ui-layout/client'
 
-declare module '@deepseek-ai/dsh-client-ui-slots' {
+declare module '@worldapptechnologies/nulu-client-ui-slots' {
   interface SlotMap {
     /**
      * Brand mark rendered in the expanded brand row and collapsed rail.
      * Declared by this package's `sidebar` entry; deployments may replace
-     * the shell's fish fallback without replacing the surrounding controls.
+     * the shell's mark fallback without replacing the surrounding controls.
      */
     'sidebar.brand.mark': { kind: 'single'; scope: 'root'; owner: SidebarBrandMarkOwnerProps }
     /**

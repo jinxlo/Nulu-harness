@@ -1,19 +1,19 @@
 /** Models section registration: slot declaration injection, the locale-following label thunk, and HMR recovery. */
-import { Context } from '@deepseek-ai/cordis'
+import { Context } from '@worldapptechnologies/cordis'
 import { describe, expect, it, onTestFinished, vi } from 'vitest'
-import { resolveSlotLabel } from '@deepseek-ai/dsh-client-ui-slots'
-import { SlotRegistry } from '@deepseek-ai/dsh-client-ui-renderer/client'
-import { LocaleRuntime } from '@deepseek-ai/dsh-client-locale/client'
-import { TestRemote } from '@deepseek-ai/dsh-client-test-runtime'
-import { remoteDefaultResponses } from '@deepseek-ai/dsh-client-test-runtime/src/assembly/remote-default-responses.ts'
-import { ok, RemoteMock } from '@deepseek-ai/dsh-remote-mock'
-import { apply as settingsApply, inject as settingsInject } from '@deepseek-ai/dsh-client-ui-settings/client'
-import { apply, inject, refreshIfLoaded } from '@deepseek-ai/dsh-client-ui-settings-models/client'
+import { resolveSlotLabel } from '@worldapptechnologies/nulu-client-ui-slots'
+import { SlotRegistry } from '@worldapptechnologies/nulu-client-ui-renderer/client'
+import { LocaleRuntime } from '@worldapptechnologies/nulu-client-locale/client'
+import { TestRemote } from '@worldapptechnologies/nulu-client-test-runtime'
+import { remoteDefaultResponses } from '@worldapptechnologies/nulu-client-test-runtime/src/assembly/remote-default-responses.ts'
+import { ok, RemoteMock } from '@worldapptechnologies/nulu-remote-mock'
+import { apply as settingsApply, inject as settingsInject } from '@worldapptechnologies/nulu-client-ui-settings/client'
+import { apply, inject, refreshIfLoaded } from '@worldapptechnologies/nulu-client-ui-settings-models/client'
 import {
   WELCOME_NOTICE_ACK_FIELD, WELCOME_NOTICE_SETTINGS_NAMESPACE, WELCOME_NOTICE_VERSION,
 } from '../src/onboarding-copy.ts'
 import { ModelsSection } from '../src/client/ModelsSection.tsx'
-import { DeepSeekOnboardingDialog } from '../src/client/DeepSeekOnboardingDialog.tsx'
+import { NuluOnboardingDialog } from '../src/client/NuluOnboardingDialog.tsx'
 import { WelcomeNotice } from '../src/client/WelcomeNotice.tsx'
 import { apply as hostApply } from '../src/index.ts'
 
@@ -97,14 +97,14 @@ describe('ui-settings-models apply', () => {
       component: WelcomeNotice,
       options: { id: 'welcome-notice', order: -100 },
     })
-    const deepSeek = onboarding.find(entry => entry.options.id === 'deepseek-official')!
-    expect(deepSeek.component).toBe(DeepSeekOnboardingDialog)
-    expect(deepSeek.options).toMatchObject({ id: 'deepseek-official', order: 0 })
-    const deepSeekInjected = (
-      deepSeek.inject as unknown as () => import('../src/client/DeepSeekOnboardingDialog.tsx').DeepSeekOnboardingInjected
+    const nulu = onboarding.find(entry => entry.options.id === 'worldapp-gateway')!
+    expect(nulu.component).toBe(NuluOnboardingDialog)
+    expect(nulu.options).toMatchObject({ id: 'worldapp-gateway', order: 0 })
+    const nuluInjected = (
+      nulu.inject as unknown as () => import('../src/client/NuluOnboardingDialog.tsx').NuluOnboardingInjected
     )()
-    expect(deepSeekInjected.hooks.models).toBe(injected.controller.store)
-    expect(typeof deepSeekInjected.operations.storeCredential).toBe('function')
+    expect(nuluInjected.hooks.models).toBe(injected.controller.store)
+    expect(typeof nuluInjected.operations.storeCredential).toBe('function')
 
     const after = await bench()
     await after.ctx.plugin({ inject: [...inject], apply }).await()
@@ -245,14 +245,14 @@ describe('pushed invalidations', () => {
     declare(b.slots)
     await b.ctx.plugin({ inject: [...inject], apply }).await()
     const entry = b.slots.entries('settings.onboarding')
-      .find(candidate => candidate.options.id === 'deepseek-official')!
+      .find(candidate => candidate.options.id === 'worldapp-gateway')!
     const injected = (
       entry.inject as unknown as
-      () => import('../src/client/DeepSeekOnboardingDialog.tsx').DeepSeekOnboardingInjected
+      () => import('../src/client/NuluOnboardingDialog.tsx').NuluOnboardingInjected
     )()
     injected.controller.store.update((state) => { state.status = 'ready' })
     const load = vi.spyOn(injected.controller, 'load').mockResolvedValue()
-    b.remote.emit('credentials/reference-updated', ['DEEPSEEK_API_KEY'])
+    b.remote.emit('credentials/reference-updated', ['WORLD_APP_TECHNOLOGIES_API_KEY'])
     expect(load).toHaveBeenCalledTimes(1)
   })
 

@@ -9,7 +9,7 @@
  * Deferred resolution retains their diagnostics so stored catalog drift does
  * not prevent inspection, repair, or requests to independently valid models.
  *
- * @module dsh-llm-pi-ai/catalog
+ * @module nulu-llm-pi-ai/catalog
  */
 
 import { builtinProviders, getBuiltinModels, getBuiltinProviders } from '@earendil-works/pi-ai/providers/all'
@@ -820,7 +820,7 @@ export interface RouteCatalog {
  * Materialize one route's catalog by merging the installed catalog defaults
  * under the configured entries. A route with no configured `models` serves the
  * installed catalog unchanged, which is what keeps an existing
- * `providers: { deepseek: { apiKeyEnv: … } }` profile working untouched.
+ * `providers: { nulu: { apiKeyEnv: … } }` profile working untouched.
  * @param request - the route-level catalog facts.
  * @param validation - strict writes reject every error; deferred reads retain model diagnostics.
  * @returns the materialized models and the explicitly configured request caps.

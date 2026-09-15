@@ -3,9 +3,8 @@ description: "The complete V2-to-V3 Session conversion: system heads, audited re
 kind: "package-library"
 ---
 
-# @deepseek-ai/dsh-session-format-v2-to-v3
+# @worldapptechnologies/nulu-session-format-v2-to-v3
 
-English | [中文](README.zh.md)
 
 ## Summary
 
@@ -69,7 +68,7 @@ The first `step/start` is followed immediately by an empty `system/message` appe
 
 At every `request/header`, absent `data.header.system` means the empty prompt; otherwise its string is compared exactly with the current prompt. A change inserts a system message immediately before that request header, replacing exactly the current protected head and citing it in `sourceEventSeqs`. An unchanged prompt inserts nothing. Empty strings and absent fields clear an earlier prompt; whitespace-only strings remain nonempty text. Every request header loses `data.header.system`, regardless of whether a replacement was needed.
 
-Synthetic messages carry the open step's `turn` and `step`, the anchor event's `time`, role `system`, and source `{ kind: 'plugin', plugin: '@deepseek-ai/dsh-system-prompt' }`. Empty prompts use `content: []`; other prompts use one text block containing the exact string. The first append has no provenance; each replacement uses the preceding head's target sequence for both endpoints and its sole source reference. Empty heads retain protection but produce no model message.
+Synthetic messages carry the open step's `turn` and `step`, the anchor event's `time`, role `system`, and source `{ kind: 'plugin', plugin: '@worldapptechnologies/nulu-system-prompt' }`. Empty prompts use `content: []`; other prompts use one text block containing the exact string. The first append has no provenance; each replacement uses the preceding head's target sequence for both endpoints and its sole source reference. Empty heads retain protection but produce no model message.
 
 Each synthetic id is `v2-to-v3-system-` followed by the hexadecimal SHA-256 of `JSON.stringify(['session-format-v2-to-v3', sourceHeader.id, anchor.seq, anchor.type])`. The anchor is the source `step/start` for initial creation or the changed `request/header` for replacement. Collisions with generated or source message ids are refused in either encounter order, including ids in inbox insertions and title-request messages. Existing message ids never change. In particular, a `TOOL_NOT_STARTED` repair id retains its canonical historical `interrupted-tool-result-<callId>-<integer>` suffix; that suffix is not a target sequence coordinate.
 
@@ -112,7 +111,7 @@ Source surface events already require placement; migration does not invent missi
 <a id="delivery-guards"></a>
 ### Delivery guards
 
-A V2 `session-log-deepseek/delivery-accepted` with `data.sessionFormatVersion === 3` is refused, not promoted into a V3 upload watermark. Markers for other generations retain their payloads, including an absent generation and future non-target generations. A V2-generation marker must have a valid earlier `throughSeq`; if it names a different Session, it is permitted only in the inherited prefix of a Session with `parentSession`. A foreign local marker or one without parent metadata is refused. The marker's envelope sequence changes normally; its captured acceptance coordinates do not.
+A V2 `session-log-gateway/delivery-accepted` with `data.sessionFormatVersion === 3` is refused, not promoted into a V3 upload watermark. Markers for other generations retain their payloads, including an absent generation and future non-target generations. A V2-generation marker must have a valid earlier `throughSeq`; if it names a different Session, it is permitted only in the inherited prefix of a Session with `parentSession`. A foreign local marker or one without parent metadata is refused. The marker's envelope sequence changes normally; its captured acceptance coordinates do not.
 
 <a id="source-audit"></a>
 ### Source audit and refusal

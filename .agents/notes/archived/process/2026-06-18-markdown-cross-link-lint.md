@@ -3,7 +3,6 @@
 Status: implemented
 Archived: 2026-09-04
 
-English | [中文](2026-06-18-markdown-cross-link-lint.zh.md)
 
 ## Problem
 

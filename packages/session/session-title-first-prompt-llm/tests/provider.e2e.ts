@@ -1,12 +1,12 @@
-import { createUserMessage } from '@deepseek-ai/dsh-llm'
+import { createUserMessage } from '@worldapptechnologies/nulu-llm'
 import { afterEach, describe, expect, it } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import LlmRuntime from '@deepseek-ai/dsh-llm'
-import * as LlmDeepSeek from '@deepseek-ai/dsh-llm-deepseek'
-import SessionStore, { SessionId } from '@deepseek-ai/dsh-session'
-import SessionTitleService from '@deepseek-ai/dsh-session-title'
-import SessionProjectionRegistry from '@deepseek-ai/dsh-session-projection'
-import * as FirstMessageTitleProvider from '@deepseek-ai/dsh-session-title-first-prompt-llm'
+import { Context } from '@worldapptechnologies/cordis'
+import LlmRuntime from '@worldapptechnologies/nulu-llm'
+import * as LlmGateway from '@worldapptechnologies/nulu-llm-gateway'
+import SessionStore, { SessionId } from '@worldapptechnologies/nulu-session'
+import SessionTitleService from '@worldapptechnologies/nulu-session-title'
+import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projection'
+import * as FirstMessageTitleProvider from '@worldapptechnologies/nulu-session-title-first-prompt-llm'
 
 const contexts: Context[] = []
 
@@ -14,12 +14,12 @@ afterEach(async () => {
   await Promise.all(contexts.splice(0).map(ctx => ctx.fiber.dispose()))
 })
 
-describe.skipIf(!process.env.DEEPSEEK_API_KEY)('first-prompt title provider with real DeepSeek API', () => {
+describe.skipIf(!process.env.WORLD_APP_TECHNOLOGIES_API_KEY)('first-prompt title provider with real Nulu API', () => {
   it('replaces the fallback with a short model title', async () => {
     const ctx = new Context()
     contexts.push(ctx)
     await ctx.plugin(LlmRuntime)
-    await ctx.plugin(LlmDeepSeek, { thinking: 'disabled' })
+    await ctx.plugin(LlmGateway, { thinking: 'disabled' })
     await ctx.plugin(SessionStore)
     await ctx.plugin(SessionProjectionRegistry)
     await ctx.plugin(SessionTitleService, {
@@ -33,8 +33,8 @@ describe.skipIf(!process.env.DEEPSEEK_API_KEY)('first-prompt title provider with
       maxInputBytes: 4_096,
       maxOutputTokens: 64,
       timeoutMs: 60_000,
-      provider: 'deepseek-official',
-      model: 'deepseek-v4-flash',
+      provider: 'worldapp-gateway',
+      model: 'nulu-5',
     })
     const session = ctx.sessions.create(SessionId('real-title-provider'))
     session.append('turn/start', {
@@ -52,7 +52,7 @@ describe.skipIf(!process.env.DEEPSEEK_API_KEY)('first-prompt title provider with
       source: {
         kind: 'provider',
         provider: 'session-title-first-prompt-llm',
-        model: { provider: 'deepseek-official', model: 'deepseek-v4-flash' },
+        model: { provider: 'worldapp-gateway', model: 'nulu-5' },
       },
     })
     expect(title?.title.length).toBeGreaterThan(0)

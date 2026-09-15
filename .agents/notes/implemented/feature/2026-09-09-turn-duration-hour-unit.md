@@ -2,7 +2,6 @@
 
 Status: implemented
 
-English | [中文](2026-09-09-turn-duration-hour-unit.zh.md)
 
 ## Problem
 

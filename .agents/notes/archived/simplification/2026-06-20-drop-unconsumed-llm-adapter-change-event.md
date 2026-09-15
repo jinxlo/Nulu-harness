@@ -3,7 +3,6 @@
 Status: implemented
 Archived: 2026-07-26
 
-English | [中文](2026-06-20-drop-unconsumed-llm-adapter-change-event.zh.md)
 
 ## Problem
 
@@ -15,7 +14,7 @@ The event is not free. `registerAdapter()` yields its rollback disposer before e
 
 ## Decision
 
-Only `llm/adapter-change` is removed: the declaration in `dsh-llm`'s `interface Events`, the `ctx.emit('llm/adapter-change')` calls, and the "Emits `llm/adapter-change` on registration and disposal" sentence in `LlmService.registerAdapter`'s JSDoc. `registerAdapter()`'s effect generator keeps the mutation and rollback disposer for HMR/disposal but sheds the listener-throw rollback ordering that existed only for the removed event. The adapter-disposer test asserts the returned disposer removes the adapter without subscribing to the event; the listener-throw rollback test is gone with its subject. The event taxonomy in [docs/architecture.md](../../../../docs/architecture.md) and [packages/llm/llm/README.md](../../../../packages/llm/llm/README.md) is updated in the same change.
+Only `llm/adapter-change` is removed: the declaration in `nulu-llm`'s `interface Events`, the `ctx.emit('llm/adapter-change')` calls, and the "Emits `llm/adapter-change` on registration and disposal" sentence in `LlmService.registerAdapter`'s JSDoc. `registerAdapter()`'s effect generator keeps the mutation and rollback disposer for HMR/disposal but sheds the listener-throw rollback ordering that existed only for the removed event. The adapter-disposer test asserts the returned disposer removes the adapter without subscribing to the event; the listener-throw rollback test is gone with its subject. The event taxonomy in [docs/architecture.md](../../../../docs/architecture.md) and [packages/llm/llm/README.md](../../../../packages/llm/llm/README.md) is updated in the same change.
 
 ## Alternatives considered
 

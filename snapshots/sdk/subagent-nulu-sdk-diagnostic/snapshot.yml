@@ -1,0 +1,8 @@
+version: 1
+scenario: subagent-nulu-sdk-diagnostic
+profile: sdk
+composition: sdk-nulu-sdk-diagnostic
+recording: live
+header:
+  class: sdk-nulu-sdk-diagnostic
+  pin: true

@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
-import { createSessionFormatCatalog } from '@deepseek-ai/dsh-session-format'
-import type { SessionFormatArtifact, SessionFormatEvent, SessionFormatJsonObject } from '@deepseek-ai/dsh-session-format'
-import { releasedV0SessionFormatCodec, releasedV1SessionFormatCodec, sessionFormatV0ToV1 } from '@deepseek-ai/dsh-session-format-v0-to-v1'
-import { sessionFormatV1ToV2 } from '@deepseek-ai/dsh-session-format-v1-to-v2'
+import { createSessionFormatCatalog } from '@worldapptechnologies/nulu-session-format'
+import type { SessionFormatArtifact, SessionFormatEvent, SessionFormatJsonObject } from '@worldapptechnologies/nulu-session-format'
+import { releasedV0SessionFormatCodec, releasedV1SessionFormatCodec, sessionFormatV0ToV1 } from '@worldapptechnologies/nulu-session-format-v0-to-v1'
+import { sessionFormatV1ToV2 } from '@worldapptechnologies/nulu-session-format-v1-to-v2'
 import { assertReleasedV3Header, releasedV2SessionFormatCodec, releasedV3SessionFormatCodec, restoreReleasedV3Artifact, sessionFormatV2ToV3 } from '../src/index.ts'
 
 const header = { version: 2, id: 'canonical:code:session', createdAt: 1, isSeeded: false, delegationDepth: 0 }
@@ -56,7 +56,7 @@ function seededHistory(): SessionFormatEvent[] {
     event('tool/code-dispatch', 6, { ...dispatch, isError: true, content: message.content }),
     event('step/end', 7, { turn: 1, step: 1 }),
     event('turn/end', 8, { turn: 1, reason: { kind: 'completed' } }),
-    event('session-log-deepseek/delivery-accepted', 9, { sessionId: 'parent', throughSeq: 8, sessionFormatVersion: 2 }),
+    event('session-log-gateway/delivery-accepted', 9, { sessionId: 'parent', throughSeq: 8, sessionFormatVersion: 2 }),
     event('session/end-seed', 10, { inherited: true }),
     event('agent-preset/selected', 11, { agentPreset: 'standard' }),
     event('agent-preset/selected', 12, { agentPreset: 'code' }),
@@ -144,7 +144,7 @@ describe('canonical preservation across migration and native reload', () => {
 })
 
 describe('canonical refusal in composed catalog paths', () => {
-  it.each(['tool/ptc-dispatch-start', 'tool/ptc-dispatch', 'agent-preset/selected', 'session-log-deepseek/delivery-accepted'])(
+  it.each(['tool/ptc-dispatch-start', 'tool/ptc-dispatch', 'agent-preset/selected', 'session-log-gateway/delivery-accepted'])(
     'does not treat ignorable known %s as an opaque envelope', (type) => {
       const target = restore(seededHistory(), seededHeader)
       const index = target.events.findLastIndex(row => row.type === type)
@@ -166,7 +166,7 @@ describe('canonical refusal in composed catalog paths', () => {
       for (const inherited of [true, false]) {
         const source = seededHistory()
         const seq = inherited ? 9 : source.length
-        const marker = event('session-log-deepseek/delivery-accepted', seq, {
+        const marker = event('session-log-gateway/delivery-accepted', seq, {
           sessionId: inherited ? 'parent' : header.id, throughSeq: 8, sessionFormatVersion: 3,
         }, { ignorable: true })
         const rows = inherited ? source.with(seq, marker) : [...source, marker]
@@ -183,11 +183,11 @@ describe('canonical refusal in composed catalog paths', () => {
 
   it('refuses a local foreign V2 watermark even when an earlier inherited watermark has the same owner', () => {
     const source = seededHistory()
-    const local = event('session-log-deepseek/delivery-accepted', source.length, {
+    const local = event('session-log-gateway/delivery-accepted', source.length, {
       sessionId: 'parent', throughSeq: 8, sessionFormatVersion: 2,
     })
     expect(() => restore([...source, local], seededHeader)).toThrow('current-generation delivery marker names the wrong Session')
-    expect(restore(source, seededHeader).events.find(row => row.type === 'session-log-deepseek/delivery-accepted')?.data)
+    expect(restore(source, seededHeader).events.find(row => row.type === 'session-log-gateway/delivery-accepted')?.data)
       .toEqual(source[9]?.data)
   })
 })

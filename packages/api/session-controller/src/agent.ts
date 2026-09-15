@@ -1,19 +1,19 @@
 /** Agent activation, composition, and model-selection policy owned by API Session. */
 
 import { mkdir } from 'node:fs/promises'
-import type { Context } from '@deepseek-ai/cordis'
-import { installModelSelection } from '@deepseek-ai/dsh-agent'
+import type { Context } from '@worldapptechnologies/cordis'
+import { installModelSelection } from '@worldapptechnologies/nulu-agent'
 import type {
   Agent, AgentOptions, AgentSetup, ModelSelection as AgentModelSelection, ModelSelectionRef,
-} from '@deepseek-ai/dsh-agent'
-import type {} from '@deepseek-ai/dsh-agent-default-model'
-import type {} from '@deepseek-ai/dsh-agent-presets'
-import { ReasoningEffortId } from '@deepseek-ai/dsh-llm'
-import type { Session, SessionId } from '@deepseek-ai/dsh-session'
-import type { SessionInspection } from '@deepseek-ai/dsh-session-persistence'
-import { SessionQueryError, type SessionObservation } from '@deepseek-ai/dsh-session-query'
-import { RemoteError } from '@deepseek-ai/dsh-typert-protocol'
-import type {} from '@deepseek-ai/dsh-typert-registry'
+} from '@worldapptechnologies/nulu-agent'
+import type {} from '@worldapptechnologies/nulu-agent-default-model'
+import type {} from '@worldapptechnologies/nulu-agent-presets'
+import { ReasoningEffortId } from '@worldapptechnologies/nulu-llm'
+import type { Session, SessionId } from '@worldapptechnologies/nulu-session'
+import type { SessionInspection } from '@worldapptechnologies/nulu-session-persistence'
+import { SessionQueryError, type SessionObservation } from '@worldapptechnologies/nulu-session-query'
+import { RemoteError } from '@worldapptechnologies/nulu-typert-protocol'
+import type {} from '@worldapptechnologies/nulu-typert-registry'
 import type { ModelSelection } from './types.ts'
 
 /** Cold Session identity absent from persistence. */

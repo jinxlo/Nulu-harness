@@ -1,24 +1,24 @@
-import { Context } from '@deepseek-ai/cordis'
-import type { SessionEvent } from '@deepseek-ai/dsh-session'
-import type { Agent } from '@deepseek-ai/dsh-agent'
-import AgentLoop from '@deepseek-ai/dsh-agent-loop'
-import { mountAgentLoopTestDependencies } from '@deepseek-ai/dsh-agent-loop-testkit'
-import { LocalBashExecutor } from '@deepseek-ai/dsh-bash-local'
-import * as BashEnvPlugin from '@deepseek-ai/dsh-shell-env'
-import LocalSubprocessRuntime from '@deepseek-ai/dsh-subprocess-local'
-import * as ToolBash from '@deepseek-ai/dsh-tool-bash'
-import * as ToolTodo from '@deepseek-ai/dsh-tool-todo'
-import * as LlmDeepSeek from '@deepseek-ai/dsh-llm-deepseek'
-import TokenMeter from '@deepseek-ai/dsh-token-meter'
-import ToolResultPruner from '@deepseek-ai/dsh-compaction-tool-result-pruner'
-import JsonlSessionPersistence from '@deepseek-ai/dsh-session-persistence-jsonl'
-import * as SessionCheckpointPolicy from '@deepseek-ai/dsh-session-checkpoint-policy'
-import { BasicCompactionEngine } from '@deepseek-ai/dsh-compaction-basic'
-import type { BasicCompactionConfig } from '@deepseek-ai/dsh-compaction-basic'
+import { Context } from '@worldapptechnologies/cordis'
+import type { SessionEvent } from '@worldapptechnologies/nulu-session'
+import type { Agent } from '@worldapptechnologies/nulu-agent'
+import AgentLoop from '@worldapptechnologies/nulu-agent-loop'
+import { mountAgentLoopTestDependencies } from '@worldapptechnologies/nulu-agent-loop-testkit'
+import { LocalBashExecutor } from '@worldapptechnologies/nulu-bash-local'
+import * as BashEnvPlugin from '@worldapptechnologies/nulu-shell-env'
+import LocalSubprocessRuntime from '@worldapptechnologies/nulu-subprocess-local'
+import * as ToolBash from '@worldapptechnologies/nulu-tool-bash'
+import * as ToolTodo from '@worldapptechnologies/nulu-tool-todo'
+import * as LlmGateway from '@worldapptechnologies/nulu-llm-gateway'
+import TokenMeter from '@worldapptechnologies/nulu-token-meter'
+import ToolResultPruner from '@worldapptechnologies/nulu-compaction-tool-result-pruner'
+import JsonlSessionPersistence from '@worldapptechnologies/nulu-session-persistence-jsonl'
+import * as SessionCheckpointPolicy from '@worldapptechnologies/nulu-session-checkpoint-policy'
+import { BasicCompactionEngine } from '@worldapptechnologies/nulu-compaction-basic'
+import type { BasicCompactionConfig } from '@worldapptechnologies/nulu-compaction-basic'
 
 /**
  * Shared harness for the headless-agent e2e suites: the full plugin stack
- * with the real DeepSeek adapter and the real bash + todo_write tools. Lives
+ * with the real Nulu adapter and the real bash + todo_write tools. Lives
  * outside the *.e2e.ts pattern so importing it never re-registers another
  * file's tests.
  */
@@ -49,7 +49,7 @@ export interface CodingHarnessOptions {
    * compaction plugin (the default suites run without it).
    */
   compact?: BasicCompactionConfig
-  /** Test-only context capacity advertised for `deepseek-v4-flash`. */
+  /** Test-only context capacity advertised for `nulu-5`. */
   modelContextWindow?: number
 }
 
@@ -59,8 +59,8 @@ export async function codingHarness(workdir: string, options: CodingHarnessOptio
     systemPrompt: { personaPrefix: options.personaPrefix ?? '' },
   })
   await ctx.plugin(AgentLoop, { agents: [] })
-  await ctx.plugin(LlmDeepSeek, options.modelContextWindow === undefined ? {} : {
-    models: [{ id: 'deepseek-v4-flash', contextWindow: options.modelContextWindow }],
+  await ctx.plugin(LlmGateway, options.modelContextWindow === undefined ? {} : {
+    models: [{ id: 'nulu-5', contextWindow: options.modelContextWindow }],
   })
   await ctx.plugin(LocalSubprocessRuntime)
   await ctx.plugin(BashEnvPlugin)

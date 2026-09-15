@@ -3,7 +3,6 @@
 Status: implemented
 Archived: 2026-09-04
 
-English | [中文](2026-08-18-rail-search-outside-click-self-dismissal.zh.md)
 
 ## Problem
 

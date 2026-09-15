@@ -1,7 +1,7 @@
 /** Trajectory toolbar: timeline and ledger fold controls. */
 
-import type { TranslateNS } from '@deepseek-ai/dsh-client-ui-slots'
-import { IconSearchOutline16 } from '@deepseek-ai/dsh-client-ui-primitives'
+import type { TranslateNS } from '@worldapptechnologies/nulu-client-ui-slots'
+import { IconSearchOutline16 } from '@worldapptechnologies/nulu-client-ui-primitives'
 import type { NS } from './locales.ts'
 import css from './TrajectoryToolbar.module.css'
 

@@ -3,9 +3,8 @@ description: "Canonical Session-log ratings, categories, and notes for finalized
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-message-feedback
+# @worldapptechnologies/nulu-message-feedback
 
-English | [中文](README.zh.md)
 
 ## Summary
 
@@ -22,7 +21,7 @@ This service records positive or negative ratings, an optional category from the
 <a id="use-this-package"></a>
 ## Use this package
 
-Mount `dsh-message-feedback` alongside `sessions` and `sessionPersistence`. It needs no storage-domain service. The Web bundle supplies the browser consumer and a note limit of 8192 bytes.
+Mount `nulu-message-feedback` alongside `sessions` and `sessionPersistence`. It needs no storage-domain service. The Web bundle supplies the browser consumer and a note limit of 8192 bytes.
 
 ### Configuration
 
@@ -93,7 +92,7 @@ Independent. Feedback does not change the model request prefix.
 - **Deletion retains history:** delete removes current feedback, not earlier ratings or notes from the append-only log; it is not a privacy-erasure operation.
 - **Writer ownership:** another process holding a Session write handle causes cold mutations to reject. The service does not wake that owner or coordinate Remote calls across processes.
 - **Trusted callers:** requests contain no authenticated actor or audit identity. Deployments must protect the Host gateway.
-- **Telemetry export:** for all users and providers, including `deepseek-official`, the shipped OTel backend in `FEEDBACK_ONLY` releases the complete canonical prefix only after new explicit text feedback, rating, note, or category edits, or withdrawal. The prefix includes context and verbatim notes; later records wait for the next feedback, and `DISABLED` prevents capture. Deployments own redaction; see the [OTel export policy](../../session/session-telemetry-otel/README.md).
+- **Telemetry export:** for all users and providers, including `worldapp-gateway`, the shipped OTel backend in `FEEDBACK_ONLY` releases the complete canonical prefix only after new explicit text feedback, rating, note, or category edits, or withdrawal. The prefix includes context and verbatim notes; later records wait for the next feedback, and `DISABLED` prevents capture. Deployments own redaction; see the [OTel export policy](../../session/session-telemetry-otel/README.md).
 - **Scan cost:** each `list`, `put`, or `delete` that reaches an existing Session scans its full event log to derive current feedback; cold operations also read the full log from persistence. Work grows with total Session history, not just the number of feedback items.
 - **Retention:** `maxNoteBytes` limits one note, not aggregate log size or mutation count.
 

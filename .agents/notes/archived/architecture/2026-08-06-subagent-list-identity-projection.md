@@ -3,7 +3,6 @@
 Status: implemented
 Archived: 2026-09-04
 
-English | [中文](2026-08-06-subagent-list-identity-projection.zh.md)
 
 ## Problem
 
@@ -40,7 +39,7 @@ export type SubagentIdentityProjection =
   | { mode: 'one-shot'; label?: string; seq: SessionSeq }
   | { mode: 'continuable'; label: string; seq: SessionSeq }
 
-declare module '@deepseek-ai/dsh-session-projection/types' {
+declare module '@worldapptechnologies/nulu-session-projection/types' {
   interface SessionProjectionStateMap {
     subagent: { identity?: SubagentIdentityProjection }
   }

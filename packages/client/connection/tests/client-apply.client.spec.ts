@@ -2,7 +2,7 @@
  * Connection plugin browser-half apply: ctx.connection handle mounting, mode
  * selection off the page URL, and single-consumer connection-loop ownership.
  */
-import { Context } from '@deepseek-ai/cordis'
+import { Context } from '@worldapptechnologies/cordis'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import {
   apply,
@@ -16,12 +16,12 @@ import {
 
 type Win = {
   location?: { hostname: string; search: string; origin?: string }
-  __DSH_TRANSPORT__?: ClientTransportHooks
+  __NULU_TRANSPORT__?: ClientTransportHooks
 }
 
 afterEach(() => {
   delete (globalThis as Win).location
-  delete (globalThis as Win).__DSH_TRANSPORT__
+  delete (globalThis as Win).__NULU_TRANSPORT__
   vi.unstubAllGlobals()
   vi.useRealTimers()
 })
@@ -75,7 +75,7 @@ async function mount(): Promise<ConnectionHandle> {
 describe('connection client apply', () => {
   it('uses Host bootstrap timing when Gateway starts without overrides', async () => {
     vi.useFakeTimers()
-    vi.stubGlobal('__DSH_CONNECTION_RECOVERY__', {
+    vi.stubGlobal('__NULU_CONNECTION_RECOVERY__', {
       backoffBaseMs: 10, backoffMaxMs: 10, generationReadyTimeoutMs: 20,
     })
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
@@ -100,7 +100,7 @@ describe('connection client apply', () => {
   })
 
   it.each([{ generationReadyTimeoutMs: 0 }, { backoffFactor: NaN }])('rejects malformed bootstrap recovery before publishing the service: %j', (recovery) => {
-    vi.stubGlobal('__DSH_CONNECTION_RECOVERY__', recovery)
+    vi.stubGlobal('__NULU_CONNECTION_RECOVERY__', recovery)
     const ctx = new Context()
     expect(() => { apply(ctx) }).toThrow()
     expect(ctx.get('connection')).toBeUndefined()
@@ -476,7 +476,7 @@ describe('connection client apply', () => {
       vi.unstubAllGlobals()
     }
     expect(seen).toHaveLength(1)
-    expect(seen[0]?.url).toBe('http://dsh.internal/api/goals/create')
+    expect(seen[0]?.url).toBe('http://nulu.internal/api/goals/create')
     expect(seen[0]?.body).toMatchObject({
       type: 'client-request',
       rpcId: '00000000-0000-4000-8000-000000000000',
@@ -491,7 +491,7 @@ describe('connection client apply', () => {
       call: vi.fn(async (_channel: string, endpoint: string, payload: unknown) => ({ ok: true as const, value: { endpoint, payload } })),
       open: vi.fn((_channel: string, endpoint: string) => (async function *(): AsyncGenerator { yield endpoint })()),
     }
-    ;(globalThis as Win).__DSH_TRANSPORT__ = { rpc }
+    ;(globalThis as Win).__NULU_TRANSPORT__ = { rpc }
     const handle = await mount()
     expect(handle.rpc).toBe(rpc)
     await expect(handle.rpc.call('/api', 'session/list', { args: [] })).resolves.toEqual({
@@ -507,7 +507,7 @@ describe('connection client apply', () => {
         yield { endpoint, payload }
       })(),
     )
-    ;(globalThis as Win).__DSH_TRANSPORT__ = {
+    ;(globalThis as Win).__NULU_TRANSPORT__ = {
       fetch: vi.fn<RpcFetch>(),
       openStream,
       ownsHost: true,
@@ -560,7 +560,7 @@ describe('connection client apply', () => {
       }))
       await expect(handle.rpc.call('/api', 'goals/create', {})).rejects.toThrow('rpcId mismatch')
       const fetch = vi.mocked(globalThis.fetch)
-      expect(fetch.mock.calls[0]?.[0]).toEqual(new URL('http://dsh.internal/api/goals/create'))
+      expect(fetch.mock.calls[0]?.[0]).toEqual(new URL('http://nulu.internal/api/goals/create'))
       expect(fetch.mock.calls[0]?.[1]).not.toHaveProperty('signal')
 
       const respond = (result: unknown): void => {

@@ -1,12 +1,12 @@
-/** Package-owned durable goal-stream invariants. @module @deepseek-ai/dsh-goal/invariant */
+/** Package-owned durable goal-stream invariants. @module @worldapptechnologies/nulu-goal/invariant */
 
-import type { Context } from '@deepseek-ai/cordis'
-import type { InvariantFailure, InvariantInstaller } from '@deepseek-ai/dsh-invariants'
-import type { Session, SessionEvent } from '@deepseek-ai/dsh-session'
+import type { Context } from '@worldapptechnologies/cordis'
+import type { InvariantFailure, InvariantInstaller } from '@worldapptechnologies/nulu-invariants'
+import type { Session, SessionEvent } from '@worldapptechnologies/nulu-session'
 import { applyGoalEvent, emptyGoalFoldState } from './fold.ts'
 import type { GoalFoldState } from './fold.ts'
 
-const PACKAGE_NAME = '@deepseek-ai/dsh-goal'
+const PACKAGE_NAME = '@worldapptechnologies/nulu-goal'
 
 /** Cordis companion plugin name. */
 export const name = 'goal-invariant'

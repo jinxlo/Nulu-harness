@@ -1,32 +1,32 @@
 # Keyless replay counterpart: the failed search remains real; only the
 # conversation model adapter is replaced by replay.
-- id: llm-deepseek
-  name: '@deepseek-ai/dsh-llm-deepseek'
+- id: llm-gateway
+  name: '@worldapptechnologies/nulu-llm-gateway'
   disabled: true
 
-- id: plugin-package-inventory-deepseek
+- id: plugin-package-inventory
   disabled: true
 
 - insert:
     - id: llm-replay
-      name: '@deepseek-ai/dsh-llm-replay'
+      name: '@worldapptechnologies/nulu-llm-replay'
       config:
         providers:
-          - id: deepseek-official
-            name: DeepSeek
+          - id: worldapp-gateway
+            name: Nulu
             models:
-              - id: deepseek-v4-flash
+              - id: nulu-5
                 contextWindow: 1000000
                 defaultMaxTokens: 256000
                 reasoningEfforts: ['off', 'low', 'high', 'max']
                 defaultReasoningEffort: max
-              - id: deepseek-v4-pro
+              - id: nulu-5-ultra
 
     - id: web-search-error-fixture
       name: './web-search-error-fixture.mjs'
 
-- id: web-search-deepseek
-  name: '@deepseek-ai/dsh-web-search-deepseek'
+- id: web-search-gateway
+  name: '@worldapptechnologies/nulu-web-search-gateway'
   config:
     apiKey: snapshot-key
     # The fixture maps this recorded authority to its OS-assigned listener.

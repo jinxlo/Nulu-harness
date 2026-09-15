@@ -2,7 +2,6 @@
 
 Status: implemented
 
-English | [中文](2026-09-10-composer-reference-previews.zh.md)
 
 ## Problem
 

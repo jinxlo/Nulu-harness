@@ -1,5 +1,5 @@
 {
-  "name": "@deepseek-ai/dsh-desktop-host",
+  "name": "@worldapptechnologies/nulu-desktop-host",
   "description": "Private upstream-Node host process for the Electron desktop application",
   "version": "0.1.5-rc.2",
   "private": true,
@@ -11,18 +11,18 @@
     "config/desktop.cordis.patch.yml"
   ],
   "dependencies": {
-    "@deepseek-ai/cordis": "workspace:^",
-    "@deepseek-ai/cordis-plugin-include": "workspace:^",
-    "@deepseek-ai/dsh": "workspace:^",
-    "@deepseek-ai/dsh-api-gateway": "workspace:^",
-    "@deepseek-ai/dsh-app-boot": "workspace:^",
-    "@deepseek-ai/dsh-client-connection": "workspace:^",
-    "@deepseek-ai/dsh-client-modules": "workspace:^",
-    "@deepseek-ai/dsh-client-ui-directory-picker-native": "workspace:^",
-    "@deepseek-ai/dsh-cmdline": "workspace:^",
-    "@deepseek-ai/dsh-host-directory-picker-native": "workspace:^",
-    "@deepseek-ai/dsh-host-webserver": "workspace:^",
-    "@deepseek-ai/dsh-launch-environment": "workspace:^",
-    "@deepseek-ai/dsh-web-frontend": "workspace:^"
+    "@worldapptechnologies/cordis": "workspace:^",
+    "@worldapptechnologies/cordis-plugin-include": "workspace:^",
+    "@worldapptechnologies/nulu": "workspace:^",
+    "@worldapptechnologies/nulu-api-gateway": "workspace:^",
+    "@worldapptechnologies/nulu-app-boot": "workspace:^",
+    "@worldapptechnologies/nulu-client-connection": "workspace:^",
+    "@worldapptechnologies/nulu-client-modules": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-directory-picker-native": "workspace:^",
+    "@worldapptechnologies/nulu-cmdline": "workspace:^",
+    "@worldapptechnologies/nulu-host-directory-picker-native": "workspace:^",
+    "@worldapptechnologies/nulu-host-webserver": "workspace:^",
+    "@worldapptechnologies/nulu-launch-environment": "workspace:^",
+    "@worldapptechnologies/nulu-web-frontend": "workspace:^"
   }
 }

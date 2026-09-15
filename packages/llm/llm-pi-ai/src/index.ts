@@ -11,7 +11,7 @@
  *
  * ```yaml
  * - id: llm
- *   name: '@deepseek-ai/dsh-llm-pi-ai'
+ *   name: '@worldapptechnologies/nulu-llm-pi-ai'
  *   config:
  *     providers:
  *       # Catalog route: everything but the credential comes from pi-ai.
@@ -52,16 +52,16 @@
  *               max: ultra
  * ```
  *
- * @module @deepseek-ai/dsh-llm-pi-ai
+ * @module @worldapptechnologies/nulu-llm-pi-ai
  */
 
-import type { Context } from '@deepseek-ai/cordis'
-import { launchEnvironmentOf } from '@deepseek-ai/dsh-launch-environment'
-import { assertUsableApiKey, LlmError, resolveImageAttachmentAccess } from '@deepseek-ai/dsh-llm'
-import type { AdapterRegistrationHandle, DirectoryRegistrationHandle, LlmConfigurableProvider } from '@deepseek-ai/dsh-llm'
-import type {} from '@deepseek-ai/dsh-fs'
-import type {} from '@deepseek-ai/dsh-settings'
-import { deepEqualJson } from '@deepseek-ai/dsh-util-values'
+import type { Context } from '@worldapptechnologies/cordis'
+import { launchEnvironmentOf } from '@worldapptechnologies/nulu-launch-environment'
+import { assertUsableApiKey, LlmError, resolveImageAttachmentAccess } from '@worldapptechnologies/nulu-llm'
+import type { AdapterRegistrationHandle, DirectoryRegistrationHandle, LlmConfigurableProvider } from '@worldapptechnologies/nulu-llm'
+import type {} from '@worldapptechnologies/nulu-fs'
+import type {} from '@worldapptechnologies/nulu-settings'
+import { deepEqualJson } from '@worldapptechnologies/nulu-util-values'
 import { PiAiAdapter } from './adapter.ts'
 import { authContextFrom, credentialStoreFrom } from './auth.ts'
 import { catalogProviderIds } from './catalog.ts'
@@ -227,7 +227,7 @@ export function apply(ctx: Context, config: Config): void {
     const entries = directoryEntries(profiles())
     if (deepEqualJson(entries, directoryFacts)) return
     // Atomic replace, never dispose-then-register: a route another adapter
-    // family already declares (a profile keyed `deepseek-official`) would
+    // family already declares (a profile keyed `worldapp-gateway`) would
     // otherwise leave this plugin's whole directory withdrawn and the Models
     // page empty. The candidate set is validated first, so a collision keeps
     // the previous entries serving and only costs a diagnostic.

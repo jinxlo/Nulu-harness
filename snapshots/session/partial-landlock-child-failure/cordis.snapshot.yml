@@ -1,32 +1,32 @@
 # Keyless runner-classification composition: replay authored model turns and
 # replace the shipping provider with a deterministic process-launch stand-in.
-- id: llm-deepseek
-  name: '@deepseek-ai/dsh-llm-deepseek'
+- id: llm-gateway
+  name: '@worldapptechnologies/nulu-llm-gateway'
   disabled: true
 
 - id: sandbox
-  name: '@deepseek-ai/dsh-sandbox-local'
+  name: '@worldapptechnologies/nulu-sandbox-local'
   disabled: true
 
 - id: agent-default-model
-  name: '@deepseek-ai/dsh-agent-default-model'
+  name: '@worldapptechnologies/nulu-agent-default-model'
   config:
-    provider: deepseek-official
-    model: deepseek-v4-flash
+    provider: worldapp-gateway
+    model: nulu-5
 
 - id: session-persistence-jsonl
-  name: '@deepseek-ai/dsh-session-persistence-jsonl'
+  name: '@worldapptechnologies/nulu-session-persistence-jsonl'
   config:
-    root: !!js dshHomePath('sessions')
+    root: !!js nuluHomePath('sessions')
     compression: none
 
 - id: agent-instructions
-  name: '@deepseek-ai/dsh-agent-instructions'
+  name: '@worldapptechnologies/nulu-agent-instructions'
   config:
     maxBytes: 65536
 
 - id: system-prompt
-  name: '@deepseek-ai/dsh-system-prompt'
+  name: '@worldapptechnologies/nulu-system-prompt'
   config:
     personaPrefix: |
       You are a coding assistant powered by the {{model}} model. Your working directory is {{cwd}}. Your bash tool runs under a file sandbox — a `[sandbox: file access denied …]` result is policy, not a command bug.
@@ -35,13 +35,13 @@
 
 - insert:
     - id: llm-replay
-      name: '@deepseek-ai/dsh-llm-replay'
+      name: '@worldapptechnologies/nulu-llm-replay'
       config:
         providers:
-          - id: deepseek-official
-            name: DeepSeek
+          - id: worldapp-gateway
+            name: Nulu
             models:
-              - id: deepseek-v4-flash
-              - id: deepseek-v4-pro
+              - id: nulu-5
+              - id: nulu-5-ultra
     - id: partial-landlock-sandbox
       name: '../../../packages/test-support/session-snapshot/tests/fixtures/partial-landlock-sandbox.ts'

@@ -3,7 +3,6 @@
 Status: implemented
 Archived: 2026-09-04
 
-English | [中文](2026-07-29-sticky-composer-conversation-scroll.zh.md)
 
 ## Problem
 

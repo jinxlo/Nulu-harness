@@ -2,7 +2,6 @@
 
 Status: implemented
 
-English | [中文](2026-09-05-continuous-client-recovery.zh.md)
 
 ## Problem
 
@@ -12,7 +11,7 @@ A generation source can remain pending without reporting readiness or carrier fa
 
 [`ConnectionController`](../../../../packages/client/connection/src/client/connection.ts) owns both the readiness deadline and the continuous retry schedule. A handshake reports a slow Host after three seconds and aborts after fifteen seconds by default. The warning gives early feedback without discarding a Host that needs several seconds to become ready; the deadline bounds each attempt and logs the timeout when it cancels the generation. Warning and cancellation times are independent, so a shorter hard deadline does not require changing both fields; a warning scheduled after settlement is cancelled. Cancellation reaches the generation source, which must release its resources and settle before another source starts. A cancelled source's late ready callback cannot establish a generation.
 
-Retry caps grow from 500ms through 1s, 2s, 4s, and 8s to 10s, with the existing 50–100% jitter. Failures at the maximum cap continue retrying. Separating a maximum delay from a retry-count limit follows the distinction in [Socket.IO's Client options](https://socket.io/docs/v4/client-options/#reconnectionattempts), while DSH retains its existing Remote stream protocol and single scheduler. Gateway replaces the physical socket once for each Controller-requested attempt. Both a pending WebSocket candidate and an open socket without an opening ready frame can recover this way.
+Retry caps grow from 500ms through 1s, 2s, 4s, and 8s to 10s, with the existing 50–100% jitter. Failures at the maximum cap continue retrying. Separating a maximum delay from a retry-count limit follows the distinction in [Socket.IO's Client options](https://socket.io/docs/v4/client-options/#reconnectionattempts), while NULU retains its existing Remote stream protocol and single scheduler. Gateway replaces the physical socket once for each Controller-requested attempt. Both a pending WebSocket candidate and an open socket without an opening ready frame can recover this way.
 
 The Host Connection plugin validates `recovery` in its configuration and injects the resolved, non-secret timing into each page through `webserver/index-inject`. The Client validates that bootstrap input before providing Connection; direct loop options may override it. Timer values must be positive integers within the browser timer range, and the backoff factor must be finite and at least one. The shared resolver explicitly rejects `NaN`, which range comparisons alone cannot exclude. A factor of one selects continuous fixed-cap retries. Changes to Host timing apply to subsequently loaded pages.
 

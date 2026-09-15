@@ -5,18 +5,18 @@
 - id: headless-runner
   disabled: true
 
-- id: llm-deepseek
+- id: llm-gateway
   disabled: true
 
 - id: llm-pi-ai
   config:
     providers:
-      deepseek:
-        apiKeyEnv: DEEPSEEK_API_KEY
-        baseURL: !!js process.env.DSH_SNAPSHOT_BASE_URL
+      nulu:
+        apiKeyEnv: WORLD_APP_TECHNOLOGIES_API_KEY
+        baseURL: !!js process.env.NULU_SNAPSHOT_BASE_URL
         reasoning: low
         modelOverrides:
-          deepseek-v4-flash:
+          nulu-5:
             maxTokens: 1024
         streamIdleTimeoutMs: 1000
 
@@ -24,8 +24,8 @@
   config:
     agents:
       - id: main
-        provider: deepseek
-        model: deepseek-v4-flash
+        provider: nulu
+        model: nulu-5
         cwd: !!js process.cwd()
 
 - id: agent-instructions

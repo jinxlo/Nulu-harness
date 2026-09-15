@@ -2,7 +2,6 @@
 
 Status: implemented
 
-English | [中文](2026-07-19-gui-web-client-architecture.zh.md)
 
 > Division of labor: the historical channel-independent layering model and RPC protocol are recorded in the [archived layering and RPC protocol note](../../archived/architecture/2026-07-19-gui-layering-and-rpc-protocol.md); this document = the browser side: how the client cordis tree loads, how UI plugins compose through slots and services, and how the React-free object layer feeds React through immutable snapshots.
 
@@ -15,24 +14,24 @@ Two forces shape the browser client. First, streaming: in an event-driven conver
 Both ends run cordis. The host is a cordis plugin tree; the browser runs a second, client-side cordis tree whose every UI capability is a plugin loaded dynamically by a shell-held loader. Inside that tree, cordis ctx hosts all runtime facts (services, stores, session scopes) and React is pure projection: components import nothing from the framework, receive everything through props, and subscribe to immutable snapshots via `useSyncExternalStore` (uSES below).
 
 ```
-┌─ Host ─────────────────────────┐   ┌─ Browser ─────────────────────────────────────────┐
-│ sessions/agents/SessionLog     │   │ client cordis root ctx                             │
-│ Connection + Gateway: RPC/events│◀─▶│  ├ vendored Loader + ctx.modules（内核，壳静态持有）│
-│ webserver:                     │   │  ├ immediately entries: connection/runtime/        │
-│  ├ GET /plugins/<id>/client.js │   │  │   ui-theme/i18n（fetch bundle，boot 预拉）       │
-│  └ GET / 注入 __DSH_BOOT__ 图  │   │  ├ lazy entries: layout/sidebar/                   │
-│                                │   │  │   conversation/trajectory（fetch bundle，按需） │
-└────────────────────────────────┘   │  ├ ui-renderer（fetch bundle，React 根）       │
-                                     │  └ session scope ×N（观看驱动，惰性建）            │
-                                     │ DOM loading 页 → settled → React UI 一次成型       │
-                                     └────────────────────────────────────────────────────┘
+┌─ Host ──────────────────────────┐   ┌─ Browser ──────────────────────────────────────────┐
+│ sessions/agents/SessionLog      │   │ client cordis root ctx                             │
+│ Connection + Gateway: RPC/events│◀─▶│  ├ vendored Loader + ctx.modules (shell-bundled)   │
+│ webserver:                      │   │  ├ immediately entries: connection/runtime/        │
+│  ├ GET /plugins/<id>/client.js  │   │  │   ui-theme/i18n (fetch bundle, boot-prefetched) │
+│  └ GET / injects boot graph     │   │  ├ lazy entries: layout/sidebar/                   │
+│                                 │   │  │   conversation/trajectory (fetched on demand)   │
+└─────────────────────────────────┘   │  ├ ui-renderer (fetch bundle, React root)          │
+                                      │  └ session scope ×N (view-driven, built lazily)    │
+                                      │  DOM loading page → settled → React UI in one pass │
+                                      └────────────────────────────────────────────────────┘
 ```
 
 ## The client cordis tree and the loading chain
 
-The loading chain — the two package kinds (plain vs dsh.client plugin), the module-system/plugin-governor split, the two-phase boot over the host-authored entry graph with revisions, and hot reload — is owned by the [client plugin loading note](2026-07-23-client-plugin-loading-model.md). The load-bearing facts for this document: the browser boots the same vendored `@cordisjs/plugin-loader` as the host with a client module system (`ctx.modules`, `packages/client/modules`) filling its `internal` contract; every unit with product behavior is an entry in the host-authored `__DSH_BOOT__` graph — every production plugin package (infrastructure included) carries the `dsh.client` declaration and arrives as a fetched `./client` tsdown closure bundle, `immediately` rows differing only in boot phase-one prefetch, while plain packages (react family, cordis, the not-yet-promoted libraries) stay shell-bundled, seeded, and invisible to the graph; bundles execute `window.__ModuleLoader__.load({ id, factory })` and their `require` is answered from the lazy CJS module table (seed words + registered factories, materialized and memoized on first require — cross-plugin value imports are a build error, cooperation goes through cordis services); global styles and CSS Modules are inlined in their owning plugin bundle and injected as `<style data-plugin="<id>">` at materialization (CSS Modules also receive hashed names; ownership tags make reload removal possible); hot reload is live in dev graphs — the webserver stat-polls the bundles it serves and broadcasts `rebuilt` SSE frames, and the `client-hmr` plugin swaps one fiber per frame. After `loader.await()` and an all-ACTIVE sweep, the framework-free kernel calls the dynamic UI renderer's `ctx.uiRenderer.mount(container)` once — every entry is created and every fiber reached ACTIVE, with FAILED/PENDING fibers listed loud; there is no partial-availability mode (progressive rendering is deferred work).
+The loading chain — the two package kinds (plain vs nulu.client plugin), the module-system/plugin-governor split, the two-phase boot over the host-authored entry graph with revisions, and hot reload — is owned by the [client plugin loading note](2026-07-23-client-plugin-loading-model.md). The load-bearing facts for this document: the browser boots the same vendored `@cordisjs/plugin-loader` as the host with a client module system (`ctx.modules`, `packages/client/modules`) filling its `internal` contract; every unit with product behavior is an entry in the host-authored `__NULU_BOOT__` graph — every production plugin package (infrastructure included) carries the `nulu.client` declaration and arrives as a fetched `./client` tsdown closure bundle, `immediately` rows differing only in boot phase-one prefetch, while plain packages (react family, cordis, the not-yet-promoted libraries) stay shell-bundled, seeded, and invisible to the graph; bundles execute `window.__ModuleLoader__.load({ id, factory })` and their `require` is answered from the lazy CJS module table (seed words + registered factories, materialized and memoized on first require — cross-plugin value imports are a build error, cooperation goes through cordis services); global styles and CSS Modules are inlined in their owning plugin bundle and injected as `<style data-plugin="<id>">` at materialization (CSS Modules also receive hashed names; ownership tags make reload removal possible); hot reload is live in dev graphs — the webserver stat-polls the bundles it serves and broadcasts `rebuilt` SSE frames, and the `client-hmr` plugin swaps one fiber per frame. After `loader.await()` and an all-ACTIVE sweep, the framework-free kernel calls the dynamic UI renderer's `ctx.uiRenderer.mount(container)` once — every entry is created and every fiber reached ACTIVE, with FAILED/PENDING fibers listed loud; there is no partial-availability mode (progressive rendering is deferred work).
 
-Type universes stay split at the aggregate level — `tsconfig.host.json` is the host program and `tsconfig.client.json` the client program, both referenced by the solution root `tsconfig.json` — because both sides merge cordis `Context` under the same keys (`sessions`, `loader`) with different services; client packages consume the wire vocabulary through pure type subpaths (`@deepseek-ai/dsh-session/types` and kin) so no host augmentation rides into the client program.
+Type universes stay split at the aggregate level — `tsconfig.host.json` is the host program and `tsconfig.client.json` the client program, both referenced by the solution root `tsconfig.json` — because both sides merge cordis `Context` under the same keys (`sessions`, `loader`) with different services; client packages consume the wire vocabulary through pure type subpaths (`@worldapptechnologies/nulu-session/types` and kin) so no host augmentation rides into the client program.
 
 ## The slot system: how the page composes
 
@@ -65,7 +64,7 @@ Session.handleMuxEnvelope ──► contiguous Event window
         │                ConversationNodeAssembler
         │                  Definitions -> Contexts -> view builders
         ▼
-Notifier 微任务合批 ──► ConversationSnapshot 缓存 ──uSES──► 组件
+Notifier microtask batching ──► ConversationSnapshot cache ──uSES──► components
 ```
 
 - **Session** (session.ts): lazily built, resident — once created it keeps eating frames in the background, so switching away and back renders instantly. Operations: `prompt`/`cancel` (RPC passthrough; failures land in the snapshot's `promptError`), `open` (pull the tail history page, idempotent), `loadOlder` (upward paging, reentry-guarded), `resync` (reconnect = clear the window and rerun open). Subscription: `subscribe`/`getSnapshot` (always the cached reference) — `implements ObservableSnapshot<ConversationSnapshot>`, with `useSelector = bindSnapshotSelector(this)` attached at construction, so a Session is directly a uSES source. Frame dispatch is one switch: `session/event` frames dedup by seq (the only dedup key), buffer while open is in flight, otherwise append + incremental projection; open/stitch merges the live buffer by seq and backfills once if `subscribed.lastSeq` outruns the window tail.
@@ -107,7 +106,7 @@ Domain implementation files never import a sibling domain; shared surfaces route
 
 ## How to develop
 
-- **A new UI feature** = a new plugin package: declare `dsh.client` (+ `inject` topology) in package.json, write the browser half under `src/client/` (apply mounts services/stores and registers slots), keep the node half an empty apply unless there is host logic, build with the shared preset. Add the plugin to the host config; the manifest and loading follow automatically.
+- **A new UI feature** = a new plugin package: declare `nulu.client` (+ `inject` topology) in package.json, write the browser half under `src/client/` (apply mounts services/stores and registers slots), keep the node half an empty apply unless there is host logic, build with the shared preset. Add the plugin to the host config; the manifest and loading follow automatically.
 - **A new slot**: see the [slot system standard note](2026-07-22-slot-type-chain-implementation.md) — merge the contract into `SlotMap`, declare it in the parent entry's `children`, render through the auto-injected `renderSlot` prop. Never export components globally.
 - **Consuming a new frame type**: transport-only session frames → Session's dispatch switch; host-level frames → the Manager routing table; logged conversation business events → a Definition plus a keyed view renderer, without a Session business branch.
 - **Where does this state live**: business data (events, streaming, pending) → always the object layer; what the parent knows → owner props at the renderSlot site; private to one component (scroll, search text, expansion) → component state; shared across entries or surviving remounts (selection, drafts, panel widths) → an entry-declared store ([slot system standard](2026-07-22-slot-type-chain-implementation.md)).

@@ -1,15 +1,14 @@
 ---
-description: "The TypeScript SDK client for callers that spawn a DeepSeek Harness runtime subprocess and drive agent turns over stdio JSON-RPC: the DeepSeekHarness run API and the lower-level HarnessClient."
+description: "The TypeScript SDK client for callers that spawn a Nulu Harness runtime subprocess and drive agent turns over stdio JSON-RPC: the NuluHarness run API and the lower-level HarnessClient."
 kind: "package-library"
 ---
 
-# @deepseek-ai/dsh-sdk-client
+# @worldapptechnologies/nulu-sdk-client
 
-English | [中文](README.zh.md)
 
 ## Summary
 
-`dsh-sdk-client` lets TypeScript programs start and drive a complete DeepSeek Harness runtime over stdio JSON-RPC. Use `DeepSeekHarness` to open sessions, send text or image prompts, collect event and notification streams, and obtain the last committed assistant response when the runtime becomes idle; use `HarnessClient` for direct protocol requests and subscriptions. Callers may provide `dshBin`; otherwise the client resolves the same-version `@deepseek-ai/dsh` executable. The client owns the subprocess across runs, exposes typed transport and protocol failures, and reaps it on `close()` or `await using`. It is suitable when the caller can choose the runtime profile and launch settings.
+`nulu-sdk-client` lets TypeScript programs start and drive a complete Nulu Harness runtime over stdio JSON-RPC. Use `NuluHarness` to open sessions, send text or image prompts, collect event and notification streams, and obtain the last committed assistant response when the runtime becomes idle; use `HarnessClient` for direct protocol requests and subscriptions. Callers may provide `nuluBin`; otherwise the client resolves the same-version `@worldapptechnologies/nulu` executable. The client owns the subprocess across runs, exposes typed transport and protocol failures, and reaps it on `close()` or `await using`. It is suitable when the caller can choose the runtime profile and launch settings.
 
 ## Table of Contents
 
@@ -25,19 +24,19 @@ English | [中文](README.zh.md)
 <a id="use-this-package"></a>
 ## Use this package
 
-Use this client when TypeScript code must drive a complete Harness runtime from another process and you can name the runtime executable explicitly. The common path is minimal: construct a `DeepSeekHarness` with a launch spec, run prompts, and close it so the child process is always reaped.
+Use this client when TypeScript code must drive a complete Harness runtime from another process and you can name the runtime executable explicitly. The common path is minimal: construct a `NuluHarness` with a launch spec, run prompts, and close it so the child process is always reaped.
 
-### Running agent turns with DeepSeekHarness
+### Running agent turns with NuluHarness
 
 ```ts
-import { DeepSeekHarness } from '@deepseek-ai/dsh-sdk-client'
-import { ReasoningEffortId } from '@deepseek-ai/dsh-llm'
+import { NuluHarness } from '@worldapptechnologies/nulu-sdk-client'
+import { ReasoningEffortId } from '@worldapptechnologies/nulu-llm'
 
-await using harness = new DeepSeekHarness({
+await using harness = new NuluHarness({
   profile: 'sdk',
   patches: ['./automation.cordis.yml'],
-  provider: 'deepseek-official',
-  model: 'deepseek-v4-flash',
+  provider: 'worldapp-gateway',
+  model: 'nulu-5',
   reasoningEffort: ReasoningEffortId('max'),
   maxTokens: 49_152,
 })
@@ -51,7 +50,7 @@ The subprocess starts lazily on first use and stays owned by the instance across
 
 `HarnessClient` is the protocol client under the run API: explicit `start()`, `initialize()`, `prompt()`, `request()`, and `close()`, plus notification subscriptions. `prompt()` returns the queued message id as soon as the runtime accepts it and never waits for agent activity. `subscribe(filter?)` returns a `NotificationSubscription` (awaitable `next()`, non-blocking `tryNext()`, async iteration); `subscribeSessionTree(id)` scopes to one session and the descendants discovered from `subagent.started` lineage edges — the runtime notifies for every session in its context, and scoping is client-side, exactly like the Python SDK.
 
-The client exports typed errors for every failure mode: `JsonRpcResponseError` (a wire error response, code and data preserved), `RequestTimeoutError` (a configured bound elapsed), `SdkProtocolError` (a response outside the documented protocol), and `TransportClosedError` (the runtime is gone — the message carries the exit code and a bounded stderr tail). `close()` requests protocol `shutdown` (bounded by `shutdownTimeoutMs`, default 1000 ms), then walks a stdin-EOF → SIGTERM → SIGKILL ladder until the process has exited; it is idempotent, and a closed client refuses reuse. `HarnessClientOptions.env` replaces the child environment entirely when given (`undefined` inherits the parent's); callers own credential policy — `scrubbedParentEnv` from `dsh-subprocess` is the shared scrub base for isolation-minded launches.
+The client exports typed errors for every failure mode: `JsonRpcResponseError` (a wire error response, code and data preserved), `RequestTimeoutError` (a configured bound elapsed), `SdkProtocolError` (a response outside the documented protocol), and `TransportClosedError` (the runtime is gone — the message carries the exit code and a bounded stderr tail). `close()` requests protocol `shutdown` (bounded by `shutdownTimeoutMs`, default 1000 ms), then walks a stdin-EOF → SIGTERM → SIGKILL ladder until the process has exited; it is idempotent, and a closed client refuses reuse. `HarnessClientOptions.env` replaces the child environment entirely when given (`undefined` inherits the parent's); callers own credential policy — `scrubbedParentEnv` from `nulu-subprocess` is the shared scrub base for isolation-minded launches.
 
 -----
 
@@ -65,13 +64,13 @@ This section explains the design behind the client; the observable behavior is f
 
 ### Design concept
 
-The client is two layers over one wire: `DeepSeekHarness` (owned runs) over `HarnessClient` (the protocol client), mirroring the Python SDK's layering. It runs outside any harness context, so it spawns the runtime directly rather than through the `dsh-subprocess` service — the seam's documented exception for SDK-managed transports — and its teardown ladder lives in this package. The runtime notifies for every session in its context; session-tree scoping is a client-side filter over `subagent.started` lineage edges.
+The client is two layers over one wire: `NuluHarness` (owned runs) over `HarnessClient` (the protocol client), mirroring the Python SDK's layering. It runs outside any harness context, so it spawns the runtime directly rather than through the `nulu-subprocess` service — the seam's documented exception for SDK-managed transports — and its teardown ladder lives in this package. The runtime notifies for every session in its context; session-tree scoping is a client-side filter over `subagent.started` lineage edges.
 
 ### Source map
 
 | File | Role |
 |---|---|
-| [`src/api.ts`](src/api.ts) | `DeepSeekHarness` + `HarnessSession`: owned runs, receipt-to-idle collection, `finalResponse` |
+| [`src/api.ts`](src/api.ts) | `NuluHarness` + `HarnessSession`: owned runs, receipt-to-idle collection, `finalResponse` |
 | [`src/client.ts`](src/client.ts) | `HarnessClient`: spawn, handshake, requests, subscription fan-out, typed errors |
 | [`src/dispose.ts`](src/dispose.ts) | Private teardown ladder: stdin EOF → SIGTERM → SIGKILL to actual exit |
 | [`src/types.ts`](src/types.ts) | Launch and timeout options, notification shapes, `RunResult` |
@@ -98,8 +97,8 @@ Read these pages when the client contract is not enough. They move from the wire
 - [SDK wire protocol](../protocol/README.md) — the JSON-RPC methods and payload shapes this client speaks.
 - [JSON-RPC serving plugin](../server/README.md) — the runtime plugin that serves this client.
 - [Python SDK](../../../python/README.md) — the design twin that shares the same runtime peer and protocol.
-- [SDK subagent backend](../../subagent/subagent-dsh-sdk/README.md) — a harness-internal consumer of this client.
-- [SDK application bundle](../../bundle/sdk-app/README.md) — the `dsh --profile sdk` runtime application this client launches.
+- [SDK subagent backend](../../subagent/subagent-nulu-sdk/README.md) — a harness-internal consumer of this client.
+- [SDK application bundle](../../bundle/sdk-app/README.md) — the `nulu --profile sdk` runtime application this client launches.
 
 -----
 
@@ -119,7 +118,7 @@ None in the client process. Profile, patch, provider, model, and history choices
 
 These limits define when the client is a poor fit or needs special care. They are current package constraints, not a comparison with other SDK clients or a task backlog.
 
-- **No bundled-runtime resolution** — the client resolves the same-version `@deepseek-ai/dsh` package (or a caller-provided `dshBin`); packaged-executable discovery stays Python-side until a TypeScript distribution consumer exists.
+- **No bundled-runtime resolution** — the client resolves the same-version `@worldapptechnologies/nulu` package (or a caller-provided `nuluBin`); packaged-executable discovery stays Python-side until a TypeScript distribution consumer exists.
 - **No mid-turn cancel** — the wire has no prompt-cancel method; abandoning a turn means closing the runtime (see the [protocol limitations](../protocol/README.md#known-limitations-and-deferred-work)).
 - **No per-prompt result** — low-level `prompt()` returns only an enqueue receipt; high-level `run()` owns receipt-to-idle collection, and abandoning it means closing the runtime.
 - **Client→server notifications and server→client requests are unimplemented** on both wire ends; the transport carries them for future approval flows.

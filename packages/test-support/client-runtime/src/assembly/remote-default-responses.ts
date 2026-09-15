@@ -4,9 +4,9 @@
  * The comment above each row names the plugin that calls it; endpoints boot
  * never touches stay absent so a new call fails loud. `$events` is built into
  * `RemoteMock`.
- * @module @deepseek-ai/dsh-client-test-runtime/src/assembly/remote-default-responses
+ * @module @worldapptechnologies/nulu-client-test-runtime/src/assembly/remote-default-responses
  */
-import { ok, openStream, type RemoteTable } from '@deepseek-ai/dsh-remote-mock'
+import { ok, openStream, type RemoteTable } from '@worldapptechnologies/nulu-remote-mock'
 
 /** Default responses of the boot-time Remote endpoints; a spec loads it first and layers its own table on top. */
 export const remoteDefaultResponses: RemoteTable = {
@@ -17,7 +17,7 @@ export const remoteDefaultResponses: RemoteTable = {
     'settings/describe': ok({ writable: true, hasDocument: false, namespaces: [] }),
     // ui-model-selection `ModelDirectoryResolver` constructor.
     'session/modelCatalog': ok({
-      default: { provider: 'deepseek-official', model: 'deepseek-v4-flash' },
+      default: { provider: 'worldapp-gateway', model: 'nulu-5' },
       routableProviders: [],
       groups: [],
       failures: [],

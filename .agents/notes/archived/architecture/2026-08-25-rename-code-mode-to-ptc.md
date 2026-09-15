@@ -3,7 +3,6 @@
 Status: implemented
 Archived: 2026-09-04
 
-English | [中文](2026-08-25-rename-code-mode-to-ptc.zh.md)
 
 ## Problem
 
@@ -15,7 +14,7 @@ The feature is renamed to PTC (programmatic tool calls). Code identifiers use `p
 
 Renamed in this PR:
 
-- config value `tools.mode: 'code'` → `'ptc'` (`ToolPresentationMode` and the zod unions in `dsh-tools` and `dsh-agent-tool-presentation`)
+- config value `tools.mode: 'code'` → `'ptc'` (`ToolPresentationMode` and the zod unions in `nulu-tools` and `nulu-agent-tool-presentation`)
 - preset directory `presets/code/` → `presets/ptc/` (preset id `ptc`)
 - source and test files `code-mode.ts` → `ptc.ts` and friends; root demo `demo:code-mode` → `demo:ptc` (`scripts/demo-ptc.mjs`)
 - the dispatch waterfall `tools/code-dispatch-log` → `tools/ptc-dispatch-log` and types `CodeDispatch*` → `PtcDispatch*`
@@ -24,7 +23,7 @@ Renamed in this PR:
 
 The session-persistent vocabulary remains deferred: the durable event types `tool/code-dispatch` / `tool/code-dispatch-start`, the logged plugin name `tools-code-mode`, and the sub-call id segment `:code:`. Renaming those values is a structural Session-format change and requires its own adjacent edge after the identity v0-to-v1 foundation.
 
-Kept unchanged: `run_code` and its `code` parameter (they name the program payload, not the mode), `CodeSdkLanguage`, `CodeRunFailedError`, the `dsh-code-runtime*` package family, the third-party `codex-code-mode-host` binary name, and every frozen archived note.
+Kept unchanged: `run_code` and its `code` parameter (they name the program payload, not the mode), `CodeSdkLanguage`, `CodeRunFailedError`, the `nulu-code-runtime*` package family, the third-party `codex-code-mode-host` binary name, and every frozen archived note.
 
 ## Alternatives considered
 

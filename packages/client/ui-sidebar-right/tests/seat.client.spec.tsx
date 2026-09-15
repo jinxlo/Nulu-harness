@@ -3,13 +3,13 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { act, fireEvent } from '@testing-library/react'
 import { useState } from 'react'
-import { SlotTestRuntime } from '@deepseek-ai/dsh-client-test-runtime'
-import { LocaleRuntime } from '@deepseek-ai/dsh-client-locale/client'
-import type { PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
-import type { MainPanelId } from '@deepseek-ai/dsh-client-ui-layout/client'
-import type { PaneId, SplitId, TabId } from '@deepseek-ai/dsh-client-ui-dockkit'
-import { dockPaneIds, getPane } from '@deepseek-ai/dsh-client-ui-dockkit'
-import type { SessionId } from '@deepseek-ai/dsh-session/types'
+import { SlotTestRuntime } from '@worldapptechnologies/nulu-client-test-runtime'
+import { LocaleRuntime } from '@worldapptechnologies/nulu-client-locale/client'
+import type { PropsRuntime } from '@worldapptechnologies/nulu-client-ui-slots'
+import type { MainPanelId } from '@worldapptechnologies/nulu-client-ui-layout/client'
+import type { PaneId, SplitId, TabId } from '@worldapptechnologies/nulu-client-ui-dockkit'
+import { dockPaneIds, getPane } from '@worldapptechnologies/nulu-client-ui-dockkit'
+import type { SessionId } from '@worldapptechnologies/nulu-session/types'
 import { apply, inject } from '../src/client/index.ts'
 import { intentsFor } from '../src/client/shell/SidebarRight.tsx'
 import type { SidebarRightTabInfo, SidebarRightTabMenuOwnerProps } from '../src/client/contract/slots.ts'
@@ -92,7 +92,7 @@ async function mountSeat(viewportWidth = 1440, canShow = true, entryCount = 0) {
   }
   await act(async () => {
     runtime.ctx.sidebarRightTabs.register({
-      id: 'test/text', kind: 'text', priority: 'builtin', patterns: ['dsh-resource://file/**'],
+      id: 'test/text', kind: 'text', priority: 'builtin', patterns: ['nulu-resource://file/**'],
       title: address => address.slice(address.lastIndexOf('/') + 1),
       guide: Array.from({ length: entryCount }, (_, order) => ({ order, title: () => 'Test', description: () => 'Test page' })),
     })
@@ -104,7 +104,7 @@ async function mountSeat(viewportWidth = 1440, canShow = true, entryCount = 0) {
   const controller = runtime.ctx.sidebarRight
   const layout = () => instance.getSnapshot().bySession[SESSION]!.layout
   const open = (name = 'a.txt', options?: Parameters<typeof controller.openResource>[1]) => {
-    act(() => { controller.openResource(`dsh-resource://file/session/s-test/${name}`, options) })
+    act(() => { controller.openResource(`nulu-resource://file/session/s-test/${name}`, options) })
     return controller.active()!
   }
   return { runtime, feature, controller, instance, actions: instance.actions, layout, open, frame, pin, bodies, titles, hooks, view }
@@ -347,7 +347,7 @@ describe('RightbarSeat fullscreen entry', () => {
     else if (change === 'push') fireEvent.click(element(h.view.container, '[data-sidebar-right-mode]'))
     else if (change === 'session') {
       await h.runtime.sessions.add({ id: OTHER })
-      act(() => { h.controller.openResource('dsh-resource://file/session/s-other/b.txt') })
+      act(() => { h.controller.openResource('nulu-resource://file/session/s-other/b.txt') })
     } else await h.runtime.dispose()
     const openCalls = [...h.frame.openRightbar.mock.calls]
     const closeCalls = h.frame.closeRightbar.mock.calls.length
@@ -430,12 +430,12 @@ describe('slot-owned useTabInfo', () => {
     await h.runtime.sessions.add({ id: OTHER })
     expect(h.instance.getSnapshot()).toBe(stored)
     expect(info.tab.signal.aborted).toBe(false)
-    act(() => { h.controller.openResource('dsh-resource://file/session/s-other/other.txt', { params: { line: 9 } }) })
+    act(() => { h.controller.openResource('nulu-resource://file/session/s-other/other.txt', { params: { line: 9 } }) })
     const otherTab = h.controller.active()!
     expect(otherTab.id).toBe(own.id)
     const otherInfo = h.bodies.get(otherTab.id)!
     expect(otherInfo.tab.signal).not.toBe(info.tab.signal)
-    act(() => { info.tab.actions.openResource('dsh-resource://file/session/s-test/b.txt') })
+    act(() => { info.tab.actions.openResource('nulu-resource://file/session/s-test/b.txt') })
     expect(Object.values(h.layout().tabs).map(tab => tab.title)).toContain('b.txt')
     expect(h.controller.active()?.contentId).toBe(otherTab.contentId)
     expect(h.bodies.get(otherTab.id)?.tab.navigation.params).toEqual({ line: 9 })

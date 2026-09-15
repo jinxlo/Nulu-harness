@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import type { SessionFormatEvent, SessionFormatJsonValue } from '@deepseek-ai/dsh-session-format'
-import { KNOWN_SESSION_EVENT_TYPES } from '@deepseek-ai/dsh-session'
+import type { SessionFormatEvent, SessionFormatJsonValue } from '@worldapptechnologies/nulu-session-format'
+import { KNOWN_SESSION_EVENT_TYPES } from '@worldapptechnologies/nulu-session'
 import {
   RELEASED_V0_EVENT_TYPES,
   RELEASED_V0_EVENT_DISPOSITIONS,
@@ -82,7 +82,7 @@ const validPayloads: Readonly<Record<string, SessionFormatJsonValue>> = {
     version: 1, operation: 'create',
     schedule: { id: 'schedule-1', kind: 'after', prompt: 'remember', afterSeconds: 60, scheduledAt: '2026-08-31T00:00:00.000Z' },
   },
-  'session-log-deepseek/delivery-accepted': { sessionId: 'validation', throughSeq: 0, sessionFormatVersion: 1 },
+  'session-log-gateway/delivery-accepted': { sessionId: 'validation', throughSeq: 0, sessionFormatVersion: 1 },
   'session/end-seed': {},
   'session/title': { title: 'Title', messageSeqs: [0], source: { kind: 'fallback' } },
   'session/title-llm-request': {
@@ -132,10 +132,10 @@ const validPayloads: Readonly<Record<string, SessionFormatJsonValue>> = {
   'turn/end': { turn: 1, reason: { kind: 'completed' } },
   'turn/start': { turn: 1 },
   'user/message': userMessage,
-  'web/deepseek-search-llm-request': {
+  'web/nulu-search-llm-request': {
     endpoint: 'https://example.test/messages', apiVersion: '2023-06-01',
     body: {
-      model: 'deepseek-chat', max_tokens: 100,
+      model: 'nulu-5', max_tokens: 100,
       messages: [{ role: 'user', content: [{ type: 'text', text: 'search' }] }],
       tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 1 }],
     },
@@ -264,8 +264,8 @@ describe('released event and payload inventory', () => {
         },
       }],
       ['todo/write', { todos: [{ content: 'x', status: 'pending', extra: true }] }],
-      ['web/deepseek-search-llm-request', {
-        ...(validPayloads['web/deepseek-search-llm-request'] as Record<string, SessionFormatJsonValue>),
+      ['web/nulu-search-llm-request', {
+        ...(validPayloads['web/nulu-search-llm-request'] as Record<string, SessionFormatJsonValue>),
         body: { model: 'x', max_tokens: 1, messages: [], tools: [], extra: true },
       }],
     ]
@@ -769,15 +769,15 @@ describe('released event and payload inventory', () => {
           })),
         },
       }],
-      ['web/deepseek-search-llm-request', {
+      ['web/nulu-search-llm-request', {
         endpoint: 'x', apiVersion: 'x',
         body: { model: 'm', max_tokens: 1, messages: [{ role: 'user', content: [] }], tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 1 }] },
       }],
-      ['web/deepseek-search-llm-request', {
+      ['web/nulu-search-llm-request', {
         endpoint: 'x', apiVersion: 'x',
         body: { model: 'm', max_tokens: 1, messages: [], tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 1 }] },
       }],
-      ['web/deepseek-search-llm-request', {
+      ['web/nulu-search-llm-request', {
         endpoint: 'x', apiVersion: 'x',
         body: { model: 'm', max_tokens: 1, messages: [{ role: 'user', content: [{ type: 'text', text: 'x' }] }], tools: [] },
       }],

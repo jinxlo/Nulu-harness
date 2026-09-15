@@ -1,9 +1,9 @@
 /**
  * Quick comprehensive documentation-standard tests: the reference example
- * stays valid, the consolidated `dsh-doc` skill carries no stale copied
+ * stays valid, the consolidated `nulu-doc` skill carries no stale copied
  * website values or prototype-era language, and the kind system maps each
  * label to exactly one skill template. Session release records match the
- * writer bound, bilingual counterpart, and evidence links. These run in `pnpm run test` and
+ * writer bound and evidence links. These run in `pnpm run test` and
  * `pnpm run test:docs` to guard the standard between heavier corpus gates.
  * @module scripts/doc-standard.spec
  */
@@ -17,11 +17,8 @@ import { readCurrentSessionFormatVersion } from './gen-session-format-catalog.ts
 const root = resolve(import.meta.dirname, '..')
 const PACKAGE_README_GLOBS = [
   'packages/README.md',
-  'packages/README.zh.md',
   'packages/*/README.md',
-  'packages/*/README.zh.md',
   'packages/*/*/README.md',
-  'packages/*/*/README.zh.md',
 ] as const
 
 function packageReadmes(): string[] {
@@ -32,22 +29,22 @@ function packageReadmes(): string[] {
 }
 
 /**
- * The kind system: each label maps to exactly one template in the dsh-doc
+ * The kind system: each label maps to exactly one template in the nulu-doc
  * skill. The check derives the expected kind from the same mechanical facts
  * the skill documents; a kind without a template, a template without a kind,
  * or a document whose kind does not match its position fails here.
  */
 const KIND_TEMPLATES: Readonly<Record<string, string>> = {
-  'package-group': '.agents/skills/dsh-doc/templates/package-group.md',
-  'package-reference': '.agents/skills/dsh-doc/templates/package-reference.md',
-  'package-library': '.agents/skills/dsh-doc/templates/package-library.md',
-  'package-bundle': '.agents/skills/dsh-doc/templates/package-bundle.md',
+  'package-group': '.agents/skills/nulu-doc/templates/package-group.md',
+  'package-reference': '.agents/skills/nulu-doc/templates/package-reference.md',
+  'package-library': '.agents/skills/nulu-doc/templates/package-library.md',
+  'package-bundle': '.agents/skills/nulu-doc/templates/package-bundle.md',
 }
 
 /**
  * Audited packages whose entry is a plain module API rather than a Cordis
  * plugin (`apply` export or a default service export) or an installable
- * bundle (`dsh.bundle.patch`). Each entry names why the package is a
+ * bundle (`nulu.bundle.patch`). Each entry names why the package is a
  * library; the check re-derives the entry shape so a stale entry fails loud.
  */
 const PACKAGE_LIBRARIES: Readonly<Record<string, string>> = {
@@ -111,12 +108,12 @@ function packageDir(file: string): string {
   return file.replaceAll('\\', '/').replace(/\/README\.zh\.md$/, '').replace(/\/README\.md$/, '')
 }
 
-/** Whether the package manifest declares `dsh.bundle.patch`. */
+/** Whether the package manifest declares `nulu.bundle.patch`. */
 function declaresBundle(dir: string): boolean {
   const manifest = resolve(root, dir, 'package.json')
   if (!existsSync(manifest)) return false
-  const metadata = JSON.parse(readFileSync(manifest, 'utf8')) as { dsh?: { bundle?: { patch?: string } } }
-  return metadata.dsh?.bundle?.patch !== undefined
+  const metadata = JSON.parse(readFileSync(manifest, 'utf8')) as { nulu?: { bundle?: { patch?: string } } }
+  return metadata.nulu?.bundle?.patch !== undefined
 }
 
 /** The expected kind for one package README, from the facts the skill documents. */
@@ -135,17 +132,14 @@ function packageReadmeMetadataErrors(file: string, metadata: Record<string, unkn
   if (typeof metadata.description !== 'string' || metadata.description.trim() === '') {
     errors.push('description must be a non-empty string')
   }
-  for (const field of ['name', 'audience', 'tags', 'i18n']) {
+  for (const field of ['name', 'audience', 'tags']) {
     if (field in metadata) errors.push(`${field} is redundant or has no governed consumer`)
   }
   return errors
 }
 
-function packageReadmeStructureErrors(file: string, source: string): string[] {
-  const chinese = file.endsWith('.zh.md')
-  const required = chinese
-    ? [[/^## 概述$/m, '概述'], [/^## 目录$/m, '目录'], [/^#{2,3} 开发备注$/m, '开发备注']] as const
-    : [[/^## Summary$/m, 'Summary'], [/^## Table of Contents$/m, 'Table of Contents'], [/^#{2,3} Dev Note$/m, 'Dev Note']] as const
+function packageReadmeStructureErrors(source: string): string[] {
+  const required = [[/^## Summary$/m, 'Summary'], [/^## Table of Contents$/m, 'Table of Contents'], [/^#{2,3} Dev Note$/m, 'Dev Note']] as const
   return required.flatMap(([pattern, label]) => pattern.test(source) ? [] : [`missing ${label}`])
 }
 
@@ -178,10 +172,10 @@ function validateSessionFormatRelease(source: string, currentWriterVersion: numb
     throw new Error('latestReleasedVersion must not exceed the current writer version')
   }
   if (typeof evidenceTag !== 'string'
-    || !/^dsh-v\d+\.\d+\.\d+(?:-[\dA-Za-z]+(?:[.-][\dA-Za-z]+)*)?(?:\+[\dA-Za-z]+(?:[.-][\dA-Za-z]+)*)?$/u.test(evidenceTag)) {
-    throw new Error('evidenceTag must be a non-empty dsh-v version tag without URL delimiters')
+    || !/^nulu-v\d+\.\d+\.\d+(?:-[\dA-Za-z]+(?:[.-][\dA-Za-z]+)*)?(?:\+[\dA-Za-z]+(?:[.-][\dA-Za-z]+)*)?$/u.test(evidenceTag)) {
+    throw new Error('evidenceTag must be a non-empty nulu-v version tag without URL delimiters')
   }
-  const repository = 'https://github.com/deepseek-harness/deepseek-harness'
+  const repository = 'https://github.com/nulu-harness/nulu-harness'
   for (const link of [
     `${repository}/releases/tag/${evidenceTag}`,
     `${repository}/blob/${evidenceTag}/packages/core/session/src/types.ts`,
@@ -197,7 +191,7 @@ function sessionFormatReleaseFixture(): { record: SessionFormatRelease; body: st
     readCurrentSessionFormatVersion(root),
   )
   const body = `latestReleasedVersion: ${record.latestReleasedVersion}\nevidenceTag: ${record.evidenceTag}`
-  const repository = 'https://github.com/deepseek-harness/deepseek-harness'
+  const repository = 'https://github.com/nulu-harness/nulu-harness'
   const links = `[release](${repository}/releases/tag/${record.evidenceTag})\n`
     + `[source](${repository}/blob/${record.evidenceTag}/packages/core/session/src/types.ts)`
   return { record, body, links, source: releaseDocument(body, links) }
@@ -208,11 +202,12 @@ function releaseDocument(body: string, links: string): string {
 }
 
 describe('Session format release authority', () => {
-  it('keeps the bilingual release records equal and consistent with the writer and evidence links', () => {
-    const records = ['docs/session-format-status.md', 'docs/session-format-status.zh.md'].map(file =>
-      validateSessionFormatRelease(readFileSync(resolve(root, file), 'utf8'), readCurrentSessionFormatVersion(root)),
+  it('keeps the release record consistent with the writer and evidence links', () => {
+    const record = validateSessionFormatRelease(
+      readFileSync(resolve(root, 'docs/session-format-status.md'), 'utf8'),
+      readCurrentSessionFormatVersion(root),
     )
-    expect(records[0]).toEqual(records[1])
+    expect(record.evidenceTag).toMatch(/^nulu-v/)
   })
 
   it('accepts a released writer and a newer development writer, including format zero', () => {
@@ -269,12 +264,12 @@ describe('Session format release authority', () => {
   it('rejects empty, malformed, and URL-injecting evidence tags', () => {
     const { record, links } = sessionFormatReleaseFixture()
     for (const tag of [
-      null, true, 1, '', ' ', 'dsh-v', record.evidenceTag.replace('dsh-v', 'v'),
+      null, true, 1, '', ' ', 'nulu-v', record.evidenceTag.replace('nulu-v', 'v'),
       `${record.evidenceTag}/other`, `${record.evidenceTag}?query`, `${record.evidenceTag}#fragment`,
       `${record.evidenceTag}%2Fother`, `${record.evidenceTag})`, `${record.evidenceTag}\n`,
     ]) {
       const source = releaseDocument(`latestReleasedVersion: ${record.latestReleasedVersion}\nevidenceTag: ${JSON.stringify(tag)}`, links)
-      expect(() => validateSessionFormatRelease(source, record.latestReleasedVersion), String(tag)).toThrow('dsh-v version tag')
+      expect(() => validateSessionFormatRelease(source, record.latestReleasedVersion), String(tag)).toThrow('nulu-v version tag')
     }
   })
 
@@ -294,15 +289,14 @@ describe('Session format release authority', () => {
   })
 })
 
-describe('dsh-doc skill consolidation', () => {
+describe('nulu-doc skill consolidation', () => {
   it('carries no prototype-era language', () => {
     const files = [
-      '.agents/skills/dsh-doc/SKILL.md',
-      '.agents/skills/dsh-doc/references/metadata-links-i18n.md',
-      '.agents/skills/dsh-doc/references/structure-hierarchy.md',
-      '.agents/skills/dsh-doc/references/style.md',
-      '.agents/skills/dsh-doc/references/review.md',
-      '.agents/skills/dsh-doc/references/website-sync.md',
+      '.agents/skills/nulu-doc/SKILL.md',
+      '.agents/skills/nulu-doc/references/structure-hierarchy.md',
+      '.agents/skills/nulu-doc/references/style.md',
+      '.agents/skills/nulu-doc/references/review.md',
+      '.agents/skills/nulu-doc/references/website-sync.md',
     ]
     for (const file of files) {
       const source = readFileSync(resolve(root, file), 'utf8')
@@ -311,20 +305,19 @@ describe('dsh-doc skill consolidation', () => {
   })
 
   it('copies no stale website sidebar or section-owner values', () => {
-    const source = readFileSync(resolve(root, '.agents/skills/dsh-doc/references/website-sync.md'), 'utf8')
+    const source = readFileSync(resolve(root, '.agents/skills/nulu-doc/references/website-sync.md'), 'utf8')
     expect(source).not.toContain('en-docs')
     expect(source).not.toContain('sectionOrder')
   })
 
   it('keeps the reference example linked from the skill', () => {
-    const skill = readFileSync(resolve(root, '.agents/skills/dsh-doc/SKILL.md'), 'utf8')
+    const skill = readFileSync(resolve(root, '.agents/skills/nulu-doc/SKILL.md'), 'utf8')
     expect(skill).toContain('session-persistence-jsonl/README.md')
-    expect(skill).toContain('session-persistence-jsonl/README.zh.md')
   })
 
   it('defines controlled English as a precision-preserving review discipline', () => {
-    const skill = readFileSync(resolve(root, '.agents/skills/dsh-doc/SKILL.md'), 'utf8')
-    const style = readFileSync(resolve(root, '.agents/skills/dsh-doc/references/style.md'), 'utf8')
+    const skill = readFileSync(resolve(root, '.agents/skills/nulu-doc/SKILL.md'), 'utf8')
+    const style = readFileSync(resolve(root, '.agents/skills/nulu-doc/references/style.md'), 'utf8')
     expect(skill).toContain('references/style.md#controlled-technical-english')
     expect(style).toContain('not certified ASD-STE100 compliance')
     expect(style).toContain('review prompts, not mechanical gates')
@@ -332,7 +325,7 @@ describe('dsh-doc skill consolidation', () => {
   })
 
   it('maps every kind label to exactly one skill template that exists', () => {
-    const templateFiles = globSync('.agents/skills/dsh-doc/templates/*.md', { cwd: root }).map(path => path.split(sep).join('/')).sort()
+    const templateFiles = globSync('.agents/skills/nulu-doc/templates/*.md', { cwd: root }).map(path => path.split(sep).join('/')).sort()
     const registered = Object.values(KIND_TEMPLATES).sort()
     expect(templateFiles).toEqual(registered)
     for (const [kind, template] of Object.entries(KIND_TEMPLATES)) {
@@ -365,7 +358,7 @@ describe('dsh-doc skill consolidation', () => {
   it('keeps every package README on the summary, contents, and Dev Note skeleton', () => {
     for (const file of packageReadmes().filter(file => file.split('/').length === 4)) {
       const source = readFileSync(resolve(root, file), 'utf8')
-      expect(packageReadmeStructureErrors(file, source), file).toEqual([])
+      expect(packageReadmeStructureErrors(source), file).toEqual([])
     }
   })
 
@@ -376,46 +369,15 @@ describe('dsh-doc skill consolidation', () => {
       name: 'example',
       audience: ['developer'],
       tags: ['example'],
-      i18n: { counterpart: 'README.zh.md' },
     })).toEqual([
       'kind must be package-group',
       'name is redundant or has no governed consumer',
       'audience is redundant or has no governed consumer',
       'tags is redundant or has no governed consumer',
-      'i18n is redundant or has no governed consumer',
     ])
     expect(packageReadmeMetadataErrors('packages\\example\\package\\README.md', {
       description: 'Example package.',
       kind: 'package-reference',
     })).toEqual([])
-  })
-
-  it('rejects README-local i18n metadata', () => {
-    expect(packageReadmeMetadataErrors('packages\\example\\package\\README.md', {
-      description: 'Example package.',
-      kind: 'package-reference',
-      i18n: {
-        'counterpart': 'packages/example/package/README.zh.md',
-        'line-aligned': true,
-      },
-    })).toEqual([
-      'i18n is redundant or has no governed consumer',
-    ])
-  })
-})
-
-describe('reference-example README pair', () => {
-  const dir = 'packages/session/session-persistence-jsonl'
-
-  it('keeps exact English/Chinese physical line alignment', () => {
-    const sourceLines = readFileSync(resolve(root, dir, 'README.md'), 'utf8').split('\n').length
-    const zhLines = readFileSync(resolve(root, dir, 'README.zh.md'), 'utf8').split('\n').length
-    expect(sourceLines).toBe(zhLines)
-  })
-
-  it('keeps the sidecar consistency record present', () => {
-    const sidecar = readFileSync(resolve(root, dir, 'README.i18n.yaml'), 'utf8')
-    expect(sidecar).toMatch(/^README\.md: [0-9a-f]{40}$/m)
-    expect(sidecar).toMatch(/^README\.zh\.md: [0-9a-f]{40}$/m)
   })
 })

@@ -27,7 +27,7 @@ env:
   PRIMARY_NODE_VERSION: '24'
   # CI runs must never report to the production telemetry endpoint baked
   # into apps/cli/cordis.yml (AppCLIEntry disables the row when set).
-  DSH_TELEMETRY_DISABLED: '1'
+  NULU_TELEMETRY_DISABLED: '1'
 
 jobs:
   # These native runtime carriers are post-merge checks; release keeps all targets.
@@ -39,7 +39,7 @@ jobs:
       targets: node24-linux-arm64,node24-macos-arm64,node24-macos-x64
       ci: true
     secrets:
-      DEEPSEEK_API_KEY_EXTERNAL: ${{ secrets.DEEPSEEK_API_KEY_EXTERNAL }}
+      WORLD_APP_TECHNOLOGIES_API_KEY_EXTERNAL: ${{ secrets.WORLD_APP_TECHNOLOGIES_API_KEY_EXTERNAL }}
 
   # Wine runs once here, independently of the native serial standby aggregates.
   windows:
@@ -124,7 +124,7 @@ jobs:
   # re-runs the complete unsharded aggregate on the persistent 64-core VM,
   # continuously proving that environment can take over a required lane if
   # the hosted pools degrade (the switch is then setting the writer-manageable
-  # DSH_CI_FAILOVER_LINUX variable — see the failover runbook, no merge required).
+  # NULU_CI_FAILOVER_LINUX variable — see the failover runbook, no merge required).
   # Push-triggered, so this lane always executes the base branch's own
   # workflow definition. This workflow never listens to pull_request, so the
   # drill does not appear in PR checks. No cache steps because the VM's
@@ -135,7 +135,7 @@ jobs:
     name: serial / linux (self-hosted standby)
     runs-on: [self-hosted, linux, x64, vm-backup]
     steps:
-      # DSH_ARCHIVE_BASE_REF below compares the frozen-archive gate against
+      # NULU_ARCHIVE_BASE_REF below compares the frozen-archive gate against
       # github.event.before, so full history is required: depth 2 would miss it
       # on multi-commit or force pushes; full fetch is cheap here because
       # checkout resolves against the VM's local mirror.
@@ -166,20 +166,20 @@ jobs:
       # The persistent VM image owns Playwright's Linux system packages; this
       # step also proves that browser provisioning remains usable for failover.
       - name: Install Playwright Chromium
-        run: pnpm --filter @deepseek-ai/dsh-web-frontend exec playwright install chromium
+        run: pnpm --filter @worldapptechnologies/nulu-web-frontend exec playwright install chromium
 
       - name: Prepare bubblewrap (unrestrict userns)
         run: bash scripts/prepare-ci-bubblewrap.sh
 
       - name: Run complete unsharded primary Node CI serially
         env:
-          DSH_ARCHIVE_BASE_REF: ${{ github.event.before }}
-          DSH_COVERAGE_MAX_WORKERS: '1'
-          DSH_E2E_MAX_WORKERS: '1'
-          DSH_GATE_CONCURRENCY: '1'
-          DSH_OXLINT_THREADS: '1'
-          DSH_PUBLINT_CONCURRENCY: '1'
-          DSH_SNAPSHOT_MAX_CONCURRENCY: '1'
+          NULU_ARCHIVE_BASE_REF: ${{ github.event.before }}
+          NULU_COVERAGE_MAX_WORKERS: '1'
+          NULU_E2E_MAX_WORKERS: '1'
+          NULU_GATE_CONCURRENCY: '1'
+          NULU_OXLINT_THREADS: '1'
+          NULU_PUBLINT_CONCURRENCY: '1'
+          NULU_SNAPSHOT_MAX_CONCURRENCY: '1'
         run: pnpm run check:ci:linux-primary
 
   # TODO(hosted-serial-ci): Re-enable the one remaining disabled hosted serial
@@ -206,18 +206,18 @@ jobs:
 
       - name: Run complete unsharded primary Node CI serially
         env:
-          DSH_COVERAGE_MAX_WORKERS: '1'
-          DSH_E2E_MAX_WORKERS: '1'
-          DSH_GATE_CONCURRENCY: '1'
-          DSH_PUBLINT_CONCURRENCY: '1'
-          DSH_SNAPSHOT_MAX_CONCURRENCY: '1'
+          NULU_COVERAGE_MAX_WORKERS: '1'
+          NULU_E2E_MAX_WORKERS: '1'
+          NULU_GATE_CONCURRENCY: '1'
+          NULU_PUBLINT_CONCURRENCY: '1'
+          NULU_SNAPSHOT_MAX_CONCURRENCY: '1'
         run: pnpm run check:ci
 
   # Hot-standby drill for the in-house self-hosted Windows pool: every master
   # move re-runs the complete unsharded Windows gate inventory on the persistent
   # VM, continuously proving that environment can take over the required
   # `windows` lane if the hosted pool degrades (the switch is setting the
-  # writer-manageable DSH_CI_FAILOVER_WINDOWS variable — see the failover
+  # writer-manageable NULU_CI_FAILOVER_WINDOWS variable — see the failover
   # runbook, no merge required). Push-triggered, so this lane always executes
   # the base branch's own workflow definition. This workflow never listens to
   # pull_request, so the drill does not appear in PR checks. No cache steps
@@ -227,7 +227,7 @@ jobs:
   serial-windows:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     name: serial / windows (self-hosted standby)
-    runs-on: [self-hosted, dsh-win-ci, windows]
+    runs-on: [self-hosted, nulu-win-ci, windows]
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@v6
@@ -271,10 +271,10 @@ jobs:
       - name: Run complete unsharded Windows gate inventory serially
         shell: pwsh
         env:
-          DSH_COVERAGE_MAX_WORKERS: '1'
-          DSH_COVERAGE_TEST_TIMEOUT_MS: '90000'
-          DSH_GATE_CONCURRENCY: '1'
-          DSH_PUBLINT_CONCURRENCY: '1'
+          NULU_COVERAGE_MAX_WORKERS: '1'
+          NULU_COVERAGE_TEST_TIMEOUT_MS: '90000'
+          NULU_GATE_CONCURRENCY: '1'
+          NULU_PUBLINT_CONCURRENCY: '1'
         run: pnpm run check:ci:windows-complete
 
   # Manual, bounded comparison of the actual critical Linux and Windows lanes.
@@ -286,8 +286,8 @@ jobs:
     # 32 vCPU) move onto their Blacksmith equivalents, while the 64/96-core
     # rows keep the fleet labels because Blacksmith has no such tier.
     runs-on: >-
-      ${{ (matrix.platform == 'linux' && vars.DSH_CI_FAILOVER_LINUX == 'blacksmith'
-            || matrix.platform == 'windows' && vars.DSH_CI_FAILOVER_WINDOWS == 'blacksmith')
+      ${{ (matrix.platform == 'linux' && vars.NULU_CI_FAILOVER_LINUX == 'blacksmith'
+            || matrix.platform == 'windows' && vars.NULU_CI_FAILOVER_WINDOWS == 'blacksmith')
           && matrix.blacksmith
           || matrix.runner }}
     timeout-minutes: 15
@@ -298,62 +298,62 @@ jobs:
         include:
           - platform: linux
             cores: '4'
-            runner: dsh-ubuntu-24-04-4core
+            runner: nulu-ubuntu-24-04-4core
             blacksmith: blacksmith-4vcpu-ubuntu-2404
             workload: typecheck
           - platform: linux
             cores: '8'
-            runner: dsh-ubuntu-24-04-8core
+            runner: nulu-ubuntu-24-04-8core
             blacksmith: blacksmith-8vcpu-ubuntu-2404
             workload: typecheck
           - platform: linux
             cores: '16'
-            runner: dsh-ubuntu-24-04-16core
+            runner: nulu-ubuntu-24-04-16core
             blacksmith: blacksmith-16vcpu-ubuntu-2404
             workload: typecheck
           - platform: linux
             cores: '32'
-            runner: dsh-ubuntu-24-04-32core
+            runner: nulu-ubuntu-24-04-32core
             blacksmith: blacksmith-32vcpu-ubuntu-2404
             workload: typecheck
           - platform: linux
             cores: '64'
-            runner: dsh-ubuntu-24-04-64core
+            runner: nulu-ubuntu-24-04-64core
             blacksmith: ''
             workload: typecheck
           - platform: linux
             cores: '96'
-            runner: dsh-ubuntu-24-04-96core
+            runner: nulu-ubuntu-24-04-96core
             blacksmith: ''
             workload: typecheck
           - platform: windows
             cores: '4'
-            runner: dsh-windows-2025-4core
+            runner: nulu-windows-2025-4core
             blacksmith: blacksmith-4vcpu-windows-2025
             workload: production-site
           - platform: windows
             cores: '8'
-            runner: dsh-windows-2025-8core
+            runner: nulu-windows-2025-8core
             blacksmith: blacksmith-8vcpu-windows-2025
             workload: production-site
           - platform: windows
             cores: '16'
-            runner: dsh-windows-2025-16core
+            runner: nulu-windows-2025-16core
             blacksmith: blacksmith-16vcpu-windows-2025
             workload: production-site
           - platform: windows
             cores: '32'
-            runner: dsh-windows-2025-32core
+            runner: nulu-windows-2025-32core
             blacksmith: blacksmith-32vcpu-windows-2025
             workload: production-site
           - platform: windows
             cores: '64'
-            runner: dsh-windows-2025-64core
+            runner: nulu-windows-2025-64core
             blacksmith: ''
             workload: production-site
           - platform: windows
             cores: '96'
-            runner: dsh-windows-2025-96core
+            runner: nulu-windows-2025-96core
             blacksmith: ''
             workload: production-site
     steps:
@@ -397,8 +397,8 @@ jobs:
     # 32 vCPU) move onto their Blacksmith equivalents, while the 64/96-core
     # rows keep the fleet labels because Blacksmith has no such tier.
     runs-on: >-
-      ${{ (matrix.platform == 'linux' && vars.DSH_CI_FAILOVER_LINUX == 'blacksmith'
-            || matrix.platform == 'windows' && vars.DSH_CI_FAILOVER_WINDOWS == 'blacksmith')
+      ${{ (matrix.platform == 'linux' && vars.NULU_CI_FAILOVER_LINUX == 'blacksmith'
+            || matrix.platform == 'windows' && vars.NULU_CI_FAILOVER_WINDOWS == 'blacksmith')
           && matrix.blacksmith
           || matrix.runner }}
     timeout-minutes: 15
@@ -409,62 +409,62 @@ jobs:
         include:
           - platform: linux
             cores: '4'
-            runner: dsh-ubuntu-24-04-4core
+            runner: nulu-ubuntu-24-04-4core
             blacksmith: blacksmith-4vcpu-ubuntu-2404
             workers: '4'
           - platform: linux
             cores: '8'
-            runner: dsh-ubuntu-24-04-8core
+            runner: nulu-ubuntu-24-04-8core
             blacksmith: blacksmith-8vcpu-ubuntu-2404
             workers: '8'
           - platform: linux
             cores: '16'
-            runner: dsh-ubuntu-24-04-16core
+            runner: nulu-ubuntu-24-04-16core
             blacksmith: blacksmith-16vcpu-ubuntu-2404
             workers: '16'
           - platform: linux
             cores: '32'
-            runner: dsh-ubuntu-24-04-32core
+            runner: nulu-ubuntu-24-04-32core
             blacksmith: blacksmith-32vcpu-ubuntu-2404
             workers: '32'
           - platform: linux
             cores: '64'
-            runner: dsh-ubuntu-24-04-64core
+            runner: nulu-ubuntu-24-04-64core
             blacksmith: ''
             workers: '32'
           - platform: linux
             cores: '96'
-            runner: dsh-ubuntu-24-04-96core
+            runner: nulu-ubuntu-24-04-96core
             blacksmith: ''
             workers: '32'
           - platform: windows
             cores: '4'
-            runner: dsh-windows-2025-4core
+            runner: nulu-windows-2025-4core
             blacksmith: blacksmith-4vcpu-windows-2025
             workers: '2'
           - platform: windows
             cores: '8'
-            runner: dsh-windows-2025-8core
+            runner: nulu-windows-2025-8core
             blacksmith: blacksmith-8vcpu-windows-2025
             workers: '2'
           - platform: windows
             cores: '16'
-            runner: dsh-windows-2025-16core
+            runner: nulu-windows-2025-16core
             blacksmith: blacksmith-16vcpu-windows-2025
             workers: '2'
           - platform: windows
             cores: '32'
-            runner: dsh-windows-2025-32core
+            runner: nulu-windows-2025-32core
             blacksmith: blacksmith-32vcpu-windows-2025
             workers: '2'
           - platform: windows
             cores: '64'
-            runner: dsh-windows-2025-64core
+            runner: nulu-windows-2025-64core
             blacksmith: ''
             workers: '2'
           - platform: windows
             cores: '96'
-            runner: dsh-windows-2025-96core
+            runner: nulu-windows-2025-96core
             blacksmith: ''
             workers: '2'
     steps:
@@ -509,16 +509,16 @@ jobs:
       - name: Run complete unsharded primary Node CI concurrently
         if: matrix.platform == 'linux'
         env:
-          DSH_COVERAGE_MAX_WORKERS: ${{ matrix.workers }}
-          DSH_GATE_CONCURRENCY: ${{ matrix.workers }}
-          DSH_OXLINT_THREADS: ${{ matrix.workers }}
-          DSH_PUBLINT_CONCURRENCY: ${{ matrix.workers }}
-          DSH_SNAPSHOT_MAX_CONCURRENCY: ${{ matrix.workers }}
+          NULU_COVERAGE_MAX_WORKERS: ${{ matrix.workers }}
+          NULU_GATE_CONCURRENCY: ${{ matrix.workers }}
+          NULU_OXLINT_THREADS: ${{ matrix.workers }}
+          NULU_PUBLINT_CONCURRENCY: ${{ matrix.workers }}
+          NULU_SNAPSHOT_MAX_CONCURRENCY: ${{ matrix.workers }}
         run: pnpm run check:ci
 
       - name: Run blocking Windows builds concurrently
         if: matrix.platform == 'windows'
         shell: pwsh
         env:
-          DSH_GATE_CONCURRENCY: ${{ matrix.workers }}
+          NULU_GATE_CONCURRENCY: ${{ matrix.workers }}
         run: pnpm run check:ci:windows-blocking

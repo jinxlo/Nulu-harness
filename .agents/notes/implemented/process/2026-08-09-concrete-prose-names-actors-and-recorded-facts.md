@@ -2,7 +2,6 @@
 
 Status: implemented
 
-English | [中文](2026-08-09-concrete-prose-names-actors-and-recorded-facts.zh.md)
 
 ## Problem
 
@@ -16,7 +15,7 @@ Maintained prose names the exact actor, action, source, event, field, file, or p
 
 The rule applies to Markdown, READMEs, active Agent Notes, JSDoc and comments, prompts, diagnostics, and user-visible strings. An audit judges each sentence separately; it does not replace a term across the repository with one preferred synonym. The edited sentence preserves actor, action, conditions, order, modality, exceptions, ownership, failure behavior, and consequences.
 
-Comments retain only facts that nearby code cannot express. Documentation stays at its owning level and omits private control flow and rare implementation cases unless they change supported behavior, safe use, compatibility, data integrity, security, or another maintained contract. The [simplification workflow](../../../skills/dsh-find-simplifications/SKILL.md) applies this rule while surveying code and prose together.
+Comments retain only facts that nearby code cannot express. Documentation stays at its owning level and omits private control flow and rare implementation cases unless they change supported behavior, safe use, compatibility, data integrity, security, or another maintained contract. The [simplification workflow](../../../skills/nulu-find-simplifications/SKILL.md) applies this rule while surveying code and prose together.
 
 Exact code identifiers, public APIs, durable fields, protocol members, type names, headings with external references, and filenames stay unchanged unless a coordinated contract rename is independently required. Surrounding prose explains their fields or behavior directly. Generated documents and catalogs update from their owning source.
 
@@ -34,4 +33,4 @@ This decision complements the [documentation tiers and budgets](2026-07-04-doc-t
 
 ## Consequences
 
-Documentation and diagnostics may use a few more words, but each statement tells readers which value or process matters without requiring source inspection. Repository-wide prose audits require semantic classification and cannot use blind replacement. Bilingual counterparts preserve the same concrete fact, and generated copies are refreshed only after their owning source changes.
+Documentation and diagnostics may use a few more words, but each statement tells readers which value or process matters without requiring source inspection. Repository-wide prose audits require semantic classification and cannot use blind replacement. Translated README siblings preserve the same concrete facts as their English owners, and generated copies are refreshed only after their owning source changes.

@@ -12,15 +12,15 @@ afterEach(() => {
 })
 
 function fixture(packages: Readonly<Record<string, readonly string[]>>): string {
-  const root = mkdtempSync(join(tmpdir(), 'dsh-package-graph-'))
+  const root = mkdtempSync(join(tmpdir(), 'nulu-package-graph-'))
   roots.push(root)
   for (const [name, dependencies] of Object.entries(packages)) {
     const directory = join(root, 'packages', 'client', name)
     mkdirSync(directory, { recursive: true })
     writeFileSync(join(directory, 'package.json'), `${JSON.stringify({
-      name: `@deepseek-ai/dsh-${name}`,
+      name: `@worldapptechnologies/nulu-${name}`,
       peerDependencies: Object.fromEntries(dependencies.map(dependency => [
-        `@deepseek-ai/dsh-${dependency}`,
+        `@worldapptechnologies/nulu-${dependency}`,
         'workspace:^',
       ])),
     }, null, 2)}\n`)
@@ -47,26 +47,21 @@ describe('collectPackageGraph', () => {
     const root = fixture({ consumer: ['missing'] })
 
     expect(() => collectPackageGraph(root, ['client'], 'fixture'))
-      .toThrow('fixture: @deepseek-ai/dsh-consumer references missing in-repo peer @deepseek-ai/dsh-missing')
+      .toThrow('fixture: @worldapptechnologies/nulu-consumer references missing in-repo peer @worldapptechnologies/nulu-missing')
   })
 })
 
 describe('renderModuleGraph', () => {
-  it('renders the same peer edge in both generated languages', () => {
+  it('renders each peer edge in the mermaid graph and the dependency table', () => {
     const packages = [
-      { short: 'provider', name: '@deepseek-ai/dsh-provider', group: 'core', rel: 'packages/core/provider', deps: [] },
-      { short: 'consumer', name: '@deepseek-ai/dsh-consumer', group: 'core', rel: 'packages/core/consumer', deps: ['provider'] },
+      { short: 'provider', name: '@worldapptechnologies/nulu-provider', group: 'core', rel: 'packages/core/provider', deps: [] },
+      { short: 'consumer', name: '@worldapptechnologies/nulu-consumer', group: 'core', rel: 'packages/core/consumer', deps: ['provider'] },
     ]
 
-    const english = renderModuleGraph(packages, 'en')
-    const chinese = renderModuleGraph(packages, 'zh')
+    const graph = renderModuleGraph(packages)
 
-    expect(english).toContain('# Shared-instance dependency graph')
-    expect(chinese).toContain('# 共享实例依赖关系图')
-    expect(chinese).toContain('[English](module-graph.md) | 中文')
-    for (const output of [english, chinese]) {
-      expect(output).toContain('pkg_consumer --> pkg_provider')
-      expect(output).toContain('| [`consumer`](../packages/core/consumer) | `core` | [`provider`](../packages/core/provider) |')
-    }
+    expect(graph).toContain('# Shared-instance dependency graph')
+    expect(graph).toContain('pkg_consumer --> pkg_provider')
+    expect(graph).toContain('| [`consumer`](../packages/core/consumer) | `core` | [`provider`](../packages/core/provider) |')
   })
 })

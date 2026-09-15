@@ -5,12 +5,12 @@ import type {
   SessionFormatHeader,
   SessionFormatJsonObject,
   SessionFormatJsonValue,
-} from '@deepseek-ai/dsh-session-format'
+} from '@worldapptechnologies/nulu-session-format'
 import {
   RELEASED_V2_EVENT_TYPES,
   assertReleasedV2Header,
   restoreReleasedV2Artifact,
-} from '@deepseek-ai/dsh-session-format-v1-to-v2'
+} from '@worldapptechnologies/nulu-session-format-v1-to-v2'
 import { assertReleasedV2Artifact } from '../src/testing/validation.ts'
 
 const textBlock = { type: 'text', text: 'hello' } as const
@@ -412,7 +412,7 @@ describe('released v2 seed and surface relationships', () => {
       event('turn/end', 0, { turn: 1, reason: { kind: 'completed' } }),
     ])) }).toThrow(/no matching open turn/)
     expect(() => { assertReleasedV2Artifact(artifact([
-      event('session-log-deepseek/delivery-accepted', 0, {
+      event('session-log-gateway/delivery-accepted', 0, {
         sessionId: 'other', throughSeq: 0, sessionFormatVersion: 2,
       }),
     ])) }).toThrow(/throughSeq/)

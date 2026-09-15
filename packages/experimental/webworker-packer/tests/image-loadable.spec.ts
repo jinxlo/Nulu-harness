@@ -20,25 +20,25 @@ import { existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
-import { FiberState } from '@deepseek-ai/cordis'
-import { createNodeBuiltins, REPLACED_PREFIXES } from '@deepseek-ai/dsh-experimental-webworker-runtime/src/node/builtins.ts'
+import { FiberState } from '@worldapptechnologies/cordis'
+import { createNodeBuiltins, REPLACED_PREFIXES } from '@worldapptechnologies/nulu-experimental-webworker-runtime/src/node/builtins.ts'
 import {
   setActiveModuleLoader, WorkerModuleLoader,
-} from '@deepseek-ai/dsh-experimental-webworker-runtime/src/module-system/module-loader.ts'
-import { inflateImage } from '@deepseek-ai/dsh-experimental-webworker-runtime/src/storage/image-gzip.ts'
-import { loadVfsImage } from '@deepseek-ai/dsh-experimental-webworker-runtime/src/storage/memory.ts'
-import { setActiveVfs } from '@deepseek-ai/dsh-experimental-webworker-runtime/src/storage/active.ts'
+} from '@worldapptechnologies/nulu-experimental-webworker-runtime/src/module-system/module-loader.ts'
+import { inflateImage } from '@worldapptechnologies/nulu-experimental-webworker-runtime/src/storage/image-gzip.ts'
+import { loadVfsImage } from '@worldapptechnologies/nulu-experimental-webworker-runtime/src/storage/memory.ts'
+import { setActiveVfs } from '@worldapptechnologies/nulu-experimental-webworker-runtime/src/storage/active.ts'
 import { indexWorkspacePackages, previewFixtures } from '../src/repository.ts'
 import { DEFAULT_ROOT, MANIFEST_PATH, packVfsImage, packVfsOverlay } from '../src/pack.ts'
 
 const repoRoot = fileURLToPath(new URL('../../../../', import.meta.url))
 
 /** A leaf workspace package: real build output, no dependencies to drag in. */
-const SUBJECT = '@deepseek-ai/dsh-timeout'
-const LANDLOCK = '@deepseek-ai/node-addon-system'
+const SUBJECT = '@worldapptechnologies/nulu-timeout'
+const LANDLOCK = '@worldapptechnologies/node-addon-system'
 const LANDLOCK_ENTRY = `${LANDLOCK}/landlock-run`
-const PLUGIN_INVENTORY = '@deepseek-ai/dsh-plugin-package-inventory-deepseek'
-const WEB_SERVER = '@deepseek-ai/dsh-host-webserver'
+const PLUGIN_INVENTORY = '@worldapptechnologies/nulu-plugin-package-inventory'
+const WEB_SERVER = '@worldapptechnologies/nulu-host-webserver'
 
 const workspaces = indexWorkspacePackages(repoRoot)
 
@@ -86,7 +86,7 @@ const subjectBuilt = [
   'vendor/include/lib/index.js',
   'vendor/loader/lib/index.js',
   'packages/host/webserver/lib/index.js',
-  'packages/llm/plugin-package-inventory-deepseek/lib/index.js',
+  'packages/llm/plugin-package-inventory/lib/index.js',
   'native/system/packages/entry/lib/index.js',
   'packages/preset/agent-presets/lib/typert.host.js',
   'packages/preset/agent-presets/lib/typert.remote-client.js',
@@ -305,9 +305,9 @@ const archive = async (): Promise<Uint8Array> =>
     inventory.apply({
       baseUrl,
       loader: tree,
-      deepseekLlmApiExtensions: {
+      nuluLlmApiExtensions: {
         register: (field: string, contribution: { readonly prepare: Prepare }): void => {
-          expect(field).toBe('dsh_plugin_packages')
+          expect(field).toBe('nulu_plugin_packages')
           prepare = contribution.prepare
         },
       },

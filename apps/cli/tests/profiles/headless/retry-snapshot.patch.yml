@@ -5,15 +5,15 @@
 - id: headless-runner
   disabled: true
 
-- id: llm-deepseek
+- id: llm-gateway
   disabled: true
 
 - id: agent-loop
   config:
     agents:
       - id: main
-        provider: deepseek-official
-        model: deepseek-v4-flash
+        provider: worldapp-gateway
+        model: nulu-5
         cwd: !!js process.cwd()
 
 - id: session-persistence-jsonl

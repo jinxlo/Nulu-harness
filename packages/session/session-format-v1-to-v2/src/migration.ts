@@ -1,10 +1,10 @@
-import { AssistantStreamAccumulator } from '@deepseek-ai/dsh-llm'
-import type { AssistantStreamRecord } from '@deepseek-ai/dsh-llm'
+import { AssistantStreamAccumulator } from '@worldapptechnologies/nulu-llm'
+import type { AssistantStreamRecord } from '@worldapptechnologies/nulu-llm'
 import {
   SessionFormatUnsupportedMigrationError,
   defineSessionFormatMigration,
   sessionFormatCount,
-} from '@deepseek-ai/dsh-session-format'
+} from '@worldapptechnologies/nulu-session-format'
 import type {
   SessionFormatEvent,
   SessionFormatEventRun,
@@ -14,13 +14,13 @@ import type {
   SessionFormatMigrationContext,
   SessionFormatMigrationStage,
   SessionFormatMigrationStageInput,
-} from '@deepseek-ai/dsh-session-format'
+} from '@worldapptechnologies/nulu-session-format'
 import {
   RELEASED_V0_EVENT_DISPOSITIONS,
   assertReleasedEventPayload,
   assertReleasedV1Header,
   isReleasedAssistantChunkRun,
-} from '@deepseek-ai/dsh-session-format-v0-to-v1'
+} from '@worldapptechnologies/nulu-session-format-v0-to-v1'
 import { assertReleasedV2Header } from './validation.ts'
 
 const CHUNK_EVENT_REQUIRED = ['type', 'seq', 'time', 'data'] as const
@@ -41,7 +41,7 @@ interface AttemptGroup {
 
 /** Adjacent migration that embeds released-v1 top-level Assistant chunks into v2 attempt events. */
 export const sessionFormatV1ToV2 = defineSessionFormatMigration({
-  name: '@deepseek-ai/dsh-session-format-v1-to-v2',
+  name: '@worldapptechnologies/nulu-session-format-v1-to-v2',
   fromVersion: 1,
   toVersion: 2,
   migrateHeader(header) {
@@ -178,7 +178,7 @@ function assertChunkEnvelope(event: SessionFormatEvent): void {
 }
 
 function assertSourceDeliveryMarker(state: ReleasedV1ToV2State, event: SessionFormatEvent): void {
-  if (event.type !== 'session-log-deepseek/delivery-accepted') return
+  if (event.type !== 'session-log-gateway/delivery-accepted') return
   const data = record(event.data)
   const inherited = state.sourceHeader.parentSession !== undefined && event.seq < state.sourceCut
   if (data['sessionFormatVersion'] === 1 && !inherited && data['sessionId'] !== state.sourceHeader.id) {

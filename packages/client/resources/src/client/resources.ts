@@ -8,9 +8,9 @@
  * across React's render-then-subscribe window and a StrictMode remount, where a
  * recreated record would make every render resubscribe and restart the stream.
  */
-import type { Context } from '@deepseek-ai/cordis'
-import type { RemoteResult } from '@deepseek-ai/dsh-typert-protocol'
-import { createSnapshotStore, type ObservableSnapshot, type SnapshotStore } from '@deepseek-ai/dsh-client-store'
+import type { Context } from '@worldapptechnologies/cordis'
+import type { RemoteResult } from '@worldapptechnologies/nulu-typert-protocol'
+import { createSnapshotStore, type ObservableSnapshot, type SnapshotStore } from '@worldapptechnologies/nulu-client-store'
 import type {
   ResourceOpenContext,
   ResourceProtocol,
@@ -28,7 +28,7 @@ interface RuntimeProvider {
 /** One address: its state, its holders, and the running stream. */
 interface ResourceRecord {
   readonly address: string
-  /** The address's protocol key (`dsh-resource://` host); absent when the address is not a resource address. */
+  /** The address's protocol key (`nulu-resource://` host); absent when the address is not a resource address. */
   readonly protocol: string | undefined
   readonly store: SnapshotStore<ResourceSnapshot<unknown>>
   readonly source: ObservableSnapshot<ResourceSnapshot<unknown>>
@@ -39,14 +39,14 @@ interface ResourceRecord {
 }
 
 /**
- * The one URL scheme resource addresses use: `dsh-resource://<type>/…`, where
+ * The one URL scheme resource addresses use: `nulu-resource://<type>/…`, where
  * the host names the protocol. Other schemes (`sidebar://…`) are navigation
  * addresses and name no resource.
  */
-export const RESOURCE_SCHEME = 'dsh-resource'
+export const RESOURCE_SCHEME = 'nulu-resource'
 
 /**
- * The protocol key of one address: the host of a `dsh-resource://` URL, as the
+ * The protocol key of one address: the host of a `nulu-resource://` URL, as the
  * URL parser reads it (lower-cased). Any other string — another scheme, or one
  * the URL parser rejects — names no protocol and is treated like an address
  * whose protocol has no provider.

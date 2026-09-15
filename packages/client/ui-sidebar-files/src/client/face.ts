@@ -18,10 +18,10 @@
  * record goes away the bucket and the tab's listing bookkeeping are forgotten,
  * so no later settlement writes to it.
  */
-import type { ClientRemote, RemoteResult } from '@deepseek-ai/dsh-api-remotes/client'
-import type { BoundActions } from '@deepseek-ai/dsh-client-store'
-import type { TabId } from '@deepseek-ai/dsh-client-ui-dockkit'
-import type { SessionId } from '@deepseek-ai/dsh-session/types'
+import type { ClientRemote, RemoteResult } from '@worldapptechnologies/nulu-api-remotes/client'
+import type { BoundActions } from '@worldapptechnologies/nulu-client-store'
+import type { TabId } from '@worldapptechnologies/nulu-client-ui-dockkit'
+import type { SessionId } from '@worldapptechnologies/nulu-session/types'
 import type { DirLevel, createFilesStore } from './store.ts'
 
 /**

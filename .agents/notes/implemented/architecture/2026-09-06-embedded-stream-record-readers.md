@@ -2,7 +2,6 @@
 
 Status: implemented
 
-English | [中文](2026-09-06-embedded-stream-record-readers.zh.md)
 
 ## Problem
 
@@ -12,7 +11,7 @@ After v2 embedded streams settlement widened with the message content and Chat a
 
 ## Decision
 
-`@deepseek-ai/dsh-llm` answers consumer questions directly from compact records; every remaining consumer folds records once with early exit.
+`@worldapptechnologies/nulu-llm` answers consumer questions directly from compact records; every remaining consumer folds records once with early exit.
 
 `packages/llm/llm/src/assistant-stream.ts` exports record-level readers beside the accumulator and `expandAssistantStream`:
 
@@ -45,6 +44,6 @@ Open, read, and restore phases are unchanged; the reader keeps the same first-to
 
 ## Consequences
 
-Host and Client folds of an embedded settlement cost O(records) plus one join per run, and no consumer materializes members unless it validates at a durable boundary or needs every member. The token, visibility, and visible-text rules have one home in `dsh-llm`, so a record reader and the accumulator's packing rules cannot drift apart.
+Host and Client folds of an embedded settlement cost O(records) plus one join per run, and no consumer materializes members unless it validates at a durable boundary or needs every member. The token, visibility, and visible-text rules have one home in `nulu-llm`, so a record reader and the accumulator's packing rules cannot drift apart.
 
 Publication verification (`assertCurrentAssistantStreams`) still replays every settlement at publish time; because it must prove content-by-chunk agreement, converting it to run-aware assembly without member materialization remains open work.

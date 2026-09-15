@@ -11,13 +11,13 @@
  *
  * Reconstruction reads the `agentPreset` Session projection, never the header
  * alone.
- * @module @deepseek-ai/dsh-agent-presets/session
+ * @module @worldapptechnologies/nulu-agent-presets/session
  */
 
-import type { ProjectionDefinition } from '@deepseek-ai/dsh-session-projection'
+import type { ProjectionDefinition } from '@worldapptechnologies/nulu-session-projection'
 import { z } from 'zod'
 
-declare module '@deepseek-ai/dsh-session/types' {
+declare module '@worldapptechnologies/nulu-session/types' {
   interface SessionEventMap {
     /**
      * The session's agent preset was chosen after creation, while the session

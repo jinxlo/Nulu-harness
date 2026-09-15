@@ -1,9 +1,9 @@
 /** General Settings row for completed-Turn transcript presentation. */
 
 import { useState } from 'react'
-import type { SnapshotStore } from '@deepseek-ai/dsh-client-store'
-import { IconChevronDownOutline14, Menu } from '@deepseek-ai/dsh-client-ui-primitives'
-import type { InjectFace, PropsLocale, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
+import type { SnapshotStore } from '@worldapptechnologies/nulu-client-store'
+import { IconChevronDownOutline14, Menu } from '@worldapptechnologies/nulu-client-ui-primitives'
+import type { InjectFace, PropsLocale, PropsRuntime } from '@worldapptechnologies/nulu-client-ui-slots'
 import type { TranscriptViewMode } from '../../chat-settings.ts'
 import type { ChatKey } from '../locale.ts'
 import css from './TranscriptViewRow.module.css'

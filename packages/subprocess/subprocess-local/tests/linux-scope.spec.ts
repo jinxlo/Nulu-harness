@@ -69,7 +69,7 @@ afterEach(() => {
 })
 
 function missingUnit() {
-  return { status: 1, stdout: '', stderr: 'Unit dsh.scope could not be found.' }
+  return { status: 1, stdout: '', stderr: 'Unit nulu.scope could not be found.' }
 }
 
 function activeUnit(state = 'active') {
@@ -533,7 +533,7 @@ describe('Linux scope establishment and quiescence', () => {
   it('keeps signal failures scoped to final kill proof and stays idempotent after stop', async () => {
     const spawnSync = vi.fn()
       .mockReturnValueOnce({ status: 1, stdout: '', stderr: '' })
-      .mockReturnValueOnce({ status: 1, stderr: 'Unit dsh.scope could not be found.' })
+      .mockReturnValueOnce({ status: 1, stderr: 'Unit nulu.scope could not be found.' })
       .mockReturnValueOnce({ status: 1, stdout: '', stderr: '' })
       .mockReturnValueOnce({ status: 0, stdout: '', stderr: '' })
     const states = [activeUnit(), activeUnit('failed')]

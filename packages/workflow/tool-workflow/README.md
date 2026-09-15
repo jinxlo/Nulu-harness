@@ -3,13 +3,12 @@ description: "The model-facing workflow tool: run a JavaScript orchestration scr
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-tool-workflow
+# @worldapptechnologies/nulu-tool-workflow
 
-English | [中文](README.zh.md)
 
 ## Summary
 
-`dsh-tool-workflow` lets a model run a JavaScript orchestration script that delegates work to many subagents and returns the script's final JSON value. Use it only when the user explicitly requests a workflow or large multi-agent orchestration; use plain subagent calls for one or two delegations. The parent turn waits until every delegated task settles, and cancellation or abnormal completion returns an error rather than partial success. Deployments can rename the tool and cap rendered result text through `toolName` and `maxResultChars`.
+`nulu-tool-workflow` lets a model run a JavaScript orchestration script that delegates work to many subagents and returns the script's final JSON value. Use it only when the user explicitly requests a workflow or large multi-agent orchestration; use plain subagent calls for one or two delegations. The parent turn waits until every delegated task settles, and cancellation or abnormal completion returns an error rather than partial success. Deployments can rename the tool and cap rendered result text through `toolName` and `maxResultChars`.
 
 ## Table of Contents
 
@@ -44,7 +43,7 @@ While the script runs, the parent turn waits: the tool starts the run, awaits it
 | `toolName` | `workflow` | The model-facing tool name to register. |
 | `maxResultChars` | `50000` | Rendered-result ceiling; longer JSON is truncated with a notice. |
 
-The generated [configuration catalog](../../../docs/config-catalog.md#deepseek-aidsh-tool-workflow) is the exhaustive source for every accepted field.
+The generated [configuration catalog](../../../docs/config-catalog.md#worldapptechnologiesnulu-tool-workflow) is the exhaustive source for every accepted field.
 
 -----
 
@@ -125,7 +124,7 @@ Prefix-stable while the plugin scope and guidance text are unchanged. Activation
 
 #### What the model sees
 
-When visible, the generated default [`workflow` schema](../../../docs/tool-catalog.md#deepseek-aidsh-tool-workflow) carries the complete JavaScript hook and metadata contract; `toolName` can rename the definition, and the model submits script, metadata, and optional args.
+When visible, the generated default [`workflow` schema](../../../docs/tool-catalog.md#worldapptechnologiesnulu-tool-workflow) carries the complete JavaScript hook and metadata contract; `toolName` can rename the definition, and the model submits script, metadata, and optional args.
 
 #### Token effect
 

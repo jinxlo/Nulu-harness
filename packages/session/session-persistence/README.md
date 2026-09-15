@@ -3,9 +3,8 @@ description: "The durable session-storage seam for users and maintainers choosin
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-session-persistence
+# @worldapptechnologies/nulu-session-persistence
 
-English | [中文](README.zh.md)
 
 ## Summary
 

@@ -1,15 +1,14 @@
 ---
-description: "Settings shell, ownerless copy, and durable product-onboarding namespace for the dsh web client: the General section, trigger chrome, and onboarding ledger projection."
+description: "Settings shell, ownerless copy, and durable product-onboarding namespace for the nulu web client: the General section, trigger chrome, and onboarding ledger projection."
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-client-ui-settings-general
+# @worldapptechnologies/nulu-client-ui-settings-general
 
-English | [中文](README.zh.md)
 
 ## Summary
 
-Use this package to give the dsh web client a Settings panel, connection-recovery control, feature-contributed navigation, and sequential first-run onboarding. Users can open it from the sidebar, retry a failed connection immediately, and access a local configuration file when the Host makes one available on a loopback browser. Feature packages supply their own settings rows, sections, and onboarding steps; this package supplies their shared presentation and does not add onboarding copy or built-in General rows.
+Use this package to give the nulu web client a Settings panel, connection-recovery control, feature-contributed navigation, and sequential first-run onboarding. Users can open it from the sidebar, retry a failed connection immediately, and access a local configuration file when the Host makes one available on a loopback browser. Feature packages supply their own settings rows, sections, and onboarding steps; this package supplies their shared presentation and does not add onboarding copy or built-in General rows.
 
 ## Table of Contents
 
@@ -76,7 +75,7 @@ These pages cover the settings surface family and the composition model.
 
 - [ui-settings](../ui-settings/README.md) — the domain base whose slot types and scope service this shell builds on.
 - [ui-sidebar](../ui-sidebar/README.md) — the sidebar shell hosting the `sidebar.settings` seat.
-- [ui-settings-models](../ui-settings-models/README.md) — the feature package contributing the DeepSeek onboarding step.
+- [ui-settings-models](../ui-settings-models/README.md) — the feature package contributing the Nulu onboarding step.
 - [settings](../../settings/README.md) — the durable user-settings seam and its file provider.
 - [Slot system standard](../../../.agents/notes/implemented/architecture/2026-07-22-slot-type-chain-implementation.md) — the composition model behind the ledgers.
 

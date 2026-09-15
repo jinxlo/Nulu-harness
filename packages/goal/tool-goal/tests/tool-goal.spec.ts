@@ -1,25 +1,25 @@
 import { describe, expect, it } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import Loader from '@deepseek-ai/cordis-plugin-loader'
-import AgentRegistry, { agentEvents } from '@deepseek-ai/dsh-agent'
-import type { Agent, AgentStatus, Inbox } from '@deepseek-ai/dsh-agent'
-import { turnBoundaryProjectionDefinition } from '@deepseek-ai/dsh-agent-loop'
-import GoalService, { GoalId } from '@deepseek-ai/dsh-goal'
-import type { GoalRef } from '@deepseek-ai/dsh-goal'
-import { createUserMessage, ToolCallId } from '@deepseek-ai/dsh-llm'
-import type { MessageSource } from '@deepseek-ai/dsh-llm'
+import { Context } from '@worldapptechnologies/cordis'
+import Loader from '@worldapptechnologies/cordis-plugin-loader'
+import AgentRegistry, { agentEvents } from '@worldapptechnologies/nulu-agent'
+import type { Agent, AgentStatus, Inbox } from '@worldapptechnologies/nulu-agent'
+import { turnBoundaryProjectionDefinition } from '@worldapptechnologies/nulu-agent-loop'
+import GoalService, { GoalId } from '@worldapptechnologies/nulu-goal'
+import type { GoalRef } from '@worldapptechnologies/nulu-goal'
+import { createUserMessage, ToolCallId } from '@worldapptechnologies/nulu-llm'
+import type { MessageSource } from '@worldapptechnologies/nulu-llm'
 import SessionStore, {
   SESSION_FORMAT_VERSION,
   Session,
   SessionId,
   SessionLogOffset,
-} from '@deepseek-ai/dsh-session'
-import SessionProjectionRegistry from '@deepseek-ai/dsh-session-projection'
-import SystemPrompt from '@deepseek-ai/dsh-system-prompt'
-import ToolRuntime from '@deepseek-ai/dsh-tools'
-import type { ToolExecutionResult } from '@deepseek-ai/dsh-tools'
-import * as toolGoal from '@deepseek-ai/dsh-tool-goal'
-import { createInboxStub } from '@deepseek-ai/dsh-agent-loop-testkit'
+} from '@worldapptechnologies/nulu-session'
+import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projection'
+import SystemPrompt from '@worldapptechnologies/nulu-system-prompt'
+import ToolRuntime from '@worldapptechnologies/nulu-tools'
+import type { ToolExecutionResult } from '@worldapptechnologies/nulu-tools'
+import * as toolGoal from '@worldapptechnologies/nulu-tool-goal'
+import { createInboxStub } from '@worldapptechnologies/nulu-agent-loop-testkit'
 
 const testToolSignal = new AbortController().signal
 

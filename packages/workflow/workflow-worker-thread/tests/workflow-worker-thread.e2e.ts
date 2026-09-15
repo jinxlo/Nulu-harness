@@ -1,21 +1,21 @@
 import { afterEach, describe, expect, it } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import { SessionId } from '@deepseek-ai/dsh-session'
+import { Context } from '@worldapptechnologies/cordis'
+import { SessionId } from '@worldapptechnologies/nulu-session'
 
-import AgentLoop from '@deepseek-ai/dsh-agent-loop'
-import { mountAgentLoopTestDependencies } from '@deepseek-ai/dsh-agent-loop-testkit'
-import * as LlmDeepSeek from '@deepseek-ai/dsh-llm-deepseek'
-import SubagentRuntime from '@deepseek-ai/dsh-subagent'
-import * as Spawn from '@deepseek-ai/dsh-subagent-spawn-in-process'
+import AgentLoop from '@worldapptechnologies/nulu-agent-loop'
+import { mountAgentLoopTestDependencies } from '@worldapptechnologies/nulu-agent-loop-testkit'
+import * as LlmGateway from '@worldapptechnologies/nulu-llm-gateway'
+import SubagentRuntime from '@worldapptechnologies/nulu-subagent'
+import * as Spawn from '@worldapptechnologies/nulu-subagent-spawn-in-process'
 import WorkerThreadWorkflowEngine from '../src/index.ts'
 
 /**
  * With-key e2e: a REAL script in a REAL worker thread
- * drives REAL spawn children against the live DeepSeek API — one plain child
+ * drives REAL spawn children against the live Nulu API — one plain child
  * and one schema'd child through the real structured-output runtime — and
  * the run's value, events, and child sessions are asserted from the outside
  * (never the script's self-report alone). Key-gated (self-skips without
- * DEEPSEEK_API_KEY).
+ * WORLD_APP_TECHNOLOGIES_API_KEY).
  */
 
 let ctx: Context | undefined
@@ -29,7 +29,7 @@ async function harness(): Promise<Context> {
   const built = new Context()
   await mountAgentLoopTestDependencies(built)
   await built.plugin(AgentLoop, { agents: [] })
-  await built.plugin(LlmDeepSeek)
+  await built.plugin(LlmGateway)
   await built.plugin(SubagentRuntime)
   await built.plugin(Spawn, { providerName: 'spawn' })
   await built.plugin(WorkerThreadWorkflowEngine, { provider: 'spawn' })
@@ -52,12 +52,12 @@ const judged = await agent(
 )
 return { prose, containsFour: judged === null ? null : judged.containsFour }`
 
-describe.skipIf(!process.env.DEEPSEEK_API_KEY)('worker workflow engine with-key e2e', () => {
+describe.skipIf(!process.env.WORLD_APP_TECHNOLOGIES_API_KEY)('worker workflow engine with-key e2e', () => {
   it('runs a two-phase script in a worker thread over real children, one through the structured runtime', async () => {
     ctx = await harness()
     const parentHandle = await ctx.agents.create({
       sessionId: 'wf-worker-e2e-session' as never,
-      agentOptions: { provider: 'deepseek-official', model: 'deepseek-v4-flash' },
+      agentOptions: { provider: 'worldapp-gateway', model: 'nulu-5' },
     })
 
     const events: string[] = []

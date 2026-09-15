@@ -6,25 +6,25 @@
 - id: headless-runner
   disabled: true
 
-- id: llm-deepseek
+- id: llm-gateway
   config:
     thinking: enabled
     reasoningEffort: max
     models:
-      - id: deepseek-v4-pro
+      - id: nulu-5-ultra
         contextWindow: 128000
-      - id: deepseek-v4-flash
+      - id: nulu-5
         contextWindow: 128000
 
 - id: agent-loop
   config:
     agents:
       - id: main
-        provider: deepseek-official
-        model: deepseek-v4-flash
+        provider: worldapp-gateway
+        model: nulu-5
         cwd: !!js process.cwd()
 
 - id: session-persistence-jsonl
   config:
     root: './.sessions'
-    compression: !!js "process.env.DSH_SNAPSHOT === undefined ? 'zstd' : 'none'"
+    compression: !!js "process.env.NULU_SNAPSHOT === undefined ? 'zstd' : 'none'"

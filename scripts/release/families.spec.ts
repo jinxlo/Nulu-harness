@@ -27,9 +27,9 @@ function write(path: string, content: string): void {
 }
 
 function buildFixture(environment: Record<string, string>): string {
-  const root = mkdtempSync(join(tmpdir(), 'dsh-release-build-'))
+  const root = mkdtempSync(join(tmpdir(), 'nulu-release-build-'))
   roots.push(root)
-  write(join(root, 'package.json'), `${JSON.stringify({ version: environment.DSH_CLIENT_VERSION ?? '0.0.1' })}\n`)
+  write(join(root, 'package.json'), `${JSON.stringify({ version: environment.NULU_CLIENT_VERSION ?? '0.0.1' })}\n`)
   write(join(root, 'apps/web/dist/index.html'), '<main></main>')
   write(join(root, 'packages/client/example/lib/client.js'), 'module.exports = {}\n')
   writeClientBuildRecord(root, environment)
@@ -43,72 +43,72 @@ afterEach(() => {
 
 describe('release families', () => {
   it('publishes Agent Teams while excluding private experimental packages', () => {
-    const members = releaseFamily('dsh').members(resolve(import.meta.dirname, '../..'))
+    const members = releaseFamily('nulu').members(resolve(import.meta.dirname, '../..'))
 
     expect(members
       .filter(member => member.directory.startsWith('packages/experimental/'))
       .map(member => member.name)).toEqual([
-      '@deepseek-ai/dsh-experimental-agent-team-profile',
-      '@deepseek-ai/dsh-experimental-agent-team-web-profile',
-      '@deepseek-ai/dsh-experimental-agent-team',
-      '@deepseek-ai/dsh-experimental-client-ui-agent-team',
-      '@deepseek-ai/dsh-experimental-tool-agent-team',
+      '@worldapptechnologies/nulu-experimental-agent-team-profile',
+      '@worldapptechnologies/nulu-experimental-agent-team-web-profile',
+      '@worldapptechnologies/nulu-experimental-agent-team',
+      '@worldapptechnologies/nulu-experimental-client-ui-agent-team',
+      '@worldapptechnologies/nulu-experimental-tool-agent-team',
     ])
-    expect(members.map(member => member.name)).not.toContain('@deepseek-ai/dsh-experimental-inspector')
+    expect(members.map(member => member.name)).not.toContain('@worldapptechnologies/nulu-experimental-inspector')
   })
 
   it('excludes private applications from the publish set', () => {
-    const root = mkdtempSync(join(tmpdir(), 'dsh-release-private-'))
+    const root = mkdtempSync(join(tmpdir(), 'nulu-release-private-'))
     roots.push(root)
-    write(join(root, 'apps/public/package.json'), '{"name":"@deepseek-ai/dsh-public","version":"0.0.1"}\n')
-    write(join(root, 'apps/private/package.json'), '{"name":"@deepseek-ai/dsh-private","version":"0.0.1","private":true}\n')
+    write(join(root, 'apps/public/package.json'), '{"name":"@worldapptechnologies/nulu-public","version":"0.0.1"}\n')
+    write(join(root, 'apps/private/package.json'), '{"name":"@worldapptechnologies/nulu-private","version":"0.0.1","private":true}\n')
 
-    expect(releaseFamily('dsh').members(root).map(entry => entry.name)).toEqual(['@deepseek-ai/dsh-public'])
+    expect(releaseFamily('nulu').members(root).map(entry => entry.name)).toEqual(['@worldapptechnologies/nulu-public'])
   })
 
-  it('bumps private dsh workspaces without adding release tags', () => {
-    const root = mkdtempSync(join(tmpdir(), 'dsh-release-version-'))
+  it('bumps private nulu workspaces without adding release tags', () => {
+    const root = mkdtempSync(join(tmpdir(), 'nulu-release-version-'))
     roots.push(root)
     write(join(root, 'package.json'), '{"version":"0.0.1"}\n')
     write(join(root, 'apps/desktop/package.json'), '{"version":"0.0.1","private":true}\n')
     write(join(root, 'packages/experimental/prototype/package.json'), '{"version":"0.0.1","private":true}\n')
     write(join(root, 'packages/core/unselected/package.json'), '{"version":"0.0.1"}\n')
 
-    const dsh = releaseFamily('dsh')
-    const published = member('packages/core/published', '@deepseek-ai/dsh-published')
-    const { planned } = planShared(dsh, root, [published], '0.0.2')
+    const nulu = releaseFamily('nulu')
+    const published = member('packages/core/published', '@worldapptechnologies/nulu-published')
+    const { planned } = planShared(nulu, root, [published], '0.0.2')
 
     expect(planned.map(entry => ({ path: entry.manifestPath, tag: entry.tag }))).toEqual([
       { path: 'package.json', tag: undefined },
-      { path: 'packages/core/published/package.json', tag: 'dsh-v0.0.2' },
+      { path: 'packages/core/published/package.json', tag: 'nulu-v0.0.2' },
       { path: 'apps/desktop/package.json', tag: undefined },
       { path: 'packages/experimental/prototype/package.json', tag: undefined },
     ])
   })
 
   it.each(['0.0.2-alpha.1', '0.0.2-canary.1', '0.0.2-rc.1'])(
-    'accepts the explicit dsh prerelease version %s',
+    'accepts the explicit nulu prerelease version %s',
     (version) => {
-      const root = mkdtempSync(join(tmpdir(), 'dsh-release-prerelease-'))
+      const root = mkdtempSync(join(tmpdir(), 'nulu-release-prerelease-'))
       roots.push(root)
       write(join(root, 'package.json'), '{"version":"0.0.1"}\n')
 
-      const dsh = releaseFamily('dsh')
-      const published = member('packages/core/published', '@deepseek-ai/dsh-published')
-      const plan = planShared(dsh, root, [published], version)
+      const nulu = releaseFamily('nulu')
+      const published = member('packages/core/published', '@worldapptechnologies/nulu-published')
+      const plan = planShared(nulu, root, [published], version)
 
       expect(plan.version).toBe(version)
-      expect(plan.planned[1]?.tag).toBe(`dsh-v${version}`)
+      expect(plan.planned[1]?.tag).toBe(`nulu-v${version}`)
     },
   )
 
-  it('names one tag for the whole dsh family and one per vendored package', () => {
-    const dsh = releaseFamily('dsh')
+  it('names one tag for the whole nulu family and one per vendored package', () => {
+    const nulu = releaseFamily('nulu')
     const vendor = releaseFamily('vendor')
-    const cli = member('apps/cli', '@deepseek-ai/dsh')
-    const cordis = { ...member('vendor/cordis', '@deepseek-ai/cordis'), version: '4.0.1' }
+    const cli = member('apps/cli', '@worldapptechnologies/nulu')
+    const cordis = { ...member('vendor/cordis', '@worldapptechnologies/cordis'), version: '4.0.1' }
 
-    expect(dsh.tagFor(cli)).toBe('dsh-v0.0.1')
+    expect(nulu.tagFor(cli)).toBe('nulu-v0.0.1')
     expect(vendor.tagFor(cordis)).toBe('vendor-cordis-v4.0.1')
     // The prefix is constructed, not recovered from a tag: a version with a
     // hyphen would defeat any suffix-stripping.
@@ -116,181 +116,182 @@ describe('release families', () => {
     expect(vendor.tagFor({ ...cordis, version: '4.0.0-rc.7' })).toBe('vendor-cordis-v4.0.0-rc.7')
   })
 
-  it('assigns alpha and canary dist-tags only to dsh releases', () => {
-    const dsh = releaseFamily('dsh')
+  it('assigns alpha and canary dist-tags only to nulu releases', () => {
+    const nulu = releaseFamily('nulu')
     const vendor = releaseFamily('vendor')
 
-    expect(dsh.distTagForVersion('0.0.2-alpha.1')).toBe('alpha')
-    expect(dsh.distTagForVersion('0.0.2-canary.1')).toBe('canary')
-    expect(dsh.distTagForVersion('0.0.2-rc.1')).toBe('next')
-    expect(dsh.distTagForVersion('0.0.2')).toBeUndefined()
+    expect(nulu.distTagForVersion('0.0.2-alpha.1')).toBe('alpha')
+    expect(nulu.distTagForVersion('0.0.2-canary.1')).toBe('canary')
+    expect(nulu.distTagForVersion('0.0.2-rc.1')).toBe('next')
+    expect(nulu.distTagForVersion('0.0.2')).toBeUndefined()
     expect(vendor.distTagForVersion('4.0.1-alpha.1')).toBe('next')
     expect(vendor.distTagForVersion('4.0.1-canary.1')).toBe('next')
   })
 
   it('rejects a family whose members disagree on the shared version', () => {
-    const dsh = releaseFamily('dsh')
-    const members = [member('apps/cli', '@deepseek-ai/dsh'), { ...member('apps/web', '@deepseek-ai/dsh-web-frontend'), version: '0.0.2' }]
+    const nulu = releaseFamily('nulu')
+    const members = [member('apps/cli', '@worldapptechnologies/nulu'), { ...member('apps/web', '@worldapptechnologies/nulu-web-frontend'), version: '0.0.2' }]
 
-    expect(() => { dsh.verifyVersions(members) }).toThrow(/must share one version/)
-    expect(() => { dsh.verifyVersions([members[0]!]) }).not.toThrow()
+    expect(() => { nulu.verifyVersions(members) }).toThrow(/must share one version/)
+    expect(() => { nulu.verifyVersions([members[0]!]) }).not.toThrow()
   })
 
   it('accepts independent vendored versions and rejects an unpublishable one', () => {
     const vendor = releaseFamily('vendor')
     const members = [
-      { ...member('vendor/cordis', '@deepseek-ai/cordis'), version: '4.0.1' },
-      { ...member('vendor/cosmokit', '@deepseek-ai/cosmokit'), version: '1.8.2' },
+      { ...member('vendor/cordis', '@worldapptechnologies/cordis'), version: '4.0.1' },
+      { ...member('vendor/cosmokit', '@worldapptechnologies/cosmokit'), version: '1.8.2' },
     ]
 
     expect(() => { vendor.verifyVersions(members) }).not.toThrow()
     expect(() => { vendor.verifyVersions([{ ...members[0]!, version: 'latest' }]) }).toThrow(/unpublishable version/)
   })
 
-  it('requires a current official client build only for dsh artifacts', () => {
-    const dsh = releaseFamily('dsh')
+  it('requires a current official client build only for nulu artifacts', () => {
+    const nulu = releaseFamily('nulu')
     const vendor = releaseFamily('vendor')
     const officialEnvironment = officialClientBuildEnvironment(resolve(import.meta.dirname, '../..'))
-    vi.stubEnv('DSH_CLIENT_COMMIT_HASH', officialEnvironment.DSH_CLIENT_COMMIT_HASH)
+    vi.stubEnv('NULU_CLIENT_COMMIT_HASH', officialEnvironment.NULU_CLIENT_COMMIT_HASH)
     const official = buildFixture(officialEnvironment)
     const defaultBuild = buildFixture({})
     const missing = join(defaultBuild, 'missing')
-    write(join(missing, 'package.json'), `${JSON.stringify({ version: officialEnvironment.DSH_CLIENT_VERSION })}\n`)
+    write(join(missing, 'package.json'), `${JSON.stringify({ version: officialEnvironment.NULU_CLIENT_VERSION })}\n`)
 
-    expect(() => { dsh.verifyBuildArtifacts(official) }).not.toThrow()
-    expect(() => { dsh.verifyBuildArtifacts(defaultBuild) }).toThrow(/DSH_CLIENT_TITLE/)
-    expect(() => { dsh.verifyBuildArtifacts(missing) }).toThrow(/record.*missing/)
+    expect(() => { nulu.verifyBuildArtifacts(official) }).not.toThrow()
+    expect(() => { nulu.verifyBuildArtifacts(defaultBuild) }).toThrow(/NULU_CLIENT_TITLE/)
+    expect(() => { nulu.verifyBuildArtifacts(missing) }).toThrow(/record.*missing/)
     expect(() => { vendor.verifyBuildArtifacts(missing) }).not.toThrow()
 
     write(join(official, 'packages/client/example/lib/client.js'), 'module.exports = { changed: true }\n')
-    expect(() => { dsh.verifyBuildArtifacts(official) }).toThrow(/artifacts differ/)
+    expect(() => { nulu.verifyBuildArtifacts(official) }).toThrow(/artifacts differ/)
   })
 
   it('publishes a dependency before its consumer, and orders ties by name', () => {
-    const dsh = releaseFamily('dsh')
+    const nulu = releaseFamily('nulu')
     const members = [
-      member('packages/a/consumer', '@deepseek-ai/dsh-consumer', { dependencies: { '@deepseek-ai/dsh-library': 'workspace:^' } }),
-      member('packages/a/library', '@deepseek-ai/dsh-library'),
-      member('packages/a/zebra', '@deepseek-ai/dsh-zebra'),
+      member('packages/a/consumer', '@worldapptechnologies/nulu-consumer', { dependencies: { '@worldapptechnologies/nulu-library': 'workspace:^' } }),
+      member('packages/a/library', '@worldapptechnologies/nulu-library'),
+      member('packages/a/zebra', '@worldapptechnologies/nulu-zebra'),
     ]
 
-    expect(dsh.publishOrder(members).order.map(entry => entry.name)).toEqual([
-      '@deepseek-ai/dsh-library',
-      '@deepseek-ai/dsh-consumer',
-      '@deepseek-ai/dsh-zebra',
+    expect(nulu.publishOrder(members).order.map(entry => entry.name)).toEqual([
+      '@worldapptechnologies/nulu-library',
+      '@worldapptechnologies/nulu-consumer',
+      '@worldapptechnologies/nulu-zebra',
     ])
   })
 
   it('reports a runtime dependency cycle instead of emitting an arbitrary order', () => {
-    const dsh = releaseFamily('dsh')
+    const nulu = releaseFamily('nulu')
     const members = [
-      member('packages/a/left', '@deepseek-ai/dsh-left', { dependencies: { '@deepseek-ai/dsh-right': 'workspace:^' } }),
-      member('packages/a/right', '@deepseek-ai/dsh-right', { dependencies: { '@deepseek-ai/dsh-left': 'workspace:^' } }),
+      member('packages/a/left', '@worldapptechnologies/nulu-left', { dependencies: { '@worldapptechnologies/nulu-right': 'workspace:^' } }),
+      member('packages/a/right', '@worldapptechnologies/nulu-right', { dependencies: { '@worldapptechnologies/nulu-left': 'workspace:^' } }),
     ]
 
-    expect(() => { dsh.publishOrder(members) }).toThrow(/dependency cycle/)
+    expect(() => { nulu.publishOrder(members) }).toThrow(/dependency cycle/)
   })
 
   it('publishes a peer before its consumer', () => {
-    const dsh = releaseFamily('dsh')
+    const nulu = releaseFamily('nulu')
     const members = [
-      member('packages/a/consumer', '@deepseek-ai/dsh-consumer', { peerDependencies: { '@deepseek-ai/dsh-zebra': 'workspace:^' } }),
-      member('packages/a/zebra', '@deepseek-ai/dsh-zebra'),
+      member('packages/a/consumer', '@worldapptechnologies/nulu-consumer', { peerDependencies: { '@worldapptechnologies/nulu-zebra': 'workspace:^' } }),
+      member('packages/a/zebra', '@worldapptechnologies/nulu-zebra'),
     ]
 
     // Name order alone would place the consumer first; the peer edge moves it.
-    expect(dsh.publishOrder(members).order.map(entry => entry.name)).toEqual([
-      '@deepseek-ai/dsh-zebra',
-      '@deepseek-ai/dsh-consumer',
+    expect(nulu.publishOrder(members).order.map(entry => entry.name)).toEqual([
+      '@worldapptechnologies/nulu-zebra',
+      '@worldapptechnologies/nulu-consumer',
     ])
   })
 
   it('orders around a peer cycle rather than refusing to publish, and reports the edge it dropped', () => {
-    const dsh = releaseFamily('dsh')
+    const nulu = releaseFamily('nulu')
     const members = [
-      member('packages/a/left', '@deepseek-ai/dsh-left', { peerDependencies: { '@deepseek-ai/dsh-right': 'workspace:^' } }),
-      member('packages/a/right', '@deepseek-ai/dsh-right', { peerDependencies: { '@deepseek-ai/dsh-left': 'workspace:^' } }),
+      member('packages/a/left', '@worldapptechnologies/nulu-left', { peerDependencies: { '@worldapptechnologies/nulu-right': 'workspace:^' } }),
+      member('packages/a/right', '@worldapptechnologies/nulu-right', { peerDependencies: { '@worldapptechnologies/nulu-left': 'workspace:^' } }),
     ]
 
     // Sibling packages declare each other as peers, and npm treats an unmet peer
     // as a warning, so this pair has to publish rather than fail the release.
-    const plan = dsh.publishOrder(members)
+    const plan = nulu.publishOrder(members)
     expect(plan.order.map(entry => entry.name)).toEqual([
-      '@deepseek-ai/dsh-right',
-      '@deepseek-ai/dsh-left',
+      '@worldapptechnologies/nulu-right',
+      '@worldapptechnologies/nulu-left',
     ])
     // One of the two edges has to give, and which one it is belongs in the log.
     expect(plan.droppedPeerEdges).toEqual([
-      { consumer: '@deepseek-ai/dsh-right', peer: '@deepseek-ai/dsh-left' },
+      { consumer: '@worldapptechnologies/nulu-right', peer: '@worldapptechnologies/nulu-left' },
     ])
   })
 
   it('honours an install edge even when a peer cycle surrounds it', () => {
-    const dsh = releaseFamily('dsh')
+    const nulu = releaseFamily('nulu')
     const members = [
-      member('packages/a/base', '@deepseek-ai/dsh-base', { peerDependencies: { '@deepseek-ai/dsh-consumer': 'workspace:^' } }),
-      member('packages/a/consumer', '@deepseek-ai/dsh-consumer', {
-        dependencies: { '@deepseek-ai/dsh-base': 'workspace:^' },
-        peerDependencies: { '@deepseek-ai/dsh-base': 'workspace:^' },
+      member('packages/a/base', '@worldapptechnologies/nulu-base', { peerDependencies: { '@worldapptechnologies/nulu-consumer': 'workspace:^' } }),
+      member('packages/a/consumer', '@worldapptechnologies/nulu-consumer', {
+        dependencies: { '@worldapptechnologies/nulu-base': 'workspace:^' },
+        peerDependencies: { '@worldapptechnologies/nulu-base': 'workspace:^' },
       }),
     ]
 
     // The install edge is absolute: base publishes first, and the peer edge that
     // would reverse it is the one dropped.
-    const plan = dsh.publishOrder(members)
+    const plan = nulu.publishOrder(members)
     expect(plan.order.map(entry => entry.name)).toEqual([
-      '@deepseek-ai/dsh-base',
-      '@deepseek-ai/dsh-consumer',
+      '@worldapptechnologies/nulu-base',
+      '@worldapptechnologies/nulu-consumer',
     ])
     expect(plan.droppedPeerEdges).toEqual([
-      { consumer: '@deepseek-ai/dsh-base', peer: '@deepseek-ai/dsh-consumer' },
+      { consumer: '@worldapptechnologies/nulu-base', peer: '@worldapptechnologies/nulu-consumer' },
     ])
   })
 
   it('refuses an order that would publish a consumer before a dependency it installs', () => {
-    const dsh = releaseFamily('dsh')
+    const nulu = releaseFamily('nulu')
     const members = [
-      member('packages/a/alpha', '@deepseek-ai/dsh-alpha', { peerDependencies: { '@deepseek-ai/dsh-bravo': 'workspace:^' } }),
-      member('packages/a/bravo', '@deepseek-ai/dsh-bravo', { peerDependencies: { '@deepseek-ai/dsh-charlie': 'workspace:^' } }),
-      member('packages/a/charlie', '@deepseek-ai/dsh-charlie', { dependencies: { '@deepseek-ai/dsh-alpha': 'workspace:^' } }),
+      member('packages/a/alpha', '@worldapptechnologies/nulu-alpha', { peerDependencies: { '@worldapptechnologies/nulu-bravo': 'workspace:^' } }),
+      member('packages/a/bravo', '@worldapptechnologies/nulu-bravo', { peerDependencies: { '@worldapptechnologies/nulu-charlie': 'workspace:^' } }),
+      member('packages/a/charlie', '@worldapptechnologies/nulu-charlie', { dependencies: { '@worldapptechnologies/nulu-alpha': 'workspace:^' } }),
     ]
 
     // A cycle of two peer edges closed by one install edge: dropping a peer edge
     // would order this, and the traversal drops the install edge instead. That
     // order would publish charlie before the alpha it installs, so it is refused
     // here rather than published.
-    expect(() => { dsh.publishOrder(members) }).toThrow(/no publish order honours @deepseek-ai\/dsh-charlie -> @deepseek-ai\/dsh-alpha/)
+    expect(() => { nulu.publishOrder(members) })
+      .toThrow(/no publish order honours @worldapptechnologies\/nulu-charlie -> @worldapptechnologies\/nulu-alpha/)
   })
 
   it('ignores devDependencies when ordering', () => {
-    const dsh = releaseFamily('dsh')
+    const nulu = releaseFamily('nulu')
     const members = [
-      member('packages/a/alpha', '@deepseek-ai/dsh-alpha', { devDependencies: { '@deepseek-ai/dsh-zebra': 'workspace:^' } }),
-      member('packages/a/zebra', '@deepseek-ai/dsh-zebra'),
+      member('packages/a/alpha', '@worldapptechnologies/nulu-alpha', { devDependencies: { '@worldapptechnologies/nulu-zebra': 'workspace:^' } }),
+      member('packages/a/zebra', '@worldapptechnologies/nulu-zebra'),
     ]
 
     // A dev dependency is absent from the published package, so it must not move
     // the consumer behind it.
-    expect(dsh.publishOrder(members).order.map(entry => entry.name)).toEqual([
-      '@deepseek-ai/dsh-alpha',
-      '@deepseek-ai/dsh-zebra',
+    expect(nulu.publishOrder(members).order.map(entry => entry.name)).toEqual([
+      '@worldapptechnologies/nulu-alpha',
+      '@worldapptechnologies/nulu-zebra',
     ])
   })
 
-  it('applies the harness payload policy to dsh and keeps upstream payloads for vendored packages', () => {
-    const dsh = releaseFamily('dsh')
+  it('applies the harness payload policy to nulu and keeps upstream payloads for vendored packages', () => {
+    const nulu = releaseFamily('nulu')
     const vendor = releaseFamily('vendor')
-    const harness = member('packages/a/library', '@deepseek-ai/dsh-library')
-    const vendored = member('vendor/cordis', '@deepseek-ai/cordis')
+    const harness = member('packages/a/library', '@worldapptechnologies/nulu-library')
+    const vendored = member('vendor/cordis', '@worldapptechnologies/cordis')
 
-    expect(() => { dsh.validatePayload(harness, ['package/lib/index.js', 'package/src/index.ts']) })
+    expect(() => { nulu.validatePayload(harness, ['package/lib/index.js', 'package/src/index.ts']) })
       .toThrow(/publishes source file/)
     expect(() => { vendor.validatePayload(vendored, ['package/lib/index.js', 'package/src/index.ts']) }).not.toThrow()
     expect(() => { vendor.validatePayload(vendored, []) }).toThrow(/empty tarball/)
   })
 
   it('drives the installed entry only for the family that publishes one', () => {
-    expect(releaseFamily('dsh').installedEntry).toEqual({ packageName: '@deepseek-ai/dsh', binPath: 'lib/bin.js' })
+    expect(releaseFamily('nulu').installedEntry).toEqual({ packageName: '@worldapptechnologies/nulu', binPath: 'lib/bin.js' })
     expect(releaseFamily('vendor').installedEntry).toBeUndefined()
   })
 
@@ -351,10 +352,10 @@ describe('version precedence', () => {
 })
 
 describe('payload change judgement', () => {
-  const sourceShipping = member('vendor/cosmokit', '@deepseek-ai/cosmokit', {
+  const sourceShipping = member('vendor/cosmokit', '@worldapptechnologies/cosmokit', {
     files: ['lib/index.js', 'lib/types/**/*.d.ts', 'src'],
   })
-  const buildOutputOnly = member('vendor/cordis', '@deepseek-ai/cordis', {
+  const buildOutputOnly = member('vendor/cordis', '@worldapptechnologies/cordis', {
     files: ['lib/index.js', 'lib/types/**/*.d.ts', 'bin.js'],
   })
 
@@ -378,8 +379,8 @@ describe('payload change judgement', () => {
     // The README pattern is deliberately loose: over-reporting a change costs one
     // unnecessary patch bump, while under-reporting fails the next publish on a
     // version whose bytes moved.
-    expect(reachesPayload(sourceShipping, 'vendor/cosmokit/README.i18n.yaml')).toBe(true)
-    expect(reachesPayload(member('packages/a/library', '@deepseek-ai/dsh-library', { files: ['lib/index.js'] }),
+    expect(reachesPayload(sourceShipping, 'vendor/cosmokit/README.es.md')).toBe(true)
+    expect(reachesPayload(member('packages/a/library', '@worldapptechnologies/nulu-library', { files: ['lib/index.js'] }),
       'packages/a/library/tests/library.spec.ts')).toBe(false)
   })
 })

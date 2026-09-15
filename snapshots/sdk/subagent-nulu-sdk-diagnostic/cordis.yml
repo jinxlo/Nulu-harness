@@ -1,0 +1,68 @@
+# TypeScript SDK snapshot patch for foreground and background NULU SDK failures.
+
+- id: skill-filesystem
+  name: '@worldapptechnologies/nulu-skill-filesystem'
+  config:
+    includeDefaultRoots: false
+
+- id: llm-gateway
+  name: '@worldapptechnologies/nulu-llm-gateway'
+  config:
+    thinking: enabled
+    reasoningEffort: max
+
+- id: session-persistence-jsonl
+  name: '@worldapptechnologies/nulu-session-persistence-jsonl'
+  config:
+    root: !!js nuluHomePath('sessions')
+    compression: !!js "process.env.NULU_SNAPSHOT === undefined ? 'zstd' : 'none'"
+
+- id: session-log-gateway
+  name: '@worldapptechnologies/nulu-session-log-gateway'
+  config:
+    enabled: true
+
+- insert:
+    - id: subagent-nulu-sdk-diagnostic
+      name: '@worldapptechnologies/nulu-subagent-nulu-sdk'
+      config:
+        providerName: nulu-sdk-diagnostic
+        profile: sdk
+        patches:
+          - !!js process.env.NULU_TEST_CHILD_PATCH
+        nuluHome: !!js nuluHomePath('children/foreground')
+        provider: mock
+        model: mock-echo
+        env:
+          NULU_TELEMETRY_DISABLED: '1'
+          NULU_TEST_CHILD_FAILURE: '1'
+    - id: tool-subagent-nulu-sdk-diagnostic
+      name: '@worldapptechnologies/nulu-tool-subagent'
+      config:
+        provider: nulu-sdk-diagnostic
+        toolName: subagent_nulu_sdk
+        backgroundMode: one-shot
+        maxDepth: provider-managed
+    - id: subagent-nulu-sdk-diagnostic-background
+      name: '@worldapptechnologies/nulu-subagent-nulu-sdk'
+      config:
+        providerName: nulu-sdk-diagnostic-background
+        profile: sdk
+        patches:
+          - !!js process.env.NULU_TEST_CHILD_PATCH
+        nuluHome: !!js nuluHomePath('children/background')
+        provider: mock
+        model: mock-echo
+        env:
+          NULU_TELEMETRY_DISABLED: '1'
+          NULU_TEST_CHILD_FAILURE: '1'
+          FAKE_INIT_GO: .nulu-sdk-background-release
+    - id: tool-subagent-nulu-sdk-diagnostic-background
+      name: '@worldapptechnologies/nulu-tool-subagent'
+      config:
+        provider: nulu-sdk-diagnostic-background
+        toolName: subagent_nulu_sdk_background
+        backgroundMode: one-shot
+        maxDepth: provider-managed
+    - id: release-nulu-sdk-background-on-job-output
+      name: '../../../apps/cli/tests/profiles/sdk/fixtures/subagent-nulu-sdk-release-on-job-output.ts'

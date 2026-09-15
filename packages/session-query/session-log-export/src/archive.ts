@@ -22,16 +22,16 @@
  */
 
 import { Zip, ZipDeflate } from 'fflate'
-import type { Context } from '@deepseek-ai/cordis'
+import type { Context } from '@worldapptechnologies/cordis'
 import type {
   AttachmentStore, FileAttachmentRef, ImageAttachmentRef,
-} from '@deepseek-ai/dsh-attachment'
-import type { SessionLineageNode, SessionQueryEngine } from '@deepseek-ai/dsh-session-query'
-import { SESSION_FORMAT_VERSION } from '@deepseek-ai/dsh-session'
-import { sessionFormatLogFilename } from '@deepseek-ai/dsh-session-format'
-import type { SessionEvent, SessionHeader, SessionId, SessionStore } from '@deepseek-ai/dsh-session'
-import type { SessionHandle, SessionPersistence } from '@deepseek-ai/dsh-session-persistence'
-import { SessionPersistenceNotFoundError } from '@deepseek-ai/dsh-session-persistence'
+} from '@worldapptechnologies/nulu-attachment'
+import type { SessionLineageNode, SessionQueryEngine } from '@worldapptechnologies/nulu-session-query'
+import { SESSION_FORMAT_VERSION } from '@worldapptechnologies/nulu-session'
+import { sessionFormatLogFilename } from '@worldapptechnologies/nulu-session-format'
+import type { SessionEvent, SessionHeader, SessionId, SessionStore } from '@worldapptechnologies/nulu-session'
+import type { SessionHandle, SessionPersistence } from '@worldapptechnologies/nulu-session-persistence'
+import { SessionPersistenceNotFoundError } from '@worldapptechnologies/nulu-session-persistence'
 
 /** Valid fflate DEFLATE levels accepted by session-log export. */
 export type SessionLogCompressionLevel = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
@@ -308,7 +308,7 @@ function safeSessionIdSegment(id: string): string {
  * @returns the attachment filename for the session's export archive.
  */
 export function sessionLogZipFilename(sessionId: string): string {
-  return `dsh-session-${safeSessionIdSegment(sessionId)}.zip`
+  return `nulu-session-${safeSessionIdSegment(sessionId)}.zip`
 }
 
 /**

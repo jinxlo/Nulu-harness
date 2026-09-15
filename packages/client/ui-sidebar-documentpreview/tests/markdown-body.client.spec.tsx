@@ -2,7 +2,7 @@
 /** Markdown preview uses one accumulated document across page arrivals and EOF. */
 import { afterEach, describe, expect, it } from 'vitest'
 import { cleanup, render } from '@testing-library/react'
-import { makeTranslate } from '@deepseek-ai/dsh-client-test-runtime'
+import { makeTranslate } from '@worldapptechnologies/nulu-client-test-runtime'
 import { MarkdownBody, type MarkdownBodyProps } from '../src/client/markdown/MarkdownBody.tsx'
 import { en, zh } from '../src/client/markdown/locales.ts'
 import type { DocumentContent } from '../src/client/document/contract.ts'
@@ -22,7 +22,7 @@ function content(pageTexts: readonly string[], eof: boolean): DocumentContent {
 
 // The body reads content and locale only; the other standard seats belong to the slot integration tests.
 function props(value: DocumentContent, t: MarkdownBodyProps['t'] = makeTranslate(en)): MarkdownBodyProps {
-  return { resourceAddress: 'dsh-resource://file/session/markdown/notes.md', content: value, wrap: false, t } as MarkdownBodyProps
+  return { resourceAddress: 'nulu-resource://file/session/markdown/notes.md', content: value, wrap: false, t } as MarkdownBodyProps
 }
 
 describe('MarkdownBody', () => {

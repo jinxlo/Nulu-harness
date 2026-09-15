@@ -22,7 +22,7 @@
   ],
   "requestContexts": [
     {
-      "provider": "deepseek-official",
+      "provider": "worldapp-gateway",
       "model": "smoke-model",
       "contextWindow": 1000000,
       "systemPromptUpdate": "in-history"

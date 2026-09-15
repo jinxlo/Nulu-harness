@@ -1,15 +1,15 @@
-import { Context } from '@deepseek-ai/cordis'
+import { Context } from '@worldapptechnologies/cordis'
 import type {
   AgentContext,
   ISessions,
   SessionBinding,
   SessionListState,
   SessionSnapshot,
-} from '@deepseek-ai/dsh-api-session-controller/client'
-import { MutableSessionEventSource } from '@deepseek-ai/dsh-api-session-controller/client'
-import { createSnapshotStore } from '@deepseek-ai/dsh-client-store'
-import type { HostObservable } from '@deepseek-ai/dsh-client-ui-slots'
-import type { SessionId } from '@deepseek-ai/dsh-session/types'
+} from '@worldapptechnologies/nulu-api-session-controller/client'
+import { MutableSessionEventSource } from '@worldapptechnologies/nulu-api-session-controller/client'
+import { createSnapshotStore } from '@worldapptechnologies/nulu-client-store'
+import type { HostObservable } from '@worldapptechnologies/nulu-client-ui-slots'
+import type { SessionId } from '@worldapptechnologies/nulu-session/types'
 import { Fragment } from 'react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import {

@@ -28,6 +28,20 @@ export function signMacOSRuntimeCode(
 ): Promise<void>
 
 /**
+ * Ad-hoc sign one Mach-O file so an unsigned runtime can execute on Apple silicon.
+ * @param path - Writable standalone Mach-O file.
+ * @param identifier - Stable code-signing identifier derived from the release app ID and CAS digest.
+ * @returns Resolves after codesign exits successfully.
+ */
+export function signMacOSRuntimeCodeAdhoc(path: string, identifier: string): Promise<void>
+
+/**
+ * Verify one ad-hoc signed Mach-O file embedded in the runtime tree.
+ * @param path - Mach-O file to inspect.
+ */
+export function verifyAdhocMacOSRuntimeCode(path: string): void
+
+/**
  * Verify one Mach-O file embedded in the runtime tree.
  * @param path - Mach-O file to inspect.
  * @param expected - Public release identity.

@@ -1,14 +1,14 @@
 /**
  * Public package manifest types, with no runtime exports.
- * @module @deepseek-ai/dsh-package-manifest
+ * @module @worldapptechnologies/nulu-package-manifest
  */
 
 export type {
-  DshBundleManifest,
-  DshClientManifest,
-  DshEnginesManifest,
-  DshManifest,
-  DshPackageManifest,
-  DshProfileManifest,
+  NuluBundleManifest,
+  NuluClientManifest,
+  NuluEnginesManifest,
+  NuluManifest,
+  NuluPackageManifest,
+  NuluProfileManifest,
   ProfilePatchReload,
 } from './types.ts'

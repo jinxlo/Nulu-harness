@@ -3,7 +3,6 @@
 Status: implemented
 Archived: 2026-09-04
 
-English | [中文](2026-07-28-local-json-tree-renderer.zh.md)
 
 ## Problem
 
@@ -11,7 +10,7 @@ The read-only JSON inspector used by the [trajectory ledger](../feature/2026-07-
 
 ## Decision
 
-`JsonTree` owns its recursive presentation in `dsh-client-ui-primitives`.
+`JsonTree` owns its recursive presentation in `nulu-client-ui-primitives`.
 
 - Each rendered row receives its value and property path directly. Object keys and array indexes extend that path during recursion, so copy actions never recover application data from rendered DOM text.
 - Expandable rows render the compact preview locally and mount child rows only while expanded. `expandTopLevel` selects between a fixed-open bracket frame and a collapsible root node without changing the public component contract.

@@ -1,7 +1,7 @@
 /** Filesystem ownership for the Electron-managed desktop installation. */
 
 import { join } from 'node:path'
-import { resolveDshHome } from '@deepseek-ai/dsh-home-paths'
+import { resolveNuluHome } from '@worldapptechnologies/nulu-home-paths'
 
 /** Stable desktop installation paths under the shared Harness home. */
 export interface DesktopPaths {
@@ -20,16 +20,16 @@ export interface DesktopPaths {
 
 /**
  * Resolve every Electron-owned path without changing the shared data roots.
- * @param dshHome - Harness home shared with npm-installed dsh.
+ * @param nuluHome - Harness home shared with npm-installed nulu.
  * @returns immutable desktop path set.
  */
-export function resolveDesktopPaths(dshHome: string = resolveDshHome()): DesktopPaths {
-  const root = join(dshHome, 'desktop')
+export function resolveDesktopPaths(nuluHome: string = resolveNuluHome()): DesktopPaths {
+  const root = join(nuluHome, 'desktop')
   const pnpm = join(root, 'pnpm')
   return {
     root,
-    profile: join(dshHome, 'profiles', 'desktop'),
-    lock: join(dshHome, 'profiles', 'desktop', 'lock'),
+    profile: join(nuluHome, 'profiles', 'desktop'),
+    lock: join(nuluHome, 'profiles', 'desktop', 'lock'),
     pnpm: {
       root: pnpm,
       store: join(pnpm, 'store'),

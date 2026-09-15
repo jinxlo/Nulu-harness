@@ -10,14 +10,14 @@
  */
 
 import { describe, expect, expectTypeOf, it } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import { createAssistantMessage, createUserMessage } from '@deepseek-ai/dsh-llm'
-import SessionStore, { SessionId, SessionLogOffset, SessionSeq } from '@deepseek-ai/dsh-session'
-import type { Session, SessionEvent } from '@deepseek-ai/dsh-session'
-import SessionProjectionRegistry from '@deepseek-ai/dsh-session-projection'
-import * as SessionTurnOutlinePlugin from '@deepseek-ai/dsh-session-turn-outline'
-import { turnOutlineProjectionDefinition } from '@deepseek-ai/dsh-session-turn-outline/src/projection.ts'
-import type { TurnOutlineEntry, TurnOutlineState } from '@deepseek-ai/dsh-session-turn-outline/types'
+import { Context } from '@worldapptechnologies/cordis'
+import { createAssistantMessage, createUserMessage } from '@worldapptechnologies/nulu-llm'
+import SessionStore, { SessionId, SessionLogOffset, SessionSeq } from '@worldapptechnologies/nulu-session'
+import type { Session, SessionEvent } from '@worldapptechnologies/nulu-session'
+import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projection'
+import * as SessionTurnOutlinePlugin from '@worldapptechnologies/nulu-session-turn-outline'
+import { turnOutlineProjectionDefinition } from '@worldapptechnologies/nulu-session-turn-outline/src/projection.ts'
+import type { TurnOutlineEntry, TurnOutlineState } from '@worldapptechnologies/nulu-session-turn-outline/types'
 
 async function harness(withOutlinePlugin: boolean): Promise<{ ctx: Context; session: Session }> {
   const ctx = new Context()
@@ -43,7 +43,7 @@ function appendAssistant(session: Session, turn: number, step: number, text: str
     step,
     message: createAssistantMessage({
       content: [{ type: 'text', text }],
-      source: { provider: 'deepseek-official', model: 'deepseek-v4-flash' },
+      source: { provider: 'worldapp-gateway', model: 'nulu-5' },
     }),
   }, { surfaceOp: 'append' })
 }

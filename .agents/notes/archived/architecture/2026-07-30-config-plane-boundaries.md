@@ -3,7 +3,6 @@
 Status: implemented
 Archived: 2026-09-04
 
-English | [中文](2026-07-30-config-plane-boundaries.zh.md)
 
 > Scope: boundary hardening of the [web configuration plane](2026-07-30-web-config-plane.md) — which namespaces reach the wire, which callers reach them, and how an editor holding a partial, possibly stale view writes without destroying what it cannot see.
 
@@ -17,7 +16,7 @@ The plane worked and was reachable by more callers, and with more authority, tha
 
 The editor was worse than reachable — it was destructive. It reads the redacted descriptor, which by construction omits `role('secret')` fields. Clearing one field rebuilt the whole user section from that redacted copy and sent `settings.replace`, so a stored literal `apiKey` the wire had never returned was deleted as a side effect. Reproduced directly: `{baseURL, reasoning}` in, `apiKey` gone. Row removal took the same path. And nothing carried a version, so two tabs editing one namespace silently overwrote each other; the seam's per-namespace write queue orders writes but cannot tell a fresh writer from one replaying a stale snapshot.
 
-Three smaller defects sat beside them. `llm/adapters-updated` documented contained observer failures but only caught synchronous ones, so an async listener's rejection escaped as an unhandled rejection. llm-deepseek's retry-policy swap disposed its registration before re-registering, publishing an empty route set between the two — an observer saw the provider disappear and come back, despite a comment claiming no such window. And a transport rejection during the page's credential enrichment escaped `load()`, stranding the page in `loading` with no error shown.
+Three smaller defects sat beside them. `llm/adapters-updated` documented contained observer failures but only caught synchronous ones, so an async listener's rejection escaped as an unhandled rejection. llm-gateway's retry-policy swap disposed its registration before re-registering, publishing an empty route set between the two — an observer saw the provider disappear and come back, despite a comment claiming no such window. And a transport rejection during the page's credential enrichment escaped `load()`, stranding the page in `loading` with no error shown.
 
 ## Decision
 

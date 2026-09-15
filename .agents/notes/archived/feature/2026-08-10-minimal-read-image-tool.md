@@ -3,7 +3,6 @@
 Status: implemented
 Archived: 2026-09-04
 
-English | [中文](2026-08-10-minimal-read-image-tool.zh.md)
 
 ## Problem
 
@@ -11,7 +10,7 @@ The multimodal attachment work gave user uploads a complete durable path, but th
 
 ## Decision
 
-Both image-reading operations live in `dsh-tool-fs` and publish ordinary logged tool results over existing extension points.
+Both image-reading operations live in `nulu-tool-fs` and publish ordinary logged tool results over existing extension points.
 
 - **`read_image` reads a filesystem path.** Extension selects the declared PNG/JPEG/WebP/GIF media type; the attachment store's magic-byte and pixel validation stays authoritative. Bytes travel `ctx.fs.stat` → bounded `ctx.fs.readBytes` → `ctx.attachments.saveImage` → `fs/observed`. The tool result contains metadata and an `ImageBlock`.
 - **`FileSystem.readBytes(target, signal, maxBytes)`** is a new required provider primitive: the byte bound lives at the seam so no backend can buffer an unbounded file, with the stat-size short-circuit and a one-byte-past-cap stream guard against post-stat growth (`FS_TOO_LARGE`).

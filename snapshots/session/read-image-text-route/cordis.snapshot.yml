@@ -2,29 +2,29 @@
 # image.cordis.snapshot.yml overlay except the replay catalog leaves flash
 # text-only, so the strict read_image gate refuses and no image ever enters
 # the durable log.
-- id: llm-deepseek
-  name: '@deepseek-ai/dsh-llm-deepseek'
+- id: llm-gateway
+  name: '@worldapptechnologies/nulu-llm-gateway'
   disabled: true
 
 - id: agent-default-model
-  name: '@deepseek-ai/dsh-agent-default-model'
+  name: '@worldapptechnologies/nulu-agent-default-model'
   config:
-    provider: deepseek-official
-    model: deepseek-v4-flash
+    provider: worldapp-gateway
+    model: nulu-5
 
 - id: session-persistence-jsonl
-  name: '@deepseek-ai/dsh-session-persistence-jsonl'
+  name: '@worldapptechnologies/nulu-session-persistence-jsonl'
   config:
-    root: !!js dshHomePath('sessions')
+    root: !!js nuluHomePath('sessions')
     compression: none
 
 - id: agent-instructions
-  name: '@deepseek-ai/dsh-agent-instructions'
+  name: '@worldapptechnologies/nulu-agent-instructions'
   config:
     maxBytes: 65536
 
 - id: system-prompt
-  name: '@deepseek-ai/dsh-system-prompt'
+  name: '@worldapptechnologies/nulu-system-prompt'
   config:
     personaPrefix: |
       You are a coding assistant powered by the {{model}} model. Your working directory is {{cwd}}. Your bash tool runs under a file sandbox — a `[sandbox: file access denied …]` result is policy, not a command bug.
@@ -33,16 +33,16 @@
 
 - insert:
     - id: llm-replay
-      name: '@deepseek-ai/dsh-llm-replay'
+      name: '@worldapptechnologies/nulu-llm-replay'
       config:
         providers:
-          - id: deepseek-official
-            name: DeepSeek
+          - id: worldapp-gateway
+            name: Nulu
             models:
-              - id: deepseek-v4-flash
+              - id: nulu-5
                 inputModalities: [text]
-              - id: deepseek-v4-pro
+              - id: nulu-5-ultra
                 inputModalities: [text]
 
 - id: attachment-local
-  name: '@deepseek-ai/dsh-attachment-local'
+  name: '@worldapptechnologies/nulu-attachment-local'

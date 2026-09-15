@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import { SessionFormatEventCollector } from '@deepseek-ai/dsh-session-format'
-import type { SessionFormatEvent, SessionFormatJsonObject, SessionFormatJsonValue } from '@deepseek-ai/dsh-session-format'
-import { sessionFormatCatalog } from '@deepseek-ai/dsh-session-format-catalog'
+import { SessionFormatEventCollector } from '@worldapptechnologies/nulu-session-format'
+import type { SessionFormatEvent, SessionFormatJsonObject, SessionFormatJsonValue } from '@worldapptechnologies/nulu-session-format'
+import { sessionFormatCatalog } from '@worldapptechnologies/nulu-session-format-catalog'
 import { restoreReleasedV3Artifact, sessionFormatV2ToV3 } from '../src/index.ts'
 
 const header = { version: 2, id: 'content-admission', createdAt: 1, isSeeded: false, delegationDepth: 0 }
@@ -37,7 +37,7 @@ const messageCarriers = [
     event('tool/result', { turn: 1, step: 1, message: { id: 'result', role: 'user', source: { kind: 'tool', callId: 'call' }, content: [{ type: 'tool-result', toolCallId: 'call', content }] } }, true),
   ] },
   { type: 'agent/inbox/spliced', path: 'data.inserted[0].content', seq: 3, rows: (content: SessionFormatJsonValue) => [event('agent/inbox/spliced', { target: 'next-turn', start: 0, inserted: [{ ...user, id: 'inbox', content }] })] },
-  { type: 'session/title-llm-request', path: 'data.messages[0].content', seq: 3, rows: (content: SessionFormatJsonValue) => [event('session/title-llm-request', { titleProvider: 'mock', messageSeqs: [2], route: { provider: 'mock', model: 'mock' }, system: 'title', maxTokens: 987, messages: [{ ...user, id: 'title', source: { kind: 'plugin', plugin: 'dsh-session-title-llm' }, content }] })] },
+  { type: 'session/title-llm-request', path: 'data.messages[0].content', seq: 3, rows: (content: SessionFormatJsonValue) => [event('session/title-llm-request', { titleProvider: 'mock', messageSeqs: [2], route: { provider: 'mock', model: 'mock' }, system: 'title', maxTokens: 987, messages: [{ ...user, id: 'title', source: { kind: 'plugin', plugin: 'nulu-session-title-llm' }, content }] })] },
 ]
 const carriers = [
   ...messageCarriers,

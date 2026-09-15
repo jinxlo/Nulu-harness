@@ -1,9 +1,9 @@
 /** Real JSONL publication and provider-neutral message preservation across the V2 PTC rename. */
 
-import { Context } from '@deepseek-ai/cordis'
-import { Session, SessionId } from '@deepseek-ai/dsh-session'
-import type { SessionFormatEvent } from '@deepseek-ai/dsh-session-format'
-import JsonlSessionPersistence from '@deepseek-ai/dsh-session-persistence-jsonl'
+import { Context } from '@worldapptechnologies/cordis'
+import { Session, SessionId } from '@worldapptechnologies/nulu-session'
+import type { SessionFormatEvent } from '@worldapptechnologies/nulu-session-format'
+import JsonlSessionPersistence from '@worldapptechnologies/nulu-session-persistence-jsonl'
 import { createHash } from 'node:crypto'
 import { mkdir, mkdtemp, readFile, readdir, rm, stat, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
@@ -17,7 +17,7 @@ const userMessage = {
 }
 const titleMessage = {
   id: 'tools-code-mode:title-input', role: 'user',
-  source: { kind: 'plugin', plugin: 'dsh-session-title-llm' },
+  source: { kind: 'plugin', plugin: 'nulu-session-title-llm' },
   content: [{ type: 'text', text: 'Generate the session title from this JSON array of human messages:\n[{"seq":2,"text":"Keep tools-code-mode and tool/code-dispatch in this text. 图片"}]' }],
 }
 const toolCall = {
@@ -104,7 +104,7 @@ describe('JSONL V2 PTC publication and restore', () => {
   let ctx: Context | undefined
 
   beforeEach(async () => {
-    root = await mkdtemp(join(tmpdir(), 'dsh-jsonl-v2-ptc-'))
+    root = await mkdtemp(join(tmpdir(), 'nulu-jsonl-v2-ptc-'))
     ctx = new Context()
     await ctx.plugin(JsonlSessionPersistence, { root, compression: 'none' })
   })
@@ -167,7 +167,7 @@ describe('JSONL V2 PTC publication and restore', () => {
     const systemMessage = {
       id: 'v2-to-v3-system-' + createHash('sha256')
         .update(JSON.stringify(['session-format-v2-to-v3', id, 1, 'step/start'])).digest('hex'),
-      role: 'system', source: { kind: 'plugin', plugin: '@deepseek-ai/dsh-system-prompt' }, content: [],
+      role: 'system', source: { kind: 'plugin', plugin: '@worldapptechnologies/nulu-system-prompt' }, content: [],
     }
     expectedEvents.splice(2, 0, {
       type: 'system/message', seq: 2, time: 1002, surfaceOp: 'append',

@@ -167,8 +167,8 @@
         "seq": 68,
         "val": {
           "lastUsed": {
-            "provider": "deepseek-official",
-            "model": "deepseek-v4-flash",
+            "provider": "worldapp-gateway",
+            "model": "nulu-5",
             "reasoningEffort": "high"
           },
           "pending": null

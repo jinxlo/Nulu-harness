@@ -1,21 +1,21 @@
 import { describe, expect, it } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import { toolPairingBalancedAfter, toolPairingBalancedBefore } from '@deepseek-ai/dsh-compaction'
-import { createUserMessage, createSystemMessage, CONTEXT_WINDOW_EXCEEDED_CODE, LlmError, resolveRetryPolicy , createMessage } from '@deepseek-ai/dsh-llm'
-import type { ContentBlock, GenerateOptions, LlmResolvedModelInfo, ResolvedRetryPolicy, StreamChunk } from '@deepseek-ai/dsh-llm'
-import { ToolCallId, LlmAdapter } from '@deepseek-ai/dsh-llm'
-import { defineContentToolFixture } from '@deepseek-ai/dsh-tools'
-import type { Agent } from '@deepseek-ai/dsh-agent'
-import AgentLoop from '@deepseek-ai/dsh-agent-loop'
-import { mountAgentLoopTestDependencies } from '@deepseek-ai/dsh-agent-loop-testkit'
-import InvariantRegistry from '@deepseek-ai/dsh-invariants'
-import * as SessionInvariant from '@deepseek-ai/dsh-session/invariant'
-import * as AgentInvariant from '@deepseek-ai/dsh-agent/invariant'
-import * as AgentLoopInvariant from '@deepseek-ai/dsh-agent-loop/invariant'
-import { BasicCompactionEngine } from '@deepseek-ai/dsh-compaction-basic'
-import TokenMeter from '@deepseek-ai/dsh-token-meter'
-import * as LlmRetry from '@deepseek-ai/dsh-llm-retry'
-import { Session, SessionId, type SessionEvent, type SurfaceEvent } from '@deepseek-ai/dsh-session'
+import { Context } from '@worldapptechnologies/cordis'
+import { toolPairingBalancedAfter, toolPairingBalancedBefore } from '@worldapptechnologies/nulu-compaction'
+import { createUserMessage, createSystemMessage, CONTEXT_WINDOW_EXCEEDED_CODE, LlmError, resolveRetryPolicy , createMessage } from '@worldapptechnologies/nulu-llm'
+import type { ContentBlock, GenerateOptions, LlmResolvedModelInfo, ResolvedRetryPolicy, StreamChunk } from '@worldapptechnologies/nulu-llm'
+import { ToolCallId, LlmAdapter } from '@worldapptechnologies/nulu-llm'
+import { defineContentToolFixture } from '@worldapptechnologies/nulu-tools'
+import type { Agent } from '@worldapptechnologies/nulu-agent'
+import AgentLoop from '@worldapptechnologies/nulu-agent-loop'
+import { mountAgentLoopTestDependencies } from '@worldapptechnologies/nulu-agent-loop-testkit'
+import InvariantRegistry from '@worldapptechnologies/nulu-invariants'
+import * as SessionInvariant from '@worldapptechnologies/nulu-session/invariant'
+import * as AgentInvariant from '@worldapptechnologies/nulu-agent/invariant'
+import * as AgentLoopInvariant from '@worldapptechnologies/nulu-agent-loop/invariant'
+import { BasicCompactionEngine } from '@worldapptechnologies/nulu-compaction-basic'
+import TokenMeter from '@worldapptechnologies/nulu-token-meter'
+import * as LlmRetry from '@worldapptechnologies/nulu-llm-retry'
+import { Session, SessionId, type SessionEvent, type SurfaceEvent } from '@worldapptechnologies/nulu-session'
 
 /**
  * CBR-001 regression through the real loop. A replacement checkpoint has a high
@@ -336,7 +336,7 @@ describe('token pressure after loop-admitted system prompts', () => {
         agent.session.append('system/message', {
           turn,
           step,
-          message: createSystemMessage('retry guidance', '@deepseek-ai/dsh-system-prompt'),
+          message: createSystemMessage('retry guidance', '@worldapptechnologies/nulu-system-prompt'),
         }, { surfaceOp: { op: 'replace', startSeq: node, endSeq: node }, sourceEventSeqs: [node] })
         return { kind: 'retry' }
       })

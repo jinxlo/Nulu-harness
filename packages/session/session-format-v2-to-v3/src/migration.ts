@@ -1,16 +1,16 @@
 /** Streaming system-prompt promotion followed by canonical V3 envelope conversion. */
 
 import { createHash } from 'node:crypto'
-import { SessionFormatError, SessionFormatUnsupportedMigrationError, defineSessionFormatMigration, sessionFormatCount } from '@deepseek-ai/dsh-session-format'
-import type { SessionFormatEvent, SessionFormatEventRun, SessionFormatJsonObject, SessionFormatJsonValue, SessionFormatMigrationContext, SessionFormatMigrationStage, SessionFormatMigrationStageInput } from '@deepseek-ai/dsh-session-format'
-import { assertReleasedV2Header } from '@deepseek-ai/dsh-session-format-v1-to-v2'
+import { SessionFormatError, SessionFormatUnsupportedMigrationError, defineSessionFormatMigration, sessionFormatCount } from '@worldapptechnologies/nulu-session-format'
+import type { SessionFormatEvent, SessionFormatEventRun, SessionFormatJsonObject, SessionFormatJsonValue, SessionFormatMigrationContext, SessionFormatMigrationStage, SessionFormatMigrationStageInput } from '@worldapptechnologies/nulu-session-format'
+import { assertReleasedV2Header } from '@worldapptechnologies/nulu-session-format-v1-to-v2'
 import { assertEvent, canonicalizeTransformedEvent, record, SURFACE_TYPES } from './payload.ts'
 import { remapEvent } from './references.ts'
 import { assertReleasedV3Header } from './validation.ts'
 
 /** Promote system prompts, remap audited references, and canonicalize envelopes and PTC vocabulary. */
 export const sessionFormatV2ToV3 = defineSessionFormatMigration({
-  name: '@deepseek-ai/dsh-session-format-v2-to-v3',
+  name: '@worldapptechnologies/nulu-session-format-v2-to-v3',
   fromVersion: 2,
   toVersion: 3,
   migrateHeader(header) {
@@ -61,7 +61,7 @@ class ReleasedV2ToV3Stage implements SessionFormatMigrationStage {
       this.sourceCut = event.seq
       this.targetCut = this.targetSeq
     }
-    if (event.type === 'session-log-deepseek/delivery-accepted') {
+    if (event.type === 'session-log-gateway/delivery-accepted') {
       if (data['sessionFormatVersion'] === 3) throw new SessionFormatError('format v2 delivery marker claims target format v3')
       if (data['sessionFormatVersion'] === 2 && data['sessionId'] !== this.input.sourceHeader.id) this.lastForeignDeliverySeq = event.seq
     }
@@ -123,7 +123,7 @@ class ReleasedV2ToV3Stage implements SessionFormatMigrationStage {
         ...this.step,
         message: {
           id,
-          role: 'system', source: { kind: 'plugin', plugin: '@deepseek-ai/dsh-system-prompt' },
+          role: 'system', source: { kind: 'plugin', plugin: '@worldapptechnologies/nulu-system-prompt' },
           content: prompt === '' ? [] : [{ type: 'text', text: prompt }],
         },
       },

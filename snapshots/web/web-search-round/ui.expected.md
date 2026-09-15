@@ -14,20 +14,20 @@
   - img
   - img
   - text: System prompt
-- text: Use web_search once with queries ["DeepSeek Harness snapshot search","DeepSeek Harness multi-query search"]. Then reply exactly SEARCH_DONE and stop. {{clock}}
+- text: Use web_search once with queries ["Nulu Harness snapshot search","Nulu Harness multi-query search"]. Then reply exactly SEARCH_DONE and stop. {{clock}}
 - button "Copy":
   - img
 - button "1 tool call" [expanded]:
   - text: 1 tool call
   - img
-- button "Context injection @deepseek-ai/dsh-system-prompt":
+- button "Context injection @worldapptechnologies/nulu-system-prompt":
   - img
   - img
-  - text: Context injection @deepseek-ai/dsh-system-prompt
-- button "Search DeepSeek Harness snapshot search, DeepSeek Harness multi-query search":
+  - text: Context injection @worldapptechnologies/nulu-system-prompt
+- button "Search Nulu Harness snapshot search, Nulu Harness multi-query search":
   - img
   - img
-  - text: Search DeepSeek Harness snapshot search, DeepSeek Harness multi-query search
+  - text: Search Nulu Harness snapshot search, Nulu Harness multi-query search
 - paragraph: SEARCH_DONE
 - button "Copy":
   - img
@@ -45,8 +45,8 @@
 - button "Add files or run commands":
   - img
 - 'button "Access mode, current: Workspace Write"': Workspace Write
-- button "Select model, current DeepSeek-V4-Flash":
-  - text: DeepSeek-V4-Flash
+- button "Select model, current Nulu 5":
+  - text: Nulu 5
   - img
 - button "0% of context used"
 - button "Send message" [disabled]

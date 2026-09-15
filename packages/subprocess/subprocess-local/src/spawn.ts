@@ -5,7 +5,7 @@
  * POSIX owners stage TERM before KILL; Windows owners terminate immediately.
  * This layer reacts to an abort signal; callers own deadlines, teardown
  * ladders, and cause classification.
- * @module dsh-subprocess-local/spawn
+ * @module nulu-subprocess-local/spawn
  */
 
 import { type ChildProcess, type SpawnOptions, spawn, spawnSync } from 'node:child_process'
@@ -15,8 +15,8 @@ import { closeSync, mkdtempSync, openSync, rmdirSync, unlinkSync, writeSync } fr
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { setTimeout as sleepMs } from 'node:timers/promises'
-import { scrubbedParentEnv } from '@deepseek-ai/dsh-subprocess'
-import { MAX_TIMER_DELAY_MS } from '@deepseek-ai/dsh-timeout'
+import { scrubbedParentEnv } from '@worldapptechnologies/nulu-subprocess'
+import { MAX_TIMER_DELAY_MS } from '@worldapptechnologies/nulu-timeout'
 import type {
   CollectedOutput,
   SubprocessCollect,
@@ -24,7 +24,7 @@ import type {
   SubprocessOutcome,
   SubprocessOutputMode,
   SubprocessSpawnSpec,
-} from '@deepseek-ai/dsh-subprocess'
+} from '@worldapptechnologies/nulu-subprocess'
 import type { BoundProcessOwner, ManagedProcessLaunch } from './managed-owner.ts'
 import { waitWithAbort } from './managed-owner.ts'
 import { linuxProcessGroupHasLiveMembers } from './process-inspector.ts'
@@ -101,7 +101,7 @@ let defaultSpillDir: string | undefined
  * recovery artifacts until an external cleanup).
  */
 function privateSpillDir(): string {
-  defaultSpillDir ??= mkdtempSync(join(tmpdir(), 'dsh-subprocess-'))
+  defaultSpillDir ??= mkdtempSync(join(tmpdir(), 'nulu-subprocess-'))
   return defaultSpillDir
 }
 
@@ -200,7 +200,7 @@ export class OutputCollector {
       // prediction and symlink planting in shared tmp dirs.
       this.spillFile = join(
         this.spillDir,
-        `dsh-subprocess-${process.pid}-${++spillCounter}-${randomBytes(6).toString('hex')}-${this.label}.log`,
+        `nulu-subprocess-${process.pid}-${++spillCounter}-${randomBytes(6).toString('hex')}-${this.label}.log`,
       )
       this.spillFd = openSync(this.spillFile, 'wx', 0o600)
       for (const prior of this.chunks) writeSync(this.spillFd, prior)

@@ -14,8 +14,8 @@ import { join } from 'node:path'
 import type { Browser, Page } from 'playwright'
 import { chromium } from 'playwright'
 import { afterEach, describe, expect, it, onTestFailed } from 'vitest'
-import type { ReplayOverrideDoc } from '@deepseek-ai/dsh-llm-replay'
-import type { SessionEvent } from '@deepseek-ai/dsh-session'
+import type { ReplayOverrideDoc } from '@worldapptechnologies/nulu-llm-replay'
+import type { SessionEvent } from '@worldapptechnologies/nulu-session'
 import {
   assertFixtureInventory, captureStableAria, compareOrRefreshGolden, fixtureUserPrompts,
   launchWebScaffold, recordFixture, watchConsole, webSnapshotMode, type WebScaffold,
@@ -70,7 +70,7 @@ describe('web e2e: assistant IconActions wait for the turn to end', () => {
     sessionEvents = []
     let overridePath: string | undefined
     if (buildOverride !== undefined) {
-      sidecarDir = await mkdtemp(join(tmpdir(), 'dsh-web-e2e-sidecar-'))
+      sidecarDir = await mkdtemp(join(tmpdir(), 'nulu-web-e2e-sidecar-'))
       overridePath = join(sidecarDir, 'replay.override.json')
       await writeFile(overridePath, JSON.stringify(buildOverride(sidecarDir)))
     }
@@ -189,7 +189,7 @@ describe('web e2e: assistant IconActions wait for the turn to end', () => {
     expect(await trigger.getAttribute('aria-expanded')).toBe('true')
     const dialog = page.getByRole('dialog', { name: 'Turn usage' })
     expect(await dialog.count()).toBe(1)
-    expect(await dialog.getByText('deepseek-official/deepseek-v4-flash', { exact: true }).count()).toBe(1)
+    expect(await dialog.getByText('worldapp-gateway/nulu-5', { exact: true }).count()).toBe(1)
     expect(await dialog.getByText('49.7%', { exact: true }).count()).toBe(1)
     expect(await dialog.getByText('7,891 tok', { exact: true }).count()).toBe(1)
     expect(await dialog.getByText('7,808 tok', { exact: true }).count()).toBe(1)

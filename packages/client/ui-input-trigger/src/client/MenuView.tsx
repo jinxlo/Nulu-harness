@@ -14,8 +14,8 @@
  */
 import { Fragment, useCallback, useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from 'react'
 import clsx from 'clsx'
-import { IconChevronRightOutline14, ReferenceIcon, useAnchoredMaxHeight } from '@deepseek-ai/dsh-client-ui-primitives'
-import type { PropsLocale } from '@deepseek-ai/dsh-client-ui-slots'
+import { IconChevronRightOutline14, ReferenceIcon, useAnchoredMaxHeight } from '@worldapptechnologies/nulu-client-ui-primitives'
+import type { PropsLocale } from '@worldapptechnologies/nulu-client-ui-slots'
 import css from './MenuView.module.css'
 import type { MenuViewInjected } from './slots.ts'
 import type { MenuKey } from './locales.ts'
@@ -28,7 +28,7 @@ const MAX_HEIGHT = 400
 
 /** DOM id of one option row (the aria-activedescendant target). */
 function optionId(source: string, index: number): string {
-  return `dsh-slash-option-${source}-${index}`
+  return `nulu-slash-option-${source}-${index}`
 }
 
 /**

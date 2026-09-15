@@ -1,0 +1,8 @@
+# The keyless provider smokes dial a local OpenAI-compatible mock through the
+# Nulu adapter's WORLD_APP_TECHNOLOGIES_BASE_URL, so they pin the default route to that
+# provider; the composition's shipped default is the World App Technologies
+# pi-ai route, which no keyless mock stands in for.
+- id: agent-default-model
+  config:
+    provider: worldapp-gateway
+    model: nulu-5

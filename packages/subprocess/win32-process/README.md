@@ -3,9 +3,8 @@ description: "Low-level Win32 process primitives for maintainers implementing or
 kind: "package-library"
 ---
 
-# @deepseek-ai/dsh-win32-process
+# @worldapptechnologies/nulu-win32-process
 
-English | [中文](README.zh.md)
 
 ## Summary
 

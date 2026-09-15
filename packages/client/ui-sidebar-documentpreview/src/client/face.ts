@@ -16,9 +16,9 @@
  * ended, and a settlement arriving after the record is gone has nothing left to
  * write to. A tab that never read has no bucket to forget.
  */
-import type { BoundActions } from '@deepseek-ai/dsh-client-store'
-import type { TabId } from '@deepseek-ai/dsh-client-ui-dockkit'
-import type { SessionId } from '@deepseek-ai/dsh-session/types'
+import type { BoundActions } from '@worldapptechnologies/nulu-client-store'
+import type { TabId } from '@worldapptechnologies/nulu-client-ui-dockkit'
+import type { SessionId } from '@worldapptechnologies/nulu-session/types'
 import type { ReadDocumentBytes, ReadWorkspaceFilePage, SessionFile } from './rpc.ts'
 import { documentFileBytes } from './rpc.ts'
 import type { TextStore } from './store.ts'
@@ -150,7 +150,7 @@ export function textFace(
         } catch (error) {
           actions.failed(tabId, Object.assign(
             new Error('document file byte response has malformed base64 data', { cause: error }),
-            { name: 'RemoteError', isDSHRemoteError: true as const, code: 'gateway/internal' as const, details: {} },
+            { name: 'RemoteError', isNULURemoteError: true as const, code: 'gateway/internal' as const, details: {} },
           ))
           return
         }

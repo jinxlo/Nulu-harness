@@ -2,7 +2,6 @@
 
 Status: implemented
 
-English | [中文](2026-06-20-collapse-trace-only-session-events.zh.md)
 
 ## Problem
 
@@ -35,6 +34,6 @@ A consumer can no longer filter the canonical log for standalone `usage` or step
 
 ## Implementation note
 
-**Format version.** This event simplification predates the released v0 baseline. `dsh-session` owns the current writer constant, while the static catalog and adjacent packages now own supported historical decoding and migration. The identity v0-to-v1 edge proves that lifecycle without changing this event representation.
+**Format version.** This event simplification predates the released v0 baseline. `nulu-session` owns the current writer constant, while the static catalog and adjacent packages now own supported historical decoding and migration. The identity v0-to-v1 edge proves that lifecycle without changing this event representation.
 
 Usage is now observed on `assistant/message.usage`; an operational error's step on `turn/end.reason` for `kind: 'error'`. `agent/error` + logging are unchanged for live diagnostics.

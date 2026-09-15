@@ -3,9 +3,8 @@ description: "Scriptable OpenAI-compatible fault server for testing LLM adapters
 kind: "package-library"
 ---
 
-# @deepseek-ai/dsh-llm-mock-server
+# @worldapptechnologies/nulu-llm-mock-server
 
-English | [中文](README.zh.md)
 
 ## Summary
 
@@ -39,12 +38,12 @@ pnpm run mock:llm \
   --partial-text "discard this half"
 ```
 
-Point the shipping DeepSeek adapter at the server; it appends `/chat/completions` to the configured base:
+Point the shipping Nulu adapter at the server; it appends `/chat/completions` to the configured base:
 
 ```sh
-DEEPSEEK_BASE_URL=http://127.0.0.1:8000/v1 \
-DEEPSEEK_API_KEY=mock-key \
-pnpm dsh --profile headless "test provider recovery"
+WORLD_APP_TECHNOLOGIES_BASE_URL=http://127.0.0.1:8000/v1 \
+WORLD_APP_TECHNOLOGIES_API_KEY=mock-key \
+pnpm nulu --profile headless "test provider recovery"
 ```
 
 The repository script writes JSONL to stdout: a `ready` record carries the `/v1` base URL and random seed, followed by request/result records that name both the scripted behavior and the concrete behavior selected. The package exposes no installable binary.

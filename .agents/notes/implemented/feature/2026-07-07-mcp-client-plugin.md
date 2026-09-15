@@ -2,19 +2,18 @@
 
 Status: implemented
 
-English | [中文](2026-07-07-mcp-client-plugin.zh.md)
 
 ## Problem
 
 The harness had no way to consume tools from the MCP (Model Context Protocol) ecosystem. MCP is the emerging standard for tool servers — GitHub, filesystem, databases, code search, and hundreds of community servers expose tools via MCP. Users want to point the harness at one or more MCP servers and have their tools appear as native model-facing tools, without writing per-server glue code.
 
-The `ToolRuntime` already accepts raw JSON Schema tool definitions (documented in `dsh-tools` README: "Raw JSON-Schema tool definitions (from MCP servers) are still accepted by `ToolRuntime.register()` directly"), and the extension cookbook sketches the intended pattern ("MCP | one plugin per server: discover tools → `ctx.tools.register()`"). The infrastructure was ready; the bridge plugin was missing.
+The `ToolRuntime` already accepts raw JSON Schema tool definitions (documented in `nulu-tools` README: "Raw JSON-Schema tool definitions (from MCP servers) are still accepted by `ToolRuntime.register()` directly"), and the extension cookbook sketches the intended pattern ("MCP | one plugin per server: discover tools → `ctx.tools.register()`"). The infrastructure was ready; the bridge plugin was missing.
 
 ## Decision
 
 ### Package
 
-A single package `@deepseek-ai/dsh-mcp-client` at `packages/mcp/mcp-client/`. No capability-seam three-package split — there is no foreseeable second MCP client implementation, and the convention is "don't split preemptively" ([capability seams Agent Note](../architecture/2026-06-13-capability-seams.md)).
+A single package `@worldapptechnologies/nulu-mcp-client` at `packages/mcp/mcp-client/`. No capability-seam three-package split — there is no foreseeable second MCP client implementation, and the convention is "don't split preemptively" ([capability seams Agent Note](../architecture/2026-06-13-capability-seams.md)).
 
 ### SDK
 
@@ -26,7 +25,7 @@ MCP Client only (no server side — ACP already covers the "expose harness as an
 
 ### Plugin shape
 
-Namespace plugin (named exports `name`/`inject`/`Config`/`apply`, no `export default`). `inject: ['tools']`. Each MCP server is one plugin instance in `cordis.yml` — the same package loaded N times with different configs, like `dsh-tool-subagent`.
+Namespace plugin (named exports `name`/`inject`/`Config`/`apply`, no `export default`). `inject: ['tools']`. Each MCP server is one plugin instance in `cordis.yml` — the same package loaded N times with different configs, like `nulu-tool-subagent`.
 
 ### Configuration
 
@@ -60,7 +59,7 @@ Example `cordis.yml` usage:
 
 ```yaml
 - id: mcp-github
-  name: '@deepseek-ai/dsh-mcp-client'
+  name: '@worldapptechnologies/nulu-mcp-client'
   config:
     serverName: github
     transport: stdio
@@ -70,7 +69,7 @@ Example `cordis.yml` usage:
       GITHUB_TOKEN: !!js process.env.GITHUB_TOKEN
 
 - id: mcp-web
-  name: '@deepseek-ai/dsh-mcp-client'
+  name: '@worldapptechnologies/nulu-mcp-client'
   config:
     serverName: web
     transport: streamable-http
@@ -102,11 +101,11 @@ This server-qualified shape is the de-facto standard among multi-server agent cl
 4. No `presentCall`/`presentResult` — UI consumers use the provider-neutral generic-card fallback.
 5. Tools are transparent in the system prompt — no "[via MCP]" annotation beyond the name itself.
 
-Each synchronization rejects a repeated non-empty continuation cursor before requesting another page, retaining the previous tool generation. Empty pages cannot establish progress through tool-name uniqueness, so cursor history also detects cycles spanning several pages ([reported failure](https://github.com/deepseek-ai/deepseek-harness/discussions/3660)). Cursor history belongs to one synchronization: a later update may reuse the same cursors. Focused bridge and lifecycle tests cover cycle rejection, retained callable tools, strict startup failure, and notification recovery. This detects repeated cursors; it does not bound a server that continually returns distinct cursors.
+Each synchronization rejects a repeated non-empty continuation cursor before requesting another page, retaining the previous tool generation. Empty pages cannot establish progress through tool-name uniqueness, so cursor history also detects cycles spanning several pages ([reported failure](https://github.com/worldapptechnologies/nulu-harness/discussions/3660)). Cursor history belongs to one synchronization: a later update may reuse the same cursors. Focused bridge and lifecycle tests cover cycle rejection, retained callable tools, strict startup failure, and notification recovery. This detects repeated cursors; it does not bound a server that continually returns distinct cursors.
 
 ### Public name normalization
 
-MCP allows tool names up to 128 characters including `.`; the DeepSeek function-name contract allows `[A-Za-z0-9_-]` and at most 64. Public names are normalized deterministically: invalid characters become `_`, and when replacement or truncation changed the name, a 12-hex-char SHA-256 hash of the `(serverName, rawName)` identity is appended so distinct MCP identities can never collapse into the same public name:
+MCP allows tool names up to 128 characters including `.`; the Nulu function-name contract allows `[A-Za-z0-9_-]` and at most 64. Public names are normalized deterministically: invalid characters become `_`, and when replacement or truncation changed the name, a 12-hex-char SHA-256 hash of the `(serverName, rawName)` identity is appended so distinct MCP identities can never collapse into the same public name:
 
 ```typescript
 function publicToolName(serverName: string, rawName: string): string {
@@ -133,7 +132,7 @@ Tools are never silently skipped; which tools are available never depends on plu
 ### Naming invariants
 
 1. Every MCP tool has the stable identity `(serverName, rawName)`; every active identity has exactly one public name.
-2. Public names are deterministic, globally unique, and satisfy the DeepSeek 64-char `[A-Za-z0-9_-]` contract.
+2. Public names are deterministic, globally unique, and satisfy the Nulu 64-char `[A-Za-z0-9_-]` contract.
 3. MCP `tools/call` always receives the original raw name.
 4. Connecting, disconnecting, or re-syncing an unrelated server never renames an existing tool.
 5. Registration order never determines which tool is available.
@@ -151,7 +150,7 @@ A unified `execute` handler for all tools from one MCP server:
 
 ### Subprocess environment (stdio transport)
 
-Build the child environment from the subprocess seam's shared `scrubbedParentEnv()` base, which removes ambient names matching `/KEY|PASSWORD|SECRET|TOKEN/i` and ambient `DSH_*` names, then merge `config.env` on top. Explicit env overrides survive the scrub.
+Build the child environment from the subprocess seam's shared `scrubbedParentEnv()` base, which removes ambient names matching `/KEY|PASSWORD|SECRET|TOKEN/i` and ambient `NULU_*` names, then merge `config.env` on top. Explicit env overrides survive the scrub.
 
 ### Disconnection / crash
 
@@ -189,7 +188,7 @@ Rejected. The remote name is untrusted, non-unique across deployments, and chang
 
 ### Preserve multiple TextBlocks in tool result
 
-Rejected. `flattenText()` in the DeepSeek serializer uses `join('')` (no separator) when flattening `ContentBlock[]` to wire format. Multiple text blocks would silently lose inter-block boundaries — a correctness bug. All existing tools return a single TextBlock; the MCP bridge follows suit.
+Rejected. `flattenText()` in the Nulu serializer uses `join('')` (no separator) when flattening `ContentBlock[]` to wire format. Multiple text blocks would silently lose inter-block boundaries — a correctness bug. All existing tools return a single TextBlock; the MCP bridge follows suit.
 
 ### Replace the canonical MCP result with core `ContentBlock[]`
 

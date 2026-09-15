@@ -12,14 +12,14 @@ import { mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { gunzipSync } from 'node:zlib'
-import { Context } from '@deepseek-ai/cordis'
-import { getOrCreateAnonymousUserId } from '@deepseek-ai/dsh-anonymous-user-id'
-import Loader from '@deepseek-ai/cordis-plugin-loader'
-import { recordFeedback } from '@deepseek-ai/dsh-command-feedback'
-import { createAssistantMessage } from '@deepseek-ai/dsh-llm'
-import SessionStore, { SESSION_FORMAT_VERSION, Session, SessionId, SessionLogOffset, SessionSeq } from '@deepseek-ai/dsh-session'
-import MessageFeedbackService from '@deepseek-ai/dsh-message-feedback'
-import JsonlPersistence from '@deepseek-ai/dsh-session-persistence-jsonl'
+import { Context } from '@worldapptechnologies/cordis'
+import { getOrCreateAnonymousUserId } from '@worldapptechnologies/nulu-anonymous-user-id'
+import Loader from '@worldapptechnologies/cordis-plugin-loader'
+import { recordFeedback } from '@worldapptechnologies/nulu-command-feedback'
+import { createAssistantMessage } from '@worldapptechnologies/nulu-llm'
+import SessionStore, { SESSION_FORMAT_VERSION, Session, SessionId, SessionLogOffset, SessionSeq } from '@worldapptechnologies/nulu-session'
+import MessageFeedbackService from '@worldapptechnologies/nulu-message-feedback'
+import JsonlPersistence from '@worldapptechnologies/nulu-session-persistence-jsonl'
 import OpenTelemetrySessionBackend, { Config, DEFAULT_TELEMETRY_MODE, SessionTelemetryMode } from '../src/index.ts'
 
 interface Capture {
@@ -47,17 +47,17 @@ interface OtlpLogsRequest {
 const servers: Server[] = []
 
 // The backend resolves the harness home's anonymous user id at construction;
-// pin DSH_HOME to a temp dir so the suite never touches the ambient ~/.dsh.
+// pin NULU_HOME to a temp dir so the suite never touches the ambient ~/.nulu.
 let tempHome: string
-let previousDshHome: string | undefined
+let previousNuluHome: string | undefined
 beforeAll(() => {
-  tempHome = mkdtempSync(join(tmpdir(), 'dsh-otel-home-'))
-  previousDshHome = process.env.DSH_HOME
-  process.env.DSH_HOME = tempHome
+  tempHome = mkdtempSync(join(tmpdir(), 'nulu-otel-home-'))
+  previousNuluHome = process.env.NULU_HOME
+  process.env.NULU_HOME = tempHome
 })
 afterAll(() => {
-  if (previousDshHome === undefined) delete process.env.DSH_HOME
-  else process.env.DSH_HOME = previousDshHome
+  if (previousNuluHome === undefined) delete process.env.NULU_HOME
+  else process.env.NULU_HOME = previousNuluHome
   rmSync(tempHome, { recursive: true, force: true })
 })
 
@@ -165,12 +165,12 @@ describe('OpenTelemetrySessionBackend wire', () => {
     expect(authorization).toBe('Bearer test-token')
 
     const resource = first.body.resourceLogs[0]!.resource.attributes
-    expect(resource).toContainEqual({ key: 'service.name', value: { stringValue: 'deepseek-harness' } })
+    expect(resource).toContainEqual({ key: 'service.name', value: { stringValue: 'nulu-harness' } })
     expect(resource).toContainEqual({ key: 'user.id', value: { stringValue: getOrCreateAnonymousUserId() } })
 
     const records = allRecords(captures)
-    const ledger = records.filter(r => r.scope === '@deepseek-ai/dsh-session-telemetry-otel')
-    const ops = records.filter(r => r.scope === '@deepseek-ai/dsh-session-telemetry-otel/ops')
+    const ledger = records.filter(r => r.scope === '@worldapptechnologies/nulu-session-telemetry-otel')
+    const ops = records.filter(r => r.scope === '@worldapptechnologies/nulu-session-telemetry-otel/ops')
 
     const start = ledger.find(r => r.record.attributes?.some(a => a.key === 'event.type' && a.value.stringValue === 'turn/start'))
     expect(start).toBeDefined()
@@ -489,7 +489,7 @@ describe('OpenTelemetrySessionBackend wire', () => {
         processor: { scheduledDelayMillis: 1 },
       })
       const session = ctx.sessions.create(SessionId('direct-default'), { meta: {} })
-      session.append('request/header', { header: { config: { provider: 'deepseek-official', model: 'mock' } }, reason: 'initial' })
+      session.append('request/header', { header: { config: { provider: 'worldapp-gateway', model: 'mock' } }, reason: 'initial' })
       session.append('turn/start', { turn: 1 })
       expect(captures).toEqual([])
       recordFeedback(session, { text: 'explicit report' })
@@ -505,7 +505,7 @@ describe('OpenTelemetrySessionBackend wire', () => {
 })
 
 describe('OpenTelemetrySessionBackend route and feedback', () => {
-  it.each(['deepseek-official', 'mock', undefined])('uploads new text feedback for %s while the host stays alive', async (provider) => {
+  it.each(['worldapp-gateway', 'mock', undefined])('uploads new text feedback for %s while the host stays alive', async (provider) => {
     const { url, captures } = await mockCollector()
     const ctx = new Context()
     try {
@@ -521,7 +521,7 @@ describe('OpenTelemetrySessionBackend route and feedback', () => {
       const expected = session.snapshotEvents().map(event => event.type)
       await expect.poll(() => eventTypes(captures)).toEqual(expected)
       session.append('turn/end', { turn: 1, reason: { kind: 'completed' } })
-      session.append('request/header', { header: { config: { provider: 'deepseek-official', model: 'm' } }, reason: 'change' })
+      session.append('request/header', { header: { config: { provider: 'worldapp-gateway', model: 'm' } }, reason: 'change' })
       await ctx.sessionTelemetry.shutdown()
       expect(eventTypes(captures)).toEqual(expected)
     } finally {
@@ -540,7 +540,7 @@ describe('OpenTelemetrySessionBackend route and feedback', () => {
       const first = await ctx.plugin(OpenTelemetrySessionBackend, { mode: SessionTelemetryMode.FEEDBACK_ONLY, exporter: { url } })
       const session = ctx.sessions.create(SessionId('ordinary'))
       session.append('turn/start', { turn: 1 })
-      for (const provider of ['mock', 'deepseek-official']) {
+      for (const provider of ['mock', 'worldapp-gateway']) {
         session.append('model/selection', { provider, model: 'm' })
         session.append('request/header', { header: { config: { provider, model: 'm' } }, reason: 'change' })
       }
@@ -557,9 +557,9 @@ describe('OpenTelemetrySessionBackend route and feedback', () => {
     expect(captures).toEqual([])
   })
 
-  it.each(['deepseek-official', 'mock', undefined])('uploads live ratings, notes and withdrawal for %s without further interaction', async (provider) => {
+  it.each(['worldapp-gateway', 'mock', undefined])('uploads live ratings, notes and withdrawal for %s without further interaction', async (provider) => {
     const { url, captures } = await mockCollector()
-    const root = mkdtempSync(join(tmpdir(), 'dsh-otel-live-'))
+    const root = mkdtempSync(join(tmpdir(), 'nulu-otel-live-'))
     const ctx = new Context()
     try {
       await ctx.plugin(SessionStore)
@@ -631,7 +631,7 @@ describe('OpenTelemetrySessionBackend route and feedback', () => {
 
   it.each([SessionTelemetryMode.FEEDBACK_ONLY])('restores a cold fork with its exact inherited cut in %s', async (mode) => {
     const { url, captures } = await mockCollector()
-    const root = mkdtempSync(join(tmpdir(), 'dsh-otel-cold-fork-'))
+    const root = mkdtempSync(join(tmpdir(), 'nulu-otel-cold-fork-'))
     const ctx = new Context()
     try {
       await ctx.plugin(SessionStore)
@@ -676,12 +676,12 @@ describe('OpenTelemetrySessionBackend route and feedback', () => {
 
   it.each([
     ['mock', SessionTelemetryMode.FEEDBACK_ONLY],
-    ['deepseek-official', SessionTelemetryMode.FEEDBACK_ONLY],
+    ['worldapp-gateway', SessionTelemetryMode.FEEDBACK_ONLY],
     [undefined, SessionTelemetryMode.FEEDBACK_ONLY],
     ['mock', SessionTelemetryMode.DISABLED],
   ] as const)('captures cold put, note edit and withdrawal for %s in %s without opening a live Session', async (provider, mode) => {
     const { url, captures } = await mockCollector()
-    const root = mkdtempSync(join(tmpdir(), 'dsh-otel-cold-'))
+    const root = mkdtempSync(join(tmpdir(), 'nulu-otel-cold-'))
     const ctx = new Context()
     const warn = vi.spyOn(ctx.logger, 'warn').mockImplementation(() => {})
     try {
@@ -807,7 +807,7 @@ describe('OpenTelemetrySessionBackend config fails loud', () => {
   })
 })
 
-describe('dsh-session-telemetry-otel real-load-path guard', () => {
+describe('nulu-session-telemetry-otel real-load-path guard', () => {
   it('keeps the Service class with inject/Config through unwrapExports', async () => {
     const module = await import('../src/index.ts')
     const loader = Object.create(Loader.prototype) as Loader

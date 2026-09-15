@@ -8,6 +8,7 @@ import {
   extendArchiveManifest,
   parseArchiveManifest,
   renderArchiveManifest,
+  sealArchiveManifest,
   validateArchiveArtifacts,
   validateArchiveManifestExtension,
   type ArchiveManifest,
@@ -68,11 +69,11 @@ function runGit(args: string[]): string {
 function readBaselineManifest(ref: string): ArchiveManifest {
   runGit(['cat-file', '-e', `${ref}^{commit}`])
   const manifestEntry = runGit(['ls-tree', '--name-only', ref, '--', manifestRepoPath]).trim()
-  if (manifestEntry === '') return { version: 1, files: {} }
+  if (manifestEntry === '') return { version: 2, files: {} }
   return parseArchiveManifest(runGit(['show', `${ref}:${manifestRepoPath}`]))
 }
 
-let manifest: ArchiveManifest = { version: 1, files: {} }
+let manifest: ArchiveManifest = { version: 2, files: {} }
 if (existsSync(manifestPath)) {
   try {
     manifest = parseArchiveManifest(readFileSync(manifestPath, 'utf8'))
@@ -84,7 +85,7 @@ if (existsSync(manifestPath)) {
 }
 
 // CI supplies its trusted pre-change commit; local writes compare with committed HEAD.
-const baselineRef = process.env.DSH_ARCHIVE_BASE_REF ?? 'HEAD'
+const baselineRef = process.env.NULU_ARCHIVE_BASE_REF ?? 'HEAD'
 try {
   const baseline = readBaselineManifest(baselineRef)
   errors.push(...validateArchiveManifestExtension(baseline, manifest))
@@ -92,7 +93,7 @@ try {
   errors.push(`archived/manifest.json: cannot read baseline ${JSON.stringify(baselineRef)}: ${error instanceof Error ? error.message : String(error)}`)
 }
 
-const extended = extendArchiveManifest(manifest, artifacts)
+const extended = writeMode ? sealArchiveManifest(manifest, artifacts) : extendArchiveManifest(manifest, artifacts)
 errors.push(...extended.errors)
 if (!writeMode) {
   for (const path of extended.added) errors.push(`${path}: archived artifact is not sealed in manifest.json`)
@@ -109,7 +110,7 @@ if (writeMode) {
   if (!existsSync(manifestPath) || readFileSync(manifestPath, 'utf8') !== rendered) {
     writeFileSync(manifestPath, rendered)
   }
-  console.log(`verify-archived-agent-notes: sealed ${extended.added.length} new artifact(s); existing seals unchanged.`)
+  console.log(`verify-archived-agent-notes: sealed ${Object.keys(extended.files).length} artifact(s) with ${extended.added.length} new.`)
 } else {
   console.log(`verify-archived-agent-notes: ${artifacts.size} frozen artifact(s) checked across ${kinds.size} kind(s).`)
 }

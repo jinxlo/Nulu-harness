@@ -8,18 +8,18 @@
  */
 
 import { describe, expect, it } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import AgentRegistry from '@deepseek-ai/dsh-agent'
-import type { Agent } from '@deepseek-ai/dsh-agent'
-import { createUserMessage } from '@deepseek-ai/dsh-llm'
-import SessionStore from '@deepseek-ai/dsh-session'
-import type { Session } from '@deepseek-ai/dsh-session'
-import type { TodoItem } from '@deepseek-ai/dsh-tool-todo'
-import SystemPrompt from '@deepseek-ai/dsh-system-prompt'
-import ToolRuntime from '@deepseek-ai/dsh-tools'
-import SessionProjectionRegistry from '@deepseek-ai/dsh-session-projection'
-import UserQuestionService from '@deepseek-ai/dsh-user-questions'
-import * as ToolTodo from '@deepseek-ai/dsh-tool-todo'
+import { Context } from '@worldapptechnologies/cordis'
+import AgentRegistry from '@worldapptechnologies/nulu-agent'
+import type { Agent } from '@worldapptechnologies/nulu-agent'
+import { createUserMessage } from '@worldapptechnologies/nulu-llm'
+import SessionStore from '@worldapptechnologies/nulu-session'
+import type { Session } from '@worldapptechnologies/nulu-session'
+import type { TodoItem } from '@worldapptechnologies/nulu-tool-todo'
+import SystemPrompt from '@worldapptechnologies/nulu-system-prompt'
+import ToolRuntime from '@worldapptechnologies/nulu-tools'
+import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projection'
+import UserQuestionService from '@worldapptechnologies/nulu-user-questions'
+import * as ToolTodo from '@worldapptechnologies/nulu-tool-todo'
 
 interface Bench {
   ctx: Context

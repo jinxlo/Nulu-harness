@@ -2,7 +2,6 @@
 
 Status: implemented
 
-English | [中文](2026-07-31-claimed-pre-step-inbox-lifecycle.zh.md)
 
 ## Problem
 
@@ -18,7 +17,7 @@ Before every proposed step, the loop's package-internal `ReactLoopInbox` atomica
 
 The durable inbox remains two `UserMessage[]` lists addressed by `MessageId`. `append`, `prepend`, and `splice` take a target, while `replace(messageId, newMessage)` and `remove(messageId)` locate the pending message across both lists before committing a normalized splice. Replacement may change identity and emits the old message as discarded followed by the new message as inserted. Every insertion emits `agent/inbox/inserted { message }`; an ordinary removal records `outcome: 'canceled'` and emits `agent/inbox/discarded { message }`. Claiming records pure deletions without an outcome and emits claimed events from `ReactLoopInbox`. These live events add no placement, outcome, or batch fields.
 
-`Agent.inbox` exposes only the structural `Inbox` interface for reading and mutating pending work; loop-only `hasPending` and claim operations are absent from that public face. dsh-agent-loop constructs one `ReactLoopInbox` and uses it for both structural commands and driver operations. The concrete constructor receives `SessionProjectionRegistry` directly instead of the wider Cordis `Context` and registers the standard definition on the agent scope before its first read. `AgentLoop` requires the registry service at activation, and the registry reference-counts the definition across live agent scopes.
+`Agent.inbox` exposes only the structural `Inbox` interface for reading and mutating pending work; loop-only `hasPending` and claim operations are absent from that public face. nulu-agent-loop constructs one `ReactLoopInbox` and uses it for both structural commands and driver operations. The concrete constructor receives `SessionProjectionRegistry` directly instead of the wider Cordis `Context` and registers the standard definition on the agent scope before its first read. `AgentLoop` requires the registry service at activation, and the registry reference-counts the definition across live agent scopes.
 
 The two event surfaces have separate consumers. Observers following one message use `agent/inbox/inserted`, `claimed`, and `discarded`. Each `ReactLoopInbox` contributes the standard `inbox` projection over the durable `agent/inbox/spliced` stream from its agent scope; UI edits and removals route through an Inbox mutation method so the same projection records every change. When that projection reconstructs durable history, it rejects unsafe or out-of-range coordinates and duplicate `MessageId` values across both lists, and reports the offending event seq. Whole-queue control consumers use the projection change feed: the Session controller publishes the projection frame, then derives the queue replacement from the same post-fold inbox value.
 

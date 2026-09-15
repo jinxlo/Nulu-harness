@@ -1,5 +1,5 @@
 # Test-only patch over the shipped headless profile. The driver points the
-# production telemetry row at its mock collector through the public env vars.
+# telemetry row at its mock collector through the public env vars.
 - id: session-telemetry-otel
   disabled: false
 
@@ -24,7 +24,7 @@
 
 - insert:
     - id: logger-console
-      name: '@deepseek-ai/cordis-plugin-logger-console'
+      name: '@worldapptechnologies/cordis-plugin-logger-console'
       config:
         colors: false
         levels:

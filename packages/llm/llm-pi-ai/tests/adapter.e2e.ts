@@ -1,19 +1,19 @@
 import { afterEach, describe, expect, it } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import LlmRuntime, { createUserMessage, ToolCallId, ReasoningEffortId  } from '@deepseek-ai/dsh-llm'
-import type { Message, ToolSchema } from '@deepseek-ai/dsh-llm'
-import * as LlmPiAi from '@deepseek-ai/dsh-llm-pi-ai'
-import type { PiAiProviderProfile } from '@deepseek-ai/dsh-llm-pi-ai'
-import * as LlmDeepSeek from '@deepseek-ai/dsh-llm-deepseek'
+import { Context } from '@worldapptechnologies/cordis'
+import LlmRuntime, { createUserMessage, ToolCallId, ReasoningEffortId  } from '@worldapptechnologies/nulu-llm'
+import type { Message, ToolSchema } from '@worldapptechnologies/nulu-llm'
+import * as LlmPiAi from '@worldapptechnologies/nulu-llm-pi-ai'
+import type { PiAiProviderProfile } from '@worldapptechnologies/nulu-llm-pi-ai'
+import * as LlmGateway from '@worldapptechnologies/nulu-llm-gateway'
 import { assemble, type AssembledResult } from './assemble.ts'
 
 /**
- * Real-API e2e for the pi-ai-backed adapter: V4 Flash defaults and
+ * Real-API e2e for the pi-ai-backed adapter: the Nulu 5 defaults and
  * off/high/max reasoning. Mirrors the native adapter's StreamChunk contract
  * and exercises a replayed tool follow-up. Key-gated.
  */
 
-const FLASH = 'deepseek-v4-flash'
+const FLASH = 'nulu-5'
 const contexts: Context[] = []
 
 async function harness(_model: string, config: Partial<PiAiProviderProfile> = {}) {
@@ -23,8 +23,9 @@ async function harness(_model: string, config: Partial<PiAiProviderProfile> = {}
   await ctx.plugin(LlmPiAi, {
     providers: {
       deepseek: {
-        ...process.env.DEEPSEEK_API_KEY === undefined ? {} : { apiKey: process.env.DEEPSEEK_API_KEY },
-        ...process.env.DEEPSEEK_BASE_URL === undefined ? {} : { baseURL: process.env.DEEPSEEK_BASE_URL },
+        ...process.env.WORLD_APP_TECHNOLOGIES_API_KEY === undefined ? {} : { apiKey: process.env.WORLD_APP_TECHNOLOGIES_API_KEY },
+        ...process.env.WORLD_APP_TECHNOLOGIES_BASE_URL === undefined ? {} : { baseURL: process.env.WORLD_APP_TECHNOLOGIES_BASE_URL },
+        models: [{ id: FLASH }],
         ...config,
       },
     },
@@ -64,7 +65,7 @@ const weatherTool: ToolSchema = {
   },
 }
 
-describe.skipIf(!process.env.DEEPSEEK_API_KEY)('llm-pi-ai e2e (real API)', () => {
+describe.skipIf(!process.env.WORLD_APP_TECHNOLOGIES_API_KEY)('llm-pi-ai e2e (real API)', () => {
   it(`${FLASH} + provider-default reasoning: plain text generation`, async () => {
     const ctx = await harness(FLASH)
     const result = await assemble(ctx,{
@@ -146,23 +147,23 @@ describe.skipIf(!process.env.DEEPSEEK_API_KEY)('llm-pi-ai e2e (real API)', () =>
     expect(textOf(second).toLowerCase()).toMatch(/sunny|22/)
   })
 
-  it('produces the same block structure as llm-deepseek for the same prompt', async () => {
+  it('produces the same block structure as llm-gateway for the same prompt', async () => {
     // Loose structural equivalence between the two independent adapters:
     // same block KINDS in the same order for a deterministic prompt — the
     // cross-implementation check that the StreamChunk design holds.
-    const deepseekCtx = new Context()
-    contexts.push(deepseekCtx)
-    await deepseekCtx.plugin(LlmRuntime)
-    await deepseekCtx.plugin(LlmDeepSeek, { thinking: 'disabled' })
+    const gatewayCtx = new Context()
+    contexts.push(gatewayCtx)
+    await gatewayCtx.plugin(LlmRuntime)
+    await gatewayCtx.plugin(LlmGateway, { thinking: 'disabled' })
 
     const piCtx = await harness(FLASH)
 
     const prompt = ask('Reply with exactly the word: pong')
-    const [fromDeepSeek, fromPiAi] = await Promise.all([
-      assemble(deepseekCtx, { provider: 'deepseek-official', model: FLASH, messages: prompt, maxTokens: 50 }),
+    const [fromGateway, fromPiAi] = await Promise.all([
+      assemble(gatewayCtx, { provider: 'worldapp-gateway', model: FLASH, messages: prompt, maxTokens: 50 }),
       assemble(piCtx, { model: FLASH, messages: prompt, maxTokens: 50 }),
     ])
-    expect(blockKinds(fromPiAi)).toEqual(blockKinds(fromDeepSeek))
-    expect(fromPiAi.finish.kind).toBe(fromDeepSeek.finish.kind)
+    expect(blockKinds(fromPiAi)).toEqual(blockKinds(fromGateway))
+    expect(fromPiAi.finish.kind).toBe(fromGateway.finish.kind)
   })
 })

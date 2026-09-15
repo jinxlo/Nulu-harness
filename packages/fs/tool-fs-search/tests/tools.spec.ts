@@ -11,19 +11,19 @@
  */
 
 import { describe, expect, it } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import { createScope, type Scope } from '@deepseek-ai/dsh-scope'
+import { Context } from '@worldapptechnologies/cordis'
+import { createScope, type Scope } from '@worldapptechnologies/nulu-scope'
 import { join, sep } from 'node:path'
-import { createUserMessage, ToolCallId } from '@deepseek-ai/dsh-llm'
-import SystemPrompt, { renderPrompt } from '@deepseek-ai/dsh-system-prompt'
-import ToolRuntime, { TOOL_ABORTED_BEFORE_DISPATCH, type ToolExecution, type ToolExecutionToken } from '@deepseek-ai/dsh-tools'
-import { SubprocessRuntime } from '@deepseek-ai/dsh-subprocess'
-import type { SubprocessCollectedOutputs, SubprocessHandle, SubprocessOutcome, SubprocessOutputRead, SubprocessOutputReader, SubprocessSpawnSpec } from '@deepseek-ai/dsh-subprocess'
-import { MAX_TIMER_DELAY_MS } from '@deepseek-ai/dsh-timeout'
+import { createUserMessage, ToolCallId } from '@worldapptechnologies/nulu-llm'
+import SystemPrompt, { renderPrompt } from '@worldapptechnologies/nulu-system-prompt'
+import ToolRuntime, { TOOL_ABORTED_BEFORE_DISPATCH, type ToolExecution, type ToolExecutionToken } from '@worldapptechnologies/nulu-tools'
+import { SubprocessRuntime } from '@worldapptechnologies/nulu-subprocess'
+import type { SubprocessCollectedOutputs, SubprocessHandle, SubprocessOutcome, SubprocessOutputRead, SubprocessOutputReader, SubprocessSpawnSpec } from '@worldapptechnologies/nulu-subprocess'
+import { MAX_TIMER_DELAY_MS } from '@worldapptechnologies/nulu-timeout'
 import { rgPath } from '@vscode/ripgrep'
-import { SpillLocator, SpillStore } from '@deepseek-ai/dsh-spill'
-import type { SaveTextSpill, SpillRef } from '@deepseek-ai/dsh-spill'
-import * as ToolFsSearch from '@deepseek-ai/dsh-tool-fs-search'
+import { SpillLocator, SpillStore } from '@worldapptechnologies/nulu-spill'
+import type { SaveTextSpill, SpillRef } from '@worldapptechnologies/nulu-spill'
+import * as ToolFsSearch from '@worldapptechnologies/nulu-tool-fs-search'
 import {
   buildGlobCommand,
   buildGrepCommand,
@@ -38,7 +38,7 @@ import {
   runRipgrep,
   sampleAcrossTopLevel,
   toWorkdirRelative,
-} from '@deepseek-ai/dsh-tool-fs-search'
+} from '@worldapptechnologies/nulu-tool-fs-search'
 
 const testToolSignal = new AbortController().signal
 
@@ -1262,5 +1262,5 @@ describe('scope-aware search guidance', () => {
 
 /** Preserve the default persona and exact section separators in the oracle. */
 function withPersona(...sections: string[]): string {
-  return ['You are an AI agent powered by DeepSeek Harness.', ...sections].join('\n\n')
+  return ['You are an AI agent powered by Nulu Harness.', ...sections].join('\n\n')
 }

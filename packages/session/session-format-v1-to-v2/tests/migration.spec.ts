@@ -3,21 +3,21 @@ import {
   assertReleasedV2Header,
   releasedV2SessionFormatCodec,
   sessionFormatV1ToV2,
-} from '@deepseek-ai/dsh-session-format-v1-to-v2'
+} from '@worldapptechnologies/nulu-session-format-v1-to-v2'
 import { assertReleasedV2Artifact } from '../src/testing/validation.ts'
 import {
   releasedV0SessionFormatCodec,
   releasedV1SessionFormatCodec,
   sessionFormatV0ToV1,
-} from '@deepseek-ai/dsh-session-format-v0-to-v1'
+} from '@worldapptechnologies/nulu-session-format-v0-to-v1'
 import type {
   SessionFormatArtifact,
   SessionFormatEvent,
   SessionFormatEventRun,
   SessionFormatHeader,
   SessionFormatJsonObject,
-} from '@deepseek-ai/dsh-session-format'
-import { createSessionFormatCatalog, SessionFormatEventCollector } from '@deepseek-ai/dsh-session-format'
+} from '@worldapptechnologies/nulu-session-format'
+import { createSessionFormatCatalog, SessionFormatEventCollector } from '@worldapptechnologies/nulu-session-format'
 
 const message = {
   id: 'assistant-1',
@@ -167,7 +167,7 @@ describe('sessionFormatV1ToV2', () => {
 
   it('checks own-generation delivery markers but accepts inherited markers', () => {
     const marker = (sessionId: string): SessionFormatEvent => event(
-      'session-log-deepseek/delivery-accepted',
+      'session-log-gateway/delivery-accepted',
       1,
       2,
       { sessionId, throughSeq: 0, sessionFormatVersion: 1 },
@@ -1104,7 +1104,7 @@ describe('sessionFormatV1ToV2', () => {
               text: 'Generate the session title from this JSON array of human messages:\n'
                 + JSON.stringify([{ seq: 1, text: 'question' }]),
             }],
-            source: { kind: 'plugin', plugin: 'dsh-session-title-llm' },
+            source: { kind: 'plugin', plugin: 'nulu-session-title-llm' },
           }],
           maxTokens: 20,
         }),
@@ -1166,7 +1166,7 @@ describe('sessionFormatV1ToV2', () => {
           system: 'title',
           messages: [{
             id: 'title-request', role: 'user', content: [{ type: 'text', text: framed }],
-            source: { kind: 'plugin', plugin: 'dsh-session-title-llm' },
+            source: { kind: 'plugin', plugin: 'nulu-session-title-llm' },
           }],
           maxTokens: 20,
         }),

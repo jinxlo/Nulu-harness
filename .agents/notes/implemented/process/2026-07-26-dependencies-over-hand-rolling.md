@@ -2,7 +2,6 @@
 
 Status: implemented
 
-English | [中文](2026-07-26-dependencies-over-hand-rolling.zh.md)
 
 ## Problem
 
@@ -31,6 +30,6 @@ Dependency-swap proposals are recorded as `proposed/simplification` Agent Notes 
 
 ## Consequences
 
-- Agents and contributors surveying for simplifications now treat "replace hand-rolled X with package Y" as in-scope output; [dsh-find-simplifications](../../../skills/dsh-find-simplifications/SKILL.md) carries the corresponding guidance.
+- Agents and contributors surveying for simplifications now treat "replace hand-rolled X with package Y" as in-scope output; [nulu-find-simplifications](../../../skills/nulu-find-simplifications/SKILL.md) carries the corresponding guidance.
 - The dependency list will grow, and with it the supply-chain surface; the mitigations live in the [supply-chain proposal](../../proposed/process/2026-06-11-supply-chain-and-vendor-drift.md), which this policy makes more urgent.
 - Root `AGENTS.md` carries the one-line rule; this note owns the rationale and the bar.

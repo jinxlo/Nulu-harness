@@ -1,22 +1,22 @@
 // @vitest-environment jsdom
 /** Chat inject factories exercised over independently mounted Conversation and Chat plugins. */
 import { describe, expect, it, vi } from 'vitest'
-import { AttachmentId } from '@deepseek-ai/dsh-attachment'
-import type { ISession } from '@deepseek-ai/dsh-api-session-controller/client'
-import { LocaleRuntime } from '@deepseek-ai/dsh-client-locale/client'
+import { AttachmentId } from '@worldapptechnologies/nulu-attachment'
+import type { ISession } from '@worldapptechnologies/nulu-api-session-controller/client'
+import { LocaleRuntime } from '@worldapptechnologies/nulu-client-locale/client'
 import {
   SlotTestRuntime, TestRemote, stubSettingsScope, usePinnedBrowserLanguages,
-} from '@deepseek-ai/dsh-client-test-runtime'
-import type { SessionBehaviorOverrides } from '@deepseek-ai/dsh-client-test-runtime'
-import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
+} from '@worldapptechnologies/nulu-client-test-runtime'
+import type { SessionBehaviorOverrides } from '@worldapptechnologies/nulu-client-test-runtime'
+import type { ClientRemote } from '@worldapptechnologies/nulu-api-remotes/client'
 import {
   apply as applyConversation, inject as injectConversation,
-} from '@deepseek-ai/dsh-client-ui-conversation/client'
+} from '@worldapptechnologies/nulu-client-ui-conversation/client'
 import {
   apply as applyChat, inject as injectChat, type ChatViewInjected,
-} from '@deepseek-ai/dsh-client-ui-chat/client'
-import { SessionSeq, type SessionId } from '@deepseek-ai/dsh-session/types'
-import type { WorkspaceId } from '@deepseek-ai/dsh-workspace/types'
+} from '@worldapptechnologies/nulu-client-ui-chat/client'
+import { SessionSeq, type SessionId } from '@worldapptechnologies/nulu-session/types'
+import type { WorkspaceId } from '@worldapptechnologies/nulu-workspace/types'
 import { createChatStore } from '../src/client/stores.ts'
 
 usePinnedBrowserLanguages('zh-CN')
@@ -124,20 +124,20 @@ describe('Chat inject API', () => {
     await injected.openFile('src/a.ts')
     // Files stay in the product: a relative path is handed to the Sidebar as an
     // address under this session's scope, not to a desktop opener.
-    expect(b.sidebarRight.openResource).toHaveBeenCalledWith('dsh-resource://file/session/root-1/src/a.ts')
+    expect(b.sidebarRight.openResource).toHaveBeenCalledWith('nulu-resource://file/session/root-1/src/a.ts')
     expect(b.openWorkspacePath).not.toHaveBeenCalled()
 
     // An absolute path inside the session's workspace is the same session-relative address.
     await injected.openFile('/proj/src/a.ts')
-    expect(b.sidebarRight.openResource).toHaveBeenLastCalledWith('dsh-resource://file/session/root-1/src/a.ts')
+    expect(b.sidebarRight.openResource).toHaveBeenLastCalledWith('nulu-resource://file/session/root-1/src/a.ts')
 
     // A name a URL would otherwise mangle survives the round trip.
     await injected.openFile('src/a b#c.ts')
-    expect(b.sidebarRight.openResource).toHaveBeenLastCalledWith('dsh-resource://file/session/root-1/src/a%20b%23c.ts')
+    expect(b.sidebarRight.openResource).toHaveBeenLastCalledWith('nulu-resource://file/session/root-1/src/a%20b%23c.ts')
 
     // A line travels as the `file` type's navigation parameter, not in the address.
     await injected.openFile('src/a.ts', { line: 7 })
-    expect(b.sidebarRight.openResource).toHaveBeenLastCalledWith('dsh-resource://file/session/root-1/src/a.ts', { params: { line: 7 } })
+    expect(b.sidebarRight.openResource).toHaveBeenLastCalledWith('nulu-resource://file/session/root-1/src/a.ts', { params: { line: 7 } })
     await b.runtime.dispose()
   })
 
@@ -169,10 +169,10 @@ describe('Chat inject API', () => {
     // The Host resolves the relative path against the root it holds for the
     // Session; the Client need not know it.
     await injected.openFile('src/a.ts')
-    expect(b.sidebarRight.openResource).toHaveBeenCalledWith('dsh-resource://file/session/root-2/src/a.ts')
+    expect(b.sidebarRight.openResource).toHaveBeenCalledWith('nulu-resource://file/session/root-2/src/a.ts')
     // An absolute path outside every known root still names its Session.
     await injected.openFile('/abs/a.ts')
-    expect(b.sidebarRight.openResource).toHaveBeenLastCalledWith('dsh-resource://file/session/root-2//abs/a.ts')
+    expect(b.sidebarRight.openResource).toHaveBeenLastCalledWith('nulu-resource://file/session/root-2//abs/a.ts')
     await b.runtime.dispose()
   })
 

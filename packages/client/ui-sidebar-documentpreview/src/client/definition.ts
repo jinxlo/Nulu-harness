@@ -1,21 +1,21 @@
 /**
  * Stage one of this package's registration: what the `text` tab type IS.
  *
- * The type claims every `dsh-resource://file/session/<sessionId>/<path>`
+ * The type claims every `nulu-resource://file/session/<sessionId>/<path>`
  * address at the `fallback` band: it
  * is the plain viewer that any more specific type for the same address should
  * beat, the position VS Code's text editor holds among its editors. `canOpen`
  * refuses an address `parseFileAddress` rejects or that has no Session at claim time, where an
  * unclaimed address is the documented wiring error.
  */
-import type { SidebarRightTabDefinition } from '@deepseek-ai/dsh-client-ui-sidebar-right/client'
-import { parseFileAddress } from '@deepseek-ai/dsh-util-workspace-path'
+import type { SidebarRightTabDefinition } from '@worldapptechnologies/nulu-client-ui-sidebar-right/client'
+import { parseFileAddress } from '@worldapptechnologies/nulu-util-workspace-path'
 
 /** The tab kind this package owns. */
 export const TEXTPREVIEW_KIND = 'text'
 
 /** This implementation's identity in the tab system: the key its body registers under. */
-export const TEXTPREVIEW_ID = '@deepseek-ai/dsh-client-ui-sidebar-documentpreview'
+export const TEXTPREVIEW_ID = '@worldapptechnologies/nulu-client-ui-sidebar-documentpreview'
 
 /**
  * The tab title for one `file:` address: its decoded basename.
@@ -46,7 +46,7 @@ export function textDefinition(): SidebarRightTabDefinition {
   return {
     id: TEXTPREVIEW_ID,
     kind: TEXTPREVIEW_KIND,
-    patterns: ['dsh-resource://file/**'],
+    patterns: ['nulu-resource://file/**'],
     priority: 'fallback',
     canOpen: address => parseFileAddress(address)?.scope === 'session',
     title: basenameOf,

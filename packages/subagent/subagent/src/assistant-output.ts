@@ -7,11 +7,11 @@
  * select the accumulated assistant text. Selection is independent of the
  * run's stop reason.
  *
- * @module @deepseek-ai/dsh-subagent/assistant-output
+ * @module @worldapptechnologies/nulu-subagent/assistant-output
  */
 
-import { joinAssistantStreamText, type ContentBlock } from '@deepseek-ai/dsh-llm'
-import type { SessionEvent } from '@deepseek-ai/dsh-session'
+import { joinAssistantStreamText, type ContentBlock } from '@worldapptechnologies/nulu-llm'
+import type { SessionEvent } from '@worldapptechnologies/nulu-session'
 
 /**
  * Incremental fold of the selection rule, for backends that observe a child's

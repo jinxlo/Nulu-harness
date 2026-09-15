@@ -13,16 +13,16 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import Loader from '@deepseek-ai/cordis-plugin-loader'
-import Include from '@deepseek-ai/cordis-plugin-include'
-import HttpServer from '@deepseek-ai/dsh-host-webserver'
-import type { DirectoryPicker } from '@deepseek-ai/dsh-host-directory-picker'
-import BrowseDirectoryPicker from '@deepseek-ai/dsh-host-directory-picker-browse'
-import NativeDirectoryPicker from '@deepseek-ai/dsh-host-directory-picker-native'
+import { Context } from '@worldapptechnologies/cordis'
+import Loader from '@worldapptechnologies/cordis-plugin-loader'
+import Include from '@worldapptechnologies/cordis-plugin-include'
+import HttpServer from '@worldapptechnologies/nulu-host-webserver'
+import type { DirectoryPicker } from '@worldapptechnologies/nulu-host-directory-picker'
+import BrowseDirectoryPicker from '@worldapptechnologies/nulu-host-directory-picker-browse'
+import NativeDirectoryPicker from '@worldapptechnologies/nulu-host-directory-picker-native'
 import {
-  createLaunchEnvironmentSnapshot, DSH_LAUNCH_ENVIRONMENT_KEY, type LaunchEnvironmentSnapshot,
-} from '@deepseek-ai/dsh-launch-environment'
+  createLaunchEnvironmentSnapshot, NULU_LAUNCH_ENVIRONMENT_KEY, type LaunchEnvironmentSnapshot,
+} from '@worldapptechnologies/nulu-launch-environment'
 import * as DirectoryPickerAuto from '../src/index.ts'
 
 const renameControl = vi.hoisted(() => ({
@@ -48,11 +48,11 @@ vi.mock('node:fs/promises', async (importOriginal) => {
   }
 })
 
-const AUTO = '@deepseek-ai/dsh-host-directory-picker-auto'
-const NATIVE = '@deepseek-ai/dsh-host-directory-picker-native'
-const BROWSE = '@deepseek-ai/dsh-host-directory-picker-browse'
-const NATIVE_SURFACE = '@deepseek-ai/dsh-client-ui-directory-picker-native'
-const BROWSE_SURFACE = '@deepseek-ai/dsh-client-ui-directory-picker-browse'
+const AUTO = '@worldapptechnologies/nulu-host-directory-picker-auto'
+const NATIVE = '@worldapptechnologies/nulu-host-directory-picker-native'
+const BROWSE = '@worldapptechnologies/nulu-host-directory-picker-browse'
+const NATIVE_SURFACE = '@worldapptechnologies/nulu-client-ui-directory-picker-native'
+const BROWSE_SURFACE = '@worldapptechnologies/nulu-client-ui-directory-picker-browse'
 
 /**
  * Loader-visible stand-in for a client surface package: the surfaces belong to
@@ -95,10 +95,10 @@ async function loadComposition(
   bindHost: '127.0.0.1' | '0.0.0.0',
   options: { failSurface?: boolean; launchEnvironment?: LaunchEnvironmentSnapshot } = {},
 ): Promise<{ ctx: Context; configPath: string }> {
-  root = await mkdtemp(join(tmpdir(), 'dsh-directory-picker-auto-'))
+  root = await mkdtemp(join(tmpdir(), 'nulu-directory-picker-auto-'))
   const configPath = join(root, 'cordis.yml')
   await writeFile(configPath, [
-    "- name: '@deepseek-ai/dsh-host-webserver'",
+    "- name: '@worldapptechnologies/nulu-host-webserver'",
     '  config:',
     `    host: '${bindHost}'`,
     '    port: 0',
@@ -107,12 +107,12 @@ async function loadComposition(
   ].join('\n'))
 
   context = new Context()
-  if (options.launchEnvironment !== undefined) context.provide(DSH_LAUNCH_ENVIRONMENT_KEY, options.launchEnvironment)
+  if (options.launchEnvironment !== undefined) context.provide(NULU_LAUNCH_ENVIRONMENT_KEY, options.launchEnvironment)
   context.baseUrl = pathToFileURL(root).href + '/'
   await context.plugin(Loader)
   context.loader.builtins.include = Include
   const modules = new Map<string, unknown>([
-    ['@deepseek-ai/dsh-host-webserver', HttpServer],
+    ['@worldapptechnologies/nulu-host-webserver', HttpServer],
     [AUTO, DirectoryPickerAuto],
     [NATIVE, NativeDirectoryPicker],
     [BROWSE, BrowseDirectoryPicker],
@@ -156,7 +156,7 @@ function includeTree(ctx: Context): Include {
  * probe resolves identically on hosts with and without zenity/kdialog.
  */
 function stubAttendedHost(): void {
-  fakeBin = mkdtempSync(join(tmpdir(), 'dsh-picker-bin-'))
+  fakeBin = mkdtempSync(join(tmpdir(), 'nulu-picker-bin-'))
   const zenity = join(fakeBin, 'zenity')
   writeFileSync(zenity, '#!/bin/sh\n')
   chmodSync(zenity, 0o755)

@@ -79,7 +79,7 @@ export const RELEASED_V0_EVENT_DISPOSITIONS: Readonly<Record<string, ReleasedV0P
   'request/header': disposition(['header', 'reason'], ['startsSeries']),
   'sandbox/mode': disposition(['mode'], ['source']),
   'schedule/change': disposition(['version', 'operation'], ['schedule', 'id', 'acceptedAt']),
-  'session-log-deepseek/delivery-accepted': disposition(
+  'session-log-gateway/delivery-accepted': disposition(
     ['sessionId', 'throughSeq'],
   ),
   'session/end-seed': disposition([]),
@@ -122,7 +122,7 @@ export const RELEASED_V0_EVENT_DISPOSITIONS: Readonly<Record<string, ReleasedV0P
   'turn/end': disposition(['turn', 'reason']),
   'turn/start': disposition(['turn']),
   'user/message': disposition(['role', 'id', 'content', 'source']),
-  'web/deepseek-search-llm-request': disposition(['endpoint', 'apiVersion', 'body']),
+  'web/nulu-search-llm-request': disposition(['endpoint', 'apiVersion', 'body']),
 })
 
 /** Stable sorted released-v0 event inventory. */

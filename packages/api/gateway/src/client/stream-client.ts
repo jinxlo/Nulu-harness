@@ -1,4 +1,4 @@
-import { RemoteError } from '@deepseek-ai/dsh-typert-protocol'
+import { RemoteError } from '@worldapptechnologies/nulu-typert-protocol'
 /** Browser owner for the Gateway multiplexed Remote stream socket. */
 
 import {
@@ -7,10 +7,10 @@ import {
   type RemoteStreamClientMessage,
   type RemoteStreamServerMessage,
 } from '../stream-protocol.ts'
-import { Deque } from '@deepseek-ai/dsh-deque'
-import { randomUUID } from '@deepseek-ai/dsh-util-crypto'
+import { Deque } from '@worldapptechnologies/nulu-deque'
+import { randomUUID } from '@worldapptechnologies/nulu-util-crypto'
 
-const INTERNAL_BASE = 'http://dsh.internal'
+const INTERNAL_BASE = 'http://nulu.internal'
 
 /** Physical Remote stream socket failure that may be retried by a domain transport. */
 export class RemoteStreamCarrierError extends Error {

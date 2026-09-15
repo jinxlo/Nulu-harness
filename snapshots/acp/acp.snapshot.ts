@@ -1,4 +1,4 @@
-/** Recorded ACP protocol behavior through the shipped `dsh --profile acp` interface. */
+/** Recorded ACP protocol behavior through the shipped `nulu --profile acp` interface. */
 
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -8,7 +8,7 @@ import {
   parseSnapshotManifest,
   type Scenario,
   type SnapshotSuiteOptions,
-} from '@deepseek-ai/dsh-session-snapshot'
+} from '@worldapptechnologies/nulu-session-snapshot'
 
 const corpusDir = fileURLToPath(new URL('./', import.meta.url))
 
@@ -19,7 +19,7 @@ function snapshotMode(value: string | undefined): SnapshotSuiteOptions['mode'] {
     case 'replay': return 'replay'
     case 'record': return 'record'
     case 'refresh': return 'refresh'
-    default: throw new Error(`unknown DSH_SNAPSHOT mode: ${value}`)
+    default: throw new Error(`unknown NULU_SNAPSHOT mode: ${value}`)
   }
 }
 
@@ -72,7 +72,7 @@ const scenarios: Scenario[] = controllerCases.map((controller) => {
       : {
           env: {
             ...manifest.environment,
-            ...(manifest.permission === undefined ? {} : { DSH_PERMISSION_MODE: manifest.permission }),
+            ...(manifest.permission === undefined ? {} : { NULU_PERMISSION_MODE: manifest.permission }),
           },
         },
   }
@@ -87,5 +87,5 @@ defineAcpSnapshotSuite({
   },
   snapshotsDir: corpusDir,
   scenarios,
-  mode: snapshotMode(process.env.DSH_SNAPSHOT),
+  mode: snapshotMode(process.env.NULU_SNAPSHOT),
 })

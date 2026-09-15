@@ -1,16 +1,16 @@
-/** Package-owned compaction log-stream invariants. @module @deepseek-ai/dsh-compaction/invariant */
+/** Package-owned compaction log-stream invariants. @module @worldapptechnologies/nulu-compaction/invariant */
 
-import type { Context } from '@deepseek-ai/cordis'
-import { isReplacementSurfaceEvent, SessionSeq } from '@deepseek-ai/dsh-session'
-import type { Session, SessionEvent } from '@deepseek-ai/dsh-session'
-import { SurfaceManager } from '@deepseek-ai/dsh-session/surface'
-import type { InvariantFailure, InvariantInstaller } from '@deepseek-ai/dsh-invariants'
+import type { Context } from '@worldapptechnologies/cordis'
+import { isReplacementSurfaceEvent, SessionSeq } from '@worldapptechnologies/nulu-session'
+import type { Session, SessionEvent } from '@worldapptechnologies/nulu-session'
+import { SurfaceManager } from '@worldapptechnologies/nulu-session/surface'
+import type { InvariantFailure, InvariantInstaller } from '@worldapptechnologies/nulu-invariants'
 import type { CompactionId } from './brand.ts'
 import { isCompactCheckpointSource } from './checkpoint.ts'
 import type { CompactionCheckpointSource } from './checkpoint.ts'
 import type {} from './types.ts'
 
-const PACKAGE_NAME = '@deepseek-ai/dsh-compaction'
+const PACKAGE_NAME = '@worldapptechnologies/nulu-compaction'
 
 /** Cordis companion plugin name. */
 export const name = 'compaction-invariant'

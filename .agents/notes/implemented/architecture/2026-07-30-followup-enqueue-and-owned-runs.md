@@ -2,7 +2,6 @@
 
 Status: implemented
 
-English | [中文](2026-07-30-followup-enqueue-and-owned-runs.zh.md)
 
 ## Problem
 
@@ -39,4 +38,4 @@ Goal continuation retains `MessageId` only to recognize its durable queued and a
 
 ## Consequences
 
-An owned activity interval can include steering, injected context, or other work submitted before idleness, so its final response, finish reason, and events are deliberately broader than the initiating message. Prompt-level model error and token-limit classifications remain absent from the low-level DSH SDK result. ACP projects the correlated turn into its required standard error or `max_tokens` stop reason at interval quiescence, without adding a DSH-specific result or claiming exclusive causality. Concurrent automation on one session requires an explicit serialization or ownership policy rather than an implicit per-follow-up result.
+An owned activity interval can include steering, injected context, or other work submitted before idleness, so its final response, finish reason, and events are deliberately broader than the initiating message. Prompt-level model error and token-limit classifications remain absent from the low-level NULU SDK result. ACP projects the correlated turn into its required standard error or `max_tokens` stop reason at interval quiescence, without adding a NULU-specific result or claiming exclusive causality. Concurrent automation on one session requires an explicit serialization or ownership policy rather than an implicit per-follow-up result.

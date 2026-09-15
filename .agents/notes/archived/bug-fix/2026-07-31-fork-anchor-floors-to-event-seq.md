@@ -3,7 +3,6 @@
 Status: implemented
 Archived: 2026-09-04
 
-English | [中文](2026-07-31-fork-anchor-floors-to-event-seq.zh.md)
 
 ## Problem
 
@@ -15,7 +14,7 @@ The host's cut rule was never the obstacle. An aborted turn ends with a logged `
 
 ## Decision
 
-`SessionRuntime.fork` floors `atSeq` before the RPC. The fractional-seq convention belongs to `dsh-client-runtime`, which mints it in both the live and replay projections, so the same package converts it back to a real event seq at the wire boundary instead of every UI caller remembering to. Integer anchors are unaffected.
+`SessionRuntime.fork` floors `atSeq` before the RPC. The fractional-seq convention belongs to `nulu-client-runtime`, which mints it in both the live and replay projections, so the same package converts it back to a real event seq at the wire boundary instead of every UI caller remembering to. Integer anchors are unaffected.
 
 Flooring lands inside the anchor's own turn rather than clipping backward: every turn opens with `turn/start`, so `turnEnd.seq - 1` cannot itself be an earlier turn's `turn/end`. The host's first-`turn/end`-at-or-after rule then closes on the turn the reader clicked, matching the whole-turn semantics the message-level fork button already promised for completed turns.
 

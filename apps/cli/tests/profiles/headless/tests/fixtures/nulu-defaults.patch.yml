@@ -1,0 +1,29 @@
+# Local endpoint and isolated-path patch over the shipped headless profile.
+- id: headless-startup
+  disabled: true
+
+- id: headless-runner
+  disabled: true
+
+- id: llm-gateway
+  config:
+    baseURL: !!js process.env.NULU_SNAPSHOT_BASE_URL
+    thinking: enabled
+    reasoningEffort: low
+    streamIdleTimeoutMs: 150
+
+- id: agent-loop
+  config:
+    agents:
+      - id: main
+        provider: worldapp-gateway
+        model: nulu-5
+        cwd: !!js process.cwd()
+
+- id: agent-instructions
+  disabled: true
+
+- id: session-persistence-jsonl
+  config:
+    root: './.sessions'
+    compression: none

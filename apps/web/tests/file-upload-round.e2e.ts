@@ -1,19 +1,19 @@
 // Web e2e scenario: generic file upload round trip. A real chromium picks a
 // file through the composer paperclip input; the upload RPC stores the exact
-// bytes below the scaffold's isolated DSH_HOME, the prompt cites the staged
+// bytes below the scaffold's isolated NULU_HOME, the prompt cites the staged
 // reference, request assembly projects the file block to handle text, and the
 // model (replayed or live) reads the saved copy with the REAL read tool. The
 // content-addressed store makes the saved path identical across record and
 // replay once the workspace cwd is tokenized, so the recorded read arguments
 // replay verbatim against a freshly re-uploaded object.
-// Record: DSH_SNAPSHOT=record rewrites session.v3.jsonl, then a keyless
-// DSH_SNAPSHOT=refresh regenerates ui.expected.md.
+// Record: NULU_SNAPSHOT=record rewrites session.v3.jsonl, then a keyless
+// NULU_SNAPSHOT=refresh regenerates ui.expected.md.
 import { readFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import type { Browser, Page } from 'playwright'
 import { chromium } from 'playwright'
 import { afterAll, beforeAll, describe, expect, it, onTestFailed } from 'vitest'
-import type { SessionEvent } from '@deepseek-ai/dsh-session'
+import type { SessionEvent } from '@worldapptechnologies/nulu-session'
 import {
   assertFixtureInventory, captureStableAria, compareOrRefreshGolden, fixtureUserPrompts,
   launchWebScaffold, recordFixture, watchConsole, webSnapshotMode, type WebScaffold,
@@ -143,9 +143,9 @@ describe('web e2e: generic file upload through the real assembly', () => {
     const modelTrigger = page.getByRole('button', { name: /^Select model, current/ })
     await modelTrigger.click()
     await page.getByRole('menuitem', { name: /^Model\b/ }).click()
-    await page.getByRole('menuitemradio', { name: 'DeepSeek-V4-Flash-Vision-Exp' }).click()
+    await page.getByRole('menuitemradio', { name: 'Nulu 5 Vision' }).click()
     await expect.poll(() => modelTrigger.getAttribute('aria-label'), { timeout: 10_000 })
-      .toContain('DeepSeek-V4-Flash-Vision-Exp')
+      .toContain('Nulu 5 Vision')
     const imageBytes = await readFile(IMAGE_FIXTURE)
     // Pick through the composer's hidden file input: the upload RPC runs
     // immediately and the pending card appears before any prompt is typed.

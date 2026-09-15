@@ -1,9 +1,9 @@
 // @vitest-environment jsdom
 import { beforeEach, describe, expect, it } from 'vitest'
-import type { SessionId } from '@deepseek-ai/dsh-session/types'
+import type { SessionId } from '@worldapptechnologies/nulu-session/types'
 import { createConversationStore, readConversationViewPreference } from '../src/client/stores.ts'
 
-const KEY = 'dsh.conversation'
+const KEY = 'nulu.conversation'
 
 beforeEach(() => {
   localStorage.clear()

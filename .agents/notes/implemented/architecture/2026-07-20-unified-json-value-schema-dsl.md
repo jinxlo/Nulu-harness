@@ -2,7 +2,6 @@
 
 Status: implemented
 
-English | [中文](2026-07-20-unified-json-value-schema-dsl.zh.md)
 
 ## Problem
 
@@ -10,7 +9,7 @@ Tool parameters used a small author DSL while subagent/workflow structured outpu
 
 ## Decision
 
-`dsh-tools` owns one JSON-value schema vocabulary with two representations. `ValueSchemaSpec` is the author form for any JSON root; `ParameterSchemaSpec` is its implicit object-property-map form with per-property `required: true`. `JsonSchemaNode` is the raw wire form. Both support string, finite number, integer, boolean, null, array, object, type-correct scalar `enum`/`const`, and exact-one `oneOf`; `{ type: 'json' }` is author-only sugar for an annotation-only unconstrained raw node.
+`nulu-tools` owns one JSON-value schema vocabulary with two representations. `ValueSchemaSpec` is the author form for any JSON root; `ParameterSchemaSpec` is its implicit object-property-map form with per-property `required: true`. `JsonSchemaNode` is the raw wire form. Both support string, finite number, integer, boolean, null, array, object, type-correct scalar `enum`/`const`, and exact-one `oneOf`; `{ type: 'json' }` is author-only sugar for an annotation-only unconstrained raw node.
 
 An explicit author object must declare `additionalProperties: true | false`. The implicit parameter root and raw JSON Schema preserve the standard open default. Schema records contain only own enumerable string keys, schema arrays are dense intrinsic arrays, and supported keywords are read as own properties; custom prototypes, inherited constraints, symbols, and JSON-invisible decorations therefore cannot make compilation, projection, and validation observe different declarations. Intrinsic plain Object and Array containers remain plain across JavaScript realms, while subclasses and forged constructor prototypes remain exotic.
 

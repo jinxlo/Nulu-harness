@@ -3,9 +3,8 @@ description: "Replay-aware token and context-pressure measurement for users and 
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-token-meter
+# @worldapptechnologies/nulu-token-meter
 
-English | [中文](README.zh.md)
 
 ## Summary
 
@@ -55,11 +54,11 @@ When the composition provides `ctx.sessionProjections`, token-meter registers th
 ### Composition
 
 ```yaml
-- name: '@deepseek-ai/dsh-token-meter'
-- name: '@deepseek-ai/dsh-compaction-basic'
+- name: '@worldapptechnologies/nulu-token-meter'
+- name: '@worldapptechnologies/nulu-compaction-basic'
 ```
 
-Both plugins have usable defaults. The meter consumes only the optional `llm` service, and only to resolve route-declared request-image pricing; compaction remains optional. A deployment configures capacity and image pricing on its LLM adapter and compaction policy on `dsh-compaction-basic`.
+Both plugins have usable defaults. The meter consumes only the optional `llm` service, and only to resolve route-declared request-image pricing; compaction remains optional. A deployment configures capacity and image pricing on its LLM adapter and compaction policy on `nulu-compaction-basic`.
 
 ### Reading the numbers
 
@@ -110,7 +109,7 @@ Each `measure()` call synchronizes the fold to the current durable tail, then re
 Read these pages when the package-level contract is not enough. They move from the measurement service to the compaction consumer and the shared types.
 
 - [Token meter subsystem](../../../docs/subsystems/token-meter.md) — the measurement semantics behind `ctx.tokenMeter`.
-- [dsh-llm service](../llm/README.md) — the model-call service whose capacity metadata `resolveModelInfo()` serves.
+- [nulu-llm service](../llm/README.md) — the model-call service whose capacity metadata `resolveModelInfo()` serves.
 - [Compaction capability](../../../docs/subsystems/compaction.md) — the pressure-sensitive consumer that reads `measure()`.
 - [Projected token usage](../../../.agents/notes/implemented/architecture/2026-07-29-projected-token-usage-and-request-context.md) — the design behind `projectedTokens` and the rejected atomic-pair comparison.
 - [LLM streaming subsystem](../../../docs/subsystems/llm-streaming.md) — the message and block types this service prices.
@@ -120,7 +119,7 @@ Read these pages when the package-level contract is not enough. They move from t
 <a id="model-experience"></a>
 ## Model Experience
 
-Indirectly, through consumers such as `dsh-compaction-basic`; the service itself adds no prompt, message, schema, tool, or model call.
+Indirectly, through consumers such as `nulu-compaction-basic`; the service itself adds no prompt, message, schema, tool, or model call.
 
 #### KV Cache effect
 

@@ -24,11 +24,11 @@ const { copyFiles } = createRequire(import.meta.url)('app-builder-lib/out/fileMa
 }
 
 const RELEASE_ENVIRONMENT = {
-  DSH_DESKTOP_APP_ID: 'com.example.desktop',
-  DSH_DESKTOP_TARGET_PLATFORM: 'darwin',
-  DSH_DESKTOP_TARGET_ARCH: 'arm64',
-  DSH_DESKTOP_MACOS_SIGNING_IDENTITY: 'Example Company (TEAMID1234)',
-  DSH_DESKTOP_MACOS_TEAM_ID: 'TEAMID1234',
+  NULU_DESKTOP_APP_ID: 'com.example.desktop',
+  NULU_DESKTOP_TARGET_PLATFORM: 'darwin',
+  NULU_DESKTOP_TARGET_ARCH: 'arm64',
+  NULU_DESKTOP_MACOS_SIGNING_IDENTITY: 'Example Company (TEAMID1234)',
+  NULU_DESKTOP_MACOS_TEAM_ID: 'TEAMID1234',
   APPLE_API_KEY: '/private/credentials/AuthKey_TEST123456.p8',
   APPLE_API_KEY_ID: 'TEST123456',
   APPLE_API_ISSUER: '11111111-2222-3333-4444-555555555555',
@@ -54,16 +54,16 @@ describe('desktop macOS release signature', () => {
     expect(portablePath(config.directories.output)).toContain('/.desktop-build/targets/mac-arm64/artifacts')
     expect(config.extraResources).toHaveLength(3)
     expect(config.extraResources[0]?.to).toBe('runtime')
-    expect(config.extraResources[1]?.to).toBe('dsh')
+    expect(config.extraResources[1]?.to).toBe('nulu')
     expect(portablePath(config.extraResources[0]?.from ?? '')).toContain('/.desktop-build/targets/mac-arm64/runtime')
-    expect(portablePath(config.extraResources[1]?.from ?? '')).toContain('/.desktop-build/targets/mac-arm64/dsh')
+    expect(portablePath(config.extraResources[1]?.from ?? '')).toContain('/.desktop-build/targets/mac-arm64/nulu')
     expect(config).toMatchObject({
-      appId: RELEASE_ENVIRONMENT.DSH_DESKTOP_APP_ID,
+      appId: RELEASE_ENVIRONMENT.NULU_DESKTOP_APP_ID,
       mac: {
-        identity: RELEASE_ENVIRONMENT.DSH_DESKTOP_MACOS_SIGNING_IDENTITY,
+        identity: RELEASE_ENVIRONMENT.NULU_DESKTOP_MACOS_SIGNING_IDENTITY,
         forceCodeSigning: true,
         notarize: true,
-        signIgnore: ['/Contents/Resources/dsh(?:/|$)', '\\.pak$'],
+        signIgnore: ['/Contents/Resources/nulu(?:/|$)', '\\.pak$'],
       },
       dmg: {
         sign: true,
@@ -105,27 +105,27 @@ describe('desktop macOS release signature', () => {
         join(source, relative(sourceRoot, entry.from)), join(destination, entry.to), value => value,
       ))
       await copyFiles(matchers.slice(0, 1))
-      await expect(verifyDesktopRuntime(join(destination, 'dsh'), '1.0.0')).rejects.toThrow(/ENOENT/u)
+      await expect(verifyDesktopRuntime(join(destination, 'nulu'), '1.0.0')).rejects.toThrow(/ENOENT/u)
       rmSync(destination, { recursive: true })
       await copyFiles(matchers)
-      await expect(verifyDesktopRuntime(join(destination, 'dsh'), '1.0.0')).resolves.toMatchObject({ release: { version: '1.0.0' } })
+      await expect(verifyDesktopRuntime(join(destination, 'nulu'), '1.0.0')).resolves.toMatchObject({ release: { version: '1.0.0' } })
     } finally { rmSync(root, { recursive: true, force: true }) }
   })
 
   it('validates Windows signing without requiring macOS identifiers for a Windows target', async () => {
     const { createElectronBuilderConfig } = await import('../electron-builder.config.mjs')
     expect(() => createElectronBuilderConfig({
-      DSH_DESKTOP_APP_ID: RELEASE_ENVIRONMENT.DSH_DESKTOP_APP_ID,
-      DSH_DESKTOP_TARGET_PLATFORM: 'win32',
-    }, 'win32')).toThrow(/DSH_DESKTOP_WINDOWS_CER_FILE/u)
+      NULU_DESKTOP_APP_ID: RELEASE_ENVIRONMENT.NULU_DESKTOP_APP_ID,
+      NULU_DESKTOP_TARGET_PLATFORM: 'win32',
+    }, 'win32')).toThrow(/NULU_DESKTOP_WINDOWS_CER_FILE/u)
   })
 
   it('isolates unsigned Windows artifacts and omits updater metadata without release credentials', async () => {
     const { createElectronBuilderConfig } = await import('../electron-builder.config.mjs')
     const config = createElectronBuilderConfig({
-      DSH_DESKTOP_APP_ID: RELEASE_ENVIRONMENT.DSH_DESKTOP_APP_ID,
-      DSH_DESKTOP_TARGET_PLATFORM: 'win32',
-      DSH_DESKTOP_UNSIGNED: '1',
+      NULU_DESKTOP_APP_ID: RELEASE_ENVIRONMENT.NULU_DESKTOP_APP_ID,
+      NULU_DESKTOP_TARGET_PLATFORM: 'win32',
+      NULU_DESKTOP_UNSIGNED: '1',
     }, 'win32', 'x64')
     expect(portablePath(config.directories.output)).toContain('/targets/win-x64/unsigned-artifacts')
     expect(portablePath(config.nsis.include)).toMatch(/\/scripts\/installer\.nsh$/u)
@@ -135,12 +135,25 @@ describe('desktop macOS release signature', () => {
     })
   })
 
-  it('rejects unsigned macOS builds and malformed signing modes', async () => {
+  it('rejects unsigned Linux builds and malformed signing modes', async () => {
     const { createElectronBuilderConfig } = await import('../electron-builder.config.mjs')
-    expect(() => createElectronBuilderConfig({ ...RELEASE_ENVIRONMENT, DSH_DESKTOP_UNSIGNED: '1' }))
-      .toThrow(/unsigned builds require Windows/u)
-    expect(() => createElectronBuilderConfig({ ...RELEASE_ENVIRONMENT, DSH_DESKTOP_UNSIGNED: 'yes' }))
+    expect(() => createElectronBuilderConfig({
+      ...RELEASE_ENVIRONMENT,
+      NULU_DESKTOP_TARGET_PLATFORM: 'linux',
+      NULU_DESKTOP_UNSIGNED: '1',
+    })).toThrow(/unsigned builds require Windows or macOS/u)
+    expect(() => createElectronBuilderConfig({ ...RELEASE_ENVIRONMENT, NULU_DESKTOP_UNSIGNED: 'yes' }))
       .toThrow(/must be 0 or 1/u)
+  })
+
+  it('isolates unsigned macOS artifacts and skips signing, notarization, and updater metadata', async () => {
+    const { createElectronBuilderConfig } = await import('../electron-builder.config.mjs')
+    const config = createElectronBuilderConfig({ ...RELEASE_ENVIRONMENT, NULU_DESKTOP_UNSIGNED: '1' }, 'darwin', 'arm64')
+    expect(portablePath(config.directories.output)).toContain('/targets/mac-arm64/unsigned-artifacts')
+    expect(config).toMatchObject({
+      mac: { identity: null, forceCodeSigning: false, notarize: false },
+      publish: null,
+    })
   })
 
   it('accepts the configured authority and team', () => {
@@ -191,16 +204,16 @@ describe('desktop macOS release signature', () => {
   })
 
   it('rejects missing and malformed release identifiers', () => {
-    expect(() => resolveDesktopAppId({})).toThrow(/DSH_DESKTOP_APP_ID/u)
-    expect(() => resolveDesktopAppId({ DSH_DESKTOP_APP_ID: 'not-a-bundle-id' })).toThrow(/reverse-DNS/u)
-    expect(() => resolveMacOSSigningEnvironment({})).toThrow(/DSH_DESKTOP_MACOS_SIGNING_IDENTITY/u)
+    expect(() => resolveDesktopAppId({})).toThrow(/NULU_DESKTOP_APP_ID/u)
+    expect(() => resolveDesktopAppId({ NULU_DESKTOP_APP_ID: 'not-a-bundle-id' })).toThrow(/reverse-DNS/u)
+    expect(() => resolveMacOSSigningEnvironment({})).toThrow(/NULU_DESKTOP_MACOS_SIGNING_IDENTITY/u)
     expect(() => resolveMacOSSigningEnvironment({
-      DSH_DESKTOP_MACOS_SIGNING_IDENTITY: 'Developer ID Application: Example Company (TEAMID1234)',
-      DSH_DESKTOP_MACOS_TEAM_ID: 'TEAMID1234',
+      NULU_DESKTOP_MACOS_SIGNING_IDENTITY: 'Developer ID Application: Example Company (TEAMID1234)',
+      NULU_DESKTOP_MACOS_TEAM_ID: 'TEAMID1234',
     })).toThrow(/must omit/u)
     expect(() => resolveMacOSSigningEnvironment({
-      DSH_DESKTOP_MACOS_SIGNING_IDENTITY: 'Example Company (TEAMID1234)',
-      DSH_DESKTOP_MACOS_TEAM_ID: 'short',
+      NULU_DESKTOP_MACOS_SIGNING_IDENTITY: 'Example Company (TEAMID1234)',
+      NULU_DESKTOP_MACOS_TEAM_ID: 'short',
     })).toThrow(/10 uppercase/u)
   })
 
@@ -211,8 +224,8 @@ describe('desktop macOS release signature', () => {
       appleApiIssuer: RELEASE_ENVIRONMENT.APPLE_API_ISSUER,
     })
     expect(resolveMacOSNotarizationEnvironment({
-      APPLE_KEYCHAIN_PROFILE: 'dsh-notary',
-    })).toEqual({ keychainProfile: 'dsh-notary' })
+      APPLE_KEYCHAIN_PROFILE: 'nulu-notary',
+    })).toEqual({ keychainProfile: 'nulu-notary' })
     expect(() => resolveMacOSNotarizationEnvironment({})).toThrow(/macOS packaging requires/u)
     expect(() => resolveMacOSNotarizationEnvironment({ APPLE_API_KEY: '/tmp/key.p8' })).toThrow(/APPLE_API_KEY_ID/u)
   })

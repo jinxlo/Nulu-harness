@@ -1,6 +1,5 @@
 # 5. Configuration
 
-English | [中文](05-config.zh.md)
 
 Each `cordis.yml` entry can carry a `config` block, and the plugin declares a schema that validates it before `apply` runs. Bad config fails the load with a precise error — the plugin never starts half-configured.
 
@@ -9,8 +8,8 @@ Each `cordis.yml` entry can carry a `config` block, and the plugin declares a sc
 Create `config-demo.ts` in `tmp/cordis-tutorial`:
 
 ```ts
-import type { Context } from '@deepseek-ai/cordis'
-import Schema from '@deepseek-ai/schemastery'
+import type { Context } from '@worldapptechnologies/cordis'
+import Schema from '@worldapptechnologies/schemastery'
 
 export const name = 'config-demo'
 
@@ -81,4 +80,4 @@ The loader used in this repo supports a `!!js` tag for config values that must b
 
 Next: [Composition and HMR](06-composition-and-hmr.md) — treating `cordis.yml` as the application.
 
-[![](https://img.shields.io/badge/powered_by-dsh-4D6BFE?style=flat-square&logo=deepseek&logoColor=white)](https://github.com/deepseek-ai/deepseek-harness)
+[![](https://img.shields.io/badge/powered_by-Nulu_Harness-blue?style=flat-square)](https://github.com/worldapptechnologies/nulu-harness)

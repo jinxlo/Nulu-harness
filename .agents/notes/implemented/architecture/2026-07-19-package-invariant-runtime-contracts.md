@@ -2,7 +2,6 @@
 
 Status: implemented
 
-English | [中文](2026-07-19-package-invariant-runtime-contracts.zh.md)
 
 ## Problem
 
@@ -23,7 +22,7 @@ A workspace package publishes a separately built `./invariant` companion only wh
 
 When no plausible relationship exists, the package omits the companion and publication wiring and records its package-specific reason in the README. A future change that introduces an independently observable relationship must replace the explanation with the corresponding check. The omission mechanics and current audit are owned by the [omit-unneeded-companions decision](../simplification/2026-08-28-omit-unneeded-invariant-companions.md).
 
-The central `dsh-invariants` service owns only configuration, registration uniqueness, child-fiber lifecycle, rollback, disposal, and package-attributed failure. It exposes no generic plugin-shape, service-shape, or startup-assertion helpers and imports no product package.
+The central `nulu-invariants` service owns only configuration, registration uniqueness, child-fiber lifecycle, rollback, disposal, and package-attributed failure. It exposes no generic plugin-shape, service-shape, or startup-assertion helpers and imports no product package.
 
 ### Representative implemented checks
 
@@ -31,27 +30,27 @@ Published companions are enumerated mechanically by `verify-package-invariants`;
 
 | Owner | Runtime relationship |
 |---|---|
-| `dsh-session` | Strict sequence growth, turn/step enclosure, and same-step tool call/result pairing. |
-| `dsh-agent` | Non-repeating agent status and terminal disposal transitions. |
-| `dsh-scope` | Scoped-event carrier presence and routed-subject consistency. |
-| `dsh-agent-loop` | Explicitly marked, frozen loop request reconstruction from the session event log. |
-| `dsh-llm` | Stream block grammar, delta type/index matching, single usage, closed blocks, and terminal finish. |
-| `dsh-llm-retry` | Durable retry records identify the open turn's latest closed step, remain unique per step, increase monotonically, and stay within retry and non-negative timer bounds. |
-| `dsh-tools` | Monotonic pre/execute/post stages and immutable final execution/result snapshots. |
-| `dsh-system-prompt` | Authoritative assembly section, tool, and variable data constraints. |
-| `dsh-compaction` | Compaction start/summary/end pairing, range endpoints, token counts, and successful-summary presence. |
-| `dsh-hook-protocol` | Hook invocation/result correlation, dialect, identity, and duration constraints. |
-| `dsh-sandbox-policy` | Durable `sandbox/mode` events use the closed sandbox-mode vocabulary. |
-| `dsh-fs` | Filesystem decision/observation events carry usable target and version identities. |
-| `dsh-goal` | Durable goal snapshots preserve source attribution, rendered content, revisions, lifecycle and timestamp relationships, and sequential admitted rounds. |
-| `dsh-goal-round-driver` | Goal-sourced continuation messages match the prompt reconstructed from the preceding durable goal state. |
-| `dsh-subagent` | Provider add/remove and child start/end events preserve identity and pairing. |
-| `dsh-permission-presets` | Durable permission decisions name a preset in the active permission table. |
-| `dsh-user-approval` | Approval asked/decided records pair by call and use valid outcomes and policies. |
-| `dsh-workflow` | Workflow and child-agent start/end events preserve run metadata, identity, outcome, count, and error relations. |
-| `dsh-jobs` | Current and terminal task snapshots preserve id/kind, owner, status, and timestamp relationships. |
-| `dsh-tool-todo` | Durable whole-list snapshots use unique trimmed items and closed statuses. |
-| `dsh-time-context` | Plugin-attributed clock readings agree with the session's open turn, next pre-step position, and elapsed baseline; rendered time parses and does not postdate its event. |
+| `nulu-session` | Strict sequence growth, turn/step enclosure, and same-step tool call/result pairing. |
+| `nulu-agent` | Non-repeating agent status and terminal disposal transitions. |
+| `nulu-scope` | Scoped-event carrier presence and routed-subject consistency. |
+| `nulu-agent-loop` | Explicitly marked, frozen loop request reconstruction from the session event log. |
+| `nulu-llm` | Stream block grammar, delta type/index matching, single usage, closed blocks, and terminal finish. |
+| `nulu-llm-retry` | Durable retry records identify the open turn's latest closed step, remain unique per step, increase monotonically, and stay within retry and non-negative timer bounds. |
+| `nulu-tools` | Monotonic pre/execute/post stages and immutable final execution/result snapshots. |
+| `nulu-system-prompt` | Authoritative assembly section, tool, and variable data constraints. |
+| `nulu-compaction` | Compaction start/summary/end pairing, range endpoints, token counts, and successful-summary presence. |
+| `nulu-hook-protocol` | Hook invocation/result correlation, dialect, identity, and duration constraints. |
+| `nulu-sandbox-policy` | Durable `sandbox/mode` events use the closed sandbox-mode vocabulary. |
+| `nulu-fs` | Filesystem decision/observation events carry usable target and version identities. |
+| `nulu-goal` | Durable goal snapshots preserve source attribution, rendered content, revisions, lifecycle and timestamp relationships, and sequential admitted rounds. |
+| `nulu-goal-round-driver` | Goal-sourced continuation messages match the prompt reconstructed from the preceding durable goal state. |
+| `nulu-subagent` | Provider add/remove and child start/end events preserve identity and pairing. |
+| `nulu-permission-presets` | Durable permission decisions name a preset in the active permission table. |
+| `nulu-user-approval` | Approval asked/decided records pair by call and use valid outcomes and policies. |
+| `nulu-workflow` | Workflow and child-agent start/end events preserve run metadata, identity, outcome, count, and error relations. |
+| `nulu-jobs` | Current and terminal task snapshots preserve id/kind, owner, status, and timestamp relationships. |
+| `nulu-tool-todo` | Durable whole-list snapshots use unique trimmed items and closed statuses. |
+| `nulu-time-context` | Plugin-attributed clock readings agree with the session's open turn, next pre-step position, and elapsed baseline; rendered time parses and does not postdate its event. |
 
 Session-backed companions validate existing durable events when they load, using the prefix preceding each candidate where the relationship depends on event order. Other checks observe the authoritative live event boundary or mutable service result. Validation runs before publication where accepting an invalid event would otherwise commit bad state.
 

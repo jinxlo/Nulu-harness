@@ -5,42 +5,42 @@
  * declaration, registration, scope, store, inject, rendering, updates, and
  * disposal without hand-building the machinery per suite.
  *
- * Not part of the product plugin graph (no `dsh.client`); feature packages
+ * Not part of the product plugin graph (no `nulu.client`); feature packages
  * depend on it in devDependencies only. It copies no SlotCore/renderer/store
  * machinery — everything mounts the production implementations.
- * @module @deepseek-ai/dsh-client-test-runtime
+ * @module @worldapptechnologies/nulu-client-test-runtime
  */
 /* oxlint-disable typescript/no-redundant-type-constituents --
  * `keyof SlotMap & string` is the declare-merge key pattern (see ui-slots):
  * this compilation unit sees only the runtime's 'root' row, but consumer
  * programs merge their own keys in; the rule fires on the narrow-map view. */
-import { Context, Inject } from '@deepseek-ai/cordis'
-import type { Fiber, Plugin } from '@deepseek-ai/cordis'
+import { Context, Inject } from '@worldapptechnologies/cordis'
+import type { Fiber, Plugin } from '@worldapptechnologies/cordis'
 import { createElement, Fragment, useSyncExternalStore } from 'react'
 import type { ReactNode } from 'react'
 import { act, render, within } from '@testing-library/react'
 import type { RenderResult } from '@testing-library/react'
 import type { queries } from '@testing-library/dom'
 import type { BoundFunctions } from '@testing-library/dom'
-import { SlotRegistry } from '@deepseek-ai/dsh-client-ui-renderer/client'
-import { bindSnapshotSelector as bindRendererSnapshotSelector } from '@deepseek-ai/dsh-client-ui-renderer/src/client/bind.ts'
-import { createSlotRenderer as createRenderer } from '@deepseek-ai/dsh-client-ui-renderer/src/client/scoped-slots.tsx'
+import { SlotRegistry } from '@worldapptechnologies/nulu-client-ui-renderer/client'
+import { bindSnapshotSelector as bindRendererSnapshotSelector } from '@worldapptechnologies/nulu-client-ui-renderer/src/client/bind.ts'
+import { createSlotRenderer as createRenderer } from '@worldapptechnologies/nulu-client-ui-renderer/src/client/scoped-slots.tsx'
 import {
   apply as applyUiSession, inject as uiSessionInject,
-} from '@deepseek-ai/dsh-client-ui-session/client'
-import type { SessionId } from '@deepseek-ai/dsh-session/types'
-import { createSnapshotStore } from '@deepseek-ai/dsh-client-store'
-import type { PanelInfo } from '@deepseek-ai/dsh-client-ui-layout/client'
+} from '@worldapptechnologies/nulu-client-ui-session/client'
+import type { SessionId } from '@worldapptechnologies/nulu-session/types'
+import { createSnapshotStore } from '@worldapptechnologies/nulu-client-store'
+import type { PanelInfo } from '@worldapptechnologies/nulu-client-ui-layout/client'
 import type {
   ChildrenDecl, ComposedProps, HostObservable, OwnerOf, RenderOpts, SlotComponent, SlotMap, SlotRenderer,
   SlotRendererHost, SnapshotSelectorHook, StoreInstanceLike,
-} from '@deepseek-ai/dsh-client-ui-slots'
+} from '@worldapptechnologies/nulu-client-ui-slots'
 import { registerDomSnapshotSerializer } from './snapshot.ts'
 import { TestSessions } from './sessions.ts'
 import { TestWorkspaces } from './workspaces.ts'
 import type { Stabilizer } from './fixtures.ts'
 
-export type { UseSession } from '@deepseek-ai/dsh-client-ui-session/client'
+export type { UseSession } from '@worldapptechnologies/nulu-client-ui-session/client'
 export { domSnapshotSerializer, registerDomSnapshotSerializer } from './snapshot.ts'
 export { FixtureSession, TestSessions } from './sessions.ts'
 export { stubSettingsScope } from './settings-scope.ts'

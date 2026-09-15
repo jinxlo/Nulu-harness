@@ -1,11 +1,11 @@
 /**
- * Shared declarations for the package.json fields used by DSH plugin authors.
+ * Shared declarations for the package.json fields used by NULU plugin authors.
  * Each reader owns JSON validation and resolved defaults.
- * @module @deepseek-ai/dsh-package-manifest/types
+ * @module @worldapptechnologies/nulu-package-manifest/types
  */
 
 /** Package identity and metadata; local profile readers may accept a partial declaration. */
-export interface DshPackageManifest {
+export interface NuluPackageManifest {
   /** Published npm package name. */
   name: string
   /** Published npm package version. */
@@ -18,28 +18,28 @@ export interface DshPackageManifest {
   dependencies?: Record<string, string>
   /** Compatible versions of packages supplied by the consuming project. */
   peerDependencies?: Record<string, string>
-  /** Runtime requirements; DSH compatibility is declarative until a reader enforces it. */
-  engines?: DshEnginesManifest
-  /** DSH-specific author declarations. */
-  dsh?: DshManifest
+  /** Runtime requirements; NULU compatibility is declarative until a reader enforces it. */
+  engines?: NuluEnginesManifest
+  /** NULU-specific author declarations. */
+  nulu?: NuluManifest
 }
 
-/** Public author fields under `package.json.dsh`; a package may declare several roles. */
-export interface DshManifest {
+/** Public author fields under `package.json.nulu`; a package may declare several roles. */
+export interface NuluManifest {
   /** Manifest format version, independent of the npm package and Session format versions. */
   manifestVersion?: 1
   /** Bundle metadata consumed by the profile launcher. */
-  bundle?: DshBundleManifest
+  bundle?: NuluBundleManifest
   /** Profile metadata consumed by the profile launcher. */
-  profile?: DshProfileManifest
+  profile?: NuluProfileManifest
   /** Client module loading and build metadata. */
-  client?: DshClientManifest
+  client?: NuluClientManifest
 }
 
 /** Runtime version requirements under `package.json.engines`. */
-export interface DshEnginesManifest {
-  /** Compatible DSH versions as a SemVer range, including an exact version. */
-  dsh?: string
+export interface NuluEnginesManifest {
+  /** Compatible NULU versions as a SemVer range, including an exact version. */
+  nulu?: string
   /** Compatible Node.js versions. */
   node?: string
   /** Compatible npm versions. */
@@ -49,13 +49,13 @@ export interface DshEnginesManifest {
 }
 
 /** The configuration layer exported by a bundle package. */
-export interface DshBundleManifest {
+export interface NuluBundleManifest {
   /** Patch file path relative to the declaring package root. */
   patch: string
 }
 
 /** The bundle composition declared by a profile directory. */
-export interface DshProfileManifest {
+export interface NuluProfileManifest {
   /** Ordered bundle layer list, using installed package names. */
   bundles?: string[]
   /** User patch lifecycle; omitted means `live` for custom profiles. */
@@ -66,7 +66,7 @@ export interface DshProfileManifest {
 export type ProfilePatchReload = 'live' | 'startup'
 
 /** Client module declaration read by client-modules and the client build. */
-export interface DshClientManifest {
+export interface NuluClientManifest {
   /** Client platform identifier; the Web consumer selects `web`. */
   platform: string
   /** Informational package-name dependencies, not Cordis service injection. */

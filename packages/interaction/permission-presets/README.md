@@ -3,9 +3,8 @@ description: "User-facing permission presets for users and maintainers choosing,
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-permission-presets
+# @worldapptechnologies/nulu-permission-presets
 
-English | [中文](README.zh.md)
 
 ## Summary
 
@@ -32,7 +31,7 @@ Choose this service when a deployment wants to offer users one Permissions selec
 The plugin config defines the preset table and the default for fresh sessions. Each preset name bundles one sandbox mode with one approval policy; `name` and `description` are optional client presentation.
 
 ```yaml
-- name: '@deepseek-ai/dsh-permission-presets'
+- name: '@worldapptechnologies/nulu-permission-presets'
   config:
     presets:
       workspace-write:
@@ -49,7 +48,7 @@ The plugin config defines the preset table and the default for fresh sessions. E
 | `presets` | `workspace-write`, `danger-full-access` | Table of preset name → sandbox/approval bundle |
 | `defaultPreset` | inferred | Preset pinned into fresh sessions; required when composition defaults match no preset |
 
-The generated [configuration catalog](../../../docs/config-catalog.md#deepseek-aidsh-permission-presets) is the exhaustive source for every accepted field and its JSDoc. The name `custom` is reserved for the derived not-a-preset state and cannot name a table entry. Mounting requires a confining bash executor (one that reports a `sandboxMode`) and the approval service.
+The generated [configuration catalog](../../../docs/config-catalog.md#worldapptechnologiesnulu-permission-presets) is the exhaustive source for every accepted field and its JSDoc. The name `custom` is reserved for the derived not-a-preset state and cannot name a table entry. Mounting requires a confining bash executor (one that reports a `sandboxMode`) and the approval service.
 
 ### Switching presets
 
@@ -83,7 +82,7 @@ The observable behavior is covered in [Use this package](#use-this-package); thi
 
 ### Write path
 
-`apply()` resolves the preset, appends `permission/preset` only when the effective preset changes, then writes each changed knob through its canonical setter — `setSandboxMode` from `dsh-sandbox-policy` and `setApprovalPolicy` from `dsh-user-approval`. The selection event precedes the knob events so user intent survives when two presets share a bundle; a net-zero selection appends nothing.
+`apply()` resolves the preset, appends `permission/preset` only when the effective preset changes, then writes each changed knob through its canonical setter — `setSandboxMode` from `nulu-sandbox-policy` and `setApprovalPolicy` from `nulu-user-approval`. The selection event precedes the knob events so user intent survives when two presets share a bundle; a net-zero selection appends nothing.
 
 ### Read side and `custom`
 
@@ -116,7 +115,7 @@ Read these pages when the package-level contract is not enough. They move from t
 <a id="model-experience"></a>
 ## Model Experience
 
-Indirectly, through `dsh-user-approval` and `dsh-tool-bash`, which render the approval-policy prompt, switch notice, and sandboxed tool outcomes selected by this service's knob events; `permission/preset` itself is log-only.
+Indirectly, through `nulu-user-approval` and `nulu-tool-bash`, which render the approval-policy prompt, switch notice, and sandboxed tool outcomes selected by this service's knob events; `permission/preset` itself is log-only.
 
 #### KV Cache effect
 

@@ -18,15 +18,15 @@
  * durable descriptor, so it neither restores the prior budget nor inherits
  * the parent's current one; the resumed route's defaults apply instead.
  *
- * @module @deepseek-ai/dsh-subagent/descriptor
+ * @module @worldapptechnologies/nulu-subagent/descriptor
  */
 
-import { snapshotJsonValue } from '@deepseek-ai/dsh-util-values'
-import type { SessionEvent } from '@deepseek-ai/dsh-session'
-import type { ReasoningEffortId } from '@deepseek-ai/dsh-llm'
-import type { ToolRestriction } from '@deepseek-ai/dsh-tools'
+import { snapshotJsonValue } from '@worldapptechnologies/nulu-util-values'
+import type { SessionEvent } from '@worldapptechnologies/nulu-session'
+import type { ReasoningEffortId } from '@worldapptechnologies/nulu-llm'
+import type { ToolRestriction } from '@worldapptechnologies/nulu-tools'
 
-declare module '@deepseek-ai/dsh-session/types' {
+declare module '@worldapptechnologies/nulu-session/types' {
   interface SessionEventMap {
     /**
      * Durable identity and lifecycle mode of a session-backed subagent child,

@@ -2,7 +2,7 @@
 /** HTML iframe ownership follows file identity and bytes, not locale or wrapping changes. */
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { act, cleanup, render, screen } from '@testing-library/react'
-import type { SessionId } from '@deepseek-ai/dsh-session/types'
+import type { SessionId } from '@worldapptechnologies/nulu-session/types'
 import { HtmlBody } from '../src/client/html/HtmlBody.tsx'
 import type { HtmlBodyProps } from '../src/client/html/HtmlBody.tsx'
 import { en } from '../src/client/html/locales.ts'
@@ -34,7 +34,7 @@ afterEach(() => {
 function props(text = '<p>hello</p>'): HtmlBodyProps {
   const signal = new AbortController().signal
   return {
-    resourceAddress: 'dsh-resource://file/session/html/index.html',
+    resourceAddress: 'nulu-resource://file/session/html/index.html',
     content: { kind: 'bytes', data: utf8(text) },
     wrap: false,
     sessionId: 'html' as SessionId,
@@ -71,7 +71,7 @@ describe('HtmlBody', () => {
     expect(await screen.findByTitle(en.frame)).not.toBe(first)
     expect(first.isConnected).toBe(false)
     expect(revoke).toHaveBeenCalledWith('blob:https://preview.invalid/1')
-    view.rerender(<HtmlBody {...changed} resourceAddress="dsh-resource://file/session/html/other.html" />)
+    view.rerender(<HtmlBody {...changed} resourceAddress="nulu-resource://file/session/html/other.html" />)
     await screen.findByTitle(en.frame)
     expect(revoke).toHaveBeenCalledWith('blob:https://preview.invalid/2')
     view.unmount()

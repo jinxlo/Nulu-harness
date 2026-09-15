@@ -11,15 +11,14 @@ afterEach(() => {
 })
 
 describe('cordisConfigFiles', () => {
-  it('finds Loader YAML without treating translation records as configs', () => {
-    const root = mkdtempSync(join(tmpdir(), 'dsh-cordis-config-files-'))
+  it('finds Loader YAML under the repository trees that own configuration', () => {
+    const root = mkdtempSync(join(tmpdir(), 'nulu-cordis-config-files-'))
     roots.push(root)
     for (const directory of ['.claude', 'apps/cli/config/examples', 'docs', 'node_modules/pkg', 'vendor/pkg']) {
       mkdirSync(join(root, directory), { recursive: true })
     }
     for (const file of [
       '.claude/hidden.cordis.yml',
-      'docs/cordis-primer.i18n.yaml',
       'apps/cli/config/examples/agent.cordis.yaml',
       'apps/cli/config/examples/headless.cordis.yml',
       'node_modules/pkg/hidden.cordis.yml',

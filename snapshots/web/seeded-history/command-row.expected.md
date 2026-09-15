@@ -63,8 +63,8 @@
 - button "Add files or run commands":
   - img
 - 'button "Access mode, current: Read Only"': Read Only
-- button "Select model, current DeepSeek-V4-Flash":
-  - text: DeepSeek-V4-Flash
+- button "Select model, current Nulu 5":
+  - text: Nulu 5
   - img
 - button "Send message" [disabled]
 - button "1 turns 2 steps · {{throughput}} tok/s":

@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import type { SessionListState, SessionSummary } from '@deepseek-ai/dsh-api-session-controller/client'
-import type { WorkspaceId, WorkspaceView } from '@deepseek-ai/dsh-api-workspace-controller/client'
-import type { SessionPendingInteractionBase } from '@deepseek-ai/dsh-client-ui-session/client'
-import type { ScheduleId, ScheduleRecord } from '@deepseek-ai/dsh-schedule/client'
-import type { SessionId } from '@deepseek-ai/dsh-session/types'
+import type { SessionListState, SessionSummary } from '@worldapptechnologies/nulu-api-session-controller/client'
+import type { WorkspaceId, WorkspaceView } from '@worldapptechnologies/nulu-api-workspace-controller/client'
+import type { SessionPendingInteractionBase } from '@worldapptechnologies/nulu-client-ui-session/client'
+import type { ScheduleId, ScheduleRecord } from '@worldapptechnologies/nulu-schedule/client'
+import type { SessionId } from '@worldapptechnologies/nulu-session/types'
 import {
   deriveFlat, deriveGroups, deriveSearchResults, owningGroupKey, workspaceLabel,
   UNGROUPED_KEY,

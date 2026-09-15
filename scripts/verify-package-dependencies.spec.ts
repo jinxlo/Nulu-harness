@@ -24,7 +24,7 @@ import {
   type WorkspacePackageManifest,
 } from './verify-package-dependencies.ts'
 
-const CORDIS = '@deepseek-ai/cordis'
+const CORDIS = '@worldapptechnologies/cordis'
 const roots: string[] = []
 
 afterEach(() => {
@@ -63,26 +63,26 @@ function facts(manifest: PackageDependencyManifest): PackageDependencyFacts {
     manifest,
     workspaceNames: new Set([
       CORDIS,
-      '@deepseek-ai/dsh-runtime',
-      '@deepseek-ai/dsh-types',
-      '@deepseek-ai/dsh-stale',
-      '@deepseek-ai/schemastery',
+      '@worldapptechnologies/nulu-runtime',
+      '@worldapptechnologies/nulu-types',
+      '@worldapptechnologies/nulu-stale',
+      '@worldapptechnologies/schemastery',
     ]),
     allSourceUses: new Map([
-      ['@deepseek-ai/dsh-runtime', ['packages/core/probe/src/index.ts']],
-      ['@deepseek-ai/dsh-types', ['packages/core/probe/src/types.ts']],
+      ['@worldapptechnologies/nulu-runtime', ['packages/core/probe/src/index.ts']],
+      ['@worldapptechnologies/nulu-types', ['packages/core/probe/src/types.ts']],
     ]),
     hostRuntimeSourceUses: new Map([
-      ['@deepseek-ai/dsh-runtime', ['packages/core/probe/src/index.ts']],
+      ['@worldapptechnologies/nulu-runtime', ['packages/core/probe/src/index.ts']],
     ]),
     hostRuntimeExportUses: [{
-      packageName: '@deepseek-ai/dsh-runtime',
-      specifier: '@deepseek-ai/dsh-runtime',
+      packageName: '@worldapptechnologies/nulu-runtime',
+      specifier: '@worldapptechnologies/nulu-runtime',
       exportName: 'runtimeValue',
       sourcePath: 'packages/core/probe/src/index.ts',
       line: 1,
       column: 10,
-      sourceLine: "import { runtimeValue } from '@deepseek-ai/dsh-runtime'",
+      sourceLine: "import { runtimeValue } from '@worldapptechnologies/nulu-runtime'",
     }],
     peerRequiredHostDependencies: new Set(),
     configurationOnlyDevDependencies: new Set(),
@@ -95,7 +95,7 @@ function sourceFacts(
   manifest: Partial<PackageDependencyManifest> = {},
   role: PackageDependencyRole = 'client-host',
 ): PackageDependencyFacts {
-  const root = mkdtempSync(join(tmpdir(), 'dsh-dependency-source-'))
+  const root = mkdtempSync(join(tmpdir(), 'nulu-dependency-source-'))
   roots.push(root)
   const subject = pkg('@f/probe', 'packages/g/probe/package.json', manifest)
   for (const [path, source] of Object.entries(files)) {
@@ -107,14 +107,14 @@ function sourceFacts(
 }
 
 function generatedHostFixture(mode: 'schema' | 'object'): { root: string; manifestPath: string; source: string } {
-  const root = mkdtempSync(join(tmpdir(), 'dsh-generated-host-dependencies-'))
+  const root = mkdtempSync(join(tmpdir(), 'nulu-generated-host-dependencies-'))
   roots.push(root)
   const manifestPath = 'packages/client/probe/package.json'
   const source = `/** @typert ${mode} */\nexport interface Payload { value: string }\n`
   const manifest = {
     name: '@fixture/generated',
     type: 'module',
-    dsh: { client: {} },
+    nulu: { client: {} },
     exports: {
       '.': { types: './lib/types/index.d.ts', default: './lib/index.js' },
       './typert': { types: './lib/typert.host.d.ts', default: './lib/typert.host.js' },
@@ -183,49 +183,49 @@ function hostRuntimeFixture(): {
 describe('package dependency scope', () => {
   it('keeps the measured Host relay roster explicit', () => {
     expect(PACKAGE_DEPENDENCY_POLICY.clientFaceExclude).toEqual([
-      '@deepseek-ai/dsh-api-session-controller',
-      '@deepseek-ai/dsh-api-workspace-controller',
+      '@worldapptechnologies/nulu-api-session-controller',
+      '@worldapptechnologies/nulu-api-workspace-controller',
     ])
     expect(PACKAGE_DEPENDENCY_POLICY.hostPackages).toEqual([
-      '@deepseek-ai/dsh-llm',
-      '@deepseek-ai/dsh-session',
+      '@worldapptechnologies/nulu-llm',
+      '@worldapptechnologies/nulu-session',
     ])
     expect(PACKAGE_DEPENDENCY_POLICY.configurationOnlyDevDependencies).toEqual({
-      '@deepseek-ai/dsh-client-locale': ['@deepseek-ai/dsh-api-remotes'],
-      '@deepseek-ai/dsh-client-ui-conversation': [
-        '@deepseek-ai/dsh-api-remotes',
-        '@deepseek-ai/dsh-client-ui-workspace',
+      '@worldapptechnologies/nulu-client-locale': ['@worldapptechnologies/nulu-api-remotes'],
+      '@worldapptechnologies/nulu-client-ui-conversation': [
+        '@worldapptechnologies/nulu-api-remotes',
+        '@worldapptechnologies/nulu-client-ui-workspace',
       ],
-      '@deepseek-ai/dsh-client-ui-model-selection': ['@deepseek-ai/dsh-client-ui-input-trigger'],
-      '@deepseek-ai/dsh-client-ui-sidebar': ['@deepseek-ai/dsh-client-ui-workspace'],
-      '@deepseek-ai/dsh-client-ui-subagent': ['@deepseek-ai/dsh-client-ui-input-trigger'],
-      '@deepseek-ai/dsh-client-ui-theme': ['@deepseek-ai/dsh-api-remotes'],
-      '@deepseek-ai/dsh-client-ui-tool': ['@deepseek-ai/dsh-api-remotes'],
+      '@worldapptechnologies/nulu-client-ui-model-selection': ['@worldapptechnologies/nulu-client-ui-input-trigger'],
+      '@worldapptechnologies/nulu-client-ui-sidebar': ['@worldapptechnologies/nulu-client-ui-workspace'],
+      '@worldapptechnologies/nulu-client-ui-subagent': ['@worldapptechnologies/nulu-client-ui-input-trigger'],
+      '@worldapptechnologies/nulu-client-ui-theme': ['@worldapptechnologies/nulu-api-remotes'],
+      '@worldapptechnologies/nulu-client-ui-tool': ['@worldapptechnologies/nulu-api-remotes'],
     })
     expect(PACKAGE_DEPENDENCY_POLICY.duplicateSafePackages).toEqual([
-      '@deepseek-ai/dsh-brand',
-      '@deepseek-ai/dsh-typert-protocol',
-      '@deepseek-ai/dsh-util-crypto',
-      '@deepseek-ai/dsh-util-values',
+      '@worldapptechnologies/nulu-brand',
+      '@worldapptechnologies/nulu-typert-protocol',
+      '@worldapptechnologies/nulu-util-crypto',
+      '@worldapptechnologies/nulu-util-values',
     ])
-    expect(PACKAGE_DEPENDENCY_POLICY.safeHostDependencyExports['@deepseek-ai/dsh-deque']).toEqual(['Deque'])
-    expect(PACKAGE_DEPENDENCY_POLICY.safeHostDependencyExports['@deepseek-ai/schemastery']).toEqual(['default'])
-    expect(PACKAGE_DEPENDENCY_POLICY.safeHostDependencyExports['@deepseek-ai/dsh-session/types']).toBeUndefined()
-    expect(PACKAGE_DEPENDENCY_POLICY.safeHostDependencyExports['@deepseek-ai/dsh-typert-protocol']).toBeUndefined()
-    expect(PACKAGE_DEPENDENCY_POLICY.peerRequiredHostExports['@deepseek-ai/dsh-scope']).toEqual([
+    expect(PACKAGE_DEPENDENCY_POLICY.safeHostDependencyExports['@worldapptechnologies/nulu-deque']).toEqual(['Deque'])
+    expect(PACKAGE_DEPENDENCY_POLICY.safeHostDependencyExports['@worldapptechnologies/schemastery']).toEqual(['default'])
+    expect(PACKAGE_DEPENDENCY_POLICY.safeHostDependencyExports['@worldapptechnologies/nulu-session/types']).toBeUndefined()
+    expect(PACKAGE_DEPENDENCY_POLICY.safeHostDependencyExports['@worldapptechnologies/nulu-typert-protocol']).toBeUndefined()
+    expect(PACKAGE_DEPENDENCY_POLICY.peerRequiredHostExports['@worldapptechnologies/nulu-scope']).toEqual([
       'carrierKeyOf', 'scopeOf', 'scopeTarget',
     ])
-    expect(PACKAGE_DEPENDENCY_POLICY.peerRequiredHostExports['@deepseek-ai/dsh-typert-protocol']).toBeUndefined()
+    expect(PACKAGE_DEPENDENCY_POLICY.peerRequiredHostExports['@worldapptechnologies/nulu-typert-protocol']).toBeUndefined()
   })
 
-  it('discovers the Client directory, dsh.client declarations, and configured Host packages', () => {
+  it('discovers the Client directory, nulu.client declarations, and configured Host packages', () => {
     const packages = [
       pkg('@f/static', 'packages/client/static/package.json'),
-      pkg('@f/dynamic-client', 'packages/client/dynamic/package.json', { dsh: { client: {} } }),
-      pkg('@f/dual', 'packages/api/dual/package.json', { dsh: { client: {} } }),
+      pkg('@f/dynamic-client', 'packages/client/dynamic/package.json', { nulu: { client: {} } }),
+      pkg('@f/dual', 'packages/api/dual/package.json', { nulu: { client: {} } }),
       pkg('@f/export-only', 'packages/api/export-only/package.json', { exports: { './client': './lib/client.js' } }),
       pkg('@f/forced-client', 'packages/api/forced/package.json'),
-      pkg('@f/excluded', 'packages/api/excluded/package.json', { dsh: { client: {} } }),
+      pkg('@f/excluded', 'packages/api/excluded/package.json', { nulu: { client: {} } }),
       pkg('@f/host', 'packages/core/host/package.json'),
     ]
 
@@ -248,7 +248,7 @@ describe('package dependency scope', () => {
   it('rejects stale, redundant, overlapping, and unknown configuration', () => {
     const packages = [
       pkg('@f/client', 'packages/client/client/package.json'),
-      pkg('@f/dual', 'packages/api/dual/package.json', { dsh: { client: {} } }),
+      pkg('@f/dual', 'packages/api/dual/package.json', { nulu: { client: {} } }),
       pkg('@f/host', 'packages/core/host/package.json'),
     ]
     const found = discoverPackageDependencyScope(packages, policy({
@@ -261,7 +261,7 @@ describe('package dependency scope', () => {
       expect.stringContaining('clientFaceInclude redundantly names automatically discovered package @f/dual'),
       expect.stringContaining('@f/host appears in both clientFaceInclude and clientFaceExclude'),
       expect.stringContaining('clientFaceExclude cannot exempt packages/client package @f/client'),
-      expect.stringContaining('clientFaceExclude names @f/host, which declares no dsh.client entry'),
+      expect.stringContaining('clientFaceExclude names @f/host, which declares no nulu.client entry'),
       expect.stringContaining('hostPackages redundantly names Client-faced package @f/dual'),
       expect.stringContaining('unknown release package @f/missing'),
     ]))
@@ -540,7 +540,7 @@ describe('face-aware source classification', () => {
   })
 
   it('fails when a managed Host package has no Host entry', () => {
-    const root = mkdtempSync(join(tmpdir(), 'dsh-package-missing-host-'))
+    const root = mkdtempSync(join(tmpdir(), 'nulu-package-missing-host-'))
     roots.push(root)
     const subject = pkg('@f/host', 'packages/g/host/package.json')
 
@@ -549,10 +549,10 @@ describe('face-aware source classification', () => {
   })
 
   it('counts Host values as dependencies and Client values as development inputs', () => {
-    const root = mkdtempSync(join(tmpdir(), 'dsh-package-faces-'))
+    const root = mkdtempSync(join(tmpdir(), 'nulu-package-faces-'))
     roots.push(root)
     const subject = pkg('@f/dual', 'packages/g/dual/package.json', {
-      dsh: { client: { inject: ['@f/injected'] } },
+      nulu: { client: { inject: ['@f/injected'] } },
     })
     const files = {
       'packages/g/dual/src/index.ts': [
@@ -708,10 +708,10 @@ describe('dependency sections', () => {
   })
 
   it('validates every third-party range before writing any manifest in a repair batch', () => {
-    const root = mkdtempSync(join(tmpdir(), 'dsh-dependency-batch-'))
+    const root = mkdtempSync(join(tmpdir(), 'nulu-dependency-batch-'))
     roots.push(root)
-    const valid = { ...facts({ name: '@deepseek-ai/dsh-first' }), manifestPath: 'first.json' }
-    const base = facts({ name: '@deepseek-ai/dsh-second' })
+    const valid = { ...facts({ name: '@worldapptechnologies/nulu-first' }), manifestPath: 'first.json' }
+    const base = facts({ name: '@worldapptechnologies/nulu-second' })
     const invalid: PackageDependencyFacts = {
       ...base,
       manifestPath: 'second.json',
@@ -734,9 +734,9 @@ describe('dependency sections', () => {
 
   it('moves browser-only third-party imports to development dependencies without changing their ranges', () => {
     const manifest: PackageDependencyManifest = {
-      name: '@deepseek-ai/dsh-probe',
-      dependencies: { '@deepseek-ai/dsh-runtime': 'workspace:^', external: '^1.2.3' },
-      devDependencies: { [CORDIS]: 'workspace:^', '@deepseek-ai/dsh-types': 'workspace:^' },
+      name: '@worldapptechnologies/nulu-probe',
+      dependencies: { '@worldapptechnologies/nulu-runtime': 'workspace:^', external: '^1.2.3' },
+      devDependencies: { [CORDIS]: 'workspace:^', '@worldapptechnologies/nulu-types': 'workspace:^' },
       peerDependencies: { [CORDIS]: 'workspace:^' },
     }
     const base = facts(manifest)
@@ -761,15 +761,15 @@ describe('dependency sections', () => {
 
   it('does not leak repository configuration into captured dependency facts', () => {
     const manifest: PackageDependencyManifest = {
-      name: '@deepseek-ai/dsh-client-locale',
-      dependencies: { '@deepseek-ai/dsh-runtime': 'workspace:^' },
-      devDependencies: { [CORDIS]: 'workspace:^', '@deepseek-ai/dsh-types': 'workspace:^' },
+      name: '@worldapptechnologies/nulu-client-locale',
+      dependencies: { '@worldapptechnologies/nulu-runtime': 'workspace:^' },
+      devDependencies: { [CORDIS]: 'workspace:^', '@worldapptechnologies/nulu-types': 'workspace:^' },
       peerDependencies: { [CORDIS]: 'workspace:^' },
     }
     const base = facts(manifest)
     const subject: PackageDependencyFacts = {
       ...base,
-      workspaceNames: new Set([...base.workspaceNames, '@deepseek-ai/dsh-api-remotes']),
+      workspaceNames: new Set([...base.workspaceNames, '@worldapptechnologies/nulu-api-remotes']),
     }
 
     expect(collectPackageDependencyViolations({
@@ -779,15 +779,15 @@ describe('dependency sections', () => {
 
   it('requires non-workspace Host runtime imports in dependencies', () => {
     const manifest: PackageDependencyManifest = {
-      name: '@deepseek-ai/dsh-probe',
-      dependencies: { '@deepseek-ai/dsh-runtime': 'workspace:^' },
-      devDependencies: { [CORDIS]: 'workspace:^', '@deepseek-ai/dsh-types': 'workspace:^', external: '^1.0.0' },
+      name: '@worldapptechnologies/nulu-probe',
+      dependencies: { '@worldapptechnologies/nulu-runtime': 'workspace:^' },
+      devDependencies: { [CORDIS]: 'workspace:^', '@worldapptechnologies/nulu-types': 'workspace:^', external: '^1.0.0' },
       peerDependencies: { [CORDIS]: 'workspace:^' },
     }
     const subject: PackageDependencyFacts = {
       ...facts(manifest),
       hostRuntimeSourceUses: new Map([
-        ['@deepseek-ai/dsh-runtime', ['packages/core/probe/src/index.ts']],
+        ['@worldapptechnologies/nulu-runtime', ['packages/core/probe/src/index.ts']],
         ['external', ['packages/core/probe/src/index.ts']],
       ]),
       allSourceUses: new Map([
@@ -819,14 +819,14 @@ describe('dependency sections', () => {
 
   it('accepts Host dependencies, development-only inputs, and shared Cordis', () => {
     const manifest: PackageDependencyManifest = {
-      name: '@deepseek-ai/dsh-probe',
+      name: '@worldapptechnologies/nulu-probe',
       dependencies: {
-        '@deepseek-ai/dsh-runtime': 'workspace:^',
-        '@deepseek-ai/schemastery': 'workspace:^',
+        '@worldapptechnologies/nulu-runtime': 'workspace:^',
+        '@worldapptechnologies/schemastery': 'workspace:^',
         external: '^1.0.0',
       },
       devDependencies: {
-        '@deepseek-ai/dsh-types': 'workspace:^',
+        '@worldapptechnologies/nulu-types': 'workspace:^',
         [CORDIS]: 'workspace:^',
       },
       peerDependencies: { [CORDIS]: 'workspace:^' },
@@ -837,20 +837,20 @@ describe('dependency sections', () => {
   })
 
   it('lists managed Host runtime dependencies for fix review', () => {
-    const subject = facts({ name: '@deepseek-ai/dsh-probe' })
+    const subject = facts({ name: '@worldapptechnologies/nulu-probe' })
     expect(formatManagedRuntimeDependencies({
       facts: [subject], packages: [], policyViolations: [], workspaceNames: subject.workspaceNames,
     })).toEqual([
       'verify-package-dependencies: 1 managed Host runtime edge(s) remain in dependencies across 1 package(s):',
-      '  @deepseek-ai/dsh-probe -> @deepseek-ai/dsh-runtime: @deepseek-ai/dsh-runtime#runtimeValue',
+      '  @worldapptechnologies/nulu-probe -> @worldapptechnologies/nulu-runtime: @worldapptechnologies/nulu-runtime#runtimeValue',
     ])
   })
 
   it('reports an unapproved Host runtime export without rewriting its dependency section', () => {
     const manifest: PackageDependencyManifest = {
-      name: '@deepseek-ai/dsh-probe',
-      dependencies: { '@deepseek-ai/dsh-runtime': 'workspace:^' },
-      devDependencies: { [CORDIS]: 'workspace:^', '@deepseek-ai/dsh-types': 'workspace:^' },
+      name: '@worldapptechnologies/nulu-probe',
+      dependencies: { '@worldapptechnologies/nulu-runtime': 'workspace:^' },
+      devDependencies: { [CORDIS]: 'workspace:^', '@worldapptechnologies/nulu-types': 'workspace:^' },
       peerDependencies: { [CORDIS]: 'workspace:^' },
     }
     const subject = facts(manifest)
@@ -864,23 +864,23 @@ describe('dependency sections', () => {
     }
 
     expect(safetyViolations).toEqual([
-      'packages/core/probe/src/index.ts:1:10: @deepseek-ai/dsh-runtime#runtimeValue is not classified as '
-      + 'safe or peer-required — import { runtimeValue } from \'@deepseek-ai/dsh-runtime\'',
+      'packages/core/probe/src/index.ts:1:10: @worldapptechnologies/nulu-runtime#runtimeValue is not classified as '
+      + 'safe or peer-required — import { runtimeValue } from \'@worldapptechnologies/nulu-runtime\'',
     ])
     expect(fixPackageDependencies('/unused', state)).toEqual([])
-    expect(manifest.dependencies).toEqual({ '@deepseek-ai/dsh-runtime': 'workspace:^' })
+    expect(manifest.dependencies).toEqual({ '@worldapptechnologies/nulu-runtime': 'workspace:^' })
   })
 
   it('keeps an edge as a peer when one imported export requires shared identity', () => {
     const manifest: PackageDependencyManifest = {
-      name: '@deepseek-ai/dsh-probe',
-      dependencies: { '@deepseek-ai/dsh-runtime': 'workspace:^' },
-      devDependencies: { [CORDIS]: 'workspace:^', '@deepseek-ai/dsh-types': 'workspace:^' },
+      name: '@worldapptechnologies/nulu-probe',
+      dependencies: { '@worldapptechnologies/nulu-runtime': 'workspace:^' },
+      devDependencies: { [CORDIS]: 'workspace:^', '@worldapptechnologies/nulu-types': 'workspace:^' },
       peerDependencies: { [CORDIS]: 'workspace:^' },
     }
     const subject: PackageDependencyFacts = {
       ...facts(manifest),
-      peerRequiredHostDependencies: new Set(['@deepseek-ai/dsh-runtime']),
+      peerRequiredHostDependencies: new Set(['@worldapptechnologies/nulu-runtime']),
     }
     expect(collectHostDependencyExportPolicyViolations(
       [subject],
@@ -888,7 +888,7 @@ describe('dependency sections', () => {
       {
         safeHostDependencyExports: {},
         peerRequiredHostExports: {
-          '@deepseek-ai/dsh-runtime': ['runtimeValue'],
+          '@worldapptechnologies/nulu-runtime': ['runtimeValue'],
         },
       },
     )).toEqual([])
@@ -897,55 +897,55 @@ describe('dependency sections', () => {
     expect(manifest.dependencies).toBeUndefined()
     expect(manifest.peerDependencies).toMatchObject({
       [CORDIS]: 'workspace:^',
-      '@deepseek-ai/dsh-runtime': 'workspace:^',
+      '@worldapptechnologies/nulu-runtime': 'workspace:^',
     })
     expect(manifest.devDependencies).toMatchObject({
       [CORDIS]: 'workspace:^',
-      '@deepseek-ai/dsh-runtime': 'workspace:^',
+      '@worldapptechnologies/nulu-runtime': 'workspace:^',
     })
     expect(formatPeerRequiredRuntimeDependencies({
       facts: [subject], packages: [], policyViolations: [], workspaceNames: subject.workspaceNames,
     })).toEqual([
       'verify-package-dependencies: 1 Host runtime edge(s) remain in peerDependencies because their exports require shared identity across 1 package(s):',
-      '  @deepseek-ai/dsh-probe -> @deepseek-ai/dsh-runtime: @deepseek-ai/dsh-runtime#runtimeValue',
+      '  @worldapptechnologies/nulu-probe -> @worldapptechnologies/nulu-runtime: @worldapptechnologies/nulu-runtime#runtimeValue',
     ])
   })
 
   it('reports wrong sections, workspace ranges, and stale peer metadata', () => {
     const manifest: PackageDependencyManifest = {
-      name: '@deepseek-ai/dsh-probe',
-      dependencies: { '@deepseek-ai/dsh-types': 'workspace:*' },
-      devDependencies: { [CORDIS]: 'workspace:^', '@deepseek-ai/dsh-runtime': 'workspace:^' },
-      peerDependencies: { [CORDIS]: 'workspace:*', '@deepseek-ai/dsh-runtime': 'workspace:^' },
-      peerDependenciesMeta: { '@deepseek-ai/dsh-missing': { optional: true } },
+      name: '@worldapptechnologies/nulu-probe',
+      dependencies: { '@worldapptechnologies/nulu-types': 'workspace:*' },
+      devDependencies: { [CORDIS]: 'workspace:^', '@worldapptechnologies/nulu-runtime': 'workspace:^' },
+      peerDependencies: { [CORDIS]: 'workspace:*', '@worldapptechnologies/nulu-runtime': 'workspace:^' },
+      peerDependenciesMeta: { '@worldapptechnologies/nulu-missing': { optional: true } },
     }
     const state = {
       facts: [facts(manifest)], packages: [], policyViolations: [], workspaceNames: facts(manifest).workspaceNames,
     }
     const violations = collectPackageDependencyViolations(state)
     expect(violations).toEqual(expect.arrayContaining([
-      expect.stringContaining('@deepseek-ai/dsh-runtime'),
-      expect.stringContaining('@deepseek-ai/dsh-types'),
+      expect.stringContaining('@worldapptechnologies/nulu-runtime'),
+      expect.stringContaining('@worldapptechnologies/nulu-types'),
       expect.stringContaining(`${CORDIS} must be matching peerDependencies + devDependencies`),
-      expect.stringContaining('dependencies.@deepseek-ai/dsh-types must use workspace:^'),
-      expect.stringContaining('peerDependenciesMeta.@deepseek-ai/dsh-missing has no matching'),
+      expect.stringContaining('dependencies.@worldapptechnologies/nulu-types must use workspace:^'),
+      expect.stringContaining('peerDependenciesMeta.@worldapptechnologies/nulu-missing has no matching'),
     ]))
   })
 
   it('repairs owned relationships without changing unrelated dependencies', () => {
-    const root = mkdtempSync(join(tmpdir(), 'dsh-package-dependencies-'))
+    const root = mkdtempSync(join(tmpdir(), 'nulu-package-dependencies-'))
     roots.push(root)
     const manifestPath = 'package.json'
     const manifest: PackageDependencyManifest = {
-      name: '@deepseek-ai/dsh-probe',
-      dependencies: { '@deepseek-ai/schemastery': 'workspace:*', external: '^1.0.0' },
-      devDependencies: { [CORDIS]: 'workspace:^', '@deepseek-ai/dsh-runtime': 'workspace:^' },
+      name: '@worldapptechnologies/nulu-probe',
+      dependencies: { '@worldapptechnologies/schemastery': 'workspace:*', external: '^1.0.0' },
+      devDependencies: { [CORDIS]: 'workspace:^', '@worldapptechnologies/nulu-runtime': 'workspace:^' },
       peerDependencies: {
         [CORDIS]: 'workspace:^',
-        '@deepseek-ai/dsh-runtime': 'workspace:^',
-        '@deepseek-ai/dsh-stale': 'workspace:^',
+        '@worldapptechnologies/nulu-runtime': 'workspace:^',
+        '@worldapptechnologies/nulu-stale': 'workspace:^',
       },
-      peerDependenciesMeta: { '@deepseek-ai/dsh-stale': { optional: true } },
+      peerDependenciesMeta: { '@worldapptechnologies/nulu-stale': { optional: true } },
     }
     writeFileSync(join(root, manifestPath), `${JSON.stringify(manifest, null, 2)}\n`)
     const subject = { ...facts(manifest), manifestPath }
@@ -954,14 +954,14 @@ describe('dependency sections', () => {
     expect(fixPackageDependencies(root, state)).toEqual([manifestPath])
     const fixed = JSON.parse(readFileSync(join(root, manifestPath), 'utf8')) as PackageDependencyManifest
     expect(fixed.dependencies).toEqual({
-      '@deepseek-ai/schemastery': 'workspace:^',
+      '@worldapptechnologies/schemastery': 'workspace:^',
       external: '^1.0.0',
-      '@deepseek-ai/dsh-runtime': 'workspace:^',
+      '@worldapptechnologies/nulu-runtime': 'workspace:^',
     })
     expect(fixed.devDependencies).toEqual({
       [CORDIS]: 'workspace:^',
-      '@deepseek-ai/dsh-types': 'workspace:^',
-      '@deepseek-ai/dsh-stale': 'workspace:^',
+      '@worldapptechnologies/nulu-types': 'workspace:^',
+      '@worldapptechnologies/nulu-stale': 'workspace:^',
     })
     expect(fixed.peerDependencies).toEqual({ [CORDIS]: 'workspace:^' })
     expect(fixed.peerDependenciesMeta).toBeUndefined()
@@ -969,12 +969,12 @@ describe('dependency sections', () => {
 
   it('repairs an in-memory manifest for benchmark simulation', () => {
     const manifest: PackageDependencyManifest = {
-      name: '@deepseek-ai/dsh-probe',
-      peerDependencies: { [CORDIS]: 'workspace:^', '@deepseek-ai/dsh-runtime': 'workspace:^' },
-      devDependencies: { [CORDIS]: 'workspace:^', '@deepseek-ai/dsh-runtime': 'workspace:^' },
+      name: '@worldapptechnologies/nulu-probe',
+      peerDependencies: { [CORDIS]: 'workspace:^', '@worldapptechnologies/nulu-runtime': 'workspace:^' },
+      devDependencies: { [CORDIS]: 'workspace:^', '@worldapptechnologies/nulu-runtime': 'workspace:^' },
     }
     repairPackageDependencyManifest(facts(manifest))
-    expect(manifest.dependencies).toEqual({ '@deepseek-ai/dsh-runtime': 'workspace:^' })
+    expect(manifest.dependencies).toEqual({ '@worldapptechnologies/nulu-runtime': 'workspace:^' })
     expect(manifest.peerDependencies).toEqual({ [CORDIS]: 'workspace:^' })
   })
 })

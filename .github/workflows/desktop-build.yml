@@ -1,0 +1,132 @@
+# Build the Nulu Harness desktop installers on every supported platform.
+# Manual-only (workflow_dispatch): Desktop artifacts are release candidates and
+# must never appear as a PR check. The default path uploads installers as
+# workflow artifacts; attaching them to a draft GitHub Release stays opt-in.
+name: Desktop build (Nulu Harness)
+
+on:
+  workflow_dispatch:
+    inputs:
+      publish_release:
+        description: Attach the built installers to a draft GitHub Release
+        type: boolean
+        default: false
+      release_tag:
+        description: Release tag to create or update when publishing (required with publish_release)
+        type: string
+        required: false
+
+permissions:
+  contents: read
+
+env:
+  PRIMARY_NODE_VERSION: '24'
+  NULU_TELEMETRY_DISABLED: '1'
+  NULU_DESKTOP_APP_ID: com.worldapptechnologies.nulu-harness
+  NULU_DESKTOP_AUTO_UPDATE_ENV: test
+  DOWNLOAD_TEST_ORIGIN: https://download.worldapptechnologies.com
+
+jobs:
+  build:
+    name: Build ${{ matrix.target }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: ubuntu-24.04
+            target: linux-x64
+            command: package:desktop:linux:x64
+            artifacts: apps/desktop/.desktop-build/targets/linux-x64/artifacts
+          - runner: macos-15
+            target: mac-arm64
+            command: package:desktop:mac:arm64:unsigned
+            artifacts: apps/desktop/.desktop-build/targets/mac-arm64/unsigned-artifacts
+          - runner: macos-15-intel
+            target: mac-x64
+            command: package:desktop:mac:x64:unsigned
+            artifacts: apps/desktop/.desktop-build/targets/mac-x64/unsigned-artifacts
+          - runner: windows-2025
+            target: win-x64
+            command: package:desktop:win:x64:unsigned
+            artifacts: apps/desktop/.desktop-build/targets/win-x64/unsigned-artifacts
+    steps:
+      # Complete history: the release scripts read tags.
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@v4
+        with:
+          dest: ${{ runner.temp }}/setup-pnpm
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.PRIMARY_NODE_VERSION }}
+
+      - name: Configure pnpm store path
+        id: pnpm-store
+        shell: bash
+        run: |
+          store_root="$HOME/.local/share/pnpm/store"
+          echo "PNPM_CONFIG_STORE_DIR=$store_root" >> "$GITHUB_ENV"
+          store_path=$(PNPM_CONFIG_STORE_DIR="$store_root" pnpm store path --silent)
+          echo "path=$store_path" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/cache/restore@v4
+        with:
+          path: ${{ steps.pnpm-store.outputs.path }}
+          key: ${{ runner.os }}-node-${{ env.PRIMARY_NODE_VERSION }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ env.PRIMARY_NODE_VERSION }}-pnpm-
+
+      - name: Install (immutable)
+        run: pnpm install --frozen-lockfile
+
+      - name: Install musl toolchain
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -yq musl-tools
+
+      - name: Package desktop installer
+        run: pnpm run ${{ matrix.command }}
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: nulu-harness-${{ matrix.target }}
+          path: ${{ matrix.artifacts }}
+          if-no-files-found: error
+          retention-days: 14
+
+  release:
+    name: Attach installers to draft release
+    if: inputs.publish_release
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - name: Require a release tag
+        if: inputs.release_tag == ''
+        run: |
+          echo "release_tag is required when publish_release is true" >&2
+          exit 1
+
+      - uses: actions/download-artifact@v8
+        with:
+          path: dist/desktop
+          merge-multiple: true
+
+      - name: Create or update draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+        run: |
+          gh release create "$RELEASE_TAG" \
+            --draft \
+            --title "$RELEASE_TAG" \
+            --generate-notes \
+            dist/desktop/*

@@ -3,16 +3,16 @@
  * deterministic ordering and labels, quoted-path suppression, pick projections, codec
  * round-trip, and registration lifecycle.
  */
-import { Context, Service } from '@deepseek-ai/cordis'
+import { Context, Service } from '@worldapptechnologies/cordis'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { LocaleRuntime } from '@deepseek-ai/dsh-client-locale/client'
-import type { SessionId } from '@deepseek-ai/dsh-session/types'
-import { RemoteError } from '@deepseek-ai/dsh-client-test-runtime'
+import { LocaleRuntime } from '@worldapptechnologies/nulu-client-locale/client'
+import type { SessionId } from '@worldapptechnologies/nulu-session/types'
+import { RemoteError } from '@worldapptechnologies/nulu-client-test-runtime'
 import type {
   CandidateRequest, ClientSessionContext, InputTriggerCandidate, InputTriggerSource,
-} from '@deepseek-ai/dsh-client-ui-input-trigger/client'
-import type { FileReferenceCandidate } from '@deepseek-ai/dsh-file-reference/types'
-import type { SessionReferenceMentionCandidate } from '@deepseek-ai/dsh-session-reference/types'
+} from '@worldapptechnologies/nulu-client-ui-input-trigger/client'
+import type { FileReferenceCandidate } from '@worldapptechnologies/nulu-file-reference/types'
+import type { SessionReferenceMentionCandidate } from '@worldapptechnologies/nulu-session-reference/types'
 import { apply, inject } from '../src/client/index.ts'
 import { apply as nodeApply } from '../src/index.ts'
 
@@ -71,7 +71,7 @@ async function bench(
       cwd: `${HOME}/project`,
       sameWorkspace: false,
       createdAt: CREATED_AT,
-      mention: '@[Research](dsh-session:InNvdXJjZSI)',
+      mention: '@[Research](nulu-session:InNvdXJjZSI)',
     }],
   })),
   listed: Record<string, { updatedAt: number }> = {},
@@ -182,7 +182,7 @@ describe('candidates', () => {
             cwd: `${HOME}/project`,
             sameWorkspace: false,
             createdAt: CREATED_AT,
-            mention: '@[Research](dsh-session:InNvdXJjZSI)',
+            mention: '@[Research](nulu-session:InNvdXJjZSI)',
           }],
         })
       }
@@ -234,7 +234,7 @@ describe('candidates', () => {
         cwd: `${HOME}/project`,
         sameWorkspace: false,
         createdAt: CREATED_AT,
-        mention: '@[Research](dsh-session:InNvdXJjZSI)',
+        mention: '@[Research](nulu-session:InNvdXJjZSI)',
       }],
     }))
     const { source } = await bench(files, sessions)
@@ -298,7 +298,7 @@ describe('candidates', () => {
         label: 'same',
         sameWorkspace: false,
         createdAt: CREATED_AT,
-        mention: '@[same](dsh-session:InNhbWUi)',
+        mention: '@[same](nulu-session:InNhbWUi)',
       }],
     }))
     const { source } = await bench(files, sessions)
@@ -320,7 +320,7 @@ describe('candidates', () => {
         cwd: `${HOME}/project`,
         sameWorkspace: true,
         createdAt: CREATED_AT,
-        mention: '@[Unlisted run](dsh-session:InVubGlzdGVkIg)',
+        mention: '@[Unlisted run](nulu-session:InVubGlzdGVkIg)',
       }],
     }))
     // A row absent from the list has no durable activity time to read.
@@ -340,7 +340,7 @@ describe('candidates', () => {
         cwd: `${HOME}/project`,
         sameWorkspace: true,
         createdAt: NOW - 1_000,
-        mention: '@[Just now](dsh-session:Imp1c3Qtbm93Ig)',
+        mention: '@[Just now](nulu-session:Imp1c3Qtbm93Ig)',
       }],
     }))
     const { source } = await bench(files, sessions, { 'just-now': { updatedAt: NOW - 1_000 } })
@@ -359,7 +359,7 @@ describe('candidates', () => {
         cwd: `${HOME}/project`,
         sameWorkspace: true,
         createdAt: CREATED_AT,
-        mention: '@[Sibling run](dsh-session:InNpYmxpbmdyIg)',
+        mention: '@[Sibling run](nulu-session:InNpYmxpbmdyIg)',
       }],
     }))
     const { source } = await bench(files, sessions)
@@ -486,7 +486,7 @@ describe('pick and codec', () => {
     const { source } = await bench()
     const candidates = await source.candidates(session, request(''))
     const candidate = candidates.find(item => item.name === 'Research')!
-    const mention = '@[Research](dsh-session:InNvdXJjZSI)'
+    const mention = '@[Research](nulu-session:InNvdXJjZSI)'
     expect(pick(source, candidate)).toEqual({
       insert: {
         source: 'reference',
@@ -512,10 +512,10 @@ describe('reference preview', () => {
     const openResource = vi.spyOn(ctx.sidebarRight, 'openResource')
     expect(source.openReference?.(session, { ref: '@notes/readme.md', appearance: 'file' })).toBe(true)
     expect(source.openReference?.(session, { ref: '@"docs/a b.md"', appearance: 'file' })).toBe(true)
-    expect(openResource).toHaveBeenNthCalledWith(1, 'dsh-resource://file/session/target/notes/readme.md')
-    expect(openResource).toHaveBeenNthCalledWith(2, 'dsh-resource://file/session/target/docs/a%20b.md')
+    expect(openResource).toHaveBeenNthCalledWith(1, 'nulu-resource://file/session/target/notes/readme.md')
+    expect(openResource).toHaveBeenNthCalledWith(2, 'nulu-resource://file/session/target/docs/a%20b.md')
     expect(source.openReference?.(session, { ref: '@docs/', appearance: 'folder' })).toBe(false)
-    expect(source.openReference?.(session, { ref: '@[Research](dsh-session:abc)', appearance: 'session' })).toBe(false)
+    expect(source.openReference?.(session, { ref: '@[Research](nulu-session:abc)', appearance: 'session' })).toBe(false)
     expect(openResource).toHaveBeenCalledTimes(2)
     await fiber.dispose()
   })

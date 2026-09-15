@@ -1,7 +1,7 @@
 /** Host-resolved file identities across pending stats, retries, and disposal. */
-import type { SessionId } from '@deepseek-ai/dsh-session/types'
-import { RemoteError } from '@deepseek-ai/dsh-typert-protocol'
-import { sessionFileAddress } from '@deepseek-ai/dsh-util-workspace-path'
+import type { SessionId } from '@worldapptechnologies/nulu-session/types'
+import { RemoteError } from '@worldapptechnologies/nulu-typert-protocol'
+import { sessionFileAddress } from '@worldapptechnologies/nulu-util-workspace-path'
 import { describe, expect, it, onTestFinished } from 'vitest'
 import { ChangeFeed } from '../src/client/change-feed.ts'
 import { createFileResourceProvider } from '../src/client/provider.ts'

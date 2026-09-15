@@ -3,7 +3,7 @@
 
 # Session Persistence Event Catalog
 
-Every event type that can appear in a session's durable event log: the complete persisted `SessionEvent` envelope and each member of the merge-extensible `SessionEventMap` — the owning vocabulary in `@deepseek-ai/dsh-session` plus every plugin declaration merge into `@deepseek-ai/dsh-session/types` in this repo — with source JSDoc, full payload declaration, surface badge, and declaration site. It complements [session.md](subsystems/session.md) (surface ordering and the `deriveMessages()` projection), [persistence.md](subsystems/persistence.md) (how the log is made durable), and the generated region of [session.md](subsystems/session.md#cordis-surface) (the live bus wiring — a log event is NOT a cordis event; it reaches listeners via the single `session/event` emit).
+Every event type that can appear in a session's durable event log: the complete persisted `SessionEvent` envelope and each member of the merge-extensible `SessionEventMap` — the owning vocabulary in `@worldapptechnologies/nulu-session` plus every plugin declaration merge into `@worldapptechnologies/nulu-session/types` in this repo — with source JSDoc, full payload declaration, surface badge, and declaration site. It complements [session.md](subsystems/session.md) (surface ordering and the `deriveMessages()` projection), [persistence.md](subsystems/persistence.md) (how the log is made durable), and the generated region of [session.md](subsystems/session.md#cordis-surface) (the live bus wiring — a log event is NOT a cordis event; it reaches listeners via the single `session/event` emit).
 
 This file is GENERATED from source (`scripts/gen-persistence-catalog.ts`) and verified fresh by `pnpm run verify-persistence-catalog` (part of `doc-sync`) — do not edit it by hand. Declaration blocks retain the source declaration and nested property JSDoc, removing only the indentation imposed by a containing interface/module, and use a `ts persistence-catalog` fence (skipped by doc-typecheck because declarations reference types from their owning modules). Type names in a payload link to the page that documents them. The archived [persistence-log-catalog record](../.agents/notes/archived/process/2026-07-04-persistence-log-catalog.md) documents the original catalog decision.
 
@@ -259,7 +259,7 @@ Source: [`packages/core/session/src/types.ts:321`](../packages/core/session/src/
   commandId: CommandId
   kind: 'success' | 'error'
   text?: string
-  sourceEventSeq?: import('@deepseek-ai/dsh-session/types').SessionSeq
+  sourceEventSeq?: import('@worldapptechnologies/nulu-session/types').SessionSeq
 }
 ```
 
@@ -730,25 +730,25 @@ Types: [SessionTitleLlmRequestEventData](subsystems/session-title.md)
 
 Source: [`packages/session/session-title-llm/src/index.ts:45`](../packages/session/session-title-llm/src/index.ts)
 
-### `session-log-deepseek/*`
+### `session-log-gateway/*`
 
-<a id="session-log-deepseekdelivery-accepted--log-only"></a>
+<a id="session-log-gatewaydelivery-accepted--log-only"></a>
 
-#### `session-log-deepseek/delivery-accepted` — log-only
+#### `session-log-gateway/delivery-accepted` — log-only
 
 ```ts persistence-catalog
 /** Records that the configured endpoint accepted one delivery through `throughSeq`. */
-'session-log-deepseek/delivery-accepted': {
+'session-log-gateway/delivery-accepted': {
   /** Session identity the accepted delivery carried; inherited fork markers retain the parent's id. */
-  sessionId: import('@deepseek-ai/dsh-session/types').SessionId
+  sessionId: import('@worldapptechnologies/nulu-session/types').SessionId
   /** Accepted Session format generation; absence identifies version 0. */
   sessionFormatVersion?: number
   /** Last canonical event included in the accepted request. */
-  throughSeq: import('@deepseek-ai/dsh-session/types').SessionSeq
+  throughSeq: import('@worldapptechnologies/nulu-session/types').SessionSeq
 }
 ```
 
-Source: [`packages/session/session-log-deepseek/src/types.ts:81`](../packages/session/session-log-deepseek/src/types.ts)
+Source: [`packages/session/session-log-gateway/src/types.ts:81`](../packages/session/session-log-gateway/src/types.ts)
 
 ### `step/*`
 
@@ -1004,7 +1004,7 @@ Source: [`packages/core/tools/src/types.ts:40`](../packages/core/tools/src/types
  * runtime-validates all event data with `isJsonValue`, so a non-serializable
  * `meta` is rejected at the source, and the durable log reproduces the
  * identical card on replay. Absent
- * unless the tool attaches one (e.g. `dsh-tool-fs` carries its result-time
+ * unless the tool attaches one (e.g. `nulu-tool-fs` carries its result-time
  * contextual diff here).
  */
 'tool/result': {
@@ -1087,7 +1087,7 @@ Source: [`packages/workflow/tool-workflow/src/types.ts:47`](../packages/workflow
 /**
  * Closes turn `turn` with the {@link TurnEndReason} that ended it. A turn
  * with no entered step has no `step/start` or `step/end`. The loop does not await a
- * flush at turn boundaries: `dsh-session-checkpoint-policy` owns the
+ * flush at turn boundaries: `nulu-session-checkpoint-policy` owns the
  * per-request durability checkpoint, and consumers that read storage after
  * `whenIdle()` flush themselves. Success commits the turn; rejection is
  * reported live and does not prevent later work.
@@ -1136,13 +1136,13 @@ Source: [`packages/core/session/src/types.ts:297`](../packages/core/session/src/
 
 ### `web/*`
 
-<a id="webdeepseek-search-llm-request--log-only"></a>
+<a id="webnulu-search-llm-request--log-only"></a>
 
-#### `web/deepseek-search-llm-request` — log-only
+#### `web/nulu-search-llm-request` — log-only
 
 ```ts persistence-catalog
-/** Secret-free auxiliary DeepSeek search request recorded before dispatch. */
-'web/deepseek-search-llm-request': DeepSeekSearchLlmRequest
+/** Secret-free auxiliary Nulu search request recorded before dispatch. */
+'web/nulu-search-llm-request': NuluSearchLlmRequest
 ```
 
-Source: [`packages/web/web-search-deepseek/src/provider.ts:83`](../packages/web/web-search-deepseek/src/provider.ts)
+Source: [`packages/web/web-search-gateway/src/provider.ts:83`](../packages/web/web-search-gateway/src/provider.ts)

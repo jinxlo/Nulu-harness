@@ -3,14 +3,14 @@
  * configured root — a whole-unit file (`single` layout) or one document per
  * record (`per-record` layout), published by atomic rewrite. Registers as
  * backend `json` on the storage hub.
- * @module @deepseek-ai/dsh-storage-json
+ * @module @worldapptechnologies/nulu-storage-json
  */
 
 import { mkdir } from 'node:fs/promises'
-import type { Context } from '@deepseek-ai/cordis'
-import z from '@deepseek-ai/schemastery'
-import { StorageError, UNIT_NAME_RE, storageBackendServiceKey } from '@deepseek-ai/dsh-storage'
-import type { KvFacet, KvUnit, KvUnitDescriptor, StorageBackend } from '@deepseek-ai/dsh-storage'
+import type { Context } from '@worldapptechnologies/cordis'
+import z from '@worldapptechnologies/schemastery'
+import { StorageError, UNIT_NAME_RE, storageBackendServiceKey } from '@worldapptechnologies/nulu-storage'
+import type { KvFacet, KvUnit, KvUnitDescriptor, StorageBackend } from '@worldapptechnologies/nulu-storage'
 import { openSingleUnit } from './single-unit.ts'
 import { openPerRecordUnit } from './per-record-unit.ts'
 

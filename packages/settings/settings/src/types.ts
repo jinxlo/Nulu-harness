@@ -5,11 +5,11 @@
  * runtime code, and nothing here reaches a Host-only symbol, so a Client
  * compilation face reads exactly the signatures the Host emits.
  *
- * @module @deepseek-ai/dsh-settings/types
+ * @module @worldapptechnologies/nulu-settings/types
  */
 
-import type { Branded } from '@deepseek-ai/dsh-brand'
-import type { JsonValue } from '@deepseek-ai/dsh-util-values'
+import type { Branded } from '@worldapptechnologies/nulu-brand'
+import type { JsonValue } from '@worldapptechnologies/nulu-util-values'
 
 /** Nominal id of one registered settings namespace. */
 export type SettingsNamespace = Branded<'SettingsNamespace'>
@@ -31,7 +31,7 @@ export interface SettingsSecretView {
  * because the Remote boundary admits no unconstrained data.
  */
 export interface SettingsNamespaceView {
-  /** Namespace key (`llm-deepseek`, `llm-pi-ai`, …). */
+  /** Namespace key (`llm-gateway`, `llm-pi-ai`, …). */
   ns: string
   /** Serialized schemastery schema envelope (`schema.toJSON()`); rehydrate with `new Schema(json)`. */
   schema: JsonValue
@@ -72,7 +72,7 @@ export interface SettingsDescribeValue {
   namespaces: SettingsNamespaceView[]
 }
 
-declare module '@deepseek-ai/cordis' {
+declare module '@worldapptechnologies/cordis' {
   interface Events {
     /**
      * Committed change to one registered namespace's resolved value. Emitted

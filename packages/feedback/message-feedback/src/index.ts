@@ -1,21 +1,21 @@
 /**
  * Canonical Session-log feedback for finalized assistant messages.
- * @module @deepseek-ai/dsh-message-feedback
+ * @module @worldapptechnologies/nulu-message-feedback
  */
 
 import { Buffer } from 'node:buffer'
 import { randomUUID } from 'node:crypto'
 import { isDeepStrictEqual } from 'node:util'
-import { Context, Service } from '@deepseek-ai/cordis'
-import s from '@deepseek-ai/schemastery'
+import { Context, Service } from '@worldapptechnologies/cordis'
+import s from '@worldapptechnologies/schemastery'
 import { z } from 'zod'
-import { FEEDBACK_CATEGORIES } from '@deepseek-ai/dsh-command-feedback'
-import { SessionSeq } from '@deepseek-ai/dsh-session/types'
-import { deriveEventMessage, isAppendSurfaceEvent } from '@deepseek-ai/dsh-session/surface'
-import type { SessionEvent, SessionId } from '@deepseek-ai/dsh-session/types'
-import type {} from '@deepseek-ai/dsh-session'
-import type { SessionInspection } from '@deepseek-ai/dsh-session-persistence'
-import { TypertRemoteService, Remote } from '@deepseek-ai/dsh-typert-protocol'
+import { FEEDBACK_CATEGORIES } from '@worldapptechnologies/nulu-command-feedback'
+import { SessionSeq } from '@worldapptechnologies/nulu-session/types'
+import { deriveEventMessage, isAppendSurfaceEvent } from '@worldapptechnologies/nulu-session/surface'
+import type { SessionEvent, SessionId } from '@worldapptechnologies/nulu-session/types'
+import type {} from '@worldapptechnologies/nulu-session'
+import type { SessionInspection } from '@worldapptechnologies/nulu-session-persistence'
+import { TypertRemoteService, Remote } from '@worldapptechnologies/nulu-typert-protocol'
 import type {
   MessageFeedbackDeleteRequest,
   MessageFeedbackDeleteResult,
@@ -42,7 +42,7 @@ export interface Config {
   readonly maxNoteBytes: number
 }
 
-declare module '@deepseek-ai/cordis' {
+declare module '@worldapptechnologies/cordis' {
   interface Context {
     messageFeedback: MessageFeedbackService
   }
