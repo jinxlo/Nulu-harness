@@ -1,0 +1,15 @@
+{
+  "environment": "ubuntu:24.04 container (podman), musl-tools + build-essential",
+  "node": "24.21.0",
+  "pnpm": "11.7.0",
+  "musl_gcc": "13.3.0 (static musl confirmed)",
+  "baseline": {
+    "install": "PASS",
+    "native_build": "PASS (landlock-run, flock glibc+musl)",
+    "full_build": "PASS (exit 0)",
+    "tests": "NOT_YET_RUN",
+    "cli": "NOT_YET_RUN",
+    "tui": "NOT_YET_RUN",
+    "desktop": "NOT_YET_RUN"
+  }
+}
