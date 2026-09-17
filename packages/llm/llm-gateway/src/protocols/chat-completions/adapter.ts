@@ -32,7 +32,7 @@ import type {
   NuluLlmApiJson,
 } from '@worldapptechnologies/nulu-llm-api-extensions'
 import { serializeRequest, serializeRequestWithImages } from './serialize.ts'
-import { deepSeekImageRequestPricing, resolveRequestImageTarget } from '../../common/request-pricing.ts'
+import { nuluImageRequestPricing, resolveRequestImageTarget } from '../../common/request-pricing.ts'
 import { catalogModelInfo, modelInfo } from '../../common/model-info.ts'
 import type { NuluAdapterOptions, NuluCatalogModel, NuluConnectionOptions } from '../../common/types.ts'
 import type { NuluFileStore } from '../../common/file-store.ts'
@@ -140,7 +140,7 @@ export class ChatCompletionsAdapter extends LlmAdapter {
       : (ref: ImageAttachmentRef): ImageAttachmentAccess | undefined => (
         this.config.resolveImageAccess?.(attachments, ref)
       )
-    return deepSeekImageRequestPricing(this.config.options(), model, resolveAccess)
+    return nuluImageRequestPricing(this.config.options(), model, resolveAccess)
   }
 
   override listModels(provider: string): Promise<readonly LlmModelInfo[]> {

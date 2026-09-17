@@ -4,7 +4,7 @@ import type { RequestImageAttachment } from '@worldapptechnologies/nulu-attachme
 import { LlmError } from '@worldapptechnologies/nulu-llm'
 import { NuluFilesClient, isFilesQuotaError } from './files-api.ts'
 import type { NuluFileId } from './file-id.ts'
-import { deepSeekFileScope, NuluUploadIndex } from './upload-index.ts'
+import { nuluFileScope, NuluUploadIndex } from './upload-index.ts'
 import type { NuluUploadRecord } from './upload-index.ts'
 import type { NuluProtocol } from './types.ts'
 
@@ -49,7 +49,7 @@ interface SharedUpload {
 /** The Files resource's parent URL distinguishes custom protocol namespaces. */
 function fileScope(connection: NuluFileConnection) {
   const root = connection.baseURL.replace(/\/+$/u, '')
-  return deepSeekFileScope(connection.protocol === 'messages' ? `${root}/v1` : root, connection.apiKey)
+  return nuluFileScope(connection.protocol === 'messages' ? `${root}/v1` : root, connection.apiKey)
 }
 
 function abortReason(signal: AbortSignal): Error {

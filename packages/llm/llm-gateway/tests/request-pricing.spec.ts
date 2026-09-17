@@ -3,7 +3,7 @@ import { offloadedImageText, requestImageHandleText, textOnlyImageText } from '@
 import type { ImageBlock } from '@worldapptechnologies/nulu-llm'
 import { AttachmentId } from '@worldapptechnologies/nulu-attachment'
 import type { ImageAttachmentRef } from '@worldapptechnologies/nulu-attachment'
-import { deepSeekImageRequestPricing } from '../src/common/request-pricing.ts'
+import { nuluImageRequestPricing } from '../src/common/request-pricing.ts'
 import { resolveAdapterOptions } from '../src/index.ts'
 import type { Config } from '../src/index.ts'
 
@@ -34,20 +34,20 @@ function connection(config: Omit<Config, 'models'> = {}): ReturnType<typeof reso
 describe('Nulu request-image pricing', () => {
   it('prices an uncatalogued model as its text-only substitution', () => {
     const image = ref('photo', 1920, 1080)
-    const prices = deepSeekImageRequestPricing(connection(), 'unlisted').priceImages([block(image)])
+    const prices = nuluImageRequestPricing(connection(), 'unlisted').priceImages([block(image)])
     expect(prices).toEqual([{ visualTokens: 0, text: textOnlyImageText(image) }])
   })
 
   it('prices a catalogued text-only model as its text-only substitution', () => {
     const image = ref('photo', 1920, 1080)
     const options = resolveAdapterOptions({ models: [{ id: 'text-only' }] })
-    const prices = deepSeekImageRequestPricing(options, 'text-only').priceImages([block(image)])
+    const prices = nuluImageRequestPricing(options, 'text-only').priceImages([block(image)])
     expect(prices).toEqual([{ visualTokens: 0, text: textOnlyImageText(image) }])
   })
 
   it('prices a retained image by its projected request dimensions plus its handle text', () => {
     const image = ref('photo', 1920, 1080)
-    const prices = deepSeekImageRequestPricing(connection(), 'vision').priceImages([block(image)])
+    const prices = nuluImageRequestPricing(connection(), 'vision').priceImages([block(image)])
     expect(prices).toEqual([{
       visualTokens: 968,
       text: requestImageHandleText(image, { width: 1708, height: 961 }),
@@ -59,7 +59,7 @@ describe('Nulu request-image pricing', () => {
     [1, 8192, 1, 4096, 1024],
   ])('prices a %sx%s image at its per-side-capped %sx%s request dimensions', (width, height, cappedWidth, cappedHeight, tokens) => {
     const image = ref('thin', width, height)
-    const prices = deepSeekImageRequestPricing(connection(), 'vision').priceImages([block(image)])
+    const prices = nuluImageRequestPricing(connection(), 'vision').priceImages([block(image)])
     expect(prices).toEqual([{
       visualTokens: tokens,
       text: requestImageHandleText(image, { width: cappedWidth, height: cappedHeight }),
@@ -68,7 +68,7 @@ describe('Nulu request-image pricing', () => {
 
   it('prices the sent dimensions when aspect-preserving projection changes the token grid', () => {
     const image = ref('portrait', 1224, 1429)
-    const prices = deepSeekImageRequestPricing(connection(), 'vision').priceImages([block(image)])
+    const prices = nuluImageRequestPricing(connection(), 'vision').priceImages([block(image)])
     expect(prices).toEqual([{
       visualTokens: 992,
       text: requestImageHandleText(image, { width: 1187, height: 1386 }),
@@ -80,7 +80,7 @@ describe('Nulu request-image pricing', () => {
     const options = resolveAdapterOptions({
       models: [{ ...VISION_MODEL, imagePixelBudget: 640_000 }],
     })
-    const prices = deepSeekImageRequestPricing(options, 'vision').priceImages([block(image)])
+    const prices = nuluImageRequestPricing(options, 'vision').priceImages([block(image)])
     expect(prices).toEqual([{
       visualTokens: 422,
       text: requestImageHandleText(image, { width: 800, height: 800 }),
@@ -92,14 +92,14 @@ describe('Nulu request-image pricing', () => {
     const options = resolveAdapterOptions({
       models: [{ ...VISION_MODEL, imagePixelBudget: 'low' as const }],
     })
-    const prices = deepSeekImageRequestPricing(options, 'vision').priceImages([block(image)])
+    const prices = nuluImageRequestPricing(options, 'vision').priceImages([block(image)])
     expect(prices[0]!.visualTokens).toBe(184)
   })
 
   it('builds handle and placeholder text through the supplied access resolution', () => {
     const access = { readonlyPath: '/world/attachments/photo.png' }
     const images = [ref('first', 800, 800), ref('second', 800, 800)]
-    const prices = deepSeekImageRequestPricing(
+    const prices = nuluImageRequestPricing(
       connection(),
       'vision',
       () => access,
@@ -114,7 +114,7 @@ describe('Nulu request-image pricing', () => {
 
   it('prices surface-offloaded occurrences as placeholder text and every retained one at its visual price', () => {
     const images = [ref('first', 800, 800), ref('second', 800, 800), ref('third', 800, 800)]
-    const prices = deepSeekImageRequestPricing(
+    const prices = nuluImageRequestPricing(
       connection({ maxImagesPerRequest: 1, imageOffloadCountQuantum: 1 }),
       'vision',
     ).priceImages([block(images[0]!, true), block(images[1]!), block(images[2]!)])
@@ -127,7 +127,7 @@ describe('Nulu request-image pricing', () => {
 
   it('prices a retained oversized occurrence at its visual price: the surface, not the budget, decides offload', () => {
     const oversized = ref('first', 800, 800, 5 * 1024 * 1024)
-    const prices = deepSeekImageRequestPricing(
+    const prices = nuluImageRequestPricing(
       connection({ maxRequestFilesBytes: 4 * 1024 * 1024, imageOffloadByteQuantum: 1 }),
       'vision',
     ).priceImages([block(oversized)])

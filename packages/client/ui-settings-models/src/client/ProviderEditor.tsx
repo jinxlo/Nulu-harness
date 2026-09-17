@@ -413,7 +413,7 @@ export function ProviderEditor(props: ProviderEditorProps): ReactNode {
                 type="text"
                 value={stringAt(draft, 'baseURL') ?? ''}
                 placeholder={family === 'nulu'
-                  ? t(stringAt(fallback, 'protocol') === 'messages' ? 'deepSeekMessagesBaseUrl' : 'deepSeekChatBaseUrl')
+                  ? t(stringAt(fallback, 'protocol') === 'messages' ? 'nuluMessagesBaseUrl' : 'nuluChatBaseUrl')
                   : stringAt(fallback, 'baseURL') ?? t('baseUrlDefault')}
                 aria-describedby={family === 'nulu' ? `${props.provider}-endpoint-hint` : undefined}
                 aria-label={t('baseUrl')}
@@ -422,7 +422,7 @@ export function ProviderEditor(props: ProviderEditorProps): ReactNode {
                   setField('baseURL', event.target.value === '' ? undefined : event.target.value)
                 }}
               />
-              {family === 'nulu' ? <span id={`${props.provider}-endpoint-hint`} className={styles['advancedHint']}>{t('deepSeekEndpointHint')}</span> : null}
+              {family === 'nulu' ? <span id={`${props.provider}-endpoint-hint`} className={styles['advancedHint']}>{t('nuluEndpointHint')}</span> : null}
             </div>
             {/* The protocol sits beside the endpoint it describes, as it does
                 on the create card. */}

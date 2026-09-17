@@ -48,10 +48,13 @@ const STRING_REPLACEMENTS = [
   ['deepseek-harness', 'nulu-harness'],
   ['deepseek-ai', 'worldapptechnologies'],
   ['deepseek', 'nulu'],
+  ['Deepseek', 'Nulu'],
+  ['deepSeek', 'nulu'],
   ['DSH_', 'NULU_'],
   ['~/.dsh', '~/.nulu'],
   ['npx dsh', 'npx nulu'],
   ['dsh', 'nulu'],
+  ['Dsh', 'Nulu'],
 ]
 
 /**

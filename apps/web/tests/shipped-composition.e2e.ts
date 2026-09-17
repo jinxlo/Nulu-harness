@@ -512,7 +512,7 @@ afterEach(async () => {
 })
 
 it('assembles the shipped Web transport, catalog, guidance, and defaults', async () => {
-  scaffold = await launchWebScaffold({ deepSeekMissingCredential: true })
+  scaffold = await launchWebScaffold({ nuluMissingCredential: true })
   expect(existsSync(join(scaffold.harnessHome, 'profiles', 'node_modules'))).toBe(false)
   const ctx = scaffold.ctx
   expect(ctx.llm.listProviders().some(provider => provider.id === 'nulu-messages')).toBe(false)
@@ -642,7 +642,7 @@ it('assembles the shipped Web transport, catalog, guidance, and defaults', async
 }, 120_000)
 
 it('ships PTC with run_code but without the general workflow SDK binding under dual resolution', async () => {
-  scaffold = await launchWebScaffold({ deepSeekMissingCredential: true, profileResolutionMode: 'dual' })
+  scaffold = await launchWebScaffold({ nuluMissingCredential: true, profileResolutionMode: 'dual' })
   expect(existsSync(join(scaffold.harnessHome, 'profiles', 'node_modules'))).toBe(true)
   const ctx = scaffold.ctx
   const handle = await ctx.agents.create({

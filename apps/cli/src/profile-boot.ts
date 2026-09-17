@@ -36,7 +36,7 @@ import {
   type ProfileResolutionGeneration,
   type ProfileResolutionMode,
 } from '@worldapptechnologies/nulu-app-boot'
-import { resolveDshHome } from '@worldapptechnologies/nulu-home-paths'
+import { resolveNuluHome } from '@worldapptechnologies/nulu-home-paths'
 import { installProxyFromEnvironment } from '@worldapptechnologies/nulu-http-proxy'
 import { NULU_LAUNCH_ENVIRONMENT_KEY, type LaunchEnvironmentSnapshot } from '@worldapptechnologies/nulu-launch-environment'
 import { provideCmdline, type AppReady } from '@worldapptechnologies/nulu-cmdline'

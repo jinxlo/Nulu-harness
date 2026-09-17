@@ -4,7 +4,7 @@ import { join } from 'node:path'
 import { afterEach, describe, expect, it } from 'vitest'
 import { AttachmentId, ImageVariantId } from '@worldapptechnologies/nulu-attachment'
 import { NuluFileId } from '../src/common/file-id.ts'
-import { deepSeekFileScope, NuluUploadIndex } from '../src/common/upload-index.ts'
+import { nuluFileScope, NuluUploadIndex } from '../src/common/upload-index.ts'
 
 const ATTACHMENT = AttachmentId(`sha256:${'a'.repeat(64)}`)
 const VARIANT = ImageVariantId(`sha256:${'b'.repeat(64)}`)

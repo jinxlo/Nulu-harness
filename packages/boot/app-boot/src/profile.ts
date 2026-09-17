@@ -574,7 +574,7 @@ export interface ProfileModuleFallbackOptions {
 export async function healProfilesModuleFallback(
   options: ProfileModuleFallbackOptions,
 ): Promise<ProfileResolutionGeneration> {
-  const { installAnchor, profile, home = resolveDshHome(), materialize = true } = options
+  const { installAnchor, profile, home = resolveNuluHome(), materialize = true } = options
   const profilesDir = join(home, PROFILES_DIR)
   const modulesDir = join(profilesDir, 'node_modules')
   if (materialize) mkdirSync(modulesDir, { recursive: true })

@@ -691,7 +691,7 @@ describe('ModelsSection', () => {
     expect(screen.getByLabelText<HTMLInputElement>(en.baseUrl).placeholder)
       .toBe('https://api.nulu.com/anthropic')
     expect(screen.queryByLabelText(en.customApi)).toBeNull()
-    expect(screen.getByText(en.deepSeekEndpointHint)).toBeTruthy()
+    expect(screen.getByText(en.nuluEndpointHint)).toBeTruthy()
     fireEvent.change(screen.getByLabelText(en.keyInput), { target: { value: 'sk-messages-test' } })
     fireEvent.change(screen.getByLabelText(en.baseUrl), { target: { value: 'https://messages.example/anthropic' } })
     fireEvent.change(screen.getByLabelText(`${en.modelName} 1`), { target: { value: 'Messages Flash' } })

@@ -13,7 +13,7 @@ import { offloadedImageText, requestImageHandleText, textOnlyImageText } from '@
 import type { ImageAttachmentAccessResolver, ImageBlock, LlmImageRequestPrice, LlmImageRequestPricing } from '@worldapptechnologies/nulu-llm'
 import { longEdgeDimensions, requestImageDimensions } from '@worldapptechnologies/nulu-attachment'
 import type { ImageAttachmentRef, ImageRequestTarget } from '@worldapptechnologies/nulu-attachment'
-import { deepSeekImageTokens, deepSeekRequestImageDimensions } from './image-tokens.ts'
+import { nuluImageTokens, nuluRequestImageDimensions } from './image-tokens.ts'
 import type { NuluCatalogModel, NuluConnectionOptions } from './types.ts'
 
 /** Default bound on accumulated file-referenced image bytes per request. */
@@ -56,7 +56,7 @@ export function resolveRequestImageTarget(
 ): ImageRequestTarget {
   const budget = model.imagePixelBudget === 'low' ? DEFAULT_LOW_DETAIL_IMAGE_PIXEL_BUDGET : model.imagePixelBudget
   const projected = budget === undefined
-    ? deepSeekRequestImageDimensions(source.width, source.height)
+    ? nuluRequestImageDimensions(source.width, source.height)
     : requestImageDimensions(source.width, source.height, budget)
   const capped = Math.max(projected.width, projected.height) > REQUEST_IMAGE_MAX_DIMENSION
     ? longEdgeDimensions(source.width, source.height, REQUEST_IMAGE_MAX_DIMENSION)
@@ -87,7 +87,7 @@ function textOnlyPrice(block: ImageBlock): LlmImageRequestPrice {
  * @param resolveAccess - current execution-world access resolution shared with request serialization.
  * @returns synchronous per-occurrence pricing for the route.
  */
-export function deepSeekImageRequestPricing(
+export function nuluImageRequestPricing(
   connection: NuluConnectionOptions,
   model: string,
   resolveAccess?: ImageAttachmentAccessResolver,
@@ -103,7 +103,7 @@ export function deepSeekImageRequestPricing(
       }
       const target = resolveRequestImageTarget(catalogModel, ref)
       return {
-        visualTokens: deepSeekImageTokens(target.width, target.height),
+        visualTokens: nuluImageTokens(target.width, target.height),
         text: requestImageHandleText(ref, target, resolveAccess?.(ref)),
       }
     }),

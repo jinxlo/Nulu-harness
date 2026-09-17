@@ -6,7 +6,7 @@ import {
   PRIVATE_EXPERIMENTAL_PACKAGE_DIRECTORIES,
 } from './experimental-package-policy.ts'
 import {
-  checkDshFamilyVersion,
+  checkNuluFamilyVersion,
   checkExperimentalDependencyIsolation,
   checkExperimentalManifest,
   expectedNuluPackageFiles,

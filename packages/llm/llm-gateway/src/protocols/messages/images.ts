@@ -8,7 +8,7 @@ import { resolveRequestImageTarget } from '../../common/request-pricing.ts'
 import type { NuluFileId } from '../../common/file-id.ts'
 import type { RequestFiles } from '../../common/request-files.ts'
 
-export { deepSeekImageRequestPricing as imagePricing } from '../../common/request-pricing.ts'
+export { nuluImageRequestPricing as imagePricing } from '../../common/request-pricing.ts'
 
 function bounds(connection: Connection, representation: 'raw' | 'base64') {
   return {

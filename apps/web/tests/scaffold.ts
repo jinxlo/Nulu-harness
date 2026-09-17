@@ -368,9 +368,9 @@ export interface LaunchOptions {
    * environment's WORLD_APP_TECHNOLOGIES_API_KEY for this scaffold lifetime. This is the
    * keyless first-run configuration lane; the default disables the adapter.
    */
-  deepSeekMissingCredential?: boolean
+  nuluMissingCredential?: boolean
   /** Record or replay a Messages scenario; older scenarios explicitly retain their recorded Chat Completions route. */
-  deepSeekMessages?: boolean
+  nuluMessages?: boolean
   /** Leave the current welcome notice pending; ordinary scenarios pre-acknowledge it before browser boot. */
   welcomeNoticePending?: boolean
   /**
@@ -459,8 +459,8 @@ export async function launchWebScaffold(options: LaunchOptions = {}): Promise<We
     ...maskNuluCredential ? { WORLD_APP_TECHNOLOGIES_API_KEY: process.env.WORLD_APP_TECHNOLOGIES_API_KEY } : {},
     ...mode === 'record' ? {} : { WORLD_APP_TECHNOLOGIES_API_KEY: process.env.WORLD_APP_TECHNOLOGIES_API_KEY },
   }
-  const maskNuluCredential = mode !== 'record' && options.deepSeekMissingCredential === true
-  const messages = options.deepSeekMessages === true
+  const maskNuluCredential = mode !== 'record' && options.nuluMissingCredential === true
+  const messages = options.nuluMessages === true
   const originalNuluCredential = process.env.DEEPSEEK_API_KEY
   let credentialEnvironmentRestored = false
   const restoreCredentialEnvironment = (): void => {
@@ -538,7 +538,7 @@ export async function launchWebScaffold(options: LaunchOptions = {}): Promise<We
     // live configuration uses the shared Nulu route. Explicit overlays win.
     ...messages
       ? [{ id: 'agent-default-model', config: { provider: mode === 'record' || maskNuluCredential ? 'nulu-official' : 'nulu-messages', model: maskNuluCredential ? 'nulu-flash' : 'nulu-v4-flash' } }]
-      : mode === 'record' || options.deepSeekMissingCredential === true
+      : mode === 'record' || options.nuluMissingCredential === true
         ? []
         : [{ id: 'agent-default-model', config: { provider: 'nulu-official', model: 'nulu-v4-flash' } }],
     ...extraOverlayPatches,

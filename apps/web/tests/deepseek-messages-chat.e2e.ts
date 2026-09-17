@@ -24,7 +24,7 @@ describe.skipIf(MODE === 'record')('web e2e: Nulu Messages conversation', () => 
   beforeAll(async () => {
     replayFixture = await selectedSessionFixture(FIXTURE, false)
     scaffold = await launchWebScaffold({
-      deepSeekMessages: true,
+      nuluMessages: true,
       replayFixture,
       paceMs: 5,
       replayProviders: [{

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { deepSeekImageTokens, deepSeekRequestImageDimensions } from '../src/common/image-tokens.ts'
+import { nuluImageTokens, nuluRequestImageDimensions } from '../src/common/image-tokens.ts'
 
 describe('Nulu image tokens', () => {
   // Reference values from the provider's published image token calculator
@@ -50,10 +50,10 @@ describe('Nulu image tokens', () => {
 
 describe('Nulu request image dimensions', () => {
   it('can cross a token-cell boundary when preserving the source aspect ratio', () => {
-    const sent = deepSeekRequestImageDimensions(1224, 1429)
+    const sent = nuluRequestImageDimensions(1224, 1429)
     expect(sent).toEqual({ width: 1187, height: 1386 })
-    expect(deepSeekImageTokens(1224, 1429)).toBe(959)
-    expect(deepSeekImageTokens(sent.width, sent.height)).toBe(992)
+    expect(nuluImageTokens(1224, 1429)).toBe(959)
+    expect(nuluImageTokens(sent.width, sent.height)).toBe(992)
   })
 
   it.each([
@@ -62,7 +62,7 @@ describe('Nulu request image dimensions', () => {
     [8192, 78, 8192, 78],
     [1, 9000, 1, 9000],
   ])('sends %sx%s unchanged because its padded grid fits the cap', (width, height, expectedWidth, expectedHeight) => {
-    expect(deepSeekRequestImageDimensions(width, height)).toEqual({ width: expectedWidth, height: expectedHeight })
+    expect(nuluRequestImageDimensions(width, height)).toEqual({ width: expectedWidth, height: expectedHeight })
   })
 
   it.each([
@@ -72,8 +72,8 @@ describe('Nulu request image dimensions', () => {
     [3840, 2160, 1708, 961],
     [1080, 2400, 838, 1862],
   ])('downscales %sx%s to %sx%s at the solved long edge', (width, height, expectedWidth, expectedHeight) => {
-    const sent = deepSeekRequestImageDimensions(width, height)
+    const sent = nuluRequestImageDimensions(width, height)
     expect(sent).toEqual({ width: expectedWidth, height: expectedHeight })
-    expect(deepSeekImageTokens(sent.width, sent.height)).toBe(deepSeekImageTokens(width, height))
+    expect(nuluImageTokens(sent.width, sent.height)).toBe(nuluImageTokens(width, height))
   })
 })

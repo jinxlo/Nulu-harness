@@ -6,7 +6,7 @@ import { AttachmentId, ImageVariantId } from '@worldapptechnologies/nulu-attachm
 import type { ImageAttachmentRef, RequestImageAttachment } from '@worldapptechnologies/nulu-attachment'
 import { NuluFileStore, MAX_IMAGE_BYTES } from '../src/common/file-store.ts'
 import { NuluFileId } from '../src/common/file-id.ts'
-import { deepSeekFileScope, NuluUploadIndex } from '../src/common/upload-index.ts'
+import { nuluFileScope, NuluUploadIndex } from '../src/common/upload-index.ts'
 
 const REF: ImageAttachmentRef = {
   attachmentId: AttachmentId(`sha256:${'a'.repeat(64)}`),
@@ -86,7 +86,7 @@ describe('NuluFileStore', () => {
     const native = { ...CONNECTION, protocol: 'messages' as const }
     const chat = await store.ensureUploaded(VERSION, CONNECTION, POLICY)
     const first = await store.ensureUploaded(VERSION, native, POLICY)
-    expect(first.record.scope).toBe(deepSeekFileScope(`${CONNECTION.baseURL}/v1`, CONNECTION.apiKey))
+    expect(first.record.scope).toBe(nuluFileScope(`${CONNECTION.baseURL}/v1`, CONNECTION.apiKey))
     expect(first.record.scope).not.toBe(chat.record.scope)
     const reopened = new NuluFileStore({ index, fetch: fetchImpl, now: () => now })
     expect((await reopened.ensureUploaded(VERSION, native, POLICY)).record).toEqual(first.record)

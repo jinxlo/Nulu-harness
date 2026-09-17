@@ -129,7 +129,7 @@ function sameResize(a: GridResize, b: GridResize): boolean {
  * @param height - positive integer source height in pixels.
  * @returns the request dimensions to encode.
  */
-export function deepSeekRequestImageDimensions(width: number, height: number): ProjectedDimensions {
+export function nuluRequestImageDimensions(width: number, height: number): ProjectedDimensions {
   const paddedWidth = ceilDiv(width, PATCH_SIZE) * PATCH_SIZE
   const paddedHeight = ceilDiv(height, PATCH_SIZE) * PATCH_SIZE
   if (gridTokens(gridCells(paddedHeight), gridCells(paddedWidth)) <= MAX_IMAGE_TOKENS) return { width, height }

@@ -19,7 +19,7 @@ describe.skipIf(webSnapshotMode() === 'record')('web e2e: Nulu Messages opt-in',
   let tripwire: ReturnType<typeof watchConsole>
 
   beforeAll(async () => {
-    scaffold = await launchWebScaffold({ deepSeekMissingCredential: true, deepSeekMessages: true })
+    scaffold = await launchWebScaffold({ nuluMissingCredential: true, nuluMessages: true })
     browser = await chromium.launch()
     page = await browser.newPage({ viewport: { width: 1680, height: 1000 }, locale: ZH_BROWSER_LOCALE })
     tripwire = watchConsole(page)
