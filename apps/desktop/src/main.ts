@@ -10,6 +10,7 @@ import {
   ipcMain,
   Menu,
   protocol,
+  shell,
   type IpcMainInvokeEvent,
 } from 'electron'
 import { resolveDesktopPaths } from './paths.ts'
@@ -20,6 +21,7 @@ import { DESKTOP_IPC, type DesktopUpdateState } from './ipc.ts'
 import { formatDesktopMessage, resolveDesktopLocale } from './locale.ts'
 import { claimDesktopSingleInstance } from './single-instance.ts'
 import { DesktopUpdateCoordinator } from './update-coordinator.ts'
+import { fetchLatestGitHubRelease, isNewerVersion } from './github-update-check.ts'
 import { desktopErrorState } from './startup-error.ts'
 import { startupFailureDocument } from './startup-document.ts'
 
@@ -434,6 +436,42 @@ async function main(): Promise<void> {
     void pluginWindow.loadURL(`${SCHEME}://shell/plugin-manager.html`)
   }
 
+  /**
+   * Check the GitHub release feed for a newer version and prompt the user to
+   * download it. Independent of the COS-hosted installer stream: this is the
+   * "is there an update on GitHub" signal, and the download button opens the
+   * release page.
+   */
+  let githubUpdatePrompted = false
+  const checkGitHubRelease = async (manual: boolean): Promise<void> => {
+    const currentVersion = app.getVersion()
+    const release = await fetchLatestGitHubRelease().catch(() => null)
+    if (release === null || !isNewerVersion(currentVersion, release.version)) {
+      if (manual) {
+        await dialog.showMessageBox({
+          type: 'info',
+          title: messages.updateCheckTitle,
+          message: messages.updateCurrent,
+        })
+      }
+      return
+    }
+    if (!manual && githubUpdatePrompted) return
+    githubUpdatePrompted = true
+    const result = await dialog.showMessageBox({
+      type: 'info',
+      title: messages.updateTitle,
+      message: messages.githubUpdateAvailable,
+      detail: formatDesktopMessage(messages.githubUpdateDetail, { version: release.version }),
+      buttons: [messages.download, messages.later],
+      defaultId: 0,
+      cancelId: 1,
+    })
+    if (result.response === 0) {
+      await shell.openExternal(release.url).catch(() => undefined)
+    }
+  }
+
   Menu.setApplicationMenu(Menu.buildFromTemplate([{
     label: process.platform === 'darwin' ? app.name : messages.application,
     submenu: [
@@ -443,7 +481,7 @@ async function main(): Promise<void> {
         enabled: development === undefined,
         click: openPluginWindow,
       },
-      { label: messages.checkUpdatesMenu, click: () => { void checkAndPrompt(true) } },
+      { label: messages.checkUpdatesMenu, click: () => { void checkAndPrompt(true); void checkGitHubRelease(true) } },
       { type: 'separator' },
       { role: 'quit' },
     ],
@@ -501,6 +539,8 @@ async function main(): Promise<void> {
   }
   publishUpdate(updateState)
   setTimeout(() => { void checkAndPrompt(false) }, 10_000)
+  setTimeout(() => { void checkGitHubRelease(false) }, 12_000)
+  setInterval(() => { void checkGitHubRelease(false) }, 6 * 60 * 60 * 1000)
 }
 
 const ownsDesktopInstance = claimDesktopSingleInstance(app, () => { focusPrimaryWindow() })
