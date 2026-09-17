@@ -70,7 +70,7 @@ changes:
   - root: event:compaction/summary
     before: 85c28ce3efec5863a9bf4b22ae57a50a03ec5337b965ee95ff77c9b9d137fa22
     after: eb1d32dcd3d76833392f351e039dcbd40686a1ab24b252a7a5003426f9cf4c89
-  - root: event:session-log-deepseek/delivery-accepted
+  - root: event:session-log-gateway/delivery-accepted
     before: 9c413656ca5600ea33812d43c4e7923a541cfb6ab8b5bc98e415f295f44e40da
     after: d63b8b8ffad9c02fd80c43a17df4f240c1fe8118ecca9de34f9d5871838ab5b9
   - root: event:session/end-seed
@@ -121,7 +121,7 @@ changes:
 | `event:assistant/message.data.message.content[]` | `union-variants-changed` | `version-bump` |
 | `event:assistant/message.data.stream` | `required-property-added` | `version-bump` |
 | `event:compaction/summary.data` | `union-variants-changed` | `version-bump` |
-| `event:session-log-deepseek/delivery-accepted.data.sessionFormatVersion` | `optional-property-added` | `same-version` |
+| `event:session-log-gateway/delivery-accepted.data.sessionFormatVersion` | `optional-property-added` | `same-version` |
 | `event:session/end-seed.data.inherited` | `optional-property-added` | `same-version` |
 | `event:session/end-seed.data` | `index-signature-changed` | `version-bump` |
 | `event:session/title-llm-request.data.messages[].content[]` | `union-variants-changed` | `version-bump` |

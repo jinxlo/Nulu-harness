@@ -5,7 +5,7 @@
 - **Upstream commits:** 345b5cdc6f; fcb976d3dc; b5e7fca4a5
 
 ## Upstream change
-packages/llm/llm-deepseek/src/common/{request-files,request-extensions}.ts, packages/session/*
+packages/llm/llm-gateway/src/common/{request-files,request-extensions}.ts, packages/session/*
 
 **Intent:** Durable image offload: persist images, watermark, compaction recovery.
 

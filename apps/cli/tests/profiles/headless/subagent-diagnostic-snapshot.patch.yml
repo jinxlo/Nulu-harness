@@ -27,6 +27,6 @@
     - id: resumed-agent
       name: './tests/fixtures/subagent-diagnostic-agent.ts'
 
-- id: session-log-deepseek
+- id: session-log-gateway
   config:
     enabled: false

@@ -103,11 +103,11 @@
     {
       "id": 9,
       "risk": "HIGH",
-      "area": "rename leftover plugin-package-inventory-deepseek",
-      "group": "plugin-package-inventory-deepseek",
+      "area": "rename leftover plugin-package-inventory",
+      "group": "plugin-package-inventory",
       "deps": [],
       "upstream_files": [
-        "packages/llm/plugin-package-inventory-deepseek/package.json"
+        "packages/llm/plugin-package-inventory/package.json"
       ],
       "classification": "PORT"
     },
@@ -120,7 +120,7 @@
         9
       ],
       "upstream_files": [
-        "packages/llm/llm-deepseek/src/common/{files-api,file-store,file-id,upload-index}.ts"
+        "packages/llm/llm-gateway/src/common/{files-api,file-store,file-id,upload-index}.ts"
       ],
       "classification": "PORT/ADAPT"
     },
@@ -133,7 +133,7 @@
         9
       ],
       "upstream_files": [
-        "packages/llm/llm-deepseek/src/protocols/messages/{adapter,transport,replay}.ts"
+        "packages/llm/llm-gateway/src/protocols/messages/{adapter,transport,replay}.ts"
       ],
       "classification": "PORT/ADAPT"
     },
@@ -146,7 +146,7 @@
         10
       ],
       "upstream_files": [
-        "packages/llm/llm-deepseek/src/common/image-tokens.ts"
+        "packages/llm/llm-gateway/src/common/image-tokens.ts"
       ],
       "classification": "PORT/ADAPT"
     },
@@ -161,7 +161,7 @@
         12
       ],
       "upstream_files": [
-        "packages/llm/llm-deepseek/src/common/{request-files,request-extensions}.ts",
+        "packages/llm/llm-gateway/src/common/{request-files,request-extensions}.ts",
         "packages/session/*"
       ],
       "classification": "HUMAN ARCHITECTURAL DECISION"

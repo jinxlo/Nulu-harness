@@ -321,7 +321,7 @@
       }
     },
     {
-      "type": "session-log-deepseek/delivery-accepted",
+      "type": "session-log-gateway/delivery-accepted",
       "seq": 20,
       "time": 0,
       "data": {
@@ -523,7 +523,7 @@
       }
     },
     {
-      "type": "session-log-deepseek/delivery-accepted",
+      "type": "session-log-gateway/delivery-accepted",
       "seq": 26,
       "time": 0,
       "data": {
@@ -794,7 +794,7 @@
       }
     },
     {
-      "type": "session-log-deepseek/delivery-accepted",
+      "type": "session-log-gateway/delivery-accepted",
       "seq": 34,
       "time": 0,
       "data": {
@@ -1027,7 +1027,7 @@
       }
     },
     {
-      "type": "session-log-deepseek/delivery-accepted",
+      "type": "session-log-gateway/delivery-accepted",
       "seq": 42,
       "time": 0,
       "data": {
@@ -1230,7 +1230,7 @@
       }
     },
     {
-      "type": "session-log-deepseek/delivery-accepted",
+      "type": "session-log-gateway/delivery-accepted",
       "seq": 48,
       "time": 0,
       "data": {
@@ -1468,7 +1468,7 @@
       }
     },
     {
-      "type": "session-log-deepseek/delivery-accepted",
+      "type": "session-log-gateway/delivery-accepted",
       "seq": 56,
       "time": 0,
       "data": {
@@ -1678,7 +1678,7 @@
       }
     },
     {
-      "type": "session-log-deepseek/delivery-accepted",
+      "type": "session-log-gateway/delivery-accepted",
       "seq": 63,
       "time": 0,
       "data": {
@@ -1927,7 +1927,7 @@
       }
     },
     {
-      "type": "session-log-deepseek/delivery-accepted",
+      "type": "session-log-gateway/delivery-accepted",
       "seq": 74,
       "time": 0,
       "data": {
@@ -2192,7 +2192,7 @@
       }
     },
     {
-      "type": "session-log-deepseek/delivery-accepted",
+      "type": "session-log-gateway/delivery-accepted",
       "seq": 82,
       "time": 0,
       "data": {
@@ -2837,7 +2837,7 @@
       "payload": {
         "sessionId": "{{parent}}",
         "event": {
-          "type": "session-log-deepseek/delivery-accepted",
+          "type": "session-log-gateway/delivery-accepted",
           "seq": 20,
           "time": 0,
           "data": {
@@ -3075,7 +3075,7 @@
       "payload": {
         "sessionId": "{{parent}}",
         "event": {
-          "type": "session-log-deepseek/delivery-accepted",
+          "type": "session-log-gateway/delivery-accepted",
           "seq": 26,
           "time": 0,
           "data": {
@@ -3394,7 +3394,7 @@
       "payload": {
         "sessionId": "{{parent}}",
         "event": {
-          "type": "session-log-deepseek/delivery-accepted",
+          "type": "session-log-gateway/delivery-accepted",
           "seq": 34,
           "time": 0,
           "data": {
@@ -3675,7 +3675,7 @@
       "payload": {
         "sessionId": "{{parent}}",
         "event": {
-          "type": "session-log-deepseek/delivery-accepted",
+          "type": "session-log-gateway/delivery-accepted",
           "seq": 42,
           "time": 0,
           "data": {
@@ -3914,7 +3914,7 @@
       "payload": {
         "sessionId": "{{parent}}",
         "event": {
-          "type": "session-log-deepseek/delivery-accepted",
+          "type": "session-log-gateway/delivery-accepted",
           "seq": 48,
           "time": 0,
           "data": {
@@ -4200,7 +4200,7 @@
       "payload": {
         "sessionId": "{{parent}}",
         "event": {
-          "type": "session-log-deepseek/delivery-accepted",
+          "type": "session-log-gateway/delivery-accepted",
           "seq": 56,
           "time": 0,
           "data": {
@@ -4736,7 +4736,7 @@
       "payload": {
         "sessionId": "{{child-1}}",
         "event": {
-          "type": "session-log-deepseek/delivery-accepted",
+          "type": "session-log-gateway/delivery-accepted",
           "seq": 17,
           "time": 0,
           "data": {
@@ -4992,7 +4992,7 @@
       "payload": {
         "sessionId": "{{parent}}",
         "event": {
-          "type": "session-log-deepseek/delivery-accepted",
+          "type": "session-log-gateway/delivery-accepted",
           "seq": 63,
           "time": 0,
           "data": {
@@ -5559,7 +5559,7 @@
       "payload": {
         "sessionId": "{{child-2}}",
         "event": {
-          "type": "session-log-deepseek/delivery-accepted",
+          "type": "session-log-gateway/delivery-accepted",
           "seq": 17,
           "time": 0,
           "data": {
@@ -5846,7 +5846,7 @@
       "payload": {
         "sessionId": "{{parent}}",
         "event": {
-          "type": "session-log-deepseek/delivery-accepted",
+          "type": "session-log-gateway/delivery-accepted",
           "seq": 74,
           "time": 0,
           "data": {
@@ -6159,7 +6159,7 @@
       "payload": {
         "sessionId": "{{parent}}",
         "event": {
-          "type": "session-log-deepseek/delivery-accepted",
+          "type": "session-log-gateway/delivery-accepted",
           "seq": 82,
           "time": 0,
           "data": {

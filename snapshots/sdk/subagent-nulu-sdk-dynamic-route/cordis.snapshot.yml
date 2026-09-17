@@ -21,6 +21,6 @@
       config:
         maxTokensAsSuccess: true
 
-- id: session-log-deepseek
+- id: session-log-gateway
   config:
     enabled: false

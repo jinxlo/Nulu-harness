@@ -3,8 +3,8 @@
  * Rebrand a merged upstream (Nulu Harness) tree into Nulu Harness.
  *
  * Upstream sync is not a plain find/replace: Nulu Harness ships provider
- * packages (llm-deepseek, deepseek-llm-api-extensions, web-search-deepseek,
- * session-log-deepseek, plugin-package-inventory-deepseek) and model-editor
+ * packages (llm-gateway, llm-api-extensions, web-search-gateway,
+ * session-log-gateway, plugin-package-inventory) and model-editor
  * UI that Nulu Harness intentionally removed. This script:
  *
  *   1. applies the DeepSeek -> World App Technologies / Nulu string mappings
@@ -27,15 +27,21 @@ const CHECK_ONLY = process.argv.includes('--check')
 
 /** Ordered, most-specific-first literal replacements. */
 const STRING_REPLACEMENTS = [
-  ['@worldapptechnologies/nulu', '@worldapptechnologies/nulu'],
-  ['@worldapptechnologies/', '@worldapptechnologies/'],
-  ['Nulu Harness', 'Nulu Harness'],
-  ['Nulu harness', 'Nulu harness'],
-  ['nulu-harness', 'nulu-harness'],
-  ['worldapptechnologies', 'worldapptechnologies'],
-  ['NULU_', 'NULU_'],
-  ['~/.nulu', '~/.nulu'],
-  ['npx nulu', 'npx nulu'],
+  ['@deepseek-ai/dsh', '@worldapptechnologies/nulu'],
+  ['@deepseek-ai/', '@worldapptechnologies/'],
+  // DeepSeek provider packages Nulu renamed (directory + package name).
+  ['llm-api-extensions', 'llm-api-extensions'],
+  ['plugin-package-inventory', 'plugin-package-inventory'],
+  ['session-log-gateway', 'session-log-gateway'],
+  ['web-search-gateway', 'web-search-gateway'],
+  ['llm-gateway', 'llm-gateway'],
+  ['DeepSeek Harness', 'Nulu Harness'],
+  ['DeepSeek harness', 'Nulu harness'],
+  ['deepseek-harness', 'nulu-harness'],
+  ['deepseek-ai', 'worldapptechnologies'],
+  ['DSH_', 'NULU_'],
+  ['~/.dsh', '~/.nulu'],
+  ['npx dsh', 'npx nulu'],
 ]
 
 /** Word-boundary CLI/package-prefix rename, applied after literal replacements. */
@@ -49,11 +55,11 @@ const REGEX_REPLACEMENTS = [
  * assets — Nulu serves the World App Technologies route instead.
  */
 const REMOVED_PATHS = [
-  'packages/llm/llm-deepseek',
-  'packages/llm/deepseek-llm-api-extensions',
-  'packages/llm/plugin-package-inventory-deepseek',
-  'packages/session/session-log-deepseek',
-  'packages/web/web-search-deepseek',
+  'packages/llm/llm-gateway',
+  'packages/llm/llm-api-extensions',
+  'packages/llm/plugin-package-inventory',
+  'packages/session/session-log-gateway',
+  'packages/web/web-search-gateway',
   'packages/client/ui-settings-models/src/client/DeepSeekModelsEditor.tsx',
   'packages/client/ui-settings-models/src/client/DeepSeekModelsEditor.module.css',
   'packages/client/ui-settings-models/src/client/DeepSeekOnboardingDialog.tsx',

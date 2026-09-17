@@ -668,7 +668,7 @@ describe('ModelsSection', () => {
   it('edits the shared DeepSeek card while preserving the YAML protocol selection', async () => {
     const namespace: SettingsNamespaceView = {
       ...wireNamespaces()[0]!,
-      ns: 'llm-deepseek',
+      ns: 'llm-gateway',
       value: { protocol: 'messages', apiKeyEnv: 'DEEPSEEK_API_KEY', models: DEFAULT_DEEPSEEK_MODELS },
       user: {},
     }
@@ -698,7 +698,7 @@ describe('ModelsSection', () => {
     fireEvent.click(screen.getByText(en.apply))
     await waitFor(() => { expect(set).toHaveBeenCalledWith('DEEPSEEK_API_KEY', 'sk-messages-test') })
     expect(mutate.mock.calls).toEqual([[
-      'llm-deepseek',
+      'llm-gateway',
       [
         { op: 'set', path: ['baseURL'], value: 'https://messages.example/anthropic' },
         { op: 'set', path: ['models'], value: [

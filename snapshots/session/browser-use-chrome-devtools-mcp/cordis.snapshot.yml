@@ -1,4 +1,4 @@
-- id: llm-deepseek
+- id: llm-gateway
   name: '@worldapptechnologies/nulu-llm-gateway'
   disabled: true
 

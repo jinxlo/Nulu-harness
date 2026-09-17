@@ -1969,11 +1969,11 @@
       ]
     },
     {
-      "name": "@worldapptechnologies/nulu-plugin-package-inventory-deepseek",
+      "name": "@worldapptechnologies/nulu-plugin-package-inventory",
       "version": "0.1.5-rc.2",
       "installations": [
         {
-          "location": "node_modules/@worldapptechnologies/nulu-plugin-package-inventory-deepseek",
+          "location": "node_modules/@worldapptechnologies/nulu-plugin-package-inventory",
           "direct": false,
           "optional": false,
           "peer": false
@@ -2221,11 +2221,11 @@
       ]
     },
     {
-      "name": "@worldapptechnologies/nulu-session-log-deepseek",
+      "name": "@worldapptechnologies/nulu-session-log-gateway",
       "version": "0.1.5-rc.2",
       "installations": [
         {
-          "location": "node_modules/@worldapptechnologies/nulu-session-log-deepseek",
+          "location": "node_modules/@worldapptechnologies/nulu-session-log-gateway",
           "direct": false,
           "optional": false,
           "peer": false
@@ -3133,11 +3133,11 @@
       ]
     },
     {
-      "name": "@worldapptechnologies/nulu-web-search-deepseek",
+      "name": "@worldapptechnologies/nulu-web-search-gateway",
       "version": "0.1.5-rc.2",
       "installations": [
         {
-          "location": "node_modules/@worldapptechnologies/nulu-web-search-deepseek",
+          "location": "node_modules/@worldapptechnologies/nulu-web-search-gateway",
           "direct": false,
           "optional": false,
           "peer": false

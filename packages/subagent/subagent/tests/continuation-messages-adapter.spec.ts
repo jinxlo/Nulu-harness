@@ -11,7 +11,7 @@ import { DeepSeekAdapter, resolveAdapterOptions } from '@worldapptechnologies/nu
 import { SessionId } from '@worldapptechnologies/nulu-session'
 import JsonlSessionPersistence from '@worldapptechnologies/nulu-session-persistence-jsonl'
 import * as SubagentSpawn from '@worldapptechnologies/nulu-subagent-spawn-in-process'
-import { end, MODEL, server, sse, start } from '../../../llm/llm-deepseek/tests/messages/helpers.ts'
+import { end, MODEL, server, sse, start } from '../../../llm/llm-gateway/tests/messages/helpers.ts'
 import SubagentRuntime, { type SubagentRunEndInfo } from '../src/index.ts'
 import { loadStoredSession } from './persistence-helpers.ts'
 

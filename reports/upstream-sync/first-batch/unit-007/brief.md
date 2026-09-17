@@ -12,10 +12,10 @@ packages/session/session-log-gateway/tests/config.spec.ts
 ## Nulu equivalent
 packages/session/session-log-gateway/tests/config.spec.ts
 
-**Current behavior:** Nulu session-log-gateway config (not upstream session-log-deepseek defaults).
+**Current behavior:** Nulu session-log-gateway config (not upstream session-log-gateway defaults).
 
 ## Architectural difference
-Nulu removed session-log-deepseek; keep gateway defaults.
+Nulu removed session-log-gateway; keep gateway defaults.
 
 ## Required Nulu translation
 Port; keep Nulu config defaults.
@@ -24,7 +24,7 @@ Port; keep Nulu config defaults.
 - Nulu session-log-gateway defaults
 
 ## Do NOT import
-- session-log-deepseek defaults
+- session-log-gateway defaults
 
 ## Protected invariants
 - No DeepSeek provider

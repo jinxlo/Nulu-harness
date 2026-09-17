@@ -1,11 +1,11 @@
 # Replay patch shared by the ordinary headless snapshot composition. The model
 # script comes from the scenario's committed session JSONL.
 
-- id: llm-deepseek
+- id: llm-gateway
   name: '@worldapptechnologies/nulu-llm-gateway'
   disabled: true
 
-- id: plugin-package-inventory-deepseek
+- id: plugin-package-inventory
   disabled: true
 
 - id: session-title-llm

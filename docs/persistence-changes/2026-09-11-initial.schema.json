@@ -6861,9 +6861,9 @@
       }
     },
     {
-      "key": "event:session-log-deepseek/delivery-accepted",
+      "key": "event:session-log-gateway/delivery-accepted",
       "kind": "event",
-      "event": "session-log-deepseek/delivery-accepted",
+      "event": "session-log-gateway/delivery-accepted",
       "surface": false,
       "digest": "d63b8b8ffad9c02fd80c43a17df4f240c1fe8118ecca9de34f9d5871838ab5b9",
       "schema": {
@@ -6935,7 +6935,7 @@
           },
           {
             "kind": "literal",
-            "value": "session-log-deepseek/delivery-accepted"
+            "value": "session-log-gateway/delivery-accepted"
           }
         ]
       }

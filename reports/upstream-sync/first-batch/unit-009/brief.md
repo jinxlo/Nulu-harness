@@ -1,11 +1,11 @@
-# Unit 9 — rename leftover plugin-package-inventory-deepseek (HIGH)
+# Unit 9 — rename leftover plugin-package-inventory (HIGH)
 
 - **Dependencies:** none
 
 - **Upstream commits:** (inventory upstream evolution)
 
 ## Upstream change
-packages/llm/plugin-package-inventory-deepseek/package.json
+packages/llm/plugin-package-inventory/package.json
 
 **Intent:** DeepSeek plugin inventory continued under old name.
 

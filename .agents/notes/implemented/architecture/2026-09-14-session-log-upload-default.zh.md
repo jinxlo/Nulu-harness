@@ -9,7 +9,7 @@ Status: implemented
 
 ## 决策
 
-`session-log-deepseek.Config.enabled` 在所有进程中均默认为 `true`。显式设置 `enabled: false` 可关闭贡献。插件不读取测试运行器或快照环境变量。
+`session-log-gateway.Config.enabled` 在所有进程中均默认为 `true`。显式设置 `enabled: false` 可关闭贡献。插件不读取测试运行器或快照环境变量。
 
 本决策仅取代[请求扩展决策](2026-08-21-deepseek-llm-api-request-extensions.zh.md)中的主动启用默认策略；该记录仍负责字段序列化、目的地址、接受与重试语义。headless 和 ACP 语料的基础 patch 以及 Web scaffold 显式关闭上传。后续场景 patch 可以启用上传。SDK text-turn 录制省略该设置，验证产品默认值及持久接受事件。
 

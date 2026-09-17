@@ -14,7 +14,7 @@ harness 此前把每张 DeepSeek 请求图片投影到 640,000 总像素预算�
 
 请求图片的尺寸由路由决定，附件提供方只负责缩放和编码。`dsh-attachment` 里的 `ImageRequestPolicy` 改为 `ImageRequestTarget`，即一张附件的目标宽、高和字节目标。`readImageRequest` 只按源图长边缩放且不放大，编码器按路由预测的方式推出短边；缓存按附件 id、目标尺寸、字节目标、编码参数和新的 `request-image-v6` 变换版本取键，因此之前的缓存条目和上传映射都不会被复用。`dsh-attachment` 保留两个提供方无关的几何导出：按总像素预算的 `requestImageDimensions`，以及长边精确、短边四舍五入的 `longEdgeDimensions`。
 
-提供方规则归 `llm-deepseek`。`image-tokens.ts` 保留逐字移植的 `v41` 求解器，并新增 `deepSeekRequestImageDimensions`：补齐 patch 后的网格在上限内就发源图本身，否则按源图宽高比取求解网格的长边，于是 3840×2160 的源图以 1708×961 发送，提供方再把它补齐到 1708×966 的网格。`resolveRequestImageTarget` 在省略 `imagePixelBudget` 时用这个求解器，正整数或 512×512 的 `low` 预设用 `requestImageDimensions`，然后对每张请求图片加 4096 像素单边上限，使图片数量不会改变目标，最后带上路由的 2 MiB 字节目标。计价对同一个目标算 `deepSeekImageTokens`，预估器和发出的图片来自同一个求解器。pi-ai 路由从它不变的 2048×2048 像素预算推导目标。小图不放大，因为提供方自己会放大 544×544 像素以下的图片。
+提供方规则归 `llm-gateway`。`image-tokens.ts` 保留逐字移植的 `v41` 求解器，并新增 `deepSeekRequestImageDimensions`：补齐 patch 后的网格在上限内就发源图本身，否则按源图宽高比取求解网格的长边，于是 3840×2160 的源图以 1708×961 发送，提供方再把它补齐到 1708×966 的网格。`resolveRequestImageTarget` 在省略 `imagePixelBudget` 时用这个求解器，正整数或 512×512 的 `low` 预设用 `requestImageDimensions`，然后对每张请求图片加 4096 像素单边上限，使图片数量不会改变目标，最后带上路由的 2 MiB 字节目标。计价对同一个目标算 `deepSeekImageTokens`，预估器和发出的图片来自同一个求解器。pi-ai 路由从它不变的 2048×2048 像素预算推导目标。小图不放大，因为提供方自己会放大 544×544 像素以下的图片。
 
 ## 备选方案
 
@@ -28,4 +28,4 @@ harness 此前把每张 DeepSeek 请求图片投影到 640,000 总像素预算�
 
 ## 后果
 
-正方形源图现在最多以 1302×1302 像素、994 token 到达模型，而不是 800×800 和 422，因此图片密集的会话更早触及 compaction 压力，预估器按发送目标尺寸应用官方 token 计算规则。所有已有的请求图片缓存条目和 DeepSeek Files API 映射在下次请求时重新生成。细长图在单边上限生效前保留完整网格：8192×78 的源图在网格下计 396 token，但以 4096×39 发送。`llm-replay` 不投影图片，keyless 快照记录不到发送尺寸；`llm-deepseek` 适配器测试对着 mock 服务器固定了解析出的目标和投影后的句柄文本，本地存储测试把真实图片缩放到目标尺寸。
+正方形源图现在最多以 1302×1302 像素、994 token 到达模型，而不是 800×800 和 422，因此图片密集的会话更早触及 compaction 压力，预估器按发送目标尺寸应用官方 token 计算规则。所有已有的请求图片缓存条目和 DeepSeek Files API 映射在下次请求时重新生成。细长图在单边上限生效前保留完整网格：8192×78 的源图在网格下计 396 token，但以 4096×39 发送。`llm-replay` 不投影图片，keyless 快照记录不到发送尺寸；`llm-gateway` 适配器测试对着 mock 服务器固定了解析出的目标和投影后的句柄文本，本地存储测试把真实图片缩放到目标尺寸。

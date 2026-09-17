@@ -14,9 +14,9 @@ import LocalAttachments from '@worldapptechnologies/nulu-attachment-local'
 import DeepSeekLlmApiExtensionRegistry from '@worldapptechnologies/nulu-llm-api-extensions'
 import LlmRuntime, { BlockAssembler, createSystemMessage, createToolResultMessage, ReasoningEffortId } from '@worldapptechnologies/nulu-llm'
 import type { Message } from '@worldapptechnologies/nulu-llm'
-import * as PluginPackageInventoryDeepSeek from '@worldapptechnologies/nulu-plugin-package-inventory-deepseek'
+import * as PluginPackageInventoryDeepSeek from '@worldapptechnologies/nulu-plugin-package-inventory'
 import SessionStore, { SessionId } from '@worldapptechnologies/nulu-session'
-import * as SessionLogDeepSeek from '@worldapptechnologies/nulu-session-log-deepseek'
+import * as SessionLogDeepSeek from '@worldapptechnologies/nulu-session-log-gateway'
 import * as Messages from '../../src/index.ts'
 import { DeepSeekFilesClient, MESSAGES_FILES_BETA } from '../../src/common/files-api.ts'
 import { assemble, options, user } from './helpers.ts'
@@ -145,13 +145,13 @@ describe.skipIf(!process.env.DEEPSEEK_API_KEY)('DeepSeek Messages real API', () 
     ctx.loader.internal = {
       version: 'v2',
       async import(specifier: string) {
-        if (specifier !== '@worldapptechnologies/nulu-plugin-package-inventory-deepseek') throw new Error(`unexpected Loader import: ${specifier}`)
+        if (specifier !== '@worldapptechnologies/nulu-plugin-package-inventory') throw new Error(`unexpected Loader import: ${specifier}`)
         return PluginPackageInventoryDeepSeek
       },
     } as unknown as NonNullable<typeof ctx.loader.internal>
-    await ctx.loader.create({ name: '@worldapptechnologies/nulu-plugin-package-inventory-deepseek' })
+    await ctx.loader.create({ name: '@worldapptechnologies/nulu-plugin-package-inventory' })
     await ctx.loader.await()
-    const packageIdentity = JSON.parse(await readFile(new URL('../../../plugin-package-inventory-deepseek/package.json', import.meta.url), 'utf8')) as { name: string; version: string }
+    const packageIdentity = JSON.parse(await readFile(new URL('../../../plugin-package-inventory/package.json', import.meta.url), 'utf8')) as { name: string; version: string }
     const session = ctx.sessions.create(SessionId(`real-messages-extensions-${randomUUID()}`))
     session.append('turn/start', { turn: 1 })
     const fetchImpl = globalThis.fetch
@@ -193,7 +193,7 @@ describe.skipIf(!process.env.DEEPSEEK_API_KEY)('DeepSeek Messages real API', () 
       expect(requests).toBe(run + 1)
       if (run === 0) session.append('step/start', { turn: 1, step: 1 })
     }
-    expect(session.snapshotEvents().filter(event => event.type === 'session-log-deepseek/delivery-accepted')).toHaveLength(enabled ? 2 : 0)
+    expect(session.snapshotEvents().filter(event => event.type === 'session-log-gateway/delivery-accepted')).toHaveLength(enabled ? 2 : 0)
   })
 
   it.each(['off', 'low', 'high', 'max'])('streams text with %s effort', async (effort) => {

@@ -1186,7 +1186,7 @@ export interface NuluCatalogModel {
 
 Depends on: [`ModelModality`](../packages/llm/llm/src/index.ts) · [`RetryPolicyConfig`](../packages/llm/llm/src/index.ts) · [`SystemPromptUpdate`](../packages/llm/llm/src/index.ts)
 
-Source: [`packages/llm/llm-deepseek/src/config.ts:25`](../packages/llm/llm-deepseek/src/config.ts)
+Source: [`packages/llm/llm-gateway/src/config.ts:25`](../packages/llm/llm-gateway/src/config.ts)
 
 <a id="worldapptechnologiesnulu-llm-pi-ai"></a>
 
@@ -1789,7 +1789,7 @@ export interface Config {
 }
 ```
 
-Source: [`packages/llm/plugin-package-inventory-deepseek/src/index.ts:32`](../packages/llm/plugin-package-inventory-deepseek/src/index.ts)
+Source: [`packages/llm/plugin-package-inventory/src/index.ts:32`](../packages/llm/plugin-package-inventory/src/index.ts)
 
 <a id="worldapptechnologiesdsh-ptc-runtime-node"></a>
 
@@ -2019,7 +2019,7 @@ Source: [`packages/sdk/server/src/index.ts:25`](../packages/sdk/server/src/index
 
 <a id="worldapptechnologiesnulu-session-log-export"></a>
 
-## `@worldapptechnologies/nulu-session-log-deepseek`
+## `@worldapptechnologies/nulu-session-log-gateway`
 
 Requires: `deepseekLlmApiExtensions` · `sessions`
 
@@ -2031,7 +2031,7 @@ export interface Config {
 }
 ```
 
-Source: [`packages/session/session-log-deepseek/src/index.ts:38`](../packages/session/session-log-deepseek/src/index.ts)
+Source: [`packages/session/session-log-gateway/src/index.ts:38`](../packages/session/session-log-gateway/src/index.ts)
 
 <a id="worldapptechnologiesdsh-session-log-export"></a>
 
@@ -3663,7 +3663,7 @@ These load from a `cordis.yml` entry with no `config:` block; they declare no co
 - `@worldapptechnologies/nulu-compaction-image-offload` — requires `agents` · `sessions` ([`packages/compaction/compaction-image-offload/src/index.ts`](../packages/compaction/compaction-image-offload/src/index.ts))
 - `@worldapptechnologies/nulu-computer-use` ([`packages/computer-use/computer-use/src/index.ts`](../packages/computer-use/computer-use/src/index.ts))
 - `@worldapptechnologies/nulu-cordis-client-runner` ([`packages/extensions/cordis-client-runner/src/index.ts`](../packages/extensions/cordis-client-runner/src/index.ts))
-- `@worldapptechnologies/nulu-llm-api-extensions` ([`packages/llm/deepseek-llm-api-extensions/src/index.ts`](../packages/llm/deepseek-llm-api-extensions/src/index.ts))
+- `@worldapptechnologies/nulu-llm-api-extensions` ([`packages/llm/llm-api-extensions/src/index.ts`](../packages/llm/llm-api-extensions/src/index.ts))
 - `@worldapptechnologies/nulu-experimental-auto-review` — requires `llm` · `permissionPresets` · `sessions` · `tools` ([`packages/experimental/auto-review/src/index.ts`](../packages/experimental/auto-review/src/index.ts))
 - `@worldapptechnologies/nulu-experimental-client-ui-agent-team` ([`packages/experimental/client-ui-agent-team/src/index.ts`](../packages/experimental/client-ui-agent-team/src/index.ts))
 - `@worldapptechnologies/nulu-experimental-computer-use-cua-driver-native` — requires `computerUse` · `tools` · `systemPrompt` ([`packages/experimental/computer-use-cua-driver-native/src/index.ts`](../packages/experimental/computer-use-cua-driver-native/src/index.ts))

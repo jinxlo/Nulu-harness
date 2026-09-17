@@ -54,7 +54,7 @@ it('uploads freeform feedback and message put/edit/delete through the unchanged 
         ? { config: { maxNoteBytes: 1024 } }
         : name === '@worldapptechnologies/nulu-llm-gateway'
           ? { config: { protocol: 'chat-completions', baseURL: server!.baseURL } }
-          : name === '@worldapptechnologies/nulu-session-log-deepseek'
+          : name === '@worldapptechnologies/nulu-session-log-gateway'
             ? { config: { enabled: true } }
             : {},
   }))))

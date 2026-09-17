@@ -89,6 +89,6 @@
       config:
         configPath: ./codex-hooks.json
 
-- id: session-log-deepseek
+- id: session-log-gateway
   config:
     enabled: false

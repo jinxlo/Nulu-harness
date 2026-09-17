@@ -1,4 +1,4 @@
-- id: llm-deepseek
+- id: llm-gateway
   disabled: true
 
 - insert:

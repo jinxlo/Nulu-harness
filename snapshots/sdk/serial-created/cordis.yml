@@ -7,7 +7,7 @@
   config:
     includeDefaultRoots: false
 
-- id: llm-deepseek
+- id: llm-gateway
   name: '@worldapptechnologies/nulu-llm-gateway'
   config:
     thinking: enabled
@@ -28,8 +28,8 @@
     enableRunInBackground: false
     maxDepth: 1
 
-- id: session-log-deepseek
-  name: '@worldapptechnologies/nulu-session-log-deepseek'
+- id: session-log-gateway
+  name: '@worldapptechnologies/nulu-session-log-gateway'
   config:
     enabled: true
 

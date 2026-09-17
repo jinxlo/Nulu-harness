@@ -413,7 +413,7 @@ importers:
         version: link:../../packages/credentials/credentials-local
       '@worldapptechnologies/nulu-llm-api-extensions':
         specifier: workspace:^
-        version: link:../../packages/llm/deepseek-llm-api-extensions
+        version: link:../../packages/llm/llm-api-extensions
       '@worldapptechnologies/nulu-experimental-agent-team':
         specifier: workspace:^
         version: link:../../packages/experimental/agent-team
@@ -443,7 +443,7 @@ importers:
         version: link:../../packages/llm/llm
       '@worldapptechnologies/nulu-llm-gateway':
         specifier: workspace:^
-        version: link:../../packages/llm/llm-deepseek
+        version: link:../../packages/llm/llm-gateway
       '@worldapptechnologies/nulu-llm-mock-server':
         specifier: workspace:^
         version: link:../../packages/test-support/llm-mock-server
@@ -456,9 +456,9 @@ importers:
       '@worldapptechnologies/nulu-loader-smoke':
         specifier: workspace:^
         version: link:../../packages/test-support/loader-smoke
-      '@worldapptechnologies/nulu-plugin-package-inventory-deepseek':
+      '@worldapptechnologies/nulu-plugin-package-inventory':
         specifier: workspace:^
-        version: link:../../packages/llm/plugin-package-inventory-deepseek
+        version: link:../../packages/llm/plugin-package-inventory
       '@worldapptechnologies/nulu-sandbox-local':
         specifier: workspace:^
         version: link:../../packages/sandbox/sandbox-local
@@ -471,9 +471,9 @@ importers:
       '@worldapptechnologies/nulu-session-checkpoint-policy':
         specifier: workspace:^
         version: link:../../packages/session/session-checkpoint-policy
-      '@worldapptechnologies/nulu-session-log-deepseek':
+      '@worldapptechnologies/nulu-session-log-gateway':
         specifier: workspace:^
-        version: link:../../packages/session/session-log-deepseek
+        version: link:../../packages/session/session-log-gateway
       '@worldapptechnologies/nulu-session-persistence-jsonl':
         specifier: workspace:^
         version: link:../../packages/session/session-persistence-jsonl
@@ -1732,7 +1732,7 @@ importers:
         version: link:../../plan/plan-mode
       '@worldapptechnologies/nulu-plugin-package-inventory':
         specifier: workspace:^
-        version: link:../../llm/plugin-package-inventory-deepseek
+        version: link:../../llm/plugin-package-inventory
       '@worldapptechnologies/nulu-ptc-runtime-node':
         specifier: workspace:^
         version: link:../../ptc-runtime/ptc-runtime-node
@@ -1894,7 +1894,7 @@ importers:
         version: link:../../web/web-fetch-http
       '@worldapptechnologies/nulu-web-search-gateway':
         specifier: workspace:^
-        version: link:../../web/web-search-deepseek
+        version: link:../../web/web-search-gateway
       '@worldapptechnologies/nulu-workflow-ptc':
         specifier: workspace:^
         version: link:../../workflow/workflow-ptc
@@ -2006,7 +2006,7 @@ importers:
       '@worldapptechnologies/nulu-mcp-resources':
         specifier: workspace:^
         version: link:../../mcp/mcp-resources
-      '@worldapptechnologies/nulu-plugin-package-inventory-deepseek':
+      '@worldapptechnologies/nulu-plugin-package-inventory':
         specifier: workspace:^
         version: link:../../llm/plugin-package-inventory
       '@worldapptechnologies/nulu-sandbox-local':
@@ -5408,7 +5408,7 @@ importers:
         version: link:../../llm/llm
       '@worldapptechnologies/nulu-llm-gateway':
         specifier: workspace:^
-        version: link:../../llm/llm-deepseek
+        version: link:../../llm/llm-gateway
       '@worldapptechnologies/nulu-session':
         specifier: workspace:^
         version: link:../../core/session
@@ -6155,7 +6155,7 @@ importers:
         version: link:../../llm/llm
       '@worldapptechnologies/nulu-llm-gateway':
         specifier: workspace:^
-        version: link:../../llm/llm-deepseek
+        version: link:../../llm/llm-gateway
       '@worldapptechnologies/nulu-permission-presets':
         specifier: workspace:^
         version: link:../../interaction/permission-presets
@@ -6672,7 +6672,7 @@ importers:
         version: link:../../llm/llm
       '@worldapptechnologies/nulu-llm-gateway':
         specifier: workspace:^
-        version: link:../../llm/llm-deepseek
+        version: link:../../llm/llm-gateway
       '@worldapptechnologies/nulu-scope':
         specifier: workspace:^
         version: link:../../core/scope
@@ -7150,7 +7150,7 @@ importers:
         version: link:../../llm/llm
       '@worldapptechnologies/nulu-llm-gateway':
         specifier: workspace:^
-        version: link:../../llm/llm-deepseek
+        version: link:../../llm/llm-gateway
       '@worldapptechnologies/nulu-ptc-runtime':
         specifier: workspace:^
         version: link:../../ptc-runtime/ptc-runtime
@@ -8141,7 +8141,7 @@ importers:
         version: link:../../credentials/credentials-local
       '@worldapptechnologies/nulu-llm-api-extensions':
         specifier: workspace:^
-        version: link:../deepseek-llm-api-extensions
+        version: link:../llm-api-extensions
       '@worldapptechnologies/nulu-fs':
         specifier: workspace:^
         version: link:../../fs/fs
@@ -8168,7 +8168,7 @@ importers:
         version: link:../../core/session
       '@worldapptechnologies/nulu-session-log-gateway':
         specifier: workspace:^
-        version: link:../../session/session-log-deepseek
+        version: link:../../session/session-log-gateway
       '@worldapptechnologies/nulu-session-projection':
         specifier: workspace:^
         version: link:../../session/session-projection
@@ -12482,7 +12482,7 @@ importers:
         version: link:../../packages/plan/plan-mode
       '@worldapptechnologies/nulu-plugin-package-inventory':
         specifier: workspace:^
-        version: link:../../packages/llm/plugin-package-inventory-deepseek
+        version: link:../../packages/llm/plugin-package-inventory
       '@worldapptechnologies/nulu-ptc-runtime':
         specifier: workspace:^
         version: link:../../packages/ptc-runtime/ptc-runtime

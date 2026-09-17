@@ -11,8 +11,8 @@ work, and most are architectural decisions, not mechanical ports.
 | `packages/e2b/*` (e2b, fs-e2b, subprocess-e2b) | `packages/sandbox`, `packages/ssh`, `packages/subprocess`, `packages/terminal`, `packages/computer-use` | Retire E2B like upstream, or keep Nulu's e2b? |
 | `packages/workflow/workflow-worker-thread` | (removed, no direct replacement) | Remove, or keep? |
 | `packages/code-runtime/code-runtime-node` | (removed) | Remove, or keep? |
-| `packages/llm/llm-deepseek-messages` | consolidated INTO `llm-deepseek/src/protocols/messages` | Absorb into `llm-gateway` (already partially done) |
-| `packages/llm/llm-image-offload` | consolidated INTO `llm-deepseek` + llm-retry | Absorb into `llm-gateway` |
+| `packages/llm/llm-gateway-messages` | consolidated INTO `llm-gateway/src/protocols/messages` | Absorb into `llm-gateway` (already partially done) |
+| `packages/llm/llm-image-offload` | consolidated INTO `llm-gateway` + llm-retry | Absorb into `llm-gateway` |
 | `packages/interaction/auto-review` | (removed) | Remove, or keep? |
 | `packages/experimental/browser-use-stagehand-native` | `packages/browser-use` (rewritten) | Adopt new browser-use, or keep? |
 
@@ -26,10 +26,10 @@ work, and most are architectural decisions, not mechanical ports.
 - `packages/sandbox` — consolidated sandbox (local/policy/windows-acl)
 - many `client/ui-*` packages (unarchive-sessions, sidebar-documentpreview, permission-presets, …)
 
-## The llm-deepseek → llm-gateway core
+## The llm-gateway → llm-gateway core
 
-Upstream consolidated the Messages protocol and image offload INTO `llm-deepseek`.
-Nulu renamed `llm-deepseek` → `llm-gateway` and swapped the DeepSeek provider for
+Upstream consolidated the Messages protocol and image offload INTO `llm-gateway`.
+Nulu renamed `llm-gateway` → `llm-gateway` and swapped the DeepSeek provider for
 World App Technologies. The 46 `llm-gateway` conflicts are the port of that
 consolidation into the Nulu gateway — genuine capability work, not file merges.
 

@@ -14,11 +14,11 @@ flowchart LR
   cfg --> plugin_dsh_base_hmr
   plugin_dsh_base_llm["llm<br/>@worldapptechnologies/nulu-llm"]
   cfg --> plugin_dsh_base_llm
-  plugin_dsh_base_deepseek_llm_api_extensions["deepseek-llm-api-extensions<br/>@worldapptechnologies/nulu-llm-api-extensions"]
+  plugin_dsh_base_deepseek_llm_api_extensions["llm-api-extensions<br/>@worldapptechnologies/nulu-llm-api-extensions"]
   cfg --> plugin_dsh_base_deepseek_llm_api_extensions
   plugin_dsh_base_session["session<br/>@worldapptechnologies/nulu-session"]
   cfg --> plugin_dsh_base_session
-  plugin_dsh_base_session_log_deepseek["session-log-deepseek<br/>@worldapptechnologies/nulu-session-log-deepseek"]
+  plugin_dsh_base_session_log_deepseek["session-log-gateway<br/>@worldapptechnologies/nulu-session-log-gateway"]
   cfg --> plugin_dsh_base_session_log_deepseek
   plugin_dsh_base_typert["typert<br/>@worldapptechnologies/nulu-typert-registry"]
   cfg --> plugin_dsh_base_typert
@@ -34,7 +34,7 @@ flowchart LR
   cfg --> plugin_dsh_base_user_questions
   plugin_dsh_base_agent["agent<br/>@worldapptechnologies/nulu-agent"]
   cfg --> plugin_dsh_base_agent
-  plugin_dsh_base_plugin_package_inventory_deepseek["plugin-package-inventory-deepseek<br/>@worldapptechnologies/nulu-plugin-package-inventory-deepseek"]
+  plugin_dsh_base_plugin_package_inventory_deepseek["plugin-package-inventory<br/>@worldapptechnologies/nulu-plugin-package-inventory"]
   cfg --> plugin_dsh_base_plugin_package_inventory_deepseek
   plugin_dsh_base_agent_default_model["agent-default-model<br/>@worldapptechnologies/nulu-agent-default-model"]
   cfg --> plugin_dsh_base_agent_default_model
@@ -164,7 +164,7 @@ flowchart LR
   cfg --> plugin_dsh_base_repeat_tool_reminder
   plugin_dsh_base_web["web<br/>@worldapptechnologies/nulu-web"]
   cfg --> plugin_dsh_base_web
-  plugin_dsh_base_web_search_deepseek["web-search-deepseek<br/>@worldapptechnologies/nulu-web-search-deepseek"]
+  plugin_dsh_base_web_search_deepseek["web-search-gateway<br/>@worldapptechnologies/nulu-web-search-gateway"]
   cfg --> plugin_dsh_base_web_search_deepseek
   plugin_dsh_base_web_fetch_http["web-fetch-http<br/>@worldapptechnologies/nulu-web-fetch-http"]
   cfg --> plugin_dsh_base_web_fetch_http
@@ -180,7 +180,7 @@ flowchart LR
   cfg --> plugin_dsh_base_agent_loop
   plugin_dsh_base_fs_sandbox["fs-sandbox<br/>@worldapptechnologies/nulu-fs-sandbox"]
   cfg --> plugin_dsh_base_fs_sandbox
-  plugin_dsh_base_llm_deepseek["llm-deepseek<br/>@worldapptechnologies/nulu-llm-gateway"]
+  plugin_dsh_base_llm_deepseek["llm-gateway<br/>@worldapptechnologies/nulu-llm-gateway"]
   cfg --> plugin_dsh_base_llm_deepseek
 ```
 
@@ -189,9 +189,9 @@ flowchart LR
 | `timer` | `@worldapptechnologies/cordis-plugin-timer` |
 | `hmr` | `@worldapptechnologies/cordis-plugin-hmr` |
 | `llm` | `@worldapptechnologies/nulu-llm` |
-| `deepseek-llm-api-extensions` | `@worldapptechnologies/nulu-llm-api-extensions` |
+| `llm-api-extensions` | `@worldapptechnologies/nulu-llm-api-extensions` |
 | `session` | `@worldapptechnologies/nulu-session` |
-| `session-log-deepseek` | `@worldapptechnologies/nulu-session-log-deepseek` |
+| `session-log-gateway` | `@worldapptechnologies/nulu-session-log-gateway` |
 | `typert` | `@worldapptechnologies/nulu-typert-registry` |
 | `typert-loader` | `@worldapptechnologies/nulu-typert-loader` |
 | `typert-gateway` | `@worldapptechnologies/nulu-api-gateway` |
@@ -199,7 +199,7 @@ flowchart LR
 | `session-title-llm` | `@worldapptechnologies/nulu-session-title-first-prompt-llm` |
 | `user-questions` | `@worldapptechnologies/nulu-user-questions` |
 | `agent` | `@worldapptechnologies/nulu-agent` |
-| `plugin-package-inventory-deepseek` | `@worldapptechnologies/nulu-plugin-package-inventory-deepseek` |
+| `plugin-package-inventory` | `@worldapptechnologies/nulu-plugin-package-inventory` |
 | `agent-default-model` | `@worldapptechnologies/nulu-agent-default-model` |
 | `jobs` | `@worldapptechnologies/nulu-jobs-local` |
 | `llm-retry` | `@worldapptechnologies/nulu-llm-retry` |
@@ -264,7 +264,7 @@ flowchart LR
 | `tool-ralph` | `@worldapptechnologies/nulu-tool-ralph` |
 | `repeat-tool-reminder` | `@worldapptechnologies/nulu-repeat-tool-reminder` |
 | `web` | `@worldapptechnologies/nulu-web` |
-| `web-search-deepseek` | `@worldapptechnologies/nulu-web-search-deepseek` |
+| `web-search-gateway` | `@worldapptechnologies/nulu-web-search-gateway` |
 | `web-fetch-http` | `@worldapptechnologies/nulu-web-fetch-http` |
 | `tool-web` | `@worldapptechnologies/nulu-tool-web` |
 | `mcp-resources` | `@worldapptechnologies/nulu-mcp-resources` |
@@ -272,7 +272,7 @@ flowchart LR
 | `system-prompt` | `@worldapptechnologies/nulu-system-prompt` |
 | `agent-loop` | `@worldapptechnologies/nulu-agent-loop` |
 | `fs-sandbox` | `@worldapptechnologies/nulu-fs-sandbox` |
-| `llm-deepseek` | `@worldapptechnologies/nulu-llm-gateway` |
+| `llm-gateway` | `@worldapptechnologies/nulu-llm-gateway` |
 
 Source config: [`packages/bundle/base/cordis.patch.yml`](../../packages/bundle/base/cordis.patch.yml).
 

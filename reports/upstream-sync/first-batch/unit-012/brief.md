@@ -5,7 +5,7 @@
 - **Upstream commits:** 06c491508f
 
 ## Upstream change
-packages/llm/llm-deepseek/src/common/image-tokens.ts
+packages/llm/llm-gateway/src/common/image-tokens.ts
 
 **Intent:** V4.1 token-grid image projection (DeepSeek-specific billing).
 

@@ -25,6 +25,6 @@
     - id: llm-replay
       name: '@worldapptechnologies/nulu-llm-replay'
 
-- id: session-log-deepseek
+- id: session-log-gateway
   config:
     enabled: false

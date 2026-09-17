@@ -1,11 +1,11 @@
 # Keyless replay for the `ralph` composition. The shared replay patch in
 # `text-turn/cordis.snapshot.yml` applies only to the `default` composition, so
 # a sibling composition restates those swaps and adds its own rows.
-- id: llm-deepseek
+- id: llm-gateway
   name: '@worldapptechnologies/nulu-llm-gateway'
   disabled: true
 
-- id: plugin-package-inventory-deepseek
+- id: plugin-package-inventory
   disabled: true
 
 - id: session-title-llm

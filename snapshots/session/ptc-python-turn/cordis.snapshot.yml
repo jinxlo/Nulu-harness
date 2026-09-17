@@ -1,5 +1,5 @@
 # Keyless Python PTC composition through the real headless Loader.
-- id: llm-deepseek
+- id: llm-gateway
   name: '@worldapptechnologies/nulu-llm-gateway'
   disabled: true
 

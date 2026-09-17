@@ -1,4 +1,4 @@
-- id: llm-deepseek
+- id: llm-gateway
   config:
     models:
       - id: deepseek-v4-flash

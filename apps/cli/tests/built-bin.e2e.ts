@@ -503,7 +503,7 @@ describe.skipIf(!existsSync(nuluBin))('nulu BUILT bin (node lib/bin.js, no tsx)'
       successText: 'ACP BUILT PROFILE OK',
     })
     const home = mkdtempSync(join(tmpdir(), 'nulu-built-acp-'))
-    writeFileSync(join(home, 'settings.yaml'), 'llm-deepseek:\n  protocol: chat-completions\n')
+    writeFileSync(join(home, 'settings.yaml'), 'llm-gateway:\n  protocol: chat-completions\n')
     const child = execa(process.execPath, [dshBin, '--profile', 'acp'], {
       cwd: home,
       reject: false,
@@ -589,7 +589,7 @@ describe.skipIf(!existsSync(nuluBin))('nulu BUILT bin (node lib/bin.js, no tsx)'
       successText: 'published headless profile reached the mock',
     })
     const home = mkdtempSync(join(tmpdir(), 'nulu-built-headless-'))
-    writeFileSync(join(home, 'settings.yaml'), 'llm-deepseek:\n  protocol: chat-completions\n')
+    writeFileSync(join(home, 'settings.yaml'), 'llm-gateway:\n  protocol: chat-completions\n')
     try {
       const result = await runBuiltBin(['--profile', 'headless', 'answer', 'from', 'the', 'published', 'entry'], {
         NULU_HOME: home,
@@ -727,7 +727,7 @@ describe.skipIf(!existsSync(nuluBin))('nulu BUILT bin (node lib/bin.js, no tsx)'
       successText: 'launching endpoint reached the mock',
     })
     const home = mkdtempSync(join(tmpdir(), 'nulu-home-environment-'))
-    writeFileSync(join(home, 'settings.yaml'), 'llm-deepseek:\n  protocol: chat-completions\n')
+    writeFileSync(join(home, 'settings.yaml'), 'llm-gateway:\n  protocol: chat-completions\n')
     const project = mkdtempSync(join(tmpdir(), 'nulu-home-project-'))
     writeFileSync(join(home, '.credentials.yaml'), `version: 1\nrefs:\n  DEEPSEEK_API_KEY: ${apiKey}\n`, { mode: 0o600 })
     createEnvironmentProbeProfile(home, project)
@@ -1073,10 +1073,10 @@ describe.skipIf(!existsSync(nuluBin))('nulu BUILT bin (node lib/bin.js, no tsx)'
       expect(rows.map(row => [row.id, row.name])).toEqual([
         ['sdk-app-startup', '@worldapptechnologies/nulu-sdk-app'],
         ['sdk-jsonrpc-server', '@worldapptechnologies/nulu-sdk-jsonrpc-server'],
-        ['deepseek-llm-api-extensions', '@worldapptechnologies/nulu-llm-api-extensions'],
-        ['session-log-deepseek', '@worldapptechnologies/nulu-session-log-deepseek'],
-        ['plugin-package-inventory-deepseek', '@worldapptechnologies/nulu-plugin-package-inventory-deepseek'],
-        ['llm-deepseek', '@worldapptechnologies/nulu-llm-gateway'],
+        ['llm-api-extensions', '@worldapptechnologies/nulu-llm-api-extensions'],
+        ['session-log-gateway', '@worldapptechnologies/nulu-session-log-gateway'],
+        ['plugin-package-inventory', '@worldapptechnologies/nulu-plugin-package-inventory'],
+        ['llm-gateway', '@worldapptechnologies/nulu-llm-gateway'],
         ['sandbox', '@worldapptechnologies/nulu-sandbox-local'],
         ['session-projection', '@worldapptechnologies/nulu-session-projection'],
         ['sandbox-policy', '@worldapptechnologies/nulu-sandbox-policy'],

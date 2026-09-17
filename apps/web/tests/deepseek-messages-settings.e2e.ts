@@ -64,11 +64,11 @@ describe.skipIf(webSnapshotMode() === 'record')('web e2e: DeepSeek Messages opt-
 
     const settings = await readFile(join(scaffold.harnessHome, 'settings.yaml'), 'utf8')
     expect(settings).toContain('https://messages.example/anthropic')
-    expect(settings).toContain('llm-deepseek:')
+    expect(settings).toContain('llm-gateway:')
     await expect(scaffold.ctx.llm.resolveModelInfo('deepseek-official', 'deepseek-flash')).resolves.toMatchObject({
       name: 'Messages Flash', inputModalities: ['text', 'image'], systemPromptUpdate: 'in-history',
     })
-    expect(scaffold.ctx.settings.get('llm-deepseek')).toMatchObject({ protocol: 'messages' })
+    expect(scaffold.ctx.settings.get('llm-gateway')).toMatchObject({ protocol: 'messages' })
     expect(settings).not.toContain('sk-e2e-')
     const credentials = await readFile(join(scaffold.harnessHome, '.credentials.yaml'), 'utf8')
     expect(credentials).toContain('DEEPSEEK_API_KEY: sk-e2e-messages')

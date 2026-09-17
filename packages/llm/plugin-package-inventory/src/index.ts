@@ -2,7 +2,7 @@
  * Active Loader-backed plugin package inventory for official Nulu requests.
  * Host entries and the requesting agent's standing preset are resolved at request time;
  * installed dependencies and plugin fibers without Loader-backed package identity are excluded.
- * @module @worldapptechnologies/nulu-plugin-package-inventory-deepseek
+ * @module @worldapptechnologies/nulu-plugin-package-inventory
  */
 
 import { existsSync, readFileSync } from 'node:fs'

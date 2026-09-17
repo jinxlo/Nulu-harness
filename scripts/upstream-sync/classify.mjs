@@ -63,8 +63,8 @@ function classify(commit) {
     : /^chore|^build|^ci/i.test(message) ? 'tooling'
     : 'other'
 
-  const category = files.some(file => /^packages\/llm\/(llm-deepseek|deepseek-llm-api-extensions)/.test(file)) ? 'deepseek-provider'
-    : files.some(file => /^packages\/web\/web-search-deepseek|^packages\/session\/session-log-deepseek/.test(file)) ? 'deepseek-provider'
+  const category = files.some(file => /^packages\/llm\/(llm-gateway|llm-api-extensions)/.test(file)) ? 'deepseek-provider'
+    : files.some(file => /^packages\/web\/web-search-gateway|^packages\/session\/session-log-gateway/.test(file)) ? 'deepseek-provider'
     : files.some(file => /^packages\/client\/ui-settings-models\/src\/client\/DeepSeek/.test(file)) ? 'deepseek-ui'
     : files.some(file => /^apps\/cli|^packages\/client\/ui-|tui/i.test(file)) ? 'tui'
     : files.some(file => /^apps\/web|^website\/|^packages\/client\/ui-settings|ui-web|^packages\/client\/ui-/.test(file)) ? 'web'

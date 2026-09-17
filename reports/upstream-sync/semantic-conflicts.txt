@@ -85,7 +85,7 @@ packages/llm/llm-gateway/tests/messages/helpers.ts
 packages/llm/llm-gateway/tests/messages/serialize.spec.ts
 packages/llm/llm-gateway/tests/messages/stream.spec.ts
 packages/llm/llm-gateway/tests/protocol.spec.ts
-packages/llm/plugin-package-inventory-deepseek/package.json
+packages/llm/plugin-package-inventory/package.json
 packages/session/session-log-gateway/tests/config.spec.ts
 packages/subagent/subagent-nulu-sdk/package.json
 packages/workflow/workflow-worker-thread/README.md

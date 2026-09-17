@@ -5,7 +5,7 @@
 - **Upstream commits:** 34154b6861; 6a137ea702
 
 ## Upstream change
-packages/llm/llm-deepseek/src/protocols/messages/{adapter,transport,replay}.ts
+packages/llm/llm-gateway/src/protocols/messages/{adapter,transport,replay}.ts
 
 **Intent:** Anthropic Messages protocol adapter additions.
 

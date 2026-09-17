@@ -1,7 +1,7 @@
 # Official Nulu LLM API wire extensions
 
 
-This reference defines every Nulu Harness-specific HTTP header and additive JSON field sent by [`@worldapptechnologies/nulu-llm-gateway`](../packages/llm/llm-deepseek/README.md) on `deepseek-official` Messages and Chat Completions requests. It does not redefine fields owned by the upstream DeepSeek API. The provider-neutral LLM interface and `llm-pi-ai` do not implement these additions.
+This reference defines every Nulu Harness-specific HTTP header and additive JSON field sent by [`@worldapptechnologies/nulu-llm-gateway`](../packages/llm/llm-gateway/README.md) on `deepseek-official` Messages and Chat Completions requests. It does not redefine fields owned by the upstream DeepSeek API. The provider-neutral LLM interface and `llm-pi-ai` do not implement these additions.
 
 The adapter sends the additions to its resolved `baseURL`, including a configured gateway. They remain outside `messages`, system prompts, and tool schemas, so they do not add model-input tokens or alter the model-visible prefix.
 
@@ -72,7 +72,7 @@ An enabled inventory with no qualifying entries sends `packages: []`; disabling 
 
 ## `nulu_session_log`
 
-[`@worldapptechnologies/nulu-session-log-deepseek`](../packages/session/session-log-deepseek/README.md) contributes one contiguous suffix of the canonical Session log. The field is enabled by default. It applies to a request with a live Session and at least one event; a direct request, a stale Session id, or an empty log omits the field, and a composition disables it with `enabled: false`. The examples below use logical Session format 2 only to illustrate the wire fields; they do not identify the [current writer format](session-format-status.md).
+[`@worldapptechnologies/nulu-session-log-gateway`](../packages/session/session-log-gateway/README.md) contributes one contiguous suffix of the canonical Session log. The field is enabled by default. It applies to a request with a live Session and at least one event; a direct request, a stale Session id, or an empty log omits the field, and a composition disables it with `enabled: false`. The examples below use logical Session format 2 only to illustrate the wire fields; they do not identify the [current writer format](session-format-status.md).
 
 ```json
 {

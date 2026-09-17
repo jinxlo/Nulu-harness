@@ -71,10 +71,10 @@ async function loadComposition(
     "  name: '@worldapptechnologies/nulu-session'",
     '- id: agents',
     "  name: '@worldapptechnologies/nulu-agent'",
-    '- id: deepseek-llm-api-extensions',
+    '- id: llm-api-extensions',
     "  name: '@worldapptechnologies/nulu-llm-api-extensions'",
-    '- id: session-log-deepseek',
-    "  name: '@worldapptechnologies/nulu-session-log-deepseek'",
+    '- id: session-log-gateway',
+    "  name: '@worldapptechnologies/nulu-session-log-gateway'",
     ...options.enableSessionLog !== undefined
       ? ['  config:', `    enabled: ${String(options.enableSessionLog)}`]
       : [],
@@ -151,7 +151,7 @@ async function extensionServer(protocol: 'chat-completions' | 'messages') {
   return { url: server.url, get requests() { return server.requests.map(request => request.body) } }
 }
 
-describe('llm-deepseek real dynamic composition', () => {
+describe('llm-gateway real dynamic composition', () => {
   it.each(['chat-completions', 'messages'] as const)('keeps package inventory on when the %s Loader composition disables session upload', async (protocol) => {
     vi.stubEnv('DEEPSEEK_API_KEY', 'entry-key')
     const server = await extensionServer(protocol)

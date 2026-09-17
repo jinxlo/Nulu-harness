@@ -35,7 +35,7 @@
       "hasDocument": true,
       "namespaces": [
         {
-          "ns": "llm-deepseek",
+          "ns": "llm-gateway",
           "schema": {},
           "value": {
             "apiKeyEnv": "DEEPSEEK_API_KEY"

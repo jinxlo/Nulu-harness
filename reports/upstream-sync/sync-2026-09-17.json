@@ -28,7 +28,7 @@
     "app-boot": 1,
     "session-controller": 1,
     "subagent-nulu-sdk": 1,
-    "plugin-package-inventory-deepseek": 1,
+    "plugin-package-inventory": 1,
     "docs-other": 3
   },
   "status": "merge in progress — 100 semantic conflicts pending adaptation",

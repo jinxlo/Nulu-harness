@@ -130,7 +130,7 @@ changes:
   - root: event:schedule/change
     before: 2a7f86849ae54b3398ee49661a757c4fcb59a6192b7036ee2ff514617e13fb42
     after: 19b014756dd1882e2708c7b1ec02d5eef60fea523cf5b0c59cb320177bc4136c
-  - root: event:session-log-deepseek/delivery-accepted
+  - root: event:session-log-gateway/delivery-accepted
     before: null
     after: 15fc803b92d6a4b340991f978cf74b530f7cee6a36e565038e7ceff51a708258
   - root: event:session/end-seed
@@ -249,7 +249,7 @@ Detected 52 changed roots and 61 structural differences. The minimum below is ca
 | `event:request/header.ignorable` | `property-removed` | `version-bump` |
 | `event:sandbox/mode.ignorable` | `property-removed` | `version-bump` |
 | `event:schedule/change.ignorable` | `property-removed` | `version-bump` |
-| `event:session-log-deepseek/delivery-accepted` | `root-added` | `same-version` |
+| `event:session-log-gateway/delivery-accepted` | `root-added` | `same-version` |
 | `event:session/end-seed.ignorable` | `property-removed` | `version-bump` |
 | `event:session/title.ignorable` | `property-removed` | `version-bump` |
 | `event:session/title-llm-request.data.messages[].source` | `union-variants-changed` | `version-bump` |

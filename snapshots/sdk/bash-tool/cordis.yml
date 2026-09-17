@@ -26,6 +26,6 @@
     enableRunInBackground: false
     maxDepth: 1
 
-- id: session-log-deepseek
+- id: session-log-gateway
   config:
     enabled: false

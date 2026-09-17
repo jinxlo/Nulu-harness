@@ -5,7 +5,7 @@
 - **Upstream commits:** b0641b83fc; 7d3dab66a2
 
 ## Upstream change
-packages/llm/llm-deepseek/src/common/{files-api,file-store,file-id,upload-index}.ts
+packages/llm/llm-gateway/src/common/{files-api,file-store,file-id,upload-index}.ts
 
 **Intent:** Files API parity: upload/attach files through the gateway.
 

@@ -16,7 +16,7 @@ const MODEL_MODALITIES = ['text', 'image'] as const satisfies readonly ModelModa
 
 /**
  * Plugin config, validated by the same-named schemastery schema and doubling
- * as the `llm-deepseek` settings-section shape. Every field is optional in
+ * as the `llm-gateway` settings-section shape. Every field is optional in
  * yml: a missing API key resolves through {@link Config.apiKeyEnv} at each
  * request (a request without any key fails with `MISSING_CREDENTIAL`, not at
  * plugin load), omitted thinking mode uses the provider default, and omitted
@@ -122,55 +122,55 @@ function resolveModels(models: readonly DeepSeekCatalogModel[] | undefined): Dee
   const seen = new Set<string>()
   return (models ?? DEFAULT_MODELS).map((model) => {
     if (Object.hasOwn(model, 'imageDetail')) {
-      throw new Error('llm-deepseek: catalog model imageDetail is no longer supported; use imagePixelBudget')
+      throw new Error('llm-gateway: catalog model imageDetail is no longer supported; use imagePixelBudget')
     }
-    if (model.id.length === 0) throw new Error('llm-deepseek: catalog model ids must be non-empty')
+    if (model.id.length === 0) throw new Error('llm-gateway: catalog model ids must be non-empty')
     if (model.name !== undefined && model.name.length === 0) {
-      throw new Error(`llm-deepseek: catalog model "${model.id}" has an empty name`)
+      throw new Error(`llm-gateway: catalog model "${model.id}" has an empty name`)
     }
     if (model.contextWindow !== undefined
       && (!Number.isInteger(model.contextWindow) || model.contextWindow <= 0)) {
       throw new Error(
-        `llm-deepseek: catalog model "${model.id}" contextWindow must be a positive integer`,
+        `llm-gateway: catalog model "${model.id}" contextWindow must be a positive integer`,
       )
     }
     if (model.maxTokens !== undefined
       && (!Number.isInteger(model.maxTokens) || model.maxTokens <= 0)) {
       throw new Error(
-        `llm-deepseek: catalog model "${model.id}" maxTokens must be a positive integer`,
+        `llm-gateway: catalog model "${model.id}" maxTokens must be a positive integer`,
       )
     }
     const inputModalities = model.inputModalities ?? ['text']
     if (inputModalities.length === 0) {
-      throw new Error(`llm-deepseek: catalog model "${model.id}" inputModalities must not be empty`)
+      throw new Error(`llm-gateway: catalog model "${model.id}" inputModalities must not be empty`)
     }
     if (inputModalities.some(modality => !MODEL_MODALITIES.includes(modality))) {
       throw new Error(
-        `llm-deepseek: catalog model "${model.id}" inputModalities must contain only "text" and "image"`,
+        `llm-gateway: catalog model "${model.id}" inputModalities must contain only "text" and "image"`,
       )
     }
     if (new Set(inputModalities).size !== inputModalities.length) {
-      throw new Error(`llm-deepseek: catalog model "${model.id}" inputModalities must not contain duplicates`)
+      throw new Error(`llm-gateway: catalog model "${model.id}" inputModalities must not contain duplicates`)
     }
     const hasImage = inputModalities.includes('image')
     if (!hasImage && (model.imagePixelBudget !== undefined || model.imageMaxBytes !== undefined)) {
-      throw new Error(`llm-deepseek: text-only catalog model "${model.id}" cannot declare image request limits`)
+      throw new Error(`llm-gateway: text-only catalog model "${model.id}" cannot declare image request limits`)
     }
     if (model.imagePixelBudget !== undefined
       && model.imagePixelBudget !== 'low'
       && (!Number.isSafeInteger(model.imagePixelBudget) || model.imagePixelBudget <= 0)) {
-      throw new Error(`llm-deepseek: catalog model "${model.id}" imagePixelBudget must be "low" or a positive safe integer`)
+      throw new Error(`llm-gateway: catalog model "${model.id}" imagePixelBudget must be "low" or a positive safe integer`)
     }
     if (model.imageMaxBytes !== undefined
       && (!Number.isSafeInteger(model.imageMaxBytes) || model.imageMaxBytes <= 0)) {
-      throw new Error(`llm-deepseek: catalog model "${model.id}" imageMaxBytes must be a positive safe integer`)
+      throw new Error(`llm-gateway: catalog model "${model.id}" imageMaxBytes must be a positive safe integer`)
     }
     // Widened: a dynamic config update reaches this check without schema validation.
     const systemPromptUpdate: string | undefined = model.systemPromptUpdate
     if (systemPromptUpdate !== undefined && systemPromptUpdate !== 'in-history') {
-      throw new Error(`llm-deepseek: catalog model "${model.id}" systemPromptUpdate must be "in-history" when present`)
+      throw new Error(`llm-gateway: catalog model "${model.id}" systemPromptUpdate must be "in-history" when present`)
     }
-    if (seen.has(model.id)) throw new Error(`llm-deepseek: duplicate catalog model "${model.id}"`)
+    if (seen.has(model.id)) throw new Error(`llm-gateway: duplicate catalog model "${model.id}"`)
     seen.add(model.id)
     return {
       id: model.id,
@@ -206,95 +206,95 @@ export function resolveAdapterOptions(config: Config, environment?: LaunchEnviro
   // Settings updates can reach this resolver without schema validation.
   const protocol: string = config.protocol ?? 'messages'
   if (protocol !== 'chat-completions' && protocol !== 'messages') {
-    throw new Error('llm-deepseek: protocol must be chat-completions or messages')
+    throw new Error('llm-gateway: protocol must be chat-completions or messages')
   }
   if (config.thinking === 'disabled'
     && config.reasoningEffort !== undefined
     && config.reasoningEffort !== 'off') {
-    throw new Error('llm-deepseek: only reasoningEffort "off" can be configured when thinking is disabled')
+    throw new Error('llm-gateway: only reasoningEffort "off" can be configured when thinking is disabled')
   }
   if (config.defaultContextWindow !== undefined
     && (!Number.isInteger(config.defaultContextWindow) || config.defaultContextWindow <= 0)) {
-    throw new Error('llm-deepseek: defaultContextWindow must be a positive integer')
+    throw new Error('llm-gateway: defaultContextWindow must be a positive integer')
   }
   if (config.maxTokens !== undefined
     && (!Number.isSafeInteger(config.maxTokens) || config.maxTokens <= 0)) {
-    throw new Error('llm-deepseek: maxTokens must be a positive safe integer')
+    throw new Error('llm-gateway: maxTokens must be a positive safe integer')
   }
   const streamIdleTimeoutMs = config.streamIdleTimeoutMs ?? DEFAULT_STREAM_IDLE_TIMEOUT_MS
   if (!Number.isFinite(streamIdleTimeoutMs)
     || streamIdleTimeoutMs <= 0
     || streamIdleTimeoutMs > MAX_TIMER_DELAY_MS) {
     throw new Error(
-      `llm-deepseek: streamIdleTimeoutMs must be a positive finite number no greater than ${MAX_TIMER_DELAY_MS}`,
+      `llm-gateway: streamIdleTimeoutMs must be a positive finite number no greater than ${MAX_TIMER_DELAY_MS}`,
     )
   }
   const maxRequestFilesBytes = config.maxRequestFilesBytes ?? DEFAULT_MAX_REQUEST_FILES_BYTES
   if (!Number.isSafeInteger(maxRequestFilesBytes) || maxRequestFilesBytes <= 0) {
-    throw new Error('llm-deepseek: maxRequestFilesBytes must be a positive safe integer')
+    throw new Error('llm-gateway: maxRequestFilesBytes must be a positive safe integer')
   }
   const maxInlineRequestImageBytes = config.maxInlineRequestImageBytes ?? DEFAULT_MAX_INLINE_REQUEST_IMAGE_BYTES
   if (!Number.isSafeInteger(maxInlineRequestImageBytes) || maxInlineRequestImageBytes <= 0) {
-    throw new Error('llm-deepseek: maxInlineRequestImageBytes must be a positive safe integer')
+    throw new Error('llm-gateway: maxInlineRequestImageBytes must be a positive safe integer')
   }
   const maxImagesPerRequest = config.maxImagesPerRequest ?? DEFAULT_MAX_IMAGES_PER_REQUEST
   if (!Number.isSafeInteger(maxImagesPerRequest) || maxImagesPerRequest <= 0) {
-    throw new Error('llm-deepseek: maxImagesPerRequest must be a positive safe integer')
+    throw new Error('llm-gateway: maxImagesPerRequest must be a positive safe integer')
   }
   const imageOffloadByteQuantum = config.imageOffloadByteQuantum ?? DEFAULT_IMAGE_OFFLOAD_BYTE_QUANTUM
   if (!Number.isSafeInteger(imageOffloadByteQuantum) || imageOffloadByteQuantum <= 0) {
-    throw new Error('llm-deepseek: imageOffloadByteQuantum must be a positive safe integer')
+    throw new Error('llm-gateway: imageOffloadByteQuantum must be a positive safe integer')
   }
   if (imageOffloadByteQuantum > maxRequestFilesBytes) {
-    throw new Error('llm-deepseek: imageOffloadByteQuantum must not exceed maxRequestFilesBytes')
+    throw new Error('llm-gateway: imageOffloadByteQuantum must not exceed maxRequestFilesBytes')
   }
   const inlineImageOffloadByteQuantum = config.inlineImageOffloadByteQuantum
     ?? DEFAULT_INLINE_IMAGE_OFFLOAD_BYTE_QUANTUM
   if (!Number.isSafeInteger(inlineImageOffloadByteQuantum) || inlineImageOffloadByteQuantum <= 0) {
-    throw new Error('llm-deepseek: inlineImageOffloadByteQuantum must be a positive safe integer')
+    throw new Error('llm-gateway: inlineImageOffloadByteQuantum must be a positive safe integer')
   }
   if (inlineImageOffloadByteQuantum > maxInlineRequestImageBytes) {
-    throw new Error('llm-deepseek: inlineImageOffloadByteQuantum must not exceed maxInlineRequestImageBytes')
+    throw new Error('llm-gateway: inlineImageOffloadByteQuantum must not exceed maxInlineRequestImageBytes')
   }
   const imageOffloadCountQuantum = config.imageOffloadCountQuantum ?? DEFAULT_IMAGE_OFFLOAD_COUNT_QUANTUM
   if (!Number.isSafeInteger(imageOffloadCountQuantum) || imageOffloadCountQuantum <= 0) {
-    throw new Error('llm-deepseek: imageOffloadCountQuantum must be a positive safe integer')
+    throw new Error('llm-gateway: imageOffloadCountQuantum must be a positive safe integer')
   }
   if (imageOffloadCountQuantum > maxImagesPerRequest) {
-    throw new Error('llm-deepseek: imageOffloadCountQuantum must not exceed maxImagesPerRequest')
+    throw new Error('llm-gateway: imageOffloadCountQuantum must not exceed maxImagesPerRequest')
   }
   const filesApiTimeoutMs = config.filesApiTimeoutMs ?? DEFAULT_FILES_API_TIMEOUT_MS
   if (!Number.isFinite(filesApiTimeoutMs)
     || filesApiTimeoutMs <= 0
     || filesApiTimeoutMs > MAX_TIMER_DELAY_MS) {
     throw new Error(
-      `llm-deepseek: filesApiTimeoutMs must be a positive finite number no greater than ${MAX_TIMER_DELAY_MS}`,
+      `llm-gateway: filesApiTimeoutMs must be a positive finite number no greater than ${MAX_TIMER_DELAY_MS}`,
     )
   }
   const fileExpiresAfterSeconds = config.fileExpiresAfterSeconds ?? DEFAULT_FILE_EXPIRY_SECONDS
   if (!Number.isSafeInteger(fileExpiresAfterSeconds)
     || fileExpiresAfterSeconds < 3_600
     || fileExpiresAfterSeconds > 2_592_000) {
-    throw new Error('llm-deepseek: fileExpiresAfterSeconds must be an integer from 3600 through 2592000')
+    throw new Error('llm-gateway: fileExpiresAfterSeconds must be an integer from 3600 through 2592000')
   }
   const fileRefreshMarginSeconds = config.fileRefreshMarginSeconds ?? DEFAULT_FILE_REFRESH_MARGIN_SECONDS
   if (!Number.isSafeInteger(fileRefreshMarginSeconds)
     || fileRefreshMarginSeconds < 0
     || fileRefreshMarginSeconds >= fileExpiresAfterSeconds) {
-    throw new Error('llm-deepseek: fileRefreshMarginSeconds must be a non-negative integer below fileExpiresAfterSeconds')
+    throw new Error('llm-gateway: fileRefreshMarginSeconds must be a non-negative integer below fileExpiresAfterSeconds')
   }
   const fileQuotaCleanupBatch = config.fileQuotaCleanupBatch ?? DEFAULT_FILE_QUOTA_CLEANUP_BATCH
   if (!Number.isSafeInteger(fileQuotaCleanupBatch)
     || fileQuotaCleanupBatch < 1
     || fileQuotaCleanupBatch > 1_000) {
-    throw new Error('llm-deepseek: fileQuotaCleanupBatch must be an integer from 1 through 1000')
+    throw new Error('llm-gateway: fileQuotaCleanupBatch must be an integer from 1 through 1000')
   }
   const baseURL = config.baseURL ?? environment?.get(BASE_URL_ENV)?.value
     ?? (protocol === 'messages' ? MESSAGES_BASE_URL : PUBLIC_BASE_URL)
   if (protocol === 'messages') {
     const parsed = new URL(baseURL)
     if (!['http:', 'https:'].includes(parsed.protocol) || parsed.username || parsed.password || parsed.search || parsed.hash) {
-      throw new Error('llm-deepseek: Messages baseURL must be an HTTP(S) root without credentials, query, or fragment')
+      throw new Error('llm-gateway: Messages baseURL must be an HTTP(S) root without credentials, query, or fragment')
     }
   }
   return {
@@ -321,6 +321,6 @@ export function resolveAdapterOptions(config: Config, environment?: LaunchEnviro
       refreshMarginSeconds: fileRefreshMarginSeconds,
       quotaCleanupBatch: fileQuotaCleanupBatch,
     },
-    retryPolicy: resolveRetryPolicy(config.retryPolicy, 'llm-deepseek: retryPolicy'),
+    retryPolicy: resolveRetryPolicy(config.retryPolicy, 'llm-gateway: retryPolicy'),
   }
 }

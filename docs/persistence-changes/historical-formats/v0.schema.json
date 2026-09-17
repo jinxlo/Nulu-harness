@@ -5585,9 +5585,9 @@
       }
     },
     {
-      "key": "event:session-log-deepseek/delivery-accepted",
+      "key": "event:session-log-gateway/delivery-accepted",
       "kind": "event",
-      "event": "session-log-deepseek/delivery-accepted",
+      "event": "session-log-gateway/delivery-accepted",
       "surface": false,
       "digest": "9c413656ca5600ea33812d43c4e7923a541cfb6ab8b5bc98e415f295f44e40da",
       "schema": {
@@ -5654,7 +5654,7 @@
           },
           {
             "kind": "literal",
-            "value": "session-log-deepseek/delivery-accepted"
+            "value": "session-log-gateway/delivery-accepted"
           }
         ]
       }
@@ -11920,10 +11920,10 @@
         ]
       },
       "names": [
-        "event:session-log-deepseek/delivery-accepted[0].data"
+        "event:session-log-gateway/delivery-accepted[0].data"
       ],
       "sources": [
-        "packages/session/session-log-deepseek/src/types.ts"
+        "packages/session/session-log-gateway/src/types.ts"
       ]
     },
     {
@@ -17443,10 +17443,10 @@
         ]
       },
       "names": [
-        "packages/web/web-search-deepseek/src/provider.ts#DeepSeekSearchLlmRequest"
+        "packages/web/web-search-gateway/src/provider.ts#DeepSeekSearchLlmRequest"
       ],
       "sources": [
-        "packages/web/web-search-deepseek/src/provider.ts"
+        "packages/web/web-search-gateway/src/provider.ts"
       ]
     },
     {
@@ -19380,7 +19380,7 @@
         "event:web/deepseek-search-llm-request[0].data.body.tools[0]"
       ],
       "sources": [
-        "packages/web/web-search-deepseek/src/provider.ts"
+        "packages/web/web-search-gateway/src/provider.ts"
       ]
     },
     {
@@ -20986,7 +20986,7 @@
         "nodes": [
           {
             "kind": "literal",
-            "value": "session-log-deepseek/delivery-accepted"
+            "value": "session-log-gateway/delivery-accepted"
           }
         ]
       },
@@ -21547,7 +21547,7 @@
       ],
       "sources": [
         "packages/llm/llm/src/types.ts",
-        "packages/web/web-search-deepseek/src/provider.ts"
+        "packages/web/web-search-gateway/src/provider.ts"
       ]
     },
     {
@@ -34036,7 +34036,7 @@
         "event:web/deepseek-search-llm-request[0].data.body"
       ],
       "sources": [
-        "packages/web/web-search-deepseek/src/provider.ts"
+        "packages/web/web-search-gateway/src/provider.ts"
       ]
     },
     {
@@ -34730,7 +34730,7 @@
         "event:web/deepseek-search-llm-request[0].data.body.messages[0]"
       ],
       "sources": [
-        "packages/web/web-search-deepseek/src/provider.ts"
+        "packages/web/web-search-gateway/src/provider.ts"
       ]
     },
     {
@@ -34866,13 +34866,13 @@
           },
           {
             "kind": "literal",
-            "value": "session-log-deepseek/delivery-accepted"
+            "value": "session-log-gateway/delivery-accepted"
           }
         ]
       },
       "names": [
-        "event:session-log-deepseek/delivery-accepted",
-        "event:session-log-deepseek/delivery-accepted[0]"
+        "event:session-log-gateway/delivery-accepted",
+        "event:session-log-gateway/delivery-accepted[0]"
       ],
       "sources": [
         "packages/core/session/src/types.ts"
