@@ -76,7 +76,7 @@ it.each(['chat-completions', 'messages'] as const)('pins %s Files offload and in
         if (protocol === 'messages') {
           const toolCall = requests.length === 1
           const events = [
-            { type: 'message_start', message: { id: 'offload-response', model: 'deepseek-v4-flash-vision-exp', usage: { input_tokens: 3, output_tokens: 0 } } },
+            { type: 'message_start', message: { id: 'offload-response', model: 'nulu-v4-flash-vision-exp', usage: { input_tokens: 3, output_tokens: 0 } } },
             { type: 'content_block_start', index: 0, content_block: toolCall
               ? { type: 'tool_use', id: 'native-read-image', name: 'read_image', input: { file_path: 'red.png' } }
               : { type: 'text', text: 'DONE' } },

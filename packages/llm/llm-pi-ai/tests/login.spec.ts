@@ -94,7 +94,7 @@ describe('pi-ai login flows', () => {
       .toEqual(['oauth', 'api-key'])
     // A key-only provider still gets a flow, because pi-ai collects the key
     // through its own prompt rather than leaving it to the settings form.
-    expect(offered.find(entry => entry.key === recordKeyFor('deepseek'))?.methods.map(one => one.id))
+    expect(offered.find(entry => entry.key === recordKeyFor('nulu'))?.methods.map(one => one.id))
       .toEqual(['api-key'])
   })
 
@@ -130,7 +130,7 @@ describe('pi-ai login flows', () => {
       { type: 'progress', message: 'Exchanging the code' },
       // pi-ai's event union is open; an unrecognised member must still show
       // the human that something is happening.
-      { type: 'quantum-handshake' } as unknown as AuthEvent,
+      { type: 'quantum-hannuluake' } as unknown as AuthEvent,
     ]
 
     const ui = await attempt(ctx, (interaction) => {

@@ -109,16 +109,16 @@ describe('llm-pi-ai real dormant composition', () => {
     await writeFile(settingsPath, [
       'llm-pi-ai:',
       '  providers:',
-      '    deepseek:',
+      '    nulu:',
       '      apiKeyEnv: PI_COMPOSITION_KEY',
       `      baseURL: ${server.url}`,
       '',
     ].join('\n'))
     await vi.waitFor(() => {
-      expect(ctx.llm.listProviders().map(provider => provider.id)).toEqual(['deepseek'])
+      expect(ctx.llm.listProviders().map(provider => provider.id)).toEqual(['nulu'])
     }, { timeout: 5000 })
 
-    const result = await assemble(ctx, { provider: 'deepseek', model: 'deepseek-v4-flash', messages: [] })
+    const result = await assemble(ctx, { provider: 'nulu', model: 'nulu-v4-flash', messages: [] })
     expect(result.message.content).toEqual([{ type: 'text', text: 'hello' }])
     expect(server.headers[0]?.authorization).toBe('Bearer key-from-store')
   })
@@ -169,33 +169,33 @@ describe('llm-pi-ai real dormant composition', () => {
     await writeFile(settingsPath, [
       'llm-pi-ai:',
       '  providers:',
-      '    deepseek:',
+      '    nulu:',
       '      apiKeyEnv: PI_COMPOSITION_KEY',
       `      baseURL: ${server.url}`,
       '',
     ].join('\n'))
     await vi.waitFor(() => {
-      expect(ctx.llm.listProviders().map(provider => provider.id)).toEqual(['deepseek'])
+      expect(ctx.llm.listProviders().map(provider => provider.id)).toEqual(['nulu'])
     }, { timeout: 5000 })
 
     const truncated = await assemble(ctx, {
-      provider: 'deepseek',
-      model: 'deepseek-v4-flash',
+      provider: 'nulu',
+      model: 'nulu-v4-flash',
       messages: [],
     })
     expect(truncated.finish).toEqual({ kind: 'max-tokens' })
     expect(truncated.message.content).toEqual([{ type: 'text', text: 'partial' }])
     expect(truncated.message.source).toEqual({
       kind: 'model',
-      provider: 'deepseek',
-      model: 'deepseek-v4-flash',
+      provider: 'nulu',
+      model: 'nulu-v4-flash',
       replayState: {
         response: {
           kind: 'pi-ai',
           version: 2,
           api: 'openai-completions',
-          provider: 'deepseek',
-          model: 'deepseek-v4-flash',
+          provider: 'nulu',
+          model: 'nulu-v4-flash',
           stopReason: 'length',
         },
         blocks: [{ type: 'text' }],
@@ -203,8 +203,8 @@ describe('llm-pi-ai real dormant composition', () => {
     })
 
     const continued = await assemble(ctx, {
-      provider: 'deepseek',
-      model: 'deepseek-v4-flash',
+      provider: 'nulu',
+      model: 'nulu-v4-flash',
       messages: [
         truncated.message,
         createUserMessage({ content: [{ type: 'text', text: 'continue' }], source: { kind: 'user' } }),
@@ -229,13 +229,13 @@ describe('llm-pi-ai real dormant composition', () => {
     await writeFile(settingsPath, [
       'llm-pi-ai:',
       '  providers:',
-      '    deepseek:',
+      '    nulu:',
       '      apiKeyEnv: PI_COMPOSITION_KEY',
       `      baseURL: ${server.url}`,
       '',
     ].join('\n'))
     await vi.waitFor(() => {
-      expect(ctx.llm.listProviders().map(provider => provider.id)).toEqual(['deepseek'])
+      expect(ctx.llm.listProviders().map(provider => provider.id)).toEqual(['nulu'])
     }, { timeout: 5000 })
 
     // A pre-envelope session log entry: max-token assembly dropped the tool
@@ -246,14 +246,14 @@ describe('llm-pi-ai real dormant composition', () => {
       source: {
         kind: 'model',
         ...{
-          provider: 'deepseek',
-          model: 'deepseek-v4-flash',
+          provider: 'nulu',
+          model: 'nulu-v4-flash',
           replayState: {
             kind: 'pi-ai',
             version: 1,
             api: 'openai-completions',
-            provider: 'deepseek',
-            model: 'deepseek-v4-flash',
+            provider: 'nulu',
+            model: 'nulu-v4-flash',
             stopReason: 'length',
             blocks: [{ type: 'text' }, { type: 'tool-call' }],
           },
@@ -261,8 +261,8 @@ describe('llm-pi-ai real dormant composition', () => {
       },
     })
     const continued = await assemble(ctx, {
-      provider: 'deepseek',
-      model: 'deepseek-v4-flash',
+      provider: 'nulu',
+      model: 'nulu-v4-flash',
       messages: [
         poisoned,
         createUserMessage({ content: [{ type: 'text', text: 'continue' }], source: { kind: 'user' } }),

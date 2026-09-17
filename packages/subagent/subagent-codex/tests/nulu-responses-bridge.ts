@@ -53,7 +53,7 @@ function taskText(body: Record<string, unknown>): string {
   return typeof body.instructions === 'string' ? body.instructions : ''
 }
 
-async function completeWithDeepSeek(
+async function completeWithNulu(
   authorization: string,
   task: string,
 ): Promise<string> {

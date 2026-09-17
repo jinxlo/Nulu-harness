@@ -5,13 +5,13 @@
 - id: agent-default-model
   name: '@worldapptechnologies/nulu-agent-default-model'
   config:
-    provider: deepseek-official
-    model: deepseek-v4-flash-vision-exp
+    provider: nulu-official
+    model: nulu-v4-flash-vision-exp
 
 - id: session-persistence-jsonl
   name: '@worldapptechnologies/nulu-session-persistence-jsonl'
   config:
-    root: !!js dshHomePath('sessions')
+    root: !!js nuluHomePath('sessions')
     compression: none
 
 - id: agent-instructions
@@ -32,14 +32,14 @@
       name: '@worldapptechnologies/nulu-llm-replay'
       config:
         providers:
-          - id: deepseek-official
-            name: DeepSeek
+          - id: nulu-official
+            name: Nulu
             models:
-              - id: deepseek-v4-flash
+              - id: nulu-v4-flash
                 inputModalities: [text]
-              - id: deepseek-v4-pro
+              - id: nulu-v4-pro
                 inputModalities: [text]
-              - id: deepseek-v4-flash-vision-exp
+              - id: nulu-v4-flash-vision-exp
                 inputModalities: [text, image]
 
 - id: attachment-local

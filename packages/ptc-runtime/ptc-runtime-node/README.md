@@ -55,7 +55,7 @@ Configure the provider row after its required services are available:
 | `nodeExecutable` | Current Node executable | Executable resolved in the subprocess execution world |
 | `bootstrapPath` | Package bootstrap | Optional absolute path to a preinstalled built bootstrap in that world |
 
-The [configuration catalog](../../../docs/config-catalog.md#worldapptechnologiesdsh-ptc-runtime-node) defines accepted config fields. `resolve(request)` supplies cwd, the numeric or null deadline choice and the execution policy; `run(spec)` accepts those resolved inputs and does not fill missing values.
+The [configuration catalog](../../../docs/config-catalog.md#worldapptechnologiesnulu-ptc-runtime-node) defines accepted config fields. `resolve(request)` supplies cwd, the numeric or null deadline choice and the execution policy; `run(spec)` accepts those resolved inputs and does not fill missing values.
 
 ### Execution and results
 
@@ -99,7 +99,7 @@ Source execution loads an erasable-only bootstrap closure without relying on sib
 |---|---|
 | [`src/index.ts`](src/index.ts) | Configuration, resolution, policy, bindings and managed execution |
 | [`src/launch.ts`](src/launch.ts) | Executable/bootstrap arguments and execution-world asset mapping |
-| [`src/process.ts`](src/process.ts) | Child handshake, environment clearing and program lifecycle |
+| [`src/process.ts`](src/process.ts) | Child hannuluake, environment clearing and program lifecycle |
 | [`src/bootstrap.ts`](src/bootstrap.ts) | Program evaluation, binding proxies and output capture |
 | [`src/channel.ts`](src/channel.ts) | Framing, bounded writes and protocol failures |
 | [`src/output-ledger.ts`](src/output-ledger.ts) | Host accounting for the outer result |

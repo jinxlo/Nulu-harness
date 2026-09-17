@@ -44,8 +44,8 @@
 - button "添加文件或调用指令":
   - img
 - button "访问模式，当前：工作区内修改": 工作区内修改
-- button "选择模型，当前 DeepSeek-V4-Flash，推理等级 high":
-  - text: DeepSeek-V4-Flash high
+- button "选择模型，当前 Nulu-V4-Flash，推理等级 high":
+  - text: Nulu-V4-Flash high
   - img
 - button "上下文已用 1%"
 - button "发送消息" [disabled]

@@ -10,9 +10,9 @@ import {
 } from './scaffold.ts'
 import { connectFreshWorkspaceZh, saveFailureShot, ZH_BROWSER_LOCALE } from './support.ts'
 
-const EXPECTED = fileURLToPath(new URL('./expected/deepseek-messages-settings/', import.meta.url))
+const EXPECTED = fileURLToPath(new URL('./expected/nulu-messages-settings/', import.meta.url))
 
-describe.skipIf(webSnapshotMode() === 'record')('web e2e: DeepSeek Messages opt-in', () => {
+describe.skipIf(webSnapshotMode() === 'record')('web e2e: Nulu Messages opt-in', () => {
   let scaffold: WebScaffold
   let browser: Browser
   let page: Page
@@ -34,11 +34,11 @@ describe.skipIf(webSnapshotMode() === 'record')('web e2e: DeepSeek Messages opt-
     }
   })
 
-  it('offers one DeepSeek card and saves Messages settings using the existing credential reference', async () => {
-    onTestFailed(() => saveFailureShot(page, 'web-e2e-deepseek-messages-settings'))
-    expect(scaffold.ctx.llm.listProviders()).toContainEqual({ id: 'deepseek-official', name: 'DeepSeek' })
-    expect(scaffold.ctx.llm.listProviders().filter(provider => provider.id === 'deepseek-official')).toHaveLength(1)
-    expect(scaffold.ctx.agentDefaultModel.currentSelection()).toEqual({ provider: 'deepseek-official', model: 'deepseek-flash' })
+  it('offers one Nulu card and saves Messages settings using the existing credential reference', async () => {
+    onTestFailed(() => saveFailureShot(page, 'web-e2e-nulu-messages-settings'))
+    expect(scaffold.ctx.llm.listProviders()).toContainEqual({ id: 'nulu-official', name: 'Nulu' })
+    expect(scaffold.ctx.llm.listProviders().filter(provider => provider.id === 'nulu-official')).toHaveLength(1)
+    expect(scaffold.ctx.agentDefaultModel.currentSelection()).toEqual({ provider: 'nulu-official', model: 'nulu-flash' })
     const onboarding = page.getByRole('dialog', { name: '添加一个 API Key 开始使用' })
     await onboarding.getByLabel('API 密钥', { exact: true }).fill('sk-messages-onboarding')
     await onboarding.getByRole('button', { name: '保存并继续' }).click()
@@ -46,26 +46,26 @@ describe.skipIf(webSnapshotMode() === 'record')('web e2e: DeepSeek Messages opt-
     await page.getByRole('button', { name: '设置', exact: true }).click()
     const dialog = page.getByRole('dialog', { name: '设置', exact: true })
     await dialog.getByRole('button', { name: '模型', exact: true }).click()
-    await dialog.getByText('DeepSeek', { exact: true }).waitFor()
-    expect(await dialog.getByText('DeepSeek', { exact: true }).count()).toBe(1)
-    await dialog.getByText('DeepSeek', { exact: true }).locator('xpath=ancestor::li').getByRole('button', { name: '编辑' }).click()
+    await dialog.getByText('Nulu', { exact: true }).waitFor()
+    expect(await dialog.getByText('Nulu', { exact: true }).count()).toBe(1)
+    await dialog.getByText('Nulu', { exact: true }).locator('xpath=ancestor::li').getByRole('button', { name: '编辑' }).click()
     const messages = dialog
     await messages.getByText('自定义设置', { exact: true }).click()
     expect(await messages.getByLabel('API 地址', { exact: true }).getAttribute('placeholder'))
-      .toBe('https://api.deepseek.com/anthropic')
+      .toBe('https://api.nulu.com/anthropic')
     await compareOrRefreshGolden(join(EXPECTED, 'cards.expected.md'),
       await captureStableAria(page, '[role="dialog"]', scaffold.workspaceCwd), webSnapshotMode())
     await messages.getByLabel('API 密钥', { exact: true }).fill('sk-e2e-messages')
     await messages.getByLabel('API 地址', { exact: true }).fill('https://messages.example/anthropic')
-    expect(await messages.getByLabel('模型 ID 1').inputValue()).toBe('deepseek-flash')
+    expect(await messages.getByLabel('模型 ID 1').inputValue()).toBe('nulu-flash')
     await messages.getByLabel('显示名称 1', { exact: true }).fill('Messages Flash')
     await messages.getByRole('button', { name: '保存', exact: true }).click()
-    await dialog.getByText('已保存 DeepSeek (deepseek-official)。', { exact: true }).waitFor()
+    await dialog.getByText('已保存 Nulu (nulu-official)。', { exact: true }).waitFor()
 
     const settings = await readFile(join(scaffold.harnessHome, 'settings.yaml'), 'utf8')
     expect(settings).toContain('https://messages.example/anthropic')
     expect(settings).toContain('llm-gateway:')
-    await expect(scaffold.ctx.llm.resolveModelInfo('deepseek-official', 'deepseek-flash')).resolves.toMatchObject({
+    await expect(scaffold.ctx.llm.resolveModelInfo('nulu-official', 'nulu-flash')).resolves.toMatchObject({
       name: 'Messages Flash', inputModalities: ['text', 'image'], systemPromptUpdate: 'in-history',
     })
     expect(scaffold.ctx.settings.get('llm-gateway')).toMatchObject({ protocol: 'messages' })
@@ -85,9 +85,9 @@ describe.skipIf(webSnapshotMode() === 'record')('web e2e: DeepSeek Messages opt-
   }, 60_000)
 
   it('keeps a saved Chat Completions selection available after the YAML protocol switch', async () => {
-    onTestFailed(() => saveFailureShot(page, 'web-e2e-deepseek-messages-default'))
+    onTestFailed(() => saveFailureShot(page, 'web-e2e-nulu-messages-default'))
     await page.keyboard.press('Escape')
-    await scaffold.ctx.agentDefaultModel.saveSelection({ provider: 'deepseek-official', model: 'deepseek-v4-flash' })
+    await scaffold.ctx.agentDefaultModel.saveSelection({ provider: 'nulu-official', model: 'nulu-v4-flash' })
     await page.reload({ waitUntil: 'load' })
     const input = page.locator('[data-composer-input]').first()
     await expect.poll(() => input.isEnabled()).toBe(true)
@@ -95,9 +95,9 @@ describe.skipIf(webSnapshotMode() === 'record')('web e2e: DeepSeek Messages opt-
     await page.getByRole('menuitem', { name: /模型/ }).click()
     await page.getByRole('menuitemradio', { name: 'Messages Flash', exact: true }).click()
     await expect.poll(() => input.isEnabled()).toBe(true)
-    await expect.poll(() => scaffold.ctx.agentDefaultModel.currentSelection().provider).toBe('deepseek-official')
+    await expect.poll(() => scaffold.ctx.agentDefaultModel.currentSelection().provider).toBe('nulu-official')
     const settings = await readFile(join(scaffold.harnessHome, 'settings.yaml'), 'utf8')
-    expect(settings).toContain('provider: deepseek-official')
+    expect(settings).toContain('provider: nulu-official')
     expect(tripwire.pageErrors).toEqual([])
   }, 60_000)
 })

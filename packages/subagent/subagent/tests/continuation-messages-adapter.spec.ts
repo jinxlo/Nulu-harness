@@ -7,7 +7,7 @@ import type { AnonymousUserId } from '@worldapptechnologies/nulu-anonymous-user-
 import AgentLoop from '@worldapptechnologies/nulu-agent-loop'
 import { mountAgentLoopTestDependencies } from '@worldapptechnologies/nulu-agent-loop-testkit'
 import { createUserMessage } from '@worldapptechnologies/nulu-llm'
-import { DeepSeekAdapter, resolveAdapterOptions } from '@worldapptechnologies/nulu-llm-gateway'
+import { NuluAdapter, resolveAdapterOptions } from '@worldapptechnologies/nulu-llm-gateway'
 import { SessionId } from '@worldapptechnologies/nulu-session'
 import JsonlSessionPersistence from '@worldapptechnologies/nulu-session-persistence-jsonl'
 import * as SubagentSpawn from '@worldapptechnologies/nulu-subagent-spawn-in-process'
@@ -35,7 +35,7 @@ it('continues the parent through default Messages after a reasoning-bearing cont
     })
     const { requests } = http
     const connection = resolveAdapterOptions({ baseURL: http.url })
-    const adapter = new DeepSeekAdapter({
+    const adapter = new NuluAdapter({
       options: () => connection,
       resolveApiKey: () => Promise.resolve('test-key'),
       resolveUserId: () => '00000000-0000-4000-8000-000000000001' as AnonymousUserId,
@@ -46,8 +46,8 @@ it('continues the parent through default Messages after a reasoning-bearing cont
     await ctx.plugin(AgentLoop, { agents: [] })
     await ctx.plugin(SubagentRuntime)
     await ctx.plugin(SubagentSpawn, { providerName: 'spawn' })
-    ctx.llm.registerAdapter(['deepseek-official'], adapter)
-    const parent = await ctx.agentLoop.create(SessionId('parent'), { provider: 'deepseek-official', model: MODEL })
+    ctx.llm.registerAdapter(['nulu-official'], adapter)
+    const parent = await ctx.agentLoop.create(SessionId('parent'), { provider: 'nulu-official', model: MODEL })
     const ends: SubagentRunEndInfo[] = []
     const settled = Promise.withResolvers<undefined>()
     ctx.on('subagent/end', (info) => {

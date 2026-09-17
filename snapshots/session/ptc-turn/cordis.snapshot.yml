@@ -1,5 +1,5 @@
 # Keyless PTC mode combines the runtime/registry changes with the
-# DeepSeek-to-replay swap in one profile patch.
+# Nulu-to-replay swap in one profile patch.
 - insert:
     - id: literal-sdk
       name: '../../../packages/core/tools/tests/fixtures/literal-sdk.ts'

@@ -546,9 +546,9 @@ async function runScenario(scenario: CorpusScenario): Promise<{
     .map((patch, index) => materializeProfilePatch(patch, cwd, 'sdk', patchRoot, index))
   let childSessionsRoot: string | undefined
   let childEnvironment: Record<string, string> = {}
-  if (assertions.dshSdkChild !== undefined) {
+  if (assertions.nuluSdkChild !== undefined) {
     const childHome = join(cwd, '.child-nulu')
-    const childPatch = materializeProfilePatch(assertions.dshSdkChild.config, cwd, 'sdk', patchRoot, patches.length)
+    const childPatch = materializeProfilePatch(assertions.nuluSdkChild.config, cwd, 'sdk', patchRoot, patches.length)
     await mkdir(childHome, { recursive: true })
     childSessionsRoot = join(childHome, 'sessions')
     childEnvironment = {

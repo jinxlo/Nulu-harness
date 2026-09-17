@@ -1,11 +1,11 @@
-/** Plugin configuration and complete request-local resolution for DeepSeek. */
+/** Plugin configuration and complete request-local resolution for Nulu. */
 import z from '@worldapptechnologies/schemastery'
 import { resolveRetryPolicy, RetryPolicySchema } from '@worldapptechnologies/nulu-llm'
 import type { ModelModality, RetryPolicyConfig } from '@worldapptechnologies/nulu-llm'
 import { credentialRef } from '@worldapptechnologies/nulu-credentials'
 import type { LaunchEnvironmentSnapshot } from '@worldapptechnologies/nulu-launch-environment'
 import { MAX_TIMER_DELAY_MS } from '@worldapptechnologies/nulu-timeout'
-import type { DeepSeekCatalogModel, DeepSeekConnectionOptions, DeepSeekProtocol } from './common/types.ts'
+import type { NuluCatalogModel, NuluConnectionOptions, NuluProtocol } from './common/types.ts'
 import { DEFAULT_MODELS } from './common/models.ts'
 import { DEFAULT_STREAM_IDLE_TIMEOUT_MS, DEFAULT_CONTEXT_WINDOW, DEFAULT_MAX_TOKENS, DEFAULT_MAX_INLINE_REQUEST_IMAGE_BYTES, DEFAULT_IMAGE_OFFLOAD_BYTE_QUANTUM, DEFAULT_INLINE_IMAGE_OFFLOAD_BYTE_QUANTUM, DEFAULT_IMAGE_OFFLOAD_COUNT_QUANTUM, DEFAULT_FILE_EXPIRY_SECONDS, DEFAULT_FILE_REFRESH_MARGIN_SECONDS, DEFAULT_FILE_QUOTA_CLEANUP_BATCH, DEFAULT_FILES_API_TIMEOUT_MS } from './common/defaults.ts'
 import { DEFAULT_MAX_IMAGES_PER_REQUEST, DEFAULT_MAX_REQUEST_FILES_BYTES, DEFAULT_REQUEST_IMAGE_MAX_BYTES } from './common/request-pricing.ts'
@@ -24,7 +24,7 @@ const MODEL_MODALITIES = ['text', 'image'] as const satisfies readonly ModelModa
  */
 export interface Config {
   /** Wire protocol; defaults to messages. Configure through Cordis YAML. */
-  protocol?: DeepSeekProtocol
+  protocol?: NuluProtocol
   /** Credential reference (environment-variable name) resolved per request; defaults to `DEEPSEEK_API_KEY`. */
   apiKeyEnv?: string
   /** Endpoint base; falls back to $DEEPSEEK_BASE_URL from a trusted environment layer, then the public API. */
@@ -38,7 +38,7 @@ export interface Config {
   /** Positive context capacity used when the selected model has no exact value (default 1,000,000). */
   defaultContextWindow?: number
   /** Advisory models shown by discovery consumers; defaults to V41 Flash, V4 Flash, V4 Pro, and V4 Flash Vision Exp. */
-  models?: DeepSeekCatalogModel[]
+  models?: NuluCatalogModel[]
   /** Maximum provider idle time while one stream read is outstanding (default five minutes). */
   streamIdleTimeoutMs?: number
   /** Maximum accumulated file-referenced image bytes per chat request (default 128 MiB). */
@@ -65,7 +65,7 @@ export interface Config {
   retryPolicy?: RetryPolicyConfig
 }
 
-const catalogModel: z<DeepSeekCatalogModel> = z.object({
+const catalogModel: z<NuluCatalogModel> = z.object({
   id: z.string().required(),
   name: z.string(),
   description: z.string(),
@@ -101,10 +101,10 @@ export const Config: z<Config> = z.object({
 })
 
 /** Public API default; the internal endpoint comes from $DEEPSEEK_BASE_URL. */
-export const PUBLIC_BASE_URL = 'https://api.deepseek.com'
+export const PUBLIC_BASE_URL = 'https://api.nulu.com'
 
 /** Official Messages protocol root. */
-export const MESSAGES_BASE_URL = 'https://api.deepseek.com/anthropic'
+export const MESSAGES_BASE_URL = 'https://api.nulu.com/anthropic'
 
 /** Environment variable naming this provider's endpoint, honored only from trusted layers. */
 const BASE_URL_ENV = 'DEEPSEEK_BASE_URL'
@@ -115,10 +115,10 @@ const BASE_URL_ENV = 'DEEPSEEK_BASE_URL'
  * previous generation, so a request can never pair a stale endpoint with a
  * newer key.
  */
-export type ResolvedDeepSeekOptions = DeepSeekConnectionOptions
+export type ResolvedNuluOptions = NuluConnectionOptions
 
 /** Resolve, validate, and detach the advisory model catalog. */
-function resolveModels(models: readonly DeepSeekCatalogModel[] | undefined): DeepSeekCatalogModel[] {
+function resolveModels(models: readonly NuluCatalogModel[] | undefined): NuluCatalogModel[] {
   const seen = new Set<string>()
   return (models ?? DEFAULT_MODELS).map((model) => {
     if (Object.hasOwn(model, 'imageDetail')) {
@@ -202,7 +202,7 @@ function resolveModels(models: readonly DeepSeekCatalogModel[] | undefined): Dee
  * gateway that checkout is meant to use.
  * @returns validated connection facts plus the credential reference.
  */
-export function resolveAdapterOptions(config: Config, environment?: LaunchEnvironmentSnapshot): ResolvedDeepSeekOptions {
+export function resolveAdapterOptions(config: Config, environment?: LaunchEnvironmentSnapshot): ResolvedNuluOptions {
   // Settings updates can reach this resolver without schema validation.
   const protocol: string = config.protocol ?? 'messages'
   if (protocol !== 'chat-completions' && protocol !== 'messages') {

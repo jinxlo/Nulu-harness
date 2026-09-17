@@ -665,7 +665,7 @@ describe('ModelsSection', () => {
     ])
   })
 
-  it('edits the shared DeepSeek card while preserving the YAML protocol selection', async () => {
+  it('edits the shared Nulu card while preserving the YAML protocol selection', async () => {
     const namespace: SettingsNamespaceView = {
       ...wireNamespaces()[0]!,
       ns: 'llm-gateway',
@@ -677,8 +677,8 @@ describe('ModelsSection', () => {
     })
     const { ProviderEditor } = await import('../src/client/ProviderEditor.tsx')
     render(<ProviderEditor
-      provider="deepseek-official"
-      displayName="DeepSeek"
+      provider="nulu-official"
+      displayName="Nulu"
       namespace={namespace}
       schema={settingsSchema}
       settingsPath={[]}
@@ -689,7 +689,7 @@ describe('ModelsSection', () => {
     />)
     fireEvent.click(screen.getByText(en.customized))
     expect(screen.getByLabelText<HTMLInputElement>(en.baseUrl).placeholder)
-      .toBe('https://api.deepseek.com/anthropic')
+      .toBe('https://api.nulu.com/anthropic')
     expect(screen.queryByLabelText(en.customApi)).toBeNull()
     expect(screen.getByText(en.deepSeekEndpointHint)).toBeTruthy()
     fireEvent.change(screen.getByLabelText(en.keyInput), { target: { value: 'sk-messages-test' } })
@@ -710,8 +710,8 @@ describe('ModelsSection', () => {
     ]])
   })
 
-  it('rejects duplicate DeepSeek model ids before writing', async () => {
-    const { mutate } = await mountDeepSeekCard()
+  it('rejects duplicate Nulu model ids before writing', async () => {
+    const { mutate } = await mountNuluCard()
     fireEvent.click(screen.getByText(en.customized))
     fireEvent.click(screen.getByText(en.addModel))
     const ids = screen.getAllByLabelText(new RegExp(en.modelId))

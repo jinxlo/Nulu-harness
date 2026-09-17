@@ -3,16 +3,16 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { AttachmentId, ImageVariantId } from '@worldapptechnologies/nulu-attachment'
 import type { AttachmentStore, ImageAttachmentRef, RequestImageAttachment } from '@worldapptechnologies/nulu-attachment'
 import { createAssistantMessage, createToolResultMessage, LlmError, ToolCallId } from '@worldapptechnologies/nulu-llm'
-import { DeepSeekFileId } from '../../src/common/file-id.ts'
-import type { DeepSeekFileStore } from '../../src/common/file-store.ts'
+import { NuluFileId } from '../../src/common/file-id.ts'
+import type { NuluFileStore } from '../../src/common/file-store.ts'
 import { resolveAdapterOptions } from '../../src/config.ts'
 import type { Config } from '../../src/config.ts'
-import { DeepSeekMessagesAdapter } from '../../src/protocols/messages/adapter.ts'
+import { NuluMessagesAdapter } from '../../src/protocols/messages/adapter.ts'
 import { prepareImages } from '../../src/protocols/messages/images.ts'
 import { providerErrorDetail } from '../../src/protocols/messages/transport.ts'
 import { chunks, options, prepareExtensions, sse, textEvents, user } from './helpers.ts'
 
-const model = 'deepseek-flash'
+const model = 'nulu-flash'
 const ref: ImageAttachmentRef = { attachmentId: AttachmentId(`sha256:${'a'.repeat(64)}`), width: 1, height: 1, mediaType: 'image/png', bytes: 3 }
 const second = { ...ref, attachmentId: AttachmentId(`sha256:${'c'.repeat(64)}`) }
 const version = (attachment: ImageAttachmentRef): RequestImageAttachment => ({
@@ -27,16 +27,16 @@ function body(init: RequestInit | undefined): string {
 }
 const rejected = (message: string, status = 400) => new Response(JSON.stringify({ error: { type: 'invalid_request_error', message } }), { status })
 function harness(config: Config = {}) {
-  const ensureUploaded = vi.fn<DeepSeekFileStore['ensureUploaded']>(async image => ({
-    record: { fileId: DeepSeekFileId(image.attachment.attachmentId === ref.attachmentId ? 'file-a' : 'file-b') }, uploaded: false,
-  } as Awaited<ReturnType<DeepSeekFileStore['ensureUploaded']>>))
-  const invalidate = vi.fn<DeepSeekFileStore['invalidate']>(async () => {})
-  const files = { ensureUploaded, invalidate } as unknown as DeepSeekFileStore
+  const ensureUploaded = vi.fn<NuluFileStore['ensureUploaded']>(async image => ({
+    record: { fileId: NuluFileId(image.attachment.attachmentId === ref.attachmentId ? 'file-a' : 'file-b') }, uploaded: false,
+  } as Awaited<ReturnType<NuluFileStore['ensureUploaded']>>))
+  const invalidate = vi.fn<NuluFileStore['invalidate']>(async () => {})
+  const files = { ensureUploaded, invalidate } as unknown as NuluFileStore
   const readImageRequest = vi.fn(async (attachment: ImageAttachmentRef) => version(attachment))
   // The codec and remote upload are the expensive boundaries; request projection and recovery stay real.
   const attachments = { readImageRequest } as unknown as AttachmentStore
   const prepare = vi.fn(prepareExtensions)
-  const adapter = new DeepSeekMessagesAdapter({
+  const adapter = new NuluMessagesAdapter({
     connection: () => resolveAdapterOptions(Object.assign({ baseURL: 'https://gateway.example/custom' }, config)),
     apiKey: async () => 'test-key', userId: () => 'test-user', attachments: () => attachments,
     imageAccess: () => ({ readonlyPath: '/workspace/image.png' }), files: () => files, prepareExtensions: prepare,
@@ -51,7 +51,7 @@ describe('Messages Files requests', () => {
     vi.stubGlobal('fetch', fetchImpl)
     const h = harness()
     const callId = ToolCallId('image-tool')
-    const messages = [user(), createAssistantMessage({ source: { provider: 'deepseek-official', model }, content: [{ type: 'tool-call', id: callId, name: 'read_image', arguments: '{}' }] }),
+    const messages = [user(), createAssistantMessage({ source: { provider: 'nulu-official', model }, content: [{ type: 'tool-call', id: callId, name: 'read_image', arguments: '{}' }] }),
       createToolResultMessage({ callId, isError: false, content: [{ type: 'image', attachment: ref }, { type: 'image', attachment: ref }] })]
     await chunks(h.adapter.stream(options({ model, messages })))
     expect(h.readImageRequest).toHaveBeenCalledTimes(1)
@@ -102,7 +102,7 @@ describe('Messages Files requests', () => {
     vi.stubGlobal('fetch', fetchImpl)
     const h = harness()
     h.ensureUploaded
-      .mockResolvedValueOnce({ record: { fileId: DeepSeekFileId('file-a') }, uploaded: true } as Awaited<ReturnType<DeepSeekFileStore['ensureUploaded']>>)
+      .mockResolvedValueOnce({ record: { fileId: NuluFileId('file-a') }, uploaded: true } as Awaited<ReturnType<NuluFileStore['ensureUploaded']>>)
       .mockRejectedValueOnce(new LlmError('quota exhausted', 'FILES_API'))
     await chunks(h.adapter.stream(request([ref, second])))
     const init = fetchImpl.mock.calls[0]?.[1]
@@ -141,7 +141,7 @@ describe('Messages Files requests', () => {
     const images = [{ type: 'image' as const, attachment: ref, offloaded: true as const }, { type: 'image' as const, attachment: second }]
     await chunks(h.adapter.stream(options({ model, messages: [{ ...user(), content: images }] })))
     expect(h.readImageRequest).toHaveBeenCalledExactlyOnceWith(second, expect.anything(), expect.any(AbortSignal))
-    expect(h.adapter.imageRequestPricing('deepseek-official', model).priceImages(images).map(image => image.visualTokens)).toEqual([0, expect.any(Number)])
+    expect(h.adapter.imageRequestPricing('nulu-official', model).priceImages(images).map(image => image.visualTokens)).toEqual([0, expect.any(Number)])
   })
 
   it.each([

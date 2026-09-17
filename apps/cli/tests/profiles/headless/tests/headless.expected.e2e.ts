@@ -82,8 +82,8 @@ async function expectHeadlessStream(normalized: string, expectedPath: string): P
   expect(parseJsonl(normalized)).toEqual(parseJsonl(expected))
 }
 
-/** Serve one deterministic DeepSeek-compatible response while retaining its request body. */
-async function deepseekDefaultsServer(options: { waitForTitleRequest?: boolean; protocol?: 'messages' } = {}): Promise<DeepSeekDefaultsServer> {
+/** Serve one deterministic Nulu-compatible response while retaining its request body. */
+async function nuluDefaultsServer(options: { waitForTitleRequest?: boolean; protocol?: 'messages' } = {}): Promise<NuluDefaultsServer> {
   const requests: JsonObject[] = []
   const paths: string[] = []
   const server = createServer((request: IncomingMessage, response: ServerResponse) => {
@@ -105,7 +105,7 @@ async function deepseekDefaultsServer(options: { waitForTitleRequest?: boolean; 
         }
         if (options.protocol === 'messages') {
           response.end([
-            { type: 'message_start', message: { id: 'defaults-response', model: 'deepseek-v4-flash', usage: { input_tokens: 3, output_tokens: 0 } } },
+            { type: 'message_start', message: { id: 'defaults-response', model: 'nulu-v4-flash', usage: { input_tokens: 3, output_tokens: 0 } } },
             { type: 'content_block_start', index: 0, content_block: { type: 'text', text: '' } },
             { type: 'content_block_delta', index: 0, delta: { type: 'text_delta', text: 'DEFAULTS_OK' } },
             { type: 'content_block_stop', index: 0 },
@@ -272,7 +272,7 @@ describe('headless stream-json snapshots', () => {
     const result = await runLoaderSmoke({
       label: 'product headless profile json snapshot',
       tempDirPrefix: 'headless-snapshot-profile-json-',
-      binScript: dshBinScript,
+      binScript: nuluBinScript,
       configPath: headlessOverlayPath,
       binArgs: [
         '--profile', 'headless', '--patch', headlessOverlayPath,
@@ -302,7 +302,7 @@ describe('headless stream-json snapshots', () => {
     const result = await runLoaderSmoke({
       label: 'product headless profile unknown session',
       tempDirPrefix: 'headless-snapshot-profile-unknown-session-',
-      binScript: dshBinScript,
+      binScript: nuluBinScript,
       configPath: headlessOverlayPath,
       binArgs: [
         '--profile', 'headless', '--patch', headlessOverlayPath,
@@ -337,7 +337,7 @@ describe('headless stream-json snapshots', () => {
       const first = await runLoaderSmoke({
         label: 'product headless profile resume first wake',
         cwd,
-        binScript: dshBinScript,
+        binScript: nuluBinScript,
         configPath: headlessOverlayPath,
         binArgs: ['--profile', 'headless', '--patch', headlessOverlayPath, '--json', firstTask],
         tsconfigPath,
@@ -351,7 +351,7 @@ describe('headless stream-json snapshots', () => {
       const second = await runLoaderSmoke({
         label: 'product headless profile resume second wake',
         cwd,
-        binScript: dshBinScript,
+        binScript: nuluBinScript,
         configPath: headlessOverlayPath,
         binArgs: [
           '--profile', 'headless', '--patch', headlessOverlayPath,
@@ -402,7 +402,7 @@ describe('headless stream-json snapshots', () => {
     const result = await runLoaderSmoke({
       label: 'headless best-effort startup snapshot',
       tempDirPrefix: 'headless-snapshot-startup-error-',
-      binScript: dshBinScript,
+      binScript: nuluBinScript,
       configPath: startupFailureConfigPath,
       binArgs: [
         '--profile', 'headless',
@@ -579,8 +579,8 @@ describe('headless stream-json snapshots', () => {
     `)
   }, LOADER_SMOKE_TEST_TIMEOUT_MS)
 
-  it('keeps provider comments alive and sends DeepSeek defaults through the one-shot app', async () => {
-    const server = await deepseekDefaultsServer({ protocol: 'messages' })
+  it('keeps provider comments alive and sends Nulu defaults through the one-shot app', async () => {
+    const server = await nuluDefaultsServer({ protocol: 'messages' })
     try {
       const result = await runLoaderSmoke({
         label: 'Nulu adapter defaults headless stream-json snapshot',

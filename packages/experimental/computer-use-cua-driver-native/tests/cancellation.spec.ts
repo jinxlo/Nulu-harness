@@ -26,7 +26,7 @@ beforeEach(async () => {
   await mountAgentLoopTestDependencies(ctx)
   await ctx.plugin(ComputerUseRegistry)
   root = await mkdtemp(join(tmpdir(), 'nulu-native-cancellation-'))
-  await ctx.plugin(LocalAttachmentStore, { dshHome: root })
+  await ctx.plugin(LocalAttachmentStore, { nuluHome: root })
 })
 
 afterEach(async () => {

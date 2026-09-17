@@ -6,15 +6,15 @@ import { object } from '../../src/protocols/messages/replay.ts'
 import { BlockAssembler, createAssistantMessage, createUserMessage } from '@worldapptechnologies/nulu-llm'
 import type { GenerateOptions, StreamChunk } from '@worldapptechnologies/nulu-llm'
 import { resolveAdapterOptions } from '../../src/index.ts'
-import { DeepSeekMessagesAdapter } from '../../src/protocols/messages/adapter.ts'
+import { NuluMessagesAdapter } from '../../src/protocols/messages/adapter.ts'
 import type { Config } from '../../src/config.ts'
-import { DeepSeekFileStore } from '../../src/common/file-store.ts'
+import { NuluFileStore } from '../../src/common/file-store.ts'
 
 export const prepareExtensions = async () => ({ fields: {}, accept: async () => {} })
 
-export const MODEL = 'deepseek-v4-flash'
+export const MODEL = 'nulu-v4-flash'
 export const user = (text = 'hello') => createUserMessage({ source: { kind: 'user' }, content: [{ type: 'text', text }] })
-export const options = (overrides: Partial<GenerateOptions> = {}): GenerateOptions => ({ provider: 'deepseek-official', model: MODEL, messages: [user()], ...overrides })
+export const options = (overrides: Partial<GenerateOptions> = {}): GenerateOptions => ({ provider: 'nulu-official', model: MODEL, messages: [user()], ...overrides })
 export const start = { type: 'message_start', message: { id: 'msg_1', model: MODEL, usage: { input_tokens: 12, output_tokens: 1 } } }
 export const end = (reason = 'end_turn') => [
   { type: 'message_delta', delta: { stop_reason: reason }, usage: { output_tokens: 5 } },
@@ -35,12 +35,12 @@ export async function assemble(stream: AsyncIterable<StreamChunk>, model = MODEL
   const assembler = new BlockAssembler()
   const output = await chunks(stream)
   for (const chunk of output) assembler.push(chunk)
-  const message = createAssistantMessage({ content: assembler.blocks(), source: { provider: 'deepseek-official', model, ...assembler.replayState === undefined ? {} : { replayState: assembler.replayState } } })
+  const message = createAssistantMessage({ content: assembler.blocks(), source: { provider: 'nulu-official', model, ...assembler.replayState === undefined ? {} : { replayState: assembler.replayState } } })
   return { output, message, assembler }
 }
 export function adapter(config: Config = {}) {
-  const files = new DeepSeekFileStore()
-  return new DeepSeekMessagesAdapter({ connection: () => resolveAdapterOptions(config), apiKey: () => Promise.resolve('test-key'), userId: () => 'test-user', attachments: () => undefined, imageAccess: () => undefined, files: () => files, prepareExtensions })
+  const files = new NuluFileStore()
+  return new NuluMessagesAdapter({ connection: () => resolveAdapterOptions(config), apiKey: () => Promise.resolve('test-key'), userId: () => 'test-user', attachments: () => undefined, imageAccess: () => undefined, files: () => files, prepareExtensions })
 }
 export async function server(reply: (response: ServerResponse, count: number) => void = response => response.end(sse(textEvents))) {
   const requests: { path: string; headers: IncomingHttpHeaders; body: Record<string, unknown> }[] = []

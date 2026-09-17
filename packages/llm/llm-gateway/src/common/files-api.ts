@@ -1,10 +1,10 @@
-/** DeepSeek Files API transport for Chat Completions and Messages endpoints. @module nulu-llm-gateway/files-api */
+/** Nulu Files API transport for Chat Completions and Messages endpoints. @module nulu-llm-gateway/files-api */
 
 import { attributionHeaders, LlmError } from '@worldapptechnologies/nulu-llm'
 import type { ImageMediaType } from '@worldapptechnologies/nulu-attachment'
-import { DeepSeekFileId } from './file-id.ts'
-import type { DeepSeekFileId as DeepSeekFileIdType } from './file-id.ts'
-import type { DeepSeekProtocol } from './types.ts'
+import { NuluFileId } from './file-id.ts'
+import type { NuluFileId as NuluFileIdType } from './file-id.ts'
+import type { NuluProtocol } from './types.ts'
 
 /** Required opt-in for Messages file operations and file-referenced image requests. */
 export const MESSAGES_FILES_BETA = 'files-api-2025-04-14'
@@ -20,9 +20,9 @@ export const MAX_STORED_FILE_COUNT = 10_000
 /** Current per-key storage quota. */
 export const MAX_STORED_FILE_BYTES = 25 * 1024 * 1024 * 1024
 
-/** Validated file metadata normalized from either DeepSeek Files protocol. */
-export interface DeepSeekFileObject {
-  id: DeepSeekFileIdType
+/** Validated file metadata normalized from either Nulu Files protocol. */
+export interface NuluFileObject {
+  id: NuluFileIdType
   bytes: number
   createdAt: number
   filename: string
@@ -76,7 +76,7 @@ export function isFilesQuotaError(error: unknown): error is NuluFilesError {
 interface FilesApiOptions {
   baseURL: string
   apiKey: string
-  protocol: DeepSeekProtocol
+  protocol: NuluProtocol
   fetch?: typeof fetch
 }
 
@@ -118,7 +118,7 @@ function parseFileObject(value: unknown, operation: string): NuluFileObject {
 }
 
 /** Normalize the Messages wire object without interpreting omitted expiration as permanence. */
-function parseMessagesFile(value: unknown, operation: string): DeepSeekFileObject {
+function parseMessagesFile(value: unknown, operation: string): NuluFileObject {
   if (value === null || typeof value !== 'object' || Array.isArray(value)) throw invalidResponse(operation)
   const wire = value as Record<string, unknown>
   const createdAt = typeof wire.created_at === 'string' ? Math.floor(Date.parse(wire.created_at) / 1_000) : NaN
@@ -144,11 +144,11 @@ function providerErrorDetail(value: unknown): { message?: string; detail: string
 }
 
 /** Direct Files client retaining the configured URL root and refusing redirects before credentials can leave its origin. */
-export class DeepSeekFilesClient {
+export class NuluFilesClient {
   private readonly baseURL: string
   private readonly apiKey: string
   private readonly fetchImpl: typeof fetch
-  private readonly protocol: DeepSeekProtocol
+  private readonly protocol: NuluProtocol
   private readonly path: string
 
   /**
@@ -162,7 +162,7 @@ export class DeepSeekFilesClient {
     this.path = this.protocol === 'messages' ? '/v1/files' : '/files'
   }
 
-  private parseFile(value: unknown, operation: string): DeepSeekFileObject {
+  private parseFile(value: unknown, operation: string): NuluFileObject {
     return this.protocol === 'messages' ? parseMessagesFile(value, operation) : parseFileObject(value, operation)
   }
 
@@ -243,7 +243,7 @@ export class DeepSeekFilesClient {
     limit?: number
     order?: 'asc' | 'desc'
     signal?: AbortSignal
-  } = {}): Promise<DeepSeekFilePage> {
+  } = {}): Promise<NuluFilePage> {
     const query = new URLSearchParams(this.protocol === 'messages' ? {} : { purpose: 'user_data' })
     if (options.after !== undefined) query.set(this.protocol === 'messages' ? 'after_id' : 'after', options.after)
     if (options.limit !== undefined) query.set('limit', String(options.limit))
@@ -261,8 +261,8 @@ export class DeepSeekFilesClient {
     }
     return {
       data: wire.data.map(item => this.parseFile(item, 'list')),
-      ...typeof firstId === 'string' ? { firstId: DeepSeekFileId(firstId) } : {},
-      ...typeof lastId === 'string' ? { lastId: DeepSeekFileId(lastId) } : {},
+      ...typeof firstId === 'string' ? { firstId: NuluFileId(firstId) } : {},
+      ...typeof lastId === 'string' ? { lastId: NuluFileId(lastId) } : {},
       hasMore: wire.has_more,
     }
   }
@@ -273,7 +273,7 @@ export class DeepSeekFilesClient {
    * @param signal - request cancellation.
    * @returns the validated file object.
    */
-  async retrieve(fileId: DeepSeekFileIdType, signal?: AbortSignal): Promise<DeepSeekFileObject> {
+  async retrieve(fileId: NuluFileIdType, signal?: AbortSignal): Promise<NuluFileObject> {
     const response = await this.request(`${this.path}/${encodeURIComponent(fileId)}`, { method: 'GET' }, signal)
     return this.parseFile(await response.json(), 'retrieve')
   }
@@ -283,7 +283,7 @@ export class DeepSeekFilesClient {
    * @param fileId - provider file identifier.
    * @param signal - request cancellation.
    */
-  async delete(fileId: DeepSeekFileIdType, signal?: AbortSignal): Promise<void> {
+  async delete(fileId: NuluFileIdType, signal?: AbortSignal): Promise<void> {
     const response = await this.request(`${this.path}/${encodeURIComponent(fileId)}`, { method: 'DELETE' }, signal)
     const value = await response.json() as unknown
     if (value === null || typeof value !== 'object' || Array.isArray(value)) throw invalidResponse('delete')

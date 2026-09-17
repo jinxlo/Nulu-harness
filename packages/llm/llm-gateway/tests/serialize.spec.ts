@@ -644,7 +644,7 @@ describe('image serialization', () => {
     // 21 retained 3-byte images encode to 84 base64 bytes against an 80-byte bound with a
     // 40-byte quantum: the removal crosses the quantum at the eleventh oldest occurrence.
     await expect(serializeRequestWithImages(request({
-      model: 'deepseek-v4-flash-vision-exp',
+      model: 'nulu-v4-flash-vision-exp',
       messages: [createUserMessage({
         content: Array.from({ length: 21 }, () => ({ type: 'image' as const, attachment: ref })),
         source: { kind: 'plugin', plugin: 'test' },
@@ -658,7 +658,7 @@ describe('image serialization', () => {
   it('counts only retained occurrences against the bound', async () => {
     const ref = imageRef('image/png', 3)
     const wire = await serializeRequestWithImages(request({
-      model: 'deepseek-v4-flash-vision-exp',
+      model: 'nulu-v4-flash-vision-exp',
       messages: [createUserMessage({
         content: [
           ...Array.from({ length: 11 }, () => ({ type: 'image' as const, attachment: ref, offloaded: true as const })),

@@ -10,9 +10,9 @@ import { execa } from 'execa'
 import { describe, expect, it } from 'vitest'
 
 const repoRoot = fileURLToPath(new URL('../../../../../../', import.meta.url))
-const dshBin = join(repoRoot, 'apps/cli/lib/bin.js')
+const nuluBin = join(repoRoot, 'apps/cli/lib/bin.js')
 const frontendIndex = join(repoRoot, 'apps/web/dist/index.html')
-const builtArtifactsExist = existsSync(dshBin) && existsSync(frontendIndex)
+const builtArtifactsExist = existsSync(nuluBin) && existsSync(frontendIndex)
 
 interface Fixture {
   root: string
@@ -135,7 +135,7 @@ describe.skipIf(!builtArtifactsExist)('nulu Web profile best-effort startup', ()
   it('serves the full Web app while unrelated entries fail to start', async () => {
     const fixture = createFixture()
     const child = execa(process.execPath, [
-      dshBin,
+      nuluBin,
       '--profile', 'web',
       '--patch', fixture.patch,
       '--no-open',
@@ -214,7 +214,7 @@ describe.skipIf(!builtArtifactsExist)('nulu Web profile best-effort startup', ()
     writeFileSync(fixture.patch, `${readFileSync(fixture.patch, 'utf8')}- id: ${id}\n  ${patch}\n`)
     try {
       const result = await execa(process.execPath, [
-        dshBin,
+        nuluBin,
         '--profile', 'web',
         '--patch', fixture.patch,
         '--no-open',
@@ -266,7 +266,7 @@ describe.skipIf(!builtArtifactsExist)('nulu Web profile best-effort startup', ()
 
     try {
       const result = await execa(process.execPath, [
-        dshBin,
+        nuluBin,
         '--profile', 'web',
         '--no-open',
         '--port', String(address.port),
@@ -318,7 +318,7 @@ describe.skipIf(!builtArtifactsExist)('nulu Web profile best-effort startup', ()
     ].join('\n'))
     try {
       const result = await execa(process.execPath, [
-        dshBin,
+        nuluBin,
         '--profile', 'web',
         '--patch', fixture.patch,
         '--no-open',

@@ -1,7 +1,7 @@
 /**
  * Keyless integration tests for the SDK subagent backend. Each spawns a REAL
  * subprocess — the SDK client package's scripted fake runtime — and drives it
- * through the REAL backend over real stdio JSON-RPC, so the handshake, the
+ * through the REAL backend over real stdio JSON-RPC, so the hannuluake, the
  * turn round-trip, stop-reason mapping, cancellation, env scrubbing, and
  * quiescent disposal are all exercised end to end. No model, no key.
  */
@@ -524,11 +524,11 @@ describe('nulu-subagent-nulu-sdk provider', () => {
     await ctx.fiber.dispose()
   })
 
-  it('cancelling between handshake and publish rejects start after reap', async ({ task }) => {
+  it('cancelling between hannuluake and publish rejects start after reap', async ({ task }) => {
     // The abort lands while the child is INSIDE initialize (ready-file
-    // handshake window): the fake touches READY, we abort, then GO lets the
-    // handshake complete — so the post-race `flags.cancelled` recheck must
-    // reject even though the handshake itself succeeded.
+    // hannuluake window): the fake touches READY, we abort, then GO lets the
+    // hannuluake complete — so the post-race `flags.cancelled` recheck must
+    // reject even though the hannuluake itself succeeded.
     const tmp = mkdtempSync(join(tmpdir(), 'subagent-nulu-sdk-midcancel-'))
     const ready = join(tmp, 'ready')
     const go = join(tmp, 'go')
@@ -556,7 +556,7 @@ describe('nulu-subagent-nulu-sdk provider', () => {
       )
       try {
         await waitForFile(ready, task.timeout)
-        controller.abort('mid-handshake')
+        controller.abort('mid-hannuluake')
         writeFileSync(go, 'go\n')
         await expect(pending).rejects.toThrow('aborted before the SDK child started')
       } finally {
@@ -698,7 +698,7 @@ describe('nulu-subagent-nulu-sdk provider', () => {
     await ctx.fiber.dispose()
   })
 
-  it('rejects after reaping when the child dies before the handshake', async () => {
+  it('rejects after reaping when the child dies before the hannuluake', async () => {
     const rawStderr = 'scripted boot failure at /private/path SECRET_TOKEN'
     const ctx = await setup({ FAKE_EXIT_BEFORE_INIT: '1', FAKE_STDERR: rawStderr })
     const failure = await ctx.subagents.start('nulu-sdk', request()).then(
@@ -723,7 +723,7 @@ describe('nulu-subagent-nulu-sdk provider', () => {
     await ctx.fiber.dispose()
   })
 
-  it('cancelling mid-handshake rejects start after reaping the child', async () => {
+  it('cancelling mid-hannuluake rejects start after reaping the child', async () => {
     const controller = new AbortController()
     const spec: SdkRunSpec = {
       profile: 'sdk',

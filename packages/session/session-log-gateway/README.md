@@ -8,7 +8,7 @@ kind: "package-reference"
 
 ## Summary
 
-Incremental canonical session-log upload for official DeepSeek LLM API requests. This function plugin injects `ctx.sessions` and `ctx.deepseekLlmApiExtensions`, then owns the `dsh_session_log` request field and the durable `session-log-gateway/delivery-accepted` event from which it derives the acceptance watermark. Disable it only when the official API must not receive a Session-log suffix.
+Incremental canonical session-log upload for official Nulu LLM API requests. This function plugin injects `ctx.sessions` and `ctx.nuluLlmApiExtensions`, then owns the `nulu_session_log` request field and the durable `session-log-gateway/delivery-accepted` event from which it derives the acceptance watermark. Disable it only when the official API must not receive a Session-log suffix.
 
 ## Table of Contents
 
@@ -26,7 +26,7 @@ Incremental canonical session-log upload for official DeepSeek LLM API requests.
 
 | Key | Default | Meaning |
 |---|---:|---|
-| `enabled` | `true` | Register the `dsh_session_log` contribution. Set it to `false` to stop Session-log upload. |
+| `enabled` | `true` | Register the `nulu_session_log` contribution. Set it to `false` to stop Session-log upload. |
 
 Shipped profiles mount the plugin, so the default configuration registers the request field and appends the acceptance watermark; an overlay opts out with `enabled: false`.
 

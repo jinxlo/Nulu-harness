@@ -13348,9 +13348,9 @@
       }
     },
     {
-      "key": "event:web/deepseek-search-llm-request",
+      "key": "event:web/nulu-search-llm-request",
       "kind": "event",
-      "event": "web/deepseek-search-llm-request",
+      "event": "web/nulu-search-llm-request",
       "surface": false,
       "digest": "cf6e3aaf1e2de6480aa0157730a41b9a492108a55304100b0f7e112711dd4331",
       "schema": {
@@ -13547,7 +13547,7 @@
           },
           {
             "kind": "literal",
-            "value": "web/deepseek-search-llm-request"
+            "value": "web/nulu-search-llm-request"
           }
         ]
       }

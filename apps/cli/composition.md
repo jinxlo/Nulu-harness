@@ -8,180 +8,180 @@ The nulu-base bundle patch shared by the web, headless, sdk, and acp profiles; t
 ```mermaid
 flowchart LR
   cfg["packages/bundle/base/cordis.patch.yml<br/>cordis.yml"]
-  plugin_dsh_base_timer["timer<br/>@worldapptechnologies/cordis-plugin-timer"]
-  cfg --> plugin_dsh_base_timer
-  plugin_dsh_base_hmr["hmr<br/>@worldapptechnologies/cordis-plugin-hmr"]
-  cfg --> plugin_dsh_base_hmr
-  plugin_dsh_base_llm["llm<br/>@worldapptechnologies/nulu-llm"]
-  cfg --> plugin_dsh_base_llm
-  plugin_dsh_base_deepseek_llm_api_extensions["llm-api-extensions<br/>@worldapptechnologies/nulu-llm-api-extensions"]
-  cfg --> plugin_dsh_base_deepseek_llm_api_extensions
-  plugin_dsh_base_session["session<br/>@worldapptechnologies/nulu-session"]
-  cfg --> plugin_dsh_base_session
-  plugin_dsh_base_session_log_deepseek["session-log-gateway<br/>@worldapptechnologies/nulu-session-log-gateway"]
-  cfg --> plugin_dsh_base_session_log_deepseek
-  plugin_dsh_base_typert["typert<br/>@worldapptechnologies/nulu-typert-registry"]
-  cfg --> plugin_dsh_base_typert
-  plugin_dsh_base_typert_loader["typert-loader<br/>@worldapptechnologies/nulu-typert-loader"]
-  cfg --> plugin_dsh_base_typert_loader
-  plugin_dsh_base_typert_gateway["typert-gateway<br/>@worldapptechnologies/nulu-api-gateway"]
-  cfg --> plugin_dsh_base_typert_gateway
-  plugin_dsh_base_session_title["session-title<br/>@worldapptechnologies/nulu-session-title"]
-  cfg --> plugin_dsh_base_session_title
-  plugin_dsh_base_session_title_llm["session-title-llm<br/>@worldapptechnologies/nulu-session-title-first-prompt-llm"]
-  cfg --> plugin_dsh_base_session_title_llm
-  plugin_dsh_base_user_questions["user-questions<br/>@worldapptechnologies/nulu-user-questions"]
-  cfg --> plugin_dsh_base_user_questions
-  plugin_dsh_base_agent["agent<br/>@worldapptechnologies/nulu-agent"]
-  cfg --> plugin_dsh_base_agent
-  plugin_dsh_base_plugin_package_inventory_deepseek["plugin-package-inventory<br/>@worldapptechnologies/nulu-plugin-package-inventory"]
-  cfg --> plugin_dsh_base_plugin_package_inventory_deepseek
-  plugin_dsh_base_agent_default_model["agent-default-model<br/>@worldapptechnologies/nulu-agent-default-model"]
-  cfg --> plugin_dsh_base_agent_default_model
-  plugin_dsh_base_jobs["jobs<br/>@worldapptechnologies/nulu-jobs-local"]
-  cfg --> plugin_dsh_base_jobs
-  plugin_dsh_base_llm_retry["llm-retry<br/>@worldapptechnologies/nulu-llm-retry"]
-  cfg --> plugin_dsh_base_llm_retry
-  plugin_dsh_base_settings["settings<br/>@worldapptechnologies/nulu-settings-file"]
-  cfg --> plugin_dsh_base_settings
-  plugin_dsh_base_credentials["credentials<br/>@worldapptechnologies/nulu-credentials-local"]
-  cfg --> plugin_dsh_base_credentials
-  plugin_dsh_base_llm_pi_ai["llm-pi-ai<br/>@worldapptechnologies/nulu-llm-pi-ai"]
-  cfg --> plugin_dsh_base_llm_pi_ai
-  plugin_dsh_base_session_persistence_jsonl["session-persistence-jsonl<br/>@worldapptechnologies/nulu-session-persistence-jsonl"]
-  cfg --> plugin_dsh_base_session_persistence_jsonl
-  plugin_dsh_base_attachment_local["attachment-local<br/>@worldapptechnologies/nulu-attachment-local"]
-  cfg --> plugin_dsh_base_attachment_local
-  plugin_dsh_base_session_query_sqlite["session-query-sqlite<br/>@worldapptechnologies/nulu-session-query-sqlite"]
-  cfg --> plugin_dsh_base_session_query_sqlite
-  plugin_dsh_base_session_projection["session-projection<br/>@worldapptechnologies/nulu-session-projection"]
-  cfg --> plugin_dsh_base_session_projection
-  plugin_dsh_base_storage["storage<br/>@worldapptechnologies/nulu-storage"]
-  cfg --> plugin_dsh_base_storage
-  plugin_dsh_base_storage_json["storage-json<br/>@worldapptechnologies/nulu-storage-json"]
-  cfg --> plugin_dsh_base_storage_json
-  plugin_dsh_base_storage_domain["storage-domain<br/>@worldapptechnologies/nulu-storage-domain"]
-  cfg --> plugin_dsh_base_storage_domain
-  plugin_dsh_base_session_projection_cache["session-projection-cache<br/>@worldapptechnologies/nulu-session-projection-cache"]
-  cfg --> plugin_dsh_base_session_projection_cache
-  plugin_dsh_base_session_telemetry_otel["session-telemetry-otel<br/>@worldapptechnologies/nulu-session-telemetry-otel"]
-  cfg --> plugin_dsh_base_session_telemetry_otel
-  plugin_dsh_base_subprocess["subprocess<br/>@worldapptechnologies/nulu-subprocess-local"]
-  cfg --> plugin_dsh_base_subprocess
-  plugin_dsh_base_sandbox["sandbox<br/>@worldapptechnologies/nulu-sandbox-local"]
-  cfg --> plugin_dsh_base_sandbox
-  plugin_dsh_base_sandbox_policy["sandbox-policy<br/>@worldapptechnologies/nulu-sandbox-policy"]
-  cfg --> plugin_dsh_base_sandbox_policy
-  plugin_dsh_base_bash_sandbox["bash-sandbox<br/>@worldapptechnologies/nulu-bash-sandbox"]
-  cfg --> plugin_dsh_base_bash_sandbox
-  plugin_dsh_base_pwsh_sandbox["pwsh-sandbox<br/>@worldapptechnologies/nulu-pwsh-sandbox"]
-  cfg --> plugin_dsh_base_pwsh_sandbox
-  plugin_dsh_base_approval["approval<br/>@worldapptechnologies/nulu-user-approval"]
-  cfg --> plugin_dsh_base_approval
-  plugin_dsh_base_permission["permission<br/>@worldapptechnologies/nulu-permission-presets"]
-  cfg --> plugin_dsh_base_permission
-  plugin_dsh_base_shell_env["shell-env<br/>@worldapptechnologies/nulu-shell-env"]
-  cfg --> plugin_dsh_base_shell_env
-  plugin_dsh_base_tool_bash["tool-bash<br/>@worldapptechnologies/nulu-tool-bash"]
-  cfg --> plugin_dsh_base_tool_bash
-  plugin_dsh_base_tool_pwsh["tool-pwsh<br/>@worldapptechnologies/nulu-tool-pwsh"]
-  cfg --> plugin_dsh_base_tool_pwsh
-  plugin_dsh_base_tool_jobs["tool-jobs<br/>@worldapptechnologies/nulu-tool-jobs"]
-  cfg --> plugin_dsh_base_tool_jobs
-  plugin_dsh_base_fs_observation_policy["fs-observation-policy<br/>@worldapptechnologies/nulu-fs-observation-policy"]
-  cfg --> plugin_dsh_base_fs_observation_policy
-  plugin_dsh_base_tool_fs["tool-fs<br/>@worldapptechnologies/nulu-tool-fs"]
-  cfg --> plugin_dsh_base_tool_fs
-  plugin_dsh_base_tool_fs_search["tool-fs-search<br/>@worldapptechnologies/nulu-tool-fs-search"]
-  cfg --> plugin_dsh_base_tool_fs_search
-  plugin_dsh_base_agent_instructions["agent-instructions<br/>@worldapptechnologies/nulu-agent-instructions"]
-  cfg --> plugin_dsh_base_agent_instructions
-  plugin_dsh_base_skill["skill<br/>@worldapptechnologies/nulu-skill"]
-  cfg --> plugin_dsh_base_skill
-  plugin_dsh_base_skill_filesystem["skill-filesystem<br/>@worldapptechnologies/nulu-skill-filesystem"]
-  cfg --> plugin_dsh_base_skill_filesystem
-  plugin_dsh_base_skill_badge["skill-badge<br/>@worldapptechnologies/nulu-skill-badge"]
-  cfg --> plugin_dsh_base_skill_badge
-  plugin_dsh_base_tool_skill["tool-skill<br/>@worldapptechnologies/nulu-tool-skill"]
-  cfg --> plugin_dsh_base_tool_skill
-  plugin_dsh_base_commands["commands<br/>@worldapptechnologies/nulu-commands"]
-  cfg --> plugin_dsh_base_commands
-  plugin_dsh_base_command_feedback["command-feedback<br/>@worldapptechnologies/nulu-command-feedback"]
-  cfg --> plugin_dsh_base_command_feedback
-  plugin_dsh_base_goal["goal<br/>@worldapptechnologies/nulu-goal"]
-  cfg --> plugin_dsh_base_goal
-  plugin_dsh_base_goal_round_driver["goal-round-driver<br/>@worldapptechnologies/nulu-goal-round-driver"]
-  cfg --> plugin_dsh_base_goal_round_driver
-  plugin_dsh_base_command_goal["command-goal<br/>@worldapptechnologies/nulu-command-goal"]
-  cfg --> plugin_dsh_base_command_goal
-  plugin_dsh_base_plan_mode["plan-mode<br/>@worldapptechnologies/nulu-plan-mode"]
-  cfg --> plugin_dsh_base_plan_mode
-  plugin_dsh_base_token_meter["token-meter<br/>@worldapptechnologies/nulu-token-meter"]
-  cfg --> plugin_dsh_base_token_meter
-  plugin_dsh_base_compaction_basic["compaction-basic<br/>@worldapptechnologies/nulu-compaction-basic"]
-  cfg --> plugin_dsh_base_compaction_basic
-  plugin_dsh_base_command_compact["command-compact<br/>@worldapptechnologies/nulu-command-compact"]
-  cfg --> plugin_dsh_base_command_compact
-  plugin_dsh_base_subagent["subagent<br/>@worldapptechnologies/nulu-subagent"]
-  cfg --> plugin_dsh_base_subagent
-  plugin_dsh_base_subagent_spawn_in_process["subagent-spawn-in-process<br/>@worldapptechnologies/nulu-subagent-spawn-in-process"]
-  cfg --> plugin_dsh_base_subagent_spawn_in_process
-  plugin_dsh_base_subagent_fork_in_process["subagent-fork-in-process<br/>@worldapptechnologies/nulu-subagent-fork-in-process"]
-  cfg --> plugin_dsh_base_subagent_fork_in_process
-  plugin_dsh_base_tool_subagent_control["tool-subagent-control<br/>@worldapptechnologies/nulu-tool-subagent-control"]
-  cfg --> plugin_dsh_base_tool_subagent_control
-  plugin_dsh_base_tool_subagent_list_agents["tool-subagent-list-agents<br/>@worldapptechnologies/nulu-tool-subagent-control/list-agents"]
-  cfg --> plugin_dsh_base_tool_subagent_list_agents
-  plugin_dsh_base_tool_subagent["tool-subagent<br/>@worldapptechnologies/nulu-tool-subagent"]
-  cfg --> plugin_dsh_base_tool_subagent
-  plugin_dsh_base_tool_subagent_fork["tool-subagent-fork<br/>@worldapptechnologies/nulu-tool-subagent"]
-  cfg --> plugin_dsh_base_tool_subagent_fork
-  plugin_dsh_base_ptc_runtime["ptc-runtime<br/>@worldapptechnologies/nulu-ptc-runtime-node"]
-  cfg --> plugin_dsh_base_ptc_runtime
-  plugin_dsh_base_workflow_ptc["workflow-ptc<br/>@worldapptechnologies/nulu-workflow-ptc"]
-  cfg --> plugin_dsh_base_workflow_ptc
-  plugin_dsh_base_tool_workflow["tool-workflow<br/>@worldapptechnologies/nulu-tool-workflow"]
-  cfg --> plugin_dsh_base_tool_workflow
-  plugin_dsh_base_timeout_policy["timeout-policy<br/>@worldapptechnologies/nulu-tool-call-timeout-policy"]
-  cfg --> plugin_dsh_base_timeout_policy
-  plugin_dsh_base_spill_local["spill-local<br/>@worldapptechnologies/nulu-spill-local"]
-  cfg --> plugin_dsh_base_spill_local
-  plugin_dsh_base_spill_policy["spill-policy<br/>@worldapptechnologies/nulu-spill-policy"]
-  cfg --> plugin_dsh_base_spill_policy
-  plugin_dsh_base_session_checkpoint_policy["session-checkpoint-policy<br/>@worldapptechnologies/nulu-session-checkpoint-policy"]
-  cfg --> plugin_dsh_base_session_checkpoint_policy
-  plugin_dsh_base_tool_result_pruner["tool-result-pruner<br/>@worldapptechnologies/nulu-compaction-tool-result-pruner"]
-  cfg --> plugin_dsh_base_tool_result_pruner
-  plugin_dsh_base_image_offload["image-offload<br/>@worldapptechnologies/nulu-compaction-image-offload"]
-  cfg --> plugin_dsh_base_image_offload
-  plugin_dsh_base_tool_todo["tool-todo<br/>@worldapptechnologies/nulu-tool-todo"]
-  cfg --> plugin_dsh_base_tool_todo
-  plugin_dsh_base_tool_goal["tool-goal<br/>@worldapptechnologies/nulu-tool-goal"]
-  cfg --> plugin_dsh_base_tool_goal
-  plugin_dsh_base_tool_ralph["tool-ralph<br/>@worldapptechnologies/nulu-tool-ralph"]
-  cfg --> plugin_dsh_base_tool_ralph
-  plugin_dsh_base_repeat_tool_reminder["repeat-tool-reminder<br/>@worldapptechnologies/nulu-repeat-tool-reminder"]
-  cfg --> plugin_dsh_base_repeat_tool_reminder
-  plugin_dsh_base_web["web<br/>@worldapptechnologies/nulu-web"]
-  cfg --> plugin_dsh_base_web
-  plugin_dsh_base_web_search_deepseek["web-search-gateway<br/>@worldapptechnologies/nulu-web-search-gateway"]
-  cfg --> plugin_dsh_base_web_search_deepseek
-  plugin_dsh_base_web_fetch_http["web-fetch-http<br/>@worldapptechnologies/nulu-web-fetch-http"]
-  cfg --> plugin_dsh_base_web_fetch_http
-  plugin_dsh_base_tool_web["tool-web<br/>@worldapptechnologies/nulu-tool-web"]
-  cfg --> plugin_dsh_base_tool_web
-  plugin_dsh_base_mcp_resources["mcp-resources<br/>@worldapptechnologies/nulu-mcp-resources"]
-  cfg --> plugin_dsh_base_mcp_resources
-  plugin_dsh_base_tools["tools<br/>@worldapptechnologies/nulu-tools"]
-  cfg --> plugin_dsh_base_tools
-  plugin_dsh_base_system_prompt["system-prompt<br/>@worldapptechnologies/nulu-system-prompt"]
-  cfg --> plugin_dsh_base_system_prompt
-  plugin_dsh_base_agent_loop["agent-loop<br/>@worldapptechnologies/nulu-agent-loop"]
-  cfg --> plugin_dsh_base_agent_loop
-  plugin_dsh_base_fs_sandbox["fs-sandbox<br/>@worldapptechnologies/nulu-fs-sandbox"]
-  cfg --> plugin_dsh_base_fs_sandbox
-  plugin_dsh_base_llm_deepseek["llm-gateway<br/>@worldapptechnologies/nulu-llm-gateway"]
-  cfg --> plugin_dsh_base_llm_deepseek
+  plugin_nulu_base_timer["timer<br/>@worldapptechnologies/cordis-plugin-timer"]
+  cfg --> plugin_nulu_base_timer
+  plugin_nulu_base_hmr["hmr<br/>@worldapptechnologies/cordis-plugin-hmr"]
+  cfg --> plugin_nulu_base_hmr
+  plugin_nulu_base_llm["llm<br/>@worldapptechnologies/nulu-llm"]
+  cfg --> plugin_nulu_base_llm
+  plugin_nulu_base_nulu_llm_api_extensions["llm-api-extensions<br/>@worldapptechnologies/nulu-llm-api-extensions"]
+  cfg --> plugin_nulu_base_nulu_llm_api_extensions
+  plugin_nulu_base_session["session<br/>@worldapptechnologies/nulu-session"]
+  cfg --> plugin_nulu_base_session
+  plugin_nulu_base_session_log_nulu["session-log-gateway<br/>@worldapptechnologies/nulu-session-log-gateway"]
+  cfg --> plugin_nulu_base_session_log_nulu
+  plugin_nulu_base_typert["typert<br/>@worldapptechnologies/nulu-typert-registry"]
+  cfg --> plugin_nulu_base_typert
+  plugin_nulu_base_typert_loader["typert-loader<br/>@worldapptechnologies/nulu-typert-loader"]
+  cfg --> plugin_nulu_base_typert_loader
+  plugin_nulu_base_typert_gateway["typert-gateway<br/>@worldapptechnologies/nulu-api-gateway"]
+  cfg --> plugin_nulu_base_typert_gateway
+  plugin_nulu_base_session_title["session-title<br/>@worldapptechnologies/nulu-session-title"]
+  cfg --> plugin_nulu_base_session_title
+  plugin_nulu_base_session_title_llm["session-title-llm<br/>@worldapptechnologies/nulu-session-title-first-prompt-llm"]
+  cfg --> plugin_nulu_base_session_title_llm
+  plugin_nulu_base_user_questions["user-questions<br/>@worldapptechnologies/nulu-user-questions"]
+  cfg --> plugin_nulu_base_user_questions
+  plugin_nulu_base_agent["agent<br/>@worldapptechnologies/nulu-agent"]
+  cfg --> plugin_nulu_base_agent
+  plugin_nulu_base_plugin_package_inventory_nulu["plugin-package-inventory<br/>@worldapptechnologies/nulu-plugin-package-inventory"]
+  cfg --> plugin_nulu_base_plugin_package_inventory_nulu
+  plugin_nulu_base_agent_default_model["agent-default-model<br/>@worldapptechnologies/nulu-agent-default-model"]
+  cfg --> plugin_nulu_base_agent_default_model
+  plugin_nulu_base_jobs["jobs<br/>@worldapptechnologies/nulu-jobs-local"]
+  cfg --> plugin_nulu_base_jobs
+  plugin_nulu_base_llm_retry["llm-retry<br/>@worldapptechnologies/nulu-llm-retry"]
+  cfg --> plugin_nulu_base_llm_retry
+  plugin_nulu_base_settings["settings<br/>@worldapptechnologies/nulu-settings-file"]
+  cfg --> plugin_nulu_base_settings
+  plugin_nulu_base_credentials["credentials<br/>@worldapptechnologies/nulu-credentials-local"]
+  cfg --> plugin_nulu_base_credentials
+  plugin_nulu_base_llm_pi_ai["llm-pi-ai<br/>@worldapptechnologies/nulu-llm-pi-ai"]
+  cfg --> plugin_nulu_base_llm_pi_ai
+  plugin_nulu_base_session_persistence_jsonl["session-persistence-jsonl<br/>@worldapptechnologies/nulu-session-persistence-jsonl"]
+  cfg --> plugin_nulu_base_session_persistence_jsonl
+  plugin_nulu_base_attachment_local["attachment-local<br/>@worldapptechnologies/nulu-attachment-local"]
+  cfg --> plugin_nulu_base_attachment_local
+  plugin_nulu_base_session_query_sqlite["session-query-sqlite<br/>@worldapptechnologies/nulu-session-query-sqlite"]
+  cfg --> plugin_nulu_base_session_query_sqlite
+  plugin_nulu_base_session_projection["session-projection<br/>@worldapptechnologies/nulu-session-projection"]
+  cfg --> plugin_nulu_base_session_projection
+  plugin_nulu_base_storage["storage<br/>@worldapptechnologies/nulu-storage"]
+  cfg --> plugin_nulu_base_storage
+  plugin_nulu_base_storage_json["storage-json<br/>@worldapptechnologies/nulu-storage-json"]
+  cfg --> plugin_nulu_base_storage_json
+  plugin_nulu_base_storage_domain["storage-domain<br/>@worldapptechnologies/nulu-storage-domain"]
+  cfg --> plugin_nulu_base_storage_domain
+  plugin_nulu_base_session_projection_cache["session-projection-cache<br/>@worldapptechnologies/nulu-session-projection-cache"]
+  cfg --> plugin_nulu_base_session_projection_cache
+  plugin_nulu_base_session_telemetry_otel["session-telemetry-otel<br/>@worldapptechnologies/nulu-session-telemetry-otel"]
+  cfg --> plugin_nulu_base_session_telemetry_otel
+  plugin_nulu_base_subprocess["subprocess<br/>@worldapptechnologies/nulu-subprocess-local"]
+  cfg --> plugin_nulu_base_subprocess
+  plugin_nulu_base_sandbox["sandbox<br/>@worldapptechnologies/nulu-sandbox-local"]
+  cfg --> plugin_nulu_base_sandbox
+  plugin_nulu_base_sandbox_policy["sandbox-policy<br/>@worldapptechnologies/nulu-sandbox-policy"]
+  cfg --> plugin_nulu_base_sandbox_policy
+  plugin_nulu_base_bash_sandbox["bash-sandbox<br/>@worldapptechnologies/nulu-bash-sandbox"]
+  cfg --> plugin_nulu_base_bash_sandbox
+  plugin_nulu_base_pwsh_sandbox["pwsh-sandbox<br/>@worldapptechnologies/nulu-pwsh-sandbox"]
+  cfg --> plugin_nulu_base_pwsh_sandbox
+  plugin_nulu_base_approval["approval<br/>@worldapptechnologies/nulu-user-approval"]
+  cfg --> plugin_nulu_base_approval
+  plugin_nulu_base_permission["permission<br/>@worldapptechnologies/nulu-permission-presets"]
+  cfg --> plugin_nulu_base_permission
+  plugin_nulu_base_shell_env["shell-env<br/>@worldapptechnologies/nulu-shell-env"]
+  cfg --> plugin_nulu_base_shell_env
+  plugin_nulu_base_tool_bash["tool-bash<br/>@worldapptechnologies/nulu-tool-bash"]
+  cfg --> plugin_nulu_base_tool_bash
+  plugin_nulu_base_tool_pwsh["tool-pwsh<br/>@worldapptechnologies/nulu-tool-pwsh"]
+  cfg --> plugin_nulu_base_tool_pwsh
+  plugin_nulu_base_tool_jobs["tool-jobs<br/>@worldapptechnologies/nulu-tool-jobs"]
+  cfg --> plugin_nulu_base_tool_jobs
+  plugin_nulu_base_fs_observation_policy["fs-observation-policy<br/>@worldapptechnologies/nulu-fs-observation-policy"]
+  cfg --> plugin_nulu_base_fs_observation_policy
+  plugin_nulu_base_tool_fs["tool-fs<br/>@worldapptechnologies/nulu-tool-fs"]
+  cfg --> plugin_nulu_base_tool_fs
+  plugin_nulu_base_tool_fs_search["tool-fs-search<br/>@worldapptechnologies/nulu-tool-fs-search"]
+  cfg --> plugin_nulu_base_tool_fs_search
+  plugin_nulu_base_agent_instructions["agent-instructions<br/>@worldapptechnologies/nulu-agent-instructions"]
+  cfg --> plugin_nulu_base_agent_instructions
+  plugin_nulu_base_skill["skill<br/>@worldapptechnologies/nulu-skill"]
+  cfg --> plugin_nulu_base_skill
+  plugin_nulu_base_skill_filesystem["skill-filesystem<br/>@worldapptechnologies/nulu-skill-filesystem"]
+  cfg --> plugin_nulu_base_skill_filesystem
+  plugin_nulu_base_skill_badge["skill-badge<br/>@worldapptechnologies/nulu-skill-badge"]
+  cfg --> plugin_nulu_base_skill_badge
+  plugin_nulu_base_tool_skill["tool-skill<br/>@worldapptechnologies/nulu-tool-skill"]
+  cfg --> plugin_nulu_base_tool_skill
+  plugin_nulu_base_commands["commands<br/>@worldapptechnologies/nulu-commands"]
+  cfg --> plugin_nulu_base_commands
+  plugin_nulu_base_command_feedback["command-feedback<br/>@worldapptechnologies/nulu-command-feedback"]
+  cfg --> plugin_nulu_base_command_feedback
+  plugin_nulu_base_goal["goal<br/>@worldapptechnologies/nulu-goal"]
+  cfg --> plugin_nulu_base_goal
+  plugin_nulu_base_goal_round_driver["goal-round-driver<br/>@worldapptechnologies/nulu-goal-round-driver"]
+  cfg --> plugin_nulu_base_goal_round_driver
+  plugin_nulu_base_command_goal["command-goal<br/>@worldapptechnologies/nulu-command-goal"]
+  cfg --> plugin_nulu_base_command_goal
+  plugin_nulu_base_plan_mode["plan-mode<br/>@worldapptechnologies/nulu-plan-mode"]
+  cfg --> plugin_nulu_base_plan_mode
+  plugin_nulu_base_token_meter["token-meter<br/>@worldapptechnologies/nulu-token-meter"]
+  cfg --> plugin_nulu_base_token_meter
+  plugin_nulu_base_compaction_basic["compaction-basic<br/>@worldapptechnologies/nulu-compaction-basic"]
+  cfg --> plugin_nulu_base_compaction_basic
+  plugin_nulu_base_command_compact["command-compact<br/>@worldapptechnologies/nulu-command-compact"]
+  cfg --> plugin_nulu_base_command_compact
+  plugin_nulu_base_subagent["subagent<br/>@worldapptechnologies/nulu-subagent"]
+  cfg --> plugin_nulu_base_subagent
+  plugin_nulu_base_subagent_spawn_in_process["subagent-spawn-in-process<br/>@worldapptechnologies/nulu-subagent-spawn-in-process"]
+  cfg --> plugin_nulu_base_subagent_spawn_in_process
+  plugin_nulu_base_subagent_fork_in_process["subagent-fork-in-process<br/>@worldapptechnologies/nulu-subagent-fork-in-process"]
+  cfg --> plugin_nulu_base_subagent_fork_in_process
+  plugin_nulu_base_tool_subagent_control["tool-subagent-control<br/>@worldapptechnologies/nulu-tool-subagent-control"]
+  cfg --> plugin_nulu_base_tool_subagent_control
+  plugin_nulu_base_tool_subagent_list_agents["tool-subagent-list-agents<br/>@worldapptechnologies/nulu-tool-subagent-control/list-agents"]
+  cfg --> plugin_nulu_base_tool_subagent_list_agents
+  plugin_nulu_base_tool_subagent["tool-subagent<br/>@worldapptechnologies/nulu-tool-subagent"]
+  cfg --> plugin_nulu_base_tool_subagent
+  plugin_nulu_base_tool_subagent_fork["tool-subagent-fork<br/>@worldapptechnologies/nulu-tool-subagent"]
+  cfg --> plugin_nulu_base_tool_subagent_fork
+  plugin_nulu_base_ptc_runtime["ptc-runtime<br/>@worldapptechnologies/nulu-ptc-runtime-node"]
+  cfg --> plugin_nulu_base_ptc_runtime
+  plugin_nulu_base_workflow_ptc["workflow-ptc<br/>@worldapptechnologies/nulu-workflow-ptc"]
+  cfg --> plugin_nulu_base_workflow_ptc
+  plugin_nulu_base_tool_workflow["tool-workflow<br/>@worldapptechnologies/nulu-tool-workflow"]
+  cfg --> plugin_nulu_base_tool_workflow
+  plugin_nulu_base_timeout_policy["timeout-policy<br/>@worldapptechnologies/nulu-tool-call-timeout-policy"]
+  cfg --> plugin_nulu_base_timeout_policy
+  plugin_nulu_base_spill_local["spill-local<br/>@worldapptechnologies/nulu-spill-local"]
+  cfg --> plugin_nulu_base_spill_local
+  plugin_nulu_base_spill_policy["spill-policy<br/>@worldapptechnologies/nulu-spill-policy"]
+  cfg --> plugin_nulu_base_spill_policy
+  plugin_nulu_base_session_checkpoint_policy["session-checkpoint-policy<br/>@worldapptechnologies/nulu-session-checkpoint-policy"]
+  cfg --> plugin_nulu_base_session_checkpoint_policy
+  plugin_nulu_base_tool_result_pruner["tool-result-pruner<br/>@worldapptechnologies/nulu-compaction-tool-result-pruner"]
+  cfg --> plugin_nulu_base_tool_result_pruner
+  plugin_nulu_base_image_offload["image-offload<br/>@worldapptechnologies/nulu-compaction-image-offload"]
+  cfg --> plugin_nulu_base_image_offload
+  plugin_nulu_base_tool_todo["tool-todo<br/>@worldapptechnologies/nulu-tool-todo"]
+  cfg --> plugin_nulu_base_tool_todo
+  plugin_nulu_base_tool_goal["tool-goal<br/>@worldapptechnologies/nulu-tool-goal"]
+  cfg --> plugin_nulu_base_tool_goal
+  plugin_nulu_base_tool_ralph["tool-ralph<br/>@worldapptechnologies/nulu-tool-ralph"]
+  cfg --> plugin_nulu_base_tool_ralph
+  plugin_nulu_base_repeat_tool_reminder["repeat-tool-reminder<br/>@worldapptechnologies/nulu-repeat-tool-reminder"]
+  cfg --> plugin_nulu_base_repeat_tool_reminder
+  plugin_nulu_base_web["web<br/>@worldapptechnologies/nulu-web"]
+  cfg --> plugin_nulu_base_web
+  plugin_nulu_base_web_search_nulu["web-search-gateway<br/>@worldapptechnologies/nulu-web-search-gateway"]
+  cfg --> plugin_nulu_base_web_search_nulu
+  plugin_nulu_base_web_fetch_http["web-fetch-http<br/>@worldapptechnologies/nulu-web-fetch-http"]
+  cfg --> plugin_nulu_base_web_fetch_http
+  plugin_nulu_base_tool_web["tool-web<br/>@worldapptechnologies/nulu-tool-web"]
+  cfg --> plugin_nulu_base_tool_web
+  plugin_nulu_base_mcp_resources["mcp-resources<br/>@worldapptechnologies/nulu-mcp-resources"]
+  cfg --> plugin_nulu_base_mcp_resources
+  plugin_nulu_base_tools["tools<br/>@worldapptechnologies/nulu-tools"]
+  cfg --> plugin_nulu_base_tools
+  plugin_nulu_base_system_prompt["system-prompt<br/>@worldapptechnologies/nulu-system-prompt"]
+  cfg --> plugin_nulu_base_system_prompt
+  plugin_nulu_base_agent_loop["agent-loop<br/>@worldapptechnologies/nulu-agent-loop"]
+  cfg --> plugin_nulu_base_agent_loop
+  plugin_nulu_base_fs_sandbox["fs-sandbox<br/>@worldapptechnologies/nulu-fs-sandbox"]
+  cfg --> plugin_nulu_base_fs_sandbox
+  plugin_nulu_base_llm_nulu["llm-gateway<br/>@worldapptechnologies/nulu-llm-gateway"]
+  cfg --> plugin_nulu_base_llm_nulu
 ```
 
 | Plugin id | Package / module |

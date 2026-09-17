@@ -24,55 +24,55 @@
   - paragraph: 填入各提供方的 API 密钥即可使用其模型。
   - list:
     - listitem:
-      - text: DeepSeek
+      - text: Nulu
       - img "API 密钥已配置"
-      - button "编辑 DeepSeek (deepseek-official)": 编辑
-      - text: DeepSeek deepseek-official API 密钥
+      - button "编辑 Nulu (nulu-official)": 编辑
+      - text: Nulu nulu-official API 密钥
       - textbox "API 密钥":
         - /placeholder: 已配置——输入新值可替换
       - group:
         - text: 自定义设置 API 地址
         - textbox "API 地址":
-          - /placeholder: https://api.deepseek.com/anthropic
+          - /placeholder: https://api.nulu.com/anthropic
         - text: 请填写与当前连接配置兼容的 API 地址。
         - region "模型目录":
           - text: 模型目录 正在使用适配器默认模型
           - textbox "模型 ID 1":
             - /placeholder: 模型 ID
-            - text: deepseek-flash
+            - text: nulu-flash
           - textbox "显示名称 1":
             - /placeholder: 显示名称
-            - text: DeepSeek-V41-Flash
+            - text: Nulu-V41-Flash
           - button "容量 1":
             - img
           - button "删除模型 1":
             - img
           - textbox "模型 ID 2":
             - /placeholder: 模型 ID
-            - text: deepseek-v4-flash
+            - text: nulu-v4-flash
           - textbox "显示名称 2":
             - /placeholder: 显示名称
-            - text: DeepSeek-V4-Flash
+            - text: Nulu-V4-Flash
           - button "容量 2":
             - img
           - button "删除模型 2":
             - img
           - textbox "模型 ID 3":
             - /placeholder: 模型 ID
-            - text: deepseek-v4-pro
+            - text: nulu-v4-pro
           - textbox "显示名称 3":
             - /placeholder: 显示名称
-            - text: DeepSeek-V4-Pro
+            - text: Nulu-V4-Pro
           - button "容量 3":
             - img
           - button "删除模型 3":
             - img
           - textbox "模型 ID 4":
             - /placeholder: 模型 ID
-            - text: deepseek-v4-flash-vision-exp
+            - text: nulu-v4-flash-vision-exp
           - textbox "显示名称 4":
             - /placeholder: 显示名称
-            - text: DeepSeek-V4-Flash-Vision-Exp
+            - text: Nulu-V4-Flash-Vision-Exp
           - button "容量 4":
             - img
           - button "删除模型 4":

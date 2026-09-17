@@ -31,8 +31,8 @@
 - 'button "Access mode, current: Auto review EXP"':
   - text: Auto review
   - superscript: EXP
-- button "Select model, current DeepSeek-V4-Flash":
-  - text: DeepSeek-V4-Flash
+- button "Select model, current Nulu-V4-Flash":
+  - text: Nulu-V4-Flash
   - img
 - button "Send message" [disabled]
 - button "1 turns 2 steps":
@@ -76,8 +76,8 @@
 - 'button "Access mode, current: Auto review EXP"':
   - text: Auto review
   - superscript: EXP
-- button "Select model, current DeepSeek-V4-Flash":
-  - text: DeepSeek-V4-Flash
+- button "Select model, current Nulu-V4-Flash":
+  - text: Nulu-V4-Flash
   - img
 - button "Send message" [disabled]
 - button "1 turns 2 steps":
@@ -146,8 +146,8 @@
 - 'button "Access mode, current: Auto review EXP"':
   - text: Auto review
   - superscript: EXP
-- button "Select model, current DeepSeek-V4-Flash":
-  - text: DeepSeek-V4-Flash
+- button "Select model, current Nulu-V4-Flash":
+  - text: Nulu-V4-Flash
   - img
 - button "Send message" [disabled]
 - button "1 turns 2 steps":

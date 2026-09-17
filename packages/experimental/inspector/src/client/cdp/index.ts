@@ -12,7 +12,7 @@ import { sourcesBridgeCapability } from './sources.ts'
  * Describe Client operations that require Worker-to-page bridge messages.
  * @param origin - Origin assigned to the synthetic execution context.
  * @param hasSources - Whether the Client bundle source was discovered.
- * @returns Capabilities included in the Client source handshake.
+ * @returns Capabilities included in the Client source hannuluake.
  */
 export function bridgeCapabilities(origin: string, hasSources: boolean): readonly InspectorSourceCapability[] {
   return [

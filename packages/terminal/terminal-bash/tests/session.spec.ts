@@ -164,7 +164,7 @@ describe('LocalPtySession readiness and output', () => {
       const pending = session.initialize()
       await vi.advanceTimersByTimeAsync(20)
       expect(snapshot).not.toHaveBeenCalled()
-      terminal.emitData('x'.repeat(200) + '\x1b]133;D;0\x07dsh> ')
+      terminal.emitData('x'.repeat(200) + '\x1b]133;D;0\x07nulu> ')
       await vi.advanceTimersByTimeAsync(20)
       await pending
       expect(snapshot).not.toHaveBeenCalled()

@@ -14,7 +14,7 @@
 - id: session-persistence-jsonl
   name: '@worldapptechnologies/nulu-session-persistence-jsonl'
   config:
-    root: !!js dshHomePath('sessions')
+    root: !!js nuluHomePath('sessions')
     compression: none
 
 - id: sandbox
@@ -33,16 +33,16 @@
       name: '@worldapptechnologies/nulu-llm-replay'
       config:
         providers:
-          - id: deepseek-official
-            name: DeepSeek
+          - id: nulu-official
+            name: Nulu
             models:
-              - id: deepseek-v4-flash
-              - id: deepseek-v4-pro
-          - id: deepseek-messages
-            name: DeepSeek Messages
+              - id: nulu-v4-flash
+              - id: nulu-v4-pro
+          - id: nulu-messages
+            name: Nulu Messages
             models:
-              - id: deepseek-v4-flash
-              - id: deepseek-v4-pro
+              - id: nulu-v4-flash
+              - id: nulu-v4-pro
 
 # Bound foreground preparation before any native process is allocated.
 - id: subprocess

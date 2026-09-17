@@ -1,26 +1,26 @@
-/** Select a DeepSeek wire implementation from one validated configuration generation. */
+/** Select a Nulu wire implementation from one validated configuration generation. */
 import { assertNever } from '@worldapptechnologies/nulu-util-values'
 import { LlmAdapter } from '@worldapptechnologies/nulu-llm'
 import type { GenerateOptions, PreparedAdapterCall, StreamChunk } from '@worldapptechnologies/nulu-llm'
-import type { DeepSeekAdapterOptions } from './common/types.ts'
+import type { NuluAdapterOptions } from './common/types.ts'
 import { ChatCompletionsAdapter } from './protocols/chat-completions/adapter.ts'
-import { DeepSeekFileStore } from './common/file-store.ts'
-import { DeepSeekMessagesAdapter } from './protocols/messages/adapter.ts'
+import { NuluFileStore } from './common/file-store.ts'
+import { NuluMessagesAdapter } from './protocols/messages/adapter.ts'
 
 /** One provider route with protocol-local transport and shared credentials and model configuration. */
-export class DeepSeekAdapter extends LlmAdapter {
-  private readonly files: DeepSeekFileStore
+export class NuluAdapter extends LlmAdapter {
+  private readonly files: NuluFileStore
 
-  constructor(private readonly dependencies: DeepSeekAdapterOptions) {
+  constructor(private readonly dependencies: NuluAdapterOptions) {
     super()
-    this.files = dependencies.resolveFiles?.() ?? new DeepSeekFileStore()
+    this.files = dependencies.resolveFiles?.() ?? new NuluFileStore()
   }
 
   private implementation(): LlmAdapter {
     const connection = this.dependencies.options()
     switch (connection.protocol) {
       case 'messages':
-        return new DeepSeekMessagesAdapter({
+        return new NuluMessagesAdapter({
           connection: () => connection,
           apiKey: this.dependencies.resolveApiKey,
           userId: this.dependencies.resolveUserId,
@@ -36,7 +36,7 @@ export class DeepSeekAdapter extends LlmAdapter {
       case 'chat-completions':
         return new ChatCompletionsAdapter({ ...this.dependencies, options: () => connection, resolveFiles: () => this.files })
       /* v8 ignore next -- protocol is validated at configuration resolution. */
-      default: return assertNever(connection.protocol, 'DeepSeek protocol')
+      default: return assertNever(connection.protocol, 'Nulu protocol')
     }
   }
 

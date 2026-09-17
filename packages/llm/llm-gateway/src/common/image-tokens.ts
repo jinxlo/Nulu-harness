@@ -138,7 +138,7 @@ export function deepSeekRequestImageDimensions(width: number, height: number): P
 }
 
 /**
- * Vision tokens DeepSeek charges for one request image of the given
+ * Vision tokens Nulu charges for one request image of the given
  * dimensions.
  * @param width - positive integer request-image width in pixels.
  * @param height - positive integer request-image height in pixels.

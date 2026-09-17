@@ -76,7 +76,7 @@ Where a timeout is the subject, keep the outer wait far larger than the timeout 
 
 A fixed sleep is not evidence that setup completed or cleanup settled.
 
-- Wait for an explicit readiness event, handshake, state transition, owned promise, or externally observable condition.
+- Wait for an explicit readiness event, hannuluake, state transition, owned promise, or externally observable condition.
 - Use deferred promises or barriers to place a race at a deterministic point and prove the relevant operations overlap.
 - Use a timeout only to bound a wait, never as the condition that makes the assertion correct.
 - Do not assert scheduler-dependent ordering unless that ordering is the product behavior under test.

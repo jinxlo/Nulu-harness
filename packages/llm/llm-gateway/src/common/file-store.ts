@@ -2,11 +2,11 @@
 
 import type { RequestImageAttachment } from '@worldapptechnologies/nulu-attachment'
 import { LlmError } from '@worldapptechnologies/nulu-llm'
-import { DeepSeekFilesClient, isFilesQuotaError } from './files-api.ts'
-import type { DeepSeekFileId } from './file-id.ts'
-import { deepSeekFileScope, DeepSeekUploadIndex } from './upload-index.ts'
-import type { DeepSeekUploadRecord } from './upload-index.ts'
-import type { DeepSeekProtocol } from './types.ts'
+import { NuluFilesClient, isFilesQuotaError } from './files-api.ts'
+import type { NuluFileId } from './file-id.ts'
+import { deepSeekFileScope, NuluUploadIndex } from './upload-index.ts'
+import type { NuluUploadRecord } from './upload-index.ts'
+import type { NuluProtocol } from './types.ts'
 
 /** Shared Files-store limit for each request image, including file-id references. */
 export const MAX_IMAGE_BYTES = 32 * 1024 * 1024
@@ -24,7 +24,7 @@ export interface NuluFileConnection {
   baseURL: string
   apiKey: string
   /** Files wire protocol selected by the resolved connection. */
-  protocol: DeepSeekProtocol
+  protocol: NuluProtocol
 }
 
 /** Result of one file-id resolution. */
@@ -47,7 +47,7 @@ interface SharedUpload {
 }
 
 /** The Files resource's parent URL distinguishes custom protocol namespaces. */
-function fileScope(connection: DeepSeekFileConnection) {
+function fileScope(connection: NuluFileConnection) {
   const root = connection.baseURL.replace(/\/+$/u, '')
   return deepSeekFileScope(connection.protocol === 'messages' ? `${root}/v1` : root, connection.apiKey)
 }
@@ -190,9 +190,9 @@ export class NuluFileStore {
     connection: NuluFileConnection,
     policy: NuluFilePolicy,
     signal: AbortSignal,
-  ): Promise<DeepSeekFileReference> {
+  ): Promise<NuluFileReference> {
     if (version.bytes > MAX_IMAGE_BYTES) {
-      throw new LlmError('DeepSeek image exceeds the 32 MiB per-image limit.', 'INVALID_REQUEST')
+      throw new LlmError('Nulu image exceeds the 32 MiB per-image limit.', 'INVALID_REQUEST')
     }
     const scope = fileScope(connection)
     const now = this.now()
@@ -301,8 +301,8 @@ export class NuluFileStore {
     signal?: AbortSignal,
   ): Promise<number> {
     const client = this.client(connection)
-    let after: DeepSeekFileId | undefined
-    const owned: { id: DeepSeekFileId; createdAt: number }[] = []
+    let after: NuluFileId | undefined
+    const owned: { id: NuluFileId; createdAt: number }[] = []
     while (connection.protocol === 'messages' || owned.length < count) {
       const page = await client.list({
         ...after === undefined ? {} : { after },

@@ -811,7 +811,7 @@ describe('boot', () => {
     }
   })
 
-  it('exposes dshHomePath to Loader config expressions', async () => {
+  it('exposes nuluHomePath to Loader config expressions', async () => {
     const dir = tmp()
     const nuluHome = join(dir, 'home')
     vi.stubEnv('NULU_HOME', nuluHome)

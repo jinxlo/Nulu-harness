@@ -44,7 +44,7 @@ This table connects model-visible tool names to the plugin package and service s
 | `@worldapptechnologies/nulu-tool-workflow` | `workflow` | `ctx.tools`, `ctx.workflowEngine`, `ctx.systemPrompt`, `a calling Agent (exec.agent parents the script children)` | `tool/call`, `tool/result` | - | - |
 | `@worldapptechnologies/nulu-tool-web` | `web_fetch`, `web_search` | `ctx.tools`, `ctx.web`, `ctx.systemPrompt` | `tool/call`, `tool/result` | - | web_search and web_fetch keep provider selection behind ctx.web so model-visible schemas stay stable across backend swaps. |
 
-<a id="worldapptechnologiesdsh-mcp-resources"></a>
+<a id="worldapptechnologiesnulu-mcp-resources"></a>
 
 ## `@worldapptechnologies/nulu-mcp-resources`
 
@@ -124,7 +124,7 @@ Read an MCP resource by URI from the named server. Use a listed URI or an expand
 
 Source: [`packages/mcp/mcp-resources/src/tools.ts`](../packages/mcp/mcp-resources/src/tools.ts)
 
-<a id="worldapptechnologiesdsh-experimental-browser-use-stagehand-native"></a>
+<a id="worldapptechnologiesnulu-experimental-browser-use-stagehand-native"></a>
 
 ## `@worldapptechnologies/nulu-experimental-browser-use-stagehand-native`
 
@@ -371,7 +371,7 @@ List, create, select, or close a Stagehand browser tab.
 
 Source: [`packages/experimental/browser-use-stagehand-native/src/index.ts`](../packages/experimental/browser-use-stagehand-native/src/index.ts)
 
-<a id="worldapptechnologiesdsh-tool-ask-user"></a>
+<a id="worldapptechnologiesnulu-tool-ask-user"></a>
 
 ## `@worldapptechnologies/nulu-tool-ask-user`
 

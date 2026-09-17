@@ -167,7 +167,7 @@ function completedTailFixture(raw: string): string {
         turn: 3, step: 1,
         message: {
           role: 'assistant', id: '{{message:101}}',
-          source: { kind: 'model', provider: 'deepseek-official', model: 'deepseek-v4-flash' },
+          source: { kind: 'model', provider: 'nulu-official', model: 'nulu-v4-flash' },
           content: [{ type: 'text', text: 'ORIGINAL ONLY' }],
         },
         stream: [

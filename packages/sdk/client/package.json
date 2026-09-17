@@ -1,6 +1,6 @@
 {
   "name": "@worldapptechnologies/nulu-sdk-client",
-  "description": "TypeScript client SDK for driving a Nulu Harness runtime subprocess over stdio JSON-RPC: the DeepSeekHarness high-level turns API and the lower-level HarnessClient",
+  "description": "TypeScript client SDK for driving a Nulu Harness runtime subprocess over stdio JSON-RPC: the NuluHarness high-level turns API and the lower-level HarnessClient",
   "version": "0.1.6-alpha.1",
   "publishConfig": {
     "access": "public"

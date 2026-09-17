@@ -148,14 +148,14 @@ async function setup(toolConfig: Partial<ToolPwsh.Config> = {}, nuluHome?: strin
 }
 
 /** Full harness: the generic job runtime + its controller, then the pwsh tool. */
-async function setupWithJobs(toolConfig: Partial<ToolPwsh.Config> = {}, dshHome?: string) {
+async function setupWithJobs(toolConfig: Partial<ToolPwsh.Config> = {}, nuluHome?: string) {
   const ctx = new Context()
   await ctx.plugin(SystemPrompt)
   await ctx.plugin(ToolRuntime)
   await ctx.plugin(AgentRegistry)
   await ctx.plugin(LocalJobRegistry)
   await ctx.plugin(ToolJobs)
-  await ctx.plugin(BashEnvPlugin, dshHome === undefined ? {} : { dshHome })
+  await ctx.plugin(BashEnvPlugin, nuluHome === undefined ? {} : { nuluHome })
   await ctx.plugin(FakeBash)
   await ctx.plugin(ToolPwsh, toolConfig)
   const bash = ctx.shell as FakeBash

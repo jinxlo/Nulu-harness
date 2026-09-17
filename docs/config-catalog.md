@@ -229,7 +229,7 @@ export interface Config {
 
 Source: [`packages/api/settings-controller/src/index.ts:36`](../packages/api/settings-controller/src/index.ts)
 
-<a id="worldapptechnologiesdsh-api-terminal-controller"></a>
+<a id="worldapptechnologiesnulu-api-terminal-controller"></a>
 
 ## `@worldapptechnologies/nulu-api-terminal-controller`
 
@@ -268,7 +268,7 @@ export interface Config {
 
 Source: [`packages/api/terminal-controller/src/index.ts:28`](../packages/api/terminal-controller/src/index.ts)
 
-<a id="worldapptechnologiesdsh-api-workspace-files"></a>
+<a id="worldapptechnologiesnulu-api-workspace-files"></a>
 
 ## `@worldapptechnologies/nulu-api-workspace-files`
 
@@ -413,7 +413,7 @@ export interface ConnectionRecoveryConfig {
   /** Maximum retry delay cap in ms; retries continue at this cap. Default: 10000. */
   backoffMaxMs?: number
   /**
-   * Delay before reporting a slow handshake, without cancelling it. Default: 3000.
+   * Delay before reporting a slow hannuluake, without cancelling it. Default: 3000.
    * Omitted when readiness, failure, cancellation, or the hard deadline occurs first.
    */
   generationReadyWarnMs?: number
@@ -440,7 +440,7 @@ export interface Config {
 
 Source: [`packages/client/hmr/src/index.ts:31`](../packages/client/hmr/src/index.ts)
 
-<a id="worldapptechnologiesdsh-compaction-basic"></a>
+<a id="worldapptechnologiesnulu-compaction-basic"></a>
 
 ## `@worldapptechnologies/nulu-compaction-basic`
 
@@ -542,7 +542,7 @@ export interface Config {
 
 Source: [`packages/credentials/credentials-local/src/index.ts:64`](../packages/credentials/credentials-local/src/index.ts)
 
-<a id="worldapptechnologiesdsh-experimental-agent-team"></a>
+<a id="worldapptechnologiesnulu-experimental-agent-team"></a>
 
 ## `@worldapptechnologies/nulu-experimental-agent-team`
 
@@ -566,7 +566,7 @@ export interface Config {
 
 Source: [`packages/experimental/agent-team/src/types.ts:130`](../packages/experimental/agent-team/src/types.ts)
 
-<a id="worldapptechnologiesdsh-experimental-browser-use-chrome-devtools-mcp"></a>
+<a id="worldapptechnologiesnulu-experimental-browser-use-chrome-devtools-mcp"></a>
 
 ## `@worldapptechnologies/nulu-experimental-browser-use-chrome-devtools-mcp`
 
@@ -581,7 +581,7 @@ Depends on: `BrowserMcpConfig` (`@worldapptechnologies/nulu-experimental-browser
 
 Source: [`packages/experimental/browser-use-chrome-devtools-mcp/src/index.ts:14`](../packages/experimental/browser-use-chrome-devtools-mcp/src/index.ts)
 
-<a id="worldapptechnologiesdsh-experimental-browser-use-playwright-mcp"></a>
+<a id="worldapptechnologiesnulu-experimental-browser-use-playwright-mcp"></a>
 
 ## `@worldapptechnologies/nulu-experimental-browser-use-playwright-mcp`
 
@@ -596,7 +596,7 @@ Depends on: `BrowserMcpConfig` (`@worldapptechnologies/nulu-experimental-browser
 
 Source: [`packages/experimental/browser-use-playwright-mcp/src/index.ts:15`](../packages/experimental/browser-use-playwright-mcp/src/index.ts)
 
-<a id="worldapptechnologiesdsh-experimental-browser-use-stagehand-native"></a>
+<a id="worldapptechnologiesnulu-experimental-browser-use-stagehand-native"></a>
 
 ## `@worldapptechnologies/nulu-experimental-browser-use-stagehand-native`
 
@@ -638,7 +638,7 @@ Depends on: `ModelConfig` (`@browserbasehq/stagehand`)
 
 Source: [`packages/experimental/browser-use-stagehand-native/src/index.ts:28`](../packages/experimental/browser-use-stagehand-native/src/index.ts)
 
-<a id="worldapptechnologiesdsh-experimental-computer-use-cua-driver-mcp"></a>
+<a id="worldapptechnologiesnulu-experimental-computer-use-cua-driver-mcp"></a>
 
 ## `@worldapptechnologies/nulu-experimental-computer-use-cua-driver-mcp`
 
@@ -730,7 +730,7 @@ export interface InspectorOptions {
 
 Source: [`packages/experimental/inspector/src/index.ts:66`](../packages/experimental/inspector/src/index.ts)
 
-<a id="worldapptechnologiesdsh-experimental-ptc-runtime-python"></a>
+<a id="worldapptechnologiesnulu-experimental-ptc-runtime-python"></a>
 
 ## `@worldapptechnologies/nulu-experimental-ptc-runtime-python`
 
@@ -796,7 +796,7 @@ export interface Config {
 
 Source: [`packages/experimental/ptc-runtime-python/src/index.ts:42`](../packages/experimental/ptc-runtime-python/src/index.ts)
 
-<a id="worldapptechnologiesdsh-experimental-tool-agent-team"></a>
+<a id="worldapptechnologiesnulu-experimental-tool-agent-team"></a>
 
 ## `@worldapptechnologies/nulu-experimental-tool-agent-team`
 
@@ -1109,7 +1109,7 @@ Requires: `llm`
  */
 export interface Config {
   /** Wire protocol; defaults to messages. Configure through Cordis YAML. */
-  protocol?: DeepSeekProtocol
+  protocol?: NuluProtocol
   /** Credential reference (environment-variable name) resolved per request; defaults to `DEEPSEEK_API_KEY`. */
   apiKeyEnv?: string
   /** Endpoint base; falls back to $WORLD_APP_TECHNOLOGIES_BASE_URL from a trusted environment layer, then the public API. */
@@ -1151,7 +1151,7 @@ export interface Config {
 }
 
 /** Supported wire implementations; Responses is not yet implemented. */
-export type DeepSeekProtocol = 'chat-completions' | 'messages'
+export type NuluProtocol = 'chat-completions' | 'messages'
 
 /** One optional model entry advertised by the direct-fetch adapter. */
 export interface NuluCatalogModel {
@@ -1791,7 +1791,7 @@ export interface Config {
 
 Source: [`packages/llm/plugin-package-inventory/src/index.ts:32`](../packages/llm/plugin-package-inventory/src/index.ts)
 
-<a id="worldapptechnologiesdsh-ptc-runtime-node"></a>
+<a id="worldapptechnologiesnulu-ptc-runtime-node"></a>
 
 ## `@worldapptechnologies/nulu-ptc-runtime-node`
 
@@ -2021,19 +2021,19 @@ Source: [`packages/sdk/server/src/index.ts:25`](../packages/sdk/server/src/index
 
 ## `@worldapptechnologies/nulu-session-log-gateway`
 
-Requires: `deepseekLlmApiExtensions` · `sessions`
+Requires: `nuluLlmApiExtensions` · `sessions`
 
 ```ts config-catalog
 /** Session-log request contribution configuration. */
 export interface Config {
-  /** Contribute `dsh_session_log` to official DeepSeek requests. Defaults to `true`. */
+  /** Contribute `nulu_session_log` to official Nulu requests. Defaults to `true`. */
   enabled?: boolean
 }
 ```
 
 Source: [`packages/session/session-log-gateway/src/index.ts:38`](../packages/session/session-log-gateway/src/index.ts)
 
-<a id="worldapptechnologiesdsh-session-log-export"></a>
+<a id="worldapptechnologiesnulu-session-log-export"></a>
 
 ## `@worldapptechnologies/nulu-session-log-export`
 
@@ -2417,7 +2417,7 @@ export interface Config {
 
 Source: [`packages/spill/spill-policy/src/index.ts:61`](../packages/spill/spill-policy/src/index.ts)
 
-<a id="worldapptechnologiesdsh-ssh"></a>
+<a id="worldapptechnologiesnulu-ssh"></a>
 
 ## `@worldapptechnologies/nulu-ssh`
 
@@ -2451,7 +2451,7 @@ export interface Config {
 
 Source: [`packages/ssh/ssh/src/index.ts:17`](../packages/ssh/ssh/src/index.ts)
 
-<a id="worldapptechnologiesdsh-storage-domain"></a>
+<a id="worldapptechnologiesnulu-storage-domain"></a>
 
 ## `@worldapptechnologies/nulu-storage-domain`
 
@@ -2744,7 +2744,7 @@ export interface Config {
 
 Source: [`packages/subagent/subagent-spawn-in-process/src/index.ts:25`](../packages/subagent/subagent-spawn-in-process/src/index.ts)
 
-<a id="worldapptechnologiesdsh-system-prompt"></a>
+<a id="worldapptechnologiesnulu-system-prompt"></a>
 
 ## `@worldapptechnologies/nulu-system-prompt`
 
@@ -3575,7 +3575,7 @@ export interface Config {
 
 Source: [`packages/webhook/webhook-github/src/index.ts:17`](../packages/webhook/webhook-github/src/index.ts)
 
-<a id="worldapptechnologiesdsh-workflow-ptc"></a>
+<a id="worldapptechnologiesnulu-workflow-ptc"></a>
 
 ## `@worldapptechnologies/nulu-workflow-ptc`
 

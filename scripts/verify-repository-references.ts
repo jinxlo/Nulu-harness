@@ -7,7 +7,7 @@ import { pathToFileURL } from 'node:url'
 import { canonicalReferenceText } from './verify-public-repository-links.ts'
 
 const root = resolve(import.meta.dirname, '..')
-const organization = ['deepseek', 'harness'].join('-')
+const organization = ['nulu', 'harness'].join('-')
 const organizationUrl = new RegExp(`\\bgithub\\.com/${organization}(?![a-z0-9-])`)
 const commitCandidate = /(?<![a-z0-9])[\da-f]{7,40}(?![a-z0-9])/gi
 const excludedPrefixes = ['vendor/', '.agents/notes/archived/']

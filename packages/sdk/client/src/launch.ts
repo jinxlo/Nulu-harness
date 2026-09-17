@@ -8,7 +8,7 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { HarnessClientOptions } from './types.ts'
 
-/** Default bound for a profile to answer the SDK initialize handshake. */
+/** Default bound for a profile to answer the SDK initialize hannuluake. */
 export const DEFAULT_INITIALIZE_TIMEOUT_MS = 10_000
 
 /** Internal generic process launch used by the transport and fake-runtime tests. */

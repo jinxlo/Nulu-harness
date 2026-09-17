@@ -2,7 +2,7 @@ import { once } from 'node:events'
 import { createServer } from 'node:http'
 import { describe, expect, it, vi } from 'vitest'
 import { userAgent } from '@worldapptechnologies/nulu-llm'
-import { DeepSeekFileId } from '../src/common/file-id.ts'
+import { NuluFileId } from '../src/common/file-id.ts'
 import {
   NuluFilesClient,
   NuluFilesError,
@@ -28,7 +28,7 @@ function file(overrides: Record<string, unknown> = {}) {
   }
 }
 
-describe('DeepSeekFilesClient', () => {
+describe('NuluFilesClient', () => {
   function messagesFile(overrides: Record<string, unknown> = {}) {
     return { id: 'file-api-one', type: 'file', size_bytes: 3, created_at: '2026-09-12T13:02:46.677853363+00:00', filename: 'image.png', mime_type: 'image/png', ...overrides }
   }
@@ -47,7 +47,7 @@ describe('DeepSeekFilesClient', () => {
       expect(form.get('expires_after[seconds]')).toBe('3600')
       return new Response(JSON.stringify(messagesFile()))
     }) as typeof fetch
-    const client = new DeepSeekFilesClient({ protocol: 'messages', baseURL: 'https://gateway.example/custom/route///', apiKey: 'key', fetch: fetchImpl })
+    const client = new NuluFilesClient({ protocol: 'messages', baseURL: 'https://gateway.example/custom/route///', apiKey: 'key', fetch: fetchImpl })
     const uploaded = await client.upload({ data: Uint8Array.of(1, 2, 3), mediaType: 'image/png', filename: 'image.png', expiresAfterSeconds: 3_600 })
     const createdAt = Math.floor(Date.parse('2026-09-12T13:02:46.677Z') / 1_000)
     expect(uploaded).toEqual({ id: 'file-api-one', bytes: 3, createdAt, filename: 'image.png', purpose: 'user_data', expiresAt: createdAt + 3_600 })
@@ -63,21 +63,21 @@ describe('DeepSeekFilesClient', () => {
       expect(url.pathname).toBe('/anthropic/v1/files/file-api-one')
       return new Response(JSON.stringify(init?.method === 'DELETE' ? { id: 'file-api-one', type: 'file_deleted' } : messagesFile()))
     }) as typeof fetch
-    const client = new DeepSeekFilesClient({ protocol: 'messages', baseURL: 'https://api.deepseek.com/anthropic', apiKey: 'key', fetch: fetchImpl })
-    await expect(client.list({ after: DeepSeekFileId('file-before'), limit: 1_000, order: 'asc' })).resolves.toMatchObject({ data: [{ bytes: 3 }], hasMore: false })
-    await expect(client.retrieve(DeepSeekFileId('file-api-one'))).resolves.toMatchObject({ id: 'file-api-one', bytes: 3 })
-    await expect(client.delete(DeepSeekFileId('file-api-one'))).resolves.toBeUndefined()
+    const client = new NuluFilesClient({ protocol: 'messages', baseURL: 'https://api.nulu.com/anthropic', apiKey: 'key', fetch: fetchImpl })
+    await expect(client.list({ after: NuluFileId('file-before'), limit: 1_000, order: 'asc' })).resolves.toMatchObject({ data: [{ bytes: 3 }], hasMore: false })
+    await expect(client.retrieve(NuluFileId('file-api-one'))).resolves.toMatchObject({ id: 'file-api-one', bytes: 3 })
+    await expect(client.delete(NuluFileId('file-api-one'))).resolves.toBeUndefined()
   })
 
   it('accepts an empty Messages list with null cursors', async () => {
-    const client = new DeepSeekFilesClient({ protocol: 'messages', baseURL: 'https://gateway.example', apiKey: 'key',
+    const client = new NuluFilesClient({ protocol: 'messages', baseURL: 'https://gateway.example', apiKey: 'key',
       fetch: async () => new Response(JSON.stringify({ data: [], first_id: null, last_id: null, has_more: false })),
     })
     await expect(client.list()).resolves.toEqual({ data: [], hasMore: false })
   })
 
   it.each(['first_id', 'last_id'])('rejects a Messages list with a numeric %s', async (cursor) => {
-    const client = new DeepSeekFilesClient({ protocol: 'messages', baseURL: 'https://gateway.example', apiKey: 'key',
+    const client = new NuluFilesClient({ protocol: 'messages', baseURL: 'https://gateway.example', apiKey: 'key',
       fetch: async () => new Response(JSON.stringify({ data: [], first_id: null, last_id: null, has_more: false, [cursor]: 1 })),
     })
     await expect(client.list()).rejects.toMatchObject({ code: 'INVALID_RESPONSE' })
@@ -110,24 +110,24 @@ describe('DeepSeekFilesClient', () => {
       if (address === null || typeof address === 'string') throw new Error('expected a TCP server address')
       origins.push(`http://127.0.0.1:${address.port}`)
     }
-    const client = new DeepSeekFilesClient({ protocol, baseURL: origins[1]!, apiKey: 'redirect-test-key' })
-    const error = await client.retrieve(DeepSeekFileId('file-api-one')).catch((cause: unknown) => cause)
+    const client = new NuluFilesClient({ protocol, baseURL: origins[1]!, apiKey: 'redirect-test-key' })
+    const error = await client.retrieve(NuluFileId('file-api-one')).catch((cause: unknown) => cause)
     expect(forwarded).toEqual([])
     expect(error).toMatchObject({ code: 'TRANSPORT' })
   })
 
   it.each([null, [], { type: 'wrong' }, { mime_type: null }, { created_at: 'invalid' }, { created_at: 123 }, { size_bytes: -1 }])('rejects malformed Messages file metadata %#', async (value) => {
-    const client = new DeepSeekFilesClient({ protocol: 'messages', baseURL: 'https://gateway.example', apiKey: 'key',
+    const client = new NuluFilesClient({ protocol: 'messages', baseURL: 'https://gateway.example', apiKey: 'key',
       fetch: async () => new Response(JSON.stringify(value === null || Array.isArray(value) ? value : messagesFile(value))),
     })
-    await expect(client.retrieve(DeepSeekFileId('file-api-one'))).rejects.toMatchObject({ code: 'INVALID_RESPONSE' })
+    await expect(client.retrieve(NuluFileId('file-api-one'))).rejects.toMatchObject({ code: 'INVALID_RESPONSE' })
   })
 
   it('rejects a Messages deletion that returns a different file identity', async () => {
-    const client = new DeepSeekFilesClient({ protocol: 'messages', baseURL: 'https://gateway.example', apiKey: 'key',
+    const client = new NuluFilesClient({ protocol: 'messages', baseURL: 'https://gateway.example', apiKey: 'key',
       fetch: async () => new Response(JSON.stringify({ id: 'wrong', type: 'file_deleted' })),
     })
-    await expect(client.delete(DeepSeekFileId('file-api-one'))).rejects.toMatchObject({ code: 'INVALID_RESPONSE' })
+    await expect(client.delete(NuluFileId('file-api-one'))).rejects.toMatchObject({ code: 'INVALID_RESPONSE' })
   })
 
   it('uploads multipart bytes with the required purpose and explicit expiry', async () => {
@@ -148,7 +148,7 @@ describe('DeepSeekFilesClient', () => {
       expect((blob as Blob).size).toBe(3)
       return new Response(JSON.stringify(file()), { status: 200 })
     }) as typeof fetch
-    const client = new DeepSeekFilesClient({ protocol: 'chat-completions', baseURL: 'https://api.deepseek.com/', apiKey: 'key', fetch: fetchImpl })
+    const client = new NuluFilesClient({ protocol: 'chat-completions', baseURL: 'https://api.nulu.com/', apiKey: 'key', fetch: fetchImpl })
 
     await expect(client.upload({
       data: Uint8Array.of(1, 2, 3),
@@ -178,7 +178,7 @@ describe('DeepSeekFilesClient', () => {
       }
       return new Response(JSON.stringify(file()), { status: 200 })
     }) as typeof fetch
-    const client = new DeepSeekFilesClient({ protocol: 'chat-completions', baseURL: 'https://api.deepseek.com', apiKey: 'key', fetch: fetchImpl })
+    const client = new NuluFilesClient({ protocol: 'chat-completions', baseURL: 'https://api.nulu.com', apiKey: 'key', fetch: fetchImpl })
 
     await expect(client.list({ after: NuluFileId('file-api-before'), limit: 20, order: 'desc' })).resolves.toMatchObject({
       data: [{ id: 'file-api-one' }], firstId: 'file-api-one', lastId: 'file-api-one', hasMore: false,
@@ -192,7 +192,7 @@ describe('DeepSeekFilesClient', () => {
       JSON.stringify(file({ expires_at: undefined })),
       { status: 200 },
     ))) as typeof fetch
-    const client = new DeepSeekFilesClient({ protocol: 'chat-completions', baseURL: 'https://api.deepseek.com', apiKey: 'key', fetch: fetchImpl })
+    const client = new NuluFilesClient({ protocol: 'chat-completions', baseURL: 'https://api.nulu.com', apiKey: 'key', fetch: fetchImpl })
 
     await expect(client.upload({
       data: Uint8Array.of(1), mediaType: 'image/png', filename: 'image.png', expiresAfterSeconds: 3_600,
@@ -203,7 +203,7 @@ describe('DeepSeekFilesClient', () => {
     const fetchImpl = vi.fn(() => Promise.resolve(new Response(JSON.stringify({
       error: { message: 'user storage quota exceeded', type: 'invalid_request_error', code: 'file_quota' },
     }), { status: 400 }))) as typeof fetch
-    const client = new DeepSeekFilesClient({ protocol: 'chat-completions', baseURL: 'https://api.deepseek.com', apiKey: 'key', fetch: fetchImpl })
+    const client = new NuluFilesClient({ protocol: 'chat-completions', baseURL: 'https://api.nulu.com', apiKey: 'key', fetch: fetchImpl })
 
     const error = await client.upload({
       data: Uint8Array.of(1), mediaType: 'image/png', filename: 'image.png', expiresAfterSeconds: 3_600,
@@ -219,9 +219,9 @@ describe('DeepSeekFilesClient', () => {
     [500, 'SERVER'],
     [400, 'FILES_API'],
   ] as const)('classifies HTTP %i Files failures as %s', async (status, code) => {
-    const client = new DeepSeekFilesClient({
+    const client = new NuluFilesClient({
       protocol: 'chat-completions',
-      baseURL: 'https://api.deepseek.com',
+      baseURL: 'https://api.nulu.com',
       apiKey: 'key',
       fetch: vi.fn(() => Promise.resolve(new Response('not-json', { status }))),
     })
@@ -240,9 +240,9 @@ describe('DeepSeekFilesClient', () => {
     { error: [] },
     { error: { message: 1, type: 2, code: 3 } },
   ])('falls back to the HTTP status for an unstructured provider error %#', async (body) => {
-    const client = new DeepSeekFilesClient({
+    const client = new NuluFilesClient({
       protocol: 'chat-completions',
-      baseURL: 'https://api.deepseek.com',
+      baseURL: 'https://api.nulu.com',
       apiKey: 'key',
       fetch: vi.fn(() => Promise.resolve(new Response(JSON.stringify(body), { status: 400 }))),
     })
@@ -253,9 +253,9 @@ describe('DeepSeekFilesClient', () => {
 
   it('wraps transport failures but preserves an aborted request reason', async () => {
     const transport = new Error('socket closed')
-    const client = new DeepSeekFilesClient({
+    const client = new NuluFilesClient({
       protocol: 'chat-completions',
-      baseURL: 'https://api.deepseek.com',
+      baseURL: 'https://api.nulu.com',
       apiKey: 'key',
       fetch: vi.fn(() => Promise.reject(transport)),
     })
@@ -286,9 +286,9 @@ describe('DeepSeekFilesClient', () => {
     file({ expires_at: 1.5 }),
     file({ expires_at: -1 }),
   ])('rejects an invalid file object %#', async (body) => {
-    const client = new DeepSeekFilesClient({
+    const client = new NuluFilesClient({
       protocol: 'chat-completions',
-      baseURL: 'https://api.deepseek.com',
+      baseURL: 'https://api.nulu.com',
       apiKey: 'key',
       fetch: vi.fn(() => Promise.resolve(new Response(JSON.stringify(body), { status: 200 }))),
     })
@@ -301,7 +301,7 @@ describe('DeepSeekFilesClient', () => {
     3_600.5,
   ])('refuses invalid file expiry %s before transport', async (expiresAfterSeconds) => {
     const fetchImpl = vi.fn() as typeof fetch
-    const client = new DeepSeekFilesClient({ protocol: 'chat-completions', baseURL: 'https://api.deepseek.com', apiKey: 'key', fetch: fetchImpl })
+    const client = new NuluFilesClient({ protocol: 'chat-completions', baseURL: 'https://api.nulu.com', apiKey: 'key', fetch: fetchImpl })
     await expect(client.upload({
       data: Uint8Array.of(1), mediaType: 'image/png', filename: 'image.png', expiresAfterSeconds,
     })).rejects.toMatchObject({ code: 'INVALID_REQUEST' })
@@ -310,7 +310,7 @@ describe('DeepSeekFilesClient', () => {
 
   it('refuses a file larger than the upload limit before transport', async () => {
     const fetchImpl = vi.fn() as typeof fetch
-    const client = new DeepSeekFilesClient({ protocol: 'chat-completions', baseURL: 'https://api.deepseek.com', apiKey: 'key', fetch: fetchImpl })
+    const client = new NuluFilesClient({ protocol: 'chat-completions', baseURL: 'https://api.nulu.com', apiKey: 'key', fetch: fetchImpl })
     const data = { byteLength: MAX_FILE_UPLOAD_BYTES + 1 } as Uint8Array
     await expect(client.upload({
       data, mediaType: 'image/png', filename: 'image.png', expiresAfterSeconds: 3_600,
@@ -328,9 +328,9 @@ describe('DeepSeekFilesClient', () => {
     { object: 'list', data: [], has_more: false, first_id: 1 },
     { object: 'list', data: [], has_more: false, last_id: 1 },
   ])('rejects an invalid list response %#', async (body) => {
-    const client = new DeepSeekFilesClient({
+    const client = new NuluFilesClient({
       protocol: 'chat-completions',
-      baseURL: 'https://api.deepseek.com',
+      baseURL: 'https://api.nulu.com',
       apiKey: 'key',
       fetch: vi.fn(() => Promise.resolve(new Response(JSON.stringify(body), { status: 200 }))),
     })
@@ -343,7 +343,7 @@ describe('DeepSeekFilesClient', () => {
     }), { status: 200 })))
     vi.stubGlobal('fetch', fetchImpl)
     try {
-      const client = new DeepSeekFilesClient({ protocol: 'chat-completions', baseURL: 'https://api.deepseek.com///', apiKey: 'key' })
+      const client = new NuluFilesClient({ protocol: 'chat-completions', baseURL: 'https://api.nulu.com///', apiKey: 'key' })
       await expect(client.list()).resolves.toEqual({ data: [], hasMore: false })
     } finally {
       vi.unstubAllGlobals()
@@ -358,9 +358,9 @@ describe('DeepSeekFilesClient', () => {
     { id: 'file-api-one', object: 'wrong', deleted: true },
     { id: 'file-api-one', object: 'file', deleted: false },
   ])('rejects an invalid delete response %#', async (body) => {
-    const client = new DeepSeekFilesClient({
+    const client = new NuluFilesClient({
       protocol: 'chat-completions',
-      baseURL: 'https://api.deepseek.com',
+      baseURL: 'https://api.nulu.com',
       apiKey: 'key',
       fetch: vi.fn(() => Promise.resolve(new Response(JSON.stringify(body), { status: 200 }))),
     })

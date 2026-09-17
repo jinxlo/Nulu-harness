@@ -124,7 +124,7 @@ async function boot(dir: string, config: object): Promise<Harness> {
   const settingsFiber = ctx.plugin(FileSettingsProvider, { path: join(dir, 'settings.yaml'), watch: false })
   await settingsFiber
   await ctx.plugin(LocalCredentialProvider, { path: join(dir, '.credentials.yaml'), watch: false })
-  await ctx.plugin(LlmDeepSeek, { protocol: 'chat-completions', ...config })
+  await ctx.plugin(LlmNulu, { protocol: 'chat-completions', ...config })
   return { ctx, settingsFiber }
 }
 
@@ -220,13 +220,13 @@ describe('request-level dynamic configuration', () => {
     await assemble(ctx, { model: 'nulu-5', messages })
     await ctx.settings.update(NS, { maxRequestFilesBytes: 4, imageOffloadByteQuantum: 2 })
     // A request whose retained exact bytes exceed the tightened budget names the occurrences to offload.
-    const rejected = await assemble(ctx, { model: 'deepseek-flash', messages })
+    const rejected = await assemble(ctx, { model: 'nulu-flash', messages })
     expect(rejected.finish).toMatchObject({
       kind: 'error',
       failure: { code: 'IMAGE_OFFLOAD_REQUIRED', offloadImages: 1 },
     })
     await assemble(ctx, {
-      model: 'deepseek-flash',
+      model: 'nulu-flash',
       messages: [createUserMessage({
         content: [
           { type: 'image', attachment: IMAGE_REF, offloaded: true },

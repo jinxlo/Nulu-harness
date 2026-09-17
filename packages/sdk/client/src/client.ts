@@ -269,7 +269,7 @@ export class HarnessClient {
   }
 
   /**
-   * Perform the process-wide handshake.
+   * Perform the process-wide hannuluake.
    * @param params - workspace cwd plus the provider/model route.
    * @returns the runtime's wire identity.
    */

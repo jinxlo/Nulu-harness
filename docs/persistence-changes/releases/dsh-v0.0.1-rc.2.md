@@ -181,7 +181,7 @@ changes:
   - root: event:user/message
     before: c4b5e355b7c7ce538ccb1210b5c042d4bbfe33dd57a910ccd34c7afa11cde648
     after: e127c29aaca0a742665d4ea9c4d2c241e632552139d06107fb7996c25af7bcdd
-  - root: event:web/deepseek-search-llm-request
+  - root: event:web/nulu-search-llm-request
     before: 0c5c79711e02bd8faed288bb89a39c77af15ad28010a0ee3d5c98adb1e5c3fe5
     after: cf6e3aaf1e2de6480aa0157730a41b9a492108a55304100b0f7e112711dd4331
 ```
@@ -242,7 +242,7 @@ Detected 45 changed roots and 48 structural differences. The minimum below is ca
 | `event:turn/start.ignorable` | `optional-property-added` | `version-bump` |
 | `event:user/message.data.source` | `union-variants-changed` | `version-bump` |
 | `event:user/message.ignorable` | `optional-property-added` | `version-bump` |
-| `event:web/deepseek-search-llm-request.ignorable` | `optional-property-added` | `version-bump` |
+| `event:web/nulu-search-llm-request.ignorable` | `optional-property-added` | `version-bump` |
 
 <!-- persistence-release-changes:end -->
 

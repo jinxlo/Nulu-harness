@@ -35,7 +35,7 @@ export class NuluHarness implements AsyncDisposable {
   constructor(options: NuluHarnessOptions = {}, clientFactory?: () => HarnessClient) {
     this.createClient = clientFactory ?? (() => new HarnessClient(options))
     this.clientInstance = this.createClient()
-    // Absolute before the handshake: the child spawns relative to THIS
+    // Absolute before the hannuluake: the child spawns relative to THIS
     // process's cwd, but the wire cwd is resolved again inside the child — a
     // relative value would double-resolve (e.g. `worker` → `worker/worker`).
     this.cwd = resolve(options.cwd ?? options.processCwd ?? process.cwd())
@@ -47,7 +47,7 @@ export class NuluHarness implements AsyncDisposable {
 
   /**
    * The underlying JSON-RPC client (exposed for low-level access). A failed
-   * handshake swaps in a fresh instance only after cleanup proves the runtime
+   * hannuluake swaps in a fresh instance only after cleanup proves the runtime
    * exited; cleanup failure retains this client, so do not cache it across a
    * failed {@link start}.
    * @returns the client currently owning the runtime subprocess.
@@ -57,14 +57,14 @@ export class NuluHarness implements AsyncDisposable {
   }
 
   /**
-   * Start the subprocess and perform the `initialize` handshake once. On
+   * Start the subprocess and perform the `initialize` hannuluake once. On
    * failure, successful SDK-owned cleanup reaps the runtime and installs a
    * fresh client (`HarnessClient.close` is permanent), so a later call retries
    * with a new subprocess unless {@link close} already ended this harness. If
    * cleanup also fails, rejects with an `AggregateError` whose ordered errors
    * preserve both causes and retains the failed client rather than spawning
    * alongside a process whose exit was not proved.
-   * @returns settlement of the (memoized) handshake.
+   * @returns settlement of the (memoized) hannuluake.
    */
   start(): Promise<void> {
     this.initialized ??= (async () => {
@@ -116,7 +116,7 @@ export class NuluHarness implements AsyncDisposable {
 
   /**
    * Shut down and reap the runtime subprocess. Idempotent and terminal —
-   * a closed harness no longer retries a failed handshake.
+   * a closed harness no longer retries a failed hannuluake.
    * @returns settlement of the complete teardown.
    */
   close(): Promise<void> {
@@ -161,7 +161,7 @@ export interface RunOptions {
  */
 export class HarnessSession {
   /**
-   * @param harness - the owning harness (supplies the client and handshake).
+   * @param harness - the owning harness (supplies the client and hannuluake).
    * @param id - the wire session id this handle runs on.
    */
   constructor(readonly harness: NuluHarness, readonly id: string) {}

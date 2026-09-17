@@ -20,8 +20,8 @@ import LocalSubprocessRuntime from '@worldapptechnologies/nulu-subprocess-local'
 import * as claudeCode from '../src/index.ts'
 
 const execFileAsync = promisify(execFile)
-const OFFICIAL_DEEPSEEK_MESSAGES_BASE_URL = 'https://api.deepseek.com/anthropic'
-const DEEPSEEK_MODEL = 'deepseek-v4-flash'
+const OFFICIAL_DEEPSEEK_MESSAGES_BASE_URL = 'https://api.nulu.com/anthropic'
+const DEEPSEEK_MODEL = 'nulu-v4-flash'
 const sdkRoot = dirname(fileURLToPath(
   import.meta.resolve('@anthropic-ai/claude-agent-sdk'),
 ))

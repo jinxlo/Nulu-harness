@@ -18,12 +18,12 @@ interface Block {
  * @returns the validated string.
  */
 export function string(value: unknown): string {
-  if (typeof value !== 'string') throw new LlmError('DeepSeek Messages expected a string field', 'MALFORMED_RESPONSE')
+  if (typeof value !== 'string') throw new LlmError('Nulu Messages expected a string field', 'MALFORMED_RESPONSE')
   return value
 }
 
 function malformed(detail: string): never {
-  throw new LlmError(`DeepSeek Messages stream: ${detail}`, 'MALFORMED_RESPONSE')
+  throw new LlmError(`Nulu Messages stream: ${detail}`, 'MALFORMED_RESPONSE')
 }
 
 function indexOf(event: Record<string, unknown>): number {
@@ -57,7 +57,7 @@ function startBlock(event: Record<string, unknown>, index: number): Block {
       if (!content.id || !content.name) return malformed('empty tool identity')
       replay = { type: 'tool-call' }
       break
-    default: throw new LlmError(`DeepSeek Messages does not support response block ${String(native.type)}`, 'UNSUPPORTED_CONTENT')
+    default: throw new LlmError(`Nulu Messages does not support response block ${String(native.type)}`, 'UNSUPPORTED_CONTENT')
   }
   return { index, content, replay, closed: false, json: '' }
 }
@@ -146,7 +146,7 @@ export async function* translate(events: AsyncIterable<Record<string, unknown>>,
       if (event.usage !== undefined) updateUsage(usage, event.usage)
     } else {
       if (reason === undefined || [...blocks.values()].some(block => !block.closed)) return malformed('message_stop without settled blocks and stop reason')
-      if (blocks.size === 0 && reason.kind === 'stop') throw new LlmError('DeepSeek Messages returned no content', 'EMPTY_RESPONSE')
+      if (blocks.size === 0 && reason.kind === 'stop') throw new LlmError('Nulu Messages returned no content', 'EMPTY_RESPONSE')
       // Truncated tool JSON is retained in the stream, then pruned by the shared assembler.
       if (reason.kind !== 'max-tokens') {
         for (const { content } of blocks.values()) {
@@ -162,5 +162,5 @@ export async function* translate(events: AsyncIterable<Record<string, unknown>>,
       return
     }
   }
-  throw new LlmError('DeepSeek Messages stream ended before message_stop', 'STREAM_CLOSED')
+  throw new LlmError('Nulu Messages stream ended before message_stop', 'STREAM_CLOSED')
 }

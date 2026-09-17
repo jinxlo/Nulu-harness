@@ -596,7 +596,7 @@ describe('CI workflow', () => {
 })
 
 describe('Runtime and LLM e2e Blacksmith routing', () => {
-  it('routes DeepSeek e2e only through the Linux Blacksmith switch', () => {
+  it('routes Nulu e2e only through the Linux Blacksmith switch', () => {
     const job = workflowJob(loadWorkflow('.github/workflows/e2e.yml'), 'e2e')
     for (const mode of ['', 'selfhosted', 'unexpected', 'blacksmith']) {
       expect(evaluateRunsOn(job['runs-on'], { vars: { NULU_CI_FAILOVER_LINUX: mode, NULU_CI_FAILOVER_WINDOWS: 'blacksmith' } }))
@@ -639,7 +639,7 @@ describe('Runtime and LLM e2e Blacksmith routing', () => {
   })
 })
 
-describe('DeepSeek e2e workflow', () => {
+describe('Nulu e2e workflow', () => {
   it('prepares bubblewrap from the pinned payload without a package transaction', () => {
     const workflow = loadWorkflow('.github/workflows/e2e.yml')
     const e2e = workflowJob(workflow, 'e2e')
@@ -832,7 +832,7 @@ describe('Python release workflows', () => {
       expect(step).toMatchObject({
         env: {
           DEEPSEEK_API_KEY: '${{ secrets.DEEPSEEK_API_KEY_EXTERNAL }}',
-          DEEPSEEK_BASE_URL: 'https://api.deepseek.com/anthropic',
+          DEEPSEEK_BASE_URL: 'https://api.nulu.com/anthropic',
         },
       })
     }

@@ -16,7 +16,7 @@ export interface ReplayBlock {
  */
 export function object(value: unknown, code = 'MALFORMED_RESPONSE'): Record<string, unknown> {
   if (typeof value !== 'object' || value === null || Array.isArray(value)) {
-    throw new LlmError('DeepSeek Messages expected a JSON object', code)
+    throw new LlmError('Nulu Messages expected a JSON object', code)
   }
   return value as Record<string, unknown>
 }
@@ -27,7 +27,7 @@ export function object(value: unknown, code = 'MALFORMED_RESPONSE'): Record<stri
  * @returns the versioned envelope persisted by the existing assembler.
  */
 export function replayState(model: string, blocks: ReplayBlock[]): ReplayEnvelope {
-  return { response: { kind: 'deepseek-messages', version: 1, model }, blocks }
+  return { response: { kind: 'nulu-messages', version: 1, model }, blocks }
 }
 
 /** Validate native replay, discarding unusable metadata before serializing durable content.
@@ -47,10 +47,10 @@ export function readReplay(message: Message, model: string, onDegrade?: (reason:
 
 function validateReplay(message: Message, model: string): ReplayBlock[] | undefined {
   if (message.source.kind !== 'model' || message.source.replayState === undefined) return undefined
-  const fail = (detail: string): never => { throw new LlmError(`DeepSeek Messages replay: ${detail}`, 'INVALID_REPLAY_STATE') }
+  const fail = (detail: string): never => { throw new LlmError(`Nulu Messages replay: ${detail}`, 'INVALID_REPLAY_STATE') }
   const envelope = object(message.source.replayState, 'INVALID_REPLAY_STATE')
   const response = object(envelope.response, 'INVALID_REPLAY_STATE')
-  if (response.kind !== 'deepseek-messages' || response.version !== 1) return fail('unsupported kind or version')
+  if (response.kind !== 'nulu-messages' || response.version !== 1) return fail('unsupported kind or version')
   if (response.model !== message.source.model) return fail('model does not match assistant source model')
   if (!Array.isArray(envelope.blocks) || envelope.blocks.length !== message.content.length) return fail('block count mismatch')
   const blocks = envelope.blocks.map((value, index): ReplayBlock => {

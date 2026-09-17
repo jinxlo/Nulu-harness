@@ -99,7 +99,7 @@ This section explains the design decisions behind the provider and where the cod
 |---|---|
 | [`src/index.ts`](src/index.ts) | Plugin entry: config schema, executable resolution, provider registration, process pooling |
 | [`src/host.ts`](src/host.ts) | Workspace canonicalization and bounded source reads through `ctx.fs` |
-| [`src/instance.ts`](src/instance.ts) | One server process: initialize handshake, serialized transient-open queries, bounded teardown |
+| [`src/instance.ts`](src/instance.ts) | One server process: initialize hannuluake, serialized transient-open queries, bounded teardown |
 | [`src/connection.ts`](src/connection.ts) | JSON-RPC endpoint: id correlation, outbound requests, inbound server requests, stderr cap |
 | [`src/framing.ts`](src/framing.ts) | `Content-Length` framing and a bounded decoder |
 | [`src/protocol.ts`](src/protocol.ts) | Wire-type subset: capabilities, locations, hover, text-document synchronization |

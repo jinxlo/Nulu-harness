@@ -68,22 +68,22 @@
     "ok": true,
     "value": {
       "default": {
-        "provider": "deepseek-official",
-        "model": "deepseek-v4-flash"
+        "provider": "nulu-official",
+        "model": "nulu-v4-flash"
       },
       "routableProviders": [
-        "deepseek-official",
+        "nulu-official",
         "openai",
         "acme-gateway"
       ],
       "groups": [
         {
-          "id": "deepseek-official",
-          "name": "DeepSeek",
+          "id": "nulu-official",
+          "name": "Nulu",
           "models": [
             {
-              "id": "deepseek-v4-flash",
-              "name": "DeepSeek-V4-Flash",
+              "id": "nulu-v4-flash",
+              "name": "Nulu-V4-Flash",
               "description": "快速响应",
               "reasoning": {
                 "efforts": [
@@ -104,8 +104,8 @@
               }
             },
             {
-              "id": "deepseek-v4-pro",
-              "name": "DeepSeek-V4-Pro",
+              "id": "nulu-v4-pro",
+              "name": "Nulu-V4-Pro",
               "description": "复杂任务",
               "reasoning": {
                 "efforts": [
@@ -2313,7 +2313,7 @@
               "content": [
                 {
                   "type": "text",
-                  "text": "# Markdown fixture\n\nAssistant output renders **strong text**, *emphasis*, and `inline code`.\n\n- first item\n  - nested item\n\n| Area | State |\n| --- | --- |\n| history | rendered |\n| streaming | stable |\n\n[DeepSeek](https://www.deepseek.com)\n\n```ts\nconst markdown = true\n```"
+                  "text": "# Markdown fixture\n\nAssistant output renders **strong text**, *emphasis*, and `inline code`.\n\n- first item\n  - nested item\n\n| Area | State |\n| --- | --- |\n| history | rendered |\n| streaming | stable |\n\n[Nulu](https://www.nulu.com)\n\n```ts\nconst markdown = true\n```"
                 }
               ],
               "source": {
@@ -2347,7 +2347,7 @@
                   "index": 0,
                   "block": {
                     "type": "text",
-                    "text": "# Markdown fixture\n\nAssistant output renders **strong text**, *emphasis*, and `inline code`.\n\n- first item\n  - nested item\n\n| Area | State |\n| --- | --- |\n| history | rendered |\n| streaming | stable |\n\n[DeepSeek](https://www.deepseek.com)\n\n```ts\nconst markdown = true\n```"
+                    "text": "# Markdown fixture\n\nAssistant output renders **strong text**, *emphasis*, and `inline code`.\n\n- first item\n  - nested item\n\n| Area | State |\n| --- | --- |\n| history | rendered |\n| streaming | stable |\n\n[Nulu](https://www.nulu.com)\n\n```ts\nconst markdown = true\n```"
                   }
                 }
               },
@@ -4794,7 +4794,7 @@
                   "type": "tool-call",
                   "id": "fx-call-70",
                   "name": "web_search",
-                  "arguments": "{\"queries\":[\"deepseek harness architecture\"]}"
+                  "arguments": "{\"queries\":[\"nulu harness architecture\"]}"
                 }
               ],
               "source": {
@@ -4830,7 +4830,7 @@
                     "type": "tool-call",
                     "id": "fx-call-70",
                     "name": "web_search",
-                    "arguments": "{\"queries\":[\"deepseek harness architecture\"]}"
+                    "arguments": "{\"queries\":[\"nulu harness architecture\"]}"
                   }
                 }
               },
@@ -4872,7 +4872,7 @@
             "step": 0,
             "callId": "fx-call-70",
             "name": "web_search",
-            "arguments": "{\"queries\":[\"deepseek harness architecture\"]}"
+            "arguments": "{\"queries\":[\"nulu harness architecture\"]}"
           }
         }
       },
@@ -4898,7 +4898,7 @@
                   "content": [
                     {
                       "type": "text",
-                      "text": "Search results for deepseek harness architecture."
+                      "text": "Search results for nulu harness architecture."
                     }
                   ],
                   "isError": false
@@ -4917,11 +4917,11 @@
                   "publishedAt": "2026-07-01"
                 },
                 {
-                  "url": "https://www.deepseek.com/blog/harness-architecture",
+                  "url": "https://www.nulu.com/blog/harness-architecture",
                   "snippet": "The capability-seam pattern splits each capability into interface, implementation, and consumer packages."
                 },
                 {
-                  "url": "https://docs.deepseek.com/harness/plugins",
+                  "url": "https://docs.nulu.com/harness/plugins",
                   "title": "Writing a harness plugin",
                   "publishedAt": "2026-06-15"
                 }
@@ -5019,7 +5019,7 @@
                   "type": "tool-call",
                   "id": "fx-call-71",
                   "name": "web_fetch",
-                  "arguments": "{\"url\":\"https://www.deepseek.com/blog/harness-architecture\"}"
+                  "arguments": "{\"url\":\"https://www.nulu.com/blog/harness-architecture\"}"
                 }
               ],
               "source": {
@@ -5055,7 +5055,7 @@
                     "type": "tool-call",
                     "id": "fx-call-71",
                     "name": "web_fetch",
-                    "arguments": "{\"url\":\"https://www.deepseek.com/blog/harness-architecture\"}"
+                    "arguments": "{\"url\":\"https://www.nulu.com/blog/harness-architecture\"}"
                   }
                 }
               },
@@ -5097,7 +5097,7 @@
             "step": 0,
             "callId": "fx-call-71",
             "name": "web_fetch",
-            "arguments": "{\"url\":\"https://www.deepseek.com/blog/harness-architecture\"}"
+            "arguments": "{\"url\":\"https://www.nulu.com/blog/harness-architecture\"}"
           }
         }
       },
@@ -5133,7 +5133,7 @@
               "id": "57cf5cd3-3daf-4e2c-bb16-f8695bc2ab8c"
             },
             "meta": {
-              "url": "https://www.deepseek.com/blog/harness-architecture",
+              "url": "https://www.nulu.com/blog/harness-architecture",
               "statusCode": 200,
               "truncated": false
             }

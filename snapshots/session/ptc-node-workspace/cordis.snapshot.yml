@@ -1,5 +1,5 @@
 # Keyless PTC mode combines the runtime/registry changes with the
-# DeepSeek-to-replay swap in one profile patch.
+# Nulu-to-replay swap in one profile patch.
 - insert:
     - id: literal-sdk
       name: '../../../packages/core/tools/tests/fixtures/literal-sdk.ts'
@@ -14,13 +14,13 @@
 - id: agent-default-model
   name: '@worldapptechnologies/nulu-agent-default-model'
   config:
-    provider: deepseek-official
-    model: deepseek-v4-flash
+    provider: nulu-official
+    model: nulu-v4-flash
 
 - id: session-persistence-jsonl
   name: '@worldapptechnologies/nulu-session-persistence-jsonl'
   config:
-    root: !!js dshHomePath('sessions')
+    root: !!js nuluHomePath('sessions')
     compression: none
 
 - id: agent-instructions
@@ -46,8 +46,8 @@
       name: '@worldapptechnologies/nulu-llm-replay'
       config:
         providers:
-          - id: deepseek-official
-            name: DeepSeek
+          - id: nulu-official
+            name: Nulu
             models:
-              - id: deepseek-v4-flash
-              - id: deepseek-v4-pro
+              - id: nulu-v4-flash
+              - id: nulu-v4-pro

@@ -3,11 +3,11 @@
 import { attributionHeaders, LlmAdapter, LlmError } from '@worldapptechnologies/nulu-llm'
 import type { GenerateOptions, ImageAttachmentAccessResolver, PreparedAdapterCall, StreamChunk } from '@worldapptechnologies/nulu-llm'
 import type { AttachmentStore } from '@worldapptechnologies/nulu-attachment'
-import type { DeepSeekLlmApiJson } from '@worldapptechnologies/nulu-llm-api-extensions'
+import type { NuluLlmApiJson } from '@worldapptechnologies/nulu-llm-api-extensions'
 import { idleWatchdog, timeoutOf } from '@worldapptechnologies/nulu-timeout'
 import { catalogModelInfo, modelInfo } from '../../common/model-info.ts'
-import type { DeepSeekAdapterOptions, DeepSeekConnectionOptions as Connection } from '../../common/types.ts'
-import type { DeepSeekFileStore } from '../../common/file-store.ts'
+import type { NuluAdapterOptions, NuluConnectionOptions as Connection } from '../../common/types.ts'
+import type { NuluFileStore } from '../../common/file-store.ts'
 import { MESSAGES_FILES_BETA } from '../../common/files-api.ts'
 import { FileResolutionFailure, RequestFiles } from '../../common/request-files.ts'
 import { prepareRequestExtensions } from '../../common/request-extensions.ts'
@@ -30,18 +30,18 @@ export interface AdapterDependencies {
   /** Current execution-world attachment path. */
   imageAccess: ImageAttachmentAccessResolver
   /** Process-wide Files upload reuse and recovery. */
-  files(): DeepSeekFileStore
+  files(): NuluFileStore
   /** Prepare plugin-contributed fields for this exact HTTP request. */
-  prepareExtensions: DeepSeekAdapterOptions['prepareExtensions']
+  prepareExtensions: NuluAdapterOptions['prepareExtensions']
   /** Report discarded replay metadata without exposing durable content or signatures. */
   onReplayDegrade?: (detail: { provider: string; model: string; reason: string }) => void
 }
 
-/** DeepSeek provider using Messages content and native thinking replay. */
-export class DeepSeekMessagesAdapter extends LlmAdapter {
+/** Nulu provider using Messages content and native thinking replay. */
+export class NuluMessagesAdapter extends LlmAdapter {
   constructor(private readonly dependencies: AdapterDependencies) { super() }
 
-  override providerInfo(provider: string) { return { id: provider, name: 'DeepSeek' } }
+  override providerInfo(provider: string) { return { id: provider, name: 'Nulu' } }
   override providerRetryPolicy(_provider: string) { return this.dependencies.connection().retryPolicy }
   override listModels(provider: string) {
     const connection = this.dependencies.connection()
@@ -73,10 +73,10 @@ export class DeepSeekMessagesAdapter extends LlmAdapter {
         yield next.value
       }
     } catch (error) {
-      if (timeoutOf(watchdog.signal, 'MESSAGES_IDLE') !== undefined) throw new LlmError('DeepSeek Messages stream idle timeout', 'TIMEOUT', { cause: error })
-      if (options.signal?.aborted) throw new LlmError('DeepSeek Messages request aborted', 'ABORTED', { cause: error })
+      if (timeoutOf(watchdog.signal, 'MESSAGES_IDLE') !== undefined) throw new LlmError('Nulu Messages stream idle timeout', 'TIMEOUT', { cause: error })
+      if (options.signal?.aborted) throw new LlmError('Nulu Messages request aborted', 'ABORTED', { cause: error })
       if (error instanceof LlmError) throw error
-      throw new LlmError('DeepSeek Messages transport failed', 'TRANSPORT', { cause: error })
+      throw new LlmError('Nulu Messages transport failed', 'TRANSPORT', { cause: error })
     } finally {
       consumer.abort()
       try { await iterator.return(undefined) } catch (_abortedRequestCleanup) {
@@ -113,7 +113,7 @@ export class DeepSeekMessagesAdapter extends LlmAdapter {
       const body = serialize(options, connection, history, versions, this.dependencies.imageAccess, (reason) => {
         this.dependencies.onReplayDegrade?.({ provider: options.provider, model: options.model, reason })
       }, fileIds)
-      const extensions = await prepareRequestExtensions(body as unknown as Readonly<Record<string, DeepSeekLlmApiJson>>, {
+      const extensions = await prepareRequestExtensions(body as unknown as Readonly<Record<string, NuluLlmApiJson>>, {
         signal,
         ...options.sessionId === undefined ? {} : { sessionId: String(options.sessionId) },
         ...options.purpose === undefined ? {} : { purpose: options.purpose },
@@ -144,7 +144,7 @@ export class DeepSeekMessagesAdapter extends LlmAdapter {
         throw new LlmError(message, failure.code, { ...failure.failure, cause: new Error(text) })
       }
       await extensions.accept()
-      if (response.body === null) throw new LlmError('DeepSeek Messages returned no response body', 'EMPTY_RESPONSE')
+      if (response.body === null) throw new LlmError('Nulu Messages returned no response body', 'EMPTY_RESPONSE')
       yield* translate(parseSse(response.body, activity), options.model)
       return
     }

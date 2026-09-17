@@ -1350,12 +1350,12 @@ def smoke_sdk_snapshot(base_url: str, executable: Path, update_snapshots: bool) 
                 "name": str(Path(__file__).resolve().parents[1] / "packages/core/agent-loop/tests/fixtures/serial-created.mjs"),
             }]},
         ])
-        with DeepSeekHarness(
-            provider="deepseek-official",
+        with NuluHarness(
+            provider="nulu-official",
             model="smoke-model",
             cwd=str(root),
-            dsh_bin=str(executable),
-            dsh_home=str(dsh_home),
+            nulu_bin=str(executable),
+            nulu_home=str(nulu_home),
             patches=(str(patch), str(feedback_patch), str(creation_patch)),
             env={
                 "NULU_PERMISSION_MODE": "danger-full-access",

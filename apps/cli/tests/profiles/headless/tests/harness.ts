@@ -59,9 +59,9 @@ export async function codingHarness(workdir: string, options: CodingHarnessOptio
     systemPrompt: { personaPrefix: options.personaPrefix ?? '' },
   })
   await ctx.plugin(AgentLoop, { agents: [] })
-  await ctx.plugin(LlmDeepSeek, {
+  await ctx.plugin(LlmNulu, {
     ...options.modelContextWindow === undefined ? {} : {
-      models: [{ id: 'deepseek-v4-flash', contextWindow: options.modelContextWindow }],
+      models: [{ id: 'nulu-v4-flash', contextWindow: options.modelContextWindow }],
     },
   })
   await ctx.plugin(LocalSubprocessRuntime)

@@ -63,7 +63,7 @@ export interface InspectorRecordInput {
   readonly payload: InspectorJsonValue
 }
 
-/** Initial source handshake. */
+/** Initial source hannuluake. */
 export interface SourceOpenFrame {
   readonly v: typeof INSPECTOR_PROTOCOL_VERSION
   readonly t: 'source/open'

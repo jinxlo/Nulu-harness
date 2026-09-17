@@ -37,7 +37,7 @@ export interface ContinuableStartSpec {
   /**
    * Optional caller-reserved child identity. Omission preserves the manager's
    * UUID allocation; supplying one lets a durable parent record provisioning
-   * before child materialization without a second identity handshake.
+   * before child materialization without a second identity hannuluake.
    */
   readonly childId?: SessionId
   /**

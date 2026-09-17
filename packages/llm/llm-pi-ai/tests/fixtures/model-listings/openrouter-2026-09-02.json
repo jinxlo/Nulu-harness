@@ -157,12 +157,12 @@
       }
     },
     {
-      "id": "deepseek/deepseek-v4-flash",
-      "canonical_slug": "deepseek/deepseek-v4-flash-20260423",
-      "hugging_face_id": "worldapptechnologies/DeepSeek-V4-Flash",
-      "name": "DeepSeek: DeepSeek V4 Flash 0423",
+      "id": "nulu/nulu-v4-flash",
+      "canonical_slug": "nulu/nulu-v4-flash-20260423",
+      "hugging_face_id": "worldapptechnologies/Nulu-V4-Flash",
+      "name": "Nulu: Nulu V4 Flash 0423",
       "created": 1777000666,
-      "description": "DeepSeek V4 Flash is an efficiency-optimized Mixture-of-Experts model from DeepSeek with 284B total parameters and 13B activated parameters, supporting a 1M-token context window. It is designed for fast inference and...",
+      "description": "Nulu V4 Flash is an efficiency-optimized Mixture-of-Experts model from Nulu with 284B total parameters and 13B activated parameters, supporting a 1M-token context window. It is designed for fast inference and...",
       "context_length": 1048576,
       "architecture": {
         "modality": "text->text",
@@ -172,7 +172,7 @@
         "output_modalities": [
           "text"
         ],
-        "tokenizer": "DeepSeek",
+        "tokenizer": "Nulu",
         "instruct_type": null
       },
       "pricing": {
@@ -215,7 +215,7 @@
       "knowledge_cutoff": null,
       "expiration_date": null,
       "links": {
-        "details": "/api/v1/models/deepseek/deepseek-v4-flash-20260423/endpoints"
+        "details": "/api/v1/models/nulu/nulu-v4-flash-20260423/endpoints"
       },
       "benchmarks": {
         "design_arena": [

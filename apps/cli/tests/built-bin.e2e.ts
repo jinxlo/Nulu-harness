@@ -504,7 +504,7 @@ describe.skipIf(!existsSync(nuluBin))('nulu BUILT bin (node lib/bin.js, no tsx)'
     })
     const home = mkdtempSync(join(tmpdir(), 'nulu-built-acp-'))
     writeFileSync(join(home, 'settings.yaml'), 'llm-gateway:\n  protocol: chat-completions\n')
-    const child = execa(process.execPath, [dshBin, '--profile', 'acp'], {
+    const child = execa(process.execPath, [nuluBin, '--profile', 'acp'], {
       cwd: home,
       reject: false,
       timeout: SPAWN_TIMEOUT_MS,

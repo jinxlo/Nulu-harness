@@ -2166,7 +2166,7 @@ describe('apply (the plugin entry)', () => {
     expect(priced?.map(price => price.visualTokens)).toEqual([384, 0])
     expect(priced?.[0]?.text).toContain('640x480px')
     expect(priced?.[1]?.text).toContain('image omitted to fit request image limits')
-    expect(ctx.llm.imageRequestPricing('deepseek', 'plain')).toBeUndefined()
+    expect(ctx.llm.imageRequestPricing('nulu', 'plain')).toBeUndefined()
   })
 
   it('rejects imageRequestTokens on a model without the image modality during load', () => {

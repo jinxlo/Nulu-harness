@@ -22,7 +22,7 @@ export function providerErrorDetail(raw: unknown): string {
 export function providerError(raw: unknown, status: number | undefined, headers?: Headers): LlmError {
   const envelope = typeof raw === 'object' && raw !== null ? raw as Record<string, unknown> : {}
   const error = typeof envelope.error === 'object' && envelope.error !== null ? envelope.error as Record<string, unknown> : {}
-  const message = typeof error.message === 'string' ? error.message : `DeepSeek Messages request failed (${status ?? 'stream error'})`
+  const message = typeof error.message === 'string' ? error.message : `Nulu Messages request failed (${status ?? 'stream error'})`
   const type = typeof error.type === 'string' ? error.type : ''
   const detail = `${type} ${typeof error.code === 'string' ? error.code : ''} ${message}`
   let code: string
@@ -35,7 +35,7 @@ export function providerError(raw: unknown, status: number | undefined, headers?
   else code = status === undefined ? 'SERVER' : `HTTP_${status}`
   const retry = headers?.get('retry-after')
   const delay = retry == null ? NaN : /^\d+(?:\.\d+)?$/u.test(retry) ? Number(retry) * 1000 : Date.parse(retry) - Date.now()
-  const id = headers?.get('request-id') ?? headers?.get('x-request-id') ?? headers?.get('x-deepseek-request-id')
+  const id = headers?.get('request-id') ?? headers?.get('x-request-id') ?? headers?.get('x-nulu-request-id')
   return new LlmError(message, code, {
     ...status === undefined ? {} : { status },
     ...id ? { requestId: ProviderRequestId(id) } : {},

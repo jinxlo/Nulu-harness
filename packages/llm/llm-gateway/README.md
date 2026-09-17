@@ -1,5 +1,5 @@
 ---
-description: "Configure DeepSeek Messages, Chat Completions overrides, reasoning, and image input through one first-party provider."
+description: "Configure Nulu Messages, Chat Completions overrides, reasoning, and image input through one first-party provider."
 kind: "package-reference"
 ---
 
@@ -8,7 +8,7 @@ kind: "package-reference"
 
 ## Summary
 
-Stream DeepSeek models through `deepseek-official` with Messages by default, or select Chat Completions in Cordis YAML. Both protocols share credentials, endpoint settings, image handling, and the model catalog. Valid settings changes affect subsequent calls while in-flight calls retain their configuration. Web shows one DeepSeek provider with an editable API base and key. This package can run beside the [pi-ai adapter](../llm-pi-ai/README.md).
+Stream Nulu models through `nulu-official` with Messages by default, or select Chat Completions in Cordis YAML. Both protocols share credentials, endpoint settings, image handling, and the model catalog. Valid settings changes affect subsequent calls while in-flight calls retain their configuration. Web shows one Nulu provider with an editable API base and key. This package can run beside the [pi-ai adapter](../llm-pi-ai/README.md).
 
 ## Table of Contents
 
@@ -28,7 +28,7 @@ Mount this plugin when a composition streams Nulu models through the harness LLM
 
 ### When to choose it
 
-Choose this adapter for DeepSeek's official API or a gateway that supports the selected protocol through `baseURL`. Choose `nulu-llm-pi-ai` when the same composition also routes other providers or hand-declared gateways through pi-ai's catalogs; the two adapters can be mounted together because their route names do not collide. Registering any other adapter for `deepseek-official` fails with `DUPLICATE_ADAPTER`.
+Choose this adapter for Nulu's official API or a gateway that supports the selected protocol through `baseURL`. Choose `nulu-llm-pi-ai` when the same composition also routes other providers or hand-declared gateways through pi-ai's catalogs; the two adapters can be mounted together because their route names do not collide. Registering any other adapter for `nulu-official` fails with `DUPLICATE_ADAPTER`.
 
 ### Minimal configuration
 
@@ -82,7 +82,7 @@ To select Chat Completions explicitly, patch the existing plugin:
     protocol: chat-completions
 ```
 
-`protocol` defaults to `messages`, with official root `https://api.deepseek.com/anthropic`; `chat-completions` uses `https://api.deepseek.com`. Shipped first-party compositions inherit this default. Neither protocol requires `baseURL`: its official default applies when both `baseURL` and `$DEEPSEEK_BASE_URL` are absent. Switching protocols retains endpoint overrides, so users must supply an address compatible with the selected protocol. An explicit `https://api.deepseek.com` override selects the Chat root: remove that override to use the official Messages default, or set it to `https://api.deepseek.com/anthropic`. Chat appends `/chat/completions`; Messages appends `/v1/messages`. Apart from trailing slashes, neither infers or removes custom path suffixes such as `/v1`. Both share the `llm-gateway` settings section, `apiKeyEnv`, and `deepseek-official`, so saved model selections remain valid.
+`protocol` defaults to `messages`, with official root `https://api.nulu.com/anthropic`; `chat-completions` uses `https://api.nulu.com`. Shipped first-party compositions inherit this default. Neither protocol requires `baseURL`: its official default applies when both `baseURL` and `$DEEPSEEK_BASE_URL` are absent. Switching protocols retains endpoint overrides, so users must supply an address compatible with the selected protocol. An explicit `https://api.nulu.com` override selects the Chat root: remove that override to use the official Messages default, or set it to `https://api.nulu.com/anthropic`. Chat appends `/chat/completions`; Messages appends `/v1/messages`. Apart from trailing slashes, neither infers or removes custom path suffixes such as `/v1`. Both share the `llm-gateway` settings section, `apiKeyEnv`, and `nulu-official`, so saved model selections remain valid.
 
 Messages sends text, thinking, tool calls, and tool results as content blocks, reasoning effort as `output_config.effort`, and images as Files references or inline base64. Models declaring `systemPromptUpdate: in-history` retain the initial top-level system and send new system snapshots after their corresponding user/tool-result turn; undeclared models use the latest snapshot as the top-level system. Replay metadata identifies the Messages format, model, and signatures. Chat requests serialize durable content without those signatures. Invalid Messages replay metadata emits a warning and omits signatures while retaining text and tool history.
 
@@ -90,13 +90,13 @@ Messages sends text, thinking, tool calls, and tool results as content blocks, r
 
 An image-capable route chooses each durable reference's request target and resolves it into a deterministic request version. Omitting `imagePixelBudget` sizes the target on the published vision token grid of 14px patches, 3:1 downsampling, and at most 1024 tokens per image, so a square image keeps up to 1302×1302 pixels and a 16:9 image is sent as 1708×961 for the provider's 1708×966 grid; a positive integer replaces the grid with a total-pixel budget, and `low` uses 512×512 total pixels. Every request image is capped at 4096 pixels per side, the provider limit for requests carrying 15 or more images, and `imageMaxBytes` defaults to 2 MiB. Alpha images use WebP effort 0 and opaque images use JPEG on the 85/75/60 quality ladder, keeping the smallest output when every candidate exceeds the target. Every retained image is preceded by text naming its complete attachment id and actual request dimensions. When the current filesystem maps the attachment provider's host object, that text also carries a read-only execution-world path and the extension for a writable copy. Text-only and unlisted routes receive stable attachment placeholders while durable history keeps the image references.
 
-Both protocols normally upload those exact request bytes through their DeepSeek Files endpoint and send file-id references. Messages uses `/v1/files` under its configured base and includes `anthropic-beta: files-api-2025-04-14` on Files requests and Messages requests containing file ids; Chat uses `/files`. Messages model requests and all Files requests reject redirects so credentials remain on the configured origin. A failed or timed-out file resolution rebuilds the whole model request with inline base64 under the inline budget; one request never mixes file ids and inline images. Caller cancellation stops the request.
+Both protocols normally upload those exact request bytes through their Nulu Files endpoint and send file-id references. Messages uses `/v1/files` under its configured base and includes `anthropic-beta: files-api-2025-04-14` on Files requests and Messages requests containing file ids; Chat uses `/files`. Messages model requests and all Files requests reject redirects so credentials remain on the configured origin. A failed or timed-out file resolution rebuilds the whole model request with inline base64 under the inline budget; one request never mixes file ids and inline images. Caller cancellation stops the request.
 
 Cached ids are scoped by endpoint and API key, refreshed before expiry, invalidated from provider stale-file errors, and resolved through singleflight with waiter-local cancellation. Both uploads request expiry through `expires_after[anchor]=created_at` and `expires_after[seconds]`. Messages file metadata omits remote expiry, so its local reuse deadline uses the original upload time plus `fileExpiresAfterSeconds`; this does not guarantee remote deletion. Quota failure deletes one configured batch of the oldest harness-owned files before one upload retry.
 
 Files mode bounds retained request versions by `maxRequestFilesBytes` and `maxImagesPerRequest`; inline fallback has its own base64 budget. Both remove an oldest prefix in configured byte or count quanta. Each omitted image gets its own model-visible placeholder with its display name or attachment id and, when available, normalized dimensions, media type, and current read-only path. The stepped high-watermark policy avoids rewriting an old request prefix after every new image.
 
-`reasoningEffort` selects the advertised default. Exact-model metadata exposes ordered `off`, `low`, `high`, and `max` efforts with selection guidance when deployment policy permits thinking. `low`, `high`, and `max` enable thinking and serialize as `reasoning_effort` for Chat Completions or `output_config.effort` for Messages, while adapter-owned `off` sends `thinking.type: disabled` instead. An unsupported value fails with `UNSUPPORTED_REASONING_EFFORT` before network I/O, and `thinking: disabled` rejects any non-`off` effort at plugin load. Requests with `purpose: 'session-title'` force thinking off to reserve output for visible title text. Both protocols forward an explicit `temperature`; DeepSeek accepts it with thinking enabled but ignores its value in that mode.
+`reasoningEffort` selects the advertised default. Exact-model metadata exposes ordered `off`, `low`, `high`, and `max` efforts with selection guidance when deployment policy permits thinking. `low`, `high`, and `max` enable thinking and serialize as `reasoning_effort` for Chat Completions or `output_config.effort` for Messages, while adapter-owned `off` sends `thinking.type: disabled` instead. An unsupported value fails with `UNSUPPORTED_REASONING_EFFORT` before network I/O, and `thinking: disabled` rejects any non-`off` effort at plugin load. Requests with `purpose: 'session-title'` force thinking off to reserve output for visible title text. Both protocols forward an explicit `temperature`; Nulu accepts it with thinking enabled but ignores its value in that mode.
 
 ### Dynamic configuration
 
@@ -104,7 +104,7 @@ Connection facts are re-read once per operation through the optional settings an
 
 ### Provider-specific request fields
 
-For either protocol, when `ctx.deepseekLlmApiExtensions` is present, the adapter prepares its registered top-level fields from the exact serialized base request before `fetch`. Preparation or field collisions fail before HTTP; after a 2xx response, the adapter accepts every captured contribution before consuming SSE. Transport and non-2xx failures do not accept them. Shipped compositions use this for the default-on incremental `dsh_session_log` field and the default-on active `dsh_plugin_packages` inventory; both stay outside model input.
+For either protocol, when `ctx.nuluLlmApiExtensions` is present, the adapter prepares its registered top-level fields from the exact serialized base request before `fetch`. Preparation or field collisions fail before HTTP; after a 2xx response, the adapter accepts every captured contribution before consuming SSE. Transport and non-2xx failures do not accept them. Shipped compositions use this for the default-on incremental `nulu_session_log` field and the default-on active `nulu_plugin_packages` inventory; both stay outside model input.
 
 ### Failures and recovery
 
@@ -140,7 +140,7 @@ The plugin is built on one explicit resolve step and one registration fact. `res
 
 ### Wire flow
 
-One `stream()` call normally makes one model request: resolve deterministic request images, prefer Files ids, prepare any registered top-level request extensions, fetch from the resolved `baseURL`, accept extension transactions after HTTP 2xx, and translate the SSE stream into the harness protocol. File-resolution failure makes the first request inline; a provider stale-file response permits one replacement attempt, also inline if replacement resolution fails. Every model and Files call carries shared attribution. Model requests also carry the stable anonymous user id outside model input, plus a session id when present. Reasoning history is serialized back when required, and cache accounting maps DeepSeek's cache-hit metrics into harness usage.
+One `stream()` call normally makes one model request: resolve deterministic request images, prefer Files ids, prepare any registered top-level request extensions, fetch from the resolved `baseURL`, accept extension transactions after HTTP 2xx, and translate the SSE stream into the harness protocol. File-resolution failure makes the first request inline; a provider stale-file response permits one replacement attempt, also inline if replacement resolution fails. Every model and Files call carries shared attribution. Model requests also carry the stable anonymous user id outside model input, plus a session id when present. Reasoning history is serialized back when required, and cache accounting maps Nulu's cache-hit metrics into harness usage.
 
 </details>
 
@@ -155,10 +155,10 @@ Read these pages when the package-level contract is not enough. They move from t
 - [llm-pi-ai adapter](../llm-pi-ai/README.md) — the library-backed twin serving other providers and gateways.
 - [LLM streaming subsystem](../../../docs/subsystems/llm-streaming.md) — the `StreamChunk` protocol and adapter contract.
 - [llm-retry](../llm-retry/README.md) — the retry executor that applies this adapter's `retryPolicy`.
-- [DeepSeek request extensions](../llm-api-extensions/README.md) — lifecycle and acceptance semantics for provider-specific top-level fields.
-- [Session-log upload](../../session/session-log-gateway/README.md) — the default-on incremental `dsh_session_log` contribution.
-- [Plugin package inventory](../plugin-package-inventory/README.md) — the default-on `dsh_plugin_packages` contribution.
-- [Twin LLM adapters](../../../.agents/notes/implemented/architecture/2026-06-13-twin-llm-adapters.md) — why DeepSeek ships two structurally different adapters.
+- [Nulu request extensions](../llm-api-extensions/README.md) — lifecycle and acceptance semantics for provider-specific top-level fields.
+- [Session-log upload](../../session/session-log-gateway/README.md) — the default-on incremental `nulu_session_log` contribution.
+- [Plugin package inventory](../plugin-package-inventory/README.md) — the default-on `nulu_plugin_packages` contribution.
+- [Twin LLM adapters](../../../.agents/notes/implemented/architecture/2026-06-13-twin-llm-adapters.md) — why Nulu ships two structurally different adapters.
 - [Mandatory app attribution headers](../../../.agents/notes/implemented/architecture/2026-06-21-mandatory-app-attribution-headers.md) — the identity every provider request carries.
 
 -----
@@ -170,7 +170,7 @@ Read these pages when the package-level contract is not enough. They move from t
 
 #### What the model sees
 
-The selected DeepSeek model receives the harness system prompt, message history, tool schemas, stop sequences, and call config (`maxTokens`, `reasoningEffort`, `temperature`) without adapter-authored prompt prose. Provider-specific request-extension fields remain outside model input. The vision model normally receives retained user and tool-result images as Files API references beside attachment handles and request-preview dimensions. It also receives a normalized-object path when the current execution filesystem maps the attachment provider's host object; the descriptor marks this copy read-only and warns that normalization may have resized or re-encoded the upload. A Files resolution failure sends all retained images as inline base64 instead, and an over-budget older image keeps the access resolved for that request in its placeholder. Reasoning content from a prior assistant turn is passed back verbatim, whether or not that turn called a tool.
+The selected Nulu model receives the harness system prompt, message history, tool schemas, stop sequences, and call config (`maxTokens`, `reasoningEffort`, `temperature`) without adapter-authored prompt prose. Provider-specific request-extension fields remain outside model input. The vision model normally receives retained user and tool-result images as Files API references beside attachment handles and request-preview dimensions. It also receives a normalized-object path when the current execution filesystem maps the attachment provider's host object; the descriptor marks this copy read-only and warns that normalization may have resized or re-encoded the upload. A Files resolution failure sends all retained images as inline base64 instead, and an over-budget older image keeps the access resolved for that request in its placeholder. Reasoning content from a prior assistant turn is passed back verbatim, whether or not that turn called a tool.
 
 #### Token effect
 
@@ -207,9 +207,9 @@ These limits define where the adapter stops and future work begins. They are cur
 - **`tool_choice` is not mapped** — not part of the core vocabulary (shared with the pi-ai twin).
 - **Requests use raw `fetch`, not `@cordisjs/plugin-http`** — no shared proxy or interception configuration.
 - **Plugin-added content block types are skipped** — core text and supported image blocks are serialized, and empty tool output crosses the wire as the literal `(no output)`.
-- **Images are input-only durable attachments** — direct external URLs and assistant image output are not supported; DeepSeek input normally uses the Files API and uses inline base64 only for per-request recovery.
-- The default catalog pre-registers `deepseek-flash` and its text/image and in-history capabilities without probing gateway availability. Requests can fail with `INVALID_REQUEST` until the gateway enables the id. With `DEEPSEEK_API_KEY` and a supporting gateway configured, `DEEPSEEK_FLASH_E2E=1` enables the Chat Completions check in [this package's e2e suite](tests/adapter.e2e.ts).
-- The [Messages system-update e2e checks](tests/messages/adapter.e2e.ts) require `DEEPSEEK_IN_HISTORY_MODEL` to name a supported model, such as `deepseek-flash`, and run with `high` effort. They skip when that variable is unset or empty; ordinary `off` text checks remain enabled with credentials. Known instruction-following instability with thinking disabled makes these system-update checks unsuitable for `off`.
+- **Images are input-only durable attachments** — direct external URLs and assistant image output are not supported; Nulu input normally uses the Files API and uses inline base64 only for per-request recovery.
+- The default catalog pre-registers `nulu-flash` and its text/image and in-history capabilities without probing gateway availability. Requests can fail with `INVALID_REQUEST` until the gateway enables the id. With `DEEPSEEK_API_KEY` and a supporting gateway configured, `DEEPSEEK_FLASH_E2E=1` enables the Chat Completions check in [this package's e2e suite](tests/adapter.e2e.ts).
+- The [Messages system-update e2e checks](tests/messages/adapter.e2e.ts) require `DEEPSEEK_IN_HISTORY_MODEL` to name a supported model, such as `nulu-flash`, and run with `high` effort. They skip when that variable is unset or empty; ordinary `off` text checks remain enabled with credentials. Known instruction-following instability with thinking disabled makes these system-update checks unsuitable for `off`.
 
 <a id="dev-note"></a>
 ### Dev Note

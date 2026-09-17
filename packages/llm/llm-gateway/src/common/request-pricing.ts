@@ -1,5 +1,5 @@
 /**
- * Provider-side request-image pricing for DeepSeek routes: prices every
+ * Provider-side request-image pricing for Nulu routes: prices every
  * retained surface occurrence at its per-model request target with
  * the published vision-token accounting, and every occurrence the surface
  * marks offloaded as its placeholder text. Consumed synchronously by the
@@ -14,7 +14,7 @@ import type { ImageAttachmentAccessResolver, ImageBlock, LlmImageRequestPrice, L
 import { longEdgeDimensions, requestImageDimensions } from '@worldapptechnologies/nulu-attachment'
 import type { ImageAttachmentRef, ImageRequestTarget } from '@worldapptechnologies/nulu-attachment'
 import { deepSeekImageTokens, deepSeekRequestImageDimensions } from './image-tokens.ts'
-import type { DeepSeekCatalogModel, DeepSeekConnectionOptions } from './types.ts'
+import type { NuluCatalogModel, NuluConnectionOptions } from './types.ts'
 
 /** Default bound on accumulated file-referenced image bytes per request. */
 export const DEFAULT_MAX_REQUEST_FILES_BYTES = 128 * 1024 * 1024
@@ -31,17 +31,17 @@ export const DEFAULT_REQUEST_IMAGE_MAX_BYTES = 2 * 1024 * 1024
 export const REQUEST_IMAGE_MAX_DIMENSION = 4096
 
 /**
- * Resolve the encoded-byte target one DeepSeek model route applies to every request image.
+ * Resolve the encoded-byte target one Nulu model route applies to every request image.
  * @param model - Advertised model route and its optional image overrides.
  * @returns the route's encoded-byte target.
  * @internal
  */
-export function resolveRequestImageMaxBytes(model: DeepSeekCatalogModel): number {
+export function resolveRequestImageMaxBytes(model: NuluCatalogModel): number {
   return model.imageMaxBytes ?? DEFAULT_REQUEST_IMAGE_MAX_BYTES
 }
 
 /**
- * Resolve the deterministic request target one DeepSeek model route chooses
+ * Resolve the deterministic request target one Nulu model route chooses
  * for one source image: the published token grid unless the model overrides
  * it with a pixel budget, then the provider per-side limit, then the route's
  * encoded-byte target. Small images are never enlarged.
@@ -51,7 +51,7 @@ export function resolveRequestImageMaxBytes(model: DeepSeekCatalogModel): number
  * @internal
  */
 export function resolveRequestImageTarget(
-  model: DeepSeekCatalogModel,
+  model: NuluCatalogModel,
   source: Pick<ImageAttachmentRef, 'width' | 'height'>,
 ): ImageRequestTarget {
   const budget = model.imagePixelBudget === 'low' ? DEFAULT_LOW_DETAIL_IMAGE_PIXEL_BUDGET : model.imagePixelBudget
@@ -74,7 +74,7 @@ function textOnlyPrice(block: ImageBlock): LlmImageRequestPrice {
 }
 
 /**
- * Build the request-image pricing for one DeepSeek route from a validated
+ * Build the request-image pricing for one Nulu route from a validated
  * connection snapshot. Uncatalogued and text-only models price every
  * occurrence as its deterministic text substitution; image-capable models
  * price an offloaded occurrence as its placeholder text and a retained one by
@@ -88,7 +88,7 @@ function textOnlyPrice(block: ImageBlock): LlmImageRequestPrice {
  * @returns synchronous per-occurrence pricing for the route.
  */
 export function deepSeekImageRequestPricing(
-  connection: DeepSeekConnectionOptions,
+  connection: NuluConnectionOptions,
   model: string,
   resolveAccess?: ImageAttachmentAccessResolver,
 ): LlmImageRequestPricing {

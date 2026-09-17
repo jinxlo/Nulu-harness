@@ -11,48 +11,12 @@ overrides:
 patchedDependencies:
   '@electron/osx-sign@1.3.3': 280e7b2816caf01423097d24e79107a66afeb563a348630ce9928ae8499a5861
   '@yao-pkg/pkg@6.21.0': 07f08c630d0d3886d81fd4600116d07e4871ddcd57f92cb22746b6d246cdc337
-  node-pty@1.2.0-beta.15: b40ae545608897914bd25fb009c97eeac478c34e8a910298ddcb01b746534bb0
+  node-pty@1.2.0-beta.15: 1e7cfd0c98c9c889841922c7e1c1e760c09d6a18f9235a3c461a61f8f292856d
 
 importers:
 
   .:
     devDependencies:
-      '@worldapptechnologies/nulu-agent':
-        specifier: workspace:^
-        version: link:packages/core/agent
-      '@worldapptechnologies/nulu-browser-use':
-        specifier: workspace:^
-        version: link:packages/browser-use/browser-use
-      '@worldapptechnologies/nulu-computer-use':
-        specifier: workspace:^
-        version: link:packages/computer-use/computer-use
-      '@worldapptechnologies/nulu-experimental-browser-use-chrome-devtools-mcp':
-        specifier: workspace:^
-        version: link:packages/experimental/browser-use-chrome-devtools-mcp
-      '@worldapptechnologies/nulu-experimental-browser-use-playwright-mcp':
-        specifier: workspace:^
-        version: link:packages/experimental/browser-use-playwright-mcp
-      '@worldapptechnologies/nulu-experimental-browser-use-runtime':
-        specifier: workspace:^
-        version: link:packages/experimental/browser-use-runtime
-      '@worldapptechnologies/nulu-experimental-browser-use-stagehand-native':
-        specifier: workspace:^
-        version: link:packages/experimental/browser-use-stagehand-native
-      '@worldapptechnologies/nulu-experimental-computer-use-cua-driver-mcp':
-        specifier: workspace:^
-        version: link:packages/experimental/computer-use-cua-driver-mcp
-      '@worldapptechnologies/nulu-experimental-computer-use-cua-driver-native':
-        specifier: workspace:^
-        version: link:packages/experimental/computer-use-cua-driver-native
-      '@worldapptechnologies/nulu-llm-replay':
-        specifier: workspace:^
-        version: link:packages/test-support/llm-replay
-      '@worldapptechnologies/nulu-tool-session-query':
-        specifier: workspace:^
-        version: link:packages/session-query/tool-session-query
-      '@worldapptechnologies/nulu-web-fetch-http':
-        specifier: workspace:^
-        version: link:packages/web/web-fetch-http
       '@stylistic/eslint-plugin':
         specifier: ^5.10.0
         version: 5.10.0(eslint@10.5.0(jiti@2.7.0))
@@ -83,6 +47,33 @@ importers:
       '@worldapptechnologies/nulu-agent':
         specifier: workspace:^
         version: link:packages/core/agent
+      '@worldapptechnologies/nulu-browser-use':
+        specifier: workspace:^
+        version: link:packages/browser-use/browser-use
+      '@worldapptechnologies/nulu-computer-use':
+        specifier: workspace:^
+        version: link:packages/computer-use/computer-use
+      '@worldapptechnologies/nulu-experimental-browser-use-chrome-devtools-mcp':
+        specifier: workspace:^
+        version: link:packages/experimental/browser-use-chrome-devtools-mcp
+      '@worldapptechnologies/nulu-experimental-browser-use-playwright-mcp':
+        specifier: workspace:^
+        version: link:packages/experimental/browser-use-playwright-mcp
+      '@worldapptechnologies/nulu-experimental-browser-use-runtime':
+        specifier: workspace:^
+        version: link:packages/experimental/browser-use-runtime
+      '@worldapptechnologies/nulu-experimental-browser-use-stagehand-native':
+        specifier: workspace:^
+        version: link:packages/experimental/browser-use-stagehand-native
+      '@worldapptechnologies/nulu-experimental-computer-use-cua-driver-mcp':
+        specifier: workspace:^
+        version: link:packages/experimental/computer-use-cua-driver-mcp
+      '@worldapptechnologies/nulu-experimental-computer-use-cua-driver-native':
+        specifier: workspace:^
+        version: link:packages/experimental/computer-use-cua-driver-native
+      '@worldapptechnologies/nulu-llm-replay':
+        specifier: workspace:^
+        version: link:packages/test-support/llm-replay
       '@worldapptechnologies/nulu-tool-session-query':
         specifier: workspace:^
         version: link:packages/session-query/tool-session-query
@@ -390,126 +381,6 @@ importers:
       '@agentclientprotocol/sdk':
         specifier: 1.4.0
         version: 1.4.0(zod@4.4.3)
-      '@worldapptechnologies/nulu-acp':
-        specifier: workspace:^
-        version: link:../../packages/acp/acp
-      '@worldapptechnologies/nulu-agent':
-        specifier: workspace:^
-        version: link:../../packages/core/agent
-      '@worldapptechnologies/nulu-agent-loop':
-        specifier: workspace:^
-        version: link:../../packages/core/agent-loop
-      '@worldapptechnologies/nulu-agent-loop-testkit':
-        specifier: workspace:^
-        version: link:../../packages/test-support/agent-loop-testkit
-      '@worldapptechnologies/nulu-attachment-local':
-        specifier: workspace:^
-        version: link:../../packages/attachment/attachment-local
-      '@worldapptechnologies/nulu-bash-local':
-        specifier: workspace:^
-        version: link:../../packages/shell/bash-local
-      '@worldapptechnologies/nulu-credentials-local':
-        specifier: workspace:^
-        version: link:../../packages/credentials/credentials-local
-      '@worldapptechnologies/nulu-llm-api-extensions':
-        specifier: workspace:^
-        version: link:../../packages/llm/llm-api-extensions
-      '@worldapptechnologies/nulu-experimental-agent-team':
-        specifier: workspace:^
-        version: link:../../packages/experimental/agent-team
-      '@worldapptechnologies/nulu-experimental-agent-team-profile':
-        specifier: workspace:^
-        version: link:../../packages/experimental/agent-team-profile
-      '@worldapptechnologies/nulu-experimental-ptc-runtime-python':
-        specifier: workspace:^
-        version: link:../../packages/experimental/ptc-runtime-python
-      '@worldapptechnologies/nulu-experimental-tool-agent-team':
-        specifier: workspace:^
-        version: link:../../packages/experimental/tool-agent-team
-      '@worldapptechnologies/nulu-fs-observation-policy':
-        specifier: workspace:^
-        version: link:../../packages/fs/fs-observation-policy
-      '@worldapptechnologies/nulu-fs-sandbox':
-        specifier: workspace:^
-        version: link:../../packages/fs/fs-sandbox
-      '@worldapptechnologies/nulu-host-frontend-static':
-        specifier: workspace:^
-        version: link:../../packages/host/frontend-static
-      '@worldapptechnologies/nulu-host-webserver':
-        specifier: workspace:^
-        version: link:../../packages/host/webserver
-      '@worldapptechnologies/nulu-llm':
-        specifier: workspace:^
-        version: link:../../packages/llm/llm
-      '@worldapptechnologies/nulu-llm-gateway':
-        specifier: workspace:^
-        version: link:../../packages/llm/llm-gateway
-      '@worldapptechnologies/nulu-llm-mock-server':
-        specifier: workspace:^
-        version: link:../../packages/test-support/llm-mock-server
-      '@worldapptechnologies/nulu-llm-pi-ai':
-        specifier: workspace:^
-        version: link:../../packages/llm/llm-pi-ai
-      '@worldapptechnologies/nulu-llm-replay':
-        specifier: workspace:^
-        version: link:../../packages/test-support/llm-replay
-      '@worldapptechnologies/nulu-loader-smoke':
-        specifier: workspace:^
-        version: link:../../packages/test-support/loader-smoke
-      '@worldapptechnologies/nulu-plugin-package-inventory':
-        specifier: workspace:^
-        version: link:../../packages/llm/plugin-package-inventory
-      '@worldapptechnologies/nulu-sandbox-local':
-        specifier: workspace:^
-        version: link:../../packages/sandbox/sandbox-local
-      '@worldapptechnologies/nulu-sandbox-policy':
-        specifier: workspace:^
-        version: link:../../packages/sandbox/sandbox-policy
-      '@worldapptechnologies/nulu-session':
-        specifier: workspace:^
-        version: link:../../packages/core/session
-      '@worldapptechnologies/nulu-session-checkpoint-policy':
-        specifier: workspace:^
-        version: link:../../packages/session/session-checkpoint-policy
-      '@worldapptechnologies/nulu-session-log-gateway':
-        specifier: workspace:^
-        version: link:../../packages/session/session-log-gateway
-      '@worldapptechnologies/nulu-session-persistence-jsonl':
-        specifier: workspace:^
-        version: link:../../packages/session/session-persistence-jsonl
-      '@worldapptechnologies/nulu-session-query':
-        specifier: workspace:^
-        version: link:../../packages/session-query/session-query
-      '@worldapptechnologies/nulu-settings':
-        specifier: workspace:^
-        version: link:../../packages/settings/settings
-      '@worldapptechnologies/nulu-settings-file':
-        specifier: workspace:^
-        version: link:../../packages/settings/settings-file
-      '@worldapptechnologies/nulu-shell-env':
-        specifier: workspace:^
-        version: link:../../packages/shell/shell-env
-      '@worldapptechnologies/nulu-subagent':
-        specifier: workspace:^
-        version: link:../../packages/subagent/subagent
-      '@worldapptechnologies/nulu-subagent-fork-in-process':
-        specifier: workspace:^
-        version: link:../../packages/subagent/subagent-fork-in-process
-      '@worldapptechnologies/nulu-subagent-spawn-in-process':
-        specifier: workspace:^
-        version: link:../../packages/subagent/subagent-spawn-in-process
-      '@worldapptechnologies/nulu-subprocess-local':
-        specifier: workspace:^
-        version: link:../../packages/subprocess/subprocess-local
-      '@worldapptechnologies/nulu-system-prompt':
-        specifier: workspace:^
-        version: link:../../packages/core/system-prompt
-      '@worldapptechnologies/nulu-tools':
-        specifier: workspace:^
-        version: link:../../packages/core/tools
-      '@worldapptechnologies/nulu-user-approval':
-        specifier: workspace:^
-        version: link:../../packages/interaction/user-approval
       '@types/js-yaml':
         specifier: ^4.0.9
         version: 4.0.9
@@ -543,9 +414,9 @@ importers:
       '@worldapptechnologies/nulu-experimental-agent-team-profile':
         specifier: workspace:^
         version: link:../../packages/experimental/agent-team-profile
-      '@worldapptechnologies/nulu-experimental-code-runtime-python':
+      '@worldapptechnologies/nulu-experimental-ptc-runtime-python':
         specifier: workspace:^
-        version: link:../../packages/experimental/code-runtime-python
+        version: link:../../packages/experimental/ptc-runtime-python
       '@worldapptechnologies/nulu-experimental-tool-agent-team':
         specifier: workspace:^
         version: link:../../packages/experimental/tool-agent-team
@@ -739,6 +610,21 @@ importers:
 
   apps/web:
     devDependencies:
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.20.0
+      '@types/react':
+        specifier: ~18.3.1
+        version: 18.3.31
+      '@types/react-dom':
+        specifier: ~18.3.0
+        version: 18.3.7(@types/react@18.3.31)
+      '@types/ws':
+        specifier: 8.18.1
+        version: 8.18.1
+      '@vitejs/plugin-react':
+        specifier: ^4.0.0
+        version: 4.7.0(supports-color@9.4.0)(vite@6.4.3(@types/node@22.20.0)(jiti@2.7.0)(lightningcss@1.32.0)(tsx@4.22.4)(yaml@2.9.0))
       '@worldapptechnologies/cordis-plugin-group':
         specifier: workspace:^
         version: link:../../vendor/group
@@ -787,57 +673,6 @@ importers:
       '@worldapptechnologies/nulu-subprocess-local':
         specifier: workspace:^
         version: link:../../packages/subprocess/subprocess-local
-      '@types/node':
-        specifier: ^22.0.0
-        version: 22.20.0
-      '@types/react':
-        specifier: ~18.3.1
-        version: 18.3.31
-      '@types/react-dom':
-        specifier: ~18.3.0
-        version: 18.3.7(@types/react@18.3.31)
-      '@types/ws':
-        specifier: 8.18.1
-        version: 8.18.1
-      '@vitejs/plugin-react':
-        specifier: ^4.0.0
-        version: 4.7.0(supports-color@9.4.0)(vite@6.4.3(@types/node@22.20.0)(jiti@2.7.0)(lightningcss@1.32.0)(tsx@4.22.4)(yaml@2.9.0))
-      '@worldapptechnologies/cordis-plugin-group':
-        specifier: workspace:^
-        version: link:../../vendor/group
-      '@worldapptechnologies/nulu-client-modules':
-        specifier: workspace:^
-        version: link:../../packages/client/modules
-      '@worldapptechnologies/nulu-client-store':
-        specifier: workspace:^
-        version: link:../../packages/client/store
-      '@worldapptechnologies/nulu-client-ui-dockkit':
-        specifier: workspace:^
-        version: link:../../packages/client/ui-dockkit
-      '@worldapptechnologies/nulu-client-ui-primitives':
-        specifier: workspace:^
-        version: link:../../packages/client/ui-primitives
-      '@worldapptechnologies/nulu-client-ui-slots':
-        specifier: workspace:^
-        version: link:../../packages/client/ui-slots
-      '@worldapptechnologies/nulu-client-web':
-        specifier: workspace:^
-        version: link:../../packages/client/web
-      '@worldapptechnologies/nulu-cmdline':
-        specifier: workspace:^
-        version: link:../../packages/boot/cmdline
-      '@worldapptechnologies/nulu-experimental-webworker-packer':
-        specifier: workspace:^
-        version: link:../../packages/experimental/webworker-packer
-      '@worldapptechnologies/nulu-experimental-webworker-runtime':
-        specifier: workspace:^
-        version: link:../../packages/experimental/webworker-runtime
-      '@worldapptechnologies/nulu-launch-environment':
-        specifier: workspace:^
-        version: link:../../packages/util/launch-environment
-      '@worldapptechnologies/nulu-pwsh-local':
-        specifier: workspace:^
-        version: link:../../packages/shell/pwsh-local
       fflate:
         specifier: ^0.8.2
         version: 0.8.3
@@ -1067,27 +902,6 @@ importers:
         specifier: ^8.21.0
         version: 8.21.0
     devDependencies:
-      '@worldapptechnologies/cordis':
-        specifier: workspace:^
-        version: link:../../../vendor/cordis
-      '@worldapptechnologies/nulu-brand':
-        specifier: workspace:^
-        version: link:../../util/brand
-      '@worldapptechnologies/nulu-client-connection':
-        specifier: workspace:^
-        version: link:../../client/connection
-      '@worldapptechnologies/nulu-host-webserver':
-        specifier: workspace:^
-        version: link:../../host/webserver
-      '@worldapptechnologies/nulu-remote-mock':
-        specifier: workspace:^
-        version: link:../../test-support/remote-mock
-      '@worldapptechnologies/nulu-typert-registry':
-        specifier: workspace:^
-        version: link:../../typert/registry
-      '@worldapptechnologies/nulu-util-crypto':
-        specifier: workspace:^
-        version: link:../../util/crypto
       '@types/ws':
         specifier: ^8.18.1
         version: 8.18.1
@@ -1103,6 +917,9 @@ importers:
       '@worldapptechnologies/nulu-host-webserver':
         specifier: workspace:^
         version: link:../../host/webserver
+      '@worldapptechnologies/nulu-remote-mock':
+        specifier: workspace:^
+        version: link:../../test-support/remote-mock
       '@worldapptechnologies/nulu-typert-registry':
         specifier: workspace:^
         version: link:../../typert/registry
@@ -1591,6 +1408,33 @@ importers:
       '@types/js-yaml':
         specifier: ^4.0.9
         version: 4.0.9
+      '@worldapptechnologies/cordis':
+        specifier: workspace:^
+        version: link:../../../vendor/cordis
+      '@worldapptechnologies/cordis-plugin-group':
+        specifier: workspace:^
+        version: link:../../../vendor/group
+      '@worldapptechnologies/cordis-plugin-hmr':
+        specifier: workspace:^
+        version: link:../../../vendor/hmr
+      '@worldapptechnologies/cordis-plugin-include':
+        specifier: workspace:^
+        version: link:../../../vendor/include
+      '@worldapptechnologies/cordis-plugin-loader':
+        specifier: workspace:^
+        version: link:../../../vendor/loader
+      '@worldapptechnologies/cordis-plugin-timer':
+        specifier: workspace:^
+        version: link:../../../vendor/timer
+      '@worldapptechnologies/nulu-home-paths':
+        specifier: workspace:^
+        version: link:../../util/home-paths
+      '@worldapptechnologies/nulu-launch-environment':
+        specifier: workspace:^
+        version: link:../../util/launch-environment
+      '@worldapptechnologies/nulu-system-prompt':
+        specifier: workspace:^
+        version: link:../../core/system-prompt
 
   packages/boot/cmdline:
     devDependencies:
@@ -2118,7 +1962,7 @@ importers:
       '@worldapptechnologies/nulu-client-ui-attachment':
         specifier: workspace:^
         version: link:../../client/ui-attachment
-      '@worldapptechnologies/nulu-client-ui-brand':
+      '@worldapptechnologies/nulu-client-ui-brand-official':
         specifier: workspace:^
         version: link:../../client/ui-brand
       '@worldapptechnologies/nulu-client-ui-chat':
@@ -2866,93 +2710,6 @@ importers:
         specifier: link:../../../vendor/schemastery
         version: link:../../../vendor/schemastery
     devDependencies:
-      '@worldapptechnologies/cordis':
-        specifier: workspace:^
-        version: link:../../../vendor/cordis
-      '@worldapptechnologies/nulu-api-remotes':
-        specifier: workspace:^
-        version: link:../../api/remotes
-      '@worldapptechnologies/nulu-api-session-controller':
-        specifier: workspace:^
-        version: link:../../api/session-controller
-      '@worldapptechnologies/nulu-api-workspace-controller':
-        specifier: workspace:^
-        version: link:../../api/workspace-controller
-      '@worldapptechnologies/nulu-attachment':
-        specifier: workspace:^
-        version: link:../../attachment/attachment
-      '@worldapptechnologies/nulu-brand':
-        specifier: workspace:^
-        version: link:../../util/brand
-      '@worldapptechnologies/nulu-client-file-upload':
-        specifier: workspace:^
-        version: link:../file-upload
-      '@worldapptechnologies/nulu-client-locale':
-        specifier: workspace:^
-        version: link:../locale
-      '@worldapptechnologies/nulu-client-store':
-        specifier: workspace:^
-        version: link:../store
-      '@worldapptechnologies/nulu-client-test-runtime':
-        specifier: workspace:^
-        version: link:../../test-support/client-runtime
-      '@worldapptechnologies/nulu-client-ui-layout':
-        specifier: workspace:^
-        version: link:../ui-layout
-      '@worldapptechnologies/nulu-client-ui-primitives':
-        specifier: workspace:^
-        version: link:../ui-primitives
-      '@worldapptechnologies/nulu-client-ui-renderer':
-        specifier: workspace:^
-        version: link:../ui-renderer
-      '@worldapptechnologies/nulu-client-ui-session':
-        specifier: workspace:^
-        version: link:../ui-session
-      '@worldapptechnologies/nulu-client-ui-settings':
-        specifier: workspace:^
-        version: link:../ui-settings
-      '@worldapptechnologies/nulu-client-ui-slots':
-        specifier: workspace:^
-        version: link:../ui-slots
-      '@worldapptechnologies/nulu-client-ui-workspace':
-        specifier: workspace:^
-        version: link:../ui-workspace
-      '@worldapptechnologies/nulu-commands':
-        specifier: workspace:^
-        version: link:../../interaction/commands
-      '@worldapptechnologies/nulu-goal':
-        specifier: workspace:^
-        version: link:../../goal/goal
-      '@worldapptechnologies/nulu-llm':
-        specifier: workspace:^
-        version: link:../../llm/llm
-      '@worldapptechnologies/nulu-llm-retry':
-        specifier: workspace:^
-        version: link:../../llm/llm-retry
-      '@worldapptechnologies/nulu-plan-mode':
-        specifier: workspace:^
-        version: link:../../plan/plan-mode
-      '@worldapptechnologies/nulu-session':
-        specifier: workspace:^
-        version: link:../../core/session
-      '@worldapptechnologies/nulu-settings':
-        specifier: workspace:^
-        version: link:../../settings/settings
-      '@worldapptechnologies/nulu-token-meter':
-        specifier: workspace:^
-        version: link:../../llm/token-meter
-      '@worldapptechnologies/nulu-tool-todo':
-        specifier: workspace:^
-        version: link:../../todo/tool-todo
-      '@worldapptechnologies/nulu-util-crypto':
-        specifier: workspace:^
-        version: link:../../util/crypto
-      '@worldapptechnologies/nulu-util-workspace-path':
-        specifier: workspace:^
-        version: link:../../util/workspace-path
-      '@worldapptechnologies/nulu-workspace':
-        specifier: workspace:^
-        version: link:../../workspace/workspace
       '@lexical/headless':
         specifier: ^0.49.0
         version: 0.49.0(typescript@6.0.3)
@@ -3037,9 +2794,6 @@ importers:
       '@worldapptechnologies/nulu-llm-retry':
         specifier: workspace:^
         version: link:../../llm/llm-retry
-      '@worldapptechnologies/nulu-permission-presets':
-        specifier: workspace:^
-        version: link:../../interaction/permission-presets
       '@worldapptechnologies/nulu-plan-mode':
         specifier: workspace:^
         version: link:../../plan/plan-mode
@@ -3440,60 +3194,6 @@ importers:
 
   packages/client/ui-message-feedback:
     devDependencies:
-      '@worldapptechnologies/cordis':
-        specifier: workspace:^
-        version: link:../../../vendor/cordis
-      '@worldapptechnologies/nulu-api-remotes':
-        specifier: workspace:^
-        version: link:../../api/remotes
-      '@worldapptechnologies/nulu-client-connection':
-        specifier: workspace:^
-        version: link:../connection
-      '@worldapptechnologies/nulu-client-locale':
-        specifier: workspace:^
-        version: link:../locale
-      '@worldapptechnologies/nulu-client-store':
-        specifier: workspace:^
-        version: link:../store
-      '@worldapptechnologies/nulu-client-test-runtime':
-        specifier: workspace:^
-        version: link:../../test-support/client-runtime
-      '@worldapptechnologies/nulu-client-ui-chat':
-        specifier: workspace:^
-        version: link:../ui-chat
-      '@worldapptechnologies/nulu-client-ui-commands':
-        specifier: workspace:^
-        version: link:../ui-commands
-      '@worldapptechnologies/nulu-client-ui-conversation':
-        specifier: workspace:^
-        version: link:../ui-conversation
-      '@worldapptechnologies/nulu-client-ui-primitives':
-        specifier: workspace:^
-        version: link:../ui-primitives
-      '@worldapptechnologies/nulu-client-ui-renderer':
-        specifier: workspace:^
-        version: link:../ui-renderer
-      '@worldapptechnologies/nulu-client-ui-session':
-        specifier: workspace:^
-        version: link:../ui-session
-      '@worldapptechnologies/nulu-client-ui-slots':
-        specifier: workspace:^
-        version: link:../ui-slots
-      '@worldapptechnologies/nulu-command-feedback':
-        specifier: workspace:^
-        version: link:../../feedback/command-feedback
-      '@worldapptechnologies/nulu-message-feedback':
-        specifier: workspace:^
-        version: link:../../feedback/message-feedback
-      '@worldapptechnologies/nulu-remote-mock':
-        specifier: workspace:^
-        version: link:../../test-support/remote-mock
-      '@worldapptechnologies/nulu-session':
-        specifier: workspace:^
-        version: link:../../core/session
-      '@worldapptechnologies/nulu-typert-protocol':
-        specifier: workspace:^
-        version: link:../../typert/protocol
       '@testing-library/react':
         specifier: ^16.1.0
         version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -3548,6 +3248,9 @@ importers:
       '@worldapptechnologies/nulu-message-feedback':
         specifier: workspace:^
         version: link:../../feedback/message-feedback
+      '@worldapptechnologies/nulu-remote-mock':
+        specifier: workspace:^
+        version: link:../../test-support/remote-mock
       '@worldapptechnologies/nulu-session':
         specifier: workspace:^
         version: link:../../core/session
@@ -3671,6 +3374,9 @@ importers:
 
   packages/client/ui-permission-presets:
     devDependencies:
+      '@types/react':
+        specifier: ~18.3.1
+        version: 18.3.31
       '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
@@ -3722,9 +3428,6 @@ importers:
       '@worldapptechnologies/nulu-remote-mock':
         specifier: workspace:^
         version: link:../../test-support/remote-mock
-      '@types/react':
-        specifier: ~18.3.1
-        version: 18.3.31
       clsx:
         specifier: ^2.0.0
         version: 2.1.1
@@ -4224,6 +3927,12 @@ importers:
 
   packages/client/ui-settings-unarchive-sessions:
     devDependencies:
+      '@testing-library/react':
+        specifier: ^16.1.0
+        version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@types/react':
+        specifier: ~18.3.1
+        version: 18.3.31
       '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
@@ -4260,12 +3969,6 @@ importers:
       '@worldapptechnologies/nulu-session':
         specifier: workspace:^
         version: link:../../core/session
-      '@testing-library/react':
-        specifier: ^16.1.0
-        version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@types/react':
-        specifier: ~18.3.1
-        version: 18.3.31
       react:
         specifier: ^18.2.0
         version: 18.3.1
@@ -4455,51 +4158,6 @@ importers:
 
   packages/client/ui-sidebar-right:
     devDependencies:
-      '@worldapptechnologies/cordis':
-        specifier: workspace:^
-        version: link:../../../vendor/cordis
-      '@worldapptechnologies/nulu-api-session-controller':
-        specifier: workspace:^
-        version: link:../../api/session-controller
-      '@worldapptechnologies/nulu-client-locale':
-        specifier: workspace:^
-        version: link:../locale
-      '@worldapptechnologies/nulu-client-resources':
-        specifier: workspace:^
-        version: link:../resources
-      '@worldapptechnologies/nulu-client-store':
-        specifier: workspace:^
-        version: link:../store
-      '@worldapptechnologies/nulu-client-test-runtime':
-        specifier: workspace:^
-        version: link:../../test-support/client-runtime
-      '@worldapptechnologies/nulu-client-ui-conversation':
-        specifier: workspace:^
-        version: link:../ui-conversation
-      '@worldapptechnologies/nulu-client-ui-dockkit':
-        specifier: workspace:^
-        version: link:../ui-dockkit
-      '@worldapptechnologies/nulu-client-ui-layout':
-        specifier: workspace:^
-        version: link:../ui-layout
-      '@worldapptechnologies/nulu-client-ui-primitives':
-        specifier: workspace:^
-        version: link:../ui-primitives
-      '@worldapptechnologies/nulu-client-ui-renderer':
-        specifier: workspace:^
-        version: link:../ui-renderer
-      '@worldapptechnologies/nulu-client-ui-session':
-        specifier: workspace:^
-        version: link:../ui-session
-      '@worldapptechnologies/nulu-client-ui-slots':
-        specifier: workspace:^
-        version: link:../ui-slots
-      '@worldapptechnologies/nulu-session':
-        specifier: workspace:^
-        version: link:../../core/session
-      '@worldapptechnologies/nulu-util-crypto':
-        specifier: workspace:^
-        version: link:../../util/crypto
       '@testing-library/react':
         specifier: ^16.1.0
         version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -4554,6 +4212,9 @@ importers:
       '@worldapptechnologies/nulu-session':
         specifier: workspace:^
         version: link:../../core/session
+      '@worldapptechnologies/nulu-util-crypto':
+        specifier: workspace:^
+        version: link:../../util/crypto
       clsx:
         specifier: ^2.0.0
         version: 2.1.1
@@ -4569,6 +4230,15 @@ importers:
 
   packages/client/ui-sidebar-terminal:
     devDependencies:
+      '@testing-library/react':
+        specifier: ^16.1.0
+        version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@types/react':
+        specifier: ~18.3.1
+        version: 18.3.31
+      '@types/react-dom':
+        specifier: ~18.3.0
+        version: 18.3.7(@types/react@18.3.31)
       '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
@@ -4617,15 +4287,6 @@ importers:
       '@worldapptechnologies/nulu-session':
         specifier: workspace:^
         version: link:../../core/session
-      '@testing-library/react':
-        specifier: ^16.1.0
-        version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@types/react':
-        specifier: ~18.3.1
-        version: 18.3.31
-      '@types/react-dom':
-        specifier: ~18.3.0
-        version: 18.3.7(@types/react@18.3.31)
       '@xterm/addon-fit':
         specifier: ^0.11.0
         version: 0.11.0
@@ -4822,72 +4483,6 @@ importers:
 
   packages/client/ui-tool:
     devDependencies:
-      '@worldapptechnologies/cordis':
-        specifier: workspace:^
-        version: link:../../../vendor/cordis
-      '@worldapptechnologies/nulu-agent':
-        specifier: workspace:^
-        version: link:../../core/agent
-      '@worldapptechnologies/nulu-api-remotes':
-        specifier: workspace:^
-        version: link:../../api/remotes
-      '@worldapptechnologies/nulu-api-workspace-controller':
-        specifier: workspace:^
-        version: link:../../api/workspace-controller
-      '@worldapptechnologies/nulu-attachment':
-        specifier: workspace:^
-        version: link:../../attachment/attachment
-      '@worldapptechnologies/nulu-client-connection':
-        specifier: workspace:^
-        version: link:../connection
-      '@worldapptechnologies/nulu-client-locale':
-        specifier: workspace:^
-        version: link:../locale
-      '@worldapptechnologies/nulu-client-test-runtime':
-        specifier: workspace:^
-        version: link:../../test-support/client-runtime
-      '@worldapptechnologies/nulu-client-ui-chat':
-        specifier: workspace:^
-        version: link:../ui-chat
-      '@worldapptechnologies/nulu-client-ui-conversation':
-        specifier: workspace:^
-        version: link:../ui-conversation
-      '@worldapptechnologies/nulu-client-ui-primitives':
-        specifier: workspace:^
-        version: link:../ui-primitives
-      '@worldapptechnologies/nulu-client-ui-renderer':
-        specifier: workspace:^
-        version: link:../ui-renderer
-      '@worldapptechnologies/nulu-client-ui-session':
-        specifier: workspace:^
-        version: link:../ui-session
-      '@worldapptechnologies/nulu-client-ui-slots':
-        specifier: workspace:^
-        version: link:../ui-slots
-      '@worldapptechnologies/nulu-llm':
-        specifier: workspace:^
-        version: link:../../llm/llm
-      '@worldapptechnologies/nulu-ptc-runtime':
-        specifier: workspace:^
-        version: link:../../ptc-runtime/ptc-runtime
-      '@worldapptechnologies/nulu-session':
-        specifier: workspace:^
-        version: link:../../core/session
-      '@worldapptechnologies/nulu-spill':
-        specifier: workspace:^
-        version: link:../../spill/spill
-      '@worldapptechnologies/nulu-spill-policy':
-        specifier: workspace:^
-        version: link:../../spill/spill-policy
-      '@worldapptechnologies/nulu-system-prompt':
-        specifier: workspace:^
-        version: link:../../core/system-prompt
-      '@worldapptechnologies/nulu-tools':
-        specifier: workspace:^
-        version: link:../../core/tools
-      '@worldapptechnologies/nulu-util-workspace-path':
-        specifier: workspace:^
-        version: link:../../util/workspace-path
       '@testing-library/react':
         specifier: ^16.1.0
         version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -4936,12 +4531,12 @@ importers:
       '@worldapptechnologies/nulu-client-ui-slots':
         specifier: workspace:^
         version: link:../ui-slots
-      '@worldapptechnologies/nulu-code-runtime-worker-thread':
-        specifier: workspace:^
-        version: link:../../code-runtime/code-runtime-worker-thread
       '@worldapptechnologies/nulu-llm':
         specifier: workspace:^
         version: link:../../llm/llm
+      '@worldapptechnologies/nulu-ptc-runtime':
+        specifier: workspace:^
+        version: link:../../ptc-runtime/ptc-runtime
       '@worldapptechnologies/nulu-session':
         specifier: workspace:^
         version: link:../../core/session
@@ -6250,12 +5845,12 @@ importers:
 
   packages/experimental/browser-use-playwright-mcp:
     dependencies:
-      '@worldapptechnologies/nulu-experimental-browser-use-runtime':
-        specifier: workspace:^
-        version: link:../browser-use-runtime
       '@playwright/mcp':
         specifier: 0.0.80
         version: 0.0.80
+      '@worldapptechnologies/nulu-experimental-browser-use-runtime':
+        specifier: workspace:^
+        version: link:../browser-use-runtime
     devDependencies:
       '@worldapptechnologies/cordis':
         specifier: workspace:^
@@ -6357,6 +5952,9 @@ importers:
       '@browserbasehq/stagehand':
         specifier: 4.1.0
         version: 4.1.0
+      '@puppeteer/browsers':
+        specifier: 3.2.2
+        version: 3.2.2(yauzl@2.10.0)
       '@worldapptechnologies/nulu-experimental-browser-use-runtime':
         specifier: workspace:^
         version: link:../browser-use-runtime
@@ -6372,9 +5970,6 @@ importers:
       '@worldapptechnologies/schemastery':
         specifier: link:../../../vendor/schemastery
         version: link:../../../vendor/schemastery
-      '@puppeteer/browsers':
-        specifier: 3.2.2
-        version: 3.2.2(yauzl@2.10.0)
       zod:
         specifier: ^4.4.3
         version: 4.4.3
@@ -6528,15 +6123,15 @@ importers:
 
   packages/experimental/computer-use-cua-driver-native:
     dependencies:
+      '@trycua/cua-driver':
+        specifier: 0.28.0
+        version: 0.28.0
       '@worldapptechnologies/nulu-mcp-client':
         specifier: workspace:^
         version: link:../../mcp/mcp-client
       '@worldapptechnologies/schemastery':
         specifier: link:../../../vendor/schemastery
         version: link:../../../vendor/schemastery
-      '@trycua/cua-driver':
-        specifier: 0.28.0
-        version: 0.28.0
       zod:
         specifier: ^4.4.3
         version: 4.4.3
@@ -8109,18 +7704,9 @@ importers:
       '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
-      '@worldapptechnologies/cordis-plugin-include':
-        specifier: workspace:^
-        version: link:../../../vendor/include
-      '@worldapptechnologies/cordis-plugin-loader':
-        specifier: workspace:^
-        version: link:../../../vendor/loader
       '@worldapptechnologies/nulu-agent':
         specifier: workspace:^
         version: link:../../core/agent
-      '@worldapptechnologies/nulu-agent-loop':
-        specifier: workspace:^
-        version: link:../../core/agent-loop
       '@worldapptechnologies/nulu-anonymous-user-id':
         specifier: workspace:^
         version: link:../../identity/anonymous-user-id
@@ -8136,12 +7722,6 @@ importers:
       '@worldapptechnologies/nulu-credentials':
         specifier: workspace:^
         version: link:../../credentials/credentials
-      '@worldapptechnologies/nulu-credentials-local':
-        specifier: workspace:^
-        version: link:../../credentials/credentials-local
-      '@worldapptechnologies/nulu-llm-api-extensions':
-        specifier: workspace:^
-        version: link:../llm-api-extensions
       '@worldapptechnologies/nulu-fs':
         specifier: workspace:^
         version: link:../../fs/fs
@@ -8169,24 +7749,12 @@ importers:
       '@worldapptechnologies/nulu-session-log-gateway':
         specifier: workspace:^
         version: link:../../session/session-log-gateway
-      '@worldapptechnologies/nulu-session-projection':
-        specifier: workspace:^
-        version: link:../../session/session-projection
       '@worldapptechnologies/nulu-settings':
         specifier: workspace:^
         version: link:../../settings/settings
-      '@worldapptechnologies/nulu-settings-file':
-        specifier: workspace:^
-        version: link:../../settings/settings-file
-      '@worldapptechnologies/nulu-system-prompt':
-        specifier: workspace:^
-        version: link:../../core/system-prompt
       '@worldapptechnologies/nulu-timeout':
         specifier: workspace:^
         version: link:../../util/timeout
-      '@worldapptechnologies/nulu-tools':
-        specifier: workspace:^
-        version: link:../../core/tools
 
   packages/llm/llm-pi-ai:
     dependencies:
@@ -8322,9 +7890,6 @@ importers:
       '@worldapptechnologies/nulu-agent-presets':
         specifier: workspace:^
         version: link:../../preset/agent-presets
-      '@worldapptechnologies/nulu-app-boot':
-        specifier: workspace:^
-        version: link:../../boot/app-boot
       '@worldapptechnologies/nulu-llm-api-extensions':
         specifier: workspace:^
         version: link:../llm-api-extensions
@@ -8475,16 +8040,28 @@ importers:
 
   packages/mcp/mcp-client:
     dependencies:
+      '@modelcontextprotocol/client':
+        specifier: 2.0.0
+        version: 2.0.0
       '@worldapptechnologies/nulu-util-values':
         specifier: workspace:^
         version: link:../../util/values
       '@worldapptechnologies/schemastery':
         specifier: link:../../../vendor/schemastery
         version: link:../../../vendor/schemastery
-      '@modelcontextprotocol/client':
+    devDependencies:
+      '@modelcontextprotocol/node':
+        specifier: 2.0.0
+        version: 2.0.0(@modelcontextprotocol/server@2.0.0)(hono@4.12.29)
+      '@modelcontextprotocol/server':
         specifier: 2.0.0
         version: 2.0.0
-    devDependencies:
+      '@modelcontextprotocol/server-everything':
+        specifier: ^2026.7.4
+        version: 2026.7.4
+      '@modelcontextprotocol/server-filesystem':
+        specifier: ^2026.7.4
+        version: 2026.7.10(zod@4.4.3)
       '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
@@ -8518,18 +8095,6 @@ importers:
       '@worldapptechnologies/nulu-tools':
         specifier: workspace:^
         version: link:../../core/tools
-      '@modelcontextprotocol/node':
-        specifier: 2.0.0
-        version: 2.0.0(@modelcontextprotocol/server@2.0.0)(hono@4.12.29)
-      '@modelcontextprotocol/server':
-        specifier: 2.0.0
-        version: 2.0.0
-      '@modelcontextprotocol/server-everything':
-        specifier: ^2026.7.4
-        version: 2026.7.4
-      '@modelcontextprotocol/server-filesystem':
-        specifier: ^2026.7.4
-        version: 2026.7.10(zod@4.4.3)
       zod:
         specifier: ^4.4.3
         version: 4.4.3

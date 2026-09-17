@@ -15,7 +15,7 @@ import { Context, type FiberState } from '@worldapptechnologies/cordis'
 import Loader, { type Entry, type EntryOptions } from '@worldapptechnologies/cordis-plugin-loader'
 import Include, { applyEntryPatches, entryListSchema, type PatchOptions } from '@worldapptechnologies/cordis-plugin-include'
 import Group from '@worldapptechnologies/cordis-plugin-group'
-import { dshHomePath, resolveDshHome } from '@worldapptechnologies/nulu-home-paths'
+import { nuluHomePath, resolveDshHome } from '@worldapptechnologies/nulu-home-paths'
 import { createLaunchEnvironmentSnapshot, type LaunchEnvironmentSnapshot } from '@worldapptechnologies/nulu-launch-environment'
 import type {} from '@worldapptechnologies/cordis-plugin-hmr'
 import { watchConfig } from './watch-config.ts'
@@ -877,7 +877,7 @@ export async function boot(
   let stage = 'host preparation failed'
   try {
     ctx.baseUrl = pathToFileURL(dirname(absoluteConfigPath)).href + '/'
-    ctx.provide('dshHomePath', dshHomePath)
+    ctx.provide('nuluHomePath', nuluHomePath)
     // Fiber.update() discards the restart promise. Observe it before the
     // waterfall returns; activation audits still report the failed fiber.
     ctx.on('internal/update', (_config, _noSave, next: () => unknown) => {

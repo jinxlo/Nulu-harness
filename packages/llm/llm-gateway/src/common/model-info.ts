@@ -1,7 +1,7 @@
 /** Protocol-independent model capabilities and reasoning choices. */
 import { ReasoningEffortId } from '@worldapptechnologies/nulu-llm'
 import type { LlmModelInfo, LlmResolvedModelInfo } from '@worldapptechnologies/nulu-llm'
-import type { DeepSeekCatalogModel, DeepSeekConnectionOptions } from './types.ts'
+import type { NuluCatalogModel, NuluConnectionOptions } from './types.ts'
 
 const OFF_REASONING_EFFORT = ReasoningEffortId('off')
 const LOW_REASONING_EFFORT = ReasoningEffortId('low')
@@ -42,7 +42,7 @@ const OFF_ONLY_REASONING_EFFORTS = [
  * @param model - advisory catalog entry.
  * @returns selector metadata.
  */
-export function catalogModelInfo(provider: string, model: DeepSeekCatalogModel): LlmModelInfo {
+export function catalogModelInfo(provider: string, model: NuluCatalogModel): LlmModelInfo {
   return {
     provider,
     id: model.id,
@@ -59,7 +59,7 @@ export function catalogModelInfo(provider: string, model: DeepSeekCatalogModel):
  * @returns effective model metadata for this operation.
  */
 export function modelInfo(
-  connection: DeepSeekConnectionOptions,
+  connection: NuluConnectionOptions,
   provider: string,
   model: string,
 ): LlmResolvedModelInfo {

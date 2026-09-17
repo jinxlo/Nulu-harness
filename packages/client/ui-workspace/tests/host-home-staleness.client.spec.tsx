@@ -68,7 +68,7 @@ function closeHoverCard(): void {
 describe('Host home in the assembled browsing region', () => {
   it('abbreviates the path once a home learned after first render reaches the rows', async () => {
     // First render precedes the ready frame: the shell mounts while the carrier
-    // is still handshaking, so the Host reports no home yet.
+    // is still hannuluaking, so the Host reports no home yet.
     const { runtime, remote } = await bench()
     remote.$host = { home: undefined, isLoopback: true }
     runtime.renderRoot()

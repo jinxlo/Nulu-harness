@@ -76,7 +76,7 @@ The [format references](persistence-changes/historical-formats/README.md) cover 
 | `event:turn/end` | event | `bab768260853e13a7cf2e22e65af572a1e76a5b2c01f3cdc2ce09d39b87fb70b` | [`event:turn/end`](#persistence-type-eventturnend) |
 | `event:turn/start` | event | `aa0957eca50aeb28bcd2e6930b95809926edacb550c8c340ba526ba6b861b3d8` | [`event:turn/start`](#persistence-type-eventturnstart) |
 | `event:user/message` | event | `314765bdff29c7862fb6ce820f1773563ba3094a680d163ea21180a2591b8578` | [`event:user/message`](#persistence-type-eventusermessage) |
-| `event:web/deepseek-search-llm-request` | event | `cf6e3aaf1e2de6480aa0157730a41b9a492108a55304100b0f7e112711dd4331` | [`event:web/deepseek-search-llm-request`](#persistence-type-eventwebdeepseek-search-llm-request) |
+| `event:web/nulu-search-llm-request` | event | `cf6e3aaf1e2de6480aa0157730a41b9a492108a55304100b0f7e112711dd4331` | [`event:web/nulu-search-llm-request`](#persistence-type-eventwebnulu-search-llm-request) |
 
 ## Event envelope
 
@@ -3924,23 +3924,23 @@ SHA-256: `314765bdff29c7862fb6ce820f1773563ba3094a680d163ea21180a2591b8578`
 | `time` | required | `number` |
 | `type` | required | `"user/message"` |
 
-<a id="persistence-type-eventwebdeepseek-search-llm-request"></a>
+<a id="persistence-type-eventwebnulu-search-llm-request"></a>
 
-### `event:web/deepseek-search-llm-request`
+### `event:web/nulu-search-llm-request`
 
 SHA-256: `cf6e3aaf1e2de6480aa0157730a41b9a492108a55304100b0f7e112711dd4331`
 
 | Property | Presence | Type |
 |---|---|---|
-| `data` | required | [`packages/web/web-search-gateway/src/provider.ts#DeepSeekSearchLlmRequest`](#persistence-type-packageswebweb-search-gatewaysrcprovidertsdeepseeksearchllmrequest) |
+| `data` | required | [`packages/web/web-search-gateway/src/provider.ts#NuluSearchLlmRequest`](#persistence-type-packageswebweb-search-gatewaysrcprovidertsnulusearchllmrequest) |
 | `ignorable` | optional | `true` |
 | `seq` | required | `number` |
 | `time` | required | `number` |
-| `type` | required | `"web/deepseek-search-llm-request"` |
+| `type` | required | `"web/nulu-search-llm-request"` |
 
-<a id="persistence-type-eventwebdeepseek-search-llm-requestdatabody"></a>
+<a id="persistence-type-eventwebnulu-search-llm-requestdatabody"></a>
 
-### `event:web/deepseek-search-llm-request.data.body`
+### `event:web/nulu-search-llm-request.data.body`
 
 SHA-256: `930a6567a10bb62ddd157bd8abdf4b182810c8c3b49d91309b3b009a5fed9731`
 
@@ -3949,23 +3949,23 @@ Sources: [`packages/web/web-search-gateway/src/provider.ts:61`](../packages/web/
 | Property | Presence | Type |
 |---|---|---|
 | `max_tokens` | required | `number` |
-| `messages` | required | [`event:web/deepseek-search-llm-request.data.body.messages`](#persistence-type-eventwebdeepseek-search-llm-requestdatabodymessages) |
+| `messages` | required | [`event:web/nulu-search-llm-request.data.body.messages`](#persistence-type-eventwebnulu-search-llm-requestdatabodymessages) |
 | `model` | required | `string` |
-| `tools` | required | [`event:web/deepseek-search-llm-request.data.body.tools`](#persistence-type-eventwebdeepseek-search-llm-requestdatabodytools) |
+| `tools` | required | [`event:web/nulu-search-llm-request.data.body.tools`](#persistence-type-eventwebnulu-search-llm-requestdatabodytools) |
 
-<a id="persistence-type-eventwebdeepseek-search-llm-requestdatabodymessages"></a>
+<a id="persistence-type-eventwebnulu-search-llm-requestdatabodymessages"></a>
 
-### `event:web/deepseek-search-llm-request.data.body.messages`
+### `event:web/nulu-search-llm-request.data.body.messages`
 
 SHA-256: `b993441f8ce7d27b80e619e113e232ae8e62d3d5a8340f6bfe12d8c4c018e62f`
 
 | Position | Presence | Type |
 |---|---|---|
-| 0 | required | [`event:web/deepseek-search-llm-request.data.body.messages[0]`](#persistence-type-eventwebdeepseek-search-llm-requestdatabodymessages0) |
+| 0 | required | [`event:web/nulu-search-llm-request.data.body.messages[0]`](#persistence-type-eventwebnulu-search-llm-requestdatabodymessages0) |
 
-<a id="persistence-type-eventwebdeepseek-search-llm-requestdatabodymessages0"></a>
+<a id="persistence-type-eventwebnulu-search-llm-requestdatabodymessages0"></a>
 
-### `event:web/deepseek-search-llm-request.data.body.messages[0]`
+### `event:web/nulu-search-llm-request.data.body.messages[0]`
 
 SHA-256: `9a2a9029f8d7ede05336980d8342737557f487b913bfd28853d0ab5214600ab5`
 
@@ -3973,22 +3973,22 @@ Sources: [`packages/web/web-search-gateway/src/provider.ts:64`](../packages/web/
 
 | Property | Presence | Type |
 |---|---|---|
-| `content` | required | [`event:web/deepseek-search-llm-request.data.body.messages[0].content`](#persistence-type-eventwebdeepseek-search-llm-requestdatabodymessages0content) |
+| `content` | required | [`event:web/nulu-search-llm-request.data.body.messages[0].content`](#persistence-type-eventwebnulu-search-llm-requestdatabodymessages0content) |
 | `role` | required | `"user"` |
 
-<a id="persistence-type-eventwebdeepseek-search-llm-requestdatabodymessages0content"></a>
+<a id="persistence-type-eventwebnulu-search-llm-requestdatabodymessages0content"></a>
 
-### `event:web/deepseek-search-llm-request.data.body.messages[0].content`
+### `event:web/nulu-search-llm-request.data.body.messages[0].content`
 
 SHA-256: `8f6d609794bf5afc01d7ccf3e03811d32f4b8047f58a2c9a98db0154c2ad7cb9`
 
 | Position | Presence | Type |
 |---|---|---|
-| 0 | required | [`event:web/deepseek-search-llm-request.data.body.messages[0].content[0]`](#persistence-type-eventwebdeepseek-search-llm-requestdatabodymessages0content0) |
+| 0 | required | [`event:web/nulu-search-llm-request.data.body.messages[0].content[0]`](#persistence-type-eventwebnulu-search-llm-requestdatabodymessages0content0) |
 
-<a id="persistence-type-eventwebdeepseek-search-llm-requestdatabodymessages0content0"></a>
+<a id="persistence-type-eventwebnulu-search-llm-requestdatabodymessages0content0"></a>
 
-### `event:web/deepseek-search-llm-request.data.body.messages[0].content[0]`
+### `event:web/nulu-search-llm-request.data.body.messages[0].content[0]`
 
 SHA-256: `4e887768586528565381dadbddee6cef555874148089f4579e0b4b1ad096fc9c`
 
@@ -3999,19 +3999,19 @@ Sources: [`packages/llm/llm/src/types.ts:61`](../packages/llm/llm/src/types.ts) 
 | `text` | required | `string` |
 | `type` | required | `"text"` |
 
-<a id="persistence-type-eventwebdeepseek-search-llm-requestdatabodytools"></a>
+<a id="persistence-type-eventwebnulu-search-llm-requestdatabodytools"></a>
 
-### `event:web/deepseek-search-llm-request.data.body.tools`
+### `event:web/nulu-search-llm-request.data.body.tools`
 
 SHA-256: `4aed17ec726b5397c29f6cb4bcd7905dc1a12bb6140f1657f073cd24380f2af8`
 
 | Position | Presence | Type |
 |---|---|---|
-| 0 | required | [`event:web/deepseek-search-llm-request.data.body.tools[0]`](#persistence-type-eventwebdeepseek-search-llm-requestdatabodytools0) |
+| 0 | required | [`event:web/nulu-search-llm-request.data.body.tools[0]`](#persistence-type-eventwebnulu-search-llm-requestdatabodytools0) |
 
-<a id="persistence-type-eventwebdeepseek-search-llm-requestdatabodytools0"></a>
+<a id="persistence-type-eventwebnulu-search-llm-requestdatabodytools0"></a>
 
-### `event:web/deepseek-search-llm-request.data.body.tools[0]`
+### `event:web/nulu-search-llm-request.data.body.tools[0]`
 
 SHA-256: `2d11ca7b0d4493e244b74eba093227866b33249841e59a1e9bf56afed38604c3`
 
@@ -5243,7 +5243,7 @@ Sources: [`packages/llm/llm/src/types.ts:137`](../packages/llm/llm/src/types.ts)
 One of:
 
 - [`packages/llm/llm/src/types.ts#ReasoningBlock`](#persistence-type-packagesllmllmsrctypestsreasoningblock)
-- [`event:web/deepseek-search-llm-request.data.body.messages[0].content[0]`](#persistence-type-eventwebdeepseek-search-llm-requestdatabodymessages0content0)
+- [`event:web/nulu-search-llm-request.data.body.messages[0].content[0]`](#persistence-type-eventwebnulu-search-llm-requestdatabodymessages0content0)
 - [`packages/llm/llm/src/types.ts#ToolCallBlock`](#persistence-type-packagesllmllmsrctypeststoolcallblock)
 - [`packages/llm/llm/src/types.ts#ImageBlock`](#persistence-type-packagesllmllmsrctypestsimageblock)
 - [`packages/llm/llm/src/types.ts#FileBlock`](#persistence-type-packagesllmllmsrctypestsfileblock)
@@ -5789,9 +5789,9 @@ Sources: [`packages/todo/tool-todo/src/types.ts:21`](../packages/todo/tool-todo/
 | `content` | required | `string` |
 | `status` | required | [`event:todo/write.data.todos[0].status`](#persistence-type-eventtodowritedatatodos0status) |
 
-<a id="persistence-type-packageswebweb-search-gatewaysrcprovidertsdeepseeksearchllmrequest"></a>
+<a id="persistence-type-packageswebweb-search-gatewaysrcprovidertsnulusearchllmrequest"></a>
 
-### `packages/web/web-search-gateway/src/provider.ts#DeepSeekSearchLlmRequest`
+### `packages/web/web-search-gateway/src/provider.ts#NuluSearchLlmRequest`
 
 SHA-256: `2517ba143a271508d3ca35126d5aca8f7f1facf5aaddce4adf011832042fa2b9`
 
@@ -5800,7 +5800,7 @@ Sources: [`packages/web/web-search-gateway/src/provider.ts:55`](../packages/web/
 | Property | Presence | Type |
 |---|---|---|
 | `apiVersion` | required | `string` |
-| `body` | required | [`event:web/deepseek-search-llm-request.data.body`](#persistence-type-eventwebdeepseek-search-llm-requestdatabody) |
+| `body` | required | [`event:web/nulu-search-llm-request.data.body`](#persistence-type-eventwebnulu-search-llm-requestdatabody) |
 | `endpoint` | required | `string` |
 
 <a id="persistence-type-packagesworkflowtool-workflowsrctypeststoolworkflowagentenddata"></a>
@@ -6645,13 +6645,13 @@ SHA-256: `0116b1f89c05221d56b0ba35c83d302bf4857bc7277d247e9bbaf74b27d2c66e`
 
 `"web_search_20250305"`
 
-<a id="persistence-type-webdeepseek-search-llm-request"></a>
+<a id="persistence-type-webnulu-search-llm-request"></a>
 
-### `"web/deepseek-search-llm-request"`
+### `"web/nulu-search-llm-request"`
 
 SHA-256: `6f611bed14b2106542480c4a230b4a83baf76dc0d8ac0cd13319a7cb8dae7675`
 
-`"web/deepseek-search-llm-request"`
+`"web/nulu-search-llm-request"`
 
 <a id="persistence-type-webhook"></a>
 

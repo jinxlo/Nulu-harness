@@ -16,7 +16,7 @@
 - id: session-persistence-jsonl
   name: '@worldapptechnologies/nulu-session-persistence-jsonl'
   config:
-    root: !!js dshHomePath('sessions')
+    root: !!js nuluHomePath('sessions')
     compression: !!js "process.env.NULU_SNAPSHOT === undefined ? 'zstd' : 'none'"
 
 - id: tool-subagent

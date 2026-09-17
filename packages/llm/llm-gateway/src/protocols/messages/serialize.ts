@@ -3,20 +3,20 @@
 import { LlmError, requestImageHandleText } from '@worldapptechnologies/nulu-llm'
 import type { ContentBlock, GenerateOptions, ImageAttachmentAccessResolver, Message } from '@worldapptechnologies/nulu-llm'
 import type { ImageAttachmentRef, RequestImageAttachment } from '@worldapptechnologies/nulu-attachment'
-import type { DeepSeekConnectionOptions as Connection } from '../../common/types.ts'
-import type { DeepSeekFileId } from '../../common/file-id.ts'
+import type { NuluConnectionOptions as Connection } from '../../common/types.ts'
+import type { NuluFileId } from '../../common/file-id.ts'
 import { object, readReplay } from './replay.ts'
 import type { WireBlock, WireInput, WireMessage, WireRequest } from './types.ts'
 
 function unsupported(type: string): never {
-  throw new LlmError(`DeepSeek Messages cannot represent ${type}`, 'UNSUPPORTED_CONTENT')
+  throw new LlmError(`Nulu Messages cannot represent ${type}`, 'UNSUPPORTED_CONTENT')
 }
 
 /** Parse tool input only when constructing an outgoing native tool_use block. */
 function toolInput(raw: string): Record<string, unknown> {
   let value: unknown
   try { value = JSON.parse(raw) } catch (_invalidToolHistoryJson) {
-    throw new LlmError('DeepSeek Messages historical tool input is invalid JSON', 'INVALID_REQUEST')
+    throw new LlmError('Nulu Messages historical tool input is invalid JSON', 'INVALID_REQUEST')
   }
   return object(value, 'INVALID_REQUEST')
 }
@@ -50,7 +50,7 @@ export function serialize(
   options: GenerateOptions, connection: Connection, history: readonly Message[],
   images: ReadonlyMap<ImageAttachmentRef['attachmentId'], RequestImageAttachment>, access: ImageAttachmentAccessResolver,
   onReplayDegrade?: (reason: string) => void,
-  fileIds?: ReadonlyMap<ImageAttachmentRef['attachmentId'], DeepSeekFileId>,
+  fileIds?: ReadonlyMap<ImageAttachmentRef['attachmentId'], NuluFileId>,
 ): WireRequest {
   const model = connection.models.find(entry => entry.id === options.model)
   const inHistory = model?.systemPromptUpdate === 'in-history'
@@ -58,9 +58,9 @@ export function serialize(
     if (block.type === 'text') return block.text ? [{ type: 'text', text: block.text }] : []
     if (block.type !== 'image') return unsupported(`user/tool-result content ${block.type}`)
     const version = images.get(block.attachment.attachmentId)
-    if (version === undefined) throw new LlmError('DeepSeek Messages request image is missing', 'INVALID_REQUEST')
+    if (version === undefined) throw new LlmError('Nulu Messages request image is missing', 'INVALID_REQUEST')
     const fileId = fileIds?.get(block.attachment.attachmentId)
-    if (fileIds !== undefined && fileId === undefined) throw new LlmError('DeepSeek Messages request file id is missing', 'INVALID_REQUEST')
+    if (fileIds !== undefined && fileId === undefined) throw new LlmError('Nulu Messages request file id is missing', 'INVALID_REQUEST')
     return [
       { type: 'text', text: requestImageHandleText(block.attachment, version, access(block.attachment)) },
       fileId === undefined
@@ -106,20 +106,20 @@ export function serialize(
     if (message.role === 'assistant') {
       const calls = message.content.filter(block => block.type === 'tool_use')
       pending = new Set(calls.map(block => block.id))
-      if (pending.size !== calls.length) throw new LlmError('DeepSeek Messages duplicate tool call id', 'INVALID_REQUEST')
+      if (pending.size !== calls.length) throw new LlmError('Nulu Messages duplicate tool call id', 'INVALID_REQUEST')
     } else if (message.role === 'user') {
       const results = message.content.filter(block => block.type === 'tool_result')
       for (const result of results) {
-        if (!pending.delete(result.tool_use_id)) throw new LlmError('DeepSeek Messages tool result has no matching call', 'INVALID_REQUEST')
+        if (!pending.delete(result.tool_use_id)) throw new LlmError('Nulu Messages tool result has no matching call', 'INVALID_REQUEST')
       }
-      if (pending.size > 0) throw new LlmError('DeepSeek Messages tool calls need immediate results', 'INVALID_REQUEST')
+      if (pending.size > 0) throw new LlmError('Nulu Messages tool calls need immediate results', 'INVALID_REQUEST')
       message.content = [...results, ...message.content.filter(block => block.type !== 'tool_result')]
     }
   }
-  if (pending.size > 0) throw new LlmError('DeepSeek Messages history ends with unresolved tools', 'INVALID_REQUEST')
+  if (pending.size > 0) throw new LlmError('Nulu Messages history ends with unresolved tools', 'INVALID_REQUEST')
   const effort = options.purpose === 'session-title' ? 'off' : options.reasoningEffort ?? (connection.defaults.reasoningEffort ?? (connection.defaults.thinking === 'disabled' ? 'off' : 'high'))
   if (!['off', 'low', 'high', 'max'].includes(effort) || (connection.defaults.thinking === 'disabled' && effort !== 'off')) {
-    throw new LlmError(`DeepSeek Messages does not support reasoning effort ${effort}`, 'UNSUPPORTED_REASONING_EFFORT')
+    throw new LlmError(`Nulu Messages does not support reasoning effort ${effort}`, 'UNSUPPORTED_REASONING_EFFORT')
   }
   const system = [options.system, historySystem].filter(Boolean).join('\n\n')
   return {

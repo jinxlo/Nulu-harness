@@ -2,8 +2,8 @@
 import { afterEach, expect, it } from 'vitest'
 import type { Message } from '@worldapptechnologies/nulu-llm'
 import type { AnonymousUserId } from '@worldapptechnologies/nulu-anonymous-user-id'
-import { Config, DeepSeekAdapter, resolveAdapterOptions } from '../src/index.ts'
-import type { DeepSeekConnectionOptions } from '../src/index.ts'
+import { Config, NuluAdapter, resolveAdapterOptions } from '../src/index.ts'
+import type { NuluConnectionOptions } from '../src/index.ts'
 import { assemble, chunks, end, MODEL, options, server, sse, start, textEvents, user } from './messages/helpers.ts'
 
 const close: (() => Promise<void>)[] = []
@@ -17,8 +17,8 @@ async function endpoint(...args: Parameters<typeof server>) {
 }
 const chat = 'data: {"choices":[{"delta":{"content":"Chat answer"}}]}\n\n'
   + 'data: {"choices":[{"delta":{},"finish_reason":"stop"}]}\n\ndata: [DONE]\n\n'
-function adapter(connection: () => DeepSeekConnectionOptions) {
-  return new DeepSeekAdapter({
+function adapter(connection: () => NuluConnectionOptions) {
+  return new NuluAdapter({
     options: connection,
     resolveApiKey: snapshot => Promise.resolve(`key-for-${snapshot.apiKeyEnv}`),
     resolveUserId: () => '00000000-0000-4000-8000-000000000001' as AnonymousUserId,
@@ -45,12 +45,12 @@ it('keeps the prepared Messages protocol, credential reference and endpoint afte
   const first = await endpoint(), second = await endpoint(response => response.end(chat))
   let connection = resolveAdapterOptions({ protocol: 'messages', baseURL: first.url, apiKeyEnv: 'MESSAGES_KEY', maxTokens: 12 })
   const llm = adapter(() => connection)
-  const prepared = await llm.prepareCall('deepseek-official', MODEL)
+  const prepared = await llm.prepareCall('nulu-official', MODEL)
   connection = resolveAdapterOptions({ protocol: 'chat-completions', baseURL: second.url, apiKeyEnv: 'CHAT_KEY', maxTokens: 24 })
   await chunks(prepared.stream(options()))
   await chunks(prepared.stream(options()))
   expect(prepared.model.defaultMaxTokens).toBe(12)
-  expect((await llm.resolveModel('deepseek-official', MODEL)).defaultMaxTokens).toBe(24)
+  expect((await llm.resolveModel('nulu-official', MODEL)).defaultMaxTokens).toBe(24)
   await chunks(llm.stream(options()))
   expect(first.requests).toHaveLength(2)
   for (const request of first.requests) expect(request).toMatchObject({

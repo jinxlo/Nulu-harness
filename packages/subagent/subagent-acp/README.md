@@ -90,7 +90,7 @@ This section explains how the backend drives a child over ACP and where the obse
 
 ### Start and ownership flow
 
-A start resolves the child's working directory (the configured `cwd` override, else the parent session's cwd), spawns the command through the subprocess seam, performs the ACP `initialize` and `newSession` handshake, and only then publishes the run. Fulfillment means a remote session is ready and ownership has transferred to the caller. Disposal is idempotent: it closes stdin and waits a configured grace for cooperative quiescence, then escalates through SIGTERM to SIGKILL and awaits whole-range exit. Cleanup failures remain observable as ordered safe facts and never claim quiescence.
+A start resolves the child's working directory (the configured `cwd` override, else the parent session's cwd), spawns the command through the subprocess seam, performs the ACP `initialize` and `newSession` hannuluake, and only then publishes the run. Fulfillment means a remote session is ready and ownership has transferred to the caller. Disposal is idempotent: it closes stdin and waits a configured grace for cooperative quiescence, then escalates through SIGTERM to SIGKILL and awaits whole-range exit. Cleanup failures remain observable as ordered safe facts and never claim quiescence.
 
 ### Stop-reason mapping
 
@@ -155,7 +155,7 @@ Append-only; newly visible content follows the reusable request prefix and does 
 
 These limits define when this backend is a poor fit or needs special operational care. They are current package constraints, not a general ACP comparison or a task backlog.
 
-- **A fresh process per run** — there is no process pooling; each delegation pays the full spawn and ACP handshake cost.
+- **A fresh process per run** — there is no process pooling; each delegation pays the full spawn and ACP hannuluake cost.
 - **Local workspaces only** — the resolved working directory is a local path handed to a child on the same machine; remote workspace mapping is not designed.
 - **No optional start-time capabilities** — this provider cannot apply `agentOptions`, `outputSchema`, a depth cap, a tool filter, or a persona inside the remote process, so the seam rejects requests that require them.
 - **Only committed `agent_message_chunk` text is collected** — the automation server keeps reasoning, tool activity, plans, and other trace data in the child session log rather than emitting them on ACP.

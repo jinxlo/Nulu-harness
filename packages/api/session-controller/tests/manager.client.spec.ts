@@ -739,7 +739,7 @@ describe('connected generation', () => {
     mock.stream(FOLLOW, followScript(ok({
       records: entries(plainTurn(SessionSeq(0), 0, 'a', 'b')) as never[],
       hasMore: false,
-      modelSelection: { provider: 'deepseek-official', model: 'deepseek-chat' },
+      modelSelection: { provider: 'nulu-official', model: 'nulu-chat' },
     })))
     const client = await start()
     const manager = new SessionManager(client.ctx.remote)

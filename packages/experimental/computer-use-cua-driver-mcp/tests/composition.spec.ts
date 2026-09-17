@@ -83,7 +83,7 @@ async function load(mode?: string): Promise<{ ctx: Context; root: string; model:
         reconnect: { initialDelayMs: 20, maxDelayMs: 40, maxAttempts: 2 },
       }
       : name === '@worldapptechnologies/nulu-attachment-local'
-        ? { dshHome: root }
+        ? { nuluHome: root }
         : name === '@worldapptechnologies/nulu-agent-loop' ? { agents: [] } : {},
   }))))
   const ctx = new Context()

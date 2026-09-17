@@ -1,7 +1,7 @@
 - id: llm-gateway
   config:
     models:
-      - id: deepseek-v4-flash
+      - id: nulu-v4-flash
         systemPromptUpdate: in-history
 
 - insert:

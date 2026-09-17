@@ -5,15 +5,15 @@ import { join } from 'node:path'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { Context } from '@worldapptechnologies/cordis'
 import LlmRuntime from '@worldapptechnologies/nulu-llm'
-import DeepSeekLlmApiExtensionRegistry from '@worldapptechnologies/nulu-llm-api-extensions'
-import type { DeepSeekLlmApiExtensionRequest } from '@worldapptechnologies/nulu-llm-api-extensions'
+import NuluLlmApiExtensionRegistry from '@worldapptechnologies/nulu-llm-api-extensions'
+import type { NuluLlmApiExtensionRequest } from '@worldapptechnologies/nulu-llm-api-extensions'
 import { SessionId } from '@worldapptechnologies/nulu-session'
-import * as DeepSeek from '../../src/index.ts'
+import * as Nulu from '../../src/index.ts'
 import { assemble, options, sse, textEvents } from './helpers.ts'
 
 declare module '@worldapptechnologies/nulu-llm-api-extensions' {
-  interface DeepSeekLlmApiExtensionMap {
-    dsh_messages_test: { value: string }
+  interface NuluLlmApiExtensionMap {
+    nulu_messages_test: { value: string }
   }
 }
 
@@ -32,17 +32,17 @@ async function boot() {
   const ctx = new Context()
   cleanup.push(() => ctx.fiber.dispose())
   await ctx.plugin(LlmRuntime)
-  await ctx.plugin(DeepSeekLlmApiExtensionRegistry)
-  await ctx.plugin(DeepSeek, { baseURL: 'https://messages.example.test/root' })
+  await ctx.plugin(NuluLlmApiExtensionRegistry)
+  await ctx.plugin(Nulu, { baseURL: 'https://messages.example.test/root' })
   return ctx
 }
 
 describe('Messages request extensions', () => {
   it('prepares the native body and accepts its contribution before yielding content', async () => {
     const ctx = await boot()
-    let request: DeepSeekLlmApiExtensionRequest | undefined
+    let request: NuluLlmApiExtensionRequest | undefined
     const accepted = vi.fn()
-    ctx.deepseekLlmApiExtensions.register('dsh_messages_test', {
+    ctx.nuluLlmApiExtensions.register('nulu_messages_test', {
       prepare: (value) => {
         request = value
         return { value: { value: 'inventory' }, accept: accepted }
@@ -62,16 +62,16 @@ describe('Messages request extensions', () => {
       sessionId: 'session-parity', purpose: 'compaction',
       body: { thinking: { type: 'enabled' }, messages: [{ role: 'user', content: [{ type: 'text', text: 'hello' }] }] },
     })
-    expect(request?.body).not.toHaveProperty('dsh_messages_test')
+    expect(request?.body).not.toHaveProperty('nulu_messages_test')
     expect(fetch.mock.calls[0]?.[0]).toBe('https://messages.example.test/root/v1/messages')
     const body = fetch.mock.calls[0]?.[1]?.body
     if (typeof body !== 'string') throw new Error('Expected a serialized Messages request')
-    expect(JSON.parse(body)).toMatchObject({ dsh_messages_test: { value: 'inventory' } })
+    expect(JSON.parse(body)).toMatchObject({ nulu_messages_test: { value: 'inventory' } })
   })
 
   it('rejects preparation before dispatch', async () => {
     const ctx = await boot()
-    ctx.deepseekLlmApiExtensions.register('dsh_messages_test', { prepare() { throw new Error('inventory unavailable') } })
+    ctx.nuluLlmApiExtensions.register('nulu_messages_test', { prepare() { throw new Error('inventory unavailable') } })
     const fetch = vi.fn<typeof globalThis.fetch>()
     vi.stubGlobal('fetch', fetch)
     const result = await assemble(ctx.llm.stream(options()))
@@ -82,7 +82,7 @@ describe('Messages request extensions', () => {
   it.each(['http', 'transport', 'stream'] as const)('records acceptance only for HTTP success despite a later %s failure', async (failure) => {
     const ctx = await boot()
     const accept = vi.fn()
-    ctx.deepseekLlmApiExtensions.register('dsh_messages_test', { prepare: () => ({ value: { value: 'log' }, accept }) })
+    ctx.nuluLlmApiExtensions.register('nulu_messages_test', { prepare: () => ({ value: { value: 'log' }, accept }) })
     vi.stubGlobal('fetch', vi.fn<typeof globalThis.fetch>().mockImplementation(() => {
       if (failure === 'transport') return Promise.reject(new Error('connection lost'))
       if (failure === 'http') return Promise.resolve(Response.json({ error: { message: 'rejected' } }, { status: 400 }))
@@ -95,7 +95,7 @@ describe('Messages request extensions', () => {
 
   it('retains the extension error category when acceptance fails', async () => {
     const ctx = await boot()
-    ctx.deepseekLlmApiExtensions.register('dsh_messages_test', {
+    ctx.nuluLlmApiExtensions.register('nulu_messages_test', {
       prepare: () => ({ value: { value: 'log' }, accept() { throw new Error('watermark storage failed') } }),
     })
     vi.stubGlobal('fetch', vi.fn<typeof globalThis.fetch>().mockResolvedValue(new Response(sse(textEvents))))

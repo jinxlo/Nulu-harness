@@ -3,9 +3,9 @@
 import type { AttachmentStore, ImageAttachmentRef, RequestImageAttachment } from '@worldapptechnologies/nulu-attachment'
 import { contentHasImage, IMAGE_OFFLOAD_REQUIRED_CODE, LlmError, offloadedImageText, projectOffloadedImages, requiredImageOffload } from '@worldapptechnologies/nulu-llm'
 import type { ContentBlock, ImageAttachmentAccessResolver, Message } from '@worldapptechnologies/nulu-llm'
-import type { DeepSeekConnectionOptions as Connection } from '../../common/types.ts'
+import type { NuluConnectionOptions as Connection } from '../../common/types.ts'
 import { resolveRequestImageTarget } from '../../common/request-pricing.ts'
-import type { DeepSeekFileId } from '../../common/file-id.ts'
+import type { NuluFileId } from '../../common/file-id.ts'
 import type { RequestFiles } from '../../common/request-files.ts'
 
 export { deepSeekImageRequestPricing as imagePricing } from '../../common/request-pricing.ts'
@@ -45,10 +45,10 @@ export async function prepareImages(
   if (!messages.some(message => contentHasImage(message.content))) return { messages, versions }
   const model = connection.models.find(entry => entry.id === modelId)
   if (model?.inputModalities?.includes('image') !== true || attachments === undefined) {
-    throw new LlmError('DeepSeek Messages image input requires a vision model and attachment service', 'UNSUPPORTED_CONTENT')
+    throw new LlmError('Nulu Messages image input requires a vision model and attachment service', 'UNSUPPORTED_CONTENT')
   }
   if (messages.some(message => message.role !== 'user' && contentHasImage(message.content))) {
-    throw new LlmError('DeepSeek Messages supports images only in user messages and tool results', 'UNSUPPORTED_CONTENT')
+    throw new LlmError('Nulu Messages supports images only in user messages and tool results', 'UNSUPPORTED_CONTENT')
   }
   for (const message of messages) {
     for (const ref of imageRefs(message.content)) {
@@ -84,7 +84,7 @@ function assertImagesFit(
     block => (versions.get(block.attachment.attachmentId) as RequestImageAttachment).bytes)
   if (offloadImages > 0) {
     throw new LlmError(
-      `DeepSeek Messages ${representation} request images exceed the route budget; ${offloadImages} more oldest occurrence(s) must be offloaded.`,
+      `Nulu Messages ${representation} request images exceed the route budget; ${offloadImages} more oldest occurrence(s) must be offloaded.`,
       IMAGE_OFFLOAD_REQUIRED_CODE,
       { offloadImages },
     )
@@ -99,8 +99,8 @@ function assertImagesFit(
  */
 export async function prepareFileIds(
   messages: readonly Message[], versions: ReadonlyMap<ImageAttachmentRef['attachmentId'], RequestImageAttachment>, files: RequestFiles,
-): Promise<Map<ImageAttachmentRef['attachmentId'], DeepSeekFileId>> {
-  const ids = new Map<ImageAttachmentRef['attachmentId'], DeepSeekFileId>()
+): Promise<Map<ImageAttachmentRef['attachmentId'], NuluFileId>> {
+  const ids = new Map<ImageAttachmentRef['attachmentId'], NuluFileId>()
   for (const [index, message] of messages.entries()) {
     let image = 0
     for (const ref of imageRefs(message.content)) {

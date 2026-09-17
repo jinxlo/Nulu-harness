@@ -5,7 +5,7 @@
 // layer stack the profile boot composes), patched the
 // snapshot way — so a real chromium exercises the real HTTP uplink/WebSocket
 // downlink, api-gateway, agent loop, tools, and persistence. Modes ride $NULU_SNAPSHOT:
-// replay (default, keyless: normally disables the direct DeepSeek rows and
+// replay (default, keyless: normally disables the direct Nulu rows and
 // inserts nulu-llm-replay in providers mode), record (real adapter + key,
 // harvests fixtures from live session memory), refresh (keyless replay that
 // rewrites goldens). A first-run option keeps the real adapter mounted while
@@ -66,7 +66,7 @@ import {
   type Profile,
   type ProfileResolutionMode,
 } from '@worldapptechnologies/nulu-app-boot'
-import { dshHomePath } from '@worldapptechnologies/nulu-home-paths'
+import { nuluHomePath } from '@worldapptechnologies/nulu-home-paths'
 import { LlmAdapter } from '@worldapptechnologies/nulu-llm'
 import type {
   LlmModelInfo, LlmProviderInfo, LlmResolvedModelInfo, RetryPolicyConfig, StreamChunk,
@@ -253,7 +253,7 @@ class RouteOnlyAdapter extends LlmAdapter {
 function replayProviders(contextWindow: number | undefined, messages: boolean): typeof REPLAY_PROVIDERS {
   return REPLAY_PROVIDERS.map(provider => ({
     ...provider,
-    id: messages ? 'deepseek-messages' : provider.id,
+    id: messages ? 'nulu-messages' : provider.id,
     models: provider.models.map(model => ({
       ...model,
       ...contextWindow === undefined ? {} : { contextWindow },
@@ -459,9 +459,9 @@ export async function launchWebScaffold(options: LaunchOptions = {}): Promise<We
     ...maskNuluCredential ? { WORLD_APP_TECHNOLOGIES_API_KEY: process.env.WORLD_APP_TECHNOLOGIES_API_KEY } : {},
     ...mode === 'record' ? {} : { WORLD_APP_TECHNOLOGIES_API_KEY: process.env.WORLD_APP_TECHNOLOGIES_API_KEY },
   }
-  const maskDeepSeekCredential = mode !== 'record' && options.deepSeekMissingCredential === true
+  const maskNuluCredential = mode !== 'record' && options.deepSeekMissingCredential === true
   const messages = options.deepSeekMessages === true
-  const originalDeepSeekCredential = process.env.DEEPSEEK_API_KEY
+  const originalNuluCredential = process.env.DEEPSEEK_API_KEY
   let credentialEnvironmentRestored = false
   const restoreCredentialEnvironment = (): void => {
     if (credentialEnvironmentRestored) return
@@ -535,12 +535,12 @@ export async function launchWebScaffold(options: LaunchOptions = {}): Promise<We
     ...surfacePatches,
     { id: 'session-log-gateway', config: { enabled: false } },
     // The historical Messages fixture retains its recorded route during replay;
-    // live configuration uses the shared DeepSeek route. Explicit overlays win.
+    // live configuration uses the shared Nulu route. Explicit overlays win.
     ...messages
-      ? [{ id: 'agent-default-model', config: { provider: mode === 'record' || maskDeepSeekCredential ? 'deepseek-official' : 'deepseek-messages', model: maskDeepSeekCredential ? 'deepseek-flash' : 'deepseek-v4-flash' } }]
+      ? [{ id: 'agent-default-model', config: { provider: mode === 'record' || maskNuluCredential ? 'nulu-official' : 'nulu-messages', model: maskNuluCredential ? 'nulu-flash' : 'nulu-v4-flash' } }]
       : mode === 'record' || options.deepSeekMissingCredential === true
         ? []
-        : [{ id: 'agent-default-model', config: { provider: 'deepseek-official', model: 'deepseek-v4-flash' } }],
+        : [{ id: 'agent-default-model', config: { provider: 'nulu-official', model: 'nulu-v4-flash' } }],
     ...extraOverlayPatches,
     // The roster's shipped presets are the plugin's own, bundled inside
     // `nulu-agent-presets` and prepended by it. Pin only the machine-local
@@ -655,8 +655,8 @@ export async function launchWebScaffold(options: LaunchOptions = {}): Promise<We
           baseURL: options.nuluSearch.baseURL,
         },
       }],
-    ...maskDeepSeekCredential && !messages ? [] : [
-      { id: 'llm-gateway', disabled: mode !== 'record' && !maskDeepSeekCredential,
+    ...maskNuluCredential && !messages ? [] : [
+      { id: 'llm-gateway', disabled: mode !== 'record' && !maskNuluCredential,
         config: messages ? {} : { protocol: 'chat-completions' } },
     ],
   ]

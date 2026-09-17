@@ -1,10 +1,10 @@
 version: 1
-scenario: deepseek-messages-system-prompt
+scenario: nulu-messages-system-prompt
 profile: headless
-composition: deepseek-messages-system-prompt
+composition: nulu-messages-system-prompt
 recording: authored
 header:
-  class: deepseek-messages-system-prompt
+  class: nulu-messages-system-prompt
   pin: true
   promptChanges: 1
 replay:

@@ -89,7 +89,7 @@ it('loads browser tools from cordis.yml, logs browser results, and admits the sc
   const configPath = join(root, 'cordis.yml')
   await writeFile(configPath, [...modules.keys()].flatMap(name => [
     `- name: '${name}'`,
-    ...name === '@worldapptechnologies/nulu-attachment-local' ? ['  config:', `    dshHome: ${JSON.stringify(root)}`] : [],
+    ...name === '@worldapptechnologies/nulu-attachment-local' ? ['  config:', `    nuluHome: ${JSON.stringify(root)}`] : [],
     ...name === '@worldapptechnologies/nulu-experimental-browser-use-stagehand-native' ? ['  config:', '    mode: launch', '    model:', '      modelName: openai/gpt-5.4-mini', '      apiKey: fixture-model-key'] : [],
   ]).join('\n') + '\n')
   const context = ctx = new Context()

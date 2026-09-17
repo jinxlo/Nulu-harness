@@ -4,7 +4,7 @@ import { SessionId } from '@worldapptechnologies/nulu-session'
 
 import AgentLoop from '@worldapptechnologies/nulu-agent-loop'
 import { mountAgentLoopTestDependencies } from '@worldapptechnologies/nulu-agent-loop-testkit'
-import * as LlmDeepSeek from '@worldapptechnologies/nulu-llm-gateway'
+import * as LlmNulu from '@worldapptechnologies/nulu-llm-gateway'
 import SubagentRuntime from '@worldapptechnologies/nulu-subagent'
 import * as Spawn from '@worldapptechnologies/nulu-subagent-spawn-in-process'
 import PtcWorkflowEngine from '../src/index.ts'
@@ -50,7 +50,7 @@ describe.skipIf(!process.env.DEEPSEEK_API_KEY)('PTC workflow engine with-key e2e
     ctx = await harness()
     const parentHandle = await ctx.agents.create({
       sessionId: 'wf-ptc-e2e-session' as never,
-      agentOptions: { provider: 'deepseek-official', model: 'deepseek-v4-flash' },
+      agentOptions: { provider: 'nulu-official', model: 'nulu-v4-flash' },
     })
 
     const events: string[] = []

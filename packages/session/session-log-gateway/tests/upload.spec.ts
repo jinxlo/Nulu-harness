@@ -150,8 +150,8 @@ describe('incremental Nulu session-log upload', () => {
     const ctx = new Context()
     contexts.push(ctx)
     await ctx.plugin(SessionStore)
-    await ctx.plugin(DeepSeekLlmApiExtensionRegistry)
-    await ctx.plugin(SessionLogDeepSeek, { enabled: false })
+    await ctx.plugin(NuluLlmApiExtensionRegistry)
+    await ctx.plugin(SessionLogNulu, { enabled: false })
     const session = ctx.sessions.create(SessionId('explicit-off'))
     session.append('turn/start', { turn: 1 })
 

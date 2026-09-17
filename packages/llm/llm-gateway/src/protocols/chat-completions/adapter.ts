@@ -1,5 +1,5 @@
 /**
- * `DeepSeekAdapter`: fetch + SSE against a DeepSeek (OpenAI-compatible)
+ * `NuluAdapter`: fetch + SSE against a Nulu (OpenAI-compatible)
  * chat-completions endpoint, emitting harness StreamChunks. The adapter is
  * transport-only: connection facts arrive through a thunk resolved once per
  * operation and the bearer token through a per-request resolver, so the
@@ -29,13 +29,13 @@ import type {
 import type { AnonymousUserId } from '@worldapptechnologies/nulu-anonymous-user-id'
 import { idleWatchdog, timeoutOf } from '@worldapptechnologies/nulu-timeout'
 import type {
-  DeepSeekLlmApiJson,
+  NuluLlmApiJson,
 } from '@worldapptechnologies/nulu-llm-api-extensions'
 import { serializeRequest, serializeRequestWithImages } from './serialize.ts'
 import { deepSeekImageRequestPricing, resolveRequestImageTarget } from '../../common/request-pricing.ts'
 import { catalogModelInfo, modelInfo } from '../../common/model-info.ts'
-import type { DeepSeekAdapterOptions, DeepSeekCatalogModel, DeepSeekConnectionOptions } from '../../common/types.ts'
-import type { DeepSeekFileStore } from '../../common/file-store.ts'
+import type { NuluAdapterOptions, NuluCatalogModel, NuluConnectionOptions } from '../../common/types.ts'
+import type { NuluFileStore } from '../../common/file-store.ts'
 import { FileResolutionFailure, RequestFiles } from '../../common/request-files.ts'
 import { prepareRequestExtensions } from '../../common/request-extensions.ts'
 import { parseSse } from './sse.ts'
@@ -57,7 +57,7 @@ function collectImageRefs(
 async function prepareRequestImages(
   options: GenerateOptions,
   attachments: AttachmentStore,
-  model: DeepSeekCatalogModel,
+  model: NuluCatalogModel,
   signal: AbortSignal,
 ): Promise<Map<AttachmentId, RequestImageAttachment>> {
   const refs = new Map<AttachmentId, ImageAttachmentRef>()
@@ -84,7 +84,7 @@ function providerRetryAfterMs(value: string | null): number | undefined {
 }
 
 function requestId(headers: Headers): ReturnType<typeof ProviderRequestId> | undefined {
-  const value = headers.get('x-request-id') ?? headers.get('x-deepseek-request-id')
+  const value = headers.get('x-request-id') ?? headers.get('x-nulu-request-id')
   return value === null || value.length === 0 ? undefined : ProviderRequestId(value)
 }
 
@@ -116,15 +116,15 @@ export function httpErrorCode(status: number, error?: WireError['error']): strin
  * map to `ABORTED`; the configured per-read idle watchdog maps to `TIMEOUT`.
  */
 export class ChatCompletionsAdapter extends LlmAdapter {
-  private readonly files: DeepSeekFileStore
+  private readonly files: NuluFileStore
 
-  constructor(private readonly config: DeepSeekAdapterOptions & { resolveFiles: () => DeepSeekFileStore }) {
+  constructor(private readonly config: NuluAdapterOptions & { resolveFiles: () => NuluFileStore }) {
     super()
     this.files = config.resolveFiles()
   }
 
   override providerInfo(provider: string): LlmProviderInfo {
-    return { id: provider, name: 'DeepSeek' }
+    return { id: provider, name: 'Nulu' }
   }
 
   override providerRetryPolicy(_provider: string): ResolvedRetryPolicy {
@@ -169,7 +169,7 @@ export class ChatCompletionsAdapter extends LlmAdapter {
 
   private async * streamWithConnection(
     options: GenerateOptions,
-    connection: DeepSeekConnectionOptions,
+    connection: NuluConnectionOptions,
   ): AsyncIterable<StreamChunk> {
     // One resolution per stream call: connection facts and the credential
     // freeze here and hold for this whole request, so an in-flight stream
@@ -182,14 +182,14 @@ export class ChatCompletionsAdapter extends LlmAdapter {
       const model = connection.models.find(entry => entry.id === options.model)
       if (model?.inputModalities?.includes('image') !== true) {
         throw new LlmError(
-          `DeepSeek model "${options.model}" does not accept image input.`,
+          `Nulu model "${options.model}" does not accept image input.`,
           'UNSUPPORTED_CONTENT',
         )
       }
       attachments = this.config.resolveAttachments?.()
       if (attachments === undefined) {
         throw new LlmError(
-          'DeepSeek image conversion requires the durable attachment service.',
+          'Nulu image conversion requires the durable attachment service.',
           'UNSUPPORTED_CONTENT',
         )
       }
@@ -223,18 +223,18 @@ export class ChatCompletionsAdapter extends LlmAdapter {
     } catch (error: unknown) {
       if (timeoutOf(watchdog.signal, STREAM_IDLE_TIMEOUT_CODE) !== undefined) {
         throw new LlmError(
-          `DeepSeek stream idle timeout after ${connection.streamIdleTimeoutMs}ms`,
+          `Nulu stream idle timeout after ${connection.streamIdleTimeoutMs}ms`,
           'TIMEOUT',
           { cause: error },
         )
       }
       if (options.signal?.aborted) {
-        throw new LlmError('DeepSeek request aborted by caller', 'ABORTED', { cause: error })
+        throw new LlmError('Nulu request aborted by caller', 'ABORTED', { cause: error })
       }
       if (error instanceof LlmError) throw error
-      throw new LlmError(`DeepSeek API stream from ${connection.baseURL} failed`, 'TRANSPORT', { cause: error })
+      throw new LlmError(`Nulu API stream from ${connection.baseURL} failed`, 'TRANSPORT', { cause: error })
     } finally {
-      consumer.abort('DeepSeek stream consumer stopped')
+      consumer.abort('Nulu stream consumer stopped')
       if (!exhausted && iterator.return !== undefined) {
         try {
           await iterator.return()
@@ -248,7 +248,7 @@ export class ChatCompletionsAdapter extends LlmAdapter {
   private async * request(
     options: GenerateOptions,
     signal: AbortSignal,
-    connection: DeepSeekConnectionOptions,
+    connection: NuluConnectionOptions,
     apiKey: string,
     userId: AnonymousUserId,
     attachments: AttachmentStore | undefined,
@@ -317,7 +317,7 @@ export class ChatCompletionsAdapter extends LlmAdapter {
           continue
         }
       }
-      const extensions = await prepareRequestExtensions(body as unknown as Readonly<Record<string, DeepSeekLlmApiJson>>, {
+      const extensions = await prepareRequestExtensions(body as unknown as Readonly<Record<string, NuluLlmApiJson>>, {
         signal,
         ...options.sessionId === undefined ? {} : { sessionId: String(options.sessionId) },
         ...options.purpose === undefined ? {} : { purpose: options.purpose },
@@ -336,14 +336,14 @@ export class ChatCompletionsAdapter extends LlmAdapter {
       } catch (error: unknown) {
         if (signal.aborted) throw error
         throw new LlmError(
-          `DeepSeek API request to ${connection.baseURL} failed`,
+          `Nulu API request to ${connection.baseURL} failed`,
           'TRANSPORT',
           { cause: error },
         )
       }
 
       if (!response.ok) {
-        let message = `DeepSeek API error (HTTP ${response.status})`
+        let message = `Nulu API error (HTTP ${response.status})`
         let providerError: WireError['error']
         const rawResponse = await response.text()
         try {
@@ -361,7 +361,7 @@ export class ChatCompletionsAdapter extends LlmAdapter {
         const delay = providerRetryAfterMs(response.headers.get('retry-after'))
         const id = requestId(response.headers)
         throw new LlmError(message, httpErrorCode(response.status, providerError), {
-          cause: new Error(rawResponse.length > 0 ? rawResponse : `DeepSeek HTTP ${response.status}`),
+          cause: new Error(rawResponse.length > 0 ? rawResponse : `Nulu HTTP ${response.status}`),
           status: response.status,
           ...delay === undefined ? {} : { providerRetryAfterMs: delay },
           ...id === undefined ? {} : { requestId: id },
@@ -369,7 +369,7 @@ export class ChatCompletionsAdapter extends LlmAdapter {
       }
       await extensions.accept()
       if (!response.body) {
-        throw new LlmError('DeepSeek API returned no response body', 'EMPTY_RESPONSE')
+        throw new LlmError('Nulu API returned no response body', 'EMPTY_RESPONSE')
       }
 
       yield* translate(parseSse(response.body, onActivity))

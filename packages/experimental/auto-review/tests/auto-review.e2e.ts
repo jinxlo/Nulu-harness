@@ -14,7 +14,7 @@ import {
   createUserMessage, isAgentLoopRequest, ToolCallId,
   type StreamChunk,
 } from '@worldapptechnologies/nulu-llm'
-import * as LlmDeepSeek from '@worldapptechnologies/nulu-llm-gateway'
+import * as LlmNulu from '@worldapptechnologies/nulu-llm-gateway'
 import PermissionPresetService, { AUTO_PRESET } from '@worldapptechnologies/nulu-permission-presets'
 import SandboxProvider, { type ConfinedArgv, type SandboxPolicy } from '@worldapptechnologies/nulu-sandbox'
 import SandboxPolicyService from '@worldapptechnologies/nulu-sandbox-policy'
@@ -28,10 +28,10 @@ import ApprovalService from '@worldapptechnologies/nulu-user-approval'
 import { expect, it, vi } from 'vitest'
 import * as AutoReview from '@worldapptechnologies/nulu-experimental-auto-review'
 
-const PROVIDER = 'deepseek-official'
-const FLASH = 'deepseek-v4-flash'
-const PRO = 'deepseek-v4-pro'
-const VISION = 'deepseek-v4-flash-vision-exp'
+const PROVIDER = 'nulu-official'
+const FLASH = 'nulu-v4-flash'
+const PRO = 'nulu-v4-pro'
+const VISION = 'nulu-v4-flash-vision-exp'
 const REAL = process.env.NULU_AUTO_REVIEW_CERTIFICATION === '1'
 const DENIED = 'AUTO_REVIEW_DENIED'
 type Risk = 'low' | 'medium' | 'high'
@@ -128,18 +128,18 @@ async function* observe(
   observations.push(observation)
 }
 
-async function mount(ctx: Context, workspace: string, dshHome: string): Promise<void> {
+async function mount(ctx: Context, workspace: string, nuluHome: string): Promise<void> {
   await mountAgentLoopTestDependencies(ctx, {
     systemPrompt: {}, tools: { mode: 'both' },
   })
   // No reasoning or output-budget override: use each shipped model's defaults.
-  await ctx.plugin(LlmDeepSeek, { retryPolicy: { mode: 'normal', maxRetries: 0 } })
+  await ctx.plugin(LlmNulu, { retryPolicy: { mode: 'normal', maxRetries: 0 } })
   await ctx.plugin(SandboxPolicyService, { mode: 'workspace-write', workspaceRoot: workspace })
   await ctx.plugin(UnusedSandbox)
   await ctx.plugin(SandboxedFileSystem, { cwd: workspace })
   await ctx.plugin(FsObservationPolicy)
   await ctx.plugin(LocalSubprocessRuntime)
-  await ctx.plugin(ShellEnv, { dshHome })
+  await ctx.plugin(ShellEnv, { nuluHome })
   await ctx.plugin(SandboxBashExecutor, { cwd: workspace, timeoutMs: 30_000 })
   await ctx.plugin(ApprovalService, { policy: 'ask' })
   await ctx.plugin(PermissionPresetService, {
@@ -250,11 +250,11 @@ it('certifies eight Auto risk/authorization cases with zero retries and zero ski
   try {
     await chmod(root, 0o700)
     const workspace = join(root, 'workspace')
-    const dshHome = join(root, 'nulu-home')
+    const nuluHome = join(root, 'nulu-home')
     await mkdir(workspace)
-    await mkdir(dshHome, { mode: 0o700 })
-    vi.stubEnv('NULU_HOME', dshHome)
-    await mount(ctx, workspace, dshHome)
+    await mkdir(nuluHome, { mode: 0o700 })
+    vi.stubEnv('NULU_HOME', nuluHome)
+    await mount(ctx, workspace, nuluHome)
     const runner = orchestrate(ctx, REAL)
     const cases: CaseResult[] = []
     const runCase = async (
@@ -355,10 +355,10 @@ it.each(['native', 'ptc-inner'] as const)('feeds denial back, re-reviews a new c
   const root = await mkdtemp(join(tmpdir(), 'nulu-auto-review-recovery-'))
   const ctx = new Context()
   try {
-    const dshHome = join(root, 'home')
-    await mkdir(dshHome)
-    vi.stubEnv('NULU_HOME', dshHome)
-    await mount(ctx, root, dshHome)
+    const nuluHome = join(root, 'home')
+    await mkdir(nuluHome)
+    vi.stubEnv('NULU_HOME', nuluHome)
+    await mount(ctx, root, nuluHome)
     const runner = orchestrate(ctx, false)
     const target = join(root, 'existing.txt')
     await writeFile(target, 'keep\n')

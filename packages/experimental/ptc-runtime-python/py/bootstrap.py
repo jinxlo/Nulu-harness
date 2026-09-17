@@ -684,7 +684,7 @@ class ProtocolChannel:
         """Read one JSON-line frame (iteratively decoded). ``None`` on EOF.
 
         Blocking. Used for the two frames read BEFORE the model program starts
-        (``boot`` and ``run``), where blocking is what the handshake wants. Reply
+        (``boot`` and ``run``), where blocking is what the hannuluake wants. Reply
         frames arriving during the program go through :meth:`read_frame_async`,
         which must not occupy a thread.
 
@@ -1015,7 +1015,7 @@ async def _run(channel: ProtocolChannel) -> None:
     # through send_sync, whose body resolves the same names at call time).
     _write_encoded_cls = channel.write_encoded
     _encode_plain_cls = _encode_json_plain
-    # 1. Boot handshake.
+    # 1. Boot hannuluake.
     boot = channel.read_frame()
     if boot is None or boot.get("type") != "boot":
         raise RuntimeError("bootstrap: expected boot frame on fd 3")

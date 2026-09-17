@@ -18,7 +18,7 @@ import type {} from '@worldapptechnologies/nulu-llm-api-extensions'
 import type { SessionId } from '@worldapptechnologies/nulu-session'
 import type {} from '@worldapptechnologies/nulu-agent-presets'
 import type {} from '@worldapptechnologies/nulu-app-boot'
-import type { DeepSeekPluginPackageIdentity, DeepSeekPluginPackageInventoryExtension } from './types.ts'
+import type { NuluPluginPackageIdentity, NuluPluginPackageInventoryExtension } from './types.ts'
 import type {} from './types.ts'
 
 export type * from './types.ts'
@@ -185,15 +185,15 @@ async function collectActivePluginPackages(
 }
 
 /**
- * Register the complete `dsh_plugin_packages` request contribution when enabled.
- * @param ctx - plugin context carrying Loader entry metadata and the DeepSeek request-extension registry.
+ * Register the complete `nulu_plugin_packages` request contribution when enabled.
+ * @param ctx - plugin context carrying Loader entry metadata and the Nulu request-extension registry.
  * @param config - validated default-on configuration.
  */
 export function apply(ctx: Context, config: Config): void {
   if (config.enabled === false) return
   const hostBaseUrl = ctx.baseUrl ?? import.meta.url
   const resolver = new PackageIdentityResolver(hostBaseUrl, ctx.get('pluginPackages'))
-  ctx.deepseekLlmApiExtensions.register('dsh_plugin_packages', {
+  ctx.nuluLlmApiExtensions.register('nulu_plugin_packages', {
     prepare: async (request) => {
       const value: NuluPluginPackageInventoryExtension = {
         version: 1,

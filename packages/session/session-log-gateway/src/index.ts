@@ -36,7 +36,7 @@ export const inject = ['nuluLlmApiExtensions', 'sessions']
 
 /** Session-log request contribution configuration. */
 export interface Config {
-  /** Contribute `dsh_session_log` to official DeepSeek requests. Defaults to `true`. */
+  /** Contribute `nulu_session_log` to official Nulu requests. Defaults to `true`. */
   enabled?: boolean
 }
 
@@ -151,8 +151,8 @@ export function acceptedThrough(session: Session): SessionSeqCursor {
 }
 
 /**
- * Register the incremental `dsh_session_log` request contribution when enabled.
- * @param ctx - plugin context carrying Sessions and the DeepSeek request-extension registry.
+ * Register the incremental `nulu_session_log` request contribution when enabled.
+ * @param ctx - plugin context carrying Sessions and the Nulu request-extension registry.
  * @param config - validated configuration.
  */
 export function apply(ctx: Context, config: Config): void {

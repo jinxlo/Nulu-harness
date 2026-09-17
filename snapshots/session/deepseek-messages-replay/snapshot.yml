@@ -1,10 +1,10 @@
 version: 1
-scenario: deepseek-messages-replay
+scenario: nulu-messages-replay
 profile: headless
 composition: default
 recording: authored
 header:
-  class: deepseek-messages
+  class: nulu-messages
   pin: true
   systemPromptSource: text-turn
   toolSchemasSource: text-turn

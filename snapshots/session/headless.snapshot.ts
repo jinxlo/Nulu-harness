@@ -671,7 +671,7 @@ async function verifyProviderCwdResume(
   }
   const launch = {
     cwd: otherHostCwd,
-    binScript: dshBin,
+    binScript: nuluBin,
     configPath: patches[0] as string,
     tsconfigPath,
     binArgs: [

@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { resolveConnectionConfig } from '../src/recovery-config.ts'
 
 describe('connection recovery configuration', () => {
-  it('separates the slow-Host warning from the hard handshake deadline', () => {
+  it('separates the slow-Host warning from the hard hannuluake deadline', () => {
     expect(resolveConnectionConfig()).toEqual({
       backoffBaseMs: 500,
       backoffFactor: 2,

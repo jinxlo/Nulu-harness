@@ -202,7 +202,7 @@ changes:
   - root: event:user/message
     before: de7d01b9a4bd2fbdcab0a901dbd221086ee5e3a4a7bc123496b5c4e45b6c5384
     after: e23368db1646a9ac10d2bd4629084fdff583a1db2c83ffaa3f2f201d0c45f3e4
-  - root: event:web/deepseek-search-llm-request
+  - root: event:web/nulu-search-llm-request
     before: 0c5c79711e02bd8faed288bb89a39c77af15ad28010a0ee3d5c98adb1e5c3fe5
     after: cf6e3aaf1e2de6480aa0157730a41b9a492108a55304100b0f7e112711dd4331
 ```
@@ -267,7 +267,7 @@ changes:
 | `event:turn/end.ignorable` | `optional-property-added` | `version-bump` |
 | `event:turn/start.ignorable` | `optional-property-added` | `version-bump` |
 | `event:user/message.ignorable` | `optional-property-added` | `version-bump` |
-| `event:web/deepseek-search-llm-request.ignorable` | `optional-property-added` | `version-bump` |
+| `event:web/nulu-search-llm-request.ignorable` | `optional-property-added` | `version-bump` |
 
 <!-- persistence-release-changes:end -->
 

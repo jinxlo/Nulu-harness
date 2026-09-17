@@ -941,10 +941,10 @@ flowchart TD
   pkg_tool_workflow --> pkg_system_prompt
   pkg_tool_workflow --> pkg_tools
   pkg_tool_workflow --> pkg_workflow
-  pkg_plugin_package_inventory_deepseek --> pkg_agent
-  pkg_plugin_package_inventory_deepseek --> pkg_agent_presets
-  pkg_plugin_package_inventory_deepseek --> pkg_deepseek_llm_api_extensions
-  pkg_plugin_package_inventory_deepseek --> pkg_session
+  pkg_plugin_package_inventory_nulu --> pkg_agent
+  pkg_plugin_package_inventory_nulu --> pkg_agent_presets
+  pkg_plugin_package_inventory_nulu --> pkg_nulu_llm_api_extensions
+  pkg_plugin_package_inventory_nulu --> pkg_session
   pkg_token_meter --> pkg_compaction
   pkg_token_meter --> pkg_compaction_image_offload
   pkg_token_meter --> pkg_llm

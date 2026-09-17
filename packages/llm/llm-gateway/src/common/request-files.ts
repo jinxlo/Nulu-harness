@@ -2,8 +2,8 @@
 
 import type { RequestImageAttachment } from '@worldapptechnologies/nulu-attachment'
 import { deadline } from '@worldapptechnologies/nulu-timeout'
-import type { DeepSeekFileStore, DeepSeekFileConnection, DeepSeekFilePolicy } from './file-store.ts'
-import type { DeepSeekFileId } from './file-id.ts'
+import type { NuluFileStore, NuluFileConnection, NuluFilePolicy } from './file-store.ts'
+import type { NuluFileId } from './file-id.ts'
 
 /** Position of an image occurrence in the request's conversation messages. */
 export interface ImageWireLocation {
@@ -14,7 +14,7 @@ export interface ImageWireLocation {
 /** A file upload failure eligible for request-wide inline fallback. */
 export class FileResolutionFailure extends Error {
   constructor(cause: unknown) {
-    super('DeepSeek Files API could not resolve a request image.', { cause })
+    super('Nulu Files API could not resolve a request image.', { cause })
     this.name = 'FileResolutionFailure'
   }
 }
@@ -27,7 +27,7 @@ function providerRejectedNormalizedImage(detail: string): boolean {
 
 interface UsedRequestFile {
   version: RequestImageAttachment
-  fileId: DeepSeekFileId
+  fileId: NuluFileId
   location: ImageWireLocation
 }
 
@@ -38,7 +38,7 @@ function providerRejectedFileId(detail: string): boolean {
   return file && (missing || invalidId)
 }
 
-function detailNamesFileId(detail: string, fileId: DeepSeekFileId): boolean {
+function detailNamesFileId(detail: string, fileId: NuluFileId): boolean {
   let index = detail.indexOf(fileId)
   while (index >= 0) {
     const before = detail[index - 1]
@@ -77,14 +77,14 @@ function normalizedImageDiagnostic(
   const exact = files.find(file => detailNamesFileId(providerDetail, file.fileId))
   const target = exact ?? (files.length === 1 ? files[0] : undefined)
   if (target !== undefined) {
-    return `DeepSeek rejected normalized image ${normalizedImageFacts(target)}: ${providerMessage}. `
+    return `Nulu rejected normalized image ${normalizedImageFacts(target)}: ${providerMessage}. `
       + 'The provider rejected bytes already normalized by the harness; PNG, JPEG, WebP, and GIF remain supported input formats.'
   }
   const candidates = [...new Map(files.map(file => [
     `${file.version.variantId}\0${file.location.message}\0${file.location.image}`,
     file,
   ])).values()]
-  return `DeepSeek rejected a normalized request image: ${providerMessage}. Candidate images: `
+  return `Nulu rejected a normalized request image: ${providerMessage}. Candidate images: `
     + `${candidates.map(normalizedImageFacts).join('; ')}. `
     + 'The provider rejected bytes already normalized by the harness; PNG, JPEG, WebP, and GIF remain supported input formats.'
 }
@@ -96,9 +96,9 @@ export class RequestFiles {
   private retried = false
 
   constructor(
-    private readonly files: DeepSeekFileStore,
-    private readonly connection: DeepSeekFileConnection,
-    private readonly policy: DeepSeekFilePolicy,
+    private readonly files: NuluFileStore,
+    private readonly connection: NuluFileConnection,
+    private readonly policy: NuluFilePolicy,
     private readonly timeoutMs: number,
     private readonly signal: AbortSignal,
     private readonly activity: () => void,
@@ -113,9 +113,9 @@ export class RequestFiles {
    * @param location - occurrence used by provider-rejection diagnostics.
    * @returns the reusable provider id.
    */
-  async resolve(version: RequestImageAttachment, location: ImageWireLocation): Promise<DeepSeekFileId> {
+  async resolve(version: RequestImageAttachment, location: ImageWireLocation): Promise<NuluFileId> {
     using limit = deadline(this.signal, this.timeoutMs, 'DEEPSEEK_FILES_API_TIMEOUT')
-    let resolved: Awaited<ReturnType<DeepSeekFileStore['ensureUploaded']>>
+    let resolved: Awaited<ReturnType<NuluFileStore['ensureUploaded']>>
     try {
       resolved = await this.files.ensureUploaded(version, this.connection, this.policy, limit.signal)
     } catch (error) {

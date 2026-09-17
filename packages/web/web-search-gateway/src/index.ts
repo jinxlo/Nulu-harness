@@ -1,5 +1,5 @@
 /**
- * Register a DeepSeek-backed provider in `ctx.web`. It calls the Anthropic-compatible Messages API
+ * Register a Nulu-backed provider in `ctx.web`. It calls the Anthropic-compatible Messages API
  * with native `web_search_20250305`. The provider reuses `DEEPSEEK_API_KEY` but not
  * `DEEPSEEK_BASE_URL`; auxiliary search has its own endpoint configuration.
  * @module @worldapptechnologies/nulu-web-search-gateway

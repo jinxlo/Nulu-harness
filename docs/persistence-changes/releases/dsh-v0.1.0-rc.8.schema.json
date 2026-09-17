@@ -7272,7 +7272,7 @@
         ]
       },
       "names": [
-        "event:web/deepseek-search-llm-request[0].data.body.messages[0].content[0]",
+        "event:web/nulu-search-llm-request[0].data.body.messages[0].content[0]",
         "packages/llm/llm/src/types.ts#TextBlock"
       ],
       "sources": [

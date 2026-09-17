@@ -44,9 +44,9 @@ async function streamOnce(): Promise<void> {
     const ctx = new Context()
     await ctx.plugin(LlmRuntime)
     await ctx.plugin(LlmPiAi, {
-      providers: { deepseek: { apiKeyEnv: 'PI_TEST_KEY', baseURL: 'http://pi-stream-probe.invalid' } },
+      providers: { nulu: { apiKeyEnv: 'PI_TEST_KEY', baseURL: 'http://pi-stream-probe.invalid' } },
     })
-    for await (const _chunk of ctx.llm.stream({ provider: 'deepseek', model: 'deepseek-v4-flash', messages: [] })) {
+    for await (const _chunk of ctx.llm.stream({ provider: 'nulu', model: 'nulu-v4-flash', messages: [] })) {
       // The endpoint never answers; the proxy record is the assertion.
     }
   } finally {

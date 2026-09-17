@@ -1,6 +1,6 @@
 /**
  * A scriptable fake LSP server over stdio for lsp-stdio tests. It speaks the real
- * `Content-Length`-framed base protocol so it exercises the client's framing, initialize handshake,
+ * `Content-Length`-framed base protocol so it exercises the client's framing, initialize hannuluake,
  * transient open/close, request mapping, and teardown — without a real language server.
  *
  * Behavior is driven by env vars so one file backs many scenarios:

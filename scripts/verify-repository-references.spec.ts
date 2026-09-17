@@ -5,7 +5,7 @@ import { dirname, join } from 'node:path'
 import { describe, expect, it, type TestContext } from 'vitest'
 import { findRepositoryReferences, scanRepositoryReferences } from './verify-repository-references.ts'
 
-const organizationUrl = `https://${['github.com', ['deepseek', 'harness'].join('-')].join('/')}`
+const organizationUrl = `https://${['github.com', ['nulu', 'harness'].join('-')].join('/')}`
 
 function repository(test: TestContext) {
   const root = mkdtempSync(join(tmpdir(), 'nulu-repository-references-'))

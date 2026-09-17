@@ -1,7 +1,7 @@
 # Official Nulu LLM API wire extensions
 
 
-This reference defines every Nulu Harness-specific HTTP header and additive JSON field sent by [`@worldapptechnologies/nulu-llm-gateway`](../packages/llm/llm-gateway/README.md) on `deepseek-official` Messages and Chat Completions requests. It does not redefine fields owned by the upstream DeepSeek API. The provider-neutral LLM interface and `llm-pi-ai` do not implement these additions.
+This reference defines every Nulu Harness-specific HTTP header and additive JSON field sent by [`@worldapptechnologies/nulu-llm-gateway`](../packages/llm/llm-gateway/README.md) on `nulu-official` Messages and Chat Completions requests. It does not redefine fields owned by the upstream Nulu API. The provider-neutral LLM interface and `llm-pi-ai` do not implement these additions.
 
 The adapter sends the additions to its resolved `baseURL`, including a configured gateway. They remain outside `messages`, system prompts, and tool schemas, so they do not add model-input tokens or alter the model-visible prefix.
 
@@ -76,7 +76,7 @@ An enabled inventory with no qualifying entries sends `packages: []`; disabling 
 
 ```json
 {
-  "dsh_session_log": {
+  "nulu_session_log": {
     "version": 1,
     "sessionFormatVersion": 2,
     "session": {
@@ -102,7 +102,7 @@ An enabled inventory with no qualifying entries sends `packages: []`; disabling 
 
 | Member | Type | Meaning |
 |---|---|---|
-| `version` | `1` | Schema version for `dsh_session_log` |
+| `version` | `1` | Schema version for `nulu_session_log` |
 | `sessionFormatVersion` | non-negative integer | Session format generation represented by this suffix |
 | `session` | object | Immutable wire projection of the current Session header |
 | `afterSeq` | integer | Greatest sequence recorded as accepted before this request, or `-1` |
@@ -113,7 +113,7 @@ The first upload uses `afterSeq: -1` and carries the complete current log. Each 
 
 ### Wire Session header
 
-The `session` member projects logical Session metadata to raw JSON primitives. A seeded Session sends its exact `Session.inheritedEventCount` as `seedLength`; an unseeded Session omits that field. The logical `isSeeded` flag does not appear on this wire. The outer `dsh_session_log.version` selects this extension schema, while `session.version` selects the logical Session format. Changing the Session header projection requires an extension-schema bump even when the embedded logical format also changes.
+The `session` member projects logical Session metadata to raw JSON primitives. A seeded Session sends its exact `Session.inheritedEventCount` as `seedLength`; an unseeded Session omits that field. The logical `isSeeded` flag does not appear on this wire. The outer `nulu_session_log.version` selects this extension schema, while `session.version` selects the logical Session format. Changing the Session header projection requires an extension-schema bump even when the embedded logical format also changes.
 
 | Member | Presence | Meaning |
 |---|---|---|
@@ -156,6 +156,6 @@ Transport and non-2xx failures append no watermark. A crash after endpoint accep
 
 ## Exposure and receiver requirements
 
-The request headers expose the Harness application version, one anonymous Harness-home identity, and an optional Session identity. `dsh_plugin_packages` exposes active npm package names and versions. Unless a composition disables it, `dsh_session_log` may expose the Session working directory, system-prompt snapshots, user and Assistant content, embedded Assistant streams, failed-attempt output, tool arguments and results, compaction summaries, feedback, and plugin-owned events. Adapter API keys are not Session events and therefore do not enter the field. A gateway selected through `baseURL` receives the same values as the official endpoint.
+The request headers expose the Harness application version, one anonymous Harness-home identity, and an optional Session identity. `nulu_plugin_packages` exposes active npm package names and versions. Unless a composition disables it, `nulu_session_log` may expose the Session working directory, system-prompt snapshots, user and Assistant content, embedded Assistant streams, failed-attempt output, tool arguments and results, compaction summaries, feedback, and plugin-owned events. Adapter API keys are not Session events and therefore do not enter the field. A gateway selected through `baseURL` receives the same values as the official endpoint.
 
 Receivers address extension fields by name, dispatch each field by its own `version`, preserve distinct package versions, and ignore JSON member ordering. A session-log receiver validates the contiguous sequence range before interpreting event types. An unrecognized canonical event without `ignorable: true` prevents lossless reconstruction. The base request remains usable without either the registry or a particular contribution; field absence means that contribution did not apply to that request.

@@ -1,10 +1,10 @@
 version: 1
-scenario: deepseek-protocol-system-prompt
+scenario: nulu-protocol-system-prompt
 profile: headless
-composition: deepseek-protocol-system-prompt
+composition: nulu-protocol-system-prompt
 recording: authored
 header:
-  class: deepseek-protocol-system-prompt
+  class: nulu-protocol-system-prompt
   pin: true
   promptChanges: 1
 replay:

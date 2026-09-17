@@ -1,19 +1,20 @@
 #!/usr/bin/env node
 /**
- * Rebrand a merged upstream (Nulu Harness) tree into Nulu Harness.
+ * Rebrand a merged upstream (DeepSeek Harness) tree into Nulu Harness.
  *
- * Upstream sync is not a plain find/replace: Nulu Harness ships provider
- * packages (llm-gateway, llm-api-extensions, web-search-gateway,
- * session-log-gateway, plugin-package-inventory) and model-editor
- * UI that Nulu Harness intentionally removed. This script:
+ * Upstream sync is not a plain find/replace: DeepSeek Harness ships provider
+ * packages and DeepSeek-branded identifiers that Nulu removed/renamed. This
+ * script:
  *
- *   1. applies the DeepSeek -> World App Technologies / Nulu string mappings
+ *   1. applies the DeepSeek -> Nulu string mappings (package scope, package
+ *      names, directory paths, brand, CLI, env vars, home paths, identifiers)
  *   2. deletes the DeepSeek-specific packages Nulu does not carry
  *   3. prints a report of remaining "deepseek" references for manual review
  *
  * It is idempotent and safe to re-run. It never touches the MIT license or
- * third-party notices, and it leaves the `thinkingFormat: deepseek` reasoning
- * wire format (and other bare lowercase protocol identifiers) intact.
+ * third-party notices, never rewrites itself or the sync tooling, and preserves
+ * the `thinkingFormat: deepseek` reasoning wire format (a protocol identifier,
+ * not a brand reference).
  *
  * Usage:
  *   node scripts/rebrand-upstream.mjs            # transform the working tree
@@ -25,28 +26,32 @@ import { readFileSync, writeFileSync } from 'node:fs'
 
 const CHECK_ONLY = process.argv.includes('--check')
 
-/** Ordered, most-specific-first literal replacements. */
+/**
+ * Ordered, most-specific-first literal replacements (DeepSeek -> Nulu).
+ * NOTE: the protocol identifiers `thinkingFormat: deepseek` and `'deepseek': true`
+ * are protected in applyToString before these run and restored after, so the
+ * provider rename below does not clobber the wire format.
+ */
 const STRING_REPLACEMENTS = [
   ['@deepseek-ai/dsh', '@worldapptechnologies/nulu'],
   ['@deepseek-ai/', '@worldapptechnologies/'],
   // DeepSeek provider packages Nulu renamed (directory + package name).
-  ['llm-api-extensions', 'llm-api-extensions'],
-  ['plugin-package-inventory', 'plugin-package-inventory'],
-  ['session-log-gateway', 'session-log-gateway'],
-  ['web-search-gateway', 'web-search-gateway'],
-  ['llm-gateway', 'llm-gateway'],
+  ['deepseek-llm-api-extensions', 'llm-api-extensions'],
+  ['plugin-package-inventory-deepseek', 'plugin-package-inventory'],
+  ['session-log-deepseek', 'session-log-gateway'],
+  ['web-search-deepseek', 'web-search-gateway'],
+  ['llm-deepseek', 'llm-gateway'],
+  // Brand and identifiers.
   ['DeepSeek Harness', 'Nulu Harness'],
   ['DeepSeek harness', 'Nulu harness'],
+  ['DeepSeek', 'Nulu'],
   ['deepseek-harness', 'nulu-harness'],
   ['deepseek-ai', 'worldapptechnologies'],
+  ['deepseek', 'nulu'],
   ['DSH_', 'NULU_'],
   ['~/.dsh', '~/.nulu'],
   ['npx dsh', 'npx nulu'],
-]
-
-/** Word-boundary CLI/package-prefix rename, applied after literal replacements. */
-const REGEX_REPLACEMENTS = [
-  [/\bdsh\b/g, 'nulu'],
+  ['dsh', 'nulu'],
 ]
 
 /**
@@ -55,11 +60,11 @@ const REGEX_REPLACEMENTS = [
  * assets — Nulu serves the World App Technologies route instead.
  */
 const REMOVED_PATHS = [
-  'packages/llm/llm-gateway',
-  'packages/llm/llm-api-extensions',
-  'packages/llm/plugin-package-inventory',
-  'packages/session/session-log-gateway',
-  'packages/web/web-search-gateway',
+  'packages/llm/llm-deepseek',
+  'packages/llm/deepseek-llm-api-extensions',
+  'packages/llm/plugin-package-inventory-deepseek',
+  'packages/session/session-log-deepseek',
+  'packages/web/web-search-deepseek',
   'packages/client/ui-settings-models/src/client/DeepSeekModelsEditor.tsx',
   'packages/client/ui-settings-models/src/client/DeepSeekModelsEditor.module.css',
   'packages/client/ui-settings-models/src/client/DeepSeekOnboardingDialog.tsx',
@@ -67,33 +72,38 @@ const REMOVED_PATHS = [
   'python/sdk-runtime/src/deepseek_harness_runtime',
 ]
 
-/** Legal / notice files that must keep upstream attribution verbatim. */
-const SKIP_FILES = [/^LICENSE(\.\w+)?$/i, /NOTICE/i, /THIRD_PARTY/i, /CHANGELOG/i]
+/** Legal / notice files, archived notes, and the sync tooling itself (kept verbatim). */
+const SKIP_PATTERNS = [/^LICENSE(\.\w+)?$/i, /NOTICE/i, /THIRD_PARTY/i, /CHANGELOG/i]
+
+function shouldSkipFile(path) {
+  if (path.startsWith('.agents/notes/')) return true // sealed historical archive
+  if (path.startsWith('scripts/upstream-sync/')) return true // sync tooling
+  if (path === 'scripts/rebrand-upstream.mjs' || path === 'scripts/sync-upstream.sh') return true // self
+  if (path === 'upstream-policy.yml' || path === 'UPSTREAM_POLICY.md') return true
+  if (path === 'nulu-fork-manifest.json' || path === 'UPSTREAM_SYNC.md') return true
+  if (path.startsWith('reports/')) return true // analysis artifacts
+  const base = path.split('/').pop() ?? path
+  return SKIP_PATTERNS.some(pattern => pattern.test(base))
+}
 
 function trackedFiles() {
   try {
-    return execFileSync('git', ['ls-files', '-z'], { encoding: 'utf8' })
-      .split('\0')
-      .filter(Boolean)
+    return execFileSync('git', ['ls-files', '-z'], { encoding: 'utf8' }).split('\0').filter(Boolean)
   } catch {
     return []
   }
 }
 
-function shouldSkipFile(path) {
-  if (path.startsWith('.agents/notes/')) return true // sealed historical archive
-  const base = path.split('/').pop() ?? path
-  return SKIP_FILES.some(pattern => pattern.test(base))
-}
-
 function applyToString(text) {
   let result = text
+  // Protect protocol identifiers from the provider rename.
+  result = result.split('thinkingFormat: deepseek').join('thinkingFormat: __NULU_PROTO__')
+  result = result.split("'deepseek': true").join("'__NULU_PROTO__': true")
+  result = result.split('"deepseek": true').join('"__NULU_PROTO__": true')
   for (const [from, to] of STRING_REPLACEMENTS) {
     result = result.split(from).join(to)
   }
-  for (const [regex, to] of REGEX_REPLACEMENTS) {
-    result = result.replace(regex, to)
-  }
+  result = result.split('__NULU_PROTO__').join('deepseek')
   return result
 }
 
@@ -126,8 +136,6 @@ for (const path of trackedFiles()) {
   }
 }
 
-// Remove DeepSeek-specific package directories (checked above via git ls-files,
-// so files under them are skipped; delete the tree itself here).
 if (!CHECK_ONLY) {
   for (const removedPath of REMOVED_PATHS) {
     try {
@@ -141,7 +149,12 @@ if (!CHECK_ONLY) {
 
 const remaining = (() => {
   try {
-    const out = execFileSync('git', ['grep', '-n', '-I', '-e', 'deepseek', '-e', 'DeepSeek', '--', ':!THIRD_PARTY_NOTICES.md', ':!LICENSE*'], { encoding: 'utf8' })
+    const out = execFileSync(
+      'git', ['grep', '-n', '-I', '-e', 'deepseek', '-e', 'DeepSeek', '-e', 'dsh', '--',
+        ':!THIRD_PARTY_NOTICES.md', ':!LICENSE*', ':!.agents/notes/', ':!scripts/', ':!reports/',
+        ':!upstream-policy.yml', ':!UPSTREAM_POLICY.md', ':!nulu-fork-manifest.json', ':!UPSTREAM_SYNC.md',
+      ], { encoding: 'utf8' },
+    )
     return out.trim().split('\n').filter(Boolean)
   } catch {
     return []
@@ -150,11 +163,9 @@ const remaining = (() => {
 
 console.log(`[rebrand-upstream] ${CHECK_ONLY ? 'check' : 'applied'}: ${changedFiles} file(s) rewritten, ${removedPaths} path(s) removed`)
 if (remaining.length > 0) {
-  console.log(`[rebrand-upstream] ${remaining.length} remaining "deepseek" reference(s) need manual review:`)
-  for (const line of remaining.slice(0, 40)) {
-    console.log(`  ${line}`)
-  }
+  console.log(`[rebrand-upstream] ${remaining.length} remaining "deepseek/dsh" reference(s):`)
+  for (const line of remaining.slice(0, 40)) console.log(`  ${line}`)
   if (remaining.length > 40) console.log(`  …and ${remaining.length - 40} more`)
 } else {
-  console.log('[rebrand-upstream] no remaining "deepseek" references.')
+  console.log('[rebrand-upstream] no remaining references.')
 }

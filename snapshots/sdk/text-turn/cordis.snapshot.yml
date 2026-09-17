@@ -12,4 +12,4 @@
           - id: worldapp-gateway
             name: Nulu
             models:
-              - id: deepseek-v4-flash
+              - id: nulu-v4-flash

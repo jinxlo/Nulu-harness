@@ -42,7 +42,7 @@ export interface Config extends LaunchConfig {
 
 type ResolvedConfig = Required<Omit<Config, 'bootstrapPath'>> & Pick<Config, 'bootstrapPath'>
 interface LiveRun { controller: AbortController; finished: Promise<void> }
-const STRIP_PREFIX = 'async function __dsh_program__() {\n'
+const STRIP_PREFIX = 'async function __nulu_program__() {\n'
 const STRIP_SUFFIX = '\n}'
 
 function messageOf(error: unknown): string { return error instanceof Error ? error.message : String(error) }

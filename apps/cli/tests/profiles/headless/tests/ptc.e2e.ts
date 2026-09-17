@@ -17,7 +17,7 @@ import { LocalBashExecutor } from '@worldapptechnologies/nulu-bash-local'
 import * as BashEnvPlugin from '@worldapptechnologies/nulu-shell-env'
 import LocalSubprocessRuntime from '@worldapptechnologies/nulu-subprocess-local'
 import * as ToolBash from '@worldapptechnologies/nulu-tool-bash'
-import * as LlmDeepSeek from '@worldapptechnologies/nulu-llm-gateway'
+import * as LlmNulu from '@worldapptechnologies/nulu-llm-gateway'
 import NodeRuntime from '@worldapptechnologies/nulu-ptc-runtime-node'
 import Sandbox from '@worldapptechnologies/nulu-sandbox-local'
 import SandboxPolicy from '@worldapptechnologies/nulu-sandbox-policy'
@@ -61,7 +61,7 @@ async function ptcModeHarness(cwd: string): Promise<Context> {
   await harness.plugin(ToolRuntime, { mode: 'ptc' })
   await harness.plugin(AgentRegistry)
   await harness.plugin(AgentLoop, { agents: [] })
-  await harness.plugin(LlmDeepSeek)
+  await harness.plugin(LlmNulu)
   if (harness.get('subprocess') === undefined) await harness.plugin(LocalSubprocessRuntime)
   await harness.plugin(BashEnvPlugin)
   await harness.plugin(LocalBashExecutor, { cwd, timeoutMs: 30_000 })
@@ -82,7 +82,7 @@ async function workspacePtcModeHarness(): Promise<Context> {
   await harness.plugin(ToolFs)
   await harness.plugin(AgentInstructions, { maxBytes: 65536 })
   await harness.plugin(AgentLoop, { agents: [] })
-  await harness.plugin(LlmDeepSeek, { models: [{ id: 'deepseek-v4-flash' }] })
+  await harness.plugin(LlmNulu, { models: [{ id: 'nulu-v4-flash' }] })
   await mountRuntime(harness)
   return harness
 }
@@ -415,7 +415,7 @@ describe.skipIf(!process.env.WORLD_APP_TECHNOLOGIES_API_KEY)('PTC mode: real mod
     workdir = await mkdtemp(join(tmpdir(), 'nulu-ptc-workspace-e2e-'))
     await mkdir(join(workdir, '.git'), { recursive: true })
     await mkdir(join(workdir, 'pkg/deep'), { recursive: true })
-    await writeFile(join(workdir, 'pkg/AGENTS.md'), `If asked for the PTC mode workspace handshake, reply with exactly ${WORKSPACE_PROBE} and nothing else.\n`)
+    await writeFile(join(workdir, 'pkg/AGENTS.md'), `If asked for the PTC mode workspace hannuluake, reply with exactly ${WORKSPACE_PROBE} and nothing else.\n`)
     await writeFile(join(workdir, 'pkg/deep/task.txt'), 'Touch this file to discover the nested instructions.\n')
     ctx = await workspacePtcModeHarness()
     const handle = await ctx.agents.create({
@@ -427,7 +427,7 @@ describe.skipIf(!process.env.WORLD_APP_TECHNOLOGIES_API_KEY)('PTC mode: real mod
     handle.agent.followup(createUserMessage({
       content: [{
         type: 'text',
-        text: 'Use one run_code program to call tools.read on pkg/deep/task.txt. After it finishes, answer: PTC mode workspace handshake?',
+        text: 'Use one run_code program to call tools.read on pkg/deep/task.txt. After it finishes, answer: PTC mode workspace hannuluake?',
       }], source: { kind: 'user' } }))
     await waitForIdle(ctx, handle.agent)
 

@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-/** Browser Worker ownership, handshake, and PDF.js teardown under controlled completions. */
+/** Browser Worker ownership, hannuluake, and PDF.js teardown under controlled completions. */
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { PdfDocument, PdfSession } from '../src/client/pdf/document.ts'
 
@@ -96,7 +96,7 @@ describe('PDF Worker lifecycle', () => {
     expect(revokeURL).toHaveBeenCalledExactlyOnceWith('blob:pdf-worker')
   })
 
-  it('cancels startup before the worker handshake without invoking PDF.js', async () => {
+  it('cancels startup before the worker hannuluake without invoking PDF.js', async () => {
     const h = setup()
     h.controller.abort()
     await expect(h.session.document).rejects.toMatchObject({ name: 'AbortError' })

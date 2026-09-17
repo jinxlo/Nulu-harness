@@ -16,11 +16,11 @@ export async function* parseSse(body: ReadableStream<BufferSource>, activity: ()
     activity()
     let raw: unknown
     try { raw = JSON.parse(frame.data) } catch (_invalidSseJson) {
-      throw new LlmError('DeepSeek Messages SSE contains invalid JSON', 'MALFORMED_RESPONSE')
+      throw new LlmError('Nulu Messages SSE contains invalid JSON', 'MALFORMED_RESPONSE')
     }
     const event = object(raw)
     if (typeof event.type !== 'string' || (frame.event !== undefined && frame.event !== event.type)) {
-      throw new LlmError('DeepSeek Messages SSE event type mismatch', 'MALFORMED_RESPONSE')
+      throw new LlmError('Nulu Messages SSE event type mismatch', 'MALFORMED_RESPONSE')
     }
     if (event.type === 'error') throw providerError(event, undefined)
     yield event

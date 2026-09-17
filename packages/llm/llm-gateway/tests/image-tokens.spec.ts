@@ -48,7 +48,7 @@ describe('Nulu image tokens', () => {
   })
 })
 
-describe('DeepSeek request image dimensions', () => {
+describe('Nulu request image dimensions', () => {
   it('can cross a token-cell boundary when preserving the source aspect ratio', () => {
     const sent = deepSeekRequestImageDimensions(1224, 1429)
     expect(sent).toEqual({ width: 1187, height: 1386 })

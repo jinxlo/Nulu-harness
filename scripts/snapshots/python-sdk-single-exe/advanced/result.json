@@ -292,7 +292,7 @@
       "data": {
         "header": {
           "config": {
-            "provider": "deepseek-official",
+            "provider": "nulu-official",
             "model": "smoke-model",
             "maxTokens": 256000,
             "reasoningEffort": "high"
@@ -349,11 +349,11 @@
           ],
           "source": {
             "kind": "model",
-            "provider": "deepseek-official",
+            "provider": "nulu-official",
             "model": "smoke-model",
             "replayState": {
               "response": {
-                "kind": "deepseek-messages",
+                "kind": "nulu-messages",
                 "version": 1,
                 "model": "smoke-model"
               },
@@ -438,7 +438,7 @@
               },
               "replayState": {
                 "response": {
-                  "kind": "deepseek-messages",
+                  "kind": "nulu-messages",
                   "version": 1,
                   "model": "smoke-model"
                 },
@@ -551,11 +551,11 @@
           ],
           "source": {
             "kind": "model",
-            "provider": "deepseek-official",
+            "provider": "nulu-official",
             "model": "smoke-model",
             "replayState": {
               "response": {
-                "kind": "deepseek-messages",
+                "kind": "nulu-messages",
                 "version": 1,
                 "model": "smoke-model"
               },
@@ -640,7 +640,7 @@
               },
               "replayState": {
                 "response": {
-                  "kind": "deepseek-messages",
+                  "kind": "nulu-messages",
                   "version": 1,
                   "model": "smoke-model"
                 },
@@ -822,11 +822,11 @@
           ],
           "source": {
             "kind": "model",
-            "provider": "deepseek-official",
+            "provider": "nulu-official",
             "model": "smoke-model",
             "replayState": {
               "response": {
-                "kind": "deepseek-messages",
+                "kind": "nulu-messages",
                 "version": 1,
                 "model": "smoke-model"
               },
@@ -911,7 +911,7 @@
               },
               "replayState": {
                 "response": {
-                  "kind": "deepseek-messages",
+                  "kind": "nulu-messages",
                   "version": 1,
                   "model": "smoke-model"
                 },
@@ -1055,11 +1055,11 @@
           ],
           "source": {
             "kind": "model",
-            "provider": "deepseek-official",
+            "provider": "nulu-official",
             "model": "smoke-model",
             "replayState": {
               "response": {
-                "kind": "deepseek-messages",
+                "kind": "nulu-messages",
                 "version": 1,
                 "model": "smoke-model"
               },
@@ -1144,7 +1144,7 @@
               },
               "replayState": {
                 "response": {
-                  "kind": "deepseek-messages",
+                  "kind": "nulu-messages",
                   "version": 1,
                   "model": "smoke-model"
                 },
@@ -1258,11 +1258,11 @@
           ],
           "source": {
             "kind": "model",
-            "provider": "deepseek-official",
+            "provider": "nulu-official",
             "model": "smoke-model",
             "replayState": {
               "response": {
-                "kind": "deepseek-messages",
+                "kind": "nulu-messages",
                 "version": 1,
                 "model": "smoke-model"
               },
@@ -1347,7 +1347,7 @@
               },
               "replayState": {
                 "response": {
-                  "kind": "deepseek-messages",
+                  "kind": "nulu-messages",
                   "version": 1,
                   "model": "smoke-model"
                 },
@@ -1496,11 +1496,11 @@
           ],
           "source": {
             "kind": "model",
-            "provider": "deepseek-official",
+            "provider": "nulu-official",
             "model": "smoke-model",
             "replayState": {
               "response": {
-                "kind": "deepseek-messages",
+                "kind": "nulu-messages",
                 "version": 1,
                 "model": "smoke-model"
               },
@@ -1585,7 +1585,7 @@
               },
               "replayState": {
                 "response": {
-                  "kind": "deepseek-messages",
+                  "kind": "nulu-messages",
                   "version": 1,
                   "model": "smoke-model"
                 },
@@ -1706,11 +1706,11 @@
           ],
           "source": {
             "kind": "model",
-            "provider": "deepseek-official",
+            "provider": "nulu-official",
             "model": "smoke-model",
             "replayState": {
               "response": {
-                "kind": "deepseek-messages",
+                "kind": "nulu-messages",
                 "version": 1,
                 "model": "smoke-model"
               },
@@ -1795,7 +1795,7 @@
               },
               "replayState": {
                 "response": {
-                  "kind": "deepseek-messages",
+                  "kind": "nulu-messages",
                   "version": 1,
                   "model": "smoke-model"
                 },
@@ -1955,11 +1955,11 @@
           ],
           "source": {
             "kind": "model",
-            "provider": "deepseek-official",
+            "provider": "nulu-official",
             "model": "smoke-model",
             "replayState": {
               "response": {
-                "kind": "deepseek-messages",
+                "kind": "nulu-messages",
                 "version": 1,
                 "model": "smoke-model"
               },
@@ -2044,7 +2044,7 @@
               },
               "replayState": {
                 "response": {
-                  "kind": "deepseek-messages",
+                  "kind": "nulu-messages",
                   "version": 1,
                   "model": "smoke-model"
                 },
@@ -2218,11 +2218,11 @@
           ],
           "source": {
             "kind": "model",
-            "provider": "deepseek-official",
+            "provider": "nulu-official",
             "model": "smoke-model",
             "replayState": {
               "response": {
-                "kind": "deepseek-messages",
+                "kind": "nulu-messages",
                 "version": 1,
                 "model": "smoke-model"
               },
@@ -2293,7 +2293,7 @@
               },
               "replayState": {
                 "response": {
-                  "kind": "deepseek-messages",
+                  "kind": "nulu-messages",
                   "version": 1,
                   "model": "smoke-model"
                 },
@@ -2802,7 +2802,7 @@
           "data": {
             "header": {
               "config": {
-                "provider": "deepseek-official",
+                "provider": "nulu-official",
                 "model": "smoke-model",
                 "maxTokens": 256000,
                 "reasoningEffort": "high"
@@ -2871,11 +2871,11 @@
               ],
               "source": {
                 "kind": "model",
-                "provider": "deepseek-official",
+                "provider": "nulu-official",
                 "model": "smoke-model",
                 "replayState": {
                   "response": {
-                    "kind": "deepseek-messages",
+                    "kind": "nulu-messages",
                     "version": 1,
                     "model": "smoke-model"
                   },
@@ -2960,7 +2960,7 @@
                   },
                   "replayState": {
                     "response": {
-                      "kind": "deepseek-messages",
+                      "kind": "nulu-messages",
                       "version": 1,
                       "model": "smoke-model"
                     },
@@ -3109,11 +3109,11 @@
               ],
               "source": {
                 "kind": "model",
-                "provider": "deepseek-official",
+                "provider": "nulu-official",
                 "model": "smoke-model",
                 "replayState": {
                   "response": {
-                    "kind": "deepseek-messages",
+                    "kind": "nulu-messages",
                     "version": 1,
                     "model": "smoke-model"
                   },
@@ -3198,7 +3198,7 @@
                   },
                   "replayState": {
                     "response": {
-                      "kind": "deepseek-messages",
+                      "kind": "nulu-messages",
                       "version": 1,
                       "model": "smoke-model"
                     },
@@ -3428,11 +3428,11 @@
               ],
               "source": {
                 "kind": "model",
-                "provider": "deepseek-official",
+                "provider": "nulu-official",
                 "model": "smoke-model",
                 "replayState": {
                   "response": {
-                    "kind": "deepseek-messages",
+                    "kind": "nulu-messages",
                     "version": 1,
                     "model": "smoke-model"
                   },
@@ -3517,7 +3517,7 @@
                   },
                   "replayState": {
                     "response": {
-                      "kind": "deepseek-messages",
+                      "kind": "nulu-messages",
                       "version": 1,
                       "model": "smoke-model"
                     },
@@ -3709,11 +3709,11 @@
               ],
               "source": {
                 "kind": "model",
-                "provider": "deepseek-official",
+                "provider": "nulu-official",
                 "model": "smoke-model",
                 "replayState": {
                   "response": {
-                    "kind": "deepseek-messages",
+                    "kind": "nulu-messages",
                     "version": 1,
                     "model": "smoke-model"
                   },
@@ -3798,7 +3798,7 @@
                   },
                   "replayState": {
                     "response": {
-                      "kind": "deepseek-messages",
+                      "kind": "nulu-messages",
                       "version": 1,
                       "model": "smoke-model"
                     },
@@ -3948,11 +3948,11 @@
               ],
               "source": {
                 "kind": "model",
-                "provider": "deepseek-official",
+                "provider": "nulu-official",
                 "model": "smoke-model",
                 "replayState": {
                   "response": {
-                    "kind": "deepseek-messages",
+                    "kind": "nulu-messages",
                     "version": 1,
                     "model": "smoke-model"
                   },
@@ -4037,7 +4037,7 @@
                   },
                   "replayState": {
                     "response": {
-                      "kind": "deepseek-messages",
+                      "kind": "nulu-messages",
                       "version": 1,
                       "model": "smoke-model"
                     },
@@ -4234,11 +4234,11 @@
               ],
               "source": {
                 "kind": "model",
-                "provider": "deepseek-official",
+                "provider": "nulu-official",
                 "model": "smoke-model",
                 "replayState": {
                   "response": {
-                    "kind": "deepseek-messages",
+                    "kind": "nulu-messages",
                     "version": 1,
                     "model": "smoke-model"
                   },
@@ -4323,7 +4323,7 @@
                   },
                   "replayState": {
                     "response": {
-                      "kind": "deepseek-messages",
+                      "kind": "nulu-messages",
                       "version": 1,
                       "model": "smoke-model"
                     },
@@ -4768,11 +4768,11 @@
               ],
               "source": {
                 "kind": "model",
-                "provider": "deepseek-official",
+                "provider": "nulu-official",
                 "model": "smoke-model",
                 "replayState": {
                   "response": {
-                    "kind": "deepseek-messages",
+                    "kind": "nulu-messages",
                     "version": 1,
                     "model": "smoke-model"
                   },
@@ -4843,7 +4843,7 @@
                   },
                   "replayState": {
                     "response": {
-                      "kind": "deepseek-messages",
+                      "kind": "nulu-messages",
                       "version": 1,
                       "model": "smoke-model"
                     },
@@ -5026,11 +5026,11 @@
               ],
               "source": {
                 "kind": "model",
-                "provider": "deepseek-official",
+                "provider": "nulu-official",
                 "model": "smoke-model",
                 "replayState": {
                   "response": {
-                    "kind": "deepseek-messages",
+                    "kind": "nulu-messages",
                     "version": 1,
                     "model": "smoke-model"
                   },
@@ -5115,7 +5115,7 @@
                   },
                   "replayState": {
                     "response": {
-                      "kind": "deepseek-messages",
+                      "kind": "nulu-messages",
                       "version": 1,
                       "model": "smoke-model"
                     },
@@ -5591,11 +5591,11 @@
               ],
               "source": {
                 "kind": "model",
-                "provider": "deepseek-official",
+                "provider": "nulu-official",
                 "model": "smoke-model",
                 "replayState": {
                   "response": {
-                    "kind": "deepseek-messages",
+                    "kind": "nulu-messages",
                     "version": 1,
                     "model": "smoke-model"
                   },
@@ -5666,7 +5666,7 @@
                   },
                   "replayState": {
                     "response": {
-                      "kind": "deepseek-messages",
+                      "kind": "nulu-messages",
                       "version": 1,
                       "model": "smoke-model"
                     },
@@ -5880,11 +5880,11 @@
               ],
               "source": {
                 "kind": "model",
-                "provider": "deepseek-official",
+                "provider": "nulu-official",
                 "model": "smoke-model",
                 "replayState": {
                   "response": {
-                    "kind": "deepseek-messages",
+                    "kind": "nulu-messages",
                     "version": 1,
                     "model": "smoke-model"
                   },
@@ -5969,7 +5969,7 @@
                   },
                   "replayState": {
                     "response": {
-                      "kind": "deepseek-messages",
+                      "kind": "nulu-messages",
                       "version": 1,
                       "model": "smoke-model"
                     },
@@ -6191,11 +6191,11 @@
               ],
               "source": {
                 "kind": "model",
-                "provider": "deepseek-official",
+                "provider": "nulu-official",
                 "model": "smoke-model",
                 "replayState": {
                   "response": {
-                    "kind": "deepseek-messages",
+                    "kind": "nulu-messages",
                     "version": 1,
                     "model": "smoke-model"
                   },
@@ -6266,7 +6266,7 @@
                   },
                   "replayState": {
                     "response": {
-                      "kind": "deepseek-messages",
+                      "kind": "nulu-messages",
                       "version": 1,
                       "model": "smoke-model"
                     },

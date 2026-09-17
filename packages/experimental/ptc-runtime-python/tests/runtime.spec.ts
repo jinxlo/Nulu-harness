@@ -2701,7 +2701,7 @@ describe('PythonPtcRuntime — programs and bindings', () => {
     // compiles a bare `__debug__` reference to the constant True and refuses to
     // assign the name at compile time, so an injected global under it is
     // unreachable from the program — accepted by the seam, unusable here.
-    for (const global of ['__dsh_main__', 'console', '__debug__']) {
+    for (const global of ['__nulu_main__', 'console', '__debug__']) {
       await expect(runtime.run(runtime.resolve({
         program: 'x = 1',
         bindings: [{ global, functions: {} }],

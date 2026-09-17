@@ -132,6 +132,6 @@ describe('SSE framing and provider failures', () => {
   it('retains request identity and valid Retry-After without inventing missing counters', () => {
     expect(providerError(null, 429, new Headers({ 'retry-after': '2', 'request-id': 'r1' })).failure).toMatchObject({ requestId: 'r1', providerRetryAfterMs: 2000 })
     expect(providerError({}, 503, new Headers({ 'retry-after': new Date(Date.now() + 60_000).toUTCString(), 'x-request-id': 'r2' })).failure.providerRetryAfterMs).toBeGreaterThan(0)
-    expect(providerError({}, 500, new Headers({ 'retry-after': 'invalid', 'x-deepseek-request-id': 'r3' })).failure).toMatchObject({ requestId: 'r3' })
+    expect(providerError({}, 500, new Headers({ 'retry-after': 'invalid', 'x-nulu-request-id': 'r3' })).failure).toMatchObject({ requestId: 'r3' })
   })
 })

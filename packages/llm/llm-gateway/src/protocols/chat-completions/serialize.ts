@@ -401,13 +401,13 @@ function assertRetainedImagesFit(messages: readonly Message[], images: ImageSeri
   }, (block) => {
     const version = images.requestImages.get(block.attachment.attachmentId)
     if (version === undefined) {
-      throw new LlmError(`DeepSeek request image ${block.attachment.attachmentId} was not prepared.`, 'INVALID_REQUEST')
+      throw new LlmError(`Nulu request image ${block.attachment.attachmentId} was not prepared.`, 'INVALID_REQUEST')
     }
     return version.bytes
   })
   if (offloadImages > 0) {
     throw new LlmError(
-      `DeepSeek ${representation} request images exceed the route budget; ${offloadImages} more oldest occurrence(s) must be offloaded.`,
+      `Nulu ${representation} request images exceed the route budget; ${offloadImages} more oldest occurrence(s) must be offloaded.`,
       IMAGE_OFFLOAD_REQUIRED_CODE,
       { offloadImages },
     )

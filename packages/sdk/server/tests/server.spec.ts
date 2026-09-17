@@ -202,7 +202,7 @@ describe('HarnessSdkJsonRpcServer', () => {
       get: () => undefined,
     } as unknown as Context
     const server = new HarnessSdkJsonRpcServer(ctx, new FakeTransport())
-    // This isolated prompt test begins after the handshake boundary.
+    // This isolated prompt test begins after the hannuluake boundary.
     ;(server as unknown as { initialized: boolean }).initialized = true
     const prompt = (sessionId: string, text: string) => server.prompt({
       sessionId,
@@ -238,7 +238,7 @@ describe('HarnessSdkJsonRpcServer', () => {
       get: (name: string) => name === 'attachments' ? { saveImages } : undefined,
     } as unknown as Context
     const server = new HarnessSdkJsonRpcServer(ctx, new FakeTransport())
-    // This isolated prompt test begins after the handshake boundary.
+    // This isolated prompt test begins after the hannuluake boundary.
     ;(server as unknown as { initialized: boolean }).initialized = true
 
     await server.prompt({
@@ -267,7 +267,7 @@ describe('HarnessSdkJsonRpcServer', () => {
       get: () => undefined,
     } as unknown as Context
     const server = new HarnessSdkJsonRpcServer(ctx, new FakeTransport())
-    // This isolated prompt test begins after the handshake boundary.
+    // This isolated prompt test begins after the hannuluake boundary.
     ;(server as unknown as { initialized: boolean }).initialized = true
 
     await expect(server.prompt({
@@ -298,7 +298,7 @@ describe('HarnessSdkJsonRpcServer', () => {
       get: (name: string) => name === 'attachments' ? { saveImages } : undefined,
     } as unknown as Context
     const server = new HarnessSdkJsonRpcServer(ctx, new FakeTransport())
-    // This isolated prompt test begins after the handshake boundary.
+    // This isolated prompt test begins after the hannuluake boundary.
     ;(server as unknown as { initialized: boolean }).initialized = true
 
     const prompting = server.prompt({
@@ -334,7 +334,7 @@ describe('HarnessSdkJsonRpcServer', () => {
       get: () => undefined,
     } as unknown as Context
     const server = new HarnessSdkJsonRpcServer(ctx, new FakeTransport())
-    // This isolated prompt test begins after the handshake boundary.
+    // This isolated prompt test begins after the hannuluake boundary.
     ;(server as unknown as { initialized: boolean }).initialized = true
     const prompt = (text: string) => server.prompt({
       sessionId: 'zombie',

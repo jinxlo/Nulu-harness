@@ -31,7 +31,7 @@ const ToolCatalog = z.object({
   })),
 })
 
-/** DeepSeek's function-name alphabet and maximum length are protocol constants. */
+/** Nulu's function-name alphabet and maximum length are protocol constants. */
 const TOOL_NAME = /^[A-Za-z0-9_-]{1,64}$/u
 
 const GUIDANCE = `Cua Driver native computer-use tools operate the host desktop. Discover the exact app and window, then get a fresh window snapshot before acting. Use element_token from that snapshot, or coordinates from its screenshot. A new snapshot of that window invalidates its earlier element tokens. Select either target or the legacy pid/window_id fields; do not combine them.

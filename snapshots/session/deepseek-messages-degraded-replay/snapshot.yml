@@ -1,7 +1,7 @@
 version: 1
-scenario: deepseek-messages-degraded-replay
+scenario: nulu-messages-degraded-replay
 profile: headless
 composition: default
 recording: authored
 header:
-  class: deepseek-messages
+  class: nulu-messages

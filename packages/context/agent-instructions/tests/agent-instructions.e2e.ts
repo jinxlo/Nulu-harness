@@ -8,7 +8,7 @@ import { SessionId } from '@worldapptechnologies/nulu-session'
 import type { Agent } from '@worldapptechnologies/nulu-agent'
 import AgentLoop from '@worldapptechnologies/nulu-agent-loop'
 import { mountAgentLoopTestDependencies } from '@worldapptechnologies/nulu-agent-loop-testkit'
-import * as LlmDeepSeek from '@worldapptechnologies/nulu-llm-gateway'
+import * as LlmNulu from '@worldapptechnologies/nulu-llm-gateway'
 import * as AgentInstructions from '@worldapptechnologies/nulu-agent-instructions'
 import { candidateScopeKey } from '../src/render.ts'
 import LocalFileSystem from '@worldapptechnologies/nulu-fs-local'
@@ -32,7 +32,7 @@ afterEach(async () => {
 async function harness(): Promise<{ ctx: Context; agent: Agent }> {
   workdir = await mkdtemp(join(tmpdir(), 'nulu-workspace-context-e2e-'))
   await mkdir(join(workdir, '.git'), { recursive: true })
-  await writeFile(join(workdir, 'AGENTS.md'), `If the user asks for the workspace context handshake, reply with exactly this string and nothing else: ${PROBE}.\n`)
+  await writeFile(join(workdir, 'AGENTS.md'), `If the user asks for the workspace context hannuluake, reply with exactly this string and nothing else: ${PROBE}.\n`)
   ctx = new Context()
   await mountAgentLoopTestDependencies(ctx, {
     systemPrompt: { personaPrefix: 'Answer the user exactly and concisely.' },
@@ -74,7 +74,7 @@ describe.skipIf(!process.env.WORLD_APP_TECHNOLOGIES_API_KEY)('workspace context 
   it('obeys a probe instruction loaded from the workspace', async () => {
     const live = await harness()
 
-    live.agent.followup(createUserMessage({ content: [{ type: 'text', text: 'Workspace context handshake?' }], source: { kind: 'user' } }))
+    live.agent.followup(createUserMessage({ content: [{ type: 'text', text: 'Workspace context hannuluake?' }], source: { kind: 'user' } }))
     await waitForIdle(live.ctx, live.agent)
 
     expect(finalText(live.agent.session.snapshotEvents())).toContain(PROBE)
@@ -83,10 +83,10 @@ describe.skipIf(!process.env.WORLD_APP_TECHNOLOGIES_API_KEY)('workspace context 
   it('loads a nested AGENTS.md after the real read tool touches a descendant file', async () => {
     const live = await harness()
     await mkdir(join(workdir!, 'pkg/deep'), { recursive: true })
-    await writeFile(join(workdir!, 'pkg/AGENTS.md'), `If the user asks for the nested instruction handshake, reply with exactly this string and nothing else: ${NESTED_PROBE}.\n`)
+    await writeFile(join(workdir!, 'pkg/AGENTS.md'), `If the user asks for the nested instruction hannuluake, reply with exactly this string and nothing else: ${NESTED_PROBE}.\n`)
     await writeFile(join(workdir!, 'pkg/deep/file.txt'), 'This file exists only to trigger nested workspace instructions.\n')
 
-    live.agent.followup(createUserMessage({ content: [{ type: 'text', text: 'Use the read tool to inspect pkg/deep/file.txt. After reading it, answer: nested instruction handshake?' }], source: { kind: 'user' } }))
+    live.agent.followup(createUserMessage({ content: [{ type: 'text', text: 'Use the read tool to inspect pkg/deep/file.txt. After reading it, answer: nested instruction hannuluake?' }], source: { kind: 'user' } }))
     await waitForIdle(live.ctx, live.agent)
 
     expect(finalText(live.agent.session.snapshotEvents())).toContain(NESTED_PROBE)
@@ -95,11 +95,11 @@ describe.skipIf(!process.env.WORLD_APP_TECHNOLOGIES_API_KEY)('workspace context 
   it('appends changed baseline instructions after a real file-tool touch without rewriting the frozen prefix', async () => {
     const live = await harness()
     await writeFile(join(workdir!, 'trigger.txt'), 'This file triggers workspace instruction reconciliation.\n')
-    live.agent.followup(createUserMessage({ content: [{ type: 'text', text: 'Workspace context handshake?' }], source: { kind: 'user' } }))
+    live.agent.followup(createUserMessage({ content: [{ type: 'text', text: 'Workspace context hannuluake?' }], source: { kind: 'user' } }))
     await waitForIdle(live.ctx, live.agent)
-    await writeFile(join(workdir!, 'AGENTS.md'), `The old workspace handshake no longer applies. If the user asks for the updated workspace context handshake, reply with exactly this string and nothing else: ${UPDATED_PROBE}.\n`)
+    await writeFile(join(workdir!, 'AGENTS.md'), `The old workspace hannuluake no longer applies. If the user asks for the updated workspace context hannuluake, reply with exactly this string and nothing else: ${UPDATED_PROBE}.\n`)
 
-    live.agent.followup(createUserMessage({ content: [{ type: 'text', text: 'You must use the read tool to inspect trigger.txt. After reading it, answer: updated workspace context handshake?' }], source: { kind: 'user' } }))
+    live.agent.followup(createUserMessage({ content: [{ type: 'text', text: 'You must use the read tool to inspect trigger.txt. After reading it, answer: updated workspace context hannuluake?' }], source: { kind: 'user' } }))
     await waitForIdle(live.ctx, live.agent)
 
     const events = live.agent.session.snapshotEvents()

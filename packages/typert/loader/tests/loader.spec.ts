@@ -287,8 +287,8 @@ describe('typert loader', () => {
     await writePackage(root, '@fixture/pending', {
       typertSource: [
         'import { z } from \'zod\'',
-        'globalThis.__dshTypertLoaderGate.started()',
-        'await globalThis.__dshTypertLoaderGate.wait',
+        'globalThis.__nuluTypertLoaderGate.started()',
+        'await globalThis.__nuluTypertLoaderGate.wait',
         'export const Pending = () => z.object({ id: z.string() })',
         'export const TYPERT = {',
         '  package: \'@fixture/pending\',',

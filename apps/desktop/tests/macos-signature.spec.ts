@@ -43,14 +43,14 @@ describe('desktop macOS release signature', () => {
     expect(config.extraResources).toHaveLength(1)
     expect(config.extraResources[0]?.to).toBe('runtime')
     expect(portablePath(config.extraResources[0]?.from ?? '')).toContain('/.desktop-build/targets/mac-arm64/runtime')
-    const [dshFiles, dshNodeModules] = config.files.slice(-2)
-    if (!dshFiles || !dshNodeModules || typeof dshFiles === 'string' || typeof dshNodeModules === 'string') {
+    const [nuluFiles, nuluNodeModules] = config.files.slice(-2)
+    if (!nuluFiles || !nuluNodeModules || typeof nuluFiles === 'string' || typeof nuluNodeModules === 'string') {
       throw new Error('desktop DSH resources must use electron-builder file mappings')
     }
-    expect(portablePath(dshFiles.from)).toContain('/.desktop-build/targets/mac-arm64/nulu')
-    expect(dshFiles.to).toBe('nulu')
-    expect(portablePath(dshNodeModules.from)).toContain('/.desktop-build/targets/mac-arm64/nulu/node_modules')
-    expect(dshNodeModules.to).toBe('nulu/node_modules')
+    expect(portablePath(nuluFiles.from)).toContain('/.desktop-build/targets/mac-arm64/nulu')
+    expect(nuluFiles.to).toBe('nulu')
+    expect(portablePath(nuluNodeModules.from)).toContain('/.desktop-build/targets/mac-arm64/nulu/node_modules')
+    expect(nuluNodeModules.to).toBe('nulu/node_modules')
     expect(config.asarUnpack).toEqual(expect.arrayContaining([
       '**/*.{node,dylib,dll,so,exe}',
       '**/@vscode/ripgrep/bin/rg',

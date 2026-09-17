@@ -129,8 +129,8 @@ export class HarnessSdkJsonRpcServer {
 
   /**
    * Validate and configure the SDK route, mounting the Nulu fallback only when unowned.
-   * @param params - SDK handshake parameters.
-   * @returns server identity for the handshake.
+   * @param params - SDK hannuluake parameters.
+   * @returns server identity for the hannuluake.
    */
   async initialize(params: InitializeParams): Promise<InitializeResult> {
     if (params.reasoningEffort !== undefined
@@ -148,8 +148,8 @@ export class HarnessSdkJsonRpcServer {
       ? undefined
       : ReasoningEffortId(params.reasoningEffort)
     if (!this.hasAdapterFor(provider)) {
-      if (provider !== 'deepseek-official') throw new Error(`no adapter registered for provider "${provider}"`)
-      this.llmFiber = await this.ctx.plugin(LlmDeepSeek)
+      if (provider !== 'nulu-official') throw new Error(`no adapter registered for provider "${provider}"`)
+      this.llmFiber = await this.ctx.plugin(LlmNulu)
     }
     // Adapter presence was read from this service above; a successful fallback mount also requires it.
     const llm = this.ctx.get('llm') as LlmRuntime

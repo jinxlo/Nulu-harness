@@ -40,7 +40,7 @@ kind: "package-reference"
       apiKey: !!js process.env.OPENAI_API_KEY
 ```
 
-使用此示例前设置 `OPENAI_API_KEY`。即使只使用导航，也必须提供 `model`。固定版本 SDK 接受其目录中的 OpenAI、Anthropic、Google、Groq 和 Cerebras 模型；不支持 DeepSeek 端点或 `baseURL` 覆盖。
+使用此示例前设置 `OPENAI_API_KEY`。即使只使用导航，也必须提供 `model`。固定版本 SDK 接受其目录中的 OpenAI、Anthropic、Google、Groq 和 Cerebras 模型；不支持 Nulu 端点或 `baseURL` 覆盖。
 
 提供方通过 Worker 将 `model.apiKey` 和可选的 `model.headers` 转发给 Stagehand 浏览器扩展，由扩展发送原生模型请求。
 
@@ -136,7 +136,7 @@ stagehand_act, stagehand_observe, and stagehand_extract use the separately confi
 
 #### 模型看到什么
 
-[`stagehand_` 工具目录](../../../docs/tool-catalog.zh.md#worldapptechnologiesdsh-experimental-browser-use-stagehand-native)定义导航、标签页管理、截图、操作、观察和提取。结果包含当前页面事实或验证后的结构化数据。支持的截图以持久图像附件呈现。错误保持可见，让模型在重试前检查状态。
+[`stagehand_` 工具目录](../../../docs/tool-catalog.zh.md#worldapptechnologiesnulu-experimental-browser-use-stagehand-native)定义导航、标签页管理、截图、操作、观察和提取。结果包含当前页面事实或验证后的结构化数据。支持的截图以持久图像附件呈现。错误保持可见，让模型在重试前检查状态。
 
 #### Token 影响
 
@@ -154,7 +154,7 @@ stagehand_act, stagehand_observe, and stagehand_extract use the separately confi
 
 - **仅 Chromium**——Firefox 和 WebKit 不在此 Provider 的支持范围内。
 - **活动浏览器状态**——Session 回放恢复记录的对话数据，不恢复浏览器进程、Cookie 或标签页句柄。
-- **原生模型**——模型名称仅限固定版本 SDK 目录中的 OpenAI、Anthropic、Google、Groq 和 Cerebras。DeepSeek 端点、`baseURL` 覆盖、自主 agent 和单次调用的模型选择均不受支持。
+- **原生模型**——模型名称仅限固定版本 SDK 目录中的 OpenAI、Anthropic、Google、Groq 和 Cerebras。Nulu 端点、`baseURL` 覆盖、自主 agent 和单次调用的模型选择均不受支持。
 - **取消**——原生推理不接受 abort signal。SDK 关闭会等待活动工作；清理成功后，下次工具调用可重新连接并保留浏览器。取消不撤销浏览器输入，也不保证原生模型请求停止。
 - **现有浏览器访问**——用户也可修改已连接的浏览器；占用机制只协调 DSH Session。
 - **清理失败**——SDK 工作未能结束时，保留附加浏览器的占用，因为原生扩展中的工作可能继续。启动浏览器的最终清理可在 Chromium 和 Worker 都终止后释放占用，即使 SDK 工作未正常结束。Worker、自有进程或配置目录清理失败时保留占用；选择其他 Provider 前应重启宿主。

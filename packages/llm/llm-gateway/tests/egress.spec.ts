@@ -55,9 +55,9 @@ afterAll(() => {
 async function streamOnce(): Promise<void> {
   const ctx = new Context()
   await ctx.plugin(LlmRuntime)
-  await ctx.plugin(DeepSeekLlmApiExtensionRegistry)
-  await ctx.plugin(LlmDeepSeek, { protocol: 'chat-completions', baseURL: 'http://deepseek-probe.invalid/v1', models: [{ id: 'm' }] })
-  for await (const _chunk of ctx.llm.stream({ provider: 'deepseek-official', model: 'm', messages: [] })) {
+  await ctx.plugin(NuluLlmApiExtensionRegistry)
+  await ctx.plugin(LlmNulu, { protocol: 'chat-completions', baseURL: 'http://nulu-probe.invalid/v1', models: [{ id: 'm' }] })
+  for await (const _chunk of ctx.llm.stream({ provider: 'nulu-official', model: 'm', messages: [] })) {
     // The endpoint never answers; the proxy record is the assertion.
   }
 }

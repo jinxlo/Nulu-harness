@@ -4,9 +4,9 @@ import { join } from 'node:path'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { AttachmentId, ImageVariantId } from '@worldapptechnologies/nulu-attachment'
 import type { ImageAttachmentRef, RequestImageAttachment } from '@worldapptechnologies/nulu-attachment'
-import { DeepSeekFileStore, MAX_IMAGE_BYTES } from '../src/common/file-store.ts'
-import { DeepSeekFileId } from '../src/common/file-id.ts'
-import { deepSeekFileScope, DeepSeekUploadIndex } from '../src/common/upload-index.ts'
+import { NuluFileStore, MAX_IMAGE_BYTES } from '../src/common/file-store.ts'
+import { NuluFileId } from '../src/common/file-id.ts'
+import { deepSeekFileScope, NuluUploadIndex } from '../src/common/upload-index.ts'
 
 const REF: ImageAttachmentRef = {
   attachmentId: AttachmentId(`sha256:${'a'.repeat(64)}`),
@@ -27,7 +27,7 @@ const VERSION: RequestImageAttachment = {
   space: 'srgb',
   hasAlpha: true,
 }
-const CONNECTION = { protocol: 'chat-completions' as const, baseURL: 'https://api.deepseek.com', apiKey: 'key' }
+const CONNECTION = { protocol: 'chat-completions' as const, baseURL: 'https://api.nulu.com', apiKey: 'key' }
 const POLICY = { expiresAfterSeconds: 604_800, refreshMarginSeconds: 3_600, quotaCleanupBatch: 100 }
 const NOW = 1_700_000_000_000
 
@@ -67,7 +67,7 @@ function uploadFetch(now: () => number = () => NOW) {
   return { fetchImpl, uploads: () => uploads }
 }
 
-describe('DeepSeekFileStore', () => {
+describe('NuluFileStore', () => {
   it('separates native Files reuse, invalidation, and expiry from the chat namespace', async () => {
     const dir = await mkdtemp(join(tmpdir(), 'nulu-native-file-store-'))
     roots.push(dir)
@@ -81,14 +81,14 @@ describe('DeepSeekFileStore', () => {
         ? { ...common, type: 'file', size_bytes: VERSION.bytes, created_at: new Date(now).toISOString(), mime_type: VERSION.mediaType }
         : { ...common, object: 'file', bytes: VERSION.bytes, created_at: now / 1_000, expires_at: now / 1_000 + POLICY.expiresAfterSeconds, purpose: 'user_data' }))
     }
-    const index = new DeepSeekUploadIndex(join(dir, 'index.json'))
-    const store = new DeepSeekFileStore({ index, fetch: fetchImpl, now: () => now })
+    const index = new NuluUploadIndex(join(dir, 'index.json'))
+    const store = new NuluFileStore({ index, fetch: fetchImpl, now: () => now })
     const native = { ...CONNECTION, protocol: 'messages' as const }
     const chat = await store.ensureUploaded(VERSION, CONNECTION, POLICY)
     const first = await store.ensureUploaded(VERSION, native, POLICY)
     expect(first.record.scope).toBe(deepSeekFileScope(`${CONNECTION.baseURL}/v1`, CONNECTION.apiKey))
     expect(first.record.scope).not.toBe(chat.record.scope)
-    const reopened = new DeepSeekFileStore({ index, fetch: fetchImpl, now: () => now })
+    const reopened = new NuluFileStore({ index, fetch: fetchImpl, now: () => now })
     expect((await reopened.ensureUploaded(VERSION, native, POLICY)).record).toEqual(first.record)
     await reopened.invalidate(VERSION, chat.record.fileId, native)
     expect((await reopened.ensureUploaded(VERSION, native, POLICY)).record).toEqual(first.record)
@@ -133,7 +133,7 @@ describe('DeepSeekFileStore', () => {
         ? { data: [file('newest', 1_000), file('middle', 2_000)], last_id: 'middle', has_more: true }
         : { data: [file('oldest-owned', 3_000), file('foreign', 4_000, 'user-file.png')], has_more: false }))
     }
-    const store = new DeepSeekFileStore({ index: new DeepSeekUploadIndex(join(dir, 'index.json')), fetch: fetchImpl, now: () => NOW })
+    const store = new NuluFileStore({ index: new NuluUploadIndex(join(dir, 'index.json')), fetch: fetchImpl, now: () => NOW })
     await expect(store.ensureUploaded(VERSION, { ...CONNECTION, protocol: 'messages' }, { ...POLICY, quotaCleanupBatch: 1 })).resolves.toMatchObject({ record: { fileId: 'file-uploaded' } })
     expect(cursors).toEqual([null, 'middle'])
     expect(deleted).toEqual(['oldest-owned'])
@@ -296,10 +296,10 @@ describe('DeepSeekFileStore', () => {
 
   it.each(['chat-completions', 'messages'] as const)('rejects a request version above the %s per-image limit before transport', async (protocol) => {
     const fetchImpl = vi.fn() as typeof fetch
-    const store = new DeepSeekFileStore({ now: () => NOW, fetch: fetchImpl })
+    const store = new NuluFileStore({ now: () => NOW, fetch: fetchImpl })
     const oversized = { ...VERSION, bytes: MAX_IMAGE_BYTES + 1 }
     await expect(store.ensureUploaded(oversized, { ...CONNECTION, protocol }, POLICY))
-      .rejects.toMatchObject({ code: 'INVALID_REQUEST', message: 'DeepSeek image exceeds the 32 MiB per-image limit.' })
+      .rejects.toMatchObject({ code: 'INVALID_REQUEST', message: 'Nulu image exceeds the 32 MiB per-image limit.' })
     expect(fetchImpl).not.toHaveBeenCalled()
   })
 

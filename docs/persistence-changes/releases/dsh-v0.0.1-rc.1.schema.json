@@ -8612,9 +8612,9 @@
       }
     },
     {
-      "key": "event:web/deepseek-search-llm-request",
+      "key": "event:web/nulu-search-llm-request",
       "kind": "event",
-      "event": "web/deepseek-search-llm-request",
+      "event": "web/nulu-search-llm-request",
       "surface": false,
       "digest": "0c5c79711e02bd8faed288bb89a39c77af15ad28010a0ee3d5c98adb1e5c3fe5",
       "schema": {
@@ -8802,7 +8802,7 @@
           },
           {
             "kind": "literal",
-            "value": "web/deepseek-search-llm-request"
+            "value": "web/nulu-search-llm-request"
           }
         ]
       }
@@ -10995,13 +10995,13 @@
           },
           {
             "kind": "literal",
-            "value": "web/deepseek-search-llm-request"
+            "value": "web/nulu-search-llm-request"
           }
         ]
       },
       "names": [
-        "event:web/deepseek-search-llm-request",
-        "event:web/deepseek-search-llm-request[0]"
+        "event:web/nulu-search-llm-request",
+        "event:web/nulu-search-llm-request[0]"
       ],
       "sources": [
         "packages/core/session/src/types.ts"
@@ -15070,7 +15070,7 @@
         ]
       },
       "names": [
-        "packages/web/web-search-gateway/src/provider.ts#DeepSeekSearchLlmRequest"
+        "packages/web/web-search-gateway/src/provider.ts#NuluSearchLlmRequest"
       ],
       "sources": [
         "packages/web/web-search-gateway/src/provider.ts"
@@ -16731,7 +16731,7 @@
         ]
       },
       "names": [
-        "event:web/deepseek-search-llm-request[0].data.body.tools[0]"
+        "event:web/nulu-search-llm-request[0].data.body.tools[0]"
       ],
       "sources": [
         "packages/web/web-search-gateway/src/provider.ts"
@@ -20163,7 +20163,7 @@
         ]
       },
       "names": [
-        "event:web/deepseek-search-llm-request[0].data.body.tools"
+        "event:web/nulu-search-llm-request[0].data.body.tools"
       ],
       "sources": []
     },
@@ -20337,7 +20337,7 @@
         ]
       },
       "names": [
-        "event:web/deepseek-search-llm-request[0].data.body.messages[0].content[0]",
+        "event:web/nulu-search-llm-request[0].data.body.messages[0].content[0]",
         "packages/llm/llm/src/types.ts#TextBlock"
       ],
       "sources": [
@@ -23869,7 +23869,7 @@
         "nodes": [
           {
             "kind": "literal",
-            "value": "web/deepseek-search-llm-request"
+            "value": "web/nulu-search-llm-request"
           }
         ]
       },
@@ -27384,7 +27384,7 @@
         ]
       },
       "names": [
-        "event:web/deepseek-search-llm-request[0].data.body.messages[0].content"
+        "event:web/nulu-search-llm-request[0].data.body.messages[0].content"
       ],
       "sources": []
     },
@@ -27674,7 +27674,7 @@
         ]
       },
       "names": [
-        "event:web/deepseek-search-llm-request[0].data.body"
+        "event:web/nulu-search-llm-request[0].data.body"
       ],
       "sources": [
         "packages/web/web-search-gateway/src/provider.ts"
@@ -28127,7 +28127,7 @@
         ]
       },
       "names": [
-        "event:web/deepseek-search-llm-request[0].data.body.messages[0]"
+        "event:web/nulu-search-llm-request[0].data.body.messages[0]"
       ],
       "sources": [
         "packages/web/web-search-gateway/src/provider.ts"
@@ -33057,7 +33057,7 @@
         ]
       },
       "names": [
-        "event:web/deepseek-search-llm-request[0].data.body.messages"
+        "event:web/nulu-search-llm-request[0].data.body.messages"
       ],
       "sources": []
     },

@@ -12,7 +12,7 @@ import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projec
 import { createScope } from '@worldapptechnologies/nulu-scope'
 import AgentPresets, { mountPreset } from '@worldapptechnologies/nulu-agent-presets'
 import { PluginPackages } from '@worldapptechnologies/nulu-app-boot'
-import DeepSeekLlmApiExtensionRegistry from '@worldapptechnologies/nulu-llm-api-extensions'
+import NuluLlmApiExtensionRegistry from '@worldapptechnologies/nulu-llm-api-extensions'
 import * as PluginInventory from '../src/index.ts'
 
 const contexts: Context[] = []
@@ -124,8 +124,8 @@ describe('Nulu plugin package inventory', () => {
     const id = SessionId('bare-agent')
     const agentScope = createScope(ctx, {})
     await ctx.agents.register({ id, ctx: agentScope.ctx, session: { id } } as unknown as Agent)
-    const bare = await ctx.deepseekLlmApiExtensions.prepare({ body: { messages: [] }, signal: SIGNAL, sessionId: id })
-    expect(bare.fields.dsh_plugin_packages?.packages).toEqual([{ name: 'host-only', version: '3.0.0' }])
+    const bare = await ctx.nuluLlmApiExtensions.prepare({ body: { messages: [] }, signal: SIGNAL, sessionId: id })
+    expect(bare.fields.nulu_plugin_packages?.packages).toEqual([{ name: 'host-only', version: '3.0.0' }])
   })
 
   it('resolves scoped and unscoped bare subpaths, absolute/file modules, and skips URL or Cordis modules', async () => {
@@ -181,7 +181,7 @@ describe('Nulu plugin package inventory', () => {
     } as unknown as NonNullable<typeof ctx.loader.internal>
     await ctx.loader.create({ name: 'missing-profile-package' })
 
-    await expect(ctx.deepseekLlmApiExtensions.prepare({ body: { messages: [] }, signal: SIGNAL }))
+    await expect(ctx.nuluLlmApiExtensions.prepare({ body: { messages: [] }, signal: SIGNAL }))
       .rejects.toThrow(/cannot resolve active package/)
   })
 

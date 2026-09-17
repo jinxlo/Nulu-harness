@@ -29,7 +29,7 @@ with NuluHarness(
 print(result.final_response)
 ```
 
-`NuluHarness` starts lazily and reuses its runtime until `close()` or context-manager exit. The initial profile handshake has an independent 30-second default bound through `initialize_timeout_seconds`; ordinary turns remain unbounded unless `request_timeout_seconds` is set. A timeout names the selected profile and includes retained runtime diagnostics. `cwd` is the agent workspace; `runtime_cwd` independently selects the subprocess working directory. Both become absolute before launch. `provider`, `model`, optional `reasoning_effort`, and optional positive `max_tokens` are sent during JSON-RPC initialization. `base_url` and `api_key` explicitly override `WORLD_APP_TECHNOLOGIES_BASE_URL` and `WORLD_APP_TECHNOLOGIES_API_KEY` in the child environment.
+`NuluHarness` starts lazily and reuses its runtime until `close()` or context-manager exit. The initial profile hannuluake has an independent 30-second default bound through `initialize_timeout_seconds`; ordinary turns remain unbounded unless `request_timeout_seconds` is set. A timeout names the selected profile and includes retained runtime diagnostics. `cwd` is the agent workspace; `runtime_cwd` independently selects the subprocess working directory. Both become absolute before launch. `provider`, `model`, optional `reasoning_effort`, and optional positive `max_tokens` are sent during JSON-RPC initialization. `base_url` and `api_key` explicitly override `WORLD_APP_TECHNOLOGIES_BASE_URL` and `WORLD_APP_TECHNOLOGIES_API_KEY` in the child environment.
 
 ## Customize plugins
 

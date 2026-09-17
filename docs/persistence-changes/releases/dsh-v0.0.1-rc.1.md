@@ -172,7 +172,7 @@ changes:
   - root: event:user/message
     before: null
     after: c4b5e355b7c7ce538ccb1210b5c042d4bbfe33dd57a910ccd34c7afa11cde648
-  - root: event:web/deepseek-search-llm-request
+  - root: event:web/nulu-search-llm-request
     before: null
     after: 0c5c79711e02bd8faed288bb89a39c77af15ad28010a0ee3d5c98adb1e5c3fe5
 ```

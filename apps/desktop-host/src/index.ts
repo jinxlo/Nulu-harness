@@ -164,7 +164,7 @@ function desktopComposition(
   allowLinkedPackages: boolean,
 ): DesktopComposition {
   const installAnchor = packageManifestPath(runtimeDir, '@worldapptechnologies/nulu')
-  const dshRoot = dirname(installAnchor)
+  const nuluRoot = dirname(installAnchor)
   const profile = loadProfileDirectory('nulu desktop', projectDir, installAnchor)
   for (const layer of profile.layers) {
     if (!allowLinkedPackages && !isProjectPath(projectDir, layer.packageDir) && !isProjectPath(runtimeDir, layer.packageDir)) {
@@ -339,7 +339,7 @@ export async function runDesktopHost(
   }
 
   return {
-    dshVersion: dshVersion(absoluteRuntime),
+    nuluVersion: nuluVersion(absoluteRuntime),
     cancel(streamId) {
       requests.get(streamId)?.abort()
     },

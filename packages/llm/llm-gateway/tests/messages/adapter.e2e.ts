@@ -11,14 +11,14 @@ import { Context, LoggerLevel } from '@worldapptechnologies/cordis'
 import Loader from '@worldapptechnologies/cordis-plugin-loader'
 import AgentRegistry from '@worldapptechnologies/nulu-agent'
 import LocalAttachments from '@worldapptechnologies/nulu-attachment-local'
-import DeepSeekLlmApiExtensionRegistry from '@worldapptechnologies/nulu-llm-api-extensions'
+import NuluLlmApiExtensionRegistry from '@worldapptechnologies/nulu-llm-api-extensions'
 import LlmRuntime, { BlockAssembler, createSystemMessage, createToolResultMessage, ReasoningEffortId } from '@worldapptechnologies/nulu-llm'
 import type { Message } from '@worldapptechnologies/nulu-llm'
-import * as PluginPackageInventoryDeepSeek from '@worldapptechnologies/nulu-plugin-package-inventory'
+import * as PluginPackageInventoryNulu from '@worldapptechnologies/nulu-plugin-package-inventory'
 import SessionStore, { SessionId } from '@worldapptechnologies/nulu-session'
-import * as SessionLogDeepSeek from '@worldapptechnologies/nulu-session-log-gateway'
+import * as SessionLogNulu from '@worldapptechnologies/nulu-session-log-gateway'
 import * as Messages from '../../src/index.ts'
-import { DeepSeekFilesClient, MESSAGES_FILES_BETA } from '../../src/common/files-api.ts'
+import { NuluFilesClient, MESSAGES_FILES_BETA } from '../../src/common/files-api.ts'
 import { assemble, options, user } from './helpers.ts'
 
 const IN_HISTORY_MODEL = process.env.DEEPSEEK_IN_HISTORY_MODEL
@@ -44,7 +44,7 @@ async function boot(models?: Messages.Config['models']) {
 }
 const tool = { name: 'lookup_value', description: 'Read the requested value. Always call this tool to obtain a value.', parameters: { type: 'object', properties: { key: { type: 'string' } }, required: ['key'] } }
 
-describe.skipIf(!process.env.DEEPSEEK_API_KEY)('DeepSeek Messages real API', () => {
+describe.skipIf(!process.env.DEEPSEEK_API_KEY)('Nulu Messages real API', () => {
   it.skipIf(!IN_HISTORY_MODEL).each([false, true])('updates system instructions during a conversation, in-history=%s', async (inHistory) => {
     const model = IN_HISTORY_MODEL as string
     // Each case owns the capability, even for a model with an in-history catalog default.
@@ -72,8 +72,8 @@ describe.skipIf(!process.env.DEEPSEEK_API_KEY)('DeepSeek Messages real API', () 
     const fetchImpl = globalThis.fetch
     const uploads: string[] = []
     const bodies: string[] = []
-    const files = new DeepSeekFilesClient({ baseURL: Messages.MESSAGES_BASE_URL, protocol: 'messages', apiKey: process.env.DEEPSEEK_API_KEY as string, fetch: fetchImpl })
-    const ownedFiles = new Set<ReturnType<typeof Messages.DeepSeekFileId>>()
+    const files = new NuluFilesClient({ baseURL: Messages.MESSAGES_BASE_URL, protocol: 'messages', apiKey: process.env.DEEPSEEK_API_KEY as string, fetch: fetchImpl })
+    const ownedFiles = new Set<ReturnType<typeof Messages.NuluFileId>>()
     cleanups.push(async () => {
       for (const id of ownedFiles) await files.delete(id)
     })
@@ -83,7 +83,7 @@ describe.skipIf(!process.env.DEEPSEEK_API_KEY)('DeepSeek Messages real API', () 
       if (url === `${Messages.MESSAGES_BASE_URL}/v1/files` && init?.method === 'POST' && response.ok) {
         const file = await response.clone().json() as { id: string }
         uploads.push(file.id)
-        ownedFiles.add(Messages.DeepSeekFileId(file.id))
+        ownedFiles.add(Messages.NuluFileId(file.id))
       }
       if (url === `${Messages.MESSAGES_BASE_URL}/v1/messages`) {
         expect(new Headers(init?.headers).get('anthropic-beta')).toBe(MESSAGES_FILES_BETA)
@@ -95,7 +95,7 @@ describe.skipIf(!process.env.DEEPSEEK_API_KEY)('DeepSeek Messages real API', () 
     const attachment = await ctx.attachments.saveImage({ data: await readFile(new URL('fixtures/red.png', import.meta.url)), mediaType: 'image/png' })
     const message = user('What is the dominant color of this image? Reply with one English color word.')
     const request = options({
-      model: 'deepseek-flash', reasoningEffort: ReasoningEffortId('off'),
+      model: 'nulu-flash', reasoningEffort: ReasoningEffortId('off'),
       messages: [{ ...message, content: [...message.content, { type: 'image', attachment }] }],
     })
     for (let run = 0; run < 2; run++) {
@@ -106,7 +106,7 @@ describe.skipIf(!process.env.DEEPSEEK_API_KEY)('DeepSeek Messages real API', () 
     expect(uploads).toHaveLength(1)
     expect(bodies).toHaveLength(2)
     expect(bodies.every(body => body.includes(`"file_id":"${uploads[0]}"`) && !body.includes('"type":"base64"'))).toBe(true)
-    const fileId = Messages.DeepSeekFileId(uploads[0]!)
+    const fileId = Messages.NuluFileId(uploads[0]!)
     const retrieved = await files.retrieve(fileId)
     expect(retrieved).toMatchObject({ id: fileId, bytes: attachment.bytes, purpose: 'user_data' })
     expect(retrieved.expiresAt).toBeUndefined()
@@ -138,15 +138,15 @@ describe.skipIf(!process.env.DEEPSEEK_API_KEY)('DeepSeek Messages real API', () 
     await ctx.plugin(Loader)
     await ctx.plugin(AgentRegistry)
     await ctx.plugin(SessionStore)
-    await ctx.plugin(DeepSeekLlmApiExtensionRegistry)
-    await ctx.plugin(SessionLogDeepSeek, enabled ? {} : { enabled: false })
+    await ctx.plugin(NuluLlmApiExtensionRegistry)
+    await ctx.plugin(SessionLogNulu, enabled ? {} : { enabled: false })
     ctx.baseUrl = import.meta.url
     // Select the source module while Loader owns its active package entry.
     ctx.loader.internal = {
       version: 'v2',
       async import(specifier: string) {
         if (specifier !== '@worldapptechnologies/nulu-plugin-package-inventory') throw new Error(`unexpected Loader import: ${specifier}`)
-        return PluginPackageInventoryDeepSeek
+        return PluginPackageInventoryNulu
       },
     } as unknown as NonNullable<typeof ctx.loader.internal>
     await ctx.loader.create({ name: '@worldapptechnologies/nulu-plugin-package-inventory' })
@@ -163,29 +163,29 @@ describe.skipIf(!process.env.DEEPSEEK_API_KEY)('DeepSeek Messages real API', () 
       if (url !== `${Messages.MESSAGES_BASE_URL}/v1/messages`) return fetchImpl(input, init)
       if (typeof init?.body !== 'string') throw new Error('expected a JSON Messages request')
       const body = JSON.parse(init.body) as Record<string, unknown>
-      expect(body).toMatchObject({ dsh_plugin_packages: {
+      expect(body).toMatchObject({ nulu_plugin_packages: {
         version: 1, packages: [{ name: packageIdentity.name, version: packageIdentity.version }],
       } })
       if (enabled) {
-        expect(body).toMatchObject({ dsh_session_log: {
+        expect(body).toMatchObject({ nulu_session_log: {
           version: 1, sessionFormatVersion: session.header.version, session: { id: session.id },
           afterSeq, throughSeq,
           events: Array.from({ length: throughSeq - afterSeq }, (_, index) => ({ seq: afterSeq + index + 1 })),
         } })
-      } else expect(body).not.toHaveProperty('dsh_session_log')
-      expect(SessionLogDeepSeek.acceptedThrough(session)).toBe(afterSeq)
+      } else expect(body).not.toHaveProperty('nulu_session_log')
+      expect(SessionLogNulu.acceptedThrough(session)).toBe(afterSeq)
       const response = await fetchImpl(input, init)
       expect(response.ok).toBe(true)
-      expect(SessionLogDeepSeek.acceptedThrough(session)).toBe(afterSeq)
+      expect(SessionLogNulu.acceptedThrough(session)).toBe(afterSeq)
       requests += 1
       return response
     })
     for (let run = 0; run < 2; run++) {
-      afterSeq = SessionLogDeepSeek.acceptedThrough(session)
+      afterSeq = SessionLogNulu.acceptedThrough(session)
       throughSeq = Number(session.seq) - 1
       const assembler = new BlockAssembler()
       for await (const chunk of ctx.llm.stream(options({ sessionId: session.id, reasoningEffort: ReasoningEffortId('off'), messages: [user('Reply with exactly PONG.')] }))) {
-        expect(SessionLogDeepSeek.acceptedThrough(session)).toBe(enabled ? throughSeq : -1)
+        expect(SessionLogNulu.acceptedThrough(session)).toBe(enabled ? throughSeq : -1)
         assembler.push(chunk)
       }
       expect(assembler.finish.kind).toBe('stop')
@@ -249,7 +249,7 @@ describe.skipIf(!process.env.DEEPSEEK_API_KEY)('DeepSeek Messages real API', () 
     const calls = first.message.content.filter(block => block.type === 'tool-call')
     expect(calls).toHaveLength(1)
     const restored = JSON.parse(JSON.stringify(first.message)) as typeof first.message
-    restored.source.replayState = { response: { kind: 'deepseek-messages', version: 2 }, blocks: [] }
+    restored.source.replayState = { response: { kind: 'nulu-messages', version: 2 }, blocks: [] }
     const saved = JSON.stringify(restored)
     history.push(restored, ...calls.map(call => createToolResultMessage({ callId: call.id, content: [{ type: 'text', text: 'REPLAY_RECOVERED_731' }], isError: false })))
     const second = await assemble(ctx.llm.stream({ ...request, messages: history }))

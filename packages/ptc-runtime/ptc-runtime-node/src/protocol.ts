@@ -6,7 +6,7 @@
 
 import type { PtcJsonWire } from './json-wire.ts'
 
-/** What the host hands the program at spawn, after the readiness handshake. */
+/** What the host hands the program at spawn, after the readiness hannuluake. */
 export interface ProgramBootData {
   /** The type-stripped (plain JS) program body. */
   code: string

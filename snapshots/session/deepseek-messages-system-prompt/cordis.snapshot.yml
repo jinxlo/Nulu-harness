@@ -6,10 +6,10 @@
       name: '@worldapptechnologies/nulu-llm-replay'
       config:
         providers:
-          - id: deepseek-messages
-            name: DeepSeek
+          - id: nulu-messages
+            name: Nulu
             models:
-              - id: deepseek-v4-flash
+              - id: nulu-v4-flash
                 systemPromptUpdate: in-history
                 defaultMaxTokens: 256000
                 reasoningEfforts: [off, low, high, max]
