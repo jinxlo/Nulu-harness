@@ -14,42 +14,26 @@
  *   name: '@worldapptechnologies/nulu-llm-pi-ai'
  *   config:
  *     providers:
- *       # Catalog route: everything but the credential comes from pi-ai.
- *       openai:
- *         apiKeyEnv: OPENAI_API_KEY
- *         retryPolicy:
- *           mode: normal
- *           maxRetries: 2
- *       # Catalog route with the catalog narrowed and one capacity corrected.
- *       anthropic:
- *         apiKeyEnv: ANTHROPIC_API_KEY
- *         models:
- *           - id: claude-sonnet-4-5
- *             contextWindow: 200000
- *       # Hand-declared route: pi-ai ships nothing under this key.
- *       acme-gateway:
- *         displayName: Acme Gateway
- *         apiKeyEnv: ACME_GATEWAY_API_KEY
+ *       # The single World App Technologies route. The harness is Nulu-only:
+ *       # no third-party provider is exposed or servable.
+ *       worldapp:
+ *         displayName: World App Technologies
+ *         apiKeyEnv: WORLD_APP_TECHNOLOGIES_API_KEY
  *         api: openai-completions
- *         baseURL: https://gateway.acme.example/v1
- *         # Reasoning dialect for a URL pi-ai cannot recognize.
+ *         baseURL: https://platform.worldapptechnologies.com/api/v1
  *         compat:
- *           thinkingFormat: deepseek
+ *           supportsDeveloperRole: false
  *         models:
- *           - id: acme-large
- *             name: Acme Large
- *             contextWindow: 65536
- *             maxTokens: 4096
- *           - id: acme-think
- *             name: Acme Think
- *             contextWindow: 262144
- *             maxTokens: 32768
- *             # key = selectable level, value = wire spelling; only off may
- *             # leave the value empty (supported, send nothing).
+ *           - id: nulu-5-ultra
+ *             name: Nulu 5 Ultra
+ *             contextWindow: 1000000
+ *             maxTokens: 384000
  *             reasoningEfforts:
  *               off:
+ *               low: low
+ *               medium: medium
  *               high: high
- *               max: ultra
+ *               max: max
  * ```
  *
  * @module @worldapptechnologies/nulu-llm-pi-ai

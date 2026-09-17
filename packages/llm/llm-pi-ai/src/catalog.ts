@@ -12,7 +12,7 @@
  * @module nulu-llm-pi-ai/catalog
  */
 
-import { builtinProviders, getBuiltinModels, getBuiltinProviders } from '@earendil-works/pi-ai/providers/all'
+import { builtinProviders, getBuiltinModels } from '@earendil-works/pi-ai/providers/all'
 import type { BuiltinProvider } from '@earendil-works/pi-ai/providers/all'
 import type {
   AnthropicMessagesCompat,
@@ -186,10 +186,15 @@ export function catalogProvider(provider: string): Provider | undefined {
 
 /**
  * Every provider route the installed pi-ai catalog ships.
+ *
+ * The harness is Nulu-only: it serves a single World App Technologies route and
+ * deliberately exposes none of pi-ai's bundled third-party providers. Returning
+ * an empty list removes them from the provider directory and sign-in flows, so
+ * only the configured Nulu route (and its models) can be addressed.
  * @returns the catalog provider ids.
  */
 export function catalogProviderIds(): readonly string[] {
-  return getBuiltinProviders()
+  return []
 }
 
 /**

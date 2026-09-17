@@ -38,35 +38,23 @@ Each profile may set a `retryPolicy`; omission uses normal mode with five retrie
 - name: '@worldapptechnologies/nulu-llm-pi-ai'
   config:
     providers:
-      openai:
-        apiKeyEnv: OPENAI_API_KEY
-        baseURL: https://proxy.example.com:8443
-        reasoning: high
-        requestImagePixelBudget: 4194304 # total pixels; 2048 by 2048 default
-        requestImageMaxBytes: 1048576    # raw bytes before base64 expansion
-        maxRequestImageBytes: 20971520   # accumulated base64 payload
-        retryPolicy:
-          mode: normal
-          maxRetries: 3
-      anthropic:
-        apiKeyEnv: ANTHROPIC_API_KEY
-        models:
-          - id: claude-sonnet-4-5
-            contextWindow: 200000
-      acme-gateway:
-        displayName: Acme Gateway
-        apiKeyEnv: ACME_GATEWAY_API_KEY
+      worldapp:
+        displayName: World App Technologies
+        apiKeyEnv: WORLD_APP_TECHNOLOGIES_API_KEY
         api: openai-completions
-        baseURL: https://gateway.acme.example/v1
+        baseURL: https://platform.worldapptechnologies.com/api/v1
         compat:
-          thinkingFormat: deepseek
+          supportsDeveloperRole: false
         models:
-          - id: acme-think
-            name: Acme Think
-            contextWindow: 262144
+          - id: nulu-5-ultra
+            name: Nulu 5 Ultra
+            contextWindow: 1000000
             reasoningEfforts:
               off:
+              low: low
+              medium: medium
               high: high
+              max: max
 ```
 
 | Field | Default | Meaning |

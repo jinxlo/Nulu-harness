@@ -115,6 +115,9 @@
             api: openai-completions
             baseURL: https://platform.worldapptechnologies.com/api/v1
             compat:
+              # Reasoning wire format the platform endpoint speaks (sends
+              # `thinking` and reads `reasoning_content`). A protocol name, not
+              # a provider or model reference.
               thinkingFormat: deepseek
               # The platform accepts the system prompt only as `system`.
               supportsDeveloperRole: false
