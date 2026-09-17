@@ -11,6 +11,8 @@
 # Usage:
 #   ./scripts/sync-upstream.sh                  # full pipeline
 #   ./scripts/sync-upstream.sh --classify-only  # analyze + report, no merge
+#   ./scripts/sync-upstream.sh --adapt          # run the AI adaptation executor
+#   ./scripts/sync-upstream.sh --resume         # resume adaptation executor
 #
 # Requires a clean working tree and the `upstream` remote:
 #   git remote add upstream https://github.com/deepseek-ai/deepseek-harness.git
@@ -20,11 +22,21 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
 CLASSIFY_ONLY=0
+ADAPT=0
+RESUME=0
 for arg in "$@"; do
   case "$arg" in
     --classify-only) CLASSIFY_ONLY=1 ;;
+    --adapt) ADAPT=1 ;;
+    --resume) RESUME=1 ;;
   esac
 done
+
+# Short-circuit: the adaptation executor consumes an existing queue and state.
+if [[ "$ADAPT" == "1" || "$RESUME" == "1" ]]; then
+  node scripts/upstream-sync/run-adaptations.mjs ${RESUME:+"--resume"}
+  exit $?
+fi
 
 if ! git remote | grep -qx upstream; then
   echo "[sync-upstream] adding upstream remote"
