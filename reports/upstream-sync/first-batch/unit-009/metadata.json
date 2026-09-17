@@ -1,0 +1,12 @@
+{
+  "id": 9,
+  "risk": "HIGH",
+  "area": "rename leftover plugin-package-inventory-deepseek",
+  "group": "plugin-package-inventory-deepseek",
+  "deps": [],
+  "upstream_commits": [
+    "(inventory upstream evolution)"
+  ],
+  "status": "BRIEF_GENERATED",
+  "confidence": "UNVALIDATED"
+}

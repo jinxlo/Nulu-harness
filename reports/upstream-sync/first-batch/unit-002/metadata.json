@@ -1,0 +1,12 @@
+{
+  "id": 2,
+  "risk": "LOW",
+  "area": "workflow-worker-thread",
+  "group": "workflow",
+  "deps": [],
+  "upstream_commits": [
+    "(workflow session/protocol commits)"
+  ],
+  "status": "BRIEF_GENERATED",
+  "confidence": "UNVALIDATED"
+}

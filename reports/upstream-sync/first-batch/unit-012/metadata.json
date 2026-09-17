@@ -1,0 +1,14 @@
+{
+  "id": 12,
+  "risk": "MEDIUM",
+  "area": "llm-gateway: token-grid projection (reject)",
+  "group": "llm-gateway-tokens",
+  "deps": [
+    10
+  ],
+  "upstream_commits": [
+    "06c491508f"
+  ],
+  "status": "BRIEF_GENERATED",
+  "confidence": "UNVALIDATED"
+}

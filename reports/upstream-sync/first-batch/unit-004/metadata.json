@@ -1,0 +1,14 @@
+{
+  "id": 4,
+  "risk": "MEDIUM",
+  "area": "e2b/e2b",
+  "group": "e2b",
+  "deps": [
+    1
+  ],
+  "upstream_commits": [
+    "(e2b egress/composition commits)"
+  ],
+  "status": "BRIEF_GENERATED",
+  "confidence": "UNVALIDATED"
+}

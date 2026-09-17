@@ -1,0 +1,12 @@
+{
+  "id": 6,
+  "risk": "MEDIUM",
+  "area": "client/connection",
+  "group": "connection",
+  "deps": [],
+  "upstream_commits": [
+    "(connection fixture commits)"
+  ],
+  "status": "BRIEF_GENERATED",
+  "confidence": "UNVALIDATED"
+}

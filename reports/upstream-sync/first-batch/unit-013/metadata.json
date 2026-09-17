@@ -1,0 +1,18 @@
+{
+  "id": 13,
+  "risk": "CRITICAL",
+  "area": "llm-gateway: durable image offload",
+  "group": "llm-gateway-offload",
+  "deps": [
+    10,
+    11,
+    12
+  ],
+  "upstream_commits": [
+    "345b5cdc6f",
+    "fcb976d3dc",
+    "b5e7fca4a5"
+  ],
+  "status": "BRIEF_GENERATED",
+  "confidence": "UNVALIDATED"
+}

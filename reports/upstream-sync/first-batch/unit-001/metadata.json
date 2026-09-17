@@ -1,0 +1,12 @@
+{
+  "id": 1,
+  "risk": "LOW",
+  "area": "e2b/subprocess-e2b",
+  "group": "subprocess-e2b",
+  "deps": [],
+  "upstream_commits": [
+    "(subprocess-e2b hardening commits)"
+  ],
+  "status": "BRIEF_GENERATED",
+  "confidence": "UNVALIDATED"
+}

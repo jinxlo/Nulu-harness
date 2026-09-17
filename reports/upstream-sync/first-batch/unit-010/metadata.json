@@ -1,0 +1,15 @@
+{
+  "id": 10,
+  "risk": "MEDIUM",
+  "area": "llm-gateway: Files API parity",
+  "group": "llm-gateway-files",
+  "deps": [
+    9
+  ],
+  "upstream_commits": [
+    "b0641b83fc",
+    "7d3dab66a2"
+  ],
+  "status": "BRIEF_GENERATED",
+  "confidence": "UNVALIDATED"
+}

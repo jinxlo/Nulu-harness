@@ -1,0 +1,48 @@
+{
+  "description": "Dependency graph: unit id -> depends on unit ids. Process in dependency order; do NOT re-sort by risk.",
+  "edges": {
+    "1": [],
+    "2": [],
+    "3": [],
+    "4": [
+      1
+    ],
+    "5": [
+      1,
+      4
+    ],
+    "6": [],
+    "7": [],
+    "8": [],
+    "9": [],
+    "10": [
+      9
+    ],
+    "11": [
+      9
+    ],
+    "12": [
+      10
+    ],
+    "13": [
+      10,
+      11,
+      12
+    ]
+  },
+  "order": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+  ]
+}

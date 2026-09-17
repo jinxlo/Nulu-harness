@@ -1,0 +1,12 @@
+{
+  "id": 7,
+  "risk": "MEDIUM",
+  "area": "session-log-gateway",
+  "group": "session-log",
+  "deps": [],
+  "upstream_commits": [
+    "(session-log config commits)"
+  ],
+  "status": "BRIEF_GENERATED",
+  "confidence": "UNVALIDATED"
+}

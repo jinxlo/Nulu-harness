@@ -1,0 +1,15 @@
+{
+  "id": 11,
+  "risk": "MEDIUM",
+  "area": "llm-gateway: Messages protocol reconciliation",
+  "group": "llm-gateway-messages",
+  "deps": [
+    9
+  ],
+  "upstream_commits": [
+    "34154b6861",
+    "6a137ea702"
+  ],
+  "status": "BRIEF_GENERATED",
+  "confidence": "UNVALIDATED"
+}

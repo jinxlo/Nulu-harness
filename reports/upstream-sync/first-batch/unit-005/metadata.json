@@ -1,0 +1,15 @@
+{
+  "id": 5,
+  "risk": "MEDIUM",
+  "area": "e2b/fs-e2b",
+  "group": "fs-e2b",
+  "deps": [
+    1,
+    4
+  ],
+  "upstream_commits": [
+    "(fs-e2b commits)"
+  ],
+  "status": "BRIEF_GENERATED",
+  "confidence": "UNVALIDATED"
+}

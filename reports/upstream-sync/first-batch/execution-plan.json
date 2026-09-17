@@ -1,0 +1,170 @@
+{
+  "sync_branch": "sync/deepseek-2026-09-17",
+  "upstream_base": "c291e7961a51",
+  "upstream_target": "0d1f50007f9b",
+  "status": "BRIEF_GENERATED (not adapted/validated — build machine required)",
+  "units": [
+    {
+      "id": 1,
+      "risk": "LOW",
+      "area": "e2b/subprocess-e2b",
+      "group": "subprocess-e2b",
+      "deps": [],
+      "upstream_files": [
+        "packages/e2b/subprocess-e2b/src/{environment,process,terminal,remote,output}.ts"
+      ],
+      "classification": "PORT"
+    },
+    {
+      "id": 2,
+      "risk": "LOW",
+      "area": "workflow-worker-thread",
+      "group": "workflow",
+      "deps": [],
+      "upstream_files": [
+        "packages/workflow/workflow-worker-thread/src/{host,protocol,session,worker}.ts"
+      ],
+      "classification": "PORT"
+    },
+    {
+      "id": 3,
+      "risk": "LOW",
+      "area": "code-runtime-worker-thread",
+      "group": "code-runtime",
+      "deps": [],
+      "upstream_files": [
+        "packages/code-runtime/code-runtime-worker-thread/src/{index,worker}.ts"
+      ],
+      "classification": "PORT"
+    },
+    {
+      "id": 4,
+      "risk": "MEDIUM",
+      "area": "e2b/e2b",
+      "group": "e2b",
+      "deps": [
+        1
+      ],
+      "upstream_files": [
+        "packages/e2b/e2b/src/{api-url,index}.ts",
+        "tests/{composition,egress,e2b}.spec.ts"
+      ],
+      "classification": "PORT"
+    },
+    {
+      "id": 5,
+      "risk": "MEDIUM",
+      "area": "e2b/fs-e2b",
+      "group": "fs-e2b",
+      "deps": [
+        1,
+        4
+      ],
+      "upstream_files": [
+        "packages/e2b/fs-e2b/src/index.ts",
+        "tests/filesystem.spec.ts"
+      ],
+      "classification": "PORT"
+    },
+    {
+      "id": 6,
+      "risk": "MEDIUM",
+      "area": "client/connection",
+      "group": "connection",
+      "deps": [],
+      "upstream_files": [
+        "packages/client/connection/src/client/fixture.ts",
+        "tests/fixture.client.spec.ts"
+      ],
+      "classification": "PORT"
+    },
+    {
+      "id": 7,
+      "risk": "MEDIUM",
+      "area": "session-log-gateway",
+      "group": "session-log",
+      "deps": [],
+      "upstream_files": [
+        "packages/session/session-log-gateway/tests/config.spec.ts"
+      ],
+      "classification": "PORT"
+    },
+    {
+      "id": 8,
+      "risk": "HIGH",
+      "area": "rename leftover subagent-dsh-sdk",
+      "group": "subagent-dsh-sdk",
+      "deps": [],
+      "upstream_files": [
+        "packages/subagent/subagent-dsh-sdk/package.json"
+      ],
+      "classification": "PORT"
+    },
+    {
+      "id": 9,
+      "risk": "HIGH",
+      "area": "rename leftover plugin-package-inventory-deepseek",
+      "group": "plugin-package-inventory-deepseek",
+      "deps": [],
+      "upstream_files": [
+        "packages/llm/plugin-package-inventory-deepseek/package.json"
+      ],
+      "classification": "PORT"
+    },
+    {
+      "id": 10,
+      "risk": "MEDIUM",
+      "area": "llm-gateway: Files API parity",
+      "group": "llm-gateway-files",
+      "deps": [
+        9
+      ],
+      "upstream_files": [
+        "packages/llm/llm-deepseek/src/common/{files-api,file-store,file-id,upload-index}.ts"
+      ],
+      "classification": "PORT/ADAPT"
+    },
+    {
+      "id": 11,
+      "risk": "MEDIUM",
+      "area": "llm-gateway: Messages protocol reconciliation",
+      "group": "llm-gateway-messages",
+      "deps": [
+        9
+      ],
+      "upstream_files": [
+        "packages/llm/llm-deepseek/src/protocols/messages/{adapter,transport,replay}.ts"
+      ],
+      "classification": "PORT/ADAPT"
+    },
+    {
+      "id": 12,
+      "risk": "MEDIUM",
+      "area": "llm-gateway: token-grid projection (reject)",
+      "group": "llm-gateway-tokens",
+      "deps": [
+        10
+      ],
+      "upstream_files": [
+        "packages/llm/llm-deepseek/src/common/image-tokens.ts"
+      ],
+      "classification": "PORT/ADAPT"
+    },
+    {
+      "id": 13,
+      "risk": "CRITICAL",
+      "area": "llm-gateway: durable image offload",
+      "group": "llm-gateway-offload",
+      "deps": [
+        10,
+        11,
+        12
+      ],
+      "upstream_files": [
+        "packages/llm/llm-deepseek/src/common/{request-files,request-extensions}.ts",
+        "packages/session/*"
+      ],
+      "classification": "HUMAN ARCHITECTURAL DECISION"
+    }
+  ]
+}

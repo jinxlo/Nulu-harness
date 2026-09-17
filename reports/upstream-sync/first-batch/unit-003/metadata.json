@@ -1,0 +1,12 @@
+{
+  "id": 3,
+  "risk": "LOW",
+  "area": "code-runtime-worker-thread",
+  "group": "code-runtime",
+  "deps": [],
+  "upstream_commits": [
+    "(code-runtime budget commits)"
+  ],
+  "status": "BRIEF_GENERATED",
+  "confidence": "UNVALIDATED"
+}

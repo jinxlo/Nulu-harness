@@ -1,0 +1,12 @@
+{
+  "id": 8,
+  "risk": "HIGH",
+  "area": "rename leftover subagent-dsh-sdk",
+  "group": "subagent-dsh-sdk",
+  "deps": [],
+  "upstream_commits": [
+    "(subagent-dsh-sdk upstream evolution)"
+  ],
+  "status": "BRIEF_GENERATED",
+  "confidence": "UNVALIDATED"
+}
