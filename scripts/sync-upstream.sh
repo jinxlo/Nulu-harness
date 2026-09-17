@@ -41,8 +41,14 @@ echo "[sync-upstream] fork base: ${BASE:0:12}"
 echo "[sync-upstream] classifying incoming changes"
 node scripts/upstream-sync/classify.mjs "${BASE}..upstream/master"
 
+echo "[sync-upstream] detecting high-risk architectural changes"
+node scripts/upstream-sync/risk-detect.mjs "${BASE}..upstream/master"
+
+echo "[sync-upstream] preparing semantic-adaptation briefs"
+node scripts/upstream-sync/semantic-adapt.mjs "${BASE}..upstream/master"
+
 if [[ "$CLASSIFY_ONLY" == "1" ]]; then
-  echo "[sync-upstream] --classify-only: no changes made"
+  echo "[sync-upstream] --classify-only: no changes made (briefs at reports/upstream-sync/adaptations/briefs)"
   exit 0
 fi
 

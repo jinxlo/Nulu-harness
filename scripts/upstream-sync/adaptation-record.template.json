@@ -1,0 +1,18 @@
+{
+  "id": "adaptation-XXXX",
+  "group_key": "",
+  "upstream_commits": [],
+  "classification": "",
+  "risk": "",
+  "confidence": "HIGH",
+  "upstream_functionality": "",
+  "nulu_adaptation": "",
+  "files_changed": [],
+  "tests_added": [],
+  "invariants_affected": [],
+  "validation": "",
+  "status": "adapted",
+  "blocked_reason": null,
+  "human_review": false,
+  "corrections": []
+}

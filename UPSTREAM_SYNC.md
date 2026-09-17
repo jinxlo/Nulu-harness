@@ -11,6 +11,8 @@ survived — never merging upstream directly into `main`.
 upstream/deepseek ──fetch──▶ sync/deepseek-YYYY-MM-DD
                                     │
                      classify (analyze before modifying)
+                     risk-detect (CRITICAL/HIGH/MEDIUM/LOW)
+                     semantic-adapt (group + briefs for the AI agent)
                      merge
                      rebrand (Level 1 deterministic)
                      validate (invariant gate)
@@ -29,11 +31,12 @@ git remote add upstream https://github.com/deepseek-ai/deepseek-harness.git
 
 ```sh
 ./scripts/sync-upstream.sh                # full pipeline (creates sync branch)
-./scripts/sync-upstream.sh --classify-only  # analyze + report, no changes
+./scripts/sync-upstream.sh --classify-only  # analyze + briefs, no changes
 ```
 
-The script never touches `main`. It creates `sync/deepseek-<date>`, merges,
-rebrands, validates, and reports. Review and merge manually:
+The script never touches `main`. It creates `sync/deepseek-<date>`, analyzes,
+prepares adaptation briefs, merges, rebrands, validates, and reports. Review and
+merge manually:
 
 ```sh
 git diff main...sync/deepseek-<date>
@@ -51,9 +54,32 @@ git checkout main && git merge --no-ff sync/deepseek-<date>
   (`AUTO-PORT`, `PORT-PRESERVE-NULU`, `PORT-WITH-ADAPTATION`,
   `IGNORE-PROVIDER`, `REBRAND-OR-IGNORE`, `REVIEW`), flagging commits that
   touch protected fork files.
-- **Level 3 — semantic** (AI-assisted, future work): an agent reimplements
-  upstream functionality while preserving the Nulu invariants, rather than
-  copying DeepSeek-specific behavior.
+- **Level 3 — semantic** (`scripts/upstream-sync/semantic-adapt.mjs`): groups
+  related commits into feature units, runs the high-risk detector
+  (`risk-detect.mjs`), and produces a context brief
+  (`prepare-adaptation.mjs`) per unit for an AI agent. The agent reimplements
+  upstream functionality while preserving the Nulu invariants — it adapts
+  functionality, not implementation.
+
+## High-risk detection
+
+`scripts/upstream-sync/risk-detect.mjs` maps upstream paths to foundational
+areas (`risk-areas.mjs`) and cross-references the fork manifest. Risk levels:
+
+- **CRITICAL** — touches a foundational area and a Nulu-protected file; blocks
+  automatic merge and requires semantic adaptation + validation + review.
+- **HIGH** — touches a foundational area with Nulu-protected dependencies.
+- **MEDIUM** — touches a foundational area with no protected dependencies.
+- **LOW** — no foundational area.
+
+## Adaptation history
+
+`scripts/upstream-sync/semantic-adapt.mjs` writes adaptation records to
+`reports/upstream-sync/adaptations/` (see
+`scripts/upstream-sync/ADAPTATION_HISTORY.md` and
+`adaptation-record.template.json`). Each record captures the upstream intent,
+the Nulu translation, confidence, validation, and human review, so future
+changes to the same component can reuse prior adaptations.
 
 ## Invariants and protected files
 
