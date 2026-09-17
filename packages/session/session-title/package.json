@@ -1,6 +1,6 @@
 {
-  "name": "@deepseek-ai/dsh-session-title",
-  "description": "Log-backed session title service and provider registry for the DeepSeek Harness",
+  "name": "@worldapptechnologies/nulu-session-title",
+  "description": "Log-backed session title service and provider registry for the Nulu Harness",
   "version": "0.1.6-alpha.1",
   "publishConfig": {
     "access": "public"

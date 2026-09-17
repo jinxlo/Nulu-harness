@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
-import type { SessionSnapshot } from '@deepseek-ai/dsh-api-session-controller/client'
-import type { WorkspaceId } from '@deepseek-ai/dsh-workspace/types'
+import type { SessionSnapshot } from '@worldapptechnologies/nulu-api-session-controller/client'
+import type { WorkspaceId } from '@worldapptechnologies/nulu-workspace/types'
 import type { ConversationSlotProps, InputZone } from '../contract/slots.ts'
 import { HeroShell, WorkspaceChip, workspaceLabel } from './EmptyHero.tsx'
 import css from './ConversationRoot.module.css'
@@ -54,7 +54,7 @@ function WidthHandle(props: {
   }, [])
   const onPointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     const box = e.currentTarget.getBoundingClientRect()
-    e.currentTarget.style.setProperty('--dsh-width-handle-pointer-y', `${e.clientY - box.top}px`)
+    e.currentTarget.style.setProperty('--nulu-width-handle-pointer-y', `${e.clientY - box.top}px`)
     if (!e.currentTarget.hasPointerCapture(e.pointerId)) return
     latest.current = e.clientX
     frame.current ??= requestAnimationFrame(() => {
@@ -125,9 +125,9 @@ export function ConversationContent({
   const pickerAnchor = useRef<HTMLButtonElement>(null)
 
   // Publishes the two live measurements floating View chrome reads off the
-  // scroll body: the seat's height as --dsh-composer-height, so controls clear
+  // scroll body: the seat's height as --nulu-composer-height, so controls clear
   // the composer as it grows, and the scrollport's own height as
-  // --dsh-conversation-viewport-height, so a control can sit in the band the
+  // --nulu-conversation-viewport-height, so a control can sit in the band the
   // seat leaves visible. Callback ref, not an effect; stable identity prevents
   // observer churn while the first blank session fills the resident body
   // outlet.
@@ -138,9 +138,9 @@ export function ConversationContent({
     const scroller = seat?.parentElement ?? null
     if (seat === null || scroller === null) return
     seatObserver.current = new ResizeObserver(() => {
-      scroller.style.setProperty('--dsh-composer-height', `${seat.offsetHeight}px`)
+      scroller.style.setProperty('--nulu-composer-height', `${seat.offsetHeight}px`)
       scroller.style.setProperty(
-        '--dsh-conversation-viewport-height',
+        '--nulu-conversation-viewport-height',
         `${scroller.clientHeight}px`,
       )
     })

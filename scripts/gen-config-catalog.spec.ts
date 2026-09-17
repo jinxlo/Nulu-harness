@@ -8,7 +8,7 @@ import { collectConfigCatalog } from './gen-config-catalog.ts'
 
 const roots: string[] = []
 const sharedSchema = `
-import Schema from '@deepseek-ai/schemastery'
+import Schema from '@worldapptechnologies/schemastery'
 export interface LaunchConfig {
   /** Browser ownership mode. */
   mode: 'launch'
@@ -29,7 +29,7 @@ export const Shared = Schema.union([
 `
 
 function fixture(schema = sharedSchema) {
-  const root = mkdtempSync(join(tmpdir(), 'dsh-config-catalog-'))
+  const root = mkdtempSync(join(tmpdir(), 'nulu-config-catalog-'))
   roots.push(root)
   const write = (path: string, value: string): void => {
     const file = join(root, path)

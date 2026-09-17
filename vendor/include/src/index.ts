@@ -43,7 +43,7 @@ function retryableWriteError(error: unknown): boolean {
 /**
  * Apply patch lists to an entry list — THE patch semantics of this include,
  * shared by mounting (`applyPatches`) and offline config tooling
- * (`dsh --dump-config`) so a dump can never drift from what boots. The input
+ * (`nulu --dump-config`) so a dump can never drift from what boots. The input
  * is never mutated: patching shared entry objects would bake earlier patch
  * values into the cached parse, so repeated application (config hot-reloads)
  * could never revert a removed or changed patch. Inserted entries are indexed

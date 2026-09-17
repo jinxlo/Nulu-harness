@@ -5,10 +5,10 @@
  * reconciles from the authoritative item carried by the reply, mutations
  * serialize per Session, and a disposed controller stops publishing.
  */
-import { RemoteMock, ok } from '@deepseek-ai/dsh-remote-mock'
+import { RemoteMock, ok } from '@worldapptechnologies/nulu-remote-mock'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import type { MessageId, SessionId } from '@deepseek-ai/dsh-api-remotes/client'
-import { RemoteError } from '@deepseek-ai/dsh-client-test-runtime'
+import type { MessageId, SessionId } from '@worldapptechnologies/nulu-api-remotes/client'
+import { RemoteError } from '@worldapptechnologies/nulu-client-test-runtime'
 import type {
   MessageFeedbackItem, MessageFeedbackVersion,
 } from '@worldapptechnologies/nulu-message-feedback/types'

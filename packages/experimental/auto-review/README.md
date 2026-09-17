@@ -3,7 +3,7 @@ description: "Add experimental per-call Auto review to a Web profile, using the 
 kind: "package-bundle"
 ---
 
-# @deepseek-ai/dsh-experimental-auto-review
+# @worldapptechnologies/nulu-experimental-auto-review
 
 English | [中文](README.zh.md)
 
@@ -30,15 +30,15 @@ Add Auto review to the current-session permission pickers in a Web profile. Befo
 From this source checkout, install the package into the Web profile through the existing CLI:
 
 ```sh
-pnpm dsh plugin --profile web add ./packages/experimental/auto-review
+pnpm nulu plugin --profile web add ./packages/experimental/auto-review
 ```
 
-The CLI initializes the profile when needed and appends this package's declared patch after the base and Web layers. Reconciliation activates the patch as a profile layer; a package without `dsh.bundle.patch` is only an installed dependency. Select `Auto review` with its superscript `EXP` badge in the composer or `/permission` picker and confirm the current-session risk dialog. An explicit `/permission auto` command switches directly. General settings and future-session defaults do not offer Auto.
+The CLI initializes the profile when needed and appends this package's declared patch after the base and Web layers. Reconciliation activates the patch as a profile layer; a package without `nulu.bundle.patch` is only an installed dependency. Select `Auto review` with its superscript `EXP` badge in the composer or `/permission` picker and confirm the current-session risk dialog. An explicit `/permission auto` command switches directly. General settings and future-session defaults do not offer Auto.
 
 Remove the layer through the same CLI:
 
 ```sh
-pnpm dsh plugin --profile web remove @deepseek-ai/dsh-experimental-auto-review
+pnpm nulu plugin --profile web remove @worldapptechnologies/nulu-experimental-auto-review
 ```
 
 ### What you get

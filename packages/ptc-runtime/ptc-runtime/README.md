@@ -3,13 +3,13 @@ description: "Abstract PTC execution seam (`ctx.ptcRuntime`) for users and maint
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-ptc-runtime
+# @worldapptechnologies/nulu-ptc-runtime
 
 English | [中文](README.zh.md)
 
 ## Summary
 
-Use `dsh-ptc-runtime` to run one model-written program against host-provided asynchronous functions through a configured backend. A request returns a lossless-JSON value, ordered per-channel logs, or a structured error; program failures resolve in the result, while rejected promises indicate caller misuse. Each run is isolated from prior runs, and the runtime has no knowledge of tools or sessions. Choose an execution backend separately; its language and isolation descriptors identify the required source language and execution substrate but do not themselves promise a security boundary.
+Use `nulu-ptc-runtime` to run one model-written program against host-provided asynchronous functions through a configured backend. A request returns a lossless-JSON value, ordered per-channel logs, or a structured error; program failures resolve in the result, while rejected promises indicate caller misuse. Each run is isolated from prior runs, and the runtime has no knowledge of tools or sessions. Choose an execution backend separately; its language and isolation descriptors identify the required source language and execution substrate but do not themselves promise a security boundary.
 
 ## Table of Contents
 
@@ -25,7 +25,7 @@ Use `dsh-ptc-runtime` to run one model-written program against host-provided asy
 <a id="use-this-package"></a>
 ## Use this package
 
-Choose this package when you compose a deployment that executes model-written programs, consume `ctx.ptcRuntime` directly, or build a backend that runs programs. PTC mode in `dsh-tools` uses it for tool programs, and `dsh-workflow-ptc` uses it for workflow orchestration. Each consumer owns the content returned to its model.
+Choose this package when you compose a deployment that executes model-written programs, consume `ctx.ptcRuntime` directly, or build a backend that runs programs. PTC mode in `nulu-tools` uses it for tool programs, and `nulu-workflow-ptc` uses it for workflow orchestration. Each consumer owns the content returned to its model.
 
 ### Run a program
 
@@ -42,7 +42,7 @@ const result = await ctx.ptcRuntime.run(spec)
 
 ### Choose a backend
 
-Backends expose `language` and `isolation` as diagnostic descriptors; neither grants authority or proves confinement. [`dsh-ptc-runtime-node`](../ptc-runtime-node/README.md) executes erasable TypeScript in a fresh managed Node process under the resolved sandbox policy. The private [`dsh-experimental-ptc-runtime-python`](../../experimental/ptc-runtime-python/README.md) provider executes Python in a fresh CPython subprocess without file confinement. `sandboxMode` advertises a provider's deployment file-policy mode, or is absent when that capability is unsupported.
+Backends expose `language` and `isolation` as diagnostic descriptors; neither grants authority or proves confinement. [`nulu-ptc-runtime-node`](../ptc-runtime-node/README.md) executes erasable TypeScript in a fresh managed Node process under the resolved sandbox policy. The private [`nulu-experimental-ptc-runtime-python`](../../experimental/ptc-runtime-python/README.md) provider executes Python in a fresh CPython subprocess without file confinement. `sandboxMode` advertises a provider's deployment file-policy mode, or is absent when that capability is unsupported.
 
 ### Name your bindings portably
 
@@ -64,7 +64,7 @@ This section explains the design behind the seam; observable behavior is fully c
 
 ### Design concept
 
-The package is the Service Definition role of the PTC execution capability seam ([capability seams](../../../.agents/notes/implemented/architecture/2026-06-13-capability-seams.md)): an abstract `PtcRuntime extends Service` registered as `ctx.ptcRuntime`, plus the vocabulary providers and consumers share. Providers subclass `PtcRuntime`, implement `resolve` and `run`, and register the service. PTC mode in `dsh-tools` owns tool bindings, while `dsh-workflow-ptc` owns workflow hooks and child agents. The runtime stays ignorant of tools and sessions by contract: it receives a program, named async bindings and resolved execution options, then returns captured output, the outcome and applicable sandbox facts.
+The package is the Service Definition role of the PTC execution capability seam ([capability seams](../../../.agents/notes/implemented/architecture/2026-06-13-capability-seams.md)): an abstract `PtcRuntime extends Service` registered as `ctx.ptcRuntime`, plus the vocabulary providers and consumers share. Providers subclass `PtcRuntime`, implement `resolve` and `run`, and register the service. PTC mode in `nulu-tools` owns tool bindings, while `nulu-workflow-ptc` owns workflow hooks and child agents. The runtime stays ignorant of tools and sessions by contract: it receives a program, named async bindings and resolved execution options, then returns captured output, the outcome and applicable sandbox facts.
 
 ### Service API
 
@@ -112,7 +112,7 @@ Read these when the package-level contract is not enough. They move from the PTC
 <a id="model-experience"></a>
 ## Model Experience
 
-Indirectly, through PTC mode in `dsh-tools` and the workflow adapter, which present program outcomes through their own tool results.
+Indirectly, through PTC mode in `nulu-tools` and the workflow adapter, which present program outcomes through their own tool results.
 
 #### KV Cache effect
 

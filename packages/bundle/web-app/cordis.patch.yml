@@ -105,7 +105,7 @@
     # Workspace file service: bounded read, directory listing, and the
     # agent-write change feed inside the session workspace root.
     - id: terminal-controller
-      name: '@deepseek-ai/dsh-api-terminal-controller'
+      name: '@worldapptechnologies/nulu-api-terminal-controller'
     - id: workspace-files
       name: '@worldapptechnologies/nulu-api-workspace-files'
 
@@ -232,7 +232,7 @@
 
     # The right Sidebar's workspace file tree tab type.
     - id: ui-sidebar-terminal
-      name: '@deepseek-ai/dsh-client-ui-sidebar-terminal'
+      name: '@worldapptechnologies/nulu-client-ui-sidebar-terminal'
     - id: ui-sidebar-files
       name: '@worldapptechnologies/nulu-client-ui-sidebar-files'
 
@@ -249,7 +249,7 @@
       name: '@worldapptechnologies/nulu-client-ui-settings-plugin-inventory'
 
     - id: ui-settings-unarchive-sessions
-      name: '@deepseek-ai/dsh-client-ui-settings-unarchive-sessions'
+      name: '@worldapptechnologies/nulu-client-ui-settings-unarchive-sessions'
 
     - id: ui-conversation
       name: '@worldapptechnologies/nulu-client-ui-conversation'

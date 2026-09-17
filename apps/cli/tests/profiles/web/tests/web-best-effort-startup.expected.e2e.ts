@@ -23,7 +23,7 @@ interface Fixture {
 }
 
 function createFixture(): Fixture {
-  const root = mkdtempSync(join(tmpdir(), 'dsh-web-best-effort-'))
+  const root = mkdtempSync(join(tmpdir(), 'nulu-web-best-effort-'))
   const home = join(root, 'home')
   const events = join(root, 'events.log')
   const stop = join(root, 'stop')
@@ -101,7 +101,7 @@ async function waitForStartup(
   let settled = false
   const finish = (): void => {
     if (settled || url === undefined) return
-    if (!stderrText.includes('dsh: warning: 6 entries did not activate')) return
+    if (!stderrText.includes('nulu: warning: 6 entries did not activate')) return
     if (!stderrText.includes('web async apply failure')) return
     if (!stderrText.includes('webProbeMissingService')) return
     settled = true
@@ -110,7 +110,7 @@ async function waitForStartup(
   }
   stdout.on('data', (chunk: string) => {
     stdoutText += chunk
-    url ??= /dsh web: (http:\/\/[^\s]+)/u.exec(stdoutText)?.[1]
+    url ??= /nulu web: (http:\/\/[^\s]+)/u.exec(stdoutText)?.[1]
     finish()
   })
   stderr.on('data', (chunk: string) => {
@@ -131,7 +131,7 @@ async function waitForStartup(
   return ready.promise
 }
 
-describe.skipIf(!builtArtifactsExist)('dsh Web profile best-effort startup', () => {
+describe.skipIf(!builtArtifactsExist)('nulu Web profile best-effort startup', () => {
   it('serves the full Web app while unrelated entries fail to start', async () => {
     const fixture = createFixture()
     const child = execa(process.execPath, [
@@ -145,9 +145,9 @@ describe.skipIf(!builtArtifactsExist)('dsh Web profile best-effort startup', () 
       env: {
         ...process.env,
         DEEPSEEK_API_KEY: 'keyless-web-best-effort-no-call',
-        DSH_AGENTS_HOME: join(fixture.root, '.agents'),
-        DSH_HOME: fixture.home,
-        DSH_TELEMETRY_DISABLED: '1',
+        NULU_AGENTS_HOME: join(fixture.root, '.agents'),
+        NULU_HOME: fixture.home,
+        NULU_TELEMETRY_DISABLED: '1',
         NODE_NO_WARNINGS: '1',
       },
       input: '',
@@ -166,10 +166,10 @@ describe.skipIf(!builtArtifactsExist)('dsh Web profile best-effort startup', () 
       const page = await fetch(new URL('/', startup.url), { headers: { cookie } })
       const html = await page.text()
       expect(html).toContain('<div id="root"></div>')
-      expect(html).toContain('__DSH_BOOT__')
+      expect(html).toContain('__NULU_BOOT__')
       expect(readFileSync(fixture.events, 'utf8')).toBe('good apply\n')
       expect(startup.stderr).toContain('web-probe-import-failure')
-      expect(startup.stderr).toContain('@deepseek-ai/dsh-tool-todo')
+      expect(startup.stderr).toContain('@worldapptechnologies/nulu-tool-todo')
       expect(startup.stderr).toContain('web sync apply failure')
       expect(startup.stderr).toContain('web async apply failure')
       expect(startup.stderr).toContain('pending (waiting for service: webProbeMissingService)')
@@ -224,9 +224,9 @@ describe.skipIf(!builtArtifactsExist)('dsh Web profile best-effort startup', () 
         env: {
           ...process.env,
           DEEPSEEK_API_KEY: 'keyless-web-required-no-call',
-          DSH_AGENTS_HOME: join(fixture.root, '.agents'),
-          DSH_HOME: fixture.home,
-          DSH_TELEMETRY_DISABLED: '1',
+          NULU_AGENTS_HOME: join(fixture.root, '.agents'),
+          NULU_HOME: fixture.home,
+          NULU_TELEMETRY_DISABLED: '1',
           NODE_NO_WARNINGS: '1',
         },
         input: '',
@@ -237,9 +237,9 @@ describe.skipIf(!builtArtifactsExist)('dsh Web profile best-effort startup', () 
       expect(result.timedOut).toBe(false)
       expect(result.signal).toBeUndefined()
       expect(result.exitCode).toBe(1)
-      expect(result.stdout).not.toContain('dsh web: http://')
+      expect(result.stdout).not.toContain('nulu web: http://')
       expect(result.stderr).toContain('required startup failure')
-      expect(result.stderr).toContain(`${id} (@deepseek-ai/dsh-client-${id}): ${diagnostic}`)
+      expect(result.stderr).toContain(`${id} (@worldapptechnologies/nulu-client-${id}): ${diagnostic}`)
       expect(readFileSync(fixture.events, 'utf8')).toBe('good apply\ngood dispose\n')
     } finally {
       rmSync(fixture.root, { recursive: true, force: true })
@@ -247,7 +247,7 @@ describe.skipIf(!builtArtifactsExist)('dsh Web profile best-effort startup', () 
   })
 
   it('fails the full Web profile when its required HTTP server cannot bind', async () => {
-    const root = mkdtempSync(join(tmpdir(), 'dsh-web-required-bind-'))
+    const root = mkdtempSync(join(tmpdir(), 'nulu-web-required-bind-'))
     const home = join(root, 'home')
     mkdirSync(home)
     const blocker = createServer()
@@ -275,9 +275,9 @@ describe.skipIf(!builtArtifactsExist)('dsh Web profile best-effort startup', () 
         env: {
           ...process.env,
           DEEPSEEK_API_KEY: 'keyless-web-required-bind-no-call',
-          DSH_AGENTS_HOME: join(root, '.agents'),
-          DSH_HOME: home,
-          DSH_TELEMETRY_DISABLED: '1',
+          NULU_AGENTS_HOME: join(root, '.agents'),
+          NULU_HOME: home,
+          NULU_TELEMETRY_DISABLED: '1',
           NODE_NO_WARNINGS: '1',
         },
         input: '',
@@ -288,7 +288,7 @@ describe.skipIf(!builtArtifactsExist)('dsh Web profile best-effort startup', () 
       expect(result.timedOut).toBe(false)
       expect(result.signal).toBeUndefined()
       expect(result.exitCode).toBe(1)
-      expect(result.stdout).not.toContain('dsh web: http://')
+      expect(result.stdout).not.toContain('nulu web: http://')
       expect(result.stderr).toContain('required startup failure')
       expect(result.stderr).toContain('EADDRINUSE')
     } finally {
@@ -328,9 +328,9 @@ describe.skipIf(!builtArtifactsExist)('dsh Web profile best-effort startup', () 
         env: {
           ...process.env,
           DEEPSEEK_API_KEY: 'keyless-web-detached-no-call',
-          DSH_AGENTS_HOME: join(fixture.root, '.agents'),
-          DSH_HOME: fixture.home,
-          DSH_TELEMETRY_DISABLED: '1',
+          NULU_AGENTS_HOME: join(fixture.root, '.agents'),
+          NULU_HOME: fixture.home,
+          NULU_TELEMETRY_DISABLED: '1',
           NODE_NO_WARNINGS: '1',
         },
         input: '',

@@ -6,7 +6,7 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { getEnvironmentData } from 'node:worker_threads'
-import { Context } from '@deepseek-ai/cordis'
+import { Context } from '@worldapptechnologies/cordis'
 import { afterEach, describe, expect, it } from 'vitest'
 import { PluginPackages } from '../src/profile-resolution/service.ts'
 import type { ProfileResolutionGeneration } from '../src/profile.ts'
@@ -49,7 +49,7 @@ function generation(
 
 describe('profile package metadata service', () => {
   it('resolves module URLs and package metadata through the current generation', async () => {
-    const root = mkdtempSync(join(tmpdir(), 'dsh-profile-package-service-'))
+    const root = mkdtempSync(join(tmpdir(), 'nulu-profile-package-service-'))
     roots.push(root)
     const profilesDir = join(root, 'profiles')
     const profileDir = join(profilesDir, 'test')
@@ -81,7 +81,7 @@ describe('profile package metadata service', () => {
   })
 
   it('uses native package lookup without a registration and caches parsed metadata', async () => {
-    const root = mkdtempSync(join(tmpdir(), 'dsh-native-package-service-'))
+    const root = mkdtempSync(join(tmpdir(), 'nulu-native-package-service-'))
     roots.push(root)
     const packageDir = join(root, 'node_modules', '@scope', 'metadata')
     file(join(packageDir, 'package.json'), JSON.stringify({ name: '@scope/metadata' }))
@@ -101,7 +101,7 @@ describe('profile package metadata service', () => {
   })
 
   it('rejects malformed package metadata selected by the resolver', async () => {
-    const root = mkdtempSync(join(tmpdir(), 'dsh-invalid-package-service-'))
+    const root = mkdtempSync(join(tmpdir(), 'nulu-invalid-package-service-'))
     roots.push(root)
     const anonymous = join(root, 'node_modules', 'anonymous')
     file(join(anonymous, 'package.json'), '{}')
@@ -118,7 +118,7 @@ describe('profile package metadata service', () => {
   })
 
   it('returns undefined when a selected package directory has no manifest', async () => {
-    const root = mkdtempSync(join(tmpdir(), 'dsh-missing-package-service-'))
+    const root = mkdtempSync(join(tmpdir(), 'nulu-missing-package-service-'))
     roots.push(root)
     const profilesDir = join(root, 'profiles')
     const profileDir = join(profilesDir, 'test')
@@ -134,7 +134,7 @@ describe('profile package metadata service', () => {
   })
 
   it('does not revive a stale disk fallback after the runtime generation misses', async () => {
-    const root = mkdtempSync(join(tmpdir(), 'dsh-stale-package-service-'))
+    const root = mkdtempSync(join(tmpdir(), 'nulu-stale-package-service-'))
     roots.push(root)
     const profilesDir = join(root, 'profiles')
     const profileDir = join(profilesDir, 'test')
@@ -151,7 +151,7 @@ describe('profile package metadata service', () => {
   })
 
   it('publishes additive generations to the process and future Workers', async () => {
-    const root = mkdtempSync(join(tmpdir(), 'dsh-package-service-generation-'))
+    const root = mkdtempSync(join(tmpdir(), 'nulu-package-service-generation-'))
     roots.push(root)
     const profilesDir = join(root, 'profiles')
     const profileDir = join(profilesDir, 'test')
@@ -164,7 +164,7 @@ describe('profile package metadata service', () => {
       join(profilesDir, 'node_modules', 'metadata-lib'),
       process.platform === 'win32' ? 'junction' : 'dir',
     )
-    const key = '@deepseek-ai/dsh-app-boot/profile-resolution'
+    const key = '@worldapptechnologies/nulu-app-boot/profile-resolution'
     const previous = getEnvironmentData(key)
     const ctx = new Context()
     contexts.push(ctx)

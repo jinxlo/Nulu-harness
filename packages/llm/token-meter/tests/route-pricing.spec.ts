@@ -1,4 +1,4 @@
-import { imageOffloadProjection } from '@deepseek-ai/dsh-compaction-image-offload/projection'
+import { imageOffloadProjection } from '@worldapptechnologies/nulu-compaction-image-offload/projection'
 import { describe, expect, it } from 'vitest'
 import { Context } from '@worldapptechnologies/cordis'
 import {

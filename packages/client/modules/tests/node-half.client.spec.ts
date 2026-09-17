@@ -7,7 +7,7 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { runInNewContext } from 'node:vm'
-import { Context, FiberState, type Fiber } from '@deepseek-ai/cordis'
+import { Context, FiberState, type Fiber } from '@worldapptechnologies/cordis'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { renderIndexInjections, type WebServer, type WebRoute } from '@worldapptechnologies/nulu-host-webserver'
 import * as modulesClient from '../src/client/index.ts'
@@ -747,7 +747,7 @@ describe('client bundle activation', () => {
     expect(batchScript.status).toBe(200)
     expect(batchScript.headers?.['cache-control']).toBe('public, max-age=31536000, immutable')
     expect(batchScript.body.toString('utf8')).toContain(`//# sourceMappingURL=${mapUrl(batch.url)}`)
-    const shellResponse = await service.fetchBundle(new Request(`dsh-app://app${batch.url}`))
+    const shellResponse = await service.fetchBundle(new Request(`nulu-app://app${batch.url}`))
     expect(shellResponse.status).toBe(200)
     expect(shellResponse.headers.get('cache-control')).toBe('public, max-age=31536000, immutable')
     expect(await shellResponse.text()).toBe(batchScript.body.toString('utf8'))

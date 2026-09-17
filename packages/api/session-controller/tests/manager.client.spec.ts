@@ -4,16 +4,16 @@
  */
 
 import { describe, expect, vi } from 'vitest'
-import type { SessionId } from '@deepseek-ai/dsh-api-remotes/client'
-import { SessionSeq } from '@deepseek-ai/dsh-session/types'
-import { RemoteError } from '@deepseek-ai/dsh-typert-protocol'
-import type { SessionControlFrame } from '@deepseek-ai/dsh-api-session-controller/types'
-import type { SubagentAddress } from '@deepseek-ai/dsh-subagent/client'
-import { ok, type RemoteMock } from '@deepseek-ai/dsh-remote-mock'
+import type { SessionId } from '@worldapptechnologies/nulu-api-remotes/client'
+import { SessionSeq } from '@worldapptechnologies/nulu-session/types'
+import { RemoteError } from '@worldapptechnologies/nulu-typert-protocol'
+import type { SessionControlFrame } from '@worldapptechnologies/nulu-api-session-controller/types'
+import type { SubagentAddress } from '@worldapptechnologies/nulu-subagent/client'
+import { ok, type RemoteMock } from '@worldapptechnologies/nulu-remote-mock'
 import {
   createClientTest, type ClientTestFixtures, webApp,
-} from '@deepseek-ai/dsh-client-test-runtime/src/assembly/index.ts'
-import type {} from '@deepseek-ai/dsh-session-title/client'
+} from '@worldapptechnologies/nulu-client-test-runtime/src/assembly/index.ts'
+import type {} from '@worldapptechnologies/nulu-session-title/client'
 import { SessionManager } from '../src/client/sessions/manager.ts'
 import type { SessionRemotes } from '../src/client/sessions/remotes.ts'
 import { entries, plainTurn } from './event-script.client.ts'
@@ -22,7 +22,7 @@ import { FOLLOW, err, followScript, sessionWorld } from './remote/session.client
 const S1 = 'fk-m1' as SessionId
 const S2 = 'fk-m2' as SessionId
 /** Gateway Client cone used by the subagent-catalog and connected-generation cases. */
-const API_ROSTER = webApp.closure(['@deepseek-ai/dsh-api-gateway'])
+const API_ROSTER = webApp.closure(['@worldapptechnologies/nulu-api-gateway'])
 const it = createClientTest({ roster: API_ROSTER })
 /** The first client boot pays the cold module transform of the api cone. */
 const COLD_BOOT_TIMEOUT_MS = 60_000

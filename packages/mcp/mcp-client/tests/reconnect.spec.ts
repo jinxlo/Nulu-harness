@@ -5,12 +5,12 @@
  * Isolated file so vi.mock of the MCP SDK doesn't pollute other test suites.
  */
 import { describe, expect, it, vi, beforeEach } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import SystemPrompt from '@deepseek-ai/dsh-system-prompt'
-import ToolRuntime from '@deepseek-ai/dsh-tools'
-import McpResources from '@deepseek-ai/dsh-mcp-resources'
-import { ToolCallId } from '@deepseek-ai/dsh-llm'
-import type { Config } from '@deepseek-ai/dsh-mcp-client'
+import { Context } from '@worldapptechnologies/cordis'
+import SystemPrompt from '@worldapptechnologies/nulu-system-prompt'
+import ToolRuntime from '@worldapptechnologies/nulu-tools'
+import McpResources from '@worldapptechnologies/nulu-mcp-resources'
+import { ToolCallId } from '@worldapptechnologies/nulu-llm'
+import type { Config } from '@worldapptechnologies/nulu-mcp-client'
 
 // ---- Mock MCP SDK ----
 

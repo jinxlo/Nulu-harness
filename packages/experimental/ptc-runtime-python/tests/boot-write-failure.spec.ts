@@ -3,7 +3,7 @@ import { existsSync } from 'node:fs'
 import { dirname } from 'node:path'
 import { PassThrough } from 'node:stream'
 import { afterEach, describe, expect, it, onTestFinished, vi } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
+import { Context } from '@worldapptechnologies/cordis'
 
 /**
  * Mocked subprocess pipes control synchronous write failures and backpressure
@@ -229,7 +229,7 @@ describe('PythonPtcRuntime — controlled subprocess pipes', () => {
     // received (`['-I', <dir>/bootstrap.py]`) and assert only that path is gone.
     // A tmpdir scan — even a set difference against a pre-run snapshot — would
     // flake under vitest's forks pool: a sibling worker creating its own
-    // `dsh-ptc-runtime-python-*` dir in the window reads as a leak here. Keying
+    // `nulu-ptc-runtime-python-*` dir in the window reads as a leak here. Keying
     // off our own argv is fully isolated from concurrent staging.
     let stagedBootstrap: string | undefined
     spawnMock.mockImplementation((_bin: string, args: string[]) => {

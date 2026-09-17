@@ -56,7 +56,7 @@ interface DesktopProjectManifest {
 export interface DesktopRuntimeExecutables {
   readonly node: string
   readonly pnpm: string
-  readonly dsh: string
+  readonly nulu: string
   /** How the Host obtains release-owned packages outside the writable profile. */
   readonly profileResolution?: 'link' | 'runtime'
 }
@@ -302,8 +302,8 @@ export class DesktopProjectManager {
     const runtime = this.currentRuntime()
     const resolutionMode = this.runtime.profileResolution ?? 'link'
     if (resolutionMode === 'runtime') recordDesktopRuntimeProfile(projectDir, runtime)
-    else linkDesktopHostPackages(projectDir, this.runtime.dsh, runtime)
-    validateDesktopPluginGraph(projectDir, this.runtime.dsh, runtime, profilePluginNames(projectDir), resolutionMode)
+    else linkDesktopHostPackages(projectDir, this.runtime.nulu, runtime)
+    validateDesktopPluginGraph(projectDir, this.runtime.nulu, runtime, profilePluginNames(projectDir), resolutionMode)
   }
 
   /** Read release metadata and reconcile its external profile without installing core packages. */
@@ -317,7 +317,7 @@ export class DesktopProjectManager {
         && (this.runtime.profileResolution === 'runtime' || (previous.links.length === target.sharedPackages.length
           && previous.links.every(link => existsSync(link.target)
           && existsSync(join(this.paths.profile, 'node_modules', link.name))
-          && realpathSync.native(link.target) === realpathSync.native(join(this.runtime.dsh, 'node_modules', link.name)))))) {
+          && realpathSync.native(link.target) === realpathSync.native(join(this.runtime.nulu, 'node_modules', link.name)))))) {
         return false
       }
       if (previous === undefined) createPluginProfile(this.paths.profile)
@@ -351,7 +351,7 @@ export class DesktopProjectManager {
         if (packagesChanged) {
           const runtime = this.currentRuntime()
           if (this.runtime.profileResolution === 'runtime') recordDesktopRuntimeProfile(this.paths.profile, runtime)
-          else linkDesktopHostPackages(this.paths.profile, this.runtime.dsh, runtime)
+          else linkDesktopHostPackages(this.paths.profile, this.runtime.nulu, runtime)
         }
       }
       await this.reconcileProfile(this.paths.profile, previous, packagesChanged)

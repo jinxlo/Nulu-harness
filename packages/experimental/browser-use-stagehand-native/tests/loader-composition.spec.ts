@@ -5,19 +5,19 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { afterEach, expect, it, vi } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import Loader from '@deepseek-ai/cordis-plugin-loader'
-import Include from '@deepseek-ai/cordis-plugin-include'
-import AgentRegistry from '@deepseek-ai/dsh-agent'
-import AgentLoop from '@deepseek-ai/dsh-agent-loop'
-import BrowserUseRegistry from '@deepseek-ai/dsh-browser-use'
-import LocalAttachmentStore from '@deepseek-ai/dsh-attachment-local'
-import LlmRuntime, { LlmAdapter, ToolCallId, createUserMessage } from '@deepseek-ai/dsh-llm'
-import type { GenerateOptions, LlmResolvedModelInfo, StreamChunk } from '@deepseek-ai/dsh-llm'
-import SessionStore, { SessionId } from '@deepseek-ai/dsh-session'
-import SessionProjectionRegistry from '@deepseek-ai/dsh-session-projection'
-import SystemPrompt from '@deepseek-ai/dsh-system-prompt'
-import ToolRuntime from '@deepseek-ai/dsh-tools'
+import { Context } from '@worldapptechnologies/cordis'
+import Loader from '@worldapptechnologies/cordis-plugin-loader'
+import Include from '@worldapptechnologies/cordis-plugin-include'
+import AgentRegistry from '@worldapptechnologies/nulu-agent'
+import AgentLoop from '@worldapptechnologies/nulu-agent-loop'
+import BrowserUseRegistry from '@worldapptechnologies/nulu-browser-use'
+import LocalAttachmentStore from '@worldapptechnologies/nulu-attachment-local'
+import LlmRuntime, { LlmAdapter, ToolCallId, createUserMessage } from '@worldapptechnologies/nulu-llm'
+import type { GenerateOptions, LlmResolvedModelInfo, StreamChunk } from '@worldapptechnologies/nulu-llm'
+import SessionStore, { SessionId } from '@worldapptechnologies/nulu-session'
+import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projection'
+import SystemPrompt from '@worldapptechnologies/nulu-system-prompt'
+import ToolRuntime from '@worldapptechnologies/nulu-tools'
 import * as Provider from '../src/index.ts'
 import { resetFixture, screenshotBase64 } from './fixtures/stagehand.ts'
 
@@ -73,24 +73,24 @@ afterEach(async () => {
 
 it('loads browser tools from cordis.yml, logs browser results, and admits the screenshot', async () => {
   resetFixture()
-  root = await mkdtemp(join(tmpdir(), 'dsh-stagehand-composition-'))
+  root = await mkdtemp(join(tmpdir(), 'nulu-stagehand-composition-'))
   const modules = new Map<string, unknown>([
-    ['@deepseek-ai/dsh-llm', LlmRuntime],
-    ['@deepseek-ai/dsh-session', SessionStore],
-    ['@deepseek-ai/dsh-session-projection', SessionProjectionRegistry],
-    ['@deepseek-ai/dsh-system-prompt', SystemPrompt],
-    ['@deepseek-ai/dsh-tools', ToolRuntime],
-    ['@deepseek-ai/dsh-agent', AgentRegistry],
-    ['@deepseek-ai/dsh-agent-loop', AgentLoop],
-    ['@deepseek-ai/dsh-attachment-local', LocalAttachmentStore],
-    ['@deepseek-ai/dsh-browser-use', BrowserUseRegistry],
-    ['@deepseek-ai/dsh-experimental-browser-use-stagehand-native', Provider],
+    ['@worldapptechnologies/nulu-llm', LlmRuntime],
+    ['@worldapptechnologies/nulu-session', SessionStore],
+    ['@worldapptechnologies/nulu-session-projection', SessionProjectionRegistry],
+    ['@worldapptechnologies/nulu-system-prompt', SystemPrompt],
+    ['@worldapptechnologies/nulu-tools', ToolRuntime],
+    ['@worldapptechnologies/nulu-agent', AgentRegistry],
+    ['@worldapptechnologies/nulu-agent-loop', AgentLoop],
+    ['@worldapptechnologies/nulu-attachment-local', LocalAttachmentStore],
+    ['@worldapptechnologies/nulu-browser-use', BrowserUseRegistry],
+    ['@worldapptechnologies/nulu-experimental-browser-use-stagehand-native', Provider],
   ])
   const configPath = join(root, 'cordis.yml')
   await writeFile(configPath, [...modules.keys()].flatMap(name => [
     `- name: '${name}'`,
-    ...name === '@deepseek-ai/dsh-attachment-local' ? ['  config:', `    dshHome: ${JSON.stringify(root)}`] : [],
-    ...name === '@deepseek-ai/dsh-experimental-browser-use-stagehand-native' ? ['  config:', '    mode: launch', '    model:', '      modelName: openai/gpt-5.4-mini', '      apiKey: fixture-model-key'] : [],
+    ...name === '@worldapptechnologies/nulu-attachment-local' ? ['  config:', `    dshHome: ${JSON.stringify(root)}`] : [],
+    ...name === '@worldapptechnologies/nulu-experimental-browser-use-stagehand-native' ? ['  config:', '    mode: launch', '    model:', '      modelName: openai/gpt-5.4-mini', '      apiKey: fixture-model-key'] : [],
   ]).join('\n') + '\n')
   const context = ctx = new Context()
   context.baseUrl = pathToFileURL(root).href + '/'

@@ -1,6 +1,6 @@
 # Upstream Synchronization Policy
 
-Nulu Harness is a downstream product built on DeepSeek Harness technology — not
+Nulu Harness is a downstream product built on Nulu Harness technology — not
 a renamed Git fork. Synchronization with upstream must let us keep benefiting
 from upstream bug fixes, runtime and performance improvements, and new generic
 capabilities, **without** reintroducing DeepSeek branding, models, providers,
@@ -21,13 +21,13 @@ fails the sync if any invariant is violated.
    references, and are allowed.)
 
 2. **Package scope.** Every package is `@worldapptechnologies/*`. No
-   `@deepseek-ai/*` package may exist.
+   `@worldapptechnologies/*` package may exist.
 
-3. **CLI.** The CLI is `nulu`, never `dsh`.
+3. **CLI.** The CLI is `nulu`, never `nulu`.
 
-4. **Environment.** Variables are `NULU_*`, never `DSH_*`.
+4. **Environment.** Variables are `NULU_*`, never `NULU_*`.
 
-5. **Paths.** User data lives under `~/.nulu`, never `~/.dsh`.
+5. **Paths.** User data lives under `~/.nulu`, never `~/.nulu`.
 
 6. **Providers.** The harness exposes only the World App Technologies routes
    (`worldapp`, `worldapp-gateway`). pi-ai's bundled third-party provider

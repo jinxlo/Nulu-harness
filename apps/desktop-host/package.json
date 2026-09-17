@@ -1,5 +1,5 @@
 {
-  "name": "@deepseek-ai/dsh-desktop-host",
+  "name": "@worldapptechnologies/nulu-desktop-host",
   "description": "Private Node-mode host process for the Electron desktop application",
   "version": "0.1.6-alpha.1",
   "private": true,

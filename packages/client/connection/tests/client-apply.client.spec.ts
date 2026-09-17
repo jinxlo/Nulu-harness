@@ -16,7 +16,7 @@ import {
 
 type Win = {
   location?: { hostname: string; origin?: string }
-  __DSH_TRANSPORT__?: ClientTransportHooks
+  __NULU_TRANSPORT__?: ClientTransportHooks
 }
 
 afterEach(() => {

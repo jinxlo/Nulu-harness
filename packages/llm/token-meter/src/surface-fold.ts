@@ -14,9 +14,9 @@
  * @module @worldapptechnologies/nulu-token-meter/surface-fold
  */
 
-import { deriveEventMessage } from '@deepseek-ai/dsh-session'
-import type { SessionSeq, SurfaceEvent } from '@deepseek-ai/dsh-session'
-import type { ContentBlock, ImageBlock, Message } from '@deepseek-ai/dsh-llm'
+import { deriveEventMessage } from '@worldapptechnologies/nulu-session'
+import type { SessionSeq, SurfaceEvent } from '@worldapptechnologies/nulu-session'
+import type { ContentBlock, ImageBlock, Message } from '@worldapptechnologies/nulu-llm'
 import { estimateMessage, estimateStructuralBlock } from './estimate.ts'
 
 type FileAttachmentRef = Extract<ContentBlock, { type: 'file' }>['attachment']

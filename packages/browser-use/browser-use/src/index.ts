@@ -1,12 +1,12 @@
 /**
  * Exclusive named registration for the browser-use capability.
- * @module @deepseek-ai/dsh-browser-use
+ * @module @worldapptechnologies/nulu-browser-use
  */
 
-import { Context, Service } from '@deepseek-ai/cordis'
+import { Context, Service } from '@worldapptechnologies/cordis'
 import type { BrowserUseProviderName } from './brand.ts'
 
-declare module '@deepseek-ai/cordis' {
+declare module '@worldapptechnologies/cordis' {
   interface Context {
     browserUse: BrowserUseRegistry
   }

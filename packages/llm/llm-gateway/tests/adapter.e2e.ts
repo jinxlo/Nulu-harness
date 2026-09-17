@@ -18,14 +18,14 @@ import type {
   RequestImageAttachment,
   SaveImageAttachment,
   StoredImageAttachment,
-} from '@deepseek-ai/dsh-attachment'
-import { LocalCredentialProvider } from '@deepseek-ai/dsh-credentials-local'
-import SessionStore, { SessionId } from '@deepseek-ai/dsh-session'
-import DeepSeekLlmApiExtensionRegistry from '@deepseek-ai/dsh-deepseek-llm-api-extensions'
-import * as PluginPackageInventoryDeepSeek from '@deepseek-ai/dsh-plugin-package-inventory-deepseek'
-import * as SessionLogDeepSeek from '@deepseek-ai/dsh-session-log-deepseek'
-import * as LlmDeepSeek from '@deepseek-ai/dsh-llm-deepseek'
-import type { Config } from '@deepseek-ai/dsh-llm-deepseek'
+} from '@worldapptechnologies/nulu-attachment'
+import { LocalCredentialProvider } from '@worldapptechnologies/nulu-credentials-local'
+import SessionStore, { SessionId } from '@worldapptechnologies/nulu-session'
+import DeepSeekLlmApiExtensionRegistry from '@worldapptechnologies/nulu-deepseek-llm-api-extensions'
+import * as PluginPackageInventoryDeepSeek from '@worldapptechnologies/nulu-plugin-package-inventory-deepseek'
+import * as SessionLogDeepSeek from '@worldapptechnologies/nulu-session-log-deepseek'
+import * as LlmDeepSeek from '@worldapptechnologies/nulu-llm-deepseek'
+import type { Config } from '@worldapptechnologies/nulu-llm-deepseek'
 import type { WireMessage, WireRequest } from '../src/protocols/chat-completions/types.ts'
 import { assemble, type AssembledResult } from './assemble.ts'
 

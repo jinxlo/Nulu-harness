@@ -8,21 +8,21 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { afterEach, expect, it } from 'vitest'
-import type { Agent } from '@deepseek-ai/dsh-agent'
-import { LlmAdapter, ToolCallId } from '@deepseek-ai/dsh-llm'
-import type { GenerateOptions, LlmResolvedModelInfo, StreamChunk } from '@deepseek-ai/dsh-llm'
-import { canonicalPath, writableRoots } from '@deepseek-ai/dsh-sandbox'
-import { SESSION_FORMAT_VERSION, SessionId, type SessionEvent } from '@deepseek-ai/dsh-session'
-import { auditStartupEntries, composeEntries, loadOverlayPatches } from '@deepseek-ai/dsh-app-boot'
+import type { Agent } from '@worldapptechnologies/nulu-agent'
+import { LlmAdapter, ToolCallId } from '@worldapptechnologies/nulu-llm'
+import type { GenerateOptions, LlmResolvedModelInfo, StreamChunk } from '@worldapptechnologies/nulu-llm'
+import { canonicalPath, writableRoots } from '@worldapptechnologies/nulu-sandbox'
+import { SESSION_FORMAT_VERSION, SessionId, type SessionEvent } from '@worldapptechnologies/nulu-session'
+import { auditStartupEntries, composeEntries, loadOverlayPatches } from '@worldapptechnologies/nulu-app-boot'
 // These imports carry the tools/sandboxPolicy/approval Context merges.
-import { RUN_CODE_NAME } from '@deepseek-ai/dsh-tools'
-import type {} from '@deepseek-ai/dsh-sandbox-policy'
-import type {} from '@deepseek-ai/dsh-user-approval'
-import type {} from '@deepseek-ai/dsh-permission-presets'
-import type {} from '@deepseek-ai/dsh-agent-presets'
-import type {} from '@deepseek-ai/dsh-commands'
-import type {} from '@deepseek-ai/dsh-system-prompt'
-import type {} from '@deepseek-ai/dsh-terminal'
+import { RUN_CODE_NAME } from '@worldapptechnologies/nulu-tools'
+import type {} from '@worldapptechnologies/nulu-sandbox-policy'
+import type {} from '@worldapptechnologies/nulu-user-approval'
+import type {} from '@worldapptechnologies/nulu-permission-presets'
+import type {} from '@worldapptechnologies/nulu-agent-presets'
+import type {} from '@worldapptechnologies/nulu-commands'
+import type {} from '@worldapptechnologies/nulu-system-prompt'
+import type {} from '@worldapptechnologies/nulu-terminal'
 import { launchWebScaffold, readPersistedEvents, type WebScaffold } from './scaffold.ts'
 import { AUTO_REVIEW_FIXTURE } from './auto-review-fixture.ts'
 import { REPO_ROOT } from './support.ts'
@@ -95,7 +95,7 @@ class ShippedAutoAdapter extends LlmAdapter {
   override async *stream(options: GenerateOptions): AsyncIterable<StreamChunk> {
     this.requests.push(options)
     const source = options.messages[0]?.source
-    if (source?.kind === 'plugin' && source.plugin === 'dsh-experimental-auto-review') {
+    if (source?.kind === 'plugin' && source.plugin === 'nulu-experimental-auto-review') {
       yield* textChunks(JSON.stringify({
         risk: 'medium', decision: 'deny', reason: AUTO_RAW_REASON,
       }))
@@ -215,7 +215,7 @@ class ShippedChildAutoAdapter extends LlmAdapter {
   override async *stream(options: GenerateOptions): AsyncIterable<StreamChunk> {
     this.requests.push(options)
     const source = options.messages[0]?.source
-    const response = source?.kind === 'plugin' && source.plugin === 'dsh-experimental-auto-review'
+    const response = source?.kind === 'plugin' && source.plugin === 'nulu-experimental-auto-review'
       ? this.reviewResponse(options)
       : this.mainResponse(options)
     yield* response
@@ -813,7 +813,7 @@ it('routes one browser-authored Auto request through the same model before a rea
 }, 120_000)
 
 it('reviews one-shot, continuable, and cold-resumed in-process child calls independently', async () => {
-  childOverlayDirectory = await mkdtemp(join(tmpdir(), 'dsh-auto-child-overlay-'))
+  childOverlayDirectory = await mkdtemp(join(tmpdir(), 'nulu-auto-child-overlay-'))
   const overlayPath = join(childOverlayDirectory, 'cordis.patch.yml')
   await writeFile(overlayPath, [
     await readFile(AUTO_REVIEW_FIXTURE.extraOverlayPath, 'utf8'),

@@ -27,9 +27,10 @@ import type {
 export const GATEWAY_PROVIDER_ID = 'worldapp-gateway'
 
 /**
- * Default auxiliary-search endpoint, including `/v1`; `/messages` is appended.
- * `$DEEPSEEK_SEARCH_BASE_URL` overrides it independently of the conversation
- * adapter's endpoint. Both providers share the API key.
+ * Default endpoint: Nulu's Anthropic-compatible API, `/v1` included
+ * (`/messages` is appended). This is NOT the chat-completions base
+ * (`https://platform.worldapptechnologies.com/api/v1`) `@worldapptechnologies/nulu-llm-gateway` uses, so this
+ * provider does NOT reuse `$WORLD_APP_TECHNOLOGIES_BASE_URL` — only the API key is shared.
  */
 export const GATEWAY_DEFAULT_BASE_URL = 'https://platform.worldapptechnologies.com/api/v1'
 

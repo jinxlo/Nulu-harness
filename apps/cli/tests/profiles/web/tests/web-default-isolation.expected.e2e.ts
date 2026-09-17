@@ -1,12 +1,12 @@
 /** Real Web startup, mounted plugin package identities, and delivered Client graph isolation. */
 
-import { FiberState } from '@deepseek-ai/cordis'
-import type { WebBootGraph } from '@deepseek-ai/dsh-client-modules/client'
+import { FiberState } from '@worldapptechnologies/cordis'
+import type { WebBootGraph } from '@worldapptechnologies/nulu-client-modules/client'
 import { expect, it } from 'vitest'
 import { experimentalRuntimeReferences, modulePackage } from './runtime-roster.ts'
 import { withDefaultWeb, webGet } from './default-web-process.ts'
 
-const experimentalName = '@deepseek-ai/dsh-experimental-client-ui-agent-team'
+const experimentalName = '@worldapptechnologies/nulu-experimental-client-ui-agent-team'
 
 it('boots the default Web profile without experimental Host modules, mounted plugins, or Client entries', async (test) => {
   await withDefaultWeb(test, async ({ url, request }) => {
@@ -16,18 +16,18 @@ it('boots the default Web profile without experimental Host modules, mounted plu
     const page = await webGet(new URL('/', url), test.signal, { cookie: cookie! })
     expect(page.status).toBe(200)
     const html = page.text
-    const rawBoot = /globalThis\["__DSH_BOOT__"\] = ([\s\S]*?)<\/script>/u.exec(html)?.[1]
+    const rawBoot = /globalThis\["__NULU_BOOT__"\] = ([\s\S]*?)<\/script>/u.exec(html)?.[1]
     expect(rawBoot, html).toBeDefined()
     const delivered = JSON.parse(rawBoot!) as WebBootGraph
     const roster = await request('roster')
     expect(roster.client).toEqual(delivered)
     expect(roster.entries).toEqual(expect.arrayContaining([
-      expect.objectContaining({ name: '@deepseek-ai/dsh-host-webserver', state: FiberState.ACTIVE }),
-      expect.objectContaining({ name: '@deepseek-ai/dsh-client-modules', state: FiberState.ACTIVE }),
+      expect.objectContaining({ name: '@worldapptechnologies/nulu-host-webserver', state: FiberState.ACTIVE }),
+      expect.objectContaining({ name: '@worldapptechnologies/nulu-client-modules', state: FiberState.ACTIVE }),
     ]))
     expect(roster.entries.some(entry => entry.name.endsWith('/runtime-roster-observer.js') && entry.state === FiberState.ACTIVE)).toBe(true)
     expect(roster.plugins.length).toBeGreaterThan(roster.entries.length)
-    expect(roster.modules.some(url => modulePackage(url) === '@deepseek-ai/dsh')).toBe(true)
+    expect(roster.modules.some(url => modulePackage(url) === '@worldapptechnologies/nulu')).toBe(true)
     expect(roster.client.entries.length).toBeGreaterThan(0)
     expect(experimentalRuntimeReferences(roster)).toEqual([])
 

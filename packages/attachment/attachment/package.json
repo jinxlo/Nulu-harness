@@ -1,6 +1,6 @@
 {
-  "name": "@deepseek-ai/dsh-attachment",
-  "description": "Durable immutable attachment storage seam for the DeepSeek Harness",
+  "name": "@worldapptechnologies/nulu-attachment",
+  "description": "Durable immutable attachment storage seam for the Nulu Harness",
   "version": "0.1.6-alpha.1",
   "publishConfig": {
     "access": "public"

@@ -6,9 +6,9 @@
  * and its reference chips live in the shell's Lexical editor; the machine
  * here is the submit plane (phase, claim, attempt) alone.
  */
-import type { Context } from '@deepseek-ai/cordis'
-import type { ObservableSnapshot, SnapshotStore } from '@deepseek-ai/dsh-client-store'
-import type { Branded } from '@deepseek-ai/dsh-brand'
+import type { Context } from '@worldapptechnologies/cordis'
+import type { ObservableSnapshot, SnapshotStore } from '@worldapptechnologies/nulu-client-store'
+import type { Branded } from '@worldapptechnologies/nulu-brand'
 import type { ArbitrateKey, ArbitrateOutcome, Occurrence, ReferenceInsert, TokenSpan } from './draft-editor.ts'
 import type { QueueRow } from './queue.ts'
 import type { InputSubmitMode } from './composer-submission.ts'

@@ -1,9 +1,9 @@
 ---
-description: "CPython-subprocess PTC runtime: the dsh-ptc-runtime seam implementation for Python model code, with the fd-3 wire protocol it speaks."
+description: "CPython-subprocess PTC runtime: the nulu-ptc-runtime seam implementation for Python model code, with the fd-3 wire protocol it speaks."
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-experimental-ptc-runtime-python
+# @worldapptechnologies/nulu-experimental-ptc-runtime-python
 
 
 ## Summary
@@ -24,7 +24,7 @@ This experimental package lets explicit compositions run model-generated Python 
 <a id="use-this-package"></a>
 ## Use this package
 
-Choose this published experimental package only in an explicit composition. Register `PythonPtcRuntime` beside `dsh-tools`; `run(resolve(request))` executes each program in a fresh CPython 3.10+ subprocess, resolving with `result.value` on success and `result.error` on failure (the orthogonal `PtcRunFailure.kind` taxonomy classifies parse failures, thrown exceptions, invalid completions, output overflows, budget expiry, aborts, and substrate death). It rejects only for seam misuse — a malformed binding namespace, or a call after disposal. Configuration is rejected at load: a non-Unix platform; an explicit `pythonBin` that is not an executable regular file or a bare name that does not resolve on `PATH`; a non-CPython, pre-3.10, or probe-failing interpreter; a non-positive or non-integer budget; a `maxLogBytes` below the truncation-marker floor (64); a timer value `setTimeout` would clamp; a budget larger than the effective fd-3 frame cap (lowered when the host heap cannot safely parse a near-cap frame); or an `addressSpaceMb`/output-budget pair whose worst-case peak would breach `RLIMIT_AS`.
+Choose this published experimental package only in an explicit composition. Register `PythonPtcRuntime` beside `nulu-tools`; `run(resolve(request))` executes each program in a fresh CPython 3.10+ subprocess, resolving with `result.value` on success and `result.error` on failure (the orthogonal `PtcRunFailure.kind` taxonomy classifies parse failures, thrown exceptions, invalid completions, output overflows, budget expiry, aborts, and substrate death). It rejects only for seam misuse — a malformed binding namespace, or a call after disposal. Configuration is rejected at load: a non-Unix platform; an explicit `pythonBin` that is not an executable regular file or a bare name that does not resolve on `PATH`; a non-CPython, pre-3.10, or probe-failing interpreter; a non-positive or non-integer budget; a `maxLogBytes` below the truncation-marker floor (64); a timer value `setTimeout` would clamp; a budget larger than the effective fd-3 frame cap (lowered when the host heap cannot safely parse a near-cap frame); or an `addressSpaceMb`/output-budget pair whose worst-case peak would breach `RLIMIT_AS`.
 
 `resolve(request)` accepts an absolute `cwd` and uses the provider's configured `maxWallMs` deadline (600,000 ms by default). Explicit `timeoutMs` overrides and sandbox policies are unsupported and reject before execution. This provider does not advertise `sandboxMode` or return confinement facts.
 
@@ -98,7 +98,7 @@ Read these when the runtime contract is not enough. They move from the seam defi
 <a id="model-experience"></a>
 ## Model Experience
 
-Indirectly, through PTC mode in `dsh-tools` when an explicit composition mounts this provider; it renders the program's completion value or failure into a retained `run_code` result, and no shipped profile mounts this experimental package.
+Indirectly, through PTC mode in `nulu-tools` when an explicit composition mounts this provider; it renders the program's completion value or failure into a retained `run_code` result, and no shipped profile mounts this experimental package.
 
 #### KV Cache effect
 
@@ -119,7 +119,7 @@ These limits define what the package does and does not cover; they are current p
 - **Workflow execution requires Node** — compositions using this Python provider disable `workflow-ptc`, `tool-workflow`, and `tool-ralph`; the workflow provider rejects an incompatible runtime when loaded.
 - **Cross-channel log interleaving is backend-dependent** — Python stdout, stderr, and fd-3 log frames travel independently; each channel preserves its own order, while their total order in `result.logs` may differ.
 - **CPython 3.10 or newer is required** — the configured executable is resolved and version-probed at load; unsupported interpreters fail before `ctx.ptcRuntime` is registered.
-- **Diagnostic and temporary-directory prefixes omit the package's experimental qualifier** — the marker `[dsh-ptc-runtime-python] log capture truncated at <N> bytes` and the `dsh-ptc-runtime-python-` directory prefix identify this provider independently of its npm package name. The protocol mirror verifies identical marker bytes in TypeScript and Python.
+- **Diagnostic and temporary-directory prefixes omit the package's experimental qualifier** — the marker `[nulu-ptc-runtime-python] log capture truncated at <N> bytes` and the `nulu-ptc-runtime-python-` directory prefix identify this provider independently of its npm package name. The protocol mirror verifies identical marker bytes in TypeScript and Python.
 - **`run()` is one-shot** — `logs` become available only after `PtcRunResult` resolves; there is no streaming-log or progress interface for output produced by a running program.
 - **No state persists across runs** — every request executes in a fresh subprocess; a persistent REPL-style kernel stays deferred until a backend brings its own logging scheme.
 - **An fd-3 frame whose raw length exceeds the effective frame parse cap settles the run as a worker-exit** — the cap is 64 MiB, or lower when the host's configured heap cannot safely parse a near-cap frame (`hostFrameParseCeiling`); `maxLogBytes`/`maxValueBytes` are load-bounded to the same cap so an honest child's frames always fit; a model-constructed binding ARGUMENT above the cap (a value with no seam-level budget) trips it too — an accepted residual of the OOM guard.

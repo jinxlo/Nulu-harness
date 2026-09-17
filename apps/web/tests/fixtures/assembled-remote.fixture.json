@@ -201,7 +201,7 @@
         }
       },
       {
-        "definitionId": "@deepseek-ai/dsh-command-goal",
+        "definitionId": "@worldapptechnologies/nulu-command-goal",
         "name": "goal",
         "description": "Set or view the goal for a long-running task",
         "input": {
@@ -210,7 +210,7 @@
         }
       },
       {
-        "definitionId": "@deepseek-ai/dsh-permission-presets",
+        "definitionId": "@worldapptechnologies/nulu-permission-presets",
         "name": "permission",
         "description": "Switch the permission preset (sandbox mode + approval policy)",
         "input": {
@@ -218,7 +218,7 @@
         }
       },
       {
-        "definitionId": "@deepseek-ai/dsh-plan-mode",
+        "definitionId": "@worldapptechnologies/nulu-plan-mode",
         "name": "plan",
         "description": "Enter or leave plan mode",
         "input": {
@@ -4908,11 +4908,11 @@
               "id": "c2ddb04d-74c9-4a2f-83f6-47a48fc6fbc2"
             },
             "meta": {
-              "answer": "DeepSeek Harness is a plugin-based agent harness on vendored Cordis where **every capability is a plugin**.",
+              "answer": "Nulu Harness is a plugin-based agent harness on vendored Cordis where **every capability is a plugin**.",
               "sources": [
                 {
-                  "url": "https://github.com/deepseek-ai/deepseek-harness",
-                  "title": "DeepSeek Harness — plugin-based agent harness",
+                  "url": "https://github.com/worldapptechnologies/nulu-harness",
+                  "title": "Nulu Harness — plugin-based agent harness",
                   "snippet": "Everything is a plugin: session, tools, agent-loop, and LLM adapters all mount on the same Cordis context.",
                   "publishedAt": "2026-07-01"
                 },

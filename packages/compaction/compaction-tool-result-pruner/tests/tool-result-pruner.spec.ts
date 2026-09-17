@@ -1,4 +1,4 @@
-import { imageOffloadProjection } from '@deepseek-ai/dsh-compaction-image-offload/projection'
+import { imageOffloadProjection } from '@worldapptechnologies/nulu-compaction-image-offload/projection'
 import { describe, expect, it } from 'vitest'
 import { Context } from '@worldapptechnologies/cordis'
 import { ToolCallId , createMessage, createToolResultMessage } from '@worldapptechnologies/nulu-llm'
@@ -7,12 +7,12 @@ import SessionStore, {
   Session,
   SessionId,
   SessionSeq,
-} from '@deepseek-ai/dsh-session'
-import type { SurfaceEvent } from '@deepseek-ai/dsh-session'
-import * as SessionInvariant from '@deepseek-ai/dsh-session/invariant'
-import InvariantRegistry from '@deepseek-ai/dsh-invariants'
-import SessionProjectionRegistry from '@deepseek-ai/dsh-session-projection'
-import TokenMeter from '@deepseek-ai/dsh-token-meter'
+} from '@worldapptechnologies/nulu-session'
+import type { SurfaceEvent } from '@worldapptechnologies/nulu-session'
+import * as SessionInvariant from '@worldapptechnologies/nulu-session/invariant'
+import InvariantRegistry from '@worldapptechnologies/nulu-invariants'
+import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projection'
+import TokenMeter from '@worldapptechnologies/nulu-token-meter'
 import ToolResultPruner, {
   codePointLength,
   DEFAULTS,

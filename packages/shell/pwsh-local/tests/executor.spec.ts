@@ -445,7 +445,7 @@ describe.skipIf(!hasPwsh)('PwshLocalExecutor.start (background process handles)'
   it('threads stdin and extra env into a background process', async () => {
     const { bash } = await setup()
     const proc = await bash.start(bash.resolve({
-      command: '$s = ([Console]::In.ReadToEnd()).TrimEnd(); Write-Output $s; Write-Output "[$env:BG_VAR][$env:DSH_BG_VAR]"',
+      command: '$s = ([Console]::In.ReadToEnd()).TrimEnd(); Write-Output $s; Write-Output "[$env:BG_VAR][$env:NULU_BG_VAR]"',
       stdin: 'bg-stdin\n',
       env: { BG_VAR: 'bg-env' },
       nuluEnv: { NULU_BG_VAR: 'bg-nulu-env' },
@@ -558,7 +558,7 @@ describe.skipIf(!hasPwsh)('PwshLocalExecutor.start (background process handles)'
 
   it('an asynchronous creation failure settles as killed with a stage-neutral note', async () => {
     const { bash } = await setup()
-    const proc = await bash.start(bash.resolve({ command: 'Write-Output ok', workdir: '/nonexistent-dsh' }))
+    const proc = await bash.start(bash.resolve({ command: 'Write-Output ok', workdir: '/nonexistent-nulu' }))
     // done resolves (never rejects) even though the process never ran.
     await expect(proc.done).resolves.toBeUndefined()
     expect(proc.status).toBe('killed')

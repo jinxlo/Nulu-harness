@@ -168,7 +168,7 @@ describe('LocalPtySession readiness and output', () => {
       await vi.advanceTimersByTimeAsync(20)
       await pending
       expect(snapshot).not.toHaveBeenCalled()
-      expect(session.read({})).toMatchObject({ text: 'x'.repeat(59) + 'dsh> ', truncated: true })
+      expect(session.read({})).toMatchObject({ text: 'x'.repeat(59) + 'nulu> ', truncated: true })
       expect(snapshot).toHaveBeenCalledTimes(1)
     } finally {
       snapshot.mockRestore()

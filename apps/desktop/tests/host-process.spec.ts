@@ -115,7 +115,7 @@ function onRequestFrame(frame) {
       ...process.env, NODE_OPTIONS: '--invalid-desktop-test-option', NODE_PATH: '/unowned',
     })
     try {
-      const response = await host.fetch(new Request('dsh-app://app/environment'))
+      const response = await host.fetch(new Request('nulu-app://app/environment'))
       expect(await response.json()).toEqual({ runtime, profile, cwd: realpathSync(profile), runAsNode: '1' })
     } finally { await host.stop() }
   })

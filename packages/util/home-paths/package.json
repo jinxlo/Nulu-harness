@@ -1,6 +1,6 @@
 {
-  "name": "@deepseek-ai/dsh-home-paths",
-  "description": "Shared filesystem path helpers for the DeepSeek Harness",
+  "name": "@worldapptechnologies/nulu-home-paths",
+  "description": "Shared filesystem path helpers for the Nulu Harness",
   "version": "0.1.6-alpha.1",
   "publishConfig": {
     "access": "public"

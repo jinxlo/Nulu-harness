@@ -3,7 +3,7 @@ description: "通过 Stagehand 原生浏览器操作与显式配置的模型推�
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-experimental-browser-use-stagehand-native
+# @worldapptechnologies/nulu-experimental-browser-use-stagehand-native
 
 [English](README.md) | 中文
 
@@ -30,8 +30,8 @@ kind: "package-reference"
 ### 最小配置
 
 ```yaml
-- name: '@deepseek-ai/dsh-browser-use'
-- name: '@deepseek-ai/dsh-experimental-browser-use-stagehand-native'
+- name: '@worldapptechnologies/nulu-browser-use'
+- name: '@worldapptechnologies/nulu-experimental-browser-use-stagehand-native'
   config:
     mode: launch
     headless: true
@@ -71,11 +71,11 @@ kind: "package-reference"
 pnpm exec vitest run packages/experimental/browser-use-stagehand-native/tests
 ```
 
-显式启用的已安装浏览器测试使用受控本地页面和构建后的连接 Worker。请将 `DSH_BROWSER_EXECUTABLE` 设为已安装的 Chromium 可执行程序。只有同时提供 `DSH_STAGEHAND_MODEL` 和 `DSH_STAGEHAND_MODEL_API_KEY` 时，才会测试原生推理。
+显式启用的已安装浏览器测试使用受控本地页面和构建后的连接 Worker。请将 `NULU_BROWSER_EXECUTABLE` 设为已安装的 Chromium 可执行程序。只有同时提供 `NULU_STAGEHAND_MODEL` 和 `NULU_STAGEHAND_MODEL_API_KEY` 时，才会测试原生推理。
 
 ```sh
 pnpm run build
-env -u NODE_USE_ENV_PROXY DSH_STAGEHAND_E2E=1 pnpm exec vitest run --config vitest.e2e.config.ts packages/experimental/browser-use-stagehand-native/tests/native.e2e.ts
+env -u NODE_USE_ENV_PROXY NULU_STAGEHAND_E2E=1 pnpm exec vitest run --config vitest.e2e.config.ts packages/experimental/browser-use-stagehand-native/tests/native.e2e.ts
 ```
 
 -----
@@ -136,7 +136,7 @@ stagehand_act, stagehand_observe, and stagehand_extract use the separately confi
 
 #### 模型看到什么
 
-[`stagehand_` 工具目录](../../../docs/tool-catalog.zh.md#deepseek-aidsh-experimental-browser-use-stagehand-native)定义导航、标签页管理、截图、操作、观察和提取。结果包含当前页面事实或验证后的结构化数据。支持的截图以持久图像附件呈现。错误保持可见，让模型在重试前检查状态。
+[`stagehand_` 工具目录](../../../docs/tool-catalog.zh.md#worldapptechnologiesdsh-experimental-browser-use-stagehand-native)定义导航、标签页管理、截图、操作、观察和提取。结果包含当前页面事实或验证后的结构化数据。支持的截图以持久图像附件呈现。错误保持可见，让模型在重试前检查状态。
 
 #### Token 影响
 

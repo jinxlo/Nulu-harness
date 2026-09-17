@@ -1,7 +1,7 @@
 # Official Nulu LLM API wire extensions
 
 
-This reference defines every DeepSeek Harness-specific HTTP header and additive JSON field sent by [`@deepseek-ai/dsh-llm-deepseek`](../packages/llm/llm-deepseek/README.md) on `deepseek-official` Messages and Chat Completions requests. It does not redefine fields owned by the upstream DeepSeek API. The provider-neutral LLM interface and `llm-pi-ai` do not implement these additions.
+This reference defines every Nulu Harness-specific HTTP header and additive JSON field sent by [`@worldapptechnologies/nulu-llm-deepseek`](../packages/llm/llm-deepseek/README.md) on `deepseek-official` Messages and Chat Completions requests. It does not redefine fields owned by the upstream DeepSeek API. The provider-neutral LLM interface and `llm-pi-ai` do not implement these additions.
 
 The adapter sends the additions to its resolved `baseURL`, including a configured gateway. They remain outside `messages`, system prompts, and tool schemas, so they do not add model-input tokens or alter the model-visible prefix.
 
@@ -22,10 +22,10 @@ The [`NuluLlmApiExtensionRegistry`](../packages/llm/llm-api-extensions/README.md
 
 | Header | Presence | Value |
 |---|---|---|
-| `user-agent` | Every provider HTTP request, including Files API operations | Application identity in `product/version (+url)` form; the default product is `deepseek-harness` |
-| `x-deepseek-harness-user-id` | Every authorized model request | The stable anonymous UUID for the resolved Harness home |
-| `x-deepseek-harness-session-id` | Model requests carrying a Session id | The exact request `sessionId` string |
-| `x-deepseek-harness-compact` | Model requests whose purpose is `compaction` | The literal string `1` |
+| `user-agent` | Every provider HTTP request, including Files API operations | Application identity in `product/version (+url)` form; the default product is `nulu-harness` |
+| `x-nulu-harness-user-id` | Every authorized model request | The stable anonymous UUID for the resolved Harness home |
+| `x-nulu-harness-session-id` | Model requests carrying a Session id | The exact request `sessionId` string |
+| `x-nulu-harness-compact` | Model requests whose purpose is `compaction` | The literal string `1` |
 
 Credential failure happens before anonymous-user-id resolution, so an unauthorized request neither sends these headers nor creates the identity file. A direct request without a Session omits `x-nulu-harness-session-id`. Session-title requests have no additional purpose header; the ordinary Session-id rule still applies when one carries a `sessionId`.
 
@@ -72,7 +72,7 @@ An enabled inventory with no qualifying entries sends `packages: []`; disabling 
 
 ## `nulu_session_log`
 
-[`@deepseek-ai/dsh-session-log-deepseek`](../packages/session/session-log-deepseek/README.md) contributes one contiguous suffix of the canonical Session log. The field is enabled by default. It applies to a request with a live Session and at least one event; a direct request, a stale Session id, or an empty log omits the field, and a composition disables it with `enabled: false`. The examples below use logical Session format 2 only to illustrate the wire fields; they do not identify the [current writer format](session-format-status.md).
+[`@worldapptechnologies/nulu-session-log-deepseek`](../packages/session/session-log-deepseek/README.md) contributes one contiguous suffix of the canonical Session log. The field is enabled by default. It applies to a request with a live Session and at least one event; a direct request, a stale Session id, or an empty log omits the field, and a composition disables it with `enabled: false`. The examples below use logical Session format 2 only to illustrate the wire fields; they do not identify the [current writer format](session-format-status.md).
 
 ```json
 {

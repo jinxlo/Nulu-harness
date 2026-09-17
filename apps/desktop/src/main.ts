@@ -66,21 +66,17 @@ const MIME: Readonly<Record<string, string>> = {
 interface RuntimeResources {
   readonly node: string
   readonly pnpm: string
-  readonly dsh: string
-  readonly profileResolution?: 'runtime'
+  readonly nulu: string
 }
 
 function runtimeResources(): RuntimeResources {
   const development = !app.isPackaged
-  const node = development
-    ? process.env.DSH_DESKTOP_NODE_BINARY
-      ?? join(process.resourcesPath, 'runtime', 'node', process.platform === 'win32' ? 'node.exe' : 'node')
-    : process.execPath
-  const pnpm = (development ? process.env.DSH_DESKTOP_PNPM_ENTRY : undefined)
+  const node = (development ? process.env.NULU_DESKTOP_NODE_BINARY : undefined)
+    ?? join(process.resourcesPath, 'runtime', 'node', process.platform === 'win32' ? 'node.exe' : 'node')
+  const pnpm = (development ? process.env.NULU_DESKTOP_PNPM_ENTRY : undefined)
     ?? join(process.resourcesPath, 'runtime', 'pnpm', 'bin', 'pnpm.mjs')
-  const dsh = (development ? process.env.DSH_DESKTOP_DSH_DIR : undefined)
-    ?? (development ? join(process.resourcesPath, 'dsh') : join(app.getAppPath(), 'dsh'))
-  return { node, pnpm, dsh, ...(development ? {} : { profileResolution: 'runtime' }) }
+  const nulu = (development ? process.env.NULU_DESKTOP_NULU_DIR : undefined) ?? join(process.resourcesPath, 'nulu')
+  return { node, pnpm, nulu }
 }
 
 function developmentHostInspectPort(enabled: boolean): number | undefined {

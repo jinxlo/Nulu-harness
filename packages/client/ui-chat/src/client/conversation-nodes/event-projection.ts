@@ -3,7 +3,7 @@
 import type { ContentBlock, StreamChunk } from '@worldapptechnologies/nulu-llm/types'
 import type {
   AssistantBlock, ContextProducerView, KnownContextForm,
-} from '@deepseek-ai/dsh-client-ui-conversation/client'
+} from '@worldapptechnologies/nulu-client-ui-conversation/client'
 
 /* jscpd:ignore-start -- Chat and Trajectory own independent event-to-view projections. */
 

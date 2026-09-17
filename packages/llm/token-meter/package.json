@@ -1,6 +1,6 @@
 {
-  "name": "@deepseek-ai/dsh-token-meter",
-  "description": "Replay-aware token measurement service (ctx.tokenMeter) for the DeepSeek Harness",
+  "name": "@worldapptechnologies/nulu-token-meter",
+  "description": "Replay-aware token measurement service (ctx.tokenMeter) for the Nulu Harness",
   "version": "0.1.6-alpha.1",
   "publishConfig": {
     "access": "public"
@@ -32,13 +32,13 @@
   ],
   "license": "MIT",
   "peerDependencies": {
-    "@deepseek-ai/cordis": "workspace:^",
-    "@deepseek-ai/dsh-compaction": "workspace:^",
-    "@deepseek-ai/dsh-llm": "workspace:^",
-    "@deepseek-ai/dsh-llm-retry": "workspace:^",
-    "@deepseek-ai/dsh-session": "workspace:^",
-    "@deepseek-ai/dsh-session-projection": "workspace:^",
-    "@deepseek-ai/dsh-compaction-image-offload": "workspace:^"
+    "@worldapptechnologies/cordis": "workspace:^",
+    "@worldapptechnologies/nulu-compaction": "workspace:^",
+    "@worldapptechnologies/nulu-llm": "workspace:^",
+    "@worldapptechnologies/nulu-llm-retry": "workspace:^",
+    "@worldapptechnologies/nulu-session": "workspace:^",
+    "@worldapptechnologies/nulu-session-projection": "workspace:^",
+    "@worldapptechnologies/nulu-compaction-image-offload": "workspace:^"
   },
   "dependencies": {
     "@worldapptechnologies/nulu-util-values": "workspace:^",
@@ -46,12 +46,12 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@deepseek-ai/cordis": "workspace:^",
-    "@deepseek-ai/dsh-compaction": "workspace:^",
-    "@deepseek-ai/dsh-llm": "workspace:^",
-    "@deepseek-ai/dsh-llm-retry": "workspace:^",
-    "@deepseek-ai/dsh-session": "workspace:^",
-    "@deepseek-ai/dsh-session-projection": "workspace:^",
-    "@deepseek-ai/dsh-compaction-image-offload": "workspace:^"
+    "@worldapptechnologies/cordis": "workspace:^",
+    "@worldapptechnologies/nulu-compaction": "workspace:^",
+    "@worldapptechnologies/nulu-llm": "workspace:^",
+    "@worldapptechnologies/nulu-llm-retry": "workspace:^",
+    "@worldapptechnologies/nulu-session": "workspace:^",
+    "@worldapptechnologies/nulu-session-projection": "workspace:^",
+    "@worldapptechnologies/nulu-compaction-image-offload": "workspace:^"
   }
 }

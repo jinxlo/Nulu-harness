@@ -169,7 +169,7 @@ describe('document toolbar', () => {
     }
     const base = h.props()
     const info = base.useTabInfo()
-    const address = 'dsh-resource://file/session/s-1/work/photo.png'
+    const address = 'nulu-resource://file/session/s-1/work/photo.png'
     const props: TextPreviewProps = {
       ...base,
       useTabInfo: () => ({ ...info, tab: { ...info.tab, contentId: address, navigation: { ...info.tab.navigation, address } } }),
@@ -194,7 +194,7 @@ describe('document toolbar', () => {
     }
     const base = h.props()
     const info = base.useTabInfo()
-    const address = 'dsh-resource://file/session/s-1/work/logo.svg'
+    const address = 'nulu-resource://file/session/s-1/work/logo.svg'
     const props: TextPreviewProps = {
       ...base,
       useTabInfo: () => ({ ...info, tab: { ...info.tab, contentId: address, navigation: { ...info.tab.navigation, address } } }),
@@ -233,7 +233,7 @@ describe('document toolbar', () => {
     const h = harness()
     const base = h.props()
     const info = base.useTabInfo()
-    const address = 'dsh-resource://file/session/s-1/work/clip.mp4'
+    const address = 'nulu-resource://file/session/s-1/work/clip.mp4'
     const props: TextPreviewProps = {
       ...base,
       useTabInfo: () => ({ ...info, tab: { ...info.tab, contentId: address, navigation: { ...info.tab.navigation, address } } }),
@@ -254,7 +254,7 @@ describe('document toolbar', () => {
     const h = harness({ 1: page(1, ['plain line'], true) })
     const base = h.props()
     const info = base.useTabInfo()
-    const address = 'dsh-resource://file/session/s-1/work/server.log'
+    const address = 'nulu-resource://file/session/s-1/work/server.log'
     const props: TextPreviewProps = {
       ...base,
       useTabInfo: () => ({ ...info, tab: { ...info.tab, contentId: address, navigation: { ...info.tab.navigation, address } } }),

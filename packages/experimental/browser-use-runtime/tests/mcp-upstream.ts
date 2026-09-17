@@ -6,19 +6,19 @@ import { createServer } from 'node:http'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { Context } from '@deepseek-ai/cordis'
-import type { Plugin } from '@deepseek-ai/cordis'
-import Loader from '@deepseek-ai/cordis-plugin-loader'
-import Include from '@deepseek-ai/cordis-plugin-include'
-import BrowserUse from '@deepseek-ai/dsh-browser-use'
-import SystemPrompt from '@deepseek-ai/dsh-system-prompt'
-import Tools from '@deepseek-ai/dsh-tools'
-import Llm from '@deepseek-ai/dsh-llm'
-import { ToolCallId } from '@deepseek-ai/dsh-llm'
-import Sessions, { SessionId } from '@deepseek-ai/dsh-session'
-import Agents from '@deepseek-ai/dsh-agent'
-import AgentLoop from '@deepseek-ai/dsh-agent-loop'
-import Projections from '@deepseek-ai/dsh-session-projection'
+import { Context } from '@worldapptechnologies/cordis'
+import type { Plugin } from '@worldapptechnologies/cordis'
+import Loader from '@worldapptechnologies/cordis-plugin-loader'
+import Include from '@worldapptechnologies/cordis-plugin-include'
+import BrowserUse from '@worldapptechnologies/nulu-browser-use'
+import SystemPrompt from '@worldapptechnologies/nulu-system-prompt'
+import Tools from '@worldapptechnologies/nulu-tools'
+import Llm from '@worldapptechnologies/nulu-llm'
+import { ToolCallId } from '@worldapptechnologies/nulu-llm'
+import Sessions, { SessionId } from '@worldapptechnologies/nulu-session'
+import Agents from '@worldapptechnologies/nulu-agent'
+import AgentLoop from '@worldapptechnologies/nulu-agent-loop'
+import Projections from '@worldapptechnologies/nulu-session-projection'
 import { expect, vi } from 'vitest'
 import type { BrowserMcpConfig } from '../src/mcp.ts'
 
@@ -28,8 +28,8 @@ export async function verifyMcpBrowser(
   navigate: { name: string; arguments(url: string): Record<string, unknown> },
   mode: 'launch' | 'attach',
 ): Promise<void> {
-  const executable = process.env.DSH_BROWSER_EXECUTABLE!
-  const root = await mkdtemp(join(tmpdir(), 'dsh-browser-upstream-'))
+  const executable = process.env.NULU_BROWSER_EXECUTABLE!
+  const root = await mkdtemp(join(tmpdir(), 'nulu-browser-upstream-'))
   const observed = new Set<string>()
   const server = createServer((request, response) => {
     observed.add(request.url!)

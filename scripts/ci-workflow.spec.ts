@@ -599,7 +599,7 @@ describe('Runtime and LLM e2e Blacksmith routing', () => {
   it('routes DeepSeek e2e only through the Linux Blacksmith switch', () => {
     const job = workflowJob(loadWorkflow('.github/workflows/e2e.yml'), 'e2e')
     for (const mode of ['', 'selfhosted', 'unexpected', 'blacksmith']) {
-      expect(evaluateRunsOn(job['runs-on'], { vars: { DSH_CI_FAILOVER_LINUX: mode, DSH_CI_FAILOVER_WINDOWS: 'blacksmith' } }))
+      expect(evaluateRunsOn(job['runs-on'], { vars: { NULU_CI_FAILOVER_LINUX: mode, NULU_CI_FAILOVER_WINDOWS: 'blacksmith' } }))
         .toBe(mode === 'blacksmith' ? 'blacksmith-4vcpu-ubuntu-2404' : 'ubuntu-latest')
     }
   })
@@ -608,16 +608,16 @@ describe('Runtime and LLM e2e Blacksmith routing', () => {
     const workflow = loadWorkflow('.github/workflows/build-exe-for-python-sdk.yml')
     const build = workflowJob(workflow, 'build')
     for (const [target, runner, variable, blacksmith] of [
-      ['node24-linux-x64', 'ubuntu-latest', 'DSH_CI_FAILOVER_LINUX', 'blacksmith-16vcpu-ubuntu-2404'],
-      ['node24-win-x64', 'windows-2025', 'DSH_CI_FAILOVER_WINDOWS', 'blacksmith-16vcpu-windows-2025'],
-      ['node24-linux-arm64', 'ubuntu-24.04-arm', 'DSH_CI_FAILOVER_LINUX', 'ubuntu-24.04-arm'],
-      ['node24-macos-arm64', 'macos-latest', 'DSH_CI_FAILOVER_LINUX', 'macos-latest'],
-      ['node24-macos-x64', 'macos-15-intel', 'DSH_CI_FAILOVER_LINUX', 'macos-15-intel'],
+      ['node24-linux-x64', 'ubuntu-latest', 'NULU_CI_FAILOVER_LINUX', 'blacksmith-16vcpu-ubuntu-2404'],
+      ['node24-win-x64', 'windows-2025', 'NULU_CI_FAILOVER_WINDOWS', 'blacksmith-16vcpu-windows-2025'],
+      ['node24-linux-arm64', 'ubuntu-24.04-arm', 'NULU_CI_FAILOVER_LINUX', 'ubuntu-24.04-arm'],
+      ['node24-macos-arm64', 'macos-latest', 'NULU_CI_FAILOVER_LINUX', 'macos-latest'],
+      ['node24-macos-x64', 'macos-15-intel', 'NULU_CI_FAILOVER_LINUX', 'macos-15-intel'],
     ] as const) {
       for (const ci of [false, true]) {
         for (const release of [false, true]) {
           for (const mode of ['', 'selfhosted', 'unexpected', 'blacksmith']) {
-            const vars = { DSH_CI_FAILOVER_LINUX: 'blacksmith', DSH_CI_FAILOVER_WINDOWS: 'blacksmith', [variable]: mode }
+            const vars = { NULU_CI_FAILOVER_LINUX: 'blacksmith', NULU_CI_FAILOVER_WINDOWS: 'blacksmith', [variable]: mode }
             expect(evaluateRunsOn(build['runs-on'], { inputs: { ci, release }, vars, matrix: { target, runner } }), `${target} ci=${ci} release=${release} mode=${mode}`)
               .toBe(ci && !release && mode === 'blacksmith' ? blacksmith : runner)
           }
@@ -631,7 +631,7 @@ describe('Runtime and LLM e2e Blacksmith routing', () => {
     for (const ci of [false, true]) {
       for (const release of [false, true]) {
         for (const mode of ['', 'selfhosted', 'unexpected', 'blacksmith']) {
-          expect(evaluateRunsOn(job['runs-on'], { inputs: { ci, release }, vars: { DSH_CI_FAILOVER_LINUX: mode } }))
+          expect(evaluateRunsOn(job['runs-on'], { inputs: { ci, release }, vars: { NULU_CI_FAILOVER_LINUX: mode } }))
             .toBe(ci && !release && mode === 'blacksmith' ? 'blacksmith-4vcpu-ubuntu-2404' : 'ubuntu-latest')
         }
       }

@@ -29,7 +29,7 @@ afterEach(() => {
 })
 
 function fixture(): string {
-  const root = realpathSync.native(mkdtempSync(join(tmpdir(), 'dsh-browser-notices-')))
+  const root = realpathSync.native(mkdtempSync(join(tmpdir(), 'nulu-browser-notices-')))
   roots.push(root)
   write(root, 'package.json', '{"type":"module"}')
   write(root, 'tsconfig.base.json', JSON.stringify({

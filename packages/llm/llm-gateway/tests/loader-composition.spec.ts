@@ -70,11 +70,11 @@ async function loadComposition(
     '- id: session',
     "  name: '@worldapptechnologies/nulu-session'",
     '- id: agents',
-    "  name: '@deepseek-ai/dsh-agent'",
+    "  name: '@worldapptechnologies/nulu-agent'",
     '- id: deepseek-llm-api-extensions',
-    "  name: '@deepseek-ai/dsh-deepseek-llm-api-extensions'",
+    "  name: '@worldapptechnologies/nulu-deepseek-llm-api-extensions'",
     '- id: session-log-deepseek',
-    "  name: '@deepseek-ai/dsh-session-log-deepseek'",
+    "  name: '@worldapptechnologies/nulu-session-log-deepseek'",
     ...options.enableSessionLog !== undefined
       ? ['  config:', `    enabled: ${String(options.enableSessionLog)}`]
       : [],

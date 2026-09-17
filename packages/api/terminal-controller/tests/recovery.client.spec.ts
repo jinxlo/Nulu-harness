@@ -1,12 +1,12 @@
 /** Reloaded tab identities and nonblocking close requests use independent lifetimes. */
 import { setImmediate } from 'node:timers/promises'
 import { afterEach, expect, it, vi } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import { createSnapshotStore } from '@deepseek-ai/dsh-client-store'
-import { RemoteError, type RemoteResult } from '@deepseek-ai/dsh-typert-protocol'
-import { RemoteStream, type ClientRemote } from '@deepseek-ai/dsh-api-gateway/client'
-import type {} from '@deepseek-ai/dsh-api-terminal-controller/remote'
-import type { SessionId } from '@deepseek-ai/dsh-session/types'
+import { Context } from '@worldapptechnologies/cordis'
+import { createSnapshotStore } from '@worldapptechnologies/nulu-client-store'
+import { RemoteError, type RemoteResult } from '@worldapptechnologies/nulu-typert-protocol'
+import { RemoteStream, type ClientRemote } from '@worldapptechnologies/nulu-api-gateway/client'
+import type {} from '@worldapptechnologies/nulu-api-terminal-controller/remote'
+import type { SessionId } from '@worldapptechnologies/nulu-session/types'
 import type { WebTerminalId, WebTerminalInfo, TerminalEnvironment } from '../src/types.ts'
 import { TerminalView, type TerminalRemote } from '../src/client/model.ts'
 import { TerminalCloseRequests } from '../src/client/close-requests.ts'
@@ -276,7 +276,7 @@ it('retains an inactive close failure with its tab title until retry succeeds', 
   const { service } = await h.service()
   vi.mocked(h.remote.close).mockResolvedValueOnce(failure('Host refused cleanup'))
   service.close(sessionId, 'Build', info.id)
-  expect(data.has(`dsh.terminal.close.v1.${info.id}`)).toBe(true)
+  expect(data.has(`nulu.terminal.close.v1.${info.id}`)).toBe(true)
   await expect.poll(() => service.closeFailures.getSnapshot()).toEqual([{ id: info.id, title: 'Build', message: 'Host refused cleanup' }])
   vi.mocked(h.remote.list).mockResolvedValueOnce(success([info]))
   expect(await service.recover(sessionId)).toEqual([])
@@ -324,19 +324,19 @@ it('saves close intents without persisting any active terminal or sidebar state'
   const model = service.view(sessionId, 'new-tab')
   await model.refresh()
   expect(model.id).toMatch(/^[0-9a-f-]{36}$/)
-  expect([...data.entries()]).toEqual([['dsh.terminal.shell', info.shell.path]])
+  expect([...data.entries()]).toEqual([['nulu.terminal.shell', info.shell.path]])
   const pending = Promise.withResolvers<RemoteResult<void>>()
   vi.mocked(h.remote.close).mockReturnValueOnce(pending.promise)
   service.close(sessionId, 'new-tab')
   const request = { sessionId, id: model.id, title: info.title }
-  expect([...data.entries()]).toEqual([['dsh.terminal.shell', info.shell.path], [`dsh.terminal.close.v1.${model.id}`, JSON.stringify(request)]])
+  expect([...data.entries()]).toEqual([['nulu.terminal.shell', info.shell.path], [`nulu.terminal.close.v1.${model.id}`, JSON.stringify(request)]])
   pending.resolve(success(undefined))
-  await expect.poll(() => [...data.keys()]).toEqual(['dsh.terminal.shell'])
+  await expect.poll(() => [...data.keys()]).toEqual(['nulu.terminal.shell'])
 })
 
 it.each(['{broken', 'null', '{}', '[{}]', '{"sessionId":"s","id":"bad/id","title":"x"}', '{"sessionId":"s","id":"different","title":"x"}'])('discards malformed saved cleanup: %s', (raw) => {
   const data = storage()
-  data.set('dsh.terminal.close.v1.terminal', raw)
+  data.set('nulu.terminal.close.v1.terminal', raw)
   const error = vi.spyOn(console, 'error').mockImplementation(() => {})
   expect(new TerminalCloseRequests().pending()).toEqual([])
   expect(error).toHaveBeenCalledOnce()
@@ -346,11 +346,11 @@ it('skips unrelated storage and cleanup keys removed during enumeration', () => 
   const getItem = vi.fn(() => null)
   vi.stubGlobal('localStorage', {
     length: 3,
-    key: (index: number) => ['unrelated', 'dsh.terminal.close.v1.gone', null][index],
+    key: (index: number) => ['unrelated', 'nulu.terminal.close.v1.gone', null][index],
     getItem,
   })
   expect(new TerminalCloseRequests().pending()).toEqual([])
-  expect(getItem).toHaveBeenCalledExactlyOnceWith('dsh.terminal.close.v1.gone')
+  expect(getItem).toHaveBeenCalledExactlyOnceWith('nulu.terminal.close.v1.gone')
 })
 
 it('keeps close requests usable without browser storage', () => {
@@ -388,7 +388,7 @@ it.each(['saved', 'view'] as const)('clears a %s close request after the Host co
   }
   await expect.poll(() => vi.mocked(h.remote.close).mock.calls.length).toBe(1)
   await dispose()
-  expect([...data.entries()]).toEqual(source === 'view' ? [['dsh.terminal.shell', info.shell.path]] : [])
+  expect([...data.entries()]).toEqual(source === 'view' ? [['nulu.terminal.shell', info.shell.path]] : [])
   expect(service.closeFailures.getSnapshot()).toEqual([])
   expect(new TerminalCloseRequests().pending()).toEqual([])
   await h.service()
@@ -448,7 +448,7 @@ it('discovers menu choices without creating a process and remembers a choice bef
     shells: [info.shell, alternate], selectedShell: info.shell.path,
   })
   service.selectShell(alternate.path)
-  expect(data.get('dsh.terminal.shell')).toBe(alternate.path)
+  expect(data.get('nulu.terminal.shell')).toBe(alternate.path)
   expect(h.remote.create).not.toHaveBeenCalled()
   expect((await service.launchShells(sessionId, new AbortController().signal)).selectedShell).toBe(alternate.path)
   const model = service.view(sessionId, 'chosen', undefined, alternate.path)
@@ -480,7 +480,7 @@ it('retains the last selection across a failed automatic launch', async () => {
   vi.mocked(h.remote.create).mockResolvedValueOnce(failure('shell disappeared'))
   const model = h.view()
   await model.refresh()
-  expect(data.get('dsh.terminal.shell')).toBe(info.shell.path)
+  expect(data.get('nulu.terminal.shell')).toBe(info.shell.path)
   expect(model.state.getSnapshot().error).toBe('shell disappeared')
   await model.refresh()
   expect(h.remote.create).toHaveBeenCalledTimes(2)

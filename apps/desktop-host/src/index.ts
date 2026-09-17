@@ -21,13 +21,13 @@ import {
   loadOverlayPatches,
   PluginPackages,
   type Profile,
-} from '@deepseek-ai/dsh-app-boot'
-import { provideCmdline } from '@deepseek-ai/dsh-cmdline'
-import { DSH_LAUNCH_ENVIRONMENT_KEY } from '@deepseek-ai/dsh-launch-environment'
-import type {} from '@deepseek-ai/dsh-api-gateway'
-import type { ConnectionFetchHandler } from '@deepseek-ai/dsh-client-connection'
-import type {} from '@deepseek-ai/dsh-client-modules'
-import { renderIndexInjections, type IndexInjection } from '@deepseek-ai/dsh-host-webserver'
+} from '@worldapptechnologies/nulu-app-boot'
+import { provideCmdline } from '@worldapptechnologies/nulu-cmdline'
+import { NULU_LAUNCH_ENVIRONMENT_KEY } from '@worldapptechnologies/nulu-launch-environment'
+import type {} from '@worldapptechnologies/nulu-api-gateway'
+import type { ConnectionFetchHandler } from '@worldapptechnologies/nulu-client-connection'
+import type {} from '@worldapptechnologies/nulu-client-modules'
+import { renderIndexInjections, type IndexInjection } from '@worldapptechnologies/nulu-host-webserver'
 import {
   DESKTOP_HOST_PROTOCOL_VERSION,
   DESKTOP_PIPE_CHUNK_BYTES,
@@ -163,9 +163,9 @@ function desktopComposition(
   projectDir: string,
   allowLinkedPackages: boolean,
 ): DesktopComposition {
-  const installAnchor = packageManifestPath(runtimeDir, '@deepseek-ai/dsh')
+  const installAnchor = packageManifestPath(runtimeDir, '@worldapptechnologies/nulu')
   const dshRoot = dirname(installAnchor)
-  const profile = loadProfileDirectory('dsh desktop', projectDir, installAnchor)
+  const profile = loadProfileDirectory('nulu desktop', projectDir, installAnchor)
   for (const layer of profile.layers) {
     if (!allowLinkedPackages && !isProjectPath(projectDir, layer.packageDir) && !isProjectPath(runtimeDir, layer.packageDir)) {
       throw new Error(`nulu desktop: profile bundle ${JSON.stringify(layer.packageName)} resolved outside the Desktop runtime and profile`)
@@ -301,16 +301,16 @@ export async function runDesktopHost(
   mkdirSync(absoluteProject, { recursive: true })
   const rootConfig = join(absoluteProject, ROOT_CONFIG_FILENAME)
   writeFileSync(rootConfig, ROOT_CONFIG)
-  const environment = loadLayeredEnv('dsh desktop')
+  const environment = loadLayeredEnv('nulu desktop')
   const composition = desktopComposition(absoluteRuntime, absoluteProject, options.allowLinkedPackages === true)
   const resolution = await createProfileResolutionGeneration({
     installAnchor: composition.installAnchor,
     profile: composition.profile,
   })
   let current: Context | undefined
-  const ctx = await boot('dsh desktop', rootConfig, structuredClone(composition.patches), async (hostCtx) => {
+  const ctx = await boot('nulu desktop', rootConfig, structuredClone(composition.patches), async (hostCtx) => {
     current = hostCtx
-    hostCtx.provide(DSH_LAUNCH_ENVIRONMENT_KEY, environment)
+    hostCtx.provide(NULU_LAUNCH_ENVIRONMENT_KEY, environment)
     await hostCtx.plugin(PluginPackages, { generation: resolution })
     provideCmdline(hostCtx, { args: [], exit: () => {} })
   })

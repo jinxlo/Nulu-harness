@@ -7,7 +7,7 @@
  * @module @worldapptechnologies/nulu-tool-fs/session-cwd
  */
 
-import type { ToolExecution } from '@deepseek-ai/dsh-tools'
+import type { ToolExecution } from '@worldapptechnologies/nulu-tools'
 
 /**
  * The session workspace cwd for this call, or `undefined` when none applies.

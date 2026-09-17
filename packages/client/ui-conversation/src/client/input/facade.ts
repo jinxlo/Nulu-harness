@@ -11,7 +11,7 @@
 import type { Context } from '@worldapptechnologies/cordis'
 import {
   createSnapshotStore, type ObservableSnapshot, type SnapshotStore,
-} from '@deepseek-ai/dsh-client-store'
+} from '@worldapptechnologies/nulu-client-store'
 import type { LexicalEditor } from 'lexical'
 import type {
   CommandClaim, ConsumeTokenRequest, DraftAttachmentId,

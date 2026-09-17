@@ -162,7 +162,7 @@ it('boots the built plugin graph and renders a fixture session end to end', asyn
 })
 
 it('boots without ui-chat and does not select another conversation view implicitly', async () => {
-  mountAssembledApp({ exclude: ['@deepseek-ai/dsh-client-ui-chat'] })
+  mountAssembledApp({ exclude: ['@worldapptechnologies/nulu-client-ui-chat'] })
 
   const tree = await screen.findByRole('tree', { name: 'Sessions' }, { timeout: 10_000 })
   const boot = Reflect.get(window, '__NULU_BOOT__') as { entries: Array<{ id: string }> } | undefined

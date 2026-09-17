@@ -1,17 +1,17 @@
 /** Confined Node programs with host-owned bindings, output limits, and managed process cleanup. */
 import { stripTypeScriptTypes } from 'node:module'
 import { isAbsolute } from 'node:path'
-import { Context } from '@deepseek-ai/cordis'
-import z from '@deepseek-ai/schemastery'
-import { PtcRuntime } from '@deepseek-ai/dsh-ptc-runtime'
-import type { PtcBindingNamespace, PtcJsonValue, PtcRunFailure, PtcRunRequest, PtcRunResult, PtcRunSandbox, PtcRunSpec } from '@deepseek-ai/dsh-ptc-runtime'
-import { MAX_TIMER_DELAY_MS, clampTimeout } from '@deepseek-ai/dsh-timeout'
-import { SandboxUnavailableError, classifyRunnerFailure, isRunnerSpawnFailure } from '@deepseek-ai/dsh-sandbox'
-import type { ConfinedArgv, SandboxExecutionPolicy, SandboxMode } from '@deepseek-ai/dsh-sandbox'
-import type { SubprocessHandle, SubprocessOutcome } from '@deepseek-ai/dsh-subprocess'
-import type {} from '@deepseek-ai/dsh-sandbox-policy'
-import type {} from '@deepseek-ai/dsh-fs'
-import { snapshotJsonValue } from '@deepseek-ai/dsh-util-values'
+import { Context } from '@worldapptechnologies/cordis'
+import z from '@worldapptechnologies/schemastery'
+import { PtcRuntime } from '@worldapptechnologies/nulu-ptc-runtime'
+import type { PtcBindingNamespace, PtcJsonValue, PtcRunFailure, PtcRunRequest, PtcRunResult, PtcRunSandbox, PtcRunSpec } from '@worldapptechnologies/nulu-ptc-runtime'
+import { MAX_TIMER_DELAY_MS, clampTimeout } from '@worldapptechnologies/nulu-timeout'
+import { SandboxUnavailableError, classifyRunnerFailure, isRunnerSpawnFailure } from '@worldapptechnologies/nulu-sandbox'
+import type { ConfinedArgv, SandboxExecutionPolicy, SandboxMode } from '@worldapptechnologies/nulu-sandbox'
+import type { SubprocessHandle, SubprocessOutcome } from '@worldapptechnologies/nulu-subprocess'
+import type {} from '@worldapptechnologies/nulu-sandbox-policy'
+import type {} from '@worldapptechnologies/nulu-fs'
+import { snapshotJsonValue } from '@worldapptechnologies/nulu-util-values'
 import { validateBindings } from './bindings.ts'
 import { JsonChannel } from './channel.ts'
 import { bootstrapArgs } from './launch.ts'
@@ -230,7 +230,7 @@ export class NodePtcRuntime extends PtcRuntime {
         .filter(key => !STARTUP_ENVIRONMENT_NAMES.has(key.toUpperCase()))
         .map(key => [key, undefined]))
       if (packaged) {
-        env.DSH_PTC_RUNTIME_NODE = '1'
+        env.NULU_PTC_RUNTIME_NODE = '1'
         env.NODE_OPTIONS = heapFlag
       }
       handle = this.ctx.subprocess.spawn({ argv: confined?.argv ?? argv, cwd: spec.cwd, env, stdio: { stdin: 'ignore', stdout: 'pipe', stderr: 'pipe', control: 'pipe' }, graceMs: this.config.graceMs, signal })

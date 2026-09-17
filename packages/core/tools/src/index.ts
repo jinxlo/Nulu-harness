@@ -4,18 +4,18 @@
  * @module @worldapptechnologies/nulu-tools
  */
 
-import { Context, Service } from '@deepseek-ai/cordis'
-import z from '@deepseek-ai/schemastery'
-import { AnonymousEntries, NamedEntries, ScopedLayers, scopeOf, scopeTarget } from '@deepseek-ai/dsh-scope'
-import type { ScopeKey, ScopeLayer, Scoped } from '@deepseek-ai/dsh-scope'
-import type { ToolCallId, ContentBlock, ToolSchema } from '@deepseek-ai/dsh-llm'
-import { HarnessError } from '@deepseek-ai/dsh-llm'
-import type { Agent } from '@deepseek-ai/dsh-agent'
-import type { UserMessage } from '@deepseek-ai/dsh-session'
-import { assertNever, deepFreeze, snapshotJsonValue, type JsonValue } from '@deepseek-ai/dsh-util-values'
-import type { PromptSection, ToolProviderResult } from '@deepseek-ai/dsh-system-prompt'
-import type { PtcRuntime } from '@deepseek-ai/dsh-ptc-runtime'
-import type {} from '@deepseek-ai/dsh-sandbox-policy'
+import { Context, Service } from '@worldapptechnologies/cordis'
+import z from '@worldapptechnologies/schemastery'
+import { AnonymousEntries, NamedEntries, ScopedLayers, scopeOf, scopeTarget } from '@worldapptechnologies/nulu-scope'
+import type { ScopeKey, ScopeLayer, Scoped } from '@worldapptechnologies/nulu-scope'
+import type { ToolCallId, ContentBlock, ToolSchema } from '@worldapptechnologies/nulu-llm'
+import { HarnessError } from '@worldapptechnologies/nulu-llm'
+import type { Agent } from '@worldapptechnologies/nulu-agent'
+import type { UserMessage } from '@worldapptechnologies/nulu-session'
+import { assertNever, deepFreeze, snapshotJsonValue, type JsonValue } from '@worldapptechnologies/nulu-util-values'
+import type { PromptSection, ToolProviderResult } from '@worldapptechnologies/nulu-system-prompt'
+import type { PtcRuntime } from '@worldapptechnologies/nulu-ptc-runtime'
+import type {} from '@worldapptechnologies/nulu-sandbox-policy'
 // Type-only: makes `ctx.get('approval')` resolve to the ApprovalService
 // augmentation. The seam stays optional at runtime — see `serviceAsk`.
 import type {} from '@worldapptechnologies/nulu-user-approval'
@@ -39,7 +39,7 @@ import { renderToolsSdkPy } from './py-types.ts'
  * at. The `satisfies` clause pins this table's key set to that union, which
  * the flavor table is checked against too, so any of the three left out is a
  * typecheck failure. What no check reaches is the prose that names the values
- * instead of deriving them: the seam's `dsh-ptc-runtime` README pair, its
+ * instead of deriving them: the seam's `nulu-ptc-runtime` README pair, its
  * `PtcRuntime.language` JSDoc, and `docs/subsystems/ptc-runtime.md`
  * with its zh pair, plus this package's own README pair and the
  * {@link Config.mode} JSDoc.
@@ -887,7 +887,7 @@ export class ToolRuntime extends Service {
         // otherwise resolve an inherited Object.prototype member as a renderer.
         const render = SDK_RENDERERS[runtime.language]
         /* v8 ignore next -- requirePtcRuntime rejects an unknown language before this runs. */
-        if (render === undefined) throw new Error(`dsh-tools: no SDK renderer for ${runtime.language}`)
+        if (render === undefined) throw new Error(`nulu-tools: no SDK renderer for ${runtime.language}`)
         return render(this.sdkSchemas(context.scope))
       },
     }
@@ -927,7 +927,7 @@ export class ToolRuntime extends Service {
       peekApprover: () => this.ctx.get('approval'),
       resolveSandboxPolicy: (exec) => {
         const policy = this.ctx.get('sandboxPolicy')
-        if (policy === undefined) throw new Error('dsh-tools: confined PTC runtime requires sandboxPolicy')
+        if (policy === undefined) throw new Error('nulu-tools: confined PTC runtime requires sandboxPolicy')
         return policy.resolve(exec.agent === undefined ? {} : { session: exec.agent.session })
       },
       // The language-aware description/parameters getters read the runtime
@@ -1025,7 +1025,7 @@ export class ToolRuntime extends Service {
   private requirePtcRuntime(mode: ToolPresentationMode): PtcRuntime {
     const runtime = this.ctx.get('ptcRuntime')
     if (!runtime) {
-      throw new Error(`dsh-tools: mode "${mode}" requires a PTC runtime — load a ctx.ptcRuntime implementation (e.g. @deepseek-ai/dsh-ptc-runtime-node) or set tools mode to "native"`)
+      throw new Error(`nulu-tools: mode "${mode}" requires a PTC runtime — load a ctx.ptcRuntime implementation (e.g. @worldapptechnologies/nulu-ptc-runtime-node) or set tools mode to "native"`)
     }
     if (!Object.hasOwn(SDK_RENDERERS, runtime.language)) {
       const known = Object.keys(SDK_RENDERERS).map(name => JSON.stringify(name)).join(', ')

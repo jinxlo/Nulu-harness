@@ -3,7 +3,7 @@ import { mkdir, mkdtemp, readFile, stat, symlink, writeFile } from 'node:fs/prom
 import { tmpdir } from 'node:os'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
-import { Context } from '@deepseek-ai/cordis'
+import { Context } from '@worldapptechnologies/cordis'
 import {
   boot,
   createProfileResolutionGeneration,
@@ -11,11 +11,11 @@ import {
   loadProfile,
   PluginPackages,
   type Profile,
-} from '@deepseek-ai/dsh-app-boot'
-import { provideCmdline } from '@deepseek-ai/dsh-cmdline'
-import { SessionId, SessionLogOffset } from '@deepseek-ai/dsh-session'
-import type { Agent } from '@deepseek-ai/dsh-agent'
-import type { PatchOptions } from '@deepseek-ai/cordis-plugin-include'
+} from '@worldapptechnologies/nulu-app-boot'
+import { provideCmdline } from '@worldapptechnologies/nulu-cmdline'
+import { SessionId, SessionLogOffset } from '@worldapptechnologies/nulu-session'
+import type { Agent } from '@worldapptechnologies/nulu-agent'
+import type { PatchOptions } from '@worldapptechnologies/cordis-plugin-include'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import { SUBAGENT_MODEL_SELECTION_SETTINGS_NAMESPACE } from '@worldapptechnologies/nulu-tool-subagent/model-selection-settings'
 import { SETTINGS_NAMESPACE, SHIPPED_PRESET_ROOT } from '@worldapptechnologies/nulu-agent-presets'
@@ -150,13 +150,13 @@ async function bootWeb(
       dependencies: Object.fromEntries(profileBundles.map(name => [name, 'workspace:*'])),
       nulu: { profile: { bundles: profileBundles } },
     }, null, 2) + '\n')
-    profile = loadProfile('dsh-test', 'spec', INSTALL_ANCHOR, home, { userLayer: false })
+    profile = loadProfile('nulu-test', 'spec', INSTALL_ANCHOR, home, { userLayer: false })
     bundlePatches = profile.layers.flatMap(layer => layer.patches)
   }
   const resolution = await createProfileResolutionGeneration({ installAnchor: INSTALL_ANCHOR, home, profile })
   const rootConfig = join(profileDir, 'cordis.yml')
   await writeFile(rootConfig, '[]\n')
-  return await boot('dsh-test', rootConfig, [...bundlePatches, ...overrides], async (bootCtx) => {
+  return await boot('nulu-test', rootConfig, [...bundlePatches, ...overrides], async (bootCtx) => {
     await bootCtx.plugin(PluginPackages, { generation: resolution })
     bootCtx.provide('connection', {
       fetch: { register: () => () => {} },

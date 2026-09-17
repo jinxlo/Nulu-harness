@@ -3,7 +3,7 @@
  * contract and rejects every violation by name. Meta arrives as schema-checked
  * JSON data, never evaluated script text. Model-written JavaScript executes
  * inside the confined PTC process.
- * @module @deepseek-ai/dsh-workflow-ptc/meta
+ * @module @worldapptechnologies/nulu-workflow-ptc/meta
  */
 
 import { WorkflowError } from '@worldapptechnologies/nulu-workflow'

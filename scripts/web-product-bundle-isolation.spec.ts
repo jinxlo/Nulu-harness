@@ -26,7 +26,7 @@ const vite = createRequire(new URL('../apps/web/package.json', import.meta.url))
 
 function fixture() {
   // Vite resolves inputs with native realpath, which expands Windows short names.
-  const root = realpathSync.native(mkdtempSync(join(tmpdir(), 'dsh-web-bundle-isolation-')))
+  const root = realpathSync.native(mkdtempSync(join(tmpdir(), 'nulu-web-bundle-isolation-')))
   const web = join(root, 'apps/web')
   const links: string[] = []
   onTestFinished(() => {
@@ -38,11 +38,11 @@ function fixture() {
     writeFileSync(join(root, path), content)
   }
   write('package.json', '{"name":"isolation-fixture","type":"module"}')
-  write('apps/web/package.json', '{"name":"@deepseek-ai/dsh-web-frontend","type":"module"}')
+  write('apps/web/package.json', '{"name":"@worldapptechnologies/nulu-web-frontend","type":"module"}')
   write('apps/web/index.html', '<script type="module" src="/src/main.js"></script>')
   write('apps/web/src/main.js', 'globalThis.product = true')
   write('apps/web/src/preview.js', 'import "../../../packages/experimental/prototype/index.js"')
-  write('packages/experimental/prototype/package.json', '{"name":"@deepseek-ai/dsh-experimental-prototype","type":"module"}')
+  write('packages/experimental/prototype/package.json', '{"name":"@worldapptechnologies/nulu-experimental-prototype","type":"module"}')
   write('packages/experimental/prototype/index.js', 'globalThis.experimental = true')
   write('packages/experimental/prototype/style.css', '.experimental { color: red }')
   write('packages/experimental/prototype/tiny.svg', '<svg xmlns="http://www.w3.org/2000/svg"/>')
@@ -125,7 +125,7 @@ describe('default Web bundle input isolation', () => {
     const test = fixture()
     test.write('apps/web/src/main.js', 'import "ordinary-name"')
     test.write('apps/web/node_modules/ordinary-name/package.json',
-      '{"name":"@deepseek-ai/dsh-experimental-aliased","type":"module","main":"index.js"}')
+      '{"name":"@worldapptechnologies/nulu-experimental-aliased","type":"module","main":"index.js"}')
     test.write('apps/web/node_modules/ordinary-name/index.js', 'globalThis.aliased = true')
     await expect(test.run()).rejects.toThrow(/belongs to experimental package/)
   })
@@ -251,7 +251,7 @@ describe('bundler input ownership', () => {
     test.write('apps/web/node_modules/upstream/package.json', '{"name":"upstream"}')
     expect(() => { ownership.assertInput(file) }).toThrow(/is missing/)
     expect(() => { ownership.assertSourceMapInput(file) }).not.toThrow()
-    test.write('apps/web/node_modules/upstream/package.json', '{"name":"@deepseek-ai/dsh-experimental-upstream"}')
+    test.write('apps/web/node_modules/upstream/package.json', '{"name":"@worldapptechnologies/nulu-experimental-upstream"}')
     ownership.reset()
     expect(() => { ownership.assertSourceMapInput(file) }).toThrow(/belongs to experimental package/)
   })

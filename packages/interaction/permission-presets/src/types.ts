@@ -34,7 +34,7 @@ export interface PermissionSelection {
   currentValue: string
 }
 
-declare module '@deepseek-ai/cordis' {
+declare module '@worldapptechnologies/cordis' {
   interface Events {
     /**
      * The selectable process catalog changed. Payload-free by design:
@@ -45,7 +45,7 @@ declare module '@deepseek-ai/cordis' {
   }
 }
 
-declare module '@deepseek-ai/dsh-session-projection/types' {
+declare module '@worldapptechnologies/nulu-session-projection/types' {
   interface SessionProjectionMap {
     /**
      * The session's current permission, folded from the three whole-value

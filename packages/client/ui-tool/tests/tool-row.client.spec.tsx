@@ -2,9 +2,9 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { cleanup, fireEvent, render } from '@testing-library/react'
 
-import type { RunningToolCall, ToolResultNode } from '@deepseek-ai/dsh-client-ui-chat/client'
-import { makeTranslate } from '@deepseek-ai/dsh-client-test-runtime'
-import { zh as commonZh } from '@deepseek-ai/dsh-client-locale/src/locales/zh.ts'
+import type { RunningToolCall, ToolResultNode } from '@worldapptechnologies/nulu-client-ui-chat/client'
+import { makeTranslate } from '@worldapptechnologies/nulu-client-test-runtime'
+import { zh as commonZh } from '@worldapptechnologies/nulu-client-locale/src/locales/zh.ts'
 import { localizeAutoReviewDenial, normalizeAutoReviewReason } from '../src/client/tool/models/auto-review-denial.ts'
 import {
   classifyTool, formatToolBody, resultText, toolRowModel,

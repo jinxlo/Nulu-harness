@@ -4,7 +4,7 @@ import { createHash, randomUUID } from 'node:crypto'
 import { mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import type { Sharp } from 'sharp'
-import { AttachmentError, ImageVariantId } from '@deepseek-ai/dsh-attachment'
+import { AttachmentError, ImageVariantId } from '@worldapptechnologies/nulu-attachment'
 import type {
   ImageMediaType,
   ImageAttachmentRef,

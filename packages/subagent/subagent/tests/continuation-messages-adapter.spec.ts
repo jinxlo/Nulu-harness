@@ -2,21 +2,21 @@ import { mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { expect, it } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import type { AnonymousUserId } from '@deepseek-ai/dsh-anonymous-user-id'
-import AgentLoop from '@deepseek-ai/dsh-agent-loop'
-import { mountAgentLoopTestDependencies } from '@deepseek-ai/dsh-agent-loop-testkit'
-import { createUserMessage } from '@deepseek-ai/dsh-llm'
-import { DeepSeekAdapter, resolveAdapterOptions } from '@deepseek-ai/dsh-llm-deepseek'
-import { SessionId } from '@deepseek-ai/dsh-session'
-import JsonlSessionPersistence from '@deepseek-ai/dsh-session-persistence-jsonl'
-import * as SubagentSpawn from '@deepseek-ai/dsh-subagent-spawn-in-process'
+import { Context } from '@worldapptechnologies/cordis'
+import type { AnonymousUserId } from '@worldapptechnologies/nulu-anonymous-user-id'
+import AgentLoop from '@worldapptechnologies/nulu-agent-loop'
+import { mountAgentLoopTestDependencies } from '@worldapptechnologies/nulu-agent-loop-testkit'
+import { createUserMessage } from '@worldapptechnologies/nulu-llm'
+import { DeepSeekAdapter, resolveAdapterOptions } from '@worldapptechnologies/nulu-llm-deepseek'
+import { SessionId } from '@worldapptechnologies/nulu-session'
+import JsonlSessionPersistence from '@worldapptechnologies/nulu-session-persistence-jsonl'
+import * as SubagentSpawn from '@worldapptechnologies/nulu-subagent-spawn-in-process'
 import { end, MODEL, server, sse, start } from '../../../llm/llm-deepseek/tests/messages/helpers.ts'
 import SubagentRuntime, { type SubagentRunEndInfo } from '../src/index.ts'
 import { loadStoredSession } from './persistence-helpers.ts'
 
 it('continues the parent through default Messages after a reasoning-bearing continuable child settles', async () => {
-  const root = mkdtempSync(join(tmpdir(), 'dsh-settlement-messages-'))
+  const root = mkdtempSync(join(tmpdir(), 'nulu-settlement-messages-'))
   const ctx = new Context()
   let http: Awaited<ReturnType<typeof server>> | undefined
   try {

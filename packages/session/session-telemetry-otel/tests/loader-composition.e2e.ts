@@ -81,7 +81,7 @@ describe('session-telemetry-otel through the production headless profile', () =>
       libBinScript: driver,
       configPath,
       tsconfigPath: repoTsconfig,
-      env: { DSH_TELEMETRY_E2E_MODE: 'FULL' },
+      env: { NULU_TELEMETRY_E2E_MODE: 'FULL' },
     })
     expect(stdout + stderr).toContain('warning: 1 entry did not activate')
     expect(stdout + stderr).toContain('FULL')

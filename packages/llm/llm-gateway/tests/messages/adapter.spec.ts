@@ -4,23 +4,23 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { Context, LoggerLevel, Service } from '@deepseek-ai/cordis'
-import LocalAttachments from '@deepseek-ai/dsh-attachment-local'
-import AgentRegistry, { installModelSelection } from '@deepseek-ai/dsh-agent'
-import type { Agent, ModelSelectionRef } from '@deepseek-ai/dsh-agent'
-import AgentLoop from '@deepseek-ai/dsh-agent-loop'
-import SystemPrompt from '@deepseek-ai/dsh-system-prompt'
-import ToolRuntime from '@deepseek-ai/dsh-tools'
-import SessionProjectionRegistry from '@deepseek-ai/dsh-session-projection'
-import { AttachmentId } from '@deepseek-ai/dsh-attachment'
-import Loader from '@deepseek-ai/cordis-plugin-loader'
-import Include from '@deepseek-ai/cordis-plugin-include'
-import LlmRuntime, { createAssistantMessage, createSystemMessage } from '@deepseek-ai/dsh-llm'
-import type { Message } from '@deepseek-ai/dsh-llm'
-import { credentialRef } from '@deepseek-ai/dsh-credentials'
-import LocalCredentials from '@deepseek-ai/dsh-credentials-local'
-import FileSettings from '@deepseek-ai/dsh-settings-file'
-import SessionStore, { SessionId } from '@deepseek-ai/dsh-session'
+import { Context, LoggerLevel, Service } from '@worldapptechnologies/cordis'
+import LocalAttachments from '@worldapptechnologies/nulu-attachment-local'
+import AgentRegistry, { installModelSelection } from '@worldapptechnologies/nulu-agent'
+import type { Agent, ModelSelectionRef } from '@worldapptechnologies/nulu-agent'
+import AgentLoop from '@worldapptechnologies/nulu-agent-loop'
+import SystemPrompt from '@worldapptechnologies/nulu-system-prompt'
+import ToolRuntime from '@worldapptechnologies/nulu-tools'
+import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projection'
+import { AttachmentId } from '@worldapptechnologies/nulu-attachment'
+import Loader from '@worldapptechnologies/cordis-plugin-loader'
+import Include from '@worldapptechnologies/cordis-plugin-include'
+import LlmRuntime, { createAssistantMessage, createSystemMessage } from '@worldapptechnologies/nulu-llm'
+import type { Message } from '@worldapptechnologies/nulu-llm'
+import { credentialRef } from '@worldapptechnologies/nulu-credentials'
+import LocalCredentials from '@worldapptechnologies/nulu-credentials-local'
+import FileSettings from '@worldapptechnologies/nulu-settings-file'
+import SessionStore, { SessionId } from '@worldapptechnologies/nulu-session'
 import { DeepSeekMessagesAdapter } from '../../src/protocols/messages/adapter.ts'
 import { DeepSeekFileStore } from '../../src/common/file-store.ts'
 import * as Messages from '../../src/index.ts'
@@ -38,9 +38,9 @@ async function endpoint(...args: Parameters<typeof server>) {
   return instance
 }
 async function context() {
-  const home = await mkdtemp(join(tmpdir(), 'dsh-messages-test-'))
+  const home = await mkdtemp(join(tmpdir(), 'nulu-messages-test-'))
   cleanup.push(() => rm(home, { recursive: true, force: true }))
-  vi.stubEnv('DSH_HOME', home)
+  vi.stubEnv('NULU_HOME', home)
   const ctx = new Context()
   cleanup.push(() => ctx.fiber.dispose())
   return { ctx, home }
@@ -77,8 +77,8 @@ describe('direct Messages HTTP', () => {
     })
     expect(http.requests[0]).toMatchObject({ path: '/anthropic/v1/messages', headers: {
       'x-api-key': 'test-key', 'anthropic-version': '2023-06-01',
-      'user-agent': expect.stringContaining('deepseek-harness/') as string, 'x-deepseek-harness-user-id': 'test-user',
-      'x-deepseek-harness-session-id': 'session-test', 'x-deepseek-harness-compact': '1',
+      'user-agent': expect.stringContaining('nulu-harness/') as string, 'x-nulu-harness-user-id': 'test-user',
+      'x-nulu-harness-session-id': 'session-test', 'x-nulu-harness-compact': '1',
     }, body: { thinking: { type: 'enabled' }, output_config: { effort: 'high' } } })
     expect(llm.providerInfo('deepseek-official')).toEqual({ id: 'deepseek-official', name: 'DeepSeek' })
     expect((await llm.listModels('deepseek-official')).map(model => model.id)).toEqual([
@@ -200,11 +200,11 @@ describe('Cordis provider composition', () => {
     await ctx.plugin(Loader)
     ctx.loader.builtins.include = Include
     const modules = new Map<string, unknown>([
-      ['@deepseek-ai/dsh-llm', LlmRuntime], ['@deepseek-ai/dsh-llm-deepseek', Messages],
-      ['@deepseek-ai/dsh-credentials-local', LocalCredentials], ['@deepseek-ai/dsh-settings-file', FileSettings],
-      ['@deepseek-ai/dsh-agent', AgentRegistry], ['@deepseek-ai/dsh-agent-loop', AgentLoop],
-      ['@deepseek-ai/dsh-session', SessionStore], ['@deepseek-ai/dsh-session-projection', SessionProjectionRegistry],
-      ['@deepseek-ai/dsh-system-prompt', SystemPrompt], ['@deepseek-ai/dsh-tools', ToolRuntime],
+      ['@worldapptechnologies/nulu-llm', LlmRuntime], ['@worldapptechnologies/nulu-llm-deepseek', Messages],
+      ['@worldapptechnologies/nulu-credentials-local', LocalCredentials], ['@worldapptechnologies/nulu-settings-file', FileSettings],
+      ['@worldapptechnologies/nulu-agent', AgentRegistry], ['@worldapptechnologies/nulu-agent-loop', AgentLoop],
+      ['@worldapptechnologies/nulu-session', SessionStore], ['@worldapptechnologies/nulu-session-projection', SessionProjectionRegistry],
+      ['@worldapptechnologies/nulu-system-prompt', SystemPrompt], ['@worldapptechnologies/nulu-tools', ToolRuntime],
     ])
     // The importer supplies source modules while Loader still owns configuration and effects.
     for (const name of modules.keys()) {

@@ -9,8 +9,8 @@ export interface DesktopElectronBuilderConfig {
     string,
     string,
     string,
-    { readonly from: string, readonly to: 'dsh', readonly filter: readonly ['**/*'] },
-    { readonly from: string, readonly to: 'dsh/node_modules', readonly filter: readonly ['**/*'] },
+    { readonly from: string, readonly to: 'nulu', readonly filter: readonly ['**/*'] },
+    { readonly from: string, readonly to: 'nulu/node_modules', readonly filter: readonly ['**/*'] },
   ]
   readonly asarUnpack: readonly string[]
   readonly extraResources: readonly [{ readonly from: string, readonly to: 'runtime' }]

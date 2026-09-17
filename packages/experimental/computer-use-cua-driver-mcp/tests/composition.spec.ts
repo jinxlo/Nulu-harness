@@ -4,20 +4,20 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { Context, FiberState } from '@deepseek-ai/cordis'
-import Loader from '@deepseek-ai/cordis-plugin-loader'
-import Include from '@deepseek-ai/cordis-plugin-include'
-import ComputerUse from '@deepseek-ai/dsh-computer-use'
-import { ComputerUseProviderName } from '@deepseek-ai/dsh-computer-use/brand'
-import SystemPrompt from '@deepseek-ai/dsh-system-prompt'
-import ToolRuntime from '@deepseek-ai/dsh-tools'
-import LlmRuntime, { LlmAdapter, ToolCallId, createUserMessage } from '@deepseek-ai/dsh-llm'
-import type { GenerateOptions, LlmResolvedModelInfo, StreamChunk } from '@deepseek-ai/dsh-llm'
-import SessionStore, { SessionId } from '@deepseek-ai/dsh-session'
-import AgentRegistry from '@deepseek-ai/dsh-agent'
-import AgentLoop from '@deepseek-ai/dsh-agent-loop'
-import SessionProjectionRegistry from '@deepseek-ai/dsh-session-projection'
-import LocalAttachmentStore from '@deepseek-ai/dsh-attachment-local'
+import { Context, FiberState } from '@worldapptechnologies/cordis'
+import Loader from '@worldapptechnologies/cordis-plugin-loader'
+import Include from '@worldapptechnologies/cordis-plugin-include'
+import ComputerUse from '@worldapptechnologies/nulu-computer-use'
+import { ComputerUseProviderName } from '@worldapptechnologies/nulu-computer-use/brand'
+import SystemPrompt from '@worldapptechnologies/nulu-system-prompt'
+import ToolRuntime from '@worldapptechnologies/nulu-tools'
+import LlmRuntime, { LlmAdapter, ToolCallId, createUserMessage } from '@worldapptechnologies/nulu-llm'
+import type { GenerateOptions, LlmResolvedModelInfo, StreamChunk } from '@worldapptechnologies/nulu-llm'
+import SessionStore, { SessionId } from '@worldapptechnologies/nulu-session'
+import AgentRegistry from '@worldapptechnologies/nulu-agent'
+import AgentLoop from '@worldapptechnologies/nulu-agent-loop'
+import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projection'
+import LocalAttachmentStore from '@worldapptechnologies/nulu-attachment-local'
 import * as Provider from '../src/index.ts'
 
 const TOOL = 'mcp__cua-driver-mcp__screenshot'
@@ -56,35 +56,35 @@ class ScreenshotModel extends LlmAdapter {
 }
 
 async function load(mode?: string): Promise<{ ctx: Context; root: string; model: ScreenshotModel }> {
-  const root = await mkdtemp(join(tmpdir(), 'dsh-computer-use-mcp-'))
+  const root = await mkdtemp(join(tmpdir(), 'nulu-computer-use-mcp-'))
   roots.push(root)
   const model = new ScreenshotModel()
   const modules = new Map<string, unknown>([
-    ['@deepseek-ai/dsh-computer-use', ComputerUse],
-    ['@deepseek-ai/dsh-system-prompt', SystemPrompt],
-    ['@deepseek-ai/dsh-tools', ToolRuntime],
-    ['@deepseek-ai/dsh-llm', LlmRuntime],
-    ['@deepseek-ai/dsh-session', SessionStore],
-    ['@deepseek-ai/dsh-agent', AgentRegistry],
-    ['@deepseek-ai/dsh-agent-loop', AgentLoop],
-    ['@deepseek-ai/dsh-session-projection', SessionProjectionRegistry],
-    ['@deepseek-ai/dsh-attachment-local', LocalAttachmentStore],
+    ['@worldapptechnologies/nulu-computer-use', ComputerUse],
+    ['@worldapptechnologies/nulu-system-prompt', SystemPrompt],
+    ['@worldapptechnologies/nulu-tools', ToolRuntime],
+    ['@worldapptechnologies/nulu-llm', LlmRuntime],
+    ['@worldapptechnologies/nulu-session', SessionStore],
+    ['@worldapptechnologies/nulu-agent', AgentRegistry],
+    ['@worldapptechnologies/nulu-agent-loop', AgentLoop],
+    ['@worldapptechnologies/nulu-session-projection', SessionProjectionRegistry],
+    ['@worldapptechnologies/nulu-attachment-local', LocalAttachmentStore],
     ['@fixture/model', { inject: ['llm'], apply(ctx: Context) { ctx.effect(() => ctx.llm.registerAdapter(['fixture'], model)) } }],
-    ['@deepseek-ai/dsh-experimental-computer-use-cua-driver-mcp', Provider],
+    ['@worldapptechnologies/nulu-experimental-computer-use-cua-driver-mcp', Provider],
   ])
   const configPath = join(root, 'cordis.yml')
   await writeFile(configPath, JSON.stringify([...modules.keys()].map(name => ({
-    id: name === '@deepseek-ai/dsh-experimental-computer-use-cua-driver-mcp' ? 'computer-use-driver' : undefined,
+    id: name === '@worldapptechnologies/nulu-experimental-computer-use-cua-driver-mcp' ? 'computer-use-driver' : undefined,
     name,
-    config: name === '@deepseek-ai/dsh-experimental-computer-use-cua-driver-mcp'
+    config: name === '@worldapptechnologies/nulu-experimental-computer-use-cua-driver-mcp'
       ? {
         command: process.execPath,
         args: [fixture, root, ...(mode === undefined ? [] : [mode])],
         reconnect: { initialDelayMs: 20, maxDelayMs: 40, maxAttempts: 2 },
       }
-      : name === '@deepseek-ai/dsh-attachment-local'
+      : name === '@worldapptechnologies/nulu-attachment-local'
         ? { dshHome: root }
-        : name === '@deepseek-ai/dsh-agent-loop' ? { agents: [] } : {},
+        : name === '@worldapptechnologies/nulu-agent-loop' ? { agents: [] } : {},
   }))))
   const ctx = new Context()
   contexts.push(ctx)

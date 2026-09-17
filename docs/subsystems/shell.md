@@ -1,7 +1,7 @@
 # Shell Executor
 
 
-The shell execution seam uses [dsh-shell](../../packages/shell/shell) as its Service Definition on `ctx.shell`. The [shell package group](../../packages/shell/README.md) lists its Bash and PowerShell providers and model-facing Consumers. Generic background-job ids, ownership, and controls live in [jobs.md](jobs.md); this seam returns a process handle without job registration. Managed-range mechanics live behind the [subprocess seam](subprocess.md).
+The shell execution seam uses [nulu-shell](../../packages/shell/shell) as its Service Definition on `ctx.shell`. The [shell package group](../../packages/shell/README.md) lists its Bash and PowerShell providers and model-facing Consumers. Generic background-job ids, ownership, and controls live in [jobs.md](jobs.md); this seam returns a process handle without job registration. Managed-range mechanics live behind the [subprocess seam](subprocess.md).
 
 Source: [`packages/shell/shell/src/types.ts`](../../packages/shell/shell/src/types.ts)
 
@@ -165,7 +165,7 @@ The `SANDBOX_UNAVAILABLE` error code (owned by the [sandbox seam](sandbox.md)) i
 
 ## Background processes: `ShellProcess`
 
-`start()` resolves with a handle after asynchronous launch preparation; cancellation or preparation failure rejects before publication. The handle has no id or owner. `dsh-tool-bash` adapts it into `ctx.jobs.start()` hooks; the generic runtime then owns job identity and lifecycle. `done` resolves when the underlying process settles and never rejects; a subprocess provider rejection becomes a `killed` process with a stage-neutral error on stderr. Reads remain valid after settlement, and sandbox facts are stamped before `done` resolves.
+`start()` resolves with a handle after asynchronous launch preparation; cancellation or preparation failure rejects before publication. The handle has no id or owner. `nulu-tool-bash` adapts it into `ctx.jobs.start()` hooks; the generic runtime then owns job identity and lifecycle. `done` resolves when the underlying process settles and never rejects; a subprocess provider rejection becomes a `killed` process with a stage-neutral error on stderr. Reads remain valid after settlement, and sandbox facts are stamped before `done` resolves.
 
 ```ts type-equiv
 /**

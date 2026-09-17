@@ -12,23 +12,23 @@
  * @module nulu-permission-presets
  */
 
-import { Context } from '@deepseek-ai/cordis'
-import { CommandDefinitionId } from '@deepseek-ai/dsh-commands/brand'
-import z from '@deepseek-ai/schemastery'
+import { Context } from '@worldapptechnologies/cordis'
+import { CommandDefinitionId } from '@worldapptechnologies/nulu-commands/brand'
+import z from '@worldapptechnologies/schemastery'
 import { z as zod } from 'zod'
-import { Remote, TypertRemoteService } from '@deepseek-ai/dsh-typert-protocol'
-import type { Session, SessionEvent } from '@deepseek-ai/dsh-session'
-import type { SandboxMode } from '@deepseek-ai/dsh-sandbox'
-import { SANDBOX_MODES, setSandboxMode } from '@deepseek-ai/dsh-sandbox-policy'
+import { Remote, TypertRemoteService } from '@worldapptechnologies/nulu-typert-protocol'
+import type { Session, SessionEvent } from '@worldapptechnologies/nulu-session'
+import type { SandboxMode } from '@worldapptechnologies/nulu-sandbox'
+import { SANDBOX_MODES, setSandboxMode } from '@worldapptechnologies/nulu-sandbox-policy'
 // Side-effect type import: declaration-merges `ctx.shell` (the capability fact
 // `sandboxMode` this service reads), without a value dependency on the seam.
-import type {} from '@deepseek-ai/dsh-shell'
-import type { ApprovalPolicy } from '@deepseek-ai/dsh-user-approval'
-import { APPROVAL_POLICIES, setApprovalPolicy } from '@deepseek-ai/dsh-user-approval'
-import type {} from '@deepseek-ai/dsh-settings'
+import type {} from '@worldapptechnologies/nulu-shell'
+import type { ApprovalPolicy } from '@worldapptechnologies/nulu-user-approval'
+import { APPROVAL_POLICIES, setApprovalPolicy } from '@worldapptechnologies/nulu-user-approval'
+import type {} from '@worldapptechnologies/nulu-settings'
 // Type-only: resolves the required projection service and optional settings/command children.
-import type {} from '@deepseek-ai/dsh-session-projection'
-import type {} from '@deepseek-ai/dsh-commands'
+import type {} from '@worldapptechnologies/nulu-session-projection'
+import type {} from '@worldapptechnologies/nulu-commands'
 import type { PermissionCatalog, PermissionSelection, PresetOption } from './types.ts'
 
 export type * from './types.ts'

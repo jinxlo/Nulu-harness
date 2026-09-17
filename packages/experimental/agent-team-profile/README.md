@@ -1,5 +1,5 @@
 ---
-description: "Published experimental Agent Teams profile layer over dsh-base with teammate delegation and fresh workflow children."
+description: "Published experimental Agent Teams profile layer over nulu-base with teammate delegation and fresh workflow children."
 kind: "package-bundle"
 ---
 
@@ -8,7 +8,7 @@ kind: "package-bundle"
 
 ## Summary
 
-`dsh-experimental-agent-team-profile` is a published experimental profile layer that enables [Agent Teams](../agent-team/README.md) over `@deepseek-ai/dsh-base`. Its patch inserts the Team domain and Team-scoped tools and disables ordinary subagent delegation and the overlapping global continuable-child controls. Workflow remains available with fresh children. Add it explicitly to an initialized profile; no shipped profile enables it by default.
+`nulu-experimental-agent-team-profile` is a published experimental profile layer that enables [Agent Teams](../agent-team/README.md) over `@worldapptechnologies/nulu-base`. Its patch inserts the Team domain and Team-scoped tools and disables ordinary subagent delegation and the overlapping global continuable-child controls. Workflow remains available with fresh children. Add it explicitly to an initialized profile; no shipped profile enables it by default.
 
 ## Table of Contents
 
@@ -47,7 +47,7 @@ The layer adds the Agent Teams domain and its scoped creation, roster, messaging
 <details>
 <summary>Implementation internals — click to expand</summary>
 
-The package's runtime content is [`cordis.patch.yml`](cordis.patch.yml). Applied after `dsh-base`, the patch disables `tool-subagent-control`, `tool-subagent-list-agents`, `tool-subagent`, and `tool-subagent-fork`, and inserts the Team service and tool rows with explicit providers and limits.
+The package's runtime content is [`cordis.patch.yml`](cordis.patch.yml). Applied after `nulu-base`, the patch disables `tool-subagent-control`, `tool-subagent-list-agents`, `tool-subagent`, and `tool-subagent-fork`, and inserts the Team service and tool rows with explicit providers and limits.
 
 | File | Role |
 |---|---|
@@ -76,7 +76,7 @@ The package's runtime content is [`cordis.patch.yml`](cordis.patch.yml). Applied
 
 #### What the model sees
 
-The Team policy and schemas belong to [`@deepseek-ai/dsh-experimental-tool-agent-team`](../tool-agent-team/README.md). This bundle changes composition only: Team-scoped `list_agents`, `send_message`, and `interrupt_agent` replace the disabled global continuable-child controls. `spawn_teammate` is the direct delegation tool. Workflow’s `agent()` calls create fresh one-shot children; their prompts must contain the context needed for their tasks.
+The Team policy and schemas belong to [`@worldapptechnologies/nulu-experimental-tool-agent-team`](../tool-agent-team/README.md). This bundle changes composition only: Team-scoped `list_agents`, `send_message`, and `interrupt_agent` replace the disabled global continuable-child controls. `spawn_teammate` is the direct delegation tool. Workflow’s `agent()` calls create fresh one-shot children; their prompts must contain the context needed for their tasks.
 
 #### Token effect
 

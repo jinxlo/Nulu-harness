@@ -769,7 +769,7 @@ test('rejects multiple, unknown, legacy, and Issue-source PR labels', () => {
 const mockPolicyApi = (t, { pull = {}, requested = true, reviews = [], issues = {}, priority = 'P1', projectError = false } = {}) => {
   const environment = ['GH_TOKEN', 'GITHUB_TOKEN', 'PROJECT_TOKEN', 'GITHUB_API_URL', 'GITHUB_OUTPUT']
   const previous = new Map(environment.map((key) => [key, process.env[key]]))
-  const directory = mkdtempSync(join(tmpdir(), 'dsh-policy-'))
+  const directory = mkdtempSync(join(tmpdir(), 'nulu-policy-'))
   t.after(() => {
     for (const [key, value] of previous) {
       if (value === undefined) delete process.env[key]
@@ -915,7 +915,7 @@ test('keeps trusted preflight before token minting and required policy unconditi
 })
 
 test('runs trusted rollout selection with absent and present capability markers', { skip: process.platform === 'win32' ? 'The policy workflow executes under hosted Ubuntu bash' : false }, (t) => {
-  const directory = mkdtempSync(join(tmpdir(), 'dsh-policy-rollout-'))
+  const directory = mkdtempSync(join(tmpdir(), 'nulu-policy-rollout-'))
   t.after(() => rmSync(directory, { recursive: true, force: true }))
   const source = readFileSync(new URL('../workflows/issue-policy.yml', import.meta.url), 'utf8')
   const script = source.split('        run: |\n')[1].split('      - name: Create Project read token')[0]
@@ -996,7 +996,7 @@ test('keeps REST headers, null responses, and transport errors unchanged', async
       Accept: 'application/vnd.github+json',
       Authorization: 'Bearer preferred-token',
       'X-GitHub-Api-Version': '2026-03-10',
-      'User-Agent': 'dsh-issue-policy',
+      'User-Agent': 'nulu-issue-policy',
     } },
   })
   assert.equal(await api('/empty'), null)
@@ -1024,7 +1024,7 @@ test('reads policy snapshots in reference order and only resolving Project prior
     references: { all: [2, 4], resolving: [2], related: [4] },
     issues: new Map([[2, { priority: 'P1' }], [4, { priority: null }]]),
   })
-  const repo = '/repos/deepseek-harness/deepseek-harness'
+  const repo = '/repos/nulu-harness/nulu-harness'
   assert.deepEqual(fixture.requests, [
     repo + '/pulls/10',
     repo + '/pulls/10/requested_reviewers',
@@ -1048,7 +1048,7 @@ test('reads lifecycle references for draft Bot PRs without review or Project req
     issues: new Map([[2, { priority: null }], [4, { priority: null }]]),
     createdAt: '2026-08-27T16:00:00Z',
   })
-  const repo = '/repos/deepseek-harness/deepseek-harness'
+  const repo = '/repos/nulu-harness/nulu-harness'
   assert.deepEqual(fixture.requests, [repo + '/pulls/10', repo + '/issues/2', repo + '/issues/4'])
   assert.deepEqual(fixture.output, [])
 })

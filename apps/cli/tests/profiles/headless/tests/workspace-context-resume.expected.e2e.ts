@@ -25,8 +25,8 @@ import {
 } from '@worldapptechnologies/nulu-session'
 import JsonlSessionPersistence from '@worldapptechnologies/nulu-session-persistence-jsonl'
 import { logPath } from '../../../../../../packages/session/session-persistence-jsonl/src/format.ts'
-import { renderAgentInstructions } from '@deepseek-ai/dsh-agent-instructions'
-import { resolveConfig, workspaceBaselineIdentity } from '@deepseek-ai/dsh-agent-instructions/src/config.ts'
+import { renderAgentInstructions } from '@worldapptechnologies/nulu-agent-instructions'
+import { resolveConfig, workspaceBaselineIdentity } from '@worldapptechnologies/nulu-agent-instructions/src/config.ts'
 import { describe, expect, it } from 'vitest'
 
 const fixtureDir = join(dirname(fileURLToPath(import.meta.url)), 'expected/workspace-context-resume/offline-edit')

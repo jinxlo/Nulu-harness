@@ -11,8 +11,8 @@
  */
 /* oxlint-disable typescript/no-unsafe-assignment -- Vitest asymmetric matchers are typed as any. */
 
-import { Context } from '@deepseek-ai/cordis'
-import type { Loader } from '@deepseek-ai/cordis-plugin-loader'
+import { Context } from '@worldapptechnologies/cordis'
+import type { Loader } from '@worldapptechnologies/cordis-plugin-loader'
 import { describe, expect, it, onTestFinished, vi } from 'vitest'
 import type {
   CordisDynamicPackageId, CordisDynamicPluginId, CordisDynamicPluginRunId, SessionId,

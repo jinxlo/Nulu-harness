@@ -7,7 +7,7 @@
  * @module @worldapptechnologies/nulu-session-persistence-jsonl/generation
  */
 
-import { currentSessionMessageProjections } from '@deepseek-ai/dsh-session-format-catalog/message-projections'
+import { currentSessionMessageProjections } from '@worldapptechnologies/nulu-session-format-catalog/message-projections'
 import { createHash, randomBytes } from 'node:crypto'
 import {
   link as fsLink,

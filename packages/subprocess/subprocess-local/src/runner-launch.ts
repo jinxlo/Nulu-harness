@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url'
 import type { SubprocessSpawnSpec } from '@worldapptechnologies/nulu-subprocess'
 import { childEnv } from './spawn.ts'
 import { controlEnvironment } from './control-spawn.ts'
-import { SUBPROCESS_CONTROL_FD } from '@deepseek-ai/dsh-subprocess/control'
+import { SUBPROCESS_CONTROL_FD } from '@worldapptechnologies/nulu-subprocess/control'
 
 /** The one private environment variable consumed before target state is restored. */
 export const SUBPROCESS_RUNNER_ENV = 'NULU_SUBPROCESS_RUNNER' as const

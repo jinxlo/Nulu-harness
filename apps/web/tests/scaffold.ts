@@ -4,9 +4,9 @@
 // patches over the empty profile root through the vendored Loader (the same
 // layer stack the profile boot composes), patched the
 // snapshot way — so a real chromium exercises the real HTTP uplink/WebSocket
-// downlink, api-gateway, agent loop, tools, and persistence. Modes ride $DSH_SNAPSHOT:
+// downlink, api-gateway, agent loop, tools, and persistence. Modes ride $NULU_SNAPSHOT:
 // replay (default, keyless: normally disables the direct DeepSeek rows and
-// inserts dsh-llm-replay in providers mode), record (real adapter + key,
+// inserts nulu-llm-replay in providers mode), record (real adapter + key,
 // harvests fixtures from live session memory), refresh (keyless replay that
 // rewrites goldens). A first-run option keeps the real adapter mounted while
 // masking its credential, without making a model call.
@@ -65,9 +65,9 @@ import {
   PluginPackages,
   type Profile,
   type ProfileResolutionMode,
-} from '@deepseek-ai/dsh-app-boot'
-import { dshHomePath } from '@deepseek-ai/dsh-home-paths'
-import { LlmAdapter } from '@deepseek-ai/dsh-llm'
+} from '@worldapptechnologies/nulu-app-boot'
+import { dshHomePath } from '@worldapptechnologies/nulu-home-paths'
+import { LlmAdapter } from '@worldapptechnologies/nulu-llm'
 import type {
   LlmModelInfo, LlmProviderInfo, LlmResolvedModelInfo, RetryPolicyConfig, StreamChunk,
 } from '@worldapptechnologies/nulu-llm'
@@ -684,7 +684,7 @@ export async function launchWebScaffold(options: LaunchOptions = {}): Promise<We
         throw new Error(`web scaffold extra install anchor has no package name: ${anchor}`)
       }
       const packageDir = dirname(anchor)
-      // A real profile already has each bundle installed by `dsh plugin add`.
+      // A real profile already has each bundle installed by `nulu plugin add`.
       // Reproduce that link so a private bundle can import its own plugin.
       const installedLink = join(profileDir, 'node_modules', manifest.name)
       await mkdir(dirname(installedLink), { recursive: true })

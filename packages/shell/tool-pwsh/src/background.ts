@@ -5,8 +5,8 @@
  * @module @worldapptechnologies/nulu-tool-pwsh/background
  */
 
-import type { ShellProcess } from '@deepseek-ai/dsh-shell'
-import type { JobHooks, JobOutcome } from '@deepseek-ai/dsh-jobs'
+import type { ShellProcess } from '@worldapptechnologies/nulu-shell'
+import type { JobHooks, JobOutcome } from '@worldapptechnologies/nulu-jobs'
 
 /* jscpd:ignore-start -- deliberate twin of nulu-tool-bash/background.ts (Agent Note). */
 

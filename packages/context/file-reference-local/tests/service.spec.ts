@@ -32,7 +32,7 @@ async function stubAgent(
   id = 'file-reference-agent',
   includeCwd = true,
 ): Promise<{ agent: Agent; dispose: () => Promise<void> }> {
-  const root = await mkdtemp(join(tmpdir(), 'dsh-file-reference-service-'))
+  const root = await mkdtemp(join(tmpdir(), 'nulu-file-reference-service-'))
   roots.push(root)
   await writeFile(join(root, 'README.md'), 'readme')
   const session = ctx.sessions.create(SessionId(id), { meta: includeCwd ? { cwd: root } : {} })

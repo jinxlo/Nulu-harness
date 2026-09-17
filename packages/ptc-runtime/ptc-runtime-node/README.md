@@ -3,7 +3,7 @@ description: "Run TypeScript programs in fresh Node processes with the session f
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-ptc-runtime-node
+# @worldapptechnologies/nulu-ptc-runtime-node
 
 English | [中文](README.zh.md)
 
@@ -25,14 +25,14 @@ Execute model-written TypeScript under the same platform sandbox policy as Bash,
 <a id="use-this-package"></a>
 ## Use this package
 
-Mount this provider in a composition that supplies `fs`, `subprocess`, `sandbox` and `sandboxPolicy`. PTC mode in `dsh-tools` supplies the calling Session's directory and standing policy; direct runtime consumers resolve those options before execution.
+Mount this provider in a composition that supplies `fs`, `subprocess`, `sandbox` and `sandboxPolicy`. PTC mode in `nulu-tools` supplies the calling Session's directory and standing policy; direct runtime consumers resolve those options before execution.
 
 ### Configuration
 
 Configure the provider row after its required services are available:
 
 ```yaml
-- name: '@deepseek-ai/dsh-ptc-runtime-node'
+- name: '@worldapptechnologies/nulu-ptc-runtime-node'
   config:
     timeoutMs: 120000
     maxTimeoutMs: 600000
@@ -55,7 +55,7 @@ Configure the provider row after its required services are available:
 | `nodeExecutable` | Current Node executable | Executable resolved in the subprocess execution world |
 | `bootstrapPath` | Package bootstrap | Optional absolute path to a preinstalled built bootstrap in that world |
 
-The [configuration catalog](../../../docs/config-catalog.md#deepseek-aidsh-ptc-runtime-node) defines accepted config fields. `resolve(request)` supplies cwd, the numeric or null deadline choice and the execution policy; `run(spec)` accepts those resolved inputs and does not fill missing values.
+The [configuration catalog](../../../docs/config-catalog.md#worldapptechnologiesdsh-ptc-runtime-node) defines accepted config fields. `resolve(request)` supplies cwd, the numeric or null deadline choice and the execution policy; `run(spec)` accepts those resolved inputs and does not fill missing values.
 
 ### Execution and results
 
@@ -65,7 +65,7 @@ Direct filesystem, network and subprocess operations remain Node operations, sub
 
 ### Deadlines and cancellation
 
-The PTC consumer exposes per-call timeout and approved sandbox choices as described in [dsh-tools](../../core/tools/README.md#ptc-mode). The runtime's readonly `timeout` descriptor reports its effective default and maximum to that consumer. Its `executionInstructions` describes fresh Node state, direct Node APIs, the empty program environment and file policy in the model-visible schema.
+The PTC consumer exposes per-call timeout and approved sandbox choices as described in [nulu-tools](../../core/tools/README.md#ptc-mode). The runtime's readonly `timeout` descriptor reports its effective default and maximum to that consumer. Its `executionInstructions` describes fresh Node state, direct Node APIs, the empty program environment and file policy in the model-visible schema.
 
 Omitting `timeoutMs` uses the configured elapsed default; numeric requests are validated and capped. Service callers can explicitly pass `timeoutMs: null` to omit the elapsed timer, as the workflow adapter does; `run_code` continues to accept only positive numeric overrides. An enabled deadline covers runtime setup and execution, including time awaiting nested tools or approval. It is not a CPU meter. Timeout or cancellation stops a synchronous loop through the host's managed process owner; successful completion also cleans that managed range. The timer stops when an outcome is selected, before cleanup, so the returned call can take longer than its execution deadline while cleanup settles.
 
@@ -124,7 +124,7 @@ Read the service contract before using the provider directly; the decisions expl
 <a id="model-experience"></a>
 ## Model Experience
 
-Indirectly, through PTC mode in `dsh-tools` and `dsh-workflow-ptc`, which present program outcomes through their own tool results. Intermediate binding traffic stays outside model history; the outer result follows the ordinary tool spill policy.
+Indirectly, through PTC mode in `nulu-tools` and `nulu-workflow-ptc`, which present program outcomes through their own tool results. Intermediate binding traffic stays outside model history; the outer result follows the ordinary tool spill policy.
 
 #### KV Cache effect
 

@@ -161,10 +161,10 @@ describe('client bundle purity gate', () => {
 })
 
 describe('client bundle experimental input isolation', () => {
-  const experimental = '@deepseek-ai/dsh-experimental-client-ui-agent-team'
+  const experimental = '@worldapptechnologies/nulu-experimental-client-ui-agent-team'
 
   function fixture() {
-    const root = mkdtempSync(join(tmpdir(), 'dsh-client-inputs-'))
+    const root = mkdtempSync(join(tmpdir(), 'nulu-client-inputs-'))
     onTestFinished(() => { rmSync(root, { recursive: true, force: true }) })
     const owner = join(root, 'client')
     const entry = join(owner, 'lib/types/client/index.js')
@@ -178,7 +178,7 @@ describe('client bundle experimental input isolation', () => {
 
   function config(kind: 'static' | 'dynamic', id = REQUESTING_PACKAGE): UserConfig {
     const configs = kind === 'static'
-      ? staticLinked(id, ['lib/types/client/index.js'])({ env: { DSH_BUILD_FACE: 'client' } })
+      ? staticLinked(id, ['lib/types/client/index.js'])({ env: { NULU_BUILD_FACE: 'client' } })
       : clientConfigs(id)
     const browser = configs.find(config => config.platform === 'browser')
     if (browser === undefined) throw new Error('client config missing')
@@ -204,7 +204,7 @@ describe('client bundle experimental input isolation', () => {
 
   function checkCompilerModule(module: string, imports?: string[]): void {
     const plugins = config('dynamic').plugins as InputIsolationPlugin[]
-    const plugin = plugins.find(plugin => plugin.name === 'dsh-client-input-isolation')
+    const plugin = plugins.find(plugin => plugin.name === 'nulu-client-input-isolation')
     if (plugin === undefined) throw new Error('client input isolation plugin missing')
     plugin.generateBundle.call({
       getModuleInfo: () => imports === undefined ? null : { importedIds: imports, dynamicallyImportedIds: [] },
@@ -245,7 +245,7 @@ describe('client bundle experimental input isolation', () => {
     const plugins = guarded.plugins as Array<{ name: string }>
     const unguarded: UserConfig = {
       ...guarded,
-      plugins: plugins.filter(plugin => plugin.name !== 'dsh-client-input-isolation'),
+      plugins: plugins.filter(plugin => plugin.name !== 'nulu-client-input-isolation'),
       outputOptions: { sourcemapExcludeSources: false },
     }
 

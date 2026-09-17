@@ -3,7 +3,7 @@ description: "Control Chromium through Stagehand native browser operations and e
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-experimental-browser-use-stagehand-native
+# @worldapptechnologies/nulu-experimental-browser-use-stagehand-native
 
 English | [中文](README.zh.md)
 
@@ -30,8 +30,8 @@ Mount this provider in a profile that supplies Agents, Sessions, the tool regist
 ### Minimal configuration
 
 ```yaml
-- name: '@deepseek-ai/dsh-browser-use'
-- name: '@deepseek-ai/dsh-experimental-browser-use-stagehand-native'
+- name: '@worldapptechnologies/nulu-browser-use'
+- name: '@worldapptechnologies/nulu-experimental-browser-use-stagehand-native'
   config:
     mode: launch
     headless: true
@@ -71,11 +71,11 @@ The focused checks exercise native model configuration, lifetime, Loader composi
 pnpm exec vitest run packages/experimental/browser-use-stagehand-native/tests
 ```
 
-The opt-in installed-browser tests use a controlled local page and the built attachment Worker. Set `DSH_BROWSER_EXECUTABLE` to the installed Chromium executable. Native inference is tested only when `DSH_STAGEHAND_MODEL` and `DSH_STAGEHAND_MODEL_API_KEY` are also supplied.
+The opt-in installed-browser tests use a controlled local page and the built attachment Worker. Set `NULU_BROWSER_EXECUTABLE` to the installed Chromium executable. Native inference is tested only when `NULU_STAGEHAND_MODEL` and `NULU_STAGEHAND_MODEL_API_KEY` are also supplied.
 
 ```sh
 pnpm run build
-env -u NODE_USE_ENV_PROXY DSH_STAGEHAND_E2E=1 pnpm exec vitest run --config vitest.e2e.config.ts packages/experimental/browser-use-stagehand-native/tests/native.e2e.ts
+env -u NODE_USE_ENV_PROXY NULU_STAGEHAND_E2E=1 pnpm exec vitest run --config vitest.e2e.config.ts packages/experimental/browser-use-stagehand-native/tests/native.e2e.ts
 ```
 
 -----
@@ -136,7 +136,7 @@ Unchanged guidance preserves its prompt prefix. Mounting or removing the provide
 
 #### What the model sees
 
-The [`stagehand_` tool catalog](../../../docs/tool-catalog.md#deepseek-aidsh-experimental-browser-use-stagehand-native) defines navigation, tab management, screenshots, actions, observation, and extraction. Results contain current page facts or validated structured data. Supported screenshots appear as durable image attachments. Errors remain visible so the model can inspect state before retrying.
+The [`stagehand_` tool catalog](../../../docs/tool-catalog.md#worldapptechnologiesdsh-experimental-browser-use-stagehand-native) defines navigation, tab management, screenshots, actions, observation, and extraction. Results contain current page facts or validated structured data. Supported screenshots appear as durable image attachments. Errors remain visible so the model can inspect state before retrying.
 
 #### Token effect
 

@@ -12,13 +12,13 @@ import type { AssemblyPlan, ClientPluginModule, TestClientOptions } from '../src
 import { ClientRoster, TestClient, remoteDefaultResponses, webApp } from '../src/assembly/index.ts'
 
 /** The Gateway client and what it injects: the Typert registry and the Connection. */
-const API_ROSTER = webApp.closure(['@deepseek-ai/dsh-api-gateway'])
-const MODULES = '@deepseek-ai/dsh-client-modules'
-const SIDEBAR = '@deepseek-ai/dsh-client-ui-sidebar'
-const PARALLEL_PROBE = '@deepseek-ai/dsh-client-test-parallel-probe'
+const API_ROSTER = webApp.closure(['@worldapptechnologies/nulu-api-gateway'])
+const MODULES = '@worldapptechnologies/nulu-client-modules'
+const SIDEBAR = '@worldapptechnologies/nulu-client-ui-sidebar'
+const PARALLEL_PROBE = '@worldapptechnologies/nulu-client-test-parallel-probe'
 /** Declared by ui-sidebar, whose SlotMap merge is outside this package's compilation face. */
 const SIDEBAR_SETTINGS = 'sidebar.settings' as never
-const BRAND = '@deepseek-ai/dsh-client-ui-brand-official'
+const BRAND = '@worldapptechnologies/nulu-client-ui-brand-official'
 const globals = globalThis as { EventSource?: unknown; ResizeObserver?: unknown }
 /** The whole roster's first boot pays the cold module transform of every plugin package. */
 const COLD_BOOT_TIMEOUT_MS = 60_000
@@ -39,12 +39,12 @@ describe('TestClient (jsdom)', () => {
     const container = client.container!
     expect(document.body.contains(container)).toBe(true)
     expect(container.childElementCount).toBeGreaterThan(0)
-    expect('__DSH_TRANSPORT__' in globalThis).toBe(false)
+    expect('__NULU_TRANSPORT__' in globalThis).toBe(false)
     expect(globals.EventSource).toBeDefined()
     expect(globals.ResizeObserver).toBeDefined()
     await client.dispose()
     expect(document.body.contains(container)).toBe(false)
-    expect('__DSH_TRANSPORT__' in globalThis).toBe(false)
+    expect('__NULU_TRANSPORT__' in globalThis).toBe(false)
     expect(globals.EventSource).toBeUndefined()
     expect(globals.ResizeObserver).toBeUndefined()
     await client.dispose()
@@ -77,16 +77,16 @@ describe('TestClient (jsdom)', () => {
     await expect(rename(b)).resolves.toEqual({ ok: true, value: { title: 'b', seq: 1 } })
     expect(mockA.log.calls('session/rename')).toHaveLength(1)
     expect(mockB.log.calls('session/rename')).toHaveLength(1)
-    await a.reload('@deepseek-ai/dsh-client-connection')
+    await a.reload('@worldapptechnologies/nulu-client-connection')
     await vi.waitFor(() => { expect(a.connection.state.getSnapshot()).toBe('connected') })
     await expect(rename(a)).resolves.toEqual({ ok: true, value: { title: 'a', seq: 1 } })
     expect(mockA.log.calls('session/rename')).toHaveLength(2)
     expect(mockB.log.calls('session/rename')).toHaveLength(1)
     await a.dispose()
-    expect('__DSH_TRANSPORT__' in globalThis).toBe(false)
+    expect('__NULU_TRANSPORT__' in globalThis).toBe(false)
     expect(globals.EventSource).toBeDefined()
     await b.dispose()
-    expect('__DSH_TRANSPORT__' in globalThis).toBe(false)
+    expect('__NULU_TRANSPORT__' in globalThis).toBe(false)
     expect(globals.EventSource).toBeUndefined()
   })
 

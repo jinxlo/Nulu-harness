@@ -14,19 +14,19 @@ branding:
   company_name: "World App Technologies"
 
 package_scope:
-  forbidden: ["@deepseek-ai/"]
+  forbidden: ["@worldapptechnologies/"]
   required: "@worldapptechnologies/"
 
 cli:
   name: "nulu"
-  forbidden: "dsh"
+  forbidden: "nulu"
 
 environment:
   required_prefix: "NULU_"
-  forbidden_prefix: "DSH_"
+  forbidden_prefix: "NULU_"
 
 paths:
-  forbidden_home: "~/.dsh"
+  forbidden_home: "~/.nulu"
 
 providers:
   # The harness is Nulu-only. pi-ai's bundled third-party provider catalog must

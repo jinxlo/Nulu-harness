@@ -54,7 +54,7 @@ it.each(['chat-completions', 'messages'] as const)('pins %s Files offload and in
             type: 'file',
             size_bytes: file.size,
             created_at: new Date(createdAt * 1_000).toISOString(),
-            filename: 'dsh-snapshot.png',
+            filename: 'nulu-snapshot.png',
             mime_type: file.type,
           } : {
             id: 'file-api-snapshot-1',
@@ -137,9 +137,9 @@ it.each(['chat-completions', 'messages'] as const)('pins %s Files offload and in
       fixtureFile: join(SNAPSHOTS_DIR, 'image-offload-request', 'session.jsonl'),
       workspaceDir: READ_IMAGE_WORKSPACE,
       env: {
-        DSH_SNAPSHOT_PROTOCOL: protocol,
-        DSH_SNAPSHOT_API_KEY: 'snapshot-key',
-        DSH_SNAPSHOT_BASE_URL: `http://127.0.0.1:${address.port}`,
+        NULU_SNAPSHOT_PROTOCOL: protocol,
+        NULU_SNAPSHOT_API_KEY: 'snapshot-key',
+        NULU_SNAPSHOT_BASE_URL: `http://127.0.0.1:${address.port}`,
       },
     })
     expect(result.stderr).toBe('')
@@ -262,9 +262,9 @@ it.each(['chat-completions', 'messages'] as const)('pins %s Files offload and in
       fixtureFile: join(SNAPSHOTS_DIR, 'image-offload-request', 'session.jsonl'),
       workspaceDir: READ_IMAGE_WORKSPACE,
       env: {
-        DSH_SNAPSHOT_PROTOCOL: protocol,
-        DSH_SNAPSHOT_API_KEY: 'snapshot-fallback-key',
-        DSH_SNAPSHOT_BASE_URL: `http://127.0.0.1:${address.port}`,
+        NULU_SNAPSHOT_PROTOCOL: protocol,
+        NULU_SNAPSHOT_API_KEY: 'snapshot-fallback-key',
+        NULU_SNAPSHOT_BASE_URL: `http://127.0.0.1:${address.port}`,
       },
     })
     expect(fallback.stderr).toBe('')

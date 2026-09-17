@@ -3,7 +3,7 @@ description: "Run Cua Driver computer-use tools from its native npm SDK, with du
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-experimental-computer-use-cua-driver-native
+# @worldapptechnologies/nulu-experimental-computer-use-cua-driver-native
 
 English | [中文](README.zh.md)
 
@@ -30,8 +30,8 @@ Mount the provider in a composition that already supplies the tool registry and 
 ### Minimal configuration
 
 ```yaml
-- name: '@deepseek-ai/dsh-computer-use'
-- name: '@deepseek-ai/dsh-experimental-computer-use-cua-driver-native'
+- name: '@worldapptechnologies/nulu-computer-use'
+- name: '@worldapptechnologies/nulu-experimental-computer-use-cua-driver-native'
 ```
 
 The provider has no configuration fields. It loads the exact Cua Driver npm version declared in [package.json](package.json) and uses its same-process defaults. Native import, runtime initialization, malformed catalog, duplicate tool name, or occupied computer-use registration failures reject activation and roll back owned resources. The registered provider name is `cua-driver-native`.
@@ -47,7 +47,7 @@ The native dependency supplies platform binaries through npm optional dependenci
 From the repository root, run this opt-in check against the installed native dependency. It discovers tools, reads permission status with `prompt: false`, and verifies teardown; it captures no screenshots, sends no input, and requests no OS permissions. Clearing `NODE_USE_ENV_PROXY` prevents Node from installing the launching shell's proxy before test setup.
 
 ```sh
-env -u NODE_USE_ENV_PROXY DSH_COMPUTER_USE_NATIVE_E2E=1 node node_modules/vitest/vitest.mjs run --config vitest.e2e.config.ts packages/experimental/computer-use-cua-driver-native/tests/native.e2e.ts
+env -u NODE_USE_ENV_PROXY NULU_COMPUTER_USE_NATIVE_E2E=1 node node_modules/vitest/vitest.mjs run --config vitest.e2e.config.ts packages/experimental/computer-use-cua-driver-native/tests/native.e2e.ts
 ```
 
 -----

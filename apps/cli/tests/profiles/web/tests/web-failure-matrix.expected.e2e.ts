@@ -7,7 +7,7 @@ import { join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { execa } from 'execa'
 import { describe, expect, it } from 'vitest'
-import { FiberState } from '@deepseek-ai/cordis'
+import { FiberState } from '@worldapptechnologies/cordis'
 
 const repoRoot = fileURLToPath(new URL('../../../../../../', import.meta.url))
 const bin = join(repoRoot, 'apps/cli/lib/bin.js')
@@ -25,7 +25,7 @@ const failures = [
 type Failure = typeof failures[number][0]
 
 function fixture() {
-  const root = mkdtempSync(join(tmpdir(), 'dsh-web-failure-matrix-'))
+  const root = mkdtempSync(join(tmpdir(), 'nulu-web-failure-matrix-'))
   const home = join(root, 'home')
   mkdirSync(home)
   const events = join(root, 'events')
@@ -110,7 +110,7 @@ function fixture() {
 function start(f: ReturnType<typeof fixture>, extra: string[] = []) {
   const child = execa(process.execPath, [bin, '--profile', 'web', '--patch', f.watcher, ...extra, '--no-open', '--port', '0'], {
     cwd: f.root,
-    env: { ...process.env, DSH_HOME: f.home, DSH_AGENTS_HOME: join(f.root, '.agents'), DSH_TELEMETRY_DISABLED: '1', DEEPSEEK_API_KEY: 'keyless-matrix-no-call', NODE_NO_WARNINGS: '1' },
+    env: { ...process.env, NULU_HOME: f.home, NULU_AGENTS_HOME: join(f.root, '.agents'), NULU_TELEMETRY_DISABLED: '1', DEEPSEEK_API_KEY: 'keyless-matrix-no-call', NODE_NO_WARNINGS: '1' },
     input: '', reject: false, timeout: 110_000, killSignal: 'SIGKILL',
   })
   let stdout = ''
@@ -128,8 +128,8 @@ function start(f: ReturnType<typeof fixture>, extra: string[] = []) {
     } catch (cause) { throw new Error(`Web condition failed\n${stdout}\n${stderr}\n${readFileSync(f.diagnostics, 'utf8')}\n${readFileSync(f.events, 'utf8')}`, { cause }) }
   }
   async function serves(currentServer = false) {
-    await wait(() => /dsh web: http:\/\//u.test(stdout))
-    const url = currentServer ? readFileSync(f.serverUrl, 'utf8') : /dsh web: (http:\/\/[^\s]+)/u.exec(stdout)?.[1]
+    await wait(() => /nulu web: http:\/\//u.test(stdout))
+    const url = currentServer ? readFileSync(f.serverUrl, 'utf8') : /nulu web: (http:\/\/[^\s]+)/u.exec(stdout)?.[1]
     if (!url) throw new Error('Missing Web URL')
     const auth = await fetch(url, { redirect: 'manual', signal: AbortSignal.timeout(10_000) })
     const cookie = auth.headers.get('set-cookie')?.split(';', 1)[0]
@@ -137,7 +137,7 @@ function start(f: ReturnType<typeof fixture>, extra: string[] = []) {
     const response = await fetch(new URL('/', url), { headers: { cookie }, signal: AbortSignal.timeout(10_000) })
     expect(response.status).toBe(200)
     const html = await response.text()
-    expect(html).toContain('__DSH_BOOT__')
+    expect(html).toContain('__NULU_BOOT__')
     const bundlePath = /<script src="(\/plugins\/[^"]+)"/u.exec(html)?.[1]?.replaceAll('&amp;', '&')
     if (!bundlePath) throw new Error('Missing bootstrap bundle URL')
     const bundle = await fetch(new URL(bundlePath, url), { headers: { cookie }, signal: AbortSignal.timeout(10_000) })
@@ -177,7 +177,7 @@ describe.skipIf(!built)('Web process failure matrix', () => {
         if (required) {
           const result = await app.child
           exit(result, 1)
-          expect(result.stdout).not.toContain('dsh web: http://')
+          expect(result.stdout).not.toContain('nulu web: http://')
           expect(result.stderr).toContain('required startup failure')
           expect(app.events()).toBe('witness apply 1\nwitness dispose 1\n')
         } else {
@@ -239,7 +239,7 @@ describe.skipIf(!built)('Web process failure matrix', () => {
       const result = await app.child
       exit(result, 1)
       expect(result.stderr).toContain(diagnostic)
-      expect(result.stdout).not.toContain('dsh web: http://')
+      expect(result.stdout).not.toContain('nulu web: http://')
       expect(app.events()).toBe('')
     } finally { exit(await app.close(), 1) }
   })

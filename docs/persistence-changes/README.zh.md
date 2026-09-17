@@ -37,7 +37,7 @@ description: "审阅和维护已记录的会话持久化类型变更、对应 sc
 | `YYYY-MM-DD-slug.i18n.yaml` | 生成的双语一致性记录 |
 | `YYYY-MM-DD-slug.schema.json` | 生成的完整变更后 schema，覆盖受影响且仍然存在的根 |
 
-[记录模板](../../.agents/skills/dsh-doc/templates/persistence-change.md)定义人工编写的格式。创建记录时可以提供双语说明输入，由命令生成机器声明、快照、目录对和一致性记录。验证器从英文文件读取一次机器声明，并检查中文声明是否相同。声明列出每个受影响的根、其前驱记录、变更后摘要和兼容性决策。新根没有前驱；删除操作没有变更后 schema，并保留显式删除标记。
+[记录模板](../../.agents/skills/nulu-doc/templates/persistence-change.md)定义人工编写的格式。创建记录时可以提供双语说明输入，由命令生成机器声明、快照、目录对和一致性记录。验证器从英文文件读取一次机器声明，并检查中文声明是否相同。声明列出每个受影响的根、其前驱记录、变更后摘要和兼容性决策。新根没有前驱；删除操作没有变更后 schema，并保留显式删除标记。
 
 <a id="compatibility-rules"></a>
 ## 兼容性规则

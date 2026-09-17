@@ -1,9 +1,9 @@
 /** Shared catalog and request-local dependencies for DeepSeek protocols. */
-import type { ModelModality, SystemPromptUpdate, ResolvedRetryPolicy, ImageAttachmentAccess } from '@deepseek-ai/dsh-llm'
-import type { AttachmentStore, ImageAttachmentRef } from '@deepseek-ai/dsh-attachment'
-import type { CredentialRef } from '@deepseek-ai/dsh-credentials'
-import type { AnonymousUserId } from '@deepseek-ai/dsh-anonymous-user-id'
-import type { DeepSeekLlmApiExtensionRequest, PreparedDeepSeekLlmApiExtensions } from '@deepseek-ai/dsh-deepseek-llm-api-extensions'
+import type { ModelModality, SystemPromptUpdate, ResolvedRetryPolicy, ImageAttachmentAccess } from '@worldapptechnologies/nulu-llm'
+import type { AttachmentStore, ImageAttachmentRef } from '@worldapptechnologies/nulu-attachment'
+import type { CredentialRef } from '@worldapptechnologies/nulu-credentials'
+import type { AnonymousUserId } from '@worldapptechnologies/nulu-anonymous-user-id'
+import type { DeepSeekLlmApiExtensionRequest, PreparedDeepSeekLlmApiExtensions } from '@worldapptechnologies/nulu-deepseek-llm-api-extensions'
 import type { DeepSeekFileStore, DeepSeekFilePolicy } from './file-store.ts'
 
 /** Supported wire implementations; Responses is not yet implemented. */

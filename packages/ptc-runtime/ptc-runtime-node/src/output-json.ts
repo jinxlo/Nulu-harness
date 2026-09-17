@@ -1,6 +1,6 @@
-/** JSON string-prefix accounting for the outer-output ledger. @module @deepseek-ai/dsh-ptc-runtime-node/output-json */
+/** JSON string-prefix accounting for the outer-output ledger. @module @worldapptechnologies/nulu-ptc-runtime-node/output-json */
 
-import type { PtcJsonValue } from '@deepseek-ai/dsh-ptc-runtime'
+import type { PtcJsonValue } from '@worldapptechnologies/nulu-ptc-runtime'
 
 type IntrinsicCallable = (this: unknown, ...args: unknown[]) => unknown
 

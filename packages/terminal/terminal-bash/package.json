@@ -1,6 +1,6 @@
 {
-  "name": "@deepseek-ai/dsh-terminal-bash",
-  "description": "Persistent shell PTY backend over the DeepSeek Harness subprocess terminal primitive",
+  "name": "@worldapptechnologies/nulu-terminal-bash",
+  "description": "Persistent shell PTY backend over the Nulu Harness subprocess terminal primitive",
   "version": "0.1.6-alpha.1",
   "publishConfig": {
     "access": "public"
@@ -37,9 +37,9 @@
     "@worldapptechnologies/nulu-session-projection": "workspace:^"
   },
   "dependencies": {
-    "@deepseek-ai/dsh-lazy-require": "workspace:^",
-    "@deepseek-ai/dsh-pwsh-local": "workspace:^",
-    "@deepseek-ai/schemastery": "workspace:^",
+    "@worldapptechnologies/nulu-lazy-require": "workspace:^",
+    "@worldapptechnologies/nulu-pwsh-local": "workspace:^",
+    "@worldapptechnologies/schemastery": "workspace:^",
     "@xterm/headless": "^6.0.0"
   },
   "devDependencies": {

@@ -5,10 +5,10 @@
  * operation and the bearer token through a per-request resolver, so the
  * registering plugin owns validation, layering, and credential policy.
  *
- * @module dsh-llm-deepseek/adapter
+ * @module nulu-llm-deepseek/adapter
  */
 
-import { attributionHeaders, contentHasImage, CONTEXT_WINDOW_EXCEEDED_CODE, isContextWindowExceededError, isQuotaExceededError, LlmAdapter, LlmError, ProviderRequestId, QUOTA_EXCEEDED_CODE } from '@deepseek-ai/dsh-llm'
+import { attributionHeaders, contentHasImage, CONTEXT_WINDOW_EXCEEDED_CODE, isContextWindowExceededError, isQuotaExceededError, LlmAdapter, LlmError, ProviderRequestId, QUOTA_EXCEEDED_CODE } from '@worldapptechnologies/nulu-llm'
 import type {
   ContentBlock,
   GenerateOptions,
@@ -19,18 +19,18 @@ import type {
   LlmResolvedModelInfo,
   ResolvedRetryPolicy,
   StreamChunk,
-} from '@deepseek-ai/dsh-llm'
+} from '@worldapptechnologies/nulu-llm'
 import type {
   AttachmentId,
   AttachmentStore,
   ImageAttachmentRef,
   RequestImageAttachment,
-} from '@deepseek-ai/dsh-attachment'
-import type { AnonymousUserId } from '@deepseek-ai/dsh-anonymous-user-id'
-import { idleWatchdog, timeoutOf } from '@deepseek-ai/dsh-timeout'
+} from '@worldapptechnologies/nulu-attachment'
+import type { AnonymousUserId } from '@worldapptechnologies/nulu-anonymous-user-id'
+import { idleWatchdog, timeoutOf } from '@worldapptechnologies/nulu-timeout'
 import type {
   DeepSeekLlmApiJson,
-} from '@deepseek-ai/dsh-deepseek-llm-api-extensions'
+} from '@worldapptechnologies/nulu-deepseek-llm-api-extensions'
 import { serializeRequest, serializeRequestWithImages } from './serialize.ts'
 import { deepSeekImageRequestPricing, resolveRequestImageTarget } from '../../common/request-pricing.ts'
 import { catalogModelInfo, modelInfo } from '../../common/model-info.ts'
@@ -259,12 +259,12 @@ export class ChatCompletionsAdapter extends LlmAdapter {
       'content-type': 'application/json',
       'accept': 'text/event-stream',
       ...attributionHeaders(),
-      'x-deepseek-harness-user-id': String(userId),
+      'x-nulu-harness-user-id': String(userId),
       ...options.sessionId !== undefined
-        ? { 'x-deepseek-harness-session-id': String(options.sessionId) }
+        ? { 'x-nulu-harness-session-id': String(options.sessionId) }
         : {},
       ...options.purpose === 'compaction'
-        ? { 'x-deepseek-harness-compact': '1' }
+        ? { 'x-nulu-harness-compact': '1' }
         : {},
     }
 

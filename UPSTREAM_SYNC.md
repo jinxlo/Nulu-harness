@@ -1,6 +1,6 @@
 # Upstream Adaptation System
 
-Nulu Harness is a downstream product built on DeepSeek Harness technology — not
+Nulu Harness is a downstream product built on Nulu Harness technology — not
 a renamed Git fork. This system pulls upstream changes, classifies them,
 adapts the useful ones to the Nulu architecture, and proves the Nulu invariants
 survived — never merging upstream directly into `main`.
@@ -24,7 +24,7 @@ upstream/deepseek ──fetch──▶ sync/deepseek-YYYY-MM-DD
 ## One-time setup
 
 ```sh
-git remote add upstream https://github.com/deepseek-ai/deepseek-harness.git
+git remote add upstream https://github.com/worldapptechnologies/nulu-harness.git
 ```
 
 ## Running a sync
@@ -46,8 +46,8 @@ git checkout main && git merge --no-ff sync/deepseek-<date>
 ## The three adaptation levels
 
 - **Level 1 — deterministic** (`scripts/rebrand-upstream.mjs`): string mappings
-  (`dsh` → `nulu`, `@deepseek-ai/*` → `@worldapptechnologies/*`, `DSH_*` →
-  `NULU_*`, `~/.dsh` → `~/.nulu`, "DeepSeek Harness" → "Nulu Harness"), package
+  (`nulu` → `nulu`, `@worldapptechnologies/*` → `@worldapptechnologies/*`, `NULU_*` →
+  `NULU_*`, `~/.nulu` → `~/.nulu`, "Nulu Harness" → "Nulu Harness"), package
   deletion, path migration. Idempotent and safe to re-run.
 - **Level 2 — structural** (`scripts/upstream-sync/classify.mjs`): classifies
   each commit by type and touched paths and assigns an action

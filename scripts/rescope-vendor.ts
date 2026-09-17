@@ -221,7 +221,7 @@ const EXACT_EDITS: readonly ExactEdit[] = [
     id: 'vendor-readme-preamble',
     file: 'vendor/README.md',
     find: 'All vendored packages keep their **original npm names** (they are resolved through pnpm workspaces) and are marked `private: true` — they are never published from this repo.',
-    replace: 'All vendored packages use the **`@deepseek-ai` scope** (`cordis` → `@deepseek-ai/cordis`, `@cordisjs/plugin-<x>` → `@deepseek-ai/cordis-plugin-<x>`). The manifest table records upstream versions and source commits; each package manifest carries its Harness release version and publication metadata. Repository-owned runtime dependencies use `workspace:^`, so local builds resolve the pinned workspace packages and publication substitutes release ranges.',
+    replace: 'All vendored packages use the **`@worldapptechnologies` scope** (`cordis` → `@worldapptechnologies/cordis`, `@cordisjs/plugin-<x>` → `@worldapptechnologies/cordis-plugin-<x>`). The manifest table records upstream versions and source commits; each package manifest carries its Harness release version and publication metadata. Repository-owned runtime dependencies use `workspace:^`, so local builds resolve the pinned workspace packages and publication substitutes release ranges.',
     expect: 1,
   },
   {

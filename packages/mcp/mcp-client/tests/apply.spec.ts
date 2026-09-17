@@ -4,11 +4,11 @@
  */
 import assert from 'node:assert/strict'
 import { describe, expect, it, vi, beforeEach } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import SystemPrompt, { renderPrompt } from '@deepseek-ai/dsh-system-prompt'
-import ToolRuntime from '@deepseek-ai/dsh-tools'
-import { createScope } from '@deepseek-ai/dsh-scope'
-import type { Config } from '@deepseek-ai/dsh-mcp-client'
+import { Context } from '@worldapptechnologies/cordis'
+import SystemPrompt, { renderPrompt } from '@worldapptechnologies/nulu-system-prompt'
+import ToolRuntime from '@worldapptechnologies/nulu-tools'
+import { createScope } from '@worldapptechnologies/nulu-scope'
+import type { Config } from '@worldapptechnologies/nulu-mcp-client'
 
 // ---- Mock MCP SDK ----
 

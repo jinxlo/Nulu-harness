@@ -43,7 +43,7 @@ export type { ChatKey } from './locale.ts'
 export type { ConversationContext, ConversationContextOriginKind } from './model/conversation-context.ts'
 export type {
   ContextProducerView, ContextRole, KnownContextForm,
-} from '@deepseek-ai/dsh-client-ui-conversation/client'
+} from '@worldapptechnologies/nulu-client-ui-conversation/client'
 export type {
   ConversationPromptSnapshot, RequestInspectionSnapshot, RequestPromptChange, RequestView,
 } from '@worldapptechnologies/nulu-client-ui-conversation/client'

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
- * Rebrand a merged upstream (DeepSeek Harness) tree into Nulu Harness.
+ * Rebrand a merged upstream (Nulu Harness) tree into Nulu Harness.
  *
- * Upstream sync is not a plain find/replace: DeepSeek Harness ships provider
+ * Upstream sync is not a plain find/replace: Nulu Harness ships provider
  * packages (llm-deepseek, deepseek-llm-api-extensions, web-search-deepseek,
  * session-log-deepseek, plugin-package-inventory-deepseek) and model-editor
  * UI that Nulu Harness intentionally removed. This script:
@@ -27,15 +27,15 @@ const CHECK_ONLY = process.argv.includes('--check')
 
 /** Ordered, most-specific-first literal replacements. */
 const STRING_REPLACEMENTS = [
-  ['@deepseek-ai/dsh', '@worldapptechnologies/nulu'],
-  ['@deepseek-ai/', '@worldapptechnologies/'],
-  ['DeepSeek Harness', 'Nulu Harness'],
-  ['DeepSeek harness', 'Nulu harness'],
-  ['deepseek-harness', 'nulu-harness'],
-  ['deepseek-ai', 'worldapptechnologies'],
-  ['DSH_', 'NULU_'],
-  ['~/.dsh', '~/.nulu'],
-  ['npx dsh', 'npx nulu'],
+  ['@worldapptechnologies/nulu', '@worldapptechnologies/nulu'],
+  ['@worldapptechnologies/', '@worldapptechnologies/'],
+  ['Nulu Harness', 'Nulu Harness'],
+  ['Nulu harness', 'Nulu harness'],
+  ['nulu-harness', 'nulu-harness'],
+  ['worldapptechnologies', 'worldapptechnologies'],
+  ['NULU_', 'NULU_'],
+  ['~/.nulu', '~/.nulu'],
+  ['npx nulu', 'npx nulu'],
 ]
 
 /** Word-boundary CLI/package-prefix rename, applied after literal replacements. */

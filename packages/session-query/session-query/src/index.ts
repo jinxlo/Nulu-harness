@@ -4,8 +4,8 @@
  * @module @worldapptechnologies/nulu-session-query
  */
 
-import { currentSessionMessageProjections } from '@deepseek-ai/dsh-session-format-catalog/message-projections'
-import { Context, Service } from '@deepseek-ai/cordis'
+import { currentSessionMessageProjections } from '@worldapptechnologies/nulu-session-format-catalog/message-projections'
+import { Context, Service } from '@worldapptechnologies/cordis'
 import {
   Session,
   SessionSeq,

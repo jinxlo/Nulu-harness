@@ -3,12 +3,12 @@
  * preset. Every native call and every started PTC inner call is reviewed once
  * before its body; the outer `run_code` transport is deliberately excluded.
  *
- * @module @deepseek-ai/dsh-experimental-auto-review
+ * @module @worldapptechnologies/nulu-experimental-auto-review
  */
 
-import type { Context } from '@deepseek-ai/cordis'
-import type { Agent } from '@deepseek-ai/dsh-agent'
-import type {} from '@deepseek-ai/dsh-agent-instructions'
+import type { Context } from '@worldapptechnologies/cordis'
+import type { Agent } from '@worldapptechnologies/nulu-agent'
+import type {} from '@worldapptechnologies/nulu-agent-instructions'
 import {
   BlockAssembler,
   createUserMessage,
@@ -18,16 +18,16 @@ import {
   type StreamChunk,
   type ToolCallId,
   type ToolSchema,
-} from '@deepseek-ai/dsh-llm'
-import { deepFreeze } from '@deepseek-ai/dsh-util-values'
-import { AUTO_PRESET } from '@deepseek-ai/dsh-permission-presets'
-import type { SessionEvent } from '@deepseek-ai/dsh-session'
-import type {} from '@deepseek-ai/dsh-subagent'
+} from '@worldapptechnologies/nulu-llm'
+import { deepFreeze } from '@worldapptechnologies/nulu-util-values'
+import { AUTO_PRESET } from '@worldapptechnologies/nulu-permission-presets'
+import type { SessionEvent } from '@worldapptechnologies/nulu-session'
+import type {} from '@worldapptechnologies/nulu-subagent'
 import {
   RUN_CODE_NAME,
   type PreToolDecision,
   type ToolExecution,
-} from '@deepseek-ai/dsh-tools'
+} from '@worldapptechnologies/nulu-tools'
 
 /** Structured error name persisted for every reviewer denial or failure. */
 const AUTO_REVIEW_DENIED_ERROR_NAME = 'AutoReviewDeniedError'
@@ -622,7 +622,7 @@ async function classifyRisk(
     system: REVIEW_POLICY,
     messages: [createUserMessage({
       content: [{ type: 'text', text: reviewUserText(snapshot) }],
-      source: { kind: 'plugin', plugin: 'dsh-experimental-auto-review' },
+      source: { kind: 'plugin', plugin: 'nulu-experimental-auto-review' },
     })],
     temperature: 0,
     signal,

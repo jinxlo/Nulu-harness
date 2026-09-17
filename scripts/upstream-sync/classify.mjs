@@ -50,8 +50,8 @@ function classify(commit) {
   const files = changedFiles(commit)
   const text = `${message}\n${body}`.toLowerCase()
 
-  const isDeepSeek = files.some(file => /deepseek|dsh/i.test(file))
-    || (/deepseek|dsh-|\.dsh\b|DSH_/.test(text) && !/^merge /i.test(message))
+  const isDeepSeek = files.some(file => /deepseek|nulu/i.test(file))
+    || (/deepseek|nulu-|\.nulu\b|NULU_/.test(text) && !/^merge /i.test(message))
 
   const type = /^fix/i.test(message) ? 'bugfix'
     : /^perf/i.test(message) ? 'performance'

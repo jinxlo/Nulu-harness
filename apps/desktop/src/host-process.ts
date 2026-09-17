@@ -65,7 +65,7 @@ export interface DesktopHostReady {
   readonly nuluVersion: string
 }
 
-/** One dsh backend running under an owned Node-compatible executable. */
+/** One nulu backend running under an owned Node-compatible executable. */
 export class DesktopHostProcess {
   private child: ChildProcess | undefined
   private requestPipe: Writable | undefined
@@ -105,7 +105,7 @@ export class DesktopHostProcess {
   /** Start the child once and resolve only after its complete composition is active. */
   async start(): Promise<DesktopHostReady> {
     if (this.child !== undefined) return this.readyPromise
-    const entry = join(this.runtimeDir, 'node_modules', '@deepseek-ai', 'dsh-desktop-host', 'lib', 'index.js')
+    const entry = join(this.runtimeDir, 'node_modules', '@worldapptechnologies', 'nulu-desktop-host', 'lib', 'index.js')
     const child = spawn(this.executable, [
       ...(this.inspectPort === undefined ? [] : [`--inspect=127.0.0.1:${String(this.inspectPort)}`]),
       entry,
@@ -116,7 +116,7 @@ export class DesktopHostProcess {
       cwd: this.projectDir,
       env: {
         ...Object.fromEntries(Object.entries(this.environment).filter(([name]) => (
-          name !== 'NODE_OPTIONS' && name !== 'NODE_PATH' && !/^DSH_DESKTOP_/u.test(name) && !/^(?:npm|pnpm|corepack)_/iu.test(name)
+          name !== 'NODE_OPTIONS' && name !== 'NODE_PATH' && !/^NULU_DESKTOP_/u.test(name) && !/^(?:npm|pnpm|corepack)_/iu.test(name)
         ))),
         ELECTRON_RUN_AS_NODE: '1',
       },

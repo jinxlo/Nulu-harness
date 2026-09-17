@@ -1,6 +1,6 @@
 # Keyless Python PTC composition through the real headless Loader.
 - id: llm-deepseek
-  name: '@deepseek-ai/dsh-llm-deepseek'
+  name: '@worldapptechnologies/nulu-llm-deepseek'
   disabled: true
 
 - id: plugin-package-inventory
@@ -39,7 +39,7 @@
 
 - insert:
     - id: ptc-runtime-python
-      name: '@deepseek-ai/dsh-experimental-ptc-runtime-python'
+      name: '@worldapptechnologies/nulu-experimental-ptc-runtime-python'
 
 - id: system-prompt
   name: '@worldapptechnologies/nulu-system-prompt'

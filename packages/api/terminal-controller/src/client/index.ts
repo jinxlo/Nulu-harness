@@ -1,18 +1,18 @@
 /** Client terminal model service; views are keyed independently from Host terminal identities. */
-import { Service, type Context } from '@deepseek-ai/cordis'
-import { remoteErrorOf } from '@deepseek-ai/dsh-typert-protocol'
-import type { SessionId } from '@deepseek-ai/dsh-session/types'
-import type {} from '@deepseek-ai/dsh-api-gateway/client'
+import { Service, type Context } from '@worldapptechnologies/cordis'
+import { remoteErrorOf } from '@worldapptechnologies/nulu-typert-protocol'
+import type { SessionId } from '@worldapptechnologies/nulu-session/types'
+import type {} from '@worldapptechnologies/nulu-api-gateway/client'
 import { TerminalView, type TerminalRemote } from './model.ts'
-import { createSnapshotStore, type SnapshotStore } from '@deepseek-ai/dsh-client-store'
-import { randomUUID } from '@deepseek-ai/dsh-util-crypto'
+import { createSnapshotStore, type SnapshotStore } from '@worldapptechnologies/nulu-client-store'
+import { randomUUID } from '@worldapptechnologies/nulu-util-crypto'
 import type { TerminalShell, WebTerminalId, WebTerminalInfo } from '../types.ts'
 import { preferredShell, rememberShell } from './shell-preference.ts'
 import { TerminalCloseRequests, type TerminalCloseRequest } from './close-requests.ts'
 
 export type { TerminalView, TerminalViewState, TerminalViewIssue, TerminalRenderFrame, TerminalRemote } from './model.ts'
 
-declare module '@deepseek-ai/cordis' {
+declare module '@worldapptechnologies/cordis' {
   interface Context {
     /** React-free browser terminal views and explicit process cleanup. */
     webTerminals: ClientTerminals

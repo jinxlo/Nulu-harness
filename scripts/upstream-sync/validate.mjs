@@ -68,26 +68,26 @@ function check(name, pass, detail = '') {
 
 // 1. Package scope.
 {
-  const hits = userFacingHits('@deepseek-ai/')
-  check('package_scope: no @deepseek-ai/ scope', hits.length === 0, hits.slice(0, 5).join('\n'))
+  const hits = userFacingHits('@worldapptechnologies/')
+  check('package_scope: no @worldapptechnologies/ scope', hits.length === 0, hits.slice(0, 5).join('\n'))
 }
 
-// 2. CLI name (dsh as a standalone word, user-facing only).
+// 2. CLI name (nulu as a standalone word, user-facing only).
 {
   const hits = userFacingHits('\\bdsh\\b')
-  check('cli: no `dsh` command', hits.length === 0, hits.slice(0, 5).join('\n'))
+  check('cli: no `nulu` command', hits.length === 0, hits.slice(0, 5).join('\n'))
 }
 
 // 3. Environment prefix.
 {
-  const hits = userFacingHits('DSH_')
-  check('env: no DSH_ variables', hits.length === 0, hits.slice(0, 5).join('\n'))
+  const hits = userFacingHits('NULU_')
+  check('env: no NULU_ variables', hits.length === 0, hits.slice(0, 5).join('\n'))
 }
 
 // 4. Home path.
 {
-  const hits = userFacingHits('~\\.dsh')
-  check('paths: no ~/.dsh', hits.length === 0, hits.slice(0, 5).join('\n'))
+  const hits = userFacingHits('~\\.nulu')
+  check('paths: no ~/.nulu', hits.length === 0, hits.slice(0, 5).join('\n'))
 }
 
 // 5. Brand: no "DeepSeek" (capital-D) user-facing reference.

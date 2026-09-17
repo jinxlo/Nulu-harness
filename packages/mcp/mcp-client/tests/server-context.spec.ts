@@ -1,10 +1,10 @@
 import { afterEach, describe, expect, it } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import SystemPrompt, { renderPrompt } from '@deepseek-ai/dsh-system-prompt'
-import ToolRuntime from '@deepseek-ai/dsh-tools'
-import { ToolCallId } from '@deepseek-ai/dsh-llm'
-import McpResources from '@deepseek-ai/dsh-mcp-resources'
-import { createScope } from '@deepseek-ai/dsh-scope'
+import { Context } from '@worldapptechnologies/cordis'
+import SystemPrompt, { renderPrompt } from '@worldapptechnologies/nulu-system-prompt'
+import ToolRuntime from '@worldapptechnologies/nulu-tools'
+import { ToolCallId } from '@worldapptechnologies/nulu-llm'
+import McpResources from '@worldapptechnologies/nulu-mcp-resources'
+import { createScope } from '@worldapptechnologies/nulu-scope'
 import { registerServerContext } from '../src/server-context.ts'
 
 const roots: Context[] = []

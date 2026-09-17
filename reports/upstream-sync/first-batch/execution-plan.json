@@ -92,11 +92,11 @@
     {
       "id": 8,
       "risk": "HIGH",
-      "area": "rename leftover subagent-dsh-sdk",
-      "group": "subagent-dsh-sdk",
+      "area": "rename leftover subagent-nulu-sdk",
+      "group": "subagent-nulu-sdk",
       "deps": [],
       "upstream_files": [
-        "packages/subagent/subagent-dsh-sdk/package.json"
+        "packages/subagent/subagent-nulu-sdk/package.json"
       ],
       "classification": "PORT"
     },

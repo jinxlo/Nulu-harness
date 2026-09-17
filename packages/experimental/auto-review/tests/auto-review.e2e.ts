@@ -2,37 +2,37 @@ import { randomUUID } from 'node:crypto'
 import { chmod, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { Context } from '@deepseek-ai/cordis'
-import type { Agent } from '@deepseek-ai/dsh-agent'
-import AgentLoop from '@deepseek-ai/dsh-agent-loop'
-import { mountAgentLoopTestDependencies } from '@deepseek-ai/dsh-agent-loop-testkit'
-import { SandboxBashExecutor } from '@deepseek-ai/dsh-bash-sandbox'
-import { NodePtcRuntime } from '@deepseek-ai/dsh-ptc-runtime-node'
-import * as FsObservationPolicy from '@deepseek-ai/dsh-fs-observation-policy'
-import { SandboxedFileSystem } from '@deepseek-ai/dsh-fs-sandbox'
+import { Context } from '@worldapptechnologies/cordis'
+import type { Agent } from '@worldapptechnologies/nulu-agent'
+import AgentLoop from '@worldapptechnologies/nulu-agent-loop'
+import { mountAgentLoopTestDependencies } from '@worldapptechnologies/nulu-agent-loop-testkit'
+import { SandboxBashExecutor } from '@worldapptechnologies/nulu-bash-sandbox'
+import { NodePtcRuntime } from '@worldapptechnologies/nulu-ptc-runtime-node'
+import * as FsObservationPolicy from '@worldapptechnologies/nulu-fs-observation-policy'
+import { SandboxedFileSystem } from '@worldapptechnologies/nulu-fs-sandbox'
 import {
   createUserMessage, isAgentLoopRequest, ToolCallId,
   type StreamChunk,
-} from '@deepseek-ai/dsh-llm'
-import * as LlmDeepSeek from '@deepseek-ai/dsh-llm-deepseek'
-import PermissionPresetService, { AUTO_PRESET } from '@deepseek-ai/dsh-permission-presets'
-import SandboxProvider, { type ConfinedArgv, type SandboxPolicy } from '@deepseek-ai/dsh-sandbox'
-import SandboxPolicyService from '@deepseek-ai/dsh-sandbox-policy'
-import { SessionId, type SessionEvent } from '@deepseek-ai/dsh-session'
-import * as ShellEnv from '@deepseek-ai/dsh-shell-env'
-import LocalSubprocessRuntime from '@deepseek-ai/dsh-subprocess-local'
-import * as ToolBash from '@deepseek-ai/dsh-tool-bash'
-import * as ToolFs from '@deepseek-ai/dsh-tool-fs'
-import { RUN_CODE_NAME } from '@deepseek-ai/dsh-tools'
-import ApprovalService from '@deepseek-ai/dsh-user-approval'
+} from '@worldapptechnologies/nulu-llm'
+import * as LlmDeepSeek from '@worldapptechnologies/nulu-llm-deepseek'
+import PermissionPresetService, { AUTO_PRESET } from '@worldapptechnologies/nulu-permission-presets'
+import SandboxProvider, { type ConfinedArgv, type SandboxPolicy } from '@worldapptechnologies/nulu-sandbox'
+import SandboxPolicyService from '@worldapptechnologies/nulu-sandbox-policy'
+import { SessionId, type SessionEvent } from '@worldapptechnologies/nulu-session'
+import * as ShellEnv from '@worldapptechnologies/nulu-shell-env'
+import LocalSubprocessRuntime from '@worldapptechnologies/nulu-subprocess-local'
+import * as ToolBash from '@worldapptechnologies/nulu-tool-bash'
+import * as ToolFs from '@worldapptechnologies/nulu-tool-fs'
+import { RUN_CODE_NAME } from '@worldapptechnologies/nulu-tools'
+import ApprovalService from '@worldapptechnologies/nulu-user-approval'
 import { expect, it, vi } from 'vitest'
-import * as AutoReview from '@deepseek-ai/dsh-experimental-auto-review'
+import * as AutoReview from '@worldapptechnologies/nulu-experimental-auto-review'
 
 const PROVIDER = 'deepseek-official'
 const FLASH = 'deepseek-v4-flash'
 const PRO = 'deepseek-v4-pro'
 const VISION = 'deepseek-v4-flash-vision-exp'
-const REAL = process.env.DSH_AUTO_REVIEW_CERTIFICATION === '1'
+const REAL = process.env.NULU_AUTO_REVIEW_CERTIFICATION === '1'
 const DENIED = 'AUTO_REVIEW_DENIED'
 type Risk = 'low' | 'medium' | 'high'
 type Decision = 'allow' | 'deny'
@@ -173,7 +173,7 @@ function orchestrate(ctx: Context, real: boolean) {
   ctx.on('llm/stream', (options, next) => {
     const source = options.messages[0]?.source
     if (options.system?.startsWith('REVIEW_POLICY\n') === true
-      && source?.kind === 'plugin' && source.plugin === 'dsh-experimental-auto-review') {
+      && source?.kind === 'plugin' && source.plugin === 'nulu-experimental-auto-review') {
       if (expected === undefined || mainAgent === undefined) throw new Error('Unexpected reviewer call outside a case')
       reviewCalls += 1
       expect(options.provider === PROVIDER && options.model === mainAgent.options.model).toBe(true)
@@ -245,15 +245,15 @@ it('certifies eight Auto risk/authorization cases with zero retries and zero ski
   retry: 0, timeout: 1_800_000,
 }, async () => {
   if (REAL && !process.env.DEEPSEEK_API_KEY) throw new Error('Real Auto certification requires DEEPSEEK_API_KEY')
-  const root = await mkdtemp(join(tmpdir(), 'dsh-auto-review-'))
+  const root = await mkdtemp(join(tmpdir(), 'nulu-auto-review-'))
   const ctx = new Context()
   try {
     await chmod(root, 0o700)
     const workspace = join(root, 'workspace')
-    const dshHome = join(root, 'dsh-home')
+    const dshHome = join(root, 'nulu-home')
     await mkdir(workspace)
     await mkdir(dshHome, { mode: 0o700 })
-    vi.stubEnv('DSH_HOME', dshHome)
+    vi.stubEnv('NULU_HOME', dshHome)
     await mount(ctx, workspace, dshHome)
     const runner = orchestrate(ctx, REAL)
     const cases: CaseResult[] = []
@@ -352,12 +352,12 @@ it('certifies eight Auto risk/authorization cases with zero retries and zero ski
 it.each(['native', 'ptc-inner'] as const)('feeds denial back, re-reviews a new call and accepts narrowed work through %s', {
   retry: 0,
 }, async (path) => {
-  const root = await mkdtemp(join(tmpdir(), 'dsh-auto-review-recovery-'))
+  const root = await mkdtemp(join(tmpdir(), 'nulu-auto-review-recovery-'))
   const ctx = new Context()
   try {
     const dshHome = join(root, 'home')
     await mkdir(dshHome)
-    vi.stubEnv('DSH_HOME', dshHome)
+    vi.stubEnv('NULU_HOME', dshHome)
     await mount(ctx, root, dshHome)
     const runner = orchestrate(ctx, false)
     const target = join(root, 'existing.txt')

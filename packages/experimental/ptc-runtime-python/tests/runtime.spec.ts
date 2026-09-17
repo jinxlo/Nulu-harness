@@ -4,7 +4,7 @@ import { mkdtemp, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { basename, dirname, join, relative, resolve } from 'node:path'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
+import { Context } from '@worldapptechnologies/cordis'
 import { PythonPtcRuntime, hostFrameParseCeiling, readProcessStart, resolvePythonBin } from '../src/index.ts'
 import { logTruncationMarker } from '../src/protocol.ts'
 import type { Config } from '../src/index.ts'
@@ -13,7 +13,7 @@ import type { Config } from '../src/index.ts'
 // child only TMPDIR, so a bare `python3` inside a wrapper would resolve against
 // /bin/sh's default PATH rather than the caller's selected interpreter.
 const PYABS = resolvePythonBin('python3') ?? 'python3'
-import type { PtcBindingFunction, PtcJsonValue, PtcRunResult } from '@deepseek-ai/dsh-ptc-runtime'
+import type { PtcBindingFunction, PtcJsonValue, PtcRunResult } from '@worldapptechnologies/nulu-ptc-runtime'
 
 /**
  * Names one `py/` script whose `copyFileSync` must fail, for the partial-staging
@@ -23,7 +23,7 @@ import type { PtcBindingFunction, PtcJsonValue, PtcRunResult } from '@deepseek-a
  * `stagedDirs` records every staging directory THIS test file creates, so the
  * leak assertions check the exact paths instead of a global tmpdir diff: a
  * parallel vitest worker running the same prefix could create or remove
- * `dsh-ptc-runtime-python-*` directories inside the sampling window, which a
+ * `nulu-ptc-runtime-python-*` directories inside the sampling window, which a
  * readdir diff would misattribute to this test. `boot-write-failure.spec.ts`
  * records the same race and solves it with argv-based identity; recording the
  * mkdtempSync results is the fs-mock equivalent.
@@ -52,7 +52,7 @@ vi.mock('node:fs', async (importOriginal) => {
     },
     mkdtempSync(prefix: string): string {
       const dir = actual.mkdtempSync(prefix)
-      if (basename(prefix).startsWith('dsh-ptc-runtime-python-')) stagedDirs.push(dir)
+      if (basename(prefix).startsWith('nulu-ptc-runtime-python-')) stagedDirs.push(dir)
       return dir
     },
   }
@@ -110,7 +110,7 @@ describe('PythonPtcRuntime — seam descriptors and misuse', () => {
       const request = { program: 'return 1', bindings: [] }
       expect(runtime.sandboxMode).toBeUndefined()
       expect(runtime.resolve(request)).toEqual({ ...request, cwd: process.cwd(), timeoutMs: 30_000 })
-      const cwd = await makeTempDir('dsh-py-resolved-cwd-')
+      const cwd = await makeTempDir('nulu-py-resolved-cwd-')
       const spec = runtime.resolve({ ...request, cwd })
       expect(spec.cwd).toBe(cwd)
       expect(() => runtime.resolve({ ...request, cwd: 'relative' })).toThrow('cwd must be absolute')
@@ -209,7 +209,7 @@ describe('PythonPtcRuntime — seam descriptors and misuse', () => {
     // budget is rejected at load even though the address-space gate alone
     // would admit it (50 MiB * 12 = 600 MiB < 1 GiB - 64 MiB).
     const script = [
-      "import { Context } from '@deepseek-ai/cordis'",
+      "import { Context } from '@worldapptechnologies/cordis'",
       "import { PythonPtcRuntime } from './packages/experimental/ptc-runtime-python/src/index.ts'",
       'const ctx = new Context()',
       'try {',
@@ -434,7 +434,7 @@ describe('PythonPtcRuntime — seam descriptors and misuse', () => {
       fiber = mounted.fiber
       vi.stubEnv('PATH', secondDir)
       const result = await mounted.runtime.run(mounted.runtime.resolve({
-        program: 'import os\nreturn os.environ.get("DSH_TEST_PYTHON")',
+        program: 'import os\nreturn os.environ.get("NULU_TEST_PYTHON")',
         bindings: [],
       }))
       expect(result.error).toBeUndefined()
@@ -624,7 +624,7 @@ describe('PythonPtcRuntime — seam descriptors and misuse', () => {
     expect(entry.endsWith('/bootstrap.py')).toBe(true)
     const dir = dirname(entry)
     expect(realpathSync(dirname(dir))).toBe(realpathSync(tmpdir()))
-    expect(basename(dir)).toMatch(/^dsh-ptc-runtime-python-/)
+    expect(basename(dir)).toMatch(/^nulu-ptc-runtime-python-/)
     expect(dir).not.toContain('/packages/')
     // Staging is per RUN and removed at settlement, so by the time `run()`
     // resolved the directory is already gone — nothing survives to be rewritten

@@ -15,7 +15,7 @@
 #   ./scripts/sync-upstream.sh --resume         # resume adaptation executor
 #
 # Requires a clean working tree and the `upstream` remote:
-#   git remote add upstream https://github.com/deepseek-ai/deepseek-harness.git
+#   git remote add upstream https://github.com/worldapptechnologies/nulu-harness.git
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -40,7 +40,7 @@ fi
 
 if ! git remote | grep -qx upstream; then
   echo "[sync-upstream] adding upstream remote"
-  git remote add upstream https://github.com/deepseek-ai/deepseek-harness.git
+  git remote add upstream https://github.com/worldapptechnologies/nulu-harness.git
 fi
 
 echo "[sync-upstream] fetching upstream master"

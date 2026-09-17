@@ -1,8 +1,8 @@
 /** Deterministic Messages image preparation for Files references and bounded inline fallback. */
 
-import type { AttachmentStore, ImageAttachmentRef, RequestImageAttachment } from '@deepseek-ai/dsh-attachment'
-import { contentHasImage, IMAGE_OFFLOAD_REQUIRED_CODE, LlmError, offloadedImageText, projectOffloadedImages, requiredImageOffload } from '@deepseek-ai/dsh-llm'
-import type { ContentBlock, ImageAttachmentAccessResolver, Message } from '@deepseek-ai/dsh-llm'
+import type { AttachmentStore, ImageAttachmentRef, RequestImageAttachment } from '@worldapptechnologies/nulu-attachment'
+import { contentHasImage, IMAGE_OFFLOAD_REQUIRED_CODE, LlmError, offloadedImageText, projectOffloadedImages, requiredImageOffload } from '@worldapptechnologies/nulu-llm'
+import type { ContentBlock, ImageAttachmentAccessResolver, Message } from '@worldapptechnologies/nulu-llm'
 import type { DeepSeekConnectionOptions as Connection } from '../../common/types.ts'
 import { resolveRequestImageTarget } from '../../common/request-pricing.ts'
 import type { DeepSeekFileId } from '../../common/file-id.ts'

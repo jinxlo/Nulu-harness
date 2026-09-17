@@ -311,7 +311,7 @@ function newlineCount(value: string): number {
 function comboSectionMap(resource: ComboResource, original: Record<string, unknown>): Record<string, unknown> {
   const sourcePaths = original.sources as string[]
   const sourceRoot = typeof original.sourceRoot === 'string' ? original.sourceRoot : ''
-  const base = new URL(`/plugins/${resource.id}/client.js.map`, 'http://dsh.invalid')
+  const base = new URL(`/plugins/${resource.id}/client.js.map`, 'http://nulu.invalid')
   const relocated = sourcePaths.map((source) => {
     const separator = sourceRoot !== '' && !sourceRoot.endsWith('/') && !source.startsWith('/') ? '/' : ''
     const resolved = new URL(`${sourceRoot}${separator}${source}`, base)

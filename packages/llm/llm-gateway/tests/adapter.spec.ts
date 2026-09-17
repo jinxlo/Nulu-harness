@@ -13,14 +13,14 @@ import LlmRuntime, { ToolCallId, createUserMessage,
   QUOTA_EXCEEDED_CODE,
   ReasoningEffortId,
   userAgent,
-} from '@deepseek-ai/dsh-llm'
-import { MAX_TIMER_DELAY_MS } from '@deepseek-ai/dsh-timeout'
-import { getOrCreateAnonymousUserId, type AnonymousUserId } from '@deepseek-ai/dsh-anonymous-user-id'
-import { SessionId } from '@deepseek-ai/dsh-session'
-import DeepSeekLlmApiExtensionRegistry from '@deepseek-ai/dsh-deepseek-llm-api-extensions'
-import type { PreparedDeepSeekLlmApiExtensions } from '@deepseek-ai/dsh-deepseek-llm-api-extensions'
-import * as LlmDeepSeek from '@deepseek-ai/dsh-llm-deepseek'
-import { DeepSeekAdapter, resolveAdapterOptions } from '@deepseek-ai/dsh-llm-deepseek'
+} from '@worldapptechnologies/nulu-llm'
+import { MAX_TIMER_DELAY_MS } from '@worldapptechnologies/nulu-timeout'
+import { getOrCreateAnonymousUserId, type AnonymousUserId } from '@worldapptechnologies/nulu-anonymous-user-id'
+import { SessionId } from '@worldapptechnologies/nulu-session'
+import DeepSeekLlmApiExtensionRegistry from '@worldapptechnologies/nulu-deepseek-llm-api-extensions'
+import type { PreparedDeepSeekLlmApiExtensions } from '@worldapptechnologies/nulu-deepseek-llm-api-extensions'
+import * as LlmDeepSeek from '@worldapptechnologies/nulu-llm-deepseek'
+import { DeepSeekAdapter, resolveAdapterOptions } from '@worldapptechnologies/nulu-llm-deepseek'
 import { httpErrorCode } from '../src/protocols/chat-completions/adapter.ts'
 import { resolveRequestImageTarget } from '../src/common/request-pricing.ts'
 import { assemble } from './assemble.ts'

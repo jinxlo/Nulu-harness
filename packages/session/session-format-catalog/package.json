@@ -32,11 +32,11 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@deepseek-ai/dsh-session-format": "workspace:^",
-    "@deepseek-ai/dsh-session-format-v0-to-v1": "workspace:^",
-    "@deepseek-ai/dsh-session-format-v1-to-v2": "workspace:^",
-    "@deepseek-ai/dsh-session-format-v2-to-v3": "workspace:^",
-    "@deepseek-ai/dsh-compaction-image-offload": "workspace:^"
+    "@worldapptechnologies/nulu-session-format": "workspace:^",
+    "@worldapptechnologies/nulu-session-format-v0-to-v1": "workspace:^",
+    "@worldapptechnologies/nulu-session-format-v1-to-v2": "workspace:^",
+    "@worldapptechnologies/nulu-session-format-v2-to-v3": "workspace:^",
+    "@worldapptechnologies/nulu-compaction-image-offload": "workspace:^"
   },
   "peerDependencies": {
     "@worldapptechnologies/cordis": "workspace:^",

@@ -4,12 +4,12 @@
  * @module @worldapptechnologies/nulu-token-meter
  */
 
-import { Context, Service } from '@deepseek-ai/cordis'
-import type {} from '@deepseek-ai/dsh-compaction-image-offload/projection'
-import z from '@deepseek-ai/schemastery'
-import { assembleAssistantStream } from '@deepseek-ai/dsh-llm'
-import type { LlmImageRequestPricing, LlmRuntime, Message, TokenUsage } from '@deepseek-ai/dsh-llm'
-import { deepFreeze } from '@deepseek-ai/dsh-util-values'
+import { Context, Service } from '@worldapptechnologies/cordis'
+import type {} from '@worldapptechnologies/nulu-compaction-image-offload/projection'
+import z from '@worldapptechnologies/schemastery'
+import { assembleAssistantStream } from '@worldapptechnologies/nulu-llm'
+import type { LlmImageRequestPricing, LlmRuntime, Message, TokenUsage } from '@worldapptechnologies/nulu-llm'
+import { deepFreeze } from '@worldapptechnologies/nulu-util-values'
 import type {
   EpochHeader,
   Session,

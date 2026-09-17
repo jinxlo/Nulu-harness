@@ -3,10 +3,10 @@ import { mkdir } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import { chromium, type Browser, type Page } from 'playwright'
 import { afterEach, beforeEach, describe, expect, it, onTestFailed, vi } from 'vitest'
-import { createMessage, createUserMessage } from '@deepseek-ai/dsh-llm'
-import type {} from '@deepseek-ai/dsh-api-terminal-controller'
-import type { SubprocessTerminalHandle } from '@deepseek-ai/dsh-subprocess'
-import { createProcessInspector, type ProcessIdentity } from '@deepseek-ai/dsh-subprocess-local/src/process-inspector.ts'
+import { createMessage, createUserMessage } from '@worldapptechnologies/nulu-llm'
+import type {} from '@worldapptechnologies/nulu-api-terminal-controller'
+import type { SubprocessTerminalHandle } from '@worldapptechnologies/nulu-subprocess'
+import { createProcessInspector, type ProcessIdentity } from '@worldapptechnologies/nulu-subprocess-local/src/process-inspector.ts'
 import { compareOrRefreshGolden, launchWebScaffold, watchConsole, webSnapshotMode, type WebScaffold } from './scaffold.ts'
 import { connectFreshWorkspace, newEnglishPage, saveFailureShot } from './support.ts'
 
@@ -184,7 +184,7 @@ describe.skipIf(process.platform === 'win32')('Web sidebar terminal', () => {
     const process = processIdentity(0)
     const terminal = page.locator('[data-sidebar-terminal]')
     const screen = page.locator('.xterm-rows:visible')
-    await command(page, "DSH_THEME_PROBE=retained; PS1=''; printf '\\033cTHEME_CONTENT_RETAINED\\n'")
+    await command(page, "NULU_THEME_PROBE=retained; PS1=''; printf '\\033cTHEME_CONTENT_RETAINED\\n'")
     await expect.poll(() => screen.innerText()).toContain('THEME_CONTENT_RETAINED')
     const readColors = () => terminal.evaluate((root) => {
       const xterm = root.querySelector('.xterm')!
@@ -216,7 +216,7 @@ describe.skipIf(process.platform === 'win32')('Web sidebar terminal', () => {
     await page.emulateMedia({ colorScheme: 'light' })
     await expect.poll(readColors).toEqual(light)
     await expect.poll(() => screen.innerText()).toContain('THEME_CONTENT_RETAINED')
-    await command(page, 'printf "THEME_STATE:%s\\n" "$DSH_THEME_PROBE"')
+    await command(page, 'printf "THEME_STATE:%s\\n" "$NULU_THEME_PROBE"')
     await expect.poll(() => screen.innerText()).toContain('THEME_STATE:retained')
     expect(handles).toHaveLength(1)
     expect(alive(process)).toBe(true)
@@ -234,9 +234,9 @@ describe.skipIf(process.platform === 'win32')('Web sidebar terminal', () => {
     await expect.poll(async () => await screen.innerText()).toContain('TERMINAL_READY')
     const aria = await terminal.ariaSnapshot()
     await compareOrRefreshGolden(expected, aria, webSnapshotMode())
-    await command(page, "printf 'DSH_PID:%s\\n' \"$$\"")
-    await expect.poll(async () => await screen.innerText()).toMatch(/DSH_PID:\d+/u)
-    const pid = Number((await screen.innerText()).match(/DSH_PID:(\d+)/u)?.[1])
+    await command(page, "printf 'NULU_PID:%s\\n' \"$$\"")
+    await expect.poll(async () => await screen.innerText()).toMatch(/NULU_PID:\d+/u)
+    const pid = Number((await screen.innerText()).match(/NULU_PID:(\d+)/u)?.[1])
     const firstProcess = processIdentity(0)
     expect(alive(firstProcess)).toBe(true)
     await command(page, 'dsh_terminal_completion_probe(){ printf "completed_from_shell\\n"; }')
@@ -324,7 +324,7 @@ describe.skipIf(process.platform === 'win32')('Web sidebar terminal', () => {
     expect(handles).toHaveLength(0)
     await selector.click()
     await page.getByRole('menuitem', { name: 'sh', exact: true }).click()
-    expect(await page.evaluate(() => localStorage.getItem('dsh.terminal.shell'))).toBe('/bin/sh')
+    expect(await page.evaluate(() => localStorage.getItem('nulu.terminal.shell'))).toBe('/bin/sh')
     await page.locator('.xterm-helper-textarea:visible').waitFor()
     await command(page, "printf 'CHOSEN_SHELL:%s\\n' \"$0\"")
     const screen = page.locator('.xterm-rows:visible')

@@ -227,7 +227,7 @@
         maxDepth: provider-managed
 
     - id: workflow-ptc
-      name: '@deepseek-ai/dsh-workflow-ptc'
+      name: '@worldapptechnologies/nulu-workflow-ptc'
       # No consumer here: `tool-workflow` is off in PTC mode and `tool-ralph`
       # below is off by default. Restore this row together with `tool-ralph`.
       disabled: true
@@ -235,7 +235,7 @@
         provider: spawn
 
     - id: tool-workflow
-      name: '@deepseek-ai/dsh-tool-workflow'
+      name: '@worldapptechnologies/nulu-tool-workflow'
       # Do not publish a second model-authored orchestration surface beside
       # `run_code` in PTC mode.
       disabled: true
@@ -245,7 +245,7 @@
     # `disabled` from this row and from the engine above; the shipped root
     # shadows a copy that reuses this id.
     - id: tool-ralph
-      name: '@deepseek-ai/dsh-tool-ralph'
+      name: '@worldapptechnologies/nulu-tool-ralph'
       disabled: true
       config:
         subagentProvider: spawn

@@ -1,6 +1,6 @@
 {
-  "name": "@deepseek-ai/dsh-compaction",
-  "description": "Abstract compaction service seam (ctx.compaction) for the DeepSeek Harness",
+  "name": "@worldapptechnologies/nulu-compaction",
+  "description": "Abstract compaction service seam (ctx.compaction) for the Nulu Harness",
   "version": "0.1.6-alpha.1",
   "publishConfig": {
     "access": "public"

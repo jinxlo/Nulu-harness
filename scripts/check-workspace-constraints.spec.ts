@@ -16,7 +16,7 @@ import {
 const experimental = {
   dir: 'packages/experimental/prototype',
   manifest: {
-    name: '@deepseek-ai/dsh-experimental-prototype',
+    name: '@worldapptechnologies/nulu-experimental-prototype',
     publishConfig: { access: 'public' },
   },
 } satisfies WorkspaceManifest
@@ -37,8 +37,8 @@ describe('experimental workspace constraints', () => {
       ...experimental,
       manifest: { name: experimental.manifest.name, private: true },
     })).toEqual([
-      '@deepseek-ai/dsh-experimental-prototype: public experimental package must not set "private": true',
-      '@deepseek-ai/dsh-experimental-prototype: public experimental package must set publishConfig.access to "public"',
+      '@worldapptechnologies/nulu-experimental-prototype: public experimental package must not set "private": true',
+      '@worldapptechnologies/nulu-experimental-prototype: public experimental package must set publishConfig.access to "public"',
     ])
   })
 

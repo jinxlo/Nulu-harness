@@ -1,6 +1,6 @@
 {
-  "name": "@deepseek-ai/dsh-skill-badge",
-  "description": "Bundled dsh badge skill provider for DeepSeek Harness",
+  "name": "@worldapptechnologies/nulu-skill-badge",
+  "description": "Bundled nulu badge skill provider for Nulu Harness",
   "version": "0.1.6-alpha.1",
   "publishConfig": {
     "access": "public"

@@ -1,11 +1,11 @@
-# Unit 8 — rename leftover subagent-dsh-sdk (HIGH)
+# Unit 8 — rename leftover subagent-nulu-sdk (HIGH)
 
 - **Dependencies:** none
 
-- **Upstream commits:** (subagent-dsh-sdk upstream evolution)
+- **Upstream commits:** (subagent-nulu-sdk upstream evolution)
 
 ## Upstream change
-packages/subagent/subagent-dsh-sdk/package.json
+packages/subagent/subagent-nulu-sdk/package.json
 
 **Intent:** Subagent SDK continued development under the old name.
 
@@ -18,22 +18,22 @@ packages/subagent/subagent-nulu-sdk (already renamed)
 Rename conflict — the old name must not return.
 
 ## Required Nulu translation
-Reject subagent-dsh-sdk; port generic SDK changes into subagent-nulu-sdk.
+Reject subagent-nulu-sdk; port generic SDK changes into subagent-nulu-sdk.
 
 ## Preserve
 - Nulu rename
 - nulu-5-ultra default model
 
 ## Do NOT import
-- dsh name
+- nulu name
 - DeepSeek SDK assumptions
 
 ## Protected invariants
-- No dsh/deepseek package names
+- No nulu/deepseek package names
 - Nulu default model
 
 ## Relevant tests
 - subagent-nulu-sdk tests
 
 ## Acceptance
-grep -riE "dsh" packages/subagent empty; subagent-nulu-sdk builds.
+grep -riE "nulu" packages/subagent empty; subagent-nulu-sdk builds.

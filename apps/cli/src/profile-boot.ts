@@ -35,11 +35,11 @@ import {
   type Profile,
   type ProfileResolutionGeneration,
   type ProfileResolutionMode,
-} from '@deepseek-ai/dsh-app-boot'
-import { resolveDshHome } from '@deepseek-ai/dsh-home-paths'
-import { installProxyFromEnvironment } from '@deepseek-ai/dsh-http-proxy'
-import { DSH_LAUNCH_ENVIRONMENT_KEY, type LaunchEnvironmentSnapshot } from '@deepseek-ai/dsh-launch-environment'
-import { provideCmdline, type AppReady } from '@deepseek-ai/dsh-cmdline'
+} from '@worldapptechnologies/nulu-app-boot'
+import { resolveDshHome } from '@worldapptechnologies/nulu-home-paths'
+import { installProxyFromEnvironment } from '@worldapptechnologies/nulu-http-proxy'
+import { NULU_LAUNCH_ENVIRONMENT_KEY, type LaunchEnvironmentSnapshot } from '@worldapptechnologies/nulu-launch-environment'
+import { provideCmdline, type AppReady } from '@worldapptechnologies/nulu-cmdline'
 import { createProcessShutdown, type ProcessShutdown } from './process-shutdown.ts'
 
 const NAME = 'nulu'
@@ -353,7 +353,7 @@ export async function runProfile(options: RunProfileOptions): Promise<{ ctx: Con
     app.current = hostCtx
     // Before any config-tree entry mounts, so plugins resolve all launch-time
     // environment values from the same immutable launch snapshot.
-    hostCtx.provide(DSH_LAUNCH_ENVIRONMENT_KEY, options.environment)
+    hostCtx.provide(NULU_LAUNCH_ENVIRONMENT_KEY, options.environment)
     await hostCtx.plugin(PluginPackages, resolutionMode === 'link' ? {} : {
       generation: composed.resolution,
       behavior: resolutionMode === 'dual' ? 'verify' : 'enforce',
@@ -387,7 +387,7 @@ export async function runProfile(options: RunProfileOptions): Promise<{ ctx: Con
         if (ctx.get('timer') === undefined) {
           await ctx.loader.create({ name: '@worldapptechnologies/cordis-plugin-timer' })
         }
-        await ctx.loader.create({ name: '@deepseek-ai/cordis-plugin-hmr', config: { root: [] } })
+        await ctx.loader.create({ name: '@worldapptechnologies/cordis-plugin-hmr', config: { root: [] } })
         await ctx.loader.await()
       }
       await watchUserPatches(ctx, {

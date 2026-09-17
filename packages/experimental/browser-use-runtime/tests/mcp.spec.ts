@@ -3,23 +3,23 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import Loader from '@deepseek-ai/cordis-plugin-loader'
-import Include from '@deepseek-ai/cordis-plugin-include'
-import BrowserUse from '@deepseek-ai/dsh-browser-use'
-import SystemPrompt, { renderPrompt } from '@deepseek-ai/dsh-system-prompt'
-import Tools from '@deepseek-ai/dsh-tools'
-import McpResources from '@deepseek-ai/dsh-mcp-resources'
-import { PtcRuntime } from '@deepseek-ai/dsh-ptc-runtime'
-import Llm, { LlmAdapter, ToolCallId, createUserMessage } from '@deepseek-ai/dsh-llm'
-import type { GenerateOptions, LlmResolvedModelInfo, StreamChunk } from '@deepseek-ai/dsh-llm'
-import Sessions, { SessionId } from '@deepseek-ai/dsh-session'
-import JsonlSessionPersistence from '@deepseek-ai/dsh-session-persistence-jsonl'
-import Agents from '@deepseek-ai/dsh-agent'
-import type { Agent } from '@deepseek-ai/dsh-agent'
-import AgentLoop from '@deepseek-ai/dsh-agent-loop'
-import Projections from '@deepseek-ai/dsh-session-projection'
-import { bindScopeParent } from '@deepseek-ai/dsh-scope'
+import { Context } from '@worldapptechnologies/cordis'
+import Loader from '@worldapptechnologies/cordis-plugin-loader'
+import Include from '@worldapptechnologies/cordis-plugin-include'
+import BrowserUse from '@worldapptechnologies/nulu-browser-use'
+import SystemPrompt, { renderPrompt } from '@worldapptechnologies/nulu-system-prompt'
+import Tools from '@worldapptechnologies/nulu-tools'
+import McpResources from '@worldapptechnologies/nulu-mcp-resources'
+import { PtcRuntime } from '@worldapptechnologies/nulu-ptc-runtime'
+import Llm, { LlmAdapter, ToolCallId, createUserMessage } from '@worldapptechnologies/nulu-llm'
+import type { GenerateOptions, LlmResolvedModelInfo, StreamChunk } from '@worldapptechnologies/nulu-llm'
+import Sessions, { SessionId } from '@worldapptechnologies/nulu-session'
+import JsonlSessionPersistence from '@worldapptechnologies/nulu-session-persistence-jsonl'
+import Agents from '@worldapptechnologies/nulu-agent'
+import type { Agent } from '@worldapptechnologies/nulu-agent'
+import AgentLoop from '@worldapptechnologies/nulu-agent-loop'
+import Projections from '@worldapptechnologies/nulu-session-projection'
+import { bindScopeParent } from '@worldapptechnologies/nulu-scope'
 import { BrowserMcpConfig, mountSessionMcp, validateBrowserMcpConfig } from '../src/mcp.ts'
 
 const fixture = fileURLToPath(new URL('./mcp-fixture.mjs', import.meta.url))
@@ -62,7 +62,7 @@ class PresentationRuntime extends PtcRuntime {
 }
 
 async function load(exclusive = false, mode?: string, toolCallTimeoutMs?: number, toolOrder?: string[]) {
-  const root = await mkdtemp(join(tmpdir(), 'dsh-browser-mcp-'))
+  const root = await mkdtemp(join(tmpdir(), 'nulu-browser-mcp-'))
   roots.push(root)
   const model = new FixtureModel()
   const modules = new Map<string, unknown>([

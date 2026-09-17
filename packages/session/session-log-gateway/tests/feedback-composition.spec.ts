@@ -52,9 +52,9 @@ it('uploads freeform feedback and message put/edit/delete through the unchanged 
       ? { config: { root: join(root!, 'sessions'), compression: 'none' } }
       : name === '@worldapptechnologies/nulu-message-feedback'
         ? { config: { maxNoteBytes: 1024 } }
-        : name === '@deepseek-ai/dsh-llm-deepseek'
+        : name === '@worldapptechnologies/nulu-llm-deepseek'
           ? { config: { protocol: 'chat-completions', baseURL: server!.baseURL } }
-          : name === '@deepseek-ai/dsh-session-log-deepseek'
+          : name === '@worldapptechnologies/nulu-session-log-deepseek'
             ? { config: { enabled: true } }
             : {},
   }))))

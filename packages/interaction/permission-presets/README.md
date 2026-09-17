@@ -48,7 +48,7 @@ The plugin config defines the preset table and the default for fresh sessions. E
 | `presets` | `workspace-write`, `danger-full-access` | Table of preset name → sandbox/approval bundle |
 | `defaultPreset` | inferred | Preset pinned into fresh sessions; required when composition defaults match no preset |
 
-The generated [configuration catalog](../../../docs/config-catalog.md#deepseek-aidsh-permission-presets) is the exhaustive source for every accepted field and its JSDoc. `custom` is reserved for the derived not-a-preset state, while `auto` is reserved for the Auto review integration. Mounting requires a confining bash executor (one that reports a `sandboxMode`) and the approval service.
+The generated [configuration catalog](../../../docs/config-catalog.md#worldapptechnologiesdsh-permission-presets) is the exhaustive source for every accepted field and its JSDoc. `custom` is reserved for the derived not-a-preset state, while `auto` is reserved for the Auto review integration. Mounting requires a confining bash executor (one that reports a `sandboxMode`) and the approval service.
 
 ### Switching presets
 
@@ -82,7 +82,7 @@ The observable behavior is covered in [Use this package](#use-this-package); thi
 
 ### Write path
 
-`set()` resolves the preset and synchronously runs Auto admission when applicable. Transitions append `permission/preset` only when the effective preset changes, then write each changed knob through its canonical setter — `setSandboxMode` from `dsh-sandbox-policy` and `setApprovalPolicy` from `dsh-user-approval`. The selection event therefore preserves user intent when two presets share a bundle: switching between Auto and Full access records only the new identity because their sandbox and approval values already match. A net-zero selection appends nothing.
+`set()` resolves the preset and synchronously runs Auto admission when applicable. Transitions append `permission/preset` only when the effective preset changes, then write each changed knob through its canonical setter — `setSandboxMode` from `nulu-sandbox-policy` and `setApprovalPolicy` from `nulu-user-approval`. The selection event therefore preserves user intent when two presets share a bundle: switching between Auto and Full access records only the new identity because their sandbox and approval values already match. A net-zero selection appends nothing.
 
 ### Read side and `custom`
 

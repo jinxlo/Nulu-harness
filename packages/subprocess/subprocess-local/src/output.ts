@@ -3,7 +3,7 @@ import { randomBytes } from 'node:crypto'
 import { closeSync, mkdtempSync, openSync, rmdirSync, unlinkSync, writeSync } from 'node:fs'
 import { join } from 'node:path'
 import { tmpdir } from 'node:os'
-import type { CollectedOutput } from '@deepseek-ai/dsh-subprocess'
+import type { CollectedOutput } from '@worldapptechnologies/nulu-subprocess'
 
 let spillCounter = 0
 let defaultSpillDir: string | undefined
@@ -17,7 +17,7 @@ let defaultSpillDir: string | undefined
  * recovery artifacts until an external cleanup).
  */
 function privateSpillDir(): string {
-  defaultSpillDir ??= mkdtempSync(join(tmpdir(), 'dsh-subprocess-'))
+  defaultSpillDir ??= mkdtempSync(join(tmpdir(), 'nulu-subprocess-'))
   return defaultSpillDir
 }
 
@@ -117,7 +117,7 @@ export class OutputCollector {
       // prediction and symlink planting in shared tmp dirs.
       this.spillFile = join(
         this.spillDir,
-        `dsh-subprocess-${process.pid}-${++spillCounter}-${randomBytes(6).toString('hex')}-${this.label}.log`,
+        `nulu-subprocess-${process.pid}-${++spillCounter}-${randomBytes(6).toString('hex')}-${this.label}.log`,
       )
       this.spillFd = openSync(this.spillFile, 'wx', 0o600)
       for (const prior of this.chunks) writeSync(this.spillFd, prior)

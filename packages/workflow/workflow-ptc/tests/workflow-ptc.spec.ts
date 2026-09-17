@@ -1,16 +1,16 @@
 import { describe, expect, it, vi } from 'vitest'
 import { readFile, rm, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
-import { Context } from '@deepseek-ai/cordis'
-import Loader from '@deepseek-ai/cordis-plugin-loader'
-import type { Agent } from '@deepseek-ai/dsh-agent'
-import SubagentRuntime from '@deepseek-ai/dsh-subagent'
-import type { SubagentCapabilities, SubagentProvider, SubagentResult, SubagentRun, SubagentStartRequest } from '@deepseek-ai/dsh-subagent'
-import type { WorkflowMeta, WorkflowResult, WorkflowResultInfo, WorkflowRun, WorkflowRunInfo } from '@deepseek-ai/dsh-workflow'
+import { Context } from '@worldapptechnologies/cordis'
+import Loader from '@worldapptechnologies/cordis-plugin-loader'
+import type { Agent } from '@worldapptechnologies/nulu-agent'
+import SubagentRuntime from '@worldapptechnologies/nulu-subagent'
+import type { SubagentCapabilities, SubagentProvider, SubagentResult, SubagentRun, SubagentStartRequest } from '@worldapptechnologies/nulu-subagent'
+import type { WorkflowMeta, WorkflowResult, WorkflowResultInfo, WorkflowRun, WorkflowRunInfo } from '@worldapptechnologies/nulu-workflow'
 import * as ptcEngineModule from '../src/index.ts'
 import PtcWorkflowEngine, { type Config } from '../src/index.ts'
-import { SessionId } from '@deepseek-ai/dsh-session'
-import SessionProjectionRegistry from '@deepseek-ai/dsh-session-projection'
+import { SessionId } from '@worldapptechnologies/nulu-session'
+import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projection'
 
 import { fakeParent, mountPtcRuntime } from './setup.ts'
 
@@ -170,7 +170,7 @@ async function run(ctx: Context, parent: Agent, source: { script: string; meta: 
 
 // The per-test cap leaves room for one generous startup wait plus the tight
 // post-event assertions; explicit narrower timeouts inside stay authoritative.
-describe('dsh-workflow-ptc', { timeout: 120_000 }, () => {
+describe('nulu-workflow-ptc', { timeout: 120_000 }, () => {
   describe('script execution through the Node PTC runtime', () => {
     it('captures args at start and isolates subsequent caller and script mutations', async () => {
       const { ctx, parent } = await setup()

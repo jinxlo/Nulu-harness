@@ -1,11 +1,11 @@
 /** Browser view ownership across slow RPCs, remounts and transport generations. */
 import { setImmediate } from 'node:timers/promises'
 import { afterEach, expect, it, vi } from 'vitest'
-import { RemoteStream, RemoteStreamCarrierError, type ClientRemote, type RemoteStreamOptions } from '@deepseek-ai/dsh-api-gateway/client'
-import { createSnapshotStore } from '@deepseek-ai/dsh-client-store'
-import { RemoteError, type RemoteResult } from '@deepseek-ai/dsh-typert-protocol'
-import type {} from '@deepseek-ai/dsh-api-terminal-controller/remote'
-import type { SessionId } from '@deepseek-ai/dsh-session/types'
+import { RemoteStream, RemoteStreamCarrierError, type ClientRemote, type RemoteStreamOptions } from '@worldapptechnologies/nulu-api-gateway/client'
+import { createSnapshotStore } from '@worldapptechnologies/nulu-client-store'
+import { RemoteError, type RemoteResult } from '@worldapptechnologies/nulu-typert-protocol'
+import type {} from '@worldapptechnologies/nulu-api-terminal-controller/remote'
+import type { SessionId } from '@worldapptechnologies/nulu-session/types'
 import { TerminalView, type TerminalRemote } from '../src/client/model.ts'
 import type { TerminalEnvironment, TerminalFrame, WebTerminalId, WebTerminalInfo } from '../src/types.ts'
 

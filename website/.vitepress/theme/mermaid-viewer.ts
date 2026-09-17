@@ -40,7 +40,7 @@ function button(doc: Document, label: string, icon: keyof typeof icons): HTMLBut
   element.type = 'button'
   labelButton(element, label)
   const svg = doc.createElementNS('http://www.w3.org/2000/svg', 'svg')
-  svg.classList.add('dsh-diagram-icon')
+  svg.classList.add('nulu-diagram-icon')
   svg.setAttribute('viewBox', '0 0 24 24')
   svg.setAttribute('aria-hidden', 'true')
   svg.setAttribute('focusable', 'false')
@@ -66,37 +66,37 @@ function openDiagram(
   if (!size) return () => {}
   const doc = svg.ownerDocument
   const dialog = doc.createElement('dialog')
-  dialog.className = 'dsh-diagram-viewer'
-  dialog.setAttribute('aria-labelledby', 'dsh-diagram-title')
+  dialog.className = 'nulu-diagram-viewer'
+  dialog.setAttribute('aria-labelledby', 'nulu-diagram-title')
   const toolbar = doc.createElement('div')
-  toolbar.className = 'dsh-diagram-toolbar'
+  toolbar.className = 'nulu-diagram-toolbar'
   const title = doc.createElement('span')
-  title.className = 'dsh-diagram-title'
-  title.id = 'dsh-diagram-title'
+  title.className = 'nulu-diagram-title'
+  title.id = 'nulu-diagram-title'
   title.textContent = doc.querySelector('.vp-doc h1')?.textContent.trim() || copy.title
   const zoomOut = button(doc, copy.zoomOut, 'zoomOut')
   const zoomIn = button(doc, copy.zoomIn, 'zoomIn')
   const scaleLabel = doc.createElement('span')
-  scaleLabel.className = 'dsh-diagram-scale'
+  scaleLabel.className = 'nulu-diagram-scale'
   const fit = button(doc, copy.fit, 'fit')
-  fit.className = 'dsh-diagram-fit'
+  fit.className = 'nulu-diagram-fit'
   const close = button(doc, copy.close, 'close')
-  close.className = 'dsh-diagram-close'
+  close.className = 'nulu-diagram-close'
   close.autofocus = true
   toolbar.append(zoomOut, scaleLabel, zoomIn, fit)
   const helpToggle = button(doc, copy.helpLabel, 'help')
-  helpToggle.className = 'dsh-diagram-help-toggle'
+  helpToggle.className = 'nulu-diagram-help-toggle'
   helpToggle.setAttribute('aria-expanded', 'false')
-  helpToggle.setAttribute('aria-controls', 'dsh-diagram-help-text')
+  helpToggle.setAttribute('aria-controls', 'nulu-diagram-help-text')
   const help = doc.createElement('p')
-  help.className = 'dsh-diagram-help'
-  help.id = 'dsh-diagram-help-text'
+  help.className = 'nulu-diagram-help'
+  help.id = 'nulu-diagram-help-text'
   help.hidden = true
   help.textContent = copy.help
   const viewport = doc.createElement('div')
-  viewport.className = 'dsh-diagram-viewport'
+  viewport.className = 'nulu-diagram-viewport'
   const paper = doc.createElement('div')
-  paper.className = 'dsh-diagram-paper'
+  paper.className = 'nulu-diagram-paper'
   // Each Mermaid SVG embeds ID-scoped styles and fragment references. A shadow root
   // keeps the enlarged copy's IDs and styles separate from the original diagram.
   const shadow = paper.attachShadow({ mode: 'open' })
@@ -212,7 +212,7 @@ export function installMermaidViewer(doc: Document, language: () => string): Mer
     const copy = language().startsWith('zh') ? messages.zh : messages.en
     const containers = new Set(doc.querySelectorAll('.vp-doc .mermaid'))
     for (const [container, entry] of entries) {
-      if (!containers.has(container) || container.querySelector('svg:not(.dsh-diagram-icon)') !== entry.svg || !entry.button.isConnected) {
+      if (!containers.has(container) || container.querySelector('svg:not(.nulu-diagram-icon)') !== entry.svg || !entry.button.isConnected) {
         if (entry.svg === active) closeActive()
         entry.button.remove()
         entries.delete(container)
@@ -224,10 +224,10 @@ export function installMermaidViewer(doc: Document, language: () => string): Mer
         if (existing.button.getAttribute('aria-label') !== copy.open) labelButton(existing.button, copy.open)
         continue
       }
-      const svg = container.querySelector<SVGSVGElement>('svg:not(.dsh-diagram-icon)')
+      const svg = container.querySelector<SVGSVGElement>('svg:not(.nulu-diagram-icon)')
       if (!svg || !dimensions(svg)) continue
       const trigger = button(doc, copy.open, 'open')
-      trigger.className = 'dsh-diagram-open'
+      trigger.className = 'nulu-diagram-open'
       trigger.setAttribute('aria-haspopup', 'dialog')
       trigger.addEventListener('click', () => {
         closeActive()

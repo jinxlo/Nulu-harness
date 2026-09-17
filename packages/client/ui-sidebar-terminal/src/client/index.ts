@@ -1,14 +1,14 @@
 /** Register interactive terminal tabs and explicit process cleanup with the sidebar. */
-import type { Context } from '@deepseek-ai/cordis'
-import type { WebTerminalId } from '@deepseek-ai/dsh-api-terminal-controller/types'
-import type { SidebarRightTabParamsMap, TabId } from '@deepseek-ai/dsh-client-ui-sidebar-right/client'
-import type { SessionId } from '@deepseek-ai/dsh-session/types'
-import type {} from '@deepseek-ai/dsh-api-terminal-controller/client'
-import type {} from '@deepseek-ai/dsh-client-ui-sidebar-right/client'
-import type {} from '@deepseek-ai/dsh-client-ui-renderer/client'
-import type {} from '@deepseek-ai/dsh-client-locale/client'
-import type {} from '@deepseek-ai/dsh-client-ui-session/client'
-import type {} from '@deepseek-ai/dsh-client-ui-theme/client'
+import type { Context } from '@worldapptechnologies/cordis'
+import type { WebTerminalId } from '@worldapptechnologies/nulu-api-terminal-controller/types'
+import type { SidebarRightTabParamsMap, TabId } from '@worldapptechnologies/nulu-client-ui-sidebar-right/client'
+import type { SessionId } from '@worldapptechnologies/nulu-session/types'
+import type {} from '@worldapptechnologies/nulu-api-terminal-controller/client'
+import type {} from '@worldapptechnologies/nulu-client-ui-sidebar-right/client'
+import type {} from '@worldapptechnologies/nulu-client-ui-renderer/client'
+import type {} from '@worldapptechnologies/nulu-client-locale/client'
+import type {} from '@worldapptechnologies/nulu-client-ui-session/client'
+import type {} from '@worldapptechnologies/nulu-client-ui-theme/client'
 import { TerminalGuideIcon } from './TerminalIcon.tsx'
 import { TerminalGuide, type TerminalGuideInjected } from './TerminalGuide.tsx'
 import { TerminalBody } from './TerminalBody.tsx'
@@ -41,7 +41,7 @@ export function apply(ctx: Context): void {
       params !== undefined && 'shellPath' in params ? params.shellPath : undefined)
   }
   const namespace = 'sidebarTerminal'
-  const id = '@deepseek-ai/dsh-client-ui-sidebar-terminal'
+  const id = '@worldapptechnologies/nulu-client-ui-sidebar-terminal'
   const t = ctx.locale.bind(namespace)
   ctx.effect(() => ctx.locale.register(namespace, { zh, en }), 'ui-sidebar-terminal.copy')
   ctx.effect(() => ctx.sidebarRightTabs.register({

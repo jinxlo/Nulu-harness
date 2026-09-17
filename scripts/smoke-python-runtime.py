@@ -275,9 +275,9 @@ def write_advanced_profile_patch(root: Path, name: str, sessions: Path) -> Path:
             },
         },
         {"insert": [
-            {"id": "ptc-runtime", "name": "@deepseek-ai/dsh-ptc-runtime-node"},
-            {"id": "cordis-host-runner", "name": "@deepseek-ai/dsh-cordis-host-runner"},
-            {"id": "cordis-tool", "name": "@deepseek-ai/dsh-tool-cordis"},
+            {"id": "ptc-runtime", "name": "@worldapptechnologies/nulu-ptc-runtime-node"},
+            {"id": "cordis-host-runner", "name": "@worldapptechnologies/nulu-cordis-host-runner"},
+            {"id": "cordis-tool", "name": "@worldapptechnologies/nulu-tool-cordis"},
         ]},
     ])
 

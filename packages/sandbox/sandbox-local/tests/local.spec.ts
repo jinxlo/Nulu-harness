@@ -445,7 +445,7 @@ describe('the windows-acl probe (runner invocation contract)', () => {
   })
 
   it('loads the full source runner independently of cwd and ambient tsconfig', async () => {
-    const cwd = mkdtempSync(join(tmpdir(), 'dsh-acl-source-cwd-'))
+    const cwd = mkdtempSync(join(tmpdir(), 'nulu-acl-source-cwd-'))
     tempDirs.push(cwd)
     writeFileSync(join(cwd, 'tsconfig.json'), '{ invalid workspace configuration')
     const { sandbox } = await setup({}, {

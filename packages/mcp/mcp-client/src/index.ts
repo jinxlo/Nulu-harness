@@ -13,10 +13,10 @@
  * @module @worldapptechnologies/nulu-mcp-client
  */
 
-import type { Context } from '@deepseek-ai/cordis'
-import z from '@deepseek-ai/schemastery'
-import { scopeOf } from '@deepseek-ai/dsh-scope'
-import { MAX_TIMER_DELAY_MS } from '@deepseek-ai/dsh-timeout'
+import type { Context } from '@worldapptechnologies/cordis'
+import z from '@worldapptechnologies/schemastery'
+import { scopeOf } from '@worldapptechnologies/nulu-scope'
+import { MAX_TIMER_DELAY_MS } from '@worldapptechnologies/nulu-timeout'
 import { DEFAULT_MAX_INSTRUCTION_BYTES, RECONNECT_DEFAULTS, resolveReconnectPolicy, startConnection } from './connection.ts'
 import type { ReconnectConfig } from './connection.ts'
 import { registerServerContext } from './server-context.ts'

@@ -1,11 +1,11 @@
 {
   "id": 8,
   "risk": "HIGH",
-  "area": "rename leftover subagent-dsh-sdk",
-  "group": "subagent-dsh-sdk",
+  "area": "rename leftover subagent-nulu-sdk",
+  "group": "subagent-nulu-sdk",
   "deps": [],
   "upstream_commits": [
-    "(subagent-dsh-sdk upstream evolution)"
+    "(subagent-nulu-sdk upstream evolution)"
   ],
   "status": "BRIEF_GENERATED",
   "confidence": "UNVALIDATED"

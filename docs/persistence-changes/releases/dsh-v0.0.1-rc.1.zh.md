@@ -1,11 +1,11 @@
 ---
-description: "回溯 dsh-v0.0.1-rc.1 的已声明 Session 持久化类型及相邻版本变化。"
+description: "回溯 nulu-v0.0.1-rc.1 的已声明 Session 持久化类型及相邻版本变化。"
 kind: persistence-release
 ---
 
-# 持久化版本回溯: dsh-v0.0.1-rc.1
+# 持久化版本回溯: nulu-v0.0.1-rc.1
 
-[English](dsh-v0.0.1-rc.1.md) | 中文
+[English](nulu-v0.0.1-rc.1.md) | 中文
 
 ## 概述
 
@@ -28,13 +28,13 @@ kind: persistence-release
 
 | 项目 | 记录值 |
 |---|---|
-| 源码 tag | `dsh-v0.0.1-rc.1` |
+| 源码 tag | `nulu-v0.0.1-rc.1` |
 | 源码日期 | 2026-08-10T19:25:09.000Z |
 | 发行记录 | 只有 tag，没有 release 对象。 |
 | 前一版本 | 最早可用的预发行 tag；没有更早的比较输入。 |
 | Session 写入版本 | 0 |
 | 完整重建清单 | <!-- persistence-release-inventory:start -->42 个根类型 / 341 种类型<!-- persistence-release-inventory:end --> |
-| 本条快照 | [dsh-v0.0.1-rc.1.schema.json](dsh-v0.0.1-rc.1.schema.json) |
+| 本条快照 | [nulu-v0.0.1-rc.1.schema.json](nulu-v0.0.1-rc.1.schema.json) |
 
 写入版本常量在该 tag 中的源码证据：
 
@@ -45,7 +45,7 @@ kind: persistence-release
 
 ```yaml persistence-release
 schemaVersion: 1
-tag: dsh-v0.0.1-rc.1
+tag: nulu-v0.0.1-rc.1
 previous: null
 sessionFormatVersion: 0
 changes:

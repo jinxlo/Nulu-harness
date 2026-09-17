@@ -7,7 +7,7 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { get } from 'node:http'
 import type { IncomingHttpHeaders } from 'node:http'
-import { resolveExampleLaunch } from '@deepseek-ai/dsh-loader-smoke'
+import { resolveExampleLaunch } from '@worldapptechnologies/nulu-loader-smoke'
 import ts from 'typescript'
 import { expect } from 'vitest'
 import type { TestContext } from 'vitest'
@@ -28,7 +28,7 @@ interface DefaultWeb {
  * @param inspect - assertions against the running process and its ephemeral loopback URL.
  */
 export async function withDefaultWeb(test: TestContext, inspect: (app: DefaultWeb) => Promise<void>): Promise<void> {
-  const root = await mkdtemp(join(tmpdir(), 'dsh-web-default-isolation-'))
+  const root = await mkdtemp(join(tmpdir(), 'nulu-web-default-isolation-'))
   let removal: Promise<void> | undefined
   const removeRoot = (): Promise<void> => removal ??= rm(root, { recursive: true, force: true })
   test.onTestFinished(removeRoot)
@@ -58,9 +58,9 @@ export async function withDefaultWeb(test: TestContext, inspect: (app: DefaultWe
         NODE_OPTIONS: undefined,
         NODE_PATH: undefined,
         TSX_TSCONFIG_PATH: undefined,
-        DSH_HOME: join(root, 'home'),
-        DSH_AGENTS_HOME: join(root, '.agents'),
-        DSH_TELEMETRY_DISABLED: '1',
+        NULU_HOME: join(root, 'home'),
+        NULU_AGENTS_HOME: join(root, '.agents'),
+        NULU_TELEMETRY_DISABLED: '1',
         DEEPSEEK_API_KEY: 'keyless-default-web-no-call',
         NODE_NO_WARNINGS: '1',
       },
@@ -142,9 +142,9 @@ export async function withDefaultWeb(test: TestContext, inspect: (app: DefaultWe
       await expect.poll(() => {
         test.signal.throwIfAborted()
         if (exited) throw new Error(`Web exited before readiness\n${stdout}\n${stderr}`)
-        return /dsh web: (http:\/\/[^\s]+)/u.exec(stdout)?.[1]
+        return /nulu web: (http:\/\/[^\s]+)/u.exec(stdout)?.[1]
       }, { timeout: test.task.timeout }).toBeDefined()
-      const url = /dsh web: (http:\/\/[^\s]+)/u.exec(stdout)![1]!
+      const url = /nulu web: (http:\/\/[^\s]+)/u.exec(stdout)![1]!
       await inspect({ url, request })
     } finally {
       const result = await close()

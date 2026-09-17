@@ -14,7 +14,7 @@ Acknowledge [declared persistence-type changes](docs/cookbook/reviewing-persiste
 
 ```
 vendor/      Vendored Cordis (vendor/README.md)
-packages/    @deepseek-ai/dsh-<pkg> workspaces at packages/<group>/<pkg>/
+packages/    @worldapptechnologies/nulu-<pkg> workspaces at packages/<group>/<pkg>/
   core/                 agent/session API
   api/                  remote BFF
   typert/               type graphs
@@ -68,7 +68,7 @@ packages/    @deepseek-ai/dsh-<pkg> workspaces at packages/<group>/<pkg>/
   runtime-diagnostics/  runtime invariants
   util/                 zero-dependency utilities
 python/      Python SDK/runtime (python/README.md)
-native/      @deepseek-ai/node-addon-system source (native/README.md)
+native/      @worldapptechnologies/node-addon-system source (native/README.md)
 benchmarks/  performance gates
 .agents/     Agent workflows/notes
 docs/        Documentation (docs/AGENTS.md)

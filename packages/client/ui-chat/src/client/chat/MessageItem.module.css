@@ -56,7 +56,7 @@
   /* The toggle's line, and the band a pinned toggle occupies. The button's
      height and the offset that holds a summary's code banner below that band
      are the same measurement, so both read it from here. */
-  --dsh-compaction-header-height: calc(24px + var(--dsh-content-font-delta, 0px));
+  --nulu-compaction-header-height: calc(24px + var(--nulu-content-font-delta, 0px));
   padding: 2px 0;
 }
 
@@ -64,7 +64,7 @@
   display: flex;
   align-items: center;
   width: 100%;
-  height: var(--dsh-compaction-header-height);
+  height: var(--nulu-compaction-header-height);
   min-width: 0;
   padding: 0;
   border: none;
@@ -100,7 +100,7 @@
    `.bannerWrap { top: 0 }` by specificity (0,2,0 against 0,1,0), not by
    declaration order: the two sheets load in their own packages. */
 .compactionBody :has(> [data-code-block-banner]) {
-  top: var(--dsh-compaction-header-height);
+  top: var(--nulu-compaction-header-height);
 }
 
 /* Pinned, the toggle needs an opaque hover fill: the default translucent hover

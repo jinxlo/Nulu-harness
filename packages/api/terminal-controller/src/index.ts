@@ -1,13 +1,13 @@
 /** Session-scoped browser terminals over the composed subprocess and sandbox providers. */
-import type { Context } from '@deepseek-ai/cordis'
-import z from '@deepseek-ai/schemastery'
-import type { Agent } from '@deepseek-ai/dsh-agent'
-import type { Session, SessionEvent, SessionId } from '@deepseek-ai/dsh-session'
-import type { SubprocessTerminalHandle } from '@deepseek-ai/dsh-subprocess'
-import type {} from '@deepseek-ai/dsh-sandbox-policy'
-import type {} from '@deepseek-ai/dsh-sandbox'
-import type {} from '@deepseek-ai/dsh-session-projection'
-import { Remote, RemoteError, TypertRemoteService } from '@deepseek-ai/dsh-typert-protocol'
+import type { Context } from '@worldapptechnologies/cordis'
+import z from '@worldapptechnologies/schemastery'
+import type { Agent } from '@worldapptechnologies/nulu-agent'
+import type { Session, SessionEvent, SessionId } from '@worldapptechnologies/nulu-session'
+import type { SubprocessTerminalHandle } from '@worldapptechnologies/nulu-subprocess'
+import type {} from '@worldapptechnologies/nulu-sandbox-policy'
+import type {} from '@worldapptechnologies/nulu-sandbox'
+import type {} from '@worldapptechnologies/nulu-session-projection'
+import { Remote, RemoteError, TypertRemoteService } from '@worldapptechnologies/nulu-typert-protocol'
 import { discoverShells, resolveShell } from './shells.ts'
 import { BrowserTerminal } from './terminal.ts'
 import type {
@@ -17,7 +17,7 @@ import type {
 
 export type * from './types.ts'
 
-declare module '@deepseek-ai/cordis' {
+declare module '@worldapptechnologies/cordis' {
   interface Context {
     /** Interactive user terminals, separate from the Agent terminal tool registry. */
     terminalController: TerminalController
@@ -329,7 +329,7 @@ export class TerminalController extends TypertRemoteService {
     }
     const handle = await subprocess.spawnTerminal({
       argv, cwd: environment.cwd, cols: request.cols, rows: request.rows,
-      terminalType: 'xterm-256color', env: { DSH_SESSION_ID: agent.id },
+      terminalType: 'xterm-256color', env: { NULU_SESSION_ID: agent.id },
       graceMs: this.config.disposeGraceMs, signal,
     })
     const allocation = {

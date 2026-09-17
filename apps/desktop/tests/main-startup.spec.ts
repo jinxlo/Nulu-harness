@@ -302,7 +302,7 @@ describe('desktop main startup', () => {
     expect(harness.assertProfileRuntime).toHaveBeenCalledWith('desktop-test-profile')
     expect(harness.hosts[0]).toMatchObject({
       node: process.execPath,
-      runtime: join(harness.app.getAppPath(), 'dsh'),
+      runtime: join(harness.app.getAppPath(), 'nulu'),
       profile: 'desktop-test-profile',
     })
     expect(harness.managerRuntimes[0]).toMatchObject({ profileResolution: 'runtime' })

@@ -2,15 +2,15 @@ import { chmod, mkdtemp, mkdir, rm, stat, symlink, utimes, writeFile } from 'nod
 import { dirname, isAbsolute, join, relative, resolve } from 'node:path'
 import { tmpdir } from 'node:os'
 import { afterAll, describe, expect, it, vi } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import Loader from '@deepseek-ai/cordis-plugin-loader'
-import * as AgentInstructions from '@deepseek-ai/dsh-agent-instructions'
-import LlmRuntime, { createUserMessage, ToolCallId, type Message, type StreamChunk } from '@deepseek-ai/dsh-llm'
-import SessionStore, { SessionId, SessionSeq, type SessionEvent, type SurfaceIntent, type UserMessage } from '@deepseek-ai/dsh-session'
-import AgentRegistry, { agentEvents, type Agent } from '@deepseek-ai/dsh-agent'
-import AgentLoop, { turnBoundaryProjectionDefinition } from '@deepseek-ai/dsh-agent-loop'
-import SessionProjectionRegistry from '@deepseek-ai/dsh-session-projection'
-import { FileSystem, FsTargetKey, FsVersion } from '@deepseek-ai/dsh-fs'
+import { Context } from '@worldapptechnologies/cordis'
+import Loader from '@worldapptechnologies/cordis-plugin-loader'
+import * as AgentInstructions from '@worldapptechnologies/nulu-agent-instructions'
+import LlmRuntime, { createUserMessage, ToolCallId, type Message, type StreamChunk } from '@worldapptechnologies/nulu-llm'
+import SessionStore, { SessionId, SessionSeq, type SessionEvent, type SurfaceIntent, type UserMessage } from '@worldapptechnologies/nulu-session'
+import AgentRegistry, { agentEvents, type Agent } from '@worldapptechnologies/nulu-agent'
+import AgentLoop, { turnBoundaryProjectionDefinition } from '@worldapptechnologies/nulu-agent-loop'
+import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projection'
+import { FileSystem, FsTargetKey, FsVersion } from '@worldapptechnologies/nulu-fs'
 import type {
   FsDirEntry,
   FsEditOutcome,
@@ -33,7 +33,7 @@ import {
   discoverBaselineInstructionFiles,
   loadBaselineInstructions,
   renderAgentInstructions,
-} from '@deepseek-ai/dsh-agent-instructions'
+} from '@worldapptechnologies/nulu-agent-instructions'
 import {
   applyInstructionVersionUpdates,
   baselineInstructionState,

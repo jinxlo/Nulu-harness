@@ -1,6 +1,6 @@
 {
-  "name": "@deepseek-ai/dsh-session-title-all-prompts-llm",
-  "description": "All-user-messages LLM provider plugin for DeepSeek Harness session titles",
+  "name": "@worldapptechnologies/nulu-session-title-all-prompts-llm",
+  "description": "All-user-messages LLM provider plugin for Nulu Harness session titles",
   "version": "0.1.6-alpha.1",
   "publishConfig": {
     "access": "public"

@@ -23,7 +23,7 @@ import type {
 import type { BoundProcessOwner, ManagedProcessLaunch } from './managed-owner.ts'
 import { waitWithAbort } from './managed-owner.ts'
 import { controlEnvironment, controlPipe } from './control-spawn.ts'
-import { SUBPROCESS_CONTROL_FD } from '@deepseek-ai/dsh-subprocess/control'
+import { SUBPROCESS_CONTROL_FD } from '@worldapptechnologies/nulu-subprocess/control'
 import { linuxProcessGroupHasLiveMembers } from './process-inspector.ts'
 import { OutputCollector, prepareManagedProcessBinding } from './output.ts'
 

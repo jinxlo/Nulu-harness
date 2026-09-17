@@ -26,7 +26,7 @@ afterEach(async () => {
 
 describe.skipIf(!process.env.WORLD_APP_TECHNOLOGIES_API_KEY)('compaction: a long session compacts mid-flight and keeps running', () => {
   it('summarizes older history into a checkpoint without breaking the task', async () => {
-    workdir = await mkdtemp(join(tmpdir(), 'dsh-compaction-'))
+    workdir = await mkdtemp(join(tmpdir(), 'nulu-compaction-'))
     // An older file result must exceed the framed checkpoint's fixed sections.
     for (let i = 1; i <= 4; i++) {
       await writeFile(join(workdir, `file${i}.txt`), `This is file number ${i}. `.repeat(200))

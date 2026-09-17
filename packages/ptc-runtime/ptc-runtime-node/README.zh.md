@@ -3,7 +3,7 @@ description: "在全新 Node 进程中运行 TypeScript 程序，使用会话文
 kind: "package-reference"
 ---
 
-# @deepseek-ai/dsh-ptc-runtime-node
+# @worldapptechnologies/nulu-ptc-runtime-node
 
 [English](README.md) | 中文
 
@@ -25,14 +25,14 @@ kind: "package-reference"
 <a id="use-this-package"></a>
 ## 使用本包
 
-在提供 `fs`、`subprocess`、`sandbox` 与 `sandboxPolicy` 的组合中挂载本提供方。`dsh-tools` 的 PTC 模式传入调用 Session 的目录和常设策略；直接运行时消费方在执行前解析这些选项。
+在提供 `fs`、`subprocess`、`sandbox` 与 `sandboxPolicy` 的组合中挂载本提供方。`nulu-tools` 的 PTC 模式传入调用 Session 的目录和常设策略；直接运行时消费方在执行前解析这些选项。
 
 ### 配置
 
 在所需服务可用后，配置提供方条目：
 
 ```yaml
-- name: '@deepseek-ai/dsh-ptc-runtime-node'
+- name: '@worldapptechnologies/nulu-ptc-runtime-node'
   config:
     timeoutMs: 120000
     maxTimeoutMs: 600000
@@ -55,7 +55,7 @@ kind: "package-reference"
 | `nodeExecutable` | 当前 Node 可执行文件 | 在子进程执行世界中解析的可执行文件 |
 | `bootstrapPath` | 包内 bootstrap | 该执行世界中预先安装的构建后 bootstrap 的可选绝对路径 |
 
-[配置目录](../../../docs/config-catalog.zh.md#deepseek-aidsh-ptc-runtime-node)定义可接受的配置字段。`resolve(request)` 补全 cwd、数值或 null 截止选择与执行策略；`run(spec)` 接受这些已解析输入，不补缺省值。
+[配置目录](../../../docs/config-catalog.zh.md#worldapptechnologiesdsh-ptc-runtime-node)定义可接受的配置字段。`resolve(request)` 补全 cwd、数值或 null 截止选择与执行策略；`run(spec)` 接受这些已解析输入，不补缺省值。
 
 ### 执行与结果
 
@@ -65,7 +65,7 @@ kind: "package-reference"
 
 ### 截止时间与取消
 
-PTC 消费方按 [dsh-tools](../../core/tools/README.zh.md#ptc-mode) 的说明公开逐次超时与经审批的沙箱选择。运行时只读 `timeout` 描述符向该消费方报告有效默认值与上限。 其 `executionInstructions` 在面向模型的 schema 中说明全新 Node 状态、直接 Node API、空程序环境和文件策略。
+PTC 消费方按 [nulu-tools](../../core/tools/README.zh.md#ptc-mode) 的说明公开逐次超时与经审批的沙箱选择。运行时只读 `timeout` 描述符向该消费方报告有效默认值与上限。 其 `executionInstructions` 在面向模型的 schema 中说明全新 Node 状态、直接 Node API、空程序环境和文件策略。
 
 省略 `timeoutMs` 使用配置的经过时间默认值；数值请求经过验证并封顶。服务调用方可以显式传入 `timeoutMs: null` 来省略经过时间定时器，工作流适配器即如此；`run_code` 仍只接受正数覆盖值。启用的截止覆盖运行时准备和执行，包括等待嵌套工具或审批的时间。它不是 CPU 计量器。超时或取消通过 Host 的受管进程所有者停止同步循环；成功完成也会清理该受管范围。选择结果后、清理前停止计时器，因此调用可能要在执行截止之后等待清理结算才返回。
 
@@ -124,7 +124,7 @@ Host 擦除可擦除类型，在配置的执行世界中解析可执行文件与
 <a id="model-experience"></a>
 ## 模型体验
 
-通过 `dsh-tools` 的 PTC 模式与 `dsh-workflow-ptc` 间接提供；它们通过各自的工具结果呈现程序结果。中间绑定通信不进入模型历史；外层结果遵循普通工具溢出策略。
+通过 `nulu-tools` 的 PTC 模式与 `nulu-workflow-ptc` 间接提供；它们通过各自的工具结果呈现程序结果。中间绑定通信不进入模型历史；外层结果遵循普通工具溢出策略。
 
 #### KV Cache effect
 

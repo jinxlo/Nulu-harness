@@ -77,11 +77,11 @@ describe('desktop external plugin profile', () => {
     const links = readDesktopProfileState(manager.paths.profile)?.links
     expect(links?.length).toBeGreaterThan(0)
 
-    const dsh = join(root, 'next-runtime', 'dsh')
-    runtimeFixture(dsh, '1.1.0')
+    const nulu = join(root, 'next-runtime', 'nulu')
+    runtimeFixture(nulu, '1.1.0')
     const runtimeManager = new DesktopProjectManager(manager.paths, {
       ...manager.runtime,
-      dsh,
+      nulu,
       profileResolution: 'runtime',
     })
     await expect(runtimeManager.applyRelease()).resolves.toBe(true)

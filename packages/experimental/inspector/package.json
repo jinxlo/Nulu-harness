@@ -40,10 +40,10 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@deepseek-ai/dsh-app-boot": "workspace:^",
-    "@deepseek-ai/dsh-brand": "workspace:^",
-    "@deepseek-ai/dsh-util-crypto": "workspace:^",
-    "@deepseek-ai/schemastery": "workspace:^",
+    "@worldapptechnologies/nulu-app-boot": "workspace:^",
+    "@worldapptechnologies/nulu-brand": "workspace:^",
+    "@worldapptechnologies/nulu-util-crypto": "workspace:^",
+    "@worldapptechnologies/schemastery": "workspace:^",
     "ws": "^8.21.0"
   },
   "peerDependencies": {

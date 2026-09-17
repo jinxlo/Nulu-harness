@@ -3,19 +3,19 @@ import { randomUUID } from 'node:crypto'
 import { mkdtemp, readFile, realpath, rm } from 'node:fs/promises'
 import { createConnection, type Socket } from 'node:net'
 import { once } from 'node:events'
-import { Context } from '@deepseek-ai/cordis'
+import { Context } from '@worldapptechnologies/cordis'
 import { describe, expect, it } from 'vitest'
-import LocalFileSystem from '@deepseek-ai/dsh-fs-local'
-import LocalSubprocessRuntime from '@deepseek-ai/dsh-subprocess-local'
-import LocalSandboxProvider from '@deepseek-ai/dsh-sandbox-local'
-import { SandboxUnavailableError } from '@deepseek-ai/dsh-sandbox'
-import type { SubprocessHandle } from '@deepseek-ai/dsh-subprocess'
+import LocalFileSystem from '@worldapptechnologies/nulu-fs-local'
+import LocalSubprocessRuntime from '@worldapptechnologies/nulu-subprocess-local'
+import LocalSandboxProvider from '@worldapptechnologies/nulu-sandbox-local'
+import { SandboxUnavailableError } from '@worldapptechnologies/nulu-sandbox'
+import type { SubprocessHandle } from '@worldapptechnologies/nulu-subprocess'
 import { RemoteProcesses } from '../src/helper-processes.ts'
 import { authenticateStream } from '../src/stream-security.ts'
 
 describe.skipIf(process.platform === 'win32')('SSH stream pathname replacement', () => {
   it('keeps the key and payload private when a workspace-write process rebinds and relays the listener', async ({ skip }) => {
-    const root = await realpath(await mkdtemp('/tmp/dsh-ssh-rebind-'))
+    const root = await realpath(await mkdtemp('/tmp/nulu-ssh-rebind-'))
     const ctx = new Context()
     const fs = ctx.plugin(LocalFileSystem, { cwd: root })
     const subprocess = ctx.plugin(LocalSubprocessRuntime)

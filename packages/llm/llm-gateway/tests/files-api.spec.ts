@@ -1,7 +1,7 @@
 import { once } from 'node:events'
 import { createServer } from 'node:http'
 import { describe, expect, it, vi } from 'vitest'
-import { userAgent } from '@deepseek-ai/dsh-llm'
+import { userAgent } from '@worldapptechnologies/nulu-llm'
 import { DeepSeekFileId } from '../src/common/file-id.ts'
 import {
   NuluFilesClient,

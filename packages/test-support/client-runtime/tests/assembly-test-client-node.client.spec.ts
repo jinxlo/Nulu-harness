@@ -49,9 +49,9 @@ describe('TestClient (node environment)', () => {
   })
 
   it('refuses a provide entry for the api-remotes row, whose services are the proxies', async () => {
-    const roster = webApp.closure(['@deepseek-ai/dsh-api-remotes'])
-    await expect(TestClient.start({ roster, provide: { '@deepseek-ai/dsh-api-remotes': { apply() {} } } }, RemoteMock.create()))
-      .rejects.toThrow('@deepseek-ai/dsh-api-remotes cannot be provided; its remote.<ns> services are the tier\'s proxies')
+    const roster = webApp.closure(['@worldapptechnologies/nulu-api-remotes'])
+    await expect(TestClient.start({ roster, provide: { '@worldapptechnologies/nulu-api-remotes': { apply() {} } } }, RemoteMock.create()))
+      .rejects.toThrow('@worldapptechnologies/nulu-api-remotes cannot be provided; its remote.<ns> services are the tier\'s proxies')
   })
 
   it('reports unmatched requests alongside a failed teardown instead of hiding them', async () => {
@@ -97,7 +97,7 @@ describe('TestClient (node environment)', () => {
     globals.__NULU_TRANSPORT__ = previous
     onTestFinished(() => { delete globals.__NULU_TRANSPORT__ })
     const client = await TestClient.start({ roster: TYPERT_ONLY }, RemoteMock.create(), { awaitConnected: false })
-    expect(globals.__DSH_TRANSPORT__).toBe(previous)
+    expect(globals.__NULU_TRANSPORT__).toBe(previous)
     expect(client.ctx.get('typert')).toBeDefined()
     expect(() => client.connection).toThrow('provides no `connection` service')
     await client.dispose()

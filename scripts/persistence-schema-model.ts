@@ -215,7 +215,7 @@ function normalizeUnions(input: readonly SchemaNode[]): SchemaNode[] {
  * @returns lowercase hexadecimal digest.
  */
 export function schemaDigest(schema: CanonicalSchema): string {
-  return createHash('sha256').update('dsh-persistence-schema-v1\n').update(JSON.stringify(schema)).digest('hex')
+  return createHash('sha256').update('nulu-persistence-schema-v1\n').update(JSON.stringify(schema)).digest('hex')
 }
 
 /**

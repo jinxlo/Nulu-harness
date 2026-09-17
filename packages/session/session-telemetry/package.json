@@ -1,6 +1,6 @@
 {
-  "name": "@deepseek-ai/dsh-session-telemetry",
-  "description": "SessionTelemetryBackend seam for the DeepSeek Harness: session-event capture, projection, redaction, and handoff to a reporting backend",
+  "name": "@worldapptechnologies/nulu-session-telemetry",
+  "description": "SessionTelemetryBackend seam for the Nulu Harness: session-event capture, projection, redaction, and handoff to a reporting backend",
   "version": "0.1.6-alpha.1",
   "publishConfig": {
     "access": "public"

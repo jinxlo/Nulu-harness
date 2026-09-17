@@ -653,20 +653,20 @@ async function verifyProviderCwdResume(
   fixture: string,
   task: string,
 ): Promise<void> {
-  const providerCwd = scenario.manifest.environment?.DSH_SNAPSHOT_PROVIDER_CWD
+  const providerCwd = scenario.manifest.environment?.NULU_SNAPSHOT_PROVIDER_CWD
   const primary = initial[0]
   expect(providerCwd).toBeDefined()
   expect(primary?.header.cwd).toBe(providerCwd)
   expect(primary?.header.cwd).not.toBe(cwd)
-  const otherHostCwd = await mkdtemp(join(tmpdir(), 'dsh-provider-resume-'))
+  const otherHostCwd = await mkdtemp(join(tmpdir(), 'nulu-provider-resume-'))
   const env = {
-    DSH_HOME: join(cwd, '.dsh'),
-    DSH_SNAPSHOT: 'replay',
-    DSH_SNAPSHOT_FILE: fixture,
-    DSH_SNAPSHOT_PROVIDER: model.provider,
-    DSH_SNAPSHOT_MODEL: model.model,
-    DSH_PERMISSION_MODE: 'read-only',
-    DSH_TELEMETRY_DISABLED: '1',
+    NULU_HOME: join(cwd, '.nulu'),
+    NULU_SNAPSHOT: 'replay',
+    NULU_SNAPSHOT_FILE: fixture,
+    NULU_SNAPSHOT_PROVIDER: model.provider,
+    NULU_SNAPSHOT_MODEL: model.model,
+    NULU_PERMISSION_MODE: 'read-only',
+    NULU_TELEMETRY_DISABLED: '1',
     NODE_OPTIONS: [process.env.NODE_OPTIONS, '--disable-warning=ExperimentalWarning'].filter(Boolean).join(' '),
   }
   const launch = {
@@ -683,7 +683,7 @@ async function verifyProviderCwdResume(
   try {
     const refused = await runLoaderSmoke({
       ...launch, label: 'provider-cwd mismatched resume', expectedExitCode: 1,
-      env: { ...env, DSH_SNAPSHOT_PROVIDER_CWD: `${providerCwd}/other` },
+      env: { ...env, NULU_SNAPSHOT_PROVIDER_CWD: `${providerCwd}/other` },
     })
     expect(refused.stdout).toBe('')
     expect(refused.stderr).toContain(`was recorded in "${providerCwd}", not "${providerCwd}/other"`)
@@ -691,7 +691,7 @@ async function verifyProviderCwdResume(
     const resumed = await runLoaderSmoke({
       ...launch, label: 'provider-cwd matching resume',
       binArgs: [...launch.binArgs.slice(0, -1), '--json', task],
-      env: { ...env, DSH_SNAPSHOT_PROVIDER_CWD: providerCwd },
+      env: { ...env, NULU_SNAPSHOT_PROVIDER_CWD: providerCwd },
     })
     const output = records(resumed.stdout)
     expect(output[0]).toEqual({ type: 'session', sessionId: primary?.header.id, cwd: providerCwd })
@@ -1075,7 +1075,7 @@ describe('headless recorded-session snapshots', () => {
               : { NULU_PERMISSION_MODE: scenario.manifest.permission }),
             ...scenario.manifest.environment,
             ...(scenario.name === 'mcp-resources' || scenario.name === 'mcp-resources-ptc' ? {
-              DSH_MCP_RESOURCES_FIXTURE: join(repoRoot, 'packages/mcp/mcp-client/tests/fixtures/resources-server.ts'),
+              NULU_MCP_RESOURCES_FIXTURE: join(repoRoot, 'packages/mcp/mcp-client/tests/fixtures/resources-server.ts'),
             } : {}),
             NODE_OPTIONS: [process.env.NODE_OPTIONS, '--disable-warning=ExperimentalWarning'].filter(Boolean).join(' '),
             NULU_TELEMETRY_DISABLED: '1',

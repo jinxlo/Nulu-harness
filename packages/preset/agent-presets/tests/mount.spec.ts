@@ -2,25 +2,25 @@ import { mkdir, mkdtemp, readFile, rm, stat, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { Context } from '@deepseek-ai/cordis'
-import Loader from '@deepseek-ai/cordis-plugin-loader'
-import Include from '@deepseek-ai/cordis-plugin-include'
-import Group from '@deepseek-ai/cordis-plugin-group'
-import { PluginPackages } from '@deepseek-ai/dsh-app-boot'
-import LlmRuntime from '@deepseek-ai/dsh-llm'
-import SessionStore, { SessionId } from '@deepseek-ai/dsh-session'
-import SessionProjectionRegistry from '@deepseek-ai/dsh-session-projection'
-import SystemPrompt from '@deepseek-ai/dsh-system-prompt'
-import ToolRuntime from '@deepseek-ai/dsh-tools'
-import AgentRegistry, { assembleContextFor, type Agent } from '@deepseek-ai/dsh-agent'
-import AgentLoop from '@deepseek-ai/dsh-agent-loop'
+import { Context } from '@worldapptechnologies/cordis'
+import Loader from '@worldapptechnologies/cordis-plugin-loader'
+import Include from '@worldapptechnologies/cordis-plugin-include'
+import Group from '@worldapptechnologies/cordis-plugin-group'
+import { PluginPackages } from '@worldapptechnologies/nulu-app-boot'
+import LlmRuntime from '@worldapptechnologies/nulu-llm'
+import SessionStore, { SessionId } from '@worldapptechnologies/nulu-session'
+import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projection'
+import SystemPrompt from '@worldapptechnologies/nulu-system-prompt'
+import ToolRuntime from '@worldapptechnologies/nulu-tools'
+import AgentRegistry, { assembleContextFor, type Agent } from '@worldapptechnologies/nulu-agent'
+import AgentLoop from '@worldapptechnologies/nulu-agent-loop'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import AgentPresets, {
   COMPOSITION_FILE, inactiveRows, leakedServices, livePresetMounts, mountPreset, serviceForAgent,
-} from '@deepseek-ai/dsh-agent-presets'
-import type { Config } from '@deepseek-ai/dsh-agent-presets'
-import type {} from '@deepseek-ai/dsh-agent-presets/types'
-import { bindScopeParent, createScope, scopeOf } from '@deepseek-ai/dsh-scope'
+} from '@worldapptechnologies/nulu-agent-presets'
+import type { Config } from '@worldapptechnologies/nulu-agent-presets'
+import type {} from '@worldapptechnologies/nulu-agent-presets/types'
+import { bindScopeParent, createScope, scopeOf } from '@worldapptechnologies/nulu-scope'
 
 declare module '@worldapptechnologies/cordis' {
   interface Context {
@@ -376,7 +376,7 @@ describe('the preset roster', () => {
   })
 
   it('uses the profile package service when checking bare package rows', async () => {
-    const root = await mkdtemp(join(tmpdir(), 'dsh-preset-profile-package-'))
+    const root = await mkdtemp(join(tmpdir(), 'nulu-preset-profile-package-'))
     roots.push(root)
     const presetDir = join(root, 'profile-package')
     await mkdir(presetDir)
@@ -397,7 +397,7 @@ describe('the preset roster', () => {
   })
 
   it('isolates a package lookup failure to the preset being checked', async () => {
-    const root = await mkdtemp(join(tmpdir(), 'dsh-preset-package-failure-'))
+    const root = await mkdtemp(join(tmpdir(), 'nulu-preset-package-failure-'))
     roots.push(root)
     await mkdir(join(root, 'healthy'))
     await writeFile(join(root, 'healthy', COMPOSITION_FILE), '[]\n')

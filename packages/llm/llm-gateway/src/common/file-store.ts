@@ -1,7 +1,7 @@
 /** Nulu Files API upload reuse, invalidation, and quota recovery. @module nulu-llm-gateway/file-store */
 
-import type { RequestImageAttachment } from '@deepseek-ai/dsh-attachment'
-import { LlmError } from '@deepseek-ai/dsh-llm'
+import type { RequestImageAttachment } from '@worldapptechnologies/nulu-attachment'
+import { LlmError } from '@worldapptechnologies/nulu-llm'
 import { DeepSeekFilesClient, isFilesQuotaError } from './files-api.ts'
 import type { DeepSeekFileId } from './file-id.ts'
 import { deepSeekFileScope, DeepSeekUploadIndex } from './upload-index.ts'
@@ -10,7 +10,7 @@ import type { DeepSeekProtocol } from './types.ts'
 
 /** Shared Files-store limit for each request image, including file-id references. */
 export const MAX_IMAGE_BYTES = 32 * 1024 * 1024
-const OWNED_FILE_PREFIX = 'dsh-'
+const OWNED_FILE_PREFIX = 'nulu-'
 
 /** Resolved file-store policy from the plugin configuration. */
 export interface NuluFilePolicy {

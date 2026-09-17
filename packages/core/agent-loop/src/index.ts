@@ -9,7 +9,7 @@ import { Context, FiberState, Service } from '@worldapptechnologies/cordis'
 import { randomUUID } from 'node:crypto'
 import z from '@worldapptechnologies/schemastery'
 import { z as zod } from 'zod'
-import { brandString } from '@deepseek-ai/dsh-brand'
+import { brandString } from '@worldapptechnologies/nulu-brand'
 import type {
   Agent,
   AgentFactory,

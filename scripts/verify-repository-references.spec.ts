@@ -8,7 +8,7 @@ import { findRepositoryReferences, scanRepositoryReferences } from './verify-rep
 const organizationUrl = `https://${['github.com', ['deepseek', 'harness'].join('-')].join('/')}`
 
 function repository(test: TestContext) {
-  const root = mkdtempSync(join(tmpdir(), 'dsh-repository-references-'))
+  const root = mkdtempSync(join(tmpdir(), 'nulu-repository-references-'))
   test.onTestFinished(() => {
     rmSync(root, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 })
   })
@@ -98,7 +98,7 @@ describe('maintained repository reference policy', () => {
       fixture.commit.slice(0, 6),
       `prefix${fixture.commit}`,
       `${fixture.commit}suffix`,
-      'dsh-v0.0.1-rc.1',
+      'nulu-v0.0.1-rc.1',
     ].join('\n'))
     expect(scanRepositoryReferences(fixture.root)).toEqual([])
   })

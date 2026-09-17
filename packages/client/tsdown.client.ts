@@ -507,7 +507,7 @@ function clientConfig(id: string, entry: string): UserConfig {
         )
       },
     }, tscSourceMapPlugin(), isolation.plugin, {
-      name: 'dsh-css-modules-inline',
+      name: 'nulu-css-modules-inline',
       resolveId(source: string, importer: string | undefined) {
         if (!source.endsWith('.module.css')) return null
         const abs = importer !== undefined ? sourceAssetPath(source, importer) : source
@@ -586,11 +586,11 @@ function clientInputIsolation(id: string): {
   plugin: TsdownPlugin
   sourcePath: (source: string, mapPath: string) => string
 } {
-  const experimental = id.startsWith('@deepseek-ai/dsh-experimental-')
+  const experimental = id.startsWith('@worldapptechnologies/nulu-experimental-')
   const inputs = new BundleInputIsolation(REPOSITORY_ROOT, `client bundle isolation (${id})`)
   return {
     plugin: {
-      name: 'dsh-client-input-isolation',
+      name: 'nulu-client-input-isolation',
       buildStart() { inputs.reset() },
       generateBundle(_options, bundle) {
         if (experimental) return

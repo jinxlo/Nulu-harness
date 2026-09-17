@@ -13,11 +13,11 @@ import { access, stat } from 'node:fs/promises'
 import { userInfo } from 'node:os'
 import { delimiter, extname, isAbsolute, resolve } from 'node:path'
 import type { Duplex } from 'node:stream'
-import { Context } from '@deepseek-ai/cordis'
+import { Context } from '@worldapptechnologies/cordis'
 import type * as NodePty from 'node-pty'
 import type { IPtyForkOptions } from 'node-pty'
-import { createLazyRequire } from '@deepseek-ai/dsh-lazy-require'
-import { SubprocessRuntime, SubprocessExecutableNotFoundError } from '@deepseek-ai/dsh-subprocess'
+import { createLazyRequire } from '@worldapptechnologies/nulu-lazy-require'
+import { SubprocessRuntime, SubprocessExecutableNotFoundError } from '@worldapptechnologies/nulu-subprocess'
 import type {
   SubprocessHandle,
   SubprocessSpawnSpec,

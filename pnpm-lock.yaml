@@ -17,40 +17,40 @@ importers:
 
   .:
     devDependencies:
-      '@deepseek-ai/dsh-agent':
+      '@worldapptechnologies/nulu-agent':
         specifier: workspace:^
         version: link:packages/core/agent
-      '@deepseek-ai/dsh-browser-use':
+      '@worldapptechnologies/nulu-browser-use':
         specifier: workspace:^
         version: link:packages/browser-use/browser-use
-      '@deepseek-ai/dsh-computer-use':
+      '@worldapptechnologies/nulu-computer-use':
         specifier: workspace:^
         version: link:packages/computer-use/computer-use
-      '@deepseek-ai/dsh-experimental-browser-use-chrome-devtools-mcp':
+      '@worldapptechnologies/nulu-experimental-browser-use-chrome-devtools-mcp':
         specifier: workspace:^
         version: link:packages/experimental/browser-use-chrome-devtools-mcp
-      '@deepseek-ai/dsh-experimental-browser-use-playwright-mcp':
+      '@worldapptechnologies/nulu-experimental-browser-use-playwright-mcp':
         specifier: workspace:^
         version: link:packages/experimental/browser-use-playwright-mcp
-      '@deepseek-ai/dsh-experimental-browser-use-runtime':
+      '@worldapptechnologies/nulu-experimental-browser-use-runtime':
         specifier: workspace:^
         version: link:packages/experimental/browser-use-runtime
-      '@deepseek-ai/dsh-experimental-browser-use-stagehand-native':
+      '@worldapptechnologies/nulu-experimental-browser-use-stagehand-native':
         specifier: workspace:^
         version: link:packages/experimental/browser-use-stagehand-native
-      '@deepseek-ai/dsh-experimental-computer-use-cua-driver-mcp':
+      '@worldapptechnologies/nulu-experimental-computer-use-cua-driver-mcp':
         specifier: workspace:^
         version: link:packages/experimental/computer-use-cua-driver-mcp
-      '@deepseek-ai/dsh-experimental-computer-use-cua-driver-native':
+      '@worldapptechnologies/nulu-experimental-computer-use-cua-driver-native':
         specifier: workspace:^
         version: link:packages/experimental/computer-use-cua-driver-native
-      '@deepseek-ai/dsh-llm-replay':
+      '@worldapptechnologies/nulu-llm-replay':
         specifier: workspace:^
         version: link:packages/test-support/llm-replay
-      '@deepseek-ai/dsh-tool-session-query':
+      '@worldapptechnologies/nulu-tool-session-query':
         specifier: workspace:^
         version: link:packages/session-query/tool-session-query
-      '@deepseek-ai/dsh-web-fetch-http':
+      '@worldapptechnologies/nulu-web-fetch-http':
         specifier: workspace:^
         version: link:packages/web/web-fetch-http
       '@stylistic/eslint-plugin':
@@ -254,10 +254,10 @@ importers:
       '@worldapptechnologies/nulu-mcp-client':
         specifier: workspace:^
         version: link:../../packages/mcp/mcp-client
-      '@deepseek-ai/dsh-mcp-resources':
+      '@worldapptechnologies/nulu-mcp-resources':
         specifier: workspace:^
         version: link:../../packages/mcp/mcp-resources
-      '@deepseek-ai/dsh-persona':
+      '@worldapptechnologies/nulu-persona':
         specifier: workspace:^
         version: link:../../packages/preset/persona
       '@worldapptechnologies/nulu-plan-mode':
@@ -371,10 +371,10 @@ importers:
       '@worldapptechnologies/nulu-webhook-github':
         specifier: workspace:^
         version: link:../../packages/webhook/webhook-github
-      '@deepseek-ai/dsh-workflow-ptc':
+      '@worldapptechnologies/nulu-workflow-ptc':
         specifier: workspace:^
         version: link:../../packages/workflow/workflow-ptc
-      '@deepseek-ai/schemastery':
+      '@worldapptechnologies/schemastery':
         specifier: link:../../vendor/schemastery
         version: link:../../vendor/schemastery
       commander:
@@ -390,124 +390,124 @@ importers:
       '@agentclientprotocol/sdk':
         specifier: 1.4.0
         version: 1.4.0(zod@4.4.3)
-      '@deepseek-ai/dsh-acp':
+      '@worldapptechnologies/nulu-acp':
         specifier: workspace:^
         version: link:../../packages/acp/acp
-      '@deepseek-ai/dsh-agent':
+      '@worldapptechnologies/nulu-agent':
         specifier: workspace:^
         version: link:../../packages/core/agent
-      '@deepseek-ai/dsh-agent-loop':
+      '@worldapptechnologies/nulu-agent-loop':
         specifier: workspace:^
         version: link:../../packages/core/agent-loop
-      '@deepseek-ai/dsh-agent-loop-testkit':
+      '@worldapptechnologies/nulu-agent-loop-testkit':
         specifier: workspace:^
         version: link:../../packages/test-support/agent-loop-testkit
-      '@deepseek-ai/dsh-attachment-local':
+      '@worldapptechnologies/nulu-attachment-local':
         specifier: workspace:^
         version: link:../../packages/attachment/attachment-local
-      '@deepseek-ai/dsh-bash-local':
+      '@worldapptechnologies/nulu-bash-local':
         specifier: workspace:^
         version: link:../../packages/shell/bash-local
-      '@deepseek-ai/dsh-credentials-local':
+      '@worldapptechnologies/nulu-credentials-local':
         specifier: workspace:^
         version: link:../../packages/credentials/credentials-local
-      '@deepseek-ai/dsh-deepseek-llm-api-extensions':
+      '@worldapptechnologies/nulu-deepseek-llm-api-extensions':
         specifier: workspace:^
         version: link:../../packages/llm/deepseek-llm-api-extensions
-      '@deepseek-ai/dsh-experimental-agent-team':
+      '@worldapptechnologies/nulu-experimental-agent-team':
         specifier: workspace:^
         version: link:../../packages/experimental/agent-team
-      '@deepseek-ai/dsh-experimental-agent-team-profile':
+      '@worldapptechnologies/nulu-experimental-agent-team-profile':
         specifier: workspace:^
         version: link:../../packages/experimental/agent-team-profile
-      '@deepseek-ai/dsh-experimental-ptc-runtime-python':
+      '@worldapptechnologies/nulu-experimental-ptc-runtime-python':
         specifier: workspace:^
         version: link:../../packages/experimental/ptc-runtime-python
-      '@deepseek-ai/dsh-experimental-tool-agent-team':
+      '@worldapptechnologies/nulu-experimental-tool-agent-team':
         specifier: workspace:^
         version: link:../../packages/experimental/tool-agent-team
-      '@deepseek-ai/dsh-fs-observation-policy':
+      '@worldapptechnologies/nulu-fs-observation-policy':
         specifier: workspace:^
         version: link:../../packages/fs/fs-observation-policy
-      '@deepseek-ai/dsh-fs-sandbox':
+      '@worldapptechnologies/nulu-fs-sandbox':
         specifier: workspace:^
         version: link:../../packages/fs/fs-sandbox
-      '@deepseek-ai/dsh-host-frontend-static':
+      '@worldapptechnologies/nulu-host-frontend-static':
         specifier: workspace:^
         version: link:../../packages/host/frontend-static
-      '@deepseek-ai/dsh-host-webserver':
+      '@worldapptechnologies/nulu-host-webserver':
         specifier: workspace:^
         version: link:../../packages/host/webserver
-      '@deepseek-ai/dsh-llm':
+      '@worldapptechnologies/nulu-llm':
         specifier: workspace:^
         version: link:../../packages/llm/llm
-      '@deepseek-ai/dsh-llm-deepseek':
+      '@worldapptechnologies/nulu-llm-deepseek':
         specifier: workspace:^
         version: link:../../packages/llm/llm-deepseek
-      '@deepseek-ai/dsh-llm-mock-server':
+      '@worldapptechnologies/nulu-llm-mock-server':
         specifier: workspace:^
         version: link:../../packages/test-support/llm-mock-server
-      '@deepseek-ai/dsh-llm-pi-ai':
+      '@worldapptechnologies/nulu-llm-pi-ai':
         specifier: workspace:^
         version: link:../../packages/llm/llm-pi-ai
-      '@deepseek-ai/dsh-llm-replay':
+      '@worldapptechnologies/nulu-llm-replay':
         specifier: workspace:^
         version: link:../../packages/test-support/llm-replay
-      '@deepseek-ai/dsh-loader-smoke':
+      '@worldapptechnologies/nulu-loader-smoke':
         specifier: workspace:^
         version: link:../../packages/test-support/loader-smoke
-      '@deepseek-ai/dsh-plugin-package-inventory-deepseek':
+      '@worldapptechnologies/nulu-plugin-package-inventory-deepseek':
         specifier: workspace:^
         version: link:../../packages/llm/plugin-package-inventory-deepseek
-      '@deepseek-ai/dsh-sandbox-local':
+      '@worldapptechnologies/nulu-sandbox-local':
         specifier: workspace:^
         version: link:../../packages/sandbox/sandbox-local
-      '@deepseek-ai/dsh-sandbox-policy':
+      '@worldapptechnologies/nulu-sandbox-policy':
         specifier: workspace:^
         version: link:../../packages/sandbox/sandbox-policy
-      '@deepseek-ai/dsh-session':
+      '@worldapptechnologies/nulu-session':
         specifier: workspace:^
         version: link:../../packages/core/session
-      '@deepseek-ai/dsh-session-checkpoint-policy':
+      '@worldapptechnologies/nulu-session-checkpoint-policy':
         specifier: workspace:^
         version: link:../../packages/session/session-checkpoint-policy
-      '@deepseek-ai/dsh-session-log-deepseek':
+      '@worldapptechnologies/nulu-session-log-deepseek':
         specifier: workspace:^
         version: link:../../packages/session/session-log-deepseek
-      '@deepseek-ai/dsh-session-persistence-jsonl':
+      '@worldapptechnologies/nulu-session-persistence-jsonl':
         specifier: workspace:^
         version: link:../../packages/session/session-persistence-jsonl
-      '@deepseek-ai/dsh-session-query':
+      '@worldapptechnologies/nulu-session-query':
         specifier: workspace:^
         version: link:../../packages/session-query/session-query
-      '@deepseek-ai/dsh-settings':
+      '@worldapptechnologies/nulu-settings':
         specifier: workspace:^
         version: link:../../packages/settings/settings
-      '@deepseek-ai/dsh-settings-file':
+      '@worldapptechnologies/nulu-settings-file':
         specifier: workspace:^
         version: link:../../packages/settings/settings-file
-      '@deepseek-ai/dsh-shell-env':
+      '@worldapptechnologies/nulu-shell-env':
         specifier: workspace:^
         version: link:../../packages/shell/shell-env
-      '@deepseek-ai/dsh-subagent':
+      '@worldapptechnologies/nulu-subagent':
         specifier: workspace:^
         version: link:../../packages/subagent/subagent
-      '@deepseek-ai/dsh-subagent-fork-in-process':
+      '@worldapptechnologies/nulu-subagent-fork-in-process':
         specifier: workspace:^
         version: link:../../packages/subagent/subagent-fork-in-process
-      '@deepseek-ai/dsh-subagent-spawn-in-process':
+      '@worldapptechnologies/nulu-subagent-spawn-in-process':
         specifier: workspace:^
         version: link:../../packages/subagent/subagent-spawn-in-process
-      '@deepseek-ai/dsh-subprocess-local':
+      '@worldapptechnologies/nulu-subprocess-local':
         specifier: workspace:^
         version: link:../../packages/subprocess/subprocess-local
-      '@deepseek-ai/dsh-system-prompt':
+      '@worldapptechnologies/nulu-system-prompt':
         specifier: workspace:^
         version: link:../../packages/core/system-prompt
-      '@deepseek-ai/dsh-tools':
+      '@worldapptechnologies/nulu-tools':
         specifier: workspace:^
         version: link:../../packages/core/tools
-      '@deepseek-ai/dsh-user-approval':
+      '@worldapptechnologies/nulu-user-approval':
         specifier: workspace:^
         version: link:../../packages/interaction/user-approval
       '@types/js-yaml':
@@ -739,52 +739,52 @@ importers:
 
   apps/web:
     devDependencies:
-      '@deepseek-ai/cordis-plugin-group':
+      '@worldapptechnologies/cordis-plugin-group':
         specifier: workspace:^
         version: link:../../vendor/group
-      '@deepseek-ai/dsh-client-modules':
+      '@worldapptechnologies/nulu-client-modules':
         specifier: workspace:^
         version: link:../../packages/client/modules
-      '@deepseek-ai/dsh-client-store':
+      '@worldapptechnologies/nulu-client-store':
         specifier: workspace:^
         version: link:../../packages/client/store
-      '@deepseek-ai/dsh-client-test-runtime':
+      '@worldapptechnologies/nulu-client-test-runtime':
         specifier: workspace:^
         version: link:../../packages/test-support/client-runtime
-      '@deepseek-ai/dsh-client-ui-dockkit':
+      '@worldapptechnologies/nulu-client-ui-dockkit':
         specifier: workspace:^
         version: link:../../packages/client/ui-dockkit
-      '@deepseek-ai/dsh-client-ui-primitives':
+      '@worldapptechnologies/nulu-client-ui-primitives':
         specifier: workspace:^
         version: link:../../packages/client/ui-primitives
-      '@deepseek-ai/dsh-client-ui-slots':
+      '@worldapptechnologies/nulu-client-ui-slots':
         specifier: workspace:^
         version: link:../../packages/client/ui-slots
-      '@deepseek-ai/dsh-client-web':
+      '@worldapptechnologies/nulu-client-web':
         specifier: workspace:^
         version: link:../../packages/client/web
-      '@deepseek-ai/dsh-cmdline':
+      '@worldapptechnologies/nulu-cmdline':
         specifier: workspace:^
         version: link:../../packages/boot/cmdline
-      '@deepseek-ai/dsh-experimental-auto-review':
+      '@worldapptechnologies/nulu-experimental-auto-review':
         specifier: workspace:^
         version: link:../../packages/experimental/auto-review
-      '@deepseek-ai/dsh-experimental-webworker-packer':
+      '@worldapptechnologies/nulu-experimental-webworker-packer':
         specifier: workspace:^
         version: link:../../packages/experimental/webworker-packer
-      '@deepseek-ai/dsh-experimental-webworker-runtime':
+      '@worldapptechnologies/nulu-experimental-webworker-runtime':
         specifier: workspace:^
         version: link:../../packages/experimental/webworker-runtime
-      '@deepseek-ai/dsh-launch-environment':
+      '@worldapptechnologies/nulu-launch-environment':
         specifier: workspace:^
         version: link:../../packages/util/launch-environment
-      '@deepseek-ai/dsh-pwsh-local':
+      '@worldapptechnologies/nulu-pwsh-local':
         specifier: workspace:^
         version: link:../../packages/shell/pwsh-local
-      '@deepseek-ai/dsh-remote-mock':
+      '@worldapptechnologies/nulu-remote-mock':
         specifier: workspace:^
         version: link:../../packages/test-support/remote-mock
-      '@deepseek-ai/dsh-subprocess-local':
+      '@worldapptechnologies/nulu-subprocess-local':
         specifier: workspace:^
         version: link:../../packages/subprocess/subprocess-local
       '@types/node':
@@ -895,10 +895,10 @@ importers:
       '@worldapptechnologies/nulu-deque':
         specifier: workspace:^
         version: link:../packages/util/deque
-      '@deepseek-ai/dsh-lazy-require':
+      '@worldapptechnologies/nulu-lazy-require':
         specifier: workspace:^
         version: link:../packages/util/lazy-require
-      '@deepseek-ai/dsh-llm':
+      '@worldapptechnologies/nulu-llm':
         specifier: workspace:^
         version: link:../packages/llm/llm
       '@worldapptechnologies/nulu-llm-replay':
@@ -934,13 +934,13 @@ importers:
       '@worldapptechnologies/nulu-subagent':
         specifier: workspace:^
         version: link:../packages/subagent/subagent
-      '@deepseek-ai/dsh-subprocess':
+      '@worldapptechnologies/nulu-subprocess':
         specifier: workspace:^
         version: link:../packages/subprocess/subprocess
-      '@deepseek-ai/dsh-terminal':
+      '@worldapptechnologies/nulu-terminal':
         specifier: workspace:^
         version: link:../packages/terminal/terminal
-      '@deepseek-ai/dsh-token-meter':
+      '@worldapptechnologies/nulu-token-meter':
         specifier: workspace:^
         version: link:../packages/llm/token-meter
       '@worldapptechnologies/nulu-tools':
@@ -1067,25 +1067,25 @@ importers:
         specifier: ^8.21.0
         version: 8.21.0
     devDependencies:
-      '@deepseek-ai/cordis':
+      '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
-      '@deepseek-ai/dsh-brand':
+      '@worldapptechnologies/nulu-brand':
         specifier: workspace:^
         version: link:../../util/brand
-      '@deepseek-ai/dsh-client-connection':
+      '@worldapptechnologies/nulu-client-connection':
         specifier: workspace:^
         version: link:../../client/connection
-      '@deepseek-ai/dsh-host-webserver':
+      '@worldapptechnologies/nulu-host-webserver':
         specifier: workspace:^
         version: link:../../host/webserver
-      '@deepseek-ai/dsh-remote-mock':
+      '@worldapptechnologies/nulu-remote-mock':
         specifier: workspace:^
         version: link:../../test-support/remote-mock
-      '@deepseek-ai/dsh-typert-registry':
+      '@worldapptechnologies/nulu-typert-registry':
         specifier: workspace:^
         version: link:../../typert/registry
-      '@deepseek-ai/dsh-util-crypto':
+      '@worldapptechnologies/nulu-util-crypto':
         specifier: workspace:^
         version: link:../../util/crypto
       '@types/ws':
@@ -1143,10 +1143,10 @@ importers:
       '@worldapptechnologies/nulu-api-settings-controller':
         specifier: workspace:^
         version: link:../settings-controller
-      '@deepseek-ai/dsh-api-terminal-controller':
+      '@worldapptechnologies/nulu-api-terminal-controller':
         specifier: workspace:^
         version: link:../terminal-controller
-      '@deepseek-ai/dsh-api-workspace-controller':
+      '@worldapptechnologies/nulu-api-workspace-controller':
         specifier: workspace:^
         version: link:../workspace-controller
       '@worldapptechnologies/nulu-api-workspace-files':
@@ -1185,10 +1185,10 @@ importers:
       '@worldapptechnologies/nulu-message-feedback':
         specifier: workspace:^
         version: link:../../feedback/message-feedback
-      '@deepseek-ai/dsh-permission-presets':
+      '@worldapptechnologies/nulu-permission-presets':
         specifier: workspace:^
         version: link:../../interaction/permission-presets
-      '@deepseek-ai/dsh-scope':
+      '@worldapptechnologies/nulu-scope':
         specifier: workspace:^
         version: link:../../core/scope
       '@worldapptechnologies/nulu-session-reference':
@@ -1388,16 +1388,16 @@ importers:
 
   packages/api/terminal-controller:
     dependencies:
-      '@deepseek-ai/dsh-deque':
+      '@worldapptechnologies/nulu-deque':
         specifier: workspace:^
         version: link:../../util/deque
-      '@deepseek-ai/dsh-lazy-require':
+      '@worldapptechnologies/nulu-lazy-require':
         specifier: workspace:^
         version: link:../../util/lazy-require
-      '@deepseek-ai/dsh-typert-protocol':
+      '@worldapptechnologies/nulu-typert-protocol':
         specifier: workspace:^
         version: link:../../typert/protocol
-      '@deepseek-ai/schemastery':
+      '@worldapptechnologies/schemastery':
         specifier: link:../../../vendor/schemastery
         version: link:../../../vendor/schemastery
       '@xterm/addon-serialize':
@@ -1410,43 +1410,43 @@ importers:
         specifier: ^4.4.3
         version: 4.4.3
     devDependencies:
-      '@deepseek-ai/cordis':
+      '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
-      '@deepseek-ai/dsh-agent':
+      '@worldapptechnologies/nulu-agent':
         specifier: workspace:^
         version: link:../../core/agent
-      '@deepseek-ai/dsh-api-gateway':
+      '@worldapptechnologies/nulu-api-gateway':
         specifier: workspace:^
         version: link:../gateway
-      '@deepseek-ai/dsh-brand':
+      '@worldapptechnologies/nulu-brand':
         specifier: workspace:^
         version: link:../../util/brand
-      '@deepseek-ai/dsh-client-store':
+      '@worldapptechnologies/nulu-client-store':
         specifier: workspace:^
         version: link:../../client/store
-      '@deepseek-ai/dsh-fs':
+      '@worldapptechnologies/nulu-fs':
         specifier: workspace:^
         version: link:../../fs/fs
-      '@deepseek-ai/dsh-sandbox':
+      '@worldapptechnologies/nulu-sandbox':
         specifier: workspace:^
         version: link:../../sandbox/sandbox
-      '@deepseek-ai/dsh-sandbox-policy':
+      '@worldapptechnologies/nulu-sandbox-policy':
         specifier: workspace:^
         version: link:../../sandbox/sandbox-policy
-      '@deepseek-ai/dsh-session':
+      '@worldapptechnologies/nulu-session':
         specifier: workspace:^
         version: link:../../core/session
-      '@deepseek-ai/dsh-session-projection':
+      '@worldapptechnologies/nulu-session-projection':
         specifier: workspace:^
         version: link:../../session/session-projection
-      '@deepseek-ai/dsh-subprocess':
+      '@worldapptechnologies/nulu-subprocess':
         specifier: workspace:^
         version: link:../../subprocess/subprocess
-      '@deepseek-ai/dsh-subprocess-local':
+      '@worldapptechnologies/nulu-subprocess-local':
         specifier: workspace:^
         version: link:../../subprocess/subprocess-local
-      '@deepseek-ai/dsh-util-crypto':
+      '@worldapptechnologies/nulu-util-crypto':
         specifier: workspace:^
         version: link:../../util/crypto
 
@@ -1547,10 +1547,10 @@ importers:
 
   packages/attachment/attachment-local:
     dependencies:
-      '@deepseek-ai/dsh-lazy-require':
+      '@worldapptechnologies/nulu-lazy-require':
         specifier: workspace:^
         version: link:../../util/lazy-require
-      '@deepseek-ai/schemastery':
+      '@worldapptechnologies/schemastery':
         specifier: link:../../../vendor/schemastery
         version: link:../../../vendor/schemastery
       sharp:
@@ -1609,10 +1609,10 @@ importers:
 
   packages/browser-use/browser-use:
     devDependencies:
-      '@deepseek-ai/cordis':
+      '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
-      '@deepseek-ai/dsh-brand':
+      '@worldapptechnologies/nulu-brand':
         specifier: workspace:^
         version: link:../../util/brand
 
@@ -1679,10 +1679,10 @@ importers:
       '@worldapptechnologies/nulu-compaction-basic':
         specifier: workspace:^
         version: link:../../compaction/compaction-basic
-      '@deepseek-ai/dsh-compaction-image-offload':
+      '@worldapptechnologies/nulu-compaction-image-offload':
         specifier: workspace:^
         version: link:../../compaction/compaction-image-offload
-      '@deepseek-ai/dsh-compaction-tool-result-pruner':
+      '@worldapptechnologies/nulu-compaction-tool-result-pruner':
         specifier: workspace:^
         version: link:../../compaction/compaction-tool-result-pruner
       '@worldapptechnologies/nulu-credentials-local':
@@ -1721,10 +1721,10 @@ importers:
       '@worldapptechnologies/nulu-llm-retry':
         specifier: workspace:^
         version: link:../../llm/llm-retry
-      '@deepseek-ai/dsh-mcp-resources':
+      '@worldapptechnologies/nulu-mcp-resources':
         specifier: workspace:^
         version: link:../../mcp/mcp-resources
-      '@deepseek-ai/dsh-permission-presets':
+      '@worldapptechnologies/nulu-permission-presets':
         specifier: workspace:^
         version: link:../../interaction/permission-presets
       '@worldapptechnologies/nulu-plan-mode':
@@ -1733,10 +1733,10 @@ importers:
       '@worldapptechnologies/nulu-plugin-package-inventory':
         specifier: workspace:^
         version: link:../../llm/plugin-package-inventory-deepseek
-      '@deepseek-ai/dsh-ptc-runtime-node':
+      '@worldapptechnologies/nulu-ptc-runtime-node':
         specifier: workspace:^
         version: link:../../ptc-runtime/ptc-runtime-node
-      '@deepseek-ai/dsh-pwsh-sandbox':
+      '@worldapptechnologies/nulu-pwsh-sandbox':
         specifier: workspace:^
         version: link:../../shell/pwsh-sandbox
       '@worldapptechnologies/nulu-repeat-tool-reminder':
@@ -1895,7 +1895,7 @@ importers:
       '@worldapptechnologies/nulu-web-search-gateway':
         specifier: workspace:^
         version: link:../../web/web-search-deepseek
-      '@deepseek-ai/dsh-workflow-ptc':
+      '@worldapptechnologies/nulu-workflow-ptc':
         specifier: workspace:^
         version: link:../../workflow/workflow-ptc
     devDependencies:
@@ -1911,7 +1911,7 @@ importers:
       '@worldapptechnologies/nulu-cmdline':
         specifier: workspace:^
         version: link:../../boot/cmdline
-      '@deepseek-ai/dsh-util-values':
+      '@worldapptechnologies/nulu-util-values':
         specifier: workspace:^
         version: link:../../util/values
       '@worldapptechnologies/schemastery':
@@ -1939,16 +1939,16 @@ importers:
       '@worldapptechnologies/nulu-agent-loop-testkit':
         specifier: workspace:^
         version: link:../../test-support/agent-loop-testkit
-      '@deepseek-ai/dsh-fs':
+      '@worldapptechnologies/nulu-fs':
         specifier: workspace:^
         version: link:../../fs/fs
-      '@deepseek-ai/dsh-llm':
+      '@worldapptechnologies/nulu-llm':
         specifier: workspace:^
         version: link:../../llm/llm
       '@worldapptechnologies/nulu-session':
         specifier: workspace:^
         version: link:../../core/session
-      '@deepseek-ai/dsh-session-query':
+      '@worldapptechnologies/nulu-session-query':
         specifier: workspace:^
         version: link:../../session-query/session-query
 
@@ -2003,10 +2003,10 @@ importers:
       '@worldapptechnologies/nulu-llm-retry':
         specifier: workspace:^
         version: link:../../llm/llm-retry
-      '@deepseek-ai/dsh-mcp-resources':
+      '@worldapptechnologies/nulu-mcp-resources':
         specifier: workspace:^
         version: link:../../mcp/mcp-resources
-      '@deepseek-ai/dsh-plugin-package-inventory-deepseek':
+      '@worldapptechnologies/nulu-plugin-package-inventory-deepseek':
         specifier: workspace:^
         version: link:../../llm/plugin-package-inventory
       '@worldapptechnologies/nulu-sandbox-local':
@@ -2079,10 +2079,10 @@ importers:
       '@worldapptechnologies/nulu-api-settings-controller':
         specifier: workspace:^
         version: link:../../api/settings-controller
-      '@deepseek-ai/dsh-api-terminal-controller':
+      '@worldapptechnologies/nulu-api-terminal-controller':
         specifier: workspace:^
         version: link:../../api/terminal-controller
-      '@deepseek-ai/dsh-api-workspace-controller':
+      '@worldapptechnologies/nulu-api-workspace-controller':
         specifier: workspace:^
         version: link:../../api/workspace-controller
       '@worldapptechnologies/nulu-api-workspace-files':
@@ -2196,10 +2196,10 @@ importers:
       '@worldapptechnologies/nulu-client-ui-settings-plugins':
         specifier: workspace:^
         version: link:../../client/ui-settings-plugins
-      '@deepseek-ai/dsh-client-ui-settings-unarchive-sessions':
+      '@worldapptechnologies/nulu-client-ui-settings-unarchive-sessions':
         specifier: workspace:^
         version: link:../../client/ui-settings-unarchive-sessions
-      '@deepseek-ai/dsh-client-ui-sidebar':
+      '@worldapptechnologies/nulu-client-ui-sidebar':
         specifier: workspace:^
         version: link:../../client/ui-sidebar
       '@worldapptechnologies/nulu-client-ui-sidebar-documentpreview':
@@ -2211,10 +2211,10 @@ importers:
       '@worldapptechnologies/nulu-client-ui-sidebar-right':
         specifier: workspace:^
         version: link:../../client/ui-sidebar-right
-      '@deepseek-ai/dsh-client-ui-sidebar-terminal':
+      '@worldapptechnologies/nulu-client-ui-sidebar-terminal':
         specifier: workspace:^
         version: link:../../client/ui-sidebar-terminal
-      '@deepseek-ai/dsh-client-ui-skill':
+      '@worldapptechnologies/nulu-client-ui-skill':
         specifier: workspace:^
         version: link:../../client/ui-skill
       '@worldapptechnologies/nulu-client-ui-subagent':
@@ -2241,7 +2241,7 @@ importers:
       '@worldapptechnologies/nulu-cmdline':
         specifier: workspace:^
         version: link:../../boot/cmdline
-      '@deepseek-ai/dsh-cordis-client-runner':
+      '@worldapptechnologies/nulu-cordis-client-runner':
         specifier: workspace:^
         version: link:../../extensions/cordis-client-runner
       '@worldapptechnologies/nulu-cordis-host-runner':
@@ -2342,13 +2342,13 @@ importers:
       '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
-      '@deepseek-ai/dsh-attachment':
+      '@worldapptechnologies/nulu-attachment':
         specifier: workspace:^
         version: link:../../attachment/attachment
       '@worldapptechnologies/nulu-brand':
         specifier: workspace:^
         version: link:../../util/brand
-      '@deepseek-ai/dsh-host-webserver':
+      '@worldapptechnologies/nulu-host-webserver':
         specifier: workspace:^
         version: link:../../host/webserver
       '@worldapptechnologies/nulu-llm':
@@ -2866,91 +2866,91 @@ importers:
         specifier: link:../../../vendor/schemastery
         version: link:../../../vendor/schemastery
     devDependencies:
-      '@deepseek-ai/cordis':
+      '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
-      '@deepseek-ai/dsh-api-remotes':
+      '@worldapptechnologies/nulu-api-remotes':
         specifier: workspace:^
         version: link:../../api/remotes
-      '@deepseek-ai/dsh-api-session-controller':
+      '@worldapptechnologies/nulu-api-session-controller':
         specifier: workspace:^
         version: link:../../api/session-controller
-      '@deepseek-ai/dsh-api-workspace-controller':
+      '@worldapptechnologies/nulu-api-workspace-controller':
         specifier: workspace:^
         version: link:../../api/workspace-controller
-      '@deepseek-ai/dsh-attachment':
+      '@worldapptechnologies/nulu-attachment':
         specifier: workspace:^
         version: link:../../attachment/attachment
-      '@deepseek-ai/dsh-brand':
+      '@worldapptechnologies/nulu-brand':
         specifier: workspace:^
         version: link:../../util/brand
-      '@deepseek-ai/dsh-client-file-upload':
+      '@worldapptechnologies/nulu-client-file-upload':
         specifier: workspace:^
         version: link:../file-upload
-      '@deepseek-ai/dsh-client-locale':
+      '@worldapptechnologies/nulu-client-locale':
         specifier: workspace:^
         version: link:../locale
-      '@deepseek-ai/dsh-client-store':
+      '@worldapptechnologies/nulu-client-store':
         specifier: workspace:^
         version: link:../store
-      '@deepseek-ai/dsh-client-test-runtime':
+      '@worldapptechnologies/nulu-client-test-runtime':
         specifier: workspace:^
         version: link:../../test-support/client-runtime
-      '@deepseek-ai/dsh-client-ui-layout':
+      '@worldapptechnologies/nulu-client-ui-layout':
         specifier: workspace:^
         version: link:../ui-layout
-      '@deepseek-ai/dsh-client-ui-primitives':
+      '@worldapptechnologies/nulu-client-ui-primitives':
         specifier: workspace:^
         version: link:../ui-primitives
-      '@deepseek-ai/dsh-client-ui-renderer':
+      '@worldapptechnologies/nulu-client-ui-renderer':
         specifier: workspace:^
         version: link:../ui-renderer
-      '@deepseek-ai/dsh-client-ui-session':
+      '@worldapptechnologies/nulu-client-ui-session':
         specifier: workspace:^
         version: link:../ui-session
-      '@deepseek-ai/dsh-client-ui-settings':
+      '@worldapptechnologies/nulu-client-ui-settings':
         specifier: workspace:^
         version: link:../ui-settings
-      '@deepseek-ai/dsh-client-ui-slots':
+      '@worldapptechnologies/nulu-client-ui-slots':
         specifier: workspace:^
         version: link:../ui-slots
-      '@deepseek-ai/dsh-client-ui-workspace':
+      '@worldapptechnologies/nulu-client-ui-workspace':
         specifier: workspace:^
         version: link:../ui-workspace
-      '@deepseek-ai/dsh-commands':
+      '@worldapptechnologies/nulu-commands':
         specifier: workspace:^
         version: link:../../interaction/commands
-      '@deepseek-ai/dsh-goal':
+      '@worldapptechnologies/nulu-goal':
         specifier: workspace:^
         version: link:../../goal/goal
-      '@deepseek-ai/dsh-llm':
+      '@worldapptechnologies/nulu-llm':
         specifier: workspace:^
         version: link:../../llm/llm
-      '@deepseek-ai/dsh-llm-retry':
+      '@worldapptechnologies/nulu-llm-retry':
         specifier: workspace:^
         version: link:../../llm/llm-retry
-      '@deepseek-ai/dsh-plan-mode':
+      '@worldapptechnologies/nulu-plan-mode':
         specifier: workspace:^
         version: link:../../plan/plan-mode
-      '@deepseek-ai/dsh-session':
+      '@worldapptechnologies/nulu-session':
         specifier: workspace:^
         version: link:../../core/session
-      '@deepseek-ai/dsh-settings':
+      '@worldapptechnologies/nulu-settings':
         specifier: workspace:^
         version: link:../../settings/settings
-      '@deepseek-ai/dsh-token-meter':
+      '@worldapptechnologies/nulu-token-meter':
         specifier: workspace:^
         version: link:../../llm/token-meter
-      '@deepseek-ai/dsh-tool-todo':
+      '@worldapptechnologies/nulu-tool-todo':
         specifier: workspace:^
         version: link:../../todo/tool-todo
-      '@deepseek-ai/dsh-util-crypto':
+      '@worldapptechnologies/nulu-util-crypto':
         specifier: workspace:^
         version: link:../../util/crypto
-      '@deepseek-ai/dsh-util-workspace-path':
+      '@worldapptechnologies/nulu-util-workspace-path':
         specifier: workspace:^
         version: link:../../util/workspace-path
-      '@deepseek-ai/dsh-workspace':
+      '@worldapptechnologies/nulu-workspace':
         specifier: workspace:^
         version: link:../../workspace/workspace
       '@lexical/headless':
@@ -3440,58 +3440,58 @@ importers:
 
   packages/client/ui-message-feedback:
     devDependencies:
-      '@deepseek-ai/cordis':
+      '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
-      '@deepseek-ai/dsh-api-remotes':
+      '@worldapptechnologies/nulu-api-remotes':
         specifier: workspace:^
         version: link:../../api/remotes
-      '@deepseek-ai/dsh-client-connection':
+      '@worldapptechnologies/nulu-client-connection':
         specifier: workspace:^
         version: link:../connection
-      '@deepseek-ai/dsh-client-locale':
+      '@worldapptechnologies/nulu-client-locale':
         specifier: workspace:^
         version: link:../locale
-      '@deepseek-ai/dsh-client-store':
+      '@worldapptechnologies/nulu-client-store':
         specifier: workspace:^
         version: link:../store
-      '@deepseek-ai/dsh-client-test-runtime':
+      '@worldapptechnologies/nulu-client-test-runtime':
         specifier: workspace:^
         version: link:../../test-support/client-runtime
-      '@deepseek-ai/dsh-client-ui-chat':
+      '@worldapptechnologies/nulu-client-ui-chat':
         specifier: workspace:^
         version: link:../ui-chat
-      '@deepseek-ai/dsh-client-ui-commands':
+      '@worldapptechnologies/nulu-client-ui-commands':
         specifier: workspace:^
         version: link:../ui-commands
-      '@deepseek-ai/dsh-client-ui-conversation':
+      '@worldapptechnologies/nulu-client-ui-conversation':
         specifier: workspace:^
         version: link:../ui-conversation
-      '@deepseek-ai/dsh-client-ui-primitives':
+      '@worldapptechnologies/nulu-client-ui-primitives':
         specifier: workspace:^
         version: link:../ui-primitives
-      '@deepseek-ai/dsh-client-ui-renderer':
+      '@worldapptechnologies/nulu-client-ui-renderer':
         specifier: workspace:^
         version: link:../ui-renderer
-      '@deepseek-ai/dsh-client-ui-session':
+      '@worldapptechnologies/nulu-client-ui-session':
         specifier: workspace:^
         version: link:../ui-session
-      '@deepseek-ai/dsh-client-ui-slots':
+      '@worldapptechnologies/nulu-client-ui-slots':
         specifier: workspace:^
         version: link:../ui-slots
-      '@deepseek-ai/dsh-command-feedback':
+      '@worldapptechnologies/nulu-command-feedback':
         specifier: workspace:^
         version: link:../../feedback/command-feedback
-      '@deepseek-ai/dsh-message-feedback':
+      '@worldapptechnologies/nulu-message-feedback':
         specifier: workspace:^
         version: link:../../feedback/message-feedback
-      '@deepseek-ai/dsh-remote-mock':
+      '@worldapptechnologies/nulu-remote-mock':
         specifier: workspace:^
         version: link:../../test-support/remote-mock
-      '@deepseek-ai/dsh-session':
+      '@worldapptechnologies/nulu-session':
         specifier: workspace:^
         version: link:../../core/session
-      '@deepseek-ai/dsh-typert-protocol':
+      '@worldapptechnologies/nulu-typert-protocol':
         specifier: workspace:^
         version: link:../../typert/protocol
       '@testing-library/react':
@@ -3671,55 +3671,55 @@ importers:
 
   packages/client/ui-permission-presets:
     devDependencies:
-      '@deepseek-ai/cordis':
+      '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
-      '@deepseek-ai/dsh-api-remotes':
+      '@worldapptechnologies/nulu-api-remotes':
         specifier: workspace:^
         version: link:../../api/remotes
-      '@deepseek-ai/dsh-api-session-controller':
+      '@worldapptechnologies/nulu-api-session-controller':
         specifier: workspace:^
         version: link:../../api/session-controller
-      '@deepseek-ai/dsh-client-connection':
+      '@worldapptechnologies/nulu-client-connection':
         specifier: workspace:^
         version: link:../connection
-      '@deepseek-ai/dsh-client-locale':
+      '@worldapptechnologies/nulu-client-locale':
         specifier: workspace:^
         version: link:../locale
-      '@deepseek-ai/dsh-client-store':
+      '@worldapptechnologies/nulu-client-store':
         specifier: workspace:^
         version: link:../store
-      '@deepseek-ai/dsh-client-test-runtime':
+      '@worldapptechnologies/nulu-client-test-runtime':
         specifier: workspace:^
         version: link:../../test-support/client-runtime
-      '@deepseek-ai/dsh-client-ui-commands':
+      '@worldapptechnologies/nulu-client-ui-commands':
         specifier: workspace:^
         version: link:../ui-commands
-      '@deepseek-ai/dsh-client-ui-conversation':
+      '@worldapptechnologies/nulu-client-ui-conversation':
         specifier: workspace:^
         version: link:../ui-conversation
-      '@deepseek-ai/dsh-client-ui-input-trigger':
+      '@worldapptechnologies/nulu-client-ui-input-trigger':
         specifier: workspace:^
         version: link:../ui-input-trigger
-      '@deepseek-ai/dsh-client-ui-primitives':
+      '@worldapptechnologies/nulu-client-ui-primitives':
         specifier: workspace:^
         version: link:../ui-primitives
-      '@deepseek-ai/dsh-client-ui-renderer':
+      '@worldapptechnologies/nulu-client-ui-renderer':
         specifier: workspace:^
         version: link:../ui-renderer
-      '@deepseek-ai/dsh-client-ui-session':
+      '@worldapptechnologies/nulu-client-ui-session':
         specifier: workspace:^
         version: link:../ui-session
-      '@deepseek-ai/dsh-client-ui-settings':
+      '@worldapptechnologies/nulu-client-ui-settings':
         specifier: workspace:^
         version: link:../ui-settings
-      '@deepseek-ai/dsh-client-ui-slots':
+      '@worldapptechnologies/nulu-client-ui-slots':
         specifier: workspace:^
         version: link:../ui-slots
-      '@deepseek-ai/dsh-permission-presets':
+      '@worldapptechnologies/nulu-permission-presets':
         specifier: workspace:^
         version: link:../../interaction/permission-presets
-      '@deepseek-ai/dsh-remote-mock':
+      '@worldapptechnologies/nulu-remote-mock':
         specifier: workspace:^
         version: link:../../test-support/remote-mock
       '@types/react':
@@ -4224,40 +4224,40 @@ importers:
 
   packages/client/ui-settings-unarchive-sessions:
     devDependencies:
-      '@deepseek-ai/cordis':
+      '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
-      '@deepseek-ai/dsh-api-session-controller':
+      '@worldapptechnologies/nulu-api-session-controller':
         specifier: workspace:^
         version: link:../../api/session-controller
-      '@deepseek-ai/dsh-api-workspace-controller':
+      '@worldapptechnologies/nulu-api-workspace-controller':
         specifier: workspace:^
         version: link:../../api/workspace-controller
-      '@deepseek-ai/dsh-client-locale':
+      '@worldapptechnologies/nulu-client-locale':
         specifier: workspace:^
         version: link:../locale
-      '@deepseek-ai/dsh-client-test-runtime':
+      '@worldapptechnologies/nulu-client-test-runtime':
         specifier: workspace:^
         version: link:../../test-support/client-runtime
-      '@deepseek-ai/dsh-client-ui-primitives':
+      '@worldapptechnologies/nulu-client-ui-primitives':
         specifier: workspace:^
         version: link:../ui-primitives
-      '@deepseek-ai/dsh-client-ui-renderer':
+      '@worldapptechnologies/nulu-client-ui-renderer':
         specifier: workspace:^
         version: link:../ui-renderer
-      '@deepseek-ai/dsh-client-ui-session':
+      '@worldapptechnologies/nulu-client-ui-session':
         specifier: workspace:^
         version: link:../ui-session
-      '@deepseek-ai/dsh-client-ui-settings':
+      '@worldapptechnologies/nulu-client-ui-settings':
         specifier: workspace:^
         version: link:../ui-settings
-      '@deepseek-ai/dsh-client-ui-slots':
+      '@worldapptechnologies/nulu-client-ui-slots':
         specifier: workspace:^
         version: link:../ui-slots
-      '@deepseek-ai/dsh-client-ui-workspace':
+      '@worldapptechnologies/nulu-client-ui-workspace':
         specifier: workspace:^
         version: link:../ui-workspace
-      '@deepseek-ai/dsh-session':
+      '@worldapptechnologies/nulu-session':
         specifier: workspace:^
         version: link:../../core/session
       '@testing-library/react':
@@ -4455,49 +4455,49 @@ importers:
 
   packages/client/ui-sidebar-right:
     devDependencies:
-      '@deepseek-ai/cordis':
+      '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
-      '@deepseek-ai/dsh-api-session-controller':
+      '@worldapptechnologies/nulu-api-session-controller':
         specifier: workspace:^
         version: link:../../api/session-controller
-      '@deepseek-ai/dsh-client-locale':
+      '@worldapptechnologies/nulu-client-locale':
         specifier: workspace:^
         version: link:../locale
-      '@deepseek-ai/dsh-client-resources':
+      '@worldapptechnologies/nulu-client-resources':
         specifier: workspace:^
         version: link:../resources
-      '@deepseek-ai/dsh-client-store':
+      '@worldapptechnologies/nulu-client-store':
         specifier: workspace:^
         version: link:../store
-      '@deepseek-ai/dsh-client-test-runtime':
+      '@worldapptechnologies/nulu-client-test-runtime':
         specifier: workspace:^
         version: link:../../test-support/client-runtime
-      '@deepseek-ai/dsh-client-ui-conversation':
+      '@worldapptechnologies/nulu-client-ui-conversation':
         specifier: workspace:^
         version: link:../ui-conversation
-      '@deepseek-ai/dsh-client-ui-dockkit':
+      '@worldapptechnologies/nulu-client-ui-dockkit':
         specifier: workspace:^
         version: link:../ui-dockkit
-      '@deepseek-ai/dsh-client-ui-layout':
+      '@worldapptechnologies/nulu-client-ui-layout':
         specifier: workspace:^
         version: link:../ui-layout
-      '@deepseek-ai/dsh-client-ui-primitives':
+      '@worldapptechnologies/nulu-client-ui-primitives':
         specifier: workspace:^
         version: link:../ui-primitives
-      '@deepseek-ai/dsh-client-ui-renderer':
+      '@worldapptechnologies/nulu-client-ui-renderer':
         specifier: workspace:^
         version: link:../ui-renderer
-      '@deepseek-ai/dsh-client-ui-session':
+      '@worldapptechnologies/nulu-client-ui-session':
         specifier: workspace:^
         version: link:../ui-session
-      '@deepseek-ai/dsh-client-ui-slots':
+      '@worldapptechnologies/nulu-client-ui-slots':
         specifier: workspace:^
         version: link:../ui-slots
-      '@deepseek-ai/dsh-session':
+      '@worldapptechnologies/nulu-session':
         specifier: workspace:^
         version: link:../../core/session
-      '@deepseek-ai/dsh-util-crypto':
+      '@worldapptechnologies/nulu-util-crypto':
         specifier: workspace:^
         version: link:../../util/crypto
       '@testing-library/react':
@@ -4569,52 +4569,52 @@ importers:
 
   packages/client/ui-sidebar-terminal:
     devDependencies:
-      '@deepseek-ai/cordis':
+      '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
-      '@deepseek-ai/dsh-api-remotes':
+      '@worldapptechnologies/nulu-api-remotes':
         specifier: workspace:^
         version: link:../../api/remotes
-      '@deepseek-ai/dsh-api-terminal-controller':
+      '@worldapptechnologies/nulu-api-terminal-controller':
         specifier: workspace:^
         version: link:../../api/terminal-controller
-      '@deepseek-ai/dsh-client-locale':
+      '@worldapptechnologies/nulu-client-locale':
         specifier: workspace:^
         version: link:../locale
-      '@deepseek-ai/dsh-client-store':
+      '@worldapptechnologies/nulu-client-store':
         specifier: workspace:^
         version: link:../store
-      '@deepseek-ai/dsh-client-test-runtime':
+      '@worldapptechnologies/nulu-client-test-runtime':
         specifier: workspace:^
         version: link:../../test-support/client-runtime
-      '@deepseek-ai/dsh-client-ui-conversation':
+      '@worldapptechnologies/nulu-client-ui-conversation':
         specifier: workspace:^
         version: link:../ui-conversation
-      '@deepseek-ai/dsh-client-ui-dockkit':
+      '@worldapptechnologies/nulu-client-ui-dockkit':
         specifier: workspace:^
         version: link:../ui-dockkit
-      '@deepseek-ai/dsh-client-ui-layout':
+      '@worldapptechnologies/nulu-client-ui-layout':
         specifier: workspace:^
         version: link:../ui-layout
-      '@deepseek-ai/dsh-client-ui-primitives':
+      '@worldapptechnologies/nulu-client-ui-primitives':
         specifier: workspace:^
         version: link:../ui-primitives
-      '@deepseek-ai/dsh-client-ui-renderer':
+      '@worldapptechnologies/nulu-client-ui-renderer':
         specifier: workspace:^
         version: link:../ui-renderer
-      '@deepseek-ai/dsh-client-ui-session':
+      '@worldapptechnologies/nulu-client-ui-session':
         specifier: workspace:^
         version: link:../ui-session
-      '@deepseek-ai/dsh-client-ui-sidebar-right':
+      '@worldapptechnologies/nulu-client-ui-sidebar-right':
         specifier: workspace:^
         version: link:../ui-sidebar-right
-      '@deepseek-ai/dsh-client-ui-slots':
+      '@worldapptechnologies/nulu-client-ui-slots':
         specifier: workspace:^
         version: link:../ui-slots
-      '@deepseek-ai/dsh-client-ui-theme':
+      '@worldapptechnologies/nulu-client-ui-theme':
         specifier: workspace:^
         version: link:../ui-theme
-      '@deepseek-ai/dsh-session':
+      '@worldapptechnologies/nulu-session':
         specifier: workspace:^
         version: link:../../core/session
       '@testing-library/react':
@@ -4822,70 +4822,70 @@ importers:
 
   packages/client/ui-tool:
     devDependencies:
-      '@deepseek-ai/cordis':
+      '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
-      '@deepseek-ai/dsh-agent':
+      '@worldapptechnologies/nulu-agent':
         specifier: workspace:^
         version: link:../../core/agent
-      '@deepseek-ai/dsh-api-remotes':
+      '@worldapptechnologies/nulu-api-remotes':
         specifier: workspace:^
         version: link:../../api/remotes
-      '@deepseek-ai/dsh-api-workspace-controller':
+      '@worldapptechnologies/nulu-api-workspace-controller':
         specifier: workspace:^
         version: link:../../api/workspace-controller
-      '@deepseek-ai/dsh-attachment':
+      '@worldapptechnologies/nulu-attachment':
         specifier: workspace:^
         version: link:../../attachment/attachment
-      '@deepseek-ai/dsh-client-connection':
+      '@worldapptechnologies/nulu-client-connection':
         specifier: workspace:^
         version: link:../connection
-      '@deepseek-ai/dsh-client-locale':
+      '@worldapptechnologies/nulu-client-locale':
         specifier: workspace:^
         version: link:../locale
-      '@deepseek-ai/dsh-client-test-runtime':
+      '@worldapptechnologies/nulu-client-test-runtime':
         specifier: workspace:^
         version: link:../../test-support/client-runtime
-      '@deepseek-ai/dsh-client-ui-chat':
+      '@worldapptechnologies/nulu-client-ui-chat':
         specifier: workspace:^
         version: link:../ui-chat
-      '@deepseek-ai/dsh-client-ui-conversation':
+      '@worldapptechnologies/nulu-client-ui-conversation':
         specifier: workspace:^
         version: link:../ui-conversation
-      '@deepseek-ai/dsh-client-ui-primitives':
+      '@worldapptechnologies/nulu-client-ui-primitives':
         specifier: workspace:^
         version: link:../ui-primitives
-      '@deepseek-ai/dsh-client-ui-renderer':
+      '@worldapptechnologies/nulu-client-ui-renderer':
         specifier: workspace:^
         version: link:../ui-renderer
-      '@deepseek-ai/dsh-client-ui-session':
+      '@worldapptechnologies/nulu-client-ui-session':
         specifier: workspace:^
         version: link:../ui-session
-      '@deepseek-ai/dsh-client-ui-slots':
+      '@worldapptechnologies/nulu-client-ui-slots':
         specifier: workspace:^
         version: link:../ui-slots
-      '@deepseek-ai/dsh-llm':
+      '@worldapptechnologies/nulu-llm':
         specifier: workspace:^
         version: link:../../llm/llm
-      '@deepseek-ai/dsh-ptc-runtime':
+      '@worldapptechnologies/nulu-ptc-runtime':
         specifier: workspace:^
         version: link:../../ptc-runtime/ptc-runtime
-      '@deepseek-ai/dsh-session':
+      '@worldapptechnologies/nulu-session':
         specifier: workspace:^
         version: link:../../core/session
-      '@deepseek-ai/dsh-spill':
+      '@worldapptechnologies/nulu-spill':
         specifier: workspace:^
         version: link:../../spill/spill
-      '@deepseek-ai/dsh-spill-policy':
+      '@worldapptechnologies/nulu-spill-policy':
         specifier: workspace:^
         version: link:../../spill/spill-policy
-      '@deepseek-ai/dsh-system-prompt':
+      '@worldapptechnologies/nulu-system-prompt':
         specifier: workspace:^
         version: link:../../core/system-prompt
-      '@deepseek-ai/dsh-tools':
+      '@worldapptechnologies/nulu-tools':
         specifier: workspace:^
         version: link:../../core/tools
-      '@deepseek-ai/dsh-util-workspace-path':
+      '@worldapptechnologies/nulu-util-workspace-path':
         specifier: workspace:^
         version: link:../../util/workspace-path
       '@testing-library/react':
@@ -5348,10 +5348,10 @@ importers:
       '@worldapptechnologies/nulu-compaction':
         specifier: workspace:^
         version: link:../compaction
-      '@deepseek-ai/dsh-compaction-image-offload':
+      '@worldapptechnologies/nulu-compaction-image-offload':
         specifier: workspace:^
         version: link:../compaction-image-offload
-      '@deepseek-ai/dsh-compaction-tool-result-pruner':
+      '@worldapptechnologies/nulu-compaction-tool-result-pruner':
         specifier: workspace:^
         version: link:../compaction-tool-result-pruner
       '@worldapptechnologies/nulu-invariants':
@@ -5378,44 +5378,44 @@ importers:
 
   packages/compaction/compaction-image-offload:
     dependencies:
-      '@deepseek-ai/dsh-util-values':
+      '@worldapptechnologies/nulu-util-values':
         specifier: workspace:^
         version: link:../../util/values
     devDependencies:
-      '@deepseek-ai/cordis':
+      '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
-      '@deepseek-ai/dsh-agent':
+      '@worldapptechnologies/nulu-agent':
         specifier: workspace:^
         version: link:../../core/agent
-      '@deepseek-ai/dsh-agent-loop':
+      '@worldapptechnologies/nulu-agent-loop':
         specifier: workspace:^
         version: link:../../core/agent-loop
-      '@deepseek-ai/dsh-agent-loop-testkit':
+      '@worldapptechnologies/nulu-agent-loop-testkit':
         specifier: workspace:^
         version: link:../../test-support/agent-loop-testkit
-      '@deepseek-ai/dsh-attachment':
+      '@worldapptechnologies/nulu-attachment':
         specifier: workspace:^
         version: link:../../attachment/attachment
-      '@deepseek-ai/dsh-compaction':
+      '@worldapptechnologies/nulu-compaction':
         specifier: workspace:^
         version: link:../compaction
-      '@deepseek-ai/dsh-compaction-basic':
+      '@worldapptechnologies/nulu-compaction-basic':
         specifier: workspace:^
         version: link:../compaction-basic
-      '@deepseek-ai/dsh-llm':
+      '@worldapptechnologies/nulu-llm':
         specifier: workspace:^
         version: link:../../llm/llm
-      '@deepseek-ai/dsh-llm-deepseek':
+      '@worldapptechnologies/nulu-llm-deepseek':
         specifier: workspace:^
         version: link:../../llm/llm-deepseek
-      '@deepseek-ai/dsh-session':
+      '@worldapptechnologies/nulu-session':
         specifier: workspace:^
         version: link:../../core/session
-      '@deepseek-ai/dsh-session-projection':
+      '@worldapptechnologies/nulu-session-projection':
         specifier: workspace:^
         version: link:../../session/session-projection
-      '@deepseek-ai/dsh-token-meter':
+      '@worldapptechnologies/nulu-token-meter':
         specifier: workspace:^
         version: link:../../llm/token-meter
 
@@ -5440,10 +5440,10 @@ importers:
       '@worldapptechnologies/nulu-compaction':
         specifier: workspace:^
         version: link:../compaction
-      '@deepseek-ai/dsh-compaction-image-offload':
+      '@worldapptechnologies/nulu-compaction-image-offload':
         specifier: workspace:^
         version: link:../compaction-image-offload
-      '@deepseek-ai/dsh-invariants':
+      '@worldapptechnologies/nulu-invariants':
         specifier: workspace:^
         version: link:../../runtime-diagnostics/invariants
       '@worldapptechnologies/nulu-llm':
@@ -5461,10 +5461,10 @@ importers:
 
   packages/computer-use/computer-use:
     devDependencies:
-      '@deepseek-ai/cordis':
+      '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
-      '@deepseek-ai/dsh-brand':
+      '@worldapptechnologies/nulu-brand':
         specifier: workspace:^
         version: link:../../util/brand
 
@@ -5844,10 +5844,10 @@ importers:
       '@worldapptechnologies/nulu-agent':
         specifier: workspace:^
         version: link:../agent
-      '@deepseek-ai/dsh-ptc-runtime':
+      '@worldapptechnologies/nulu-ptc-runtime':
         specifier: workspace:^
         version: link:../../ptc-runtime/ptc-runtime
-      '@deepseek-ai/dsh-scope':
+      '@worldapptechnologies/nulu-scope':
         specifier: workspace:^
         version: link:../scope
       '@worldapptechnologies/nulu-session':
@@ -5934,22 +5934,22 @@ importers:
       '@worldapptechnologies/nulu-agent':
         specifier: workspace:^
         version: link:../agent
-      '@deepseek-ai/dsh-invariants':
+      '@worldapptechnologies/nulu-invariants':
         specifier: workspace:^
         version: link:../../runtime-diagnostics/invariants
       '@worldapptechnologies/nulu-llm':
         specifier: workspace:^
         version: link:../../llm/llm
-      '@deepseek-ai/dsh-ptc-runtime':
+      '@worldapptechnologies/nulu-ptc-runtime':
         specifier: workspace:^
         version: link:../../ptc-runtime/ptc-runtime
-      '@deepseek-ai/dsh-sandbox':
+      '@worldapptechnologies/nulu-sandbox':
         specifier: workspace:^
         version: link:../../sandbox/sandbox
-      '@deepseek-ai/dsh-sandbox-policy':
+      '@worldapptechnologies/nulu-sandbox-policy':
         specifier: workspace:^
         version: link:../../sandbox/sandbox-policy
-      '@deepseek-ai/dsh-scope':
+      '@worldapptechnologies/nulu-scope':
         specifier: workspace:^
         version: link:../scope
       '@worldapptechnologies/nulu-session':
@@ -6116,239 +6116,239 @@ importers:
 
   packages/experimental/auto-review:
     dependencies:
-      '@deepseek-ai/dsh-util-values':
+      '@worldapptechnologies/nulu-util-values':
         specifier: workspace:^
         version: link:../../util/values
     devDependencies:
-      '@deepseek-ai/cordis':
+      '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
-      '@deepseek-ai/dsh-agent':
+      '@worldapptechnologies/nulu-agent':
         specifier: workspace:^
         version: link:../../core/agent
-      '@deepseek-ai/dsh-agent-instructions':
+      '@worldapptechnologies/nulu-agent-instructions':
         specifier: workspace:^
         version: link:../../context/agent-instructions
-      '@deepseek-ai/dsh-agent-loop':
+      '@worldapptechnologies/nulu-agent-loop':
         specifier: workspace:^
         version: link:../../core/agent-loop
-      '@deepseek-ai/dsh-agent-loop-testkit':
+      '@worldapptechnologies/nulu-agent-loop-testkit':
         specifier: workspace:^
         version: link:../../test-support/agent-loop-testkit
-      '@deepseek-ai/dsh-bash-sandbox':
+      '@worldapptechnologies/nulu-bash-sandbox':
         specifier: workspace:^
         version: link:../../shell/bash-sandbox
-      '@deepseek-ai/dsh-compaction':
+      '@worldapptechnologies/nulu-compaction':
         specifier: workspace:^
         version: link:../../compaction/compaction
-      '@deepseek-ai/dsh-fs-local':
+      '@worldapptechnologies/nulu-fs-local':
         specifier: workspace:^
         version: link:../../fs/fs-local
-      '@deepseek-ai/dsh-fs-observation-policy':
+      '@worldapptechnologies/nulu-fs-observation-policy':
         specifier: workspace:^
         version: link:../../fs/fs-observation-policy
-      '@deepseek-ai/dsh-fs-sandbox':
+      '@worldapptechnologies/nulu-fs-sandbox':
         specifier: workspace:^
         version: link:../../fs/fs-sandbox
-      '@deepseek-ai/dsh-llm':
+      '@worldapptechnologies/nulu-llm':
         specifier: workspace:^
         version: link:../../llm/llm
-      '@deepseek-ai/dsh-llm-deepseek':
+      '@worldapptechnologies/nulu-llm-deepseek':
         specifier: workspace:^
         version: link:../../llm/llm-deepseek
-      '@deepseek-ai/dsh-permission-presets':
+      '@worldapptechnologies/nulu-permission-presets':
         specifier: workspace:^
         version: link:../../interaction/permission-presets
-      '@deepseek-ai/dsh-ptc-runtime-node':
+      '@worldapptechnologies/nulu-ptc-runtime-node':
         specifier: workspace:^
         version: link:../../ptc-runtime/ptc-runtime-node
-      '@deepseek-ai/dsh-sandbox':
+      '@worldapptechnologies/nulu-sandbox':
         specifier: workspace:^
         version: link:../../sandbox/sandbox
-      '@deepseek-ai/dsh-sandbox-policy':
+      '@worldapptechnologies/nulu-sandbox-policy':
         specifier: workspace:^
         version: link:../../sandbox/sandbox-policy
-      '@deepseek-ai/dsh-session':
+      '@worldapptechnologies/nulu-session':
         specifier: workspace:^
         version: link:../../core/session
-      '@deepseek-ai/dsh-session-projection':
+      '@worldapptechnologies/nulu-session-projection':
         specifier: workspace:^
         version: link:../../session/session-projection
-      '@deepseek-ai/dsh-shell':
+      '@worldapptechnologies/nulu-shell':
         specifier: workspace:^
         version: link:../../shell/shell
-      '@deepseek-ai/dsh-shell-env':
+      '@worldapptechnologies/nulu-shell-env':
         specifier: workspace:^
         version: link:../../shell/shell-env
-      '@deepseek-ai/dsh-subagent':
+      '@worldapptechnologies/nulu-subagent':
         specifier: workspace:^
         version: link:../../subagent/subagent
-      '@deepseek-ai/dsh-subprocess-local':
+      '@worldapptechnologies/nulu-subprocess-local':
         specifier: workspace:^
         version: link:../../subprocess/subprocess-local
-      '@deepseek-ai/dsh-system-prompt':
+      '@worldapptechnologies/nulu-system-prompt':
         specifier: workspace:^
         version: link:../../core/system-prompt
-      '@deepseek-ai/dsh-tool-bash':
+      '@worldapptechnologies/nulu-tool-bash':
         specifier: workspace:^
         version: link:../../shell/tool-bash
-      '@deepseek-ai/dsh-tool-fs':
+      '@worldapptechnologies/nulu-tool-fs':
         specifier: workspace:^
         version: link:../../fs/tool-fs
-      '@deepseek-ai/dsh-tool-subagent':
+      '@worldapptechnologies/nulu-tool-subagent':
         specifier: workspace:^
         version: link:../../subagent/tool-subagent
-      '@deepseek-ai/dsh-tools':
+      '@worldapptechnologies/nulu-tools':
         specifier: workspace:^
         version: link:../../core/tools
-      '@deepseek-ai/dsh-user-approval':
+      '@worldapptechnologies/nulu-user-approval':
         specifier: workspace:^
         version: link:../../interaction/user-approval
 
   packages/experimental/browser-use-chrome-devtools-mcp:
     dependencies:
-      '@deepseek-ai/dsh-experimental-browser-use-runtime':
+      '@worldapptechnologies/nulu-experimental-browser-use-runtime':
         specifier: workspace:^
         version: link:../browser-use-runtime
       chrome-devtools-mcp:
         specifier: 1.9.0
         version: 1.9.0
     devDependencies:
-      '@deepseek-ai/cordis':
+      '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
-      '@deepseek-ai/cordis-plugin-include':
+      '@worldapptechnologies/cordis-plugin-include':
         specifier: workspace:^
         version: link:../../../vendor/include
-      '@deepseek-ai/cordis-plugin-loader':
+      '@worldapptechnologies/cordis-plugin-loader':
         specifier: workspace:^
         version: link:../../../vendor/loader
-      '@deepseek-ai/dsh-agent':
+      '@worldapptechnologies/nulu-agent':
         specifier: workspace:^
         version: link:../../core/agent
-      '@deepseek-ai/dsh-agent-loop':
+      '@worldapptechnologies/nulu-agent-loop':
         specifier: workspace:^
         version: link:../../core/agent-loop
-      '@deepseek-ai/dsh-browser-use':
+      '@worldapptechnologies/nulu-browser-use':
         specifier: workspace:^
         version: link:../../browser-use/browser-use
-      '@deepseek-ai/dsh-llm':
+      '@worldapptechnologies/nulu-llm':
         specifier: workspace:^
         version: link:../../llm/llm
-      '@deepseek-ai/dsh-session':
+      '@worldapptechnologies/nulu-session':
         specifier: workspace:^
         version: link:../../core/session
-      '@deepseek-ai/dsh-session-projection':
+      '@worldapptechnologies/nulu-session-projection':
         specifier: workspace:^
         version: link:../../session/session-projection
-      '@deepseek-ai/dsh-system-prompt':
+      '@worldapptechnologies/nulu-system-prompt':
         specifier: workspace:^
         version: link:../../core/system-prompt
-      '@deepseek-ai/dsh-tools':
+      '@worldapptechnologies/nulu-tools':
         specifier: workspace:^
         version: link:../../core/tools
 
   packages/experimental/browser-use-playwright-mcp:
     dependencies:
-      '@deepseek-ai/dsh-experimental-browser-use-runtime':
+      '@worldapptechnologies/nulu-experimental-browser-use-runtime':
         specifier: workspace:^
         version: link:../browser-use-runtime
       '@playwright/mcp':
         specifier: 0.0.80
         version: 0.0.80
     devDependencies:
-      '@deepseek-ai/cordis':
+      '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
-      '@deepseek-ai/cordis-plugin-include':
+      '@worldapptechnologies/cordis-plugin-include':
         specifier: workspace:^
         version: link:../../../vendor/include
-      '@deepseek-ai/cordis-plugin-loader':
+      '@worldapptechnologies/cordis-plugin-loader':
         specifier: workspace:^
         version: link:../../../vendor/loader
-      '@deepseek-ai/dsh-agent':
+      '@worldapptechnologies/nulu-agent':
         specifier: workspace:^
         version: link:../../core/agent
-      '@deepseek-ai/dsh-agent-loop':
+      '@worldapptechnologies/nulu-agent-loop':
         specifier: workspace:^
         version: link:../../core/agent-loop
-      '@deepseek-ai/dsh-browser-use':
+      '@worldapptechnologies/nulu-browser-use':
         specifier: workspace:^
         version: link:../../browser-use/browser-use
-      '@deepseek-ai/dsh-llm':
+      '@worldapptechnologies/nulu-llm':
         specifier: workspace:^
         version: link:../../llm/llm
-      '@deepseek-ai/dsh-session':
+      '@worldapptechnologies/nulu-session':
         specifier: workspace:^
         version: link:../../core/session
-      '@deepseek-ai/dsh-session-projection':
+      '@worldapptechnologies/nulu-session-projection':
         specifier: workspace:^
         version: link:../../session/session-projection
-      '@deepseek-ai/dsh-system-prompt':
+      '@worldapptechnologies/nulu-system-prompt':
         specifier: workspace:^
         version: link:../../core/system-prompt
-      '@deepseek-ai/dsh-tools':
+      '@worldapptechnologies/nulu-tools':
         specifier: workspace:^
         version: link:../../core/tools
 
   packages/experimental/browser-use-runtime:
     dependencies:
-      '@deepseek-ai/dsh-mcp-client':
+      '@worldapptechnologies/nulu-mcp-client':
         specifier: workspace:^
         version: link:../../mcp/mcp-client
-      '@deepseek-ai/dsh-scope':
+      '@worldapptechnologies/nulu-scope':
         specifier: workspace:^
         version: link:../../core/scope
-      '@deepseek-ai/schemastery':
+      '@worldapptechnologies/schemastery':
         specifier: link:../../../vendor/schemastery
         version: link:../../../vendor/schemastery
     devDependencies:
-      '@deepseek-ai/cordis':
+      '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
-      '@deepseek-ai/cordis-plugin-include':
+      '@worldapptechnologies/cordis-plugin-include':
         specifier: workspace:^
         version: link:../../../vendor/include
-      '@deepseek-ai/cordis-plugin-loader':
+      '@worldapptechnologies/cordis-plugin-loader':
         specifier: workspace:^
         version: link:../../../vendor/loader
-      '@deepseek-ai/dsh-agent':
+      '@worldapptechnologies/nulu-agent':
         specifier: workspace:^
         version: link:../../core/agent
-      '@deepseek-ai/dsh-agent-loop':
+      '@worldapptechnologies/nulu-agent-loop':
         specifier: workspace:^
         version: link:../../core/agent-loop
-      '@deepseek-ai/dsh-agent-loop-testkit':
+      '@worldapptechnologies/nulu-agent-loop-testkit':
         specifier: workspace:^
         version: link:../../test-support/agent-loop-testkit
-      '@deepseek-ai/dsh-attachment-local':
+      '@worldapptechnologies/nulu-attachment-local':
         specifier: workspace:^
         version: link:../../attachment/attachment-local
-      '@deepseek-ai/dsh-browser-use':
+      '@worldapptechnologies/nulu-browser-use':
         specifier: workspace:^
         version: link:../../browser-use/browser-use
-      '@deepseek-ai/dsh-llm':
+      '@worldapptechnologies/nulu-llm':
         specifier: workspace:^
         version: link:../../llm/llm
-      '@deepseek-ai/dsh-mcp-resources':
+      '@worldapptechnologies/nulu-mcp-resources':
         specifier: workspace:^
         version: link:../../mcp/mcp-resources
-      '@deepseek-ai/dsh-ptc-runtime':
+      '@worldapptechnologies/nulu-ptc-runtime':
         specifier: workspace:^
         version: link:../../ptc-runtime/ptc-runtime
-      '@deepseek-ai/dsh-session':
+      '@worldapptechnologies/nulu-session':
         specifier: workspace:^
         version: link:../../core/session
-      '@deepseek-ai/dsh-session-persistence-jsonl':
+      '@worldapptechnologies/nulu-session-persistence-jsonl':
         specifier: workspace:^
         version: link:../../session/session-persistence-jsonl
-      '@deepseek-ai/dsh-session-projection':
+      '@worldapptechnologies/nulu-session-projection':
         specifier: workspace:^
         version: link:../../session/session-projection
-      '@deepseek-ai/dsh-system-prompt':
+      '@worldapptechnologies/nulu-system-prompt':
         specifier: workspace:^
         version: link:../../core/system-prompt
-      '@deepseek-ai/dsh-tools':
+      '@worldapptechnologies/nulu-tools':
         specifier: workspace:^
         version: link:../../core/tools
 
@@ -6357,19 +6357,19 @@ importers:
       '@browserbasehq/stagehand':
         specifier: 4.1.0
         version: 4.1.0
-      '@deepseek-ai/dsh-experimental-browser-use-runtime':
+      '@worldapptechnologies/nulu-experimental-browser-use-runtime':
         specifier: workspace:^
         version: link:../browser-use-runtime
-      '@deepseek-ai/dsh-mcp-client':
+      '@worldapptechnologies/nulu-mcp-client':
         specifier: workspace:^
         version: link:../../mcp/mcp-client
-      '@deepseek-ai/dsh-subprocess':
+      '@worldapptechnologies/nulu-subprocess':
         specifier: workspace:^
         version: link:../../subprocess/subprocess
-      '@deepseek-ai/dsh-util-values':
+      '@worldapptechnologies/nulu-util-values':
         specifier: workspace:^
         version: link:../../util/values
-      '@deepseek-ai/schemastery':
+      '@worldapptechnologies/schemastery':
         specifier: link:../../../vendor/schemastery
         version: link:../../../vendor/schemastery
       '@puppeteer/browsers':
@@ -6379,46 +6379,46 @@ importers:
         specifier: ^4.4.3
         version: 4.4.3
     devDependencies:
-      '@deepseek-ai/cordis':
+      '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
-      '@deepseek-ai/cordis-plugin-include':
+      '@worldapptechnologies/cordis-plugin-include':
         specifier: workspace:^
         version: link:../../../vendor/include
-      '@deepseek-ai/cordis-plugin-loader':
+      '@worldapptechnologies/cordis-plugin-loader':
         specifier: workspace:^
         version: link:../../../vendor/loader
-      '@deepseek-ai/dsh-agent':
+      '@worldapptechnologies/nulu-agent':
         specifier: workspace:^
         version: link:../../core/agent
-      '@deepseek-ai/dsh-agent-loop':
+      '@worldapptechnologies/nulu-agent-loop':
         specifier: workspace:^
         version: link:../../core/agent-loop
-      '@deepseek-ai/dsh-agent-loop-testkit':
+      '@worldapptechnologies/nulu-agent-loop-testkit':
         specifier: workspace:^
         version: link:../../test-support/agent-loop-testkit
-      '@deepseek-ai/dsh-attachment':
+      '@worldapptechnologies/nulu-attachment':
         specifier: workspace:^
         version: link:../../attachment/attachment
-      '@deepseek-ai/dsh-attachment-local':
+      '@worldapptechnologies/nulu-attachment-local':
         specifier: workspace:^
         version: link:../../attachment/attachment-local
-      '@deepseek-ai/dsh-browser-use':
+      '@worldapptechnologies/nulu-browser-use':
         specifier: workspace:^
         version: link:../../browser-use/browser-use
-      '@deepseek-ai/dsh-llm':
+      '@worldapptechnologies/nulu-llm':
         specifier: workspace:^
         version: link:../../llm/llm
-      '@deepseek-ai/dsh-session':
+      '@worldapptechnologies/nulu-session':
         specifier: workspace:^
         version: link:../../core/session
-      '@deepseek-ai/dsh-session-projection':
+      '@worldapptechnologies/nulu-session-projection':
         specifier: workspace:^
         version: link:../../session/session-projection
-      '@deepseek-ai/dsh-system-prompt':
+      '@worldapptechnologies/nulu-system-prompt':
         specifier: workspace:^
         version: link:../../core/system-prompt
-      '@deepseek-ai/dsh-tools':
+      '@worldapptechnologies/nulu-tools':
         specifier: workspace:^
         version: link:../../core/tools
       tsx:
@@ -6482,56 +6482,56 @@ importers:
 
   packages/experimental/computer-use-cua-driver-mcp:
     dependencies:
-      '@deepseek-ai/dsh-mcp-client':
+      '@worldapptechnologies/nulu-mcp-client':
         specifier: workspace:^
         version: link:../../mcp/mcp-client
-      '@deepseek-ai/schemastery':
+      '@worldapptechnologies/schemastery':
         specifier: link:../../../vendor/schemastery
         version: link:../../../vendor/schemastery
     devDependencies:
       '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
-      '@deepseek-ai/cordis-plugin-include':
+      '@worldapptechnologies/cordis-plugin-include':
         specifier: workspace:^
         version: link:../../../vendor/include
-      '@deepseek-ai/cordis-plugin-loader':
+      '@worldapptechnologies/cordis-plugin-loader':
         specifier: workspace:^
         version: link:../../../vendor/loader
-      '@deepseek-ai/dsh-agent':
+      '@worldapptechnologies/nulu-agent':
         specifier: workspace:^
         version: link:../../core/agent
-      '@deepseek-ai/dsh-agent-loop':
+      '@worldapptechnologies/nulu-agent-loop':
         specifier: workspace:^
         version: link:../../core/agent-loop
-      '@deepseek-ai/dsh-attachment-local':
+      '@worldapptechnologies/nulu-attachment-local':
         specifier: workspace:^
         version: link:../../attachment/attachment-local
-      '@deepseek-ai/dsh-computer-use':
+      '@worldapptechnologies/nulu-computer-use':
         specifier: workspace:^
         version: link:../../computer-use/computer-use
-      '@deepseek-ai/dsh-llm':
+      '@worldapptechnologies/nulu-llm':
         specifier: workspace:^
         version: link:../../llm/llm
-      '@deepseek-ai/dsh-session':
+      '@worldapptechnologies/nulu-session':
         specifier: workspace:^
         version: link:../../core/session
-      '@deepseek-ai/dsh-session-projection':
+      '@worldapptechnologies/nulu-session-projection':
         specifier: workspace:^
         version: link:../../session/session-projection
-      '@deepseek-ai/dsh-system-prompt':
+      '@worldapptechnologies/nulu-system-prompt':
         specifier: workspace:^
         version: link:../../core/system-prompt
-      '@deepseek-ai/dsh-tools':
+      '@worldapptechnologies/nulu-tools':
         specifier: workspace:^
         version: link:../../core/tools
 
   packages/experimental/computer-use-cua-driver-native:
     dependencies:
-      '@deepseek-ai/dsh-mcp-client':
+      '@worldapptechnologies/nulu-mcp-client':
         specifier: workspace:^
         version: link:../../mcp/mcp-client
-      '@deepseek-ai/schemastery':
+      '@worldapptechnologies/schemastery':
         specifier: link:../../../vendor/schemastery
         version: link:../../../vendor/schemastery
       '@trycua/cua-driver':
@@ -6541,55 +6541,55 @@ importers:
         specifier: ^4.4.3
         version: 4.4.3
     devDependencies:
-      '@deepseek-ai/cordis':
+      '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
-      '@deepseek-ai/cordis-plugin-include':
+      '@worldapptechnologies/cordis-plugin-include':
         specifier: workspace:^
         version: link:../../../vendor/include
-      '@deepseek-ai/cordis-plugin-loader':
+      '@worldapptechnologies/cordis-plugin-loader':
         specifier: workspace:^
         version: link:../../../vendor/loader
-      '@deepseek-ai/dsh-agent':
+      '@worldapptechnologies/nulu-agent':
         specifier: workspace:^
         version: link:../../core/agent
-      '@deepseek-ai/dsh-agent-loop':
+      '@worldapptechnologies/nulu-agent-loop':
         specifier: workspace:^
         version: link:../../core/agent-loop
-      '@deepseek-ai/dsh-agent-loop-testkit':
+      '@worldapptechnologies/nulu-agent-loop-testkit':
         specifier: workspace:^
         version: link:../../test-support/agent-loop-testkit
-      '@deepseek-ai/dsh-attachment':
+      '@worldapptechnologies/nulu-attachment':
         specifier: workspace:^
         version: link:../../attachment/attachment
-      '@deepseek-ai/dsh-attachment-local':
+      '@worldapptechnologies/nulu-attachment-local':
         specifier: workspace:^
         version: link:../../attachment/attachment-local
-      '@deepseek-ai/dsh-computer-use':
+      '@worldapptechnologies/nulu-computer-use':
         specifier: workspace:^
         version: link:../../computer-use/computer-use
-      '@deepseek-ai/dsh-llm':
+      '@worldapptechnologies/nulu-llm':
         specifier: workspace:^
         version: link:../../llm/llm
-      '@deepseek-ai/dsh-session':
+      '@worldapptechnologies/nulu-session':
         specifier: workspace:^
         version: link:../../core/session
-      '@deepseek-ai/dsh-session-projection':
+      '@worldapptechnologies/nulu-session-projection':
         specifier: workspace:^
         version: link:../../session/session-projection
-      '@deepseek-ai/dsh-system-prompt':
+      '@worldapptechnologies/nulu-system-prompt':
         specifier: workspace:^
         version: link:../../core/system-prompt
-      '@deepseek-ai/dsh-tools':
+      '@worldapptechnologies/nulu-tools':
         specifier: workspace:^
         version: link:../../core/tools
 
   packages/experimental/inspector:
     dependencies:
-      '@deepseek-ai/dsh-app-boot':
+      '@worldapptechnologies/nulu-app-boot':
         specifier: workspace:^
         version: link:../../boot/app-boot
-      '@deepseek-ai/dsh-brand':
+      '@worldapptechnologies/nulu-brand':
         specifier: workspace:^
         version: link:../../util/brand
       '@worldapptechnologies/nulu-client-modules':
@@ -6629,20 +6629,20 @@ importers:
 
   packages/experimental/ptc-runtime-python:
     dependencies:
-      '@deepseek-ai/schemastery':
+      '@worldapptechnologies/schemastery':
         specifier: link:../../../vendor/schemastery
         version: link:../../../vendor/schemastery
     devDependencies:
-      '@deepseek-ai/cordis':
+      '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
-      '@deepseek-ai/dsh-ptc-runtime':
+      '@worldapptechnologies/nulu-ptc-runtime':
         specifier: workspace:^
         version: link:../../ptc-runtime/ptc-runtime
-      '@deepseek-ai/dsh-timeout':
+      '@worldapptechnologies/nulu-timeout':
         specifier: workspace:^
         version: link:../../util/timeout
-      '@deepseek-ai/dsh-util-values':
+      '@worldapptechnologies/nulu-util-values':
         specifier: workspace:^
         version: link:../../util/values
 
@@ -6667,13 +6667,13 @@ importers:
       '@worldapptechnologies/nulu-experimental-agent-team':
         specifier: workspace:^
         version: link:../agent-team
-      '@deepseek-ai/dsh-llm':
+      '@worldapptechnologies/nulu-llm':
         specifier: workspace:^
         version: link:../../llm/llm
-      '@deepseek-ai/dsh-llm-deepseek':
+      '@worldapptechnologies/nulu-llm-deepseek':
         specifier: workspace:^
         version: link:../../llm/llm-deepseek
-      '@deepseek-ai/dsh-scope':
+      '@worldapptechnologies/nulu-scope':
         specifier: workspace:^
         version: link:../../core/scope
       '@worldapptechnologies/nulu-session':
@@ -7136,7 +7136,7 @@ importers:
       '@worldapptechnologies/nulu-attachment':
         specifier: workspace:^
         version: link:../../attachment/attachment
-      '@deepseek-ai/dsh-fs':
+      '@worldapptechnologies/nulu-fs':
         specifier: workspace:^
         version: link:../fs
       '@worldapptechnologies/nulu-fs-local':
@@ -7151,10 +7151,10 @@ importers:
       '@worldapptechnologies/nulu-llm-gateway':
         specifier: workspace:^
         version: link:../../llm/llm-deepseek
-      '@deepseek-ai/dsh-ptc-runtime':
+      '@worldapptechnologies/nulu-ptc-runtime':
         specifier: workspace:^
         version: link:../../ptc-runtime/ptc-runtime
-      '@deepseek-ai/dsh-sandbox':
+      '@worldapptechnologies/nulu-sandbox':
         specifier: workspace:^
         version: link:../../sandbox/sandbox
       '@worldapptechnologies/nulu-sandbox-policy':
@@ -7888,10 +7888,10 @@ importers:
       '@worldapptechnologies/nulu-shell':
         specifier: workspace:^
         version: link:../../shell/shell
-      '@deepseek-ai/dsh-typert-protocol':
+      '@worldapptechnologies/nulu-typert-protocol':
         specifier: workspace:^
         version: link:../../typert/protocol
-      '@deepseek-ai/dsh-user-approval':
+      '@worldapptechnologies/nulu-user-approval':
         specifier: workspace:^
         version: link:../user-approval
 
@@ -8109,19 +8109,19 @@ importers:
       '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
-      '@deepseek-ai/cordis-plugin-include':
+      '@worldapptechnologies/cordis-plugin-include':
         specifier: workspace:^
         version: link:../../../vendor/include
-      '@deepseek-ai/cordis-plugin-loader':
+      '@worldapptechnologies/cordis-plugin-loader':
         specifier: workspace:^
         version: link:../../../vendor/loader
-      '@deepseek-ai/dsh-agent':
+      '@worldapptechnologies/nulu-agent':
         specifier: workspace:^
         version: link:../../core/agent
-      '@deepseek-ai/dsh-agent-loop':
+      '@worldapptechnologies/nulu-agent-loop':
         specifier: workspace:^
         version: link:../../core/agent-loop
-      '@deepseek-ai/dsh-anonymous-user-id':
+      '@worldapptechnologies/nulu-anonymous-user-id':
         specifier: workspace:^
         version: link:../../identity/anonymous-user-id
       '@worldapptechnologies/nulu-atomic-write':
@@ -8136,13 +8136,13 @@ importers:
       '@worldapptechnologies/nulu-credentials':
         specifier: workspace:^
         version: link:../../credentials/credentials
-      '@deepseek-ai/dsh-credentials-local':
+      '@worldapptechnologies/nulu-credentials-local':
         specifier: workspace:^
         version: link:../../credentials/credentials-local
-      '@deepseek-ai/dsh-deepseek-llm-api-extensions':
+      '@worldapptechnologies/nulu-deepseek-llm-api-extensions':
         specifier: workspace:^
         version: link:../deepseek-llm-api-extensions
-      '@deepseek-ai/dsh-fs':
+      '@worldapptechnologies/nulu-fs':
         specifier: workspace:^
         version: link:../../fs/fs
       '@worldapptechnologies/nulu-home-paths':
@@ -8169,22 +8169,22 @@ importers:
       '@worldapptechnologies/nulu-session-log-gateway':
         specifier: workspace:^
         version: link:../../session/session-log-deepseek
-      '@deepseek-ai/dsh-session-projection':
+      '@worldapptechnologies/nulu-session-projection':
         specifier: workspace:^
         version: link:../../session/session-projection
-      '@deepseek-ai/dsh-settings':
+      '@worldapptechnologies/nulu-settings':
         specifier: workspace:^
         version: link:../../settings/settings
-      '@deepseek-ai/dsh-settings-file':
+      '@worldapptechnologies/nulu-settings-file':
         specifier: workspace:^
         version: link:../../settings/settings-file
-      '@deepseek-ai/dsh-system-prompt':
+      '@worldapptechnologies/nulu-system-prompt':
         specifier: workspace:^
         version: link:../../core/system-prompt
-      '@deepseek-ai/dsh-timeout':
+      '@worldapptechnologies/nulu-timeout':
         specifier: workspace:^
         version: link:../../util/timeout
-      '@deepseek-ai/dsh-tools':
+      '@worldapptechnologies/nulu-tools':
         specifier: workspace:^
         version: link:../../core/tools
 
@@ -8322,10 +8322,10 @@ importers:
       '@worldapptechnologies/nulu-agent-presets':
         specifier: workspace:^
         version: link:../../preset/agent-presets
-      '@deepseek-ai/dsh-app-boot':
+      '@worldapptechnologies/nulu-app-boot':
         specifier: workspace:^
         version: link:../../boot/app-boot
-      '@deepseek-ai/dsh-deepseek-llm-api-extensions':
+      '@worldapptechnologies/nulu-deepseek-llm-api-extensions':
         specifier: workspace:^
         version: link:../llm-api-extensions
       '@worldapptechnologies/nulu-scope':
@@ -8356,10 +8356,10 @@ importers:
       '@worldapptechnologies/nulu-compaction':
         specifier: workspace:^
         version: link:../../compaction/compaction
-      '@deepseek-ai/dsh-compaction-image-offload':
+      '@worldapptechnologies/nulu-compaction-image-offload':
         specifier: workspace:^
         version: link:../../compaction/compaction-image-offload
-      '@deepseek-ai/dsh-llm':
+      '@worldapptechnologies/nulu-llm':
         specifier: workspace:^
         version: link:../llm
       '@worldapptechnologies/nulu-llm-retry':
@@ -8475,47 +8475,47 @@ importers:
 
   packages/mcp/mcp-client:
     dependencies:
-      '@deepseek-ai/dsh-util-values':
+      '@worldapptechnologies/nulu-util-values':
         specifier: workspace:^
         version: link:../../util/values
-      '@deepseek-ai/schemastery':
+      '@worldapptechnologies/schemastery':
         specifier: link:../../../vendor/schemastery
         version: link:../../../vendor/schemastery
       '@modelcontextprotocol/client':
         specifier: 2.0.0
         version: 2.0.0
     devDependencies:
-      '@deepseek-ai/cordis':
+      '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
-      '@deepseek-ai/dsh-attachment':
+      '@worldapptechnologies/nulu-attachment':
         specifier: workspace:^
         version: link:../../attachment/attachment
-      '@deepseek-ai/dsh-attachment-local':
+      '@worldapptechnologies/nulu-attachment-local':
         specifier: workspace:^
         version: link:../../attachment/attachment-local
-      '@deepseek-ai/dsh-http-proxy':
+      '@worldapptechnologies/nulu-http-proxy':
         specifier: workspace:^
         version: link:../../util/http-proxy
-      '@deepseek-ai/dsh-llm':
+      '@worldapptechnologies/nulu-llm':
         specifier: workspace:^
         version: link:../../llm/llm
-      '@deepseek-ai/dsh-mcp-resources':
+      '@worldapptechnologies/nulu-mcp-resources':
         specifier: workspace:^
         version: link:../mcp-resources
-      '@deepseek-ai/dsh-scope':
+      '@worldapptechnologies/nulu-scope':
         specifier: workspace:^
         version: link:../../core/scope
-      '@deepseek-ai/dsh-subprocess':
+      '@worldapptechnologies/nulu-subprocess':
         specifier: workspace:^
         version: link:../../subprocess/subprocess
-      '@deepseek-ai/dsh-system-prompt':
+      '@worldapptechnologies/nulu-system-prompt':
         specifier: workspace:^
         version: link:../../core/system-prompt
-      '@deepseek-ai/dsh-timeout':
+      '@worldapptechnologies/nulu-timeout':
         specifier: workspace:^
         version: link:../../util/timeout
-      '@deepseek-ai/dsh-tools':
+      '@worldapptechnologies/nulu-tools':
         specifier: workspace:^
         version: link:../../core/tools
       '@modelcontextprotocol/node':
@@ -8536,29 +8536,29 @@ importers:
 
   packages/mcp/mcp-resources:
     dependencies:
-      '@deepseek-ai/dsh-util-values':
+      '@worldapptechnologies/nulu-util-values':
         specifier: workspace:^
         version: link:../../util/values
     devDependencies:
-      '@deepseek-ai/cordis':
+      '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
-      '@deepseek-ai/dsh-agent':
+      '@worldapptechnologies/nulu-agent':
         specifier: workspace:^
         version: link:../../core/agent
-      '@deepseek-ai/dsh-llm':
+      '@worldapptechnologies/nulu-llm':
         specifier: workspace:^
         version: link:../../llm/llm
-      '@deepseek-ai/dsh-ptc-runtime':
+      '@worldapptechnologies/nulu-ptc-runtime':
         specifier: workspace:^
         version: link:../../ptc-runtime/ptc-runtime
-      '@deepseek-ai/dsh-scope':
+      '@worldapptechnologies/nulu-scope':
         specifier: workspace:^
         version: link:../../core/scope
-      '@deepseek-ai/dsh-system-prompt':
+      '@worldapptechnologies/nulu-system-prompt':
         specifier: workspace:^
         version: link:../../core/system-prompt
-      '@deepseek-ai/dsh-tools':
+      '@worldapptechnologies/nulu-tools':
         specifier: workspace:^
         version: link:../../core/tools
 
@@ -8580,7 +8580,7 @@ importers:
       '@worldapptechnologies/nulu-agent-loop':
         specifier: workspace:^
         version: link:../../core/agent-loop
-      '@deepseek-ai/dsh-commands':
+      '@worldapptechnologies/nulu-commands':
         specifier: workspace:^
         version: link:../../interaction/commands
       '@worldapptechnologies/nulu-invariants':
@@ -8589,10 +8589,10 @@ importers:
       '@worldapptechnologies/nulu-llm':
         specifier: workspace:^
         version: link:../../llm/llm
-      '@deepseek-ai/dsh-ptc-runtime':
+      '@worldapptechnologies/nulu-ptc-runtime':
         specifier: workspace:^
         version: link:../../ptc-runtime/ptc-runtime
-      '@deepseek-ai/dsh-session':
+      '@worldapptechnologies/nulu-session':
         specifier: workspace:^
         version: link:../../core/session
       '@worldapptechnologies/nulu-session-projection':
@@ -8638,10 +8638,10 @@ importers:
       '@worldapptechnologies/nulu-agent-loop':
         specifier: workspace:^
         version: link:../../core/agent-loop
-      '@deepseek-ai/dsh-app-boot':
+      '@worldapptechnologies/nulu-app-boot':
         specifier: workspace:^
         version: link:../../boot/app-boot
-      '@deepseek-ai/dsh-atomic-write':
+      '@worldapptechnologies/nulu-atomic-write':
         specifier: workspace:^
         version: link:../../util/atomic-write
       '@worldapptechnologies/nulu-home-paths':
@@ -8696,56 +8696,56 @@ importers:
 
   packages/ptc-runtime/ptc-runtime:
     devDependencies:
-      '@deepseek-ai/cordis':
+      '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
-      '@deepseek-ai/dsh-sandbox':
+      '@worldapptechnologies/nulu-sandbox':
         specifier: workspace:^
         version: link:../../sandbox/sandbox
 
   packages/ptc-runtime/ptc-runtime-node:
     dependencies:
-      '@deepseek-ai/dsh-util-values':
+      '@worldapptechnologies/nulu-util-values':
         specifier: workspace:^
         version: link:../../util/values
-      '@deepseek-ai/schemastery':
+      '@worldapptechnologies/schemastery':
         specifier: link:../../../vendor/schemastery
         version: link:../../../vendor/schemastery
     devDependencies:
-      '@deepseek-ai/cordis':
+      '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
-      '@deepseek-ai/dsh-fs':
+      '@worldapptechnologies/nulu-fs':
         specifier: workspace:^
         version: link:../../fs/fs
-      '@deepseek-ai/dsh-fs-local':
+      '@worldapptechnologies/nulu-fs-local':
         specifier: workspace:^
         version: link:../../fs/fs-local
-      '@deepseek-ai/dsh-ptc-runtime':
+      '@worldapptechnologies/nulu-ptc-runtime':
         specifier: workspace:^
         version: link:../ptc-runtime
-      '@deepseek-ai/dsh-sandbox':
+      '@worldapptechnologies/nulu-sandbox':
         specifier: workspace:^
         version: link:../../sandbox/sandbox
-      '@deepseek-ai/dsh-sandbox-local':
+      '@worldapptechnologies/nulu-sandbox-local':
         specifier: workspace:^
         version: link:../../sandbox/sandbox-local
-      '@deepseek-ai/dsh-sandbox-policy':
+      '@worldapptechnologies/nulu-sandbox-policy':
         specifier: workspace:^
         version: link:../../sandbox/sandbox-policy
-      '@deepseek-ai/dsh-session':
+      '@worldapptechnologies/nulu-session':
         specifier: workspace:^
         version: link:../../core/session
-      '@deepseek-ai/dsh-session-projection':
+      '@worldapptechnologies/nulu-session-projection':
         specifier: workspace:^
         version: link:../../session/session-projection
-      '@deepseek-ai/dsh-subprocess':
+      '@worldapptechnologies/nulu-subprocess':
         specifier: workspace:^
         version: link:../../subprocess/subprocess
-      '@deepseek-ai/dsh-subprocess-local':
+      '@worldapptechnologies/nulu-subprocess-local':
         specifier: workspace:^
         version: link:../../subprocess/subprocess-local
-      '@deepseek-ai/dsh-timeout':
+      '@worldapptechnologies/nulu-timeout':
         specifier: workspace:^
         version: link:../../util/timeout
 
@@ -8836,10 +8836,10 @@ importers:
 
   packages/sandbox/sandbox-windows-acl:
     dependencies:
-      '@deepseek-ai/dsh-lazy-require':
+      '@worldapptechnologies/nulu-lazy-require':
         specifier: workspace:^
         version: link:../../util/lazy-require
-      '@deepseek-ai/dsh-win32-process':
+      '@worldapptechnologies/nulu-win32-process':
         specifier: workspace:^
         version: link:../../subprocess/win32-process
       koffi:
@@ -8855,10 +8855,10 @@ importers:
       '@worldapptechnologies/nulu-sandbox-local':
         specifier: workspace:^
         version: link:../sandbox-local
-      '@deepseek-ai/dsh-subprocess':
+      '@worldapptechnologies/nulu-subprocess':
         specifier: workspace:^
         version: link:../../subprocess/subprocess
-      '@deepseek-ai/dsh-subprocess-local':
+      '@worldapptechnologies/nulu-subprocess-local':
         specifier: workspace:^
         version: link:../../subprocess/subprocess-local
 
@@ -9072,7 +9072,7 @@ importers:
 
   packages/session-query/session-query:
     dependencies:
-      '@deepseek-ai/dsh-session-format-catalog':
+      '@worldapptechnologies/nulu-session-format-catalog':
         specifier: workspace:^
         version: link:../../session/session-format-catalog
     devDependencies:
@@ -9238,10 +9238,10 @@ importers:
 
   packages/session/session-format-catalog:
     dependencies:
-      '@deepseek-ai/dsh-compaction-image-offload':
+      '@worldapptechnologies/nulu-compaction-image-offload':
         specifier: workspace:^
         version: link:../../compaction/compaction-image-offload
-      '@deepseek-ai/dsh-session-format':
+      '@worldapptechnologies/nulu-session-format':
         specifier: workspace:^
         version: link:../session-format
       '@worldapptechnologies/nulu-session-format-v0-to-v1':
@@ -10315,164 +10315,164 @@ importers:
       '@worldapptechnologies/nulu-agent':
         specifier: workspace:^
         version: link:../../core/agent
-      '@deepseek-ai/dsh-fs-local':
+      '@worldapptechnologies/nulu-fs-local':
         specifier: workspace:^
         version: link:../../fs/fs-local
-      '@deepseek-ai/dsh-llm':
+      '@worldapptechnologies/nulu-llm':
         specifier: workspace:^
         version: link:../../llm/llm
       '@worldapptechnologies/nulu-output-retention':
         specifier: workspace:^
         version: link:../../util/output-retention
-      '@deepseek-ai/dsh-ptc-runtime-node':
+      '@worldapptechnologies/nulu-ptc-runtime-node':
         specifier: workspace:^
         version: link:../../ptc-runtime/ptc-runtime-node
-      '@deepseek-ai/dsh-sandbox-local':
+      '@worldapptechnologies/nulu-sandbox-local':
         specifier: workspace:^
         version: link:../../sandbox/sandbox-local
-      '@deepseek-ai/dsh-sandbox-policy':
+      '@worldapptechnologies/nulu-sandbox-policy':
         specifier: workspace:^
         version: link:../../sandbox/sandbox-policy
-      '@deepseek-ai/dsh-session':
+      '@worldapptechnologies/nulu-session':
         specifier: workspace:^
         version: link:../../core/session
-      '@deepseek-ai/dsh-session-projection':
+      '@worldapptechnologies/nulu-session-projection':
         specifier: workspace:^
         version: link:../../session/session-projection
-      '@deepseek-ai/dsh-spill':
+      '@worldapptechnologies/nulu-spill':
         specifier: workspace:^
         version: link:../spill
-      '@deepseek-ai/dsh-subprocess-local':
+      '@worldapptechnologies/nulu-subprocess-local':
         specifier: workspace:^
         version: link:../../subprocess/subprocess-local
-      '@deepseek-ai/dsh-tools':
+      '@worldapptechnologies/nulu-tools':
         specifier: workspace:^
         version: link:../../core/tools
 
   packages/ssh/fs-ssh:
     dependencies:
-      '@deepseek-ai/schemastery':
+      '@worldapptechnologies/schemastery':
         specifier: link:../../../vendor/schemastery
         version: link:../../../vendor/schemastery
       zod:
         specifier: ^4.4.3
         version: 4.4.3
     devDependencies:
-      '@deepseek-ai/cordis':
+      '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
-      '@deepseek-ai/dsh-fs':
+      '@worldapptechnologies/nulu-fs':
         specifier: workspace:^
         version: link:../../fs/fs
-      '@deepseek-ai/dsh-sandbox':
+      '@worldapptechnologies/nulu-sandbox':
         specifier: workspace:^
         version: link:../../sandbox/sandbox
-      '@deepseek-ai/dsh-sandbox-policy':
+      '@worldapptechnologies/nulu-sandbox-policy':
         specifier: workspace:^
         version: link:../../sandbox/sandbox-policy
-      '@deepseek-ai/dsh-ssh':
+      '@worldapptechnologies/nulu-ssh':
         specifier: workspace:^
         version: link:../ssh
 
   packages/ssh/sandbox-ssh:
     dependencies:
-      '@deepseek-ai/schemastery':
+      '@worldapptechnologies/schemastery':
         specifier: link:../../../vendor/schemastery
         version: link:../../../vendor/schemastery
       zod:
         specifier: ^4.4.3
         version: 4.4.3
     devDependencies:
-      '@deepseek-ai/cordis':
+      '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
-      '@deepseek-ai/dsh-sandbox':
+      '@worldapptechnologies/nulu-sandbox':
         specifier: workspace:^
         version: link:../../sandbox/sandbox
-      '@deepseek-ai/dsh-ssh':
+      '@worldapptechnologies/nulu-ssh':
         specifier: workspace:^
         version: link:../ssh
 
   packages/ssh/ssh:
     dependencies:
-      '@deepseek-ai/schemastery':
+      '@worldapptechnologies/schemastery':
         specifier: link:../../../vendor/schemastery
         version: link:../../../vendor/schemastery
       zod:
         specifier: ^4.4.3
         version: 4.4.3
     devDependencies:
-      '@deepseek-ai/cordis':
+      '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
-      '@deepseek-ai/dsh-brand':
+      '@worldapptechnologies/nulu-brand':
         specifier: workspace:^
         version: link:../../util/brand
-      '@deepseek-ai/dsh-fs':
+      '@worldapptechnologies/nulu-fs':
         specifier: workspace:^
         version: link:../../fs/fs
-      '@deepseek-ai/dsh-fs-local':
+      '@worldapptechnologies/nulu-fs-local':
         specifier: workspace:^
         version: link:../../fs/fs-local
-      '@deepseek-ai/dsh-fs-sandbox':
+      '@worldapptechnologies/nulu-fs-sandbox':
         specifier: workspace:^
         version: link:../../fs/fs-sandbox
-      '@deepseek-ai/dsh-fs-ssh':
+      '@worldapptechnologies/nulu-fs-ssh':
         specifier: workspace:^
         version: link:../fs-ssh
-      '@deepseek-ai/dsh-lsp':
+      '@worldapptechnologies/nulu-lsp':
         specifier: workspace:^
         version: link:../../lsp/lsp
-      '@deepseek-ai/dsh-lsp-stdio':
+      '@worldapptechnologies/nulu-lsp-stdio':
         specifier: workspace:^
         version: link:../../lsp/lsp-stdio
-      '@deepseek-ai/dsh-ptc-runtime-node':
+      '@worldapptechnologies/nulu-ptc-runtime-node':
         specifier: workspace:^
         version: link:../../ptc-runtime/ptc-runtime-node
-      '@deepseek-ai/dsh-sandbox':
+      '@worldapptechnologies/nulu-sandbox':
         specifier: workspace:^
         version: link:../../sandbox/sandbox
-      '@deepseek-ai/dsh-sandbox-local':
+      '@worldapptechnologies/nulu-sandbox-local':
         specifier: workspace:^
         version: link:../../sandbox/sandbox-local
-      '@deepseek-ai/dsh-sandbox-policy':
+      '@worldapptechnologies/nulu-sandbox-policy':
         specifier: workspace:^
         version: link:../../sandbox/sandbox-policy
-      '@deepseek-ai/dsh-sandbox-ssh':
+      '@worldapptechnologies/nulu-sandbox-ssh':
         specifier: workspace:^
         version: link:../sandbox-ssh
-      '@deepseek-ai/dsh-session-projection':
+      '@worldapptechnologies/nulu-session-projection':
         specifier: workspace:^
         version: link:../../session/session-projection
-      '@deepseek-ai/dsh-subprocess':
+      '@worldapptechnologies/nulu-subprocess':
         specifier: workspace:^
         version: link:../../subprocess/subprocess
-      '@deepseek-ai/dsh-subprocess-local':
+      '@worldapptechnologies/nulu-subprocess-local':
         specifier: workspace:^
         version: link:../../subprocess/subprocess-local
-      '@deepseek-ai/dsh-subprocess-ssh':
+      '@worldapptechnologies/nulu-subprocess-ssh':
         specifier: workspace:^
         version: link:../subprocess-ssh
 
   packages/ssh/subprocess-ssh:
     dependencies:
-      '@deepseek-ai/schemastery':
+      '@worldapptechnologies/schemastery':
         specifier: link:../../../vendor/schemastery
         version: link:../../../vendor/schemastery
       zod:
         specifier: ^4.4.3
         version: 4.4.3
     devDependencies:
-      '@deepseek-ai/cordis':
+      '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
-      '@deepseek-ai/dsh-ssh':
+      '@worldapptechnologies/nulu-ssh':
         specifier: workspace:^
         version: link:../ssh
-      '@deepseek-ai/dsh-subprocess':
+      '@worldapptechnologies/nulu-subprocess':
         specifier: workspace:^
         version: link:../../subprocess/subprocess
-      '@deepseek-ai/dsh-subprocess-local':
+      '@worldapptechnologies/nulu-subprocess-local':
         specifier: workspace:^
         version: link:../../subprocess/subprocess-local
 
@@ -10563,10 +10563,10 @@ importers:
       '@worldapptechnologies/nulu-llm':
         specifier: workspace:^
         version: link:../../llm/llm
-      '@deepseek-ai/dsh-permission-presets':
+      '@worldapptechnologies/nulu-permission-presets':
         specifier: workspace:^
         version: link:../../interaction/permission-presets
-      '@deepseek-ai/dsh-sandbox':
+      '@worldapptechnologies/nulu-sandbox':
         specifier: workspace:^
         version: link:../../sandbox/sandbox
       '@worldapptechnologies/nulu-sandbox-policy':
@@ -11172,10 +11172,10 @@ importers:
 
   packages/subprocess/subprocess-local:
     dependencies:
-      '@deepseek-ai/dsh-lazy-require':
+      '@worldapptechnologies/nulu-lazy-require':
         specifier: workspace:^
         version: link:../../util/lazy-require
-      '@deepseek-ai/dsh-win32-process':
+      '@worldapptechnologies/nulu-win32-process':
         specifier: workspace:^
         version: link:../win32-process
       koffi:
@@ -11200,7 +11200,7 @@ importers:
 
   packages/subprocess/win32-process:
     dependencies:
-      '@deepseek-ai/dsh-lazy-require':
+      '@worldapptechnologies/nulu-lazy-require':
         specifier: workspace:^
         version: link:../../util/lazy-require
       koffi:
@@ -11231,10 +11231,10 @@ importers:
 
   packages/terminal/terminal-bash:
     dependencies:
-      '@deepseek-ai/dsh-lazy-require':
+      '@worldapptechnologies/nulu-lazy-require':
         specifier: workspace:^
         version: link:../../util/lazy-require
-      '@deepseek-ai/dsh-pwsh-local':
+      '@worldapptechnologies/nulu-pwsh-local':
         specifier: workspace:^
         version: link:../../shell/pwsh-local
       '@worldapptechnologies/nulu-session-projection':
@@ -11709,10 +11709,10 @@ importers:
       '@worldapptechnologies/cordis-plugin-loader':
         specifier: workspace:^
         version: link:../../../vendor/loader
-      '@deepseek-ai/dsh-app-boot':
+      '@worldapptechnologies/nulu-app-boot':
         specifier: workspace:^
         version: link:../../boot/app-boot
-      '@deepseek-ai/dsh-typert-registry':
+      '@worldapptechnologies/nulu-typert-registry':
         specifier: workspace:^
         version: link:../registry
       zod:
@@ -11799,7 +11799,7 @@ importers:
 
   packages/util/lazy-require:
     devDependencies:
-      '@deepseek-ai/cordis':
+      '@worldapptechnologies/cordis':
         specifier: workspace:^
         version: link:../../../vendor/cordis
 
@@ -12141,7 +12141,7 @@ importers:
       '@worldapptechnologies/nulu-workflow':
         specifier: workspace:^
         version: link:../workflow
-      '@deepseek-ai/dsh-workflow-ptc':
+      '@worldapptechnologies/nulu-workflow-ptc':
         specifier: workspace:^
         version: link:../workflow-ptc
 
@@ -12181,7 +12181,7 @@ importers:
       '@worldapptechnologies/nulu-workflow':
         specifier: workspace:^
         version: link:../workflow
-      '@deepseek-ai/dsh-workflow-ptc':
+      '@worldapptechnologies/nulu-workflow-ptc':
         specifier: workspace:^
         version: link:../workflow-ptc
 
@@ -12230,13 +12230,13 @@ importers:
       '@worldapptechnologies/nulu-agent-loop-testkit':
         specifier: workspace:^
         version: link:../../test-support/agent-loop-testkit
-      '@deepseek-ai/dsh-fs':
+      '@worldapptechnologies/nulu-fs':
         specifier: workspace:^
         version: link:../../fs/fs
-      '@deepseek-ai/dsh-fs-local':
+      '@worldapptechnologies/nulu-fs-local':
         specifier: workspace:^
         version: link:../../fs/fs-local
-      '@deepseek-ai/dsh-http-proxy':
+      '@worldapptechnologies/nulu-http-proxy':
         specifier: workspace:^
         version: link:../../util/http-proxy
       '@worldapptechnologies/nulu-invariants':
@@ -12245,22 +12245,22 @@ importers:
       '@worldapptechnologies/nulu-llm':
         specifier: workspace:^
         version: link:../../llm/llm
-      '@deepseek-ai/dsh-ptc-runtime':
+      '@worldapptechnologies/nulu-ptc-runtime':
         specifier: workspace:^
         version: link:../../ptc-runtime/ptc-runtime
-      '@deepseek-ai/dsh-ptc-runtime-node':
+      '@worldapptechnologies/nulu-ptc-runtime-node':
         specifier: workspace:^
         version: link:../../ptc-runtime/ptc-runtime-node
-      '@deepseek-ai/dsh-sandbox':
+      '@worldapptechnologies/nulu-sandbox':
         specifier: workspace:^
         version: link:../../sandbox/sandbox
-      '@deepseek-ai/dsh-sandbox-local':
+      '@worldapptechnologies/nulu-sandbox-local':
         specifier: workspace:^
         version: link:../../sandbox/sandbox-local
-      '@deepseek-ai/dsh-sandbox-policy':
+      '@worldapptechnologies/nulu-sandbox-policy':
         specifier: workspace:^
         version: link:../../sandbox/sandbox-policy
-      '@deepseek-ai/dsh-session':
+      '@worldapptechnologies/nulu-session':
         specifier: workspace:^
         version: link:../../core/session
       '@worldapptechnologies/nulu-session-projection':
@@ -12272,13 +12272,13 @@ importers:
       '@worldapptechnologies/nulu-subagent-spawn-in-process':
         specifier: workspace:^
         version: link:../../subagent/subagent-spawn-in-process
-      '@deepseek-ai/dsh-subprocess':
+      '@worldapptechnologies/nulu-subprocess':
         specifier: workspace:^
         version: link:../../subprocess/subprocess
-      '@deepseek-ai/dsh-subprocess-local':
+      '@worldapptechnologies/nulu-subprocess-local':
         specifier: workspace:^
         version: link:../../subprocess/subprocess-local
-      '@deepseek-ai/dsh-system-prompt':
+      '@worldapptechnologies/nulu-system-prompt':
         specifier: workspace:^
         version: link:../../core/system-prompt
       '@worldapptechnologies/nulu-tools':
@@ -12378,7 +12378,7 @@ importers:
       '@worldapptechnologies/nulu-brand':
         specifier: workspace:^
         version: link:../../packages/util/brand
-      '@deepseek-ai/dsh-command-compact':
+      '@worldapptechnologies/nulu-command-compact':
         specifier: workspace:^
         version: link:../../packages/compaction/command-compact
       '@worldapptechnologies/nulu-command-goal':
@@ -12393,10 +12393,10 @@ importers:
       '@worldapptechnologies/nulu-compaction-basic':
         specifier: workspace:^
         version: link:../../packages/compaction/compaction-basic
-      '@deepseek-ai/dsh-compaction-image-offload':
+      '@worldapptechnologies/nulu-compaction-image-offload':
         specifier: workspace:^
         version: link:../../packages/compaction/compaction-image-offload
-      '@deepseek-ai/dsh-compaction-tool-result-pruner':
+      '@worldapptechnologies/nulu-compaction-tool-result-pruner':
         specifier: workspace:^
         version: link:../../packages/compaction/compaction-tool-result-pruner
       '@worldapptechnologies/nulu-cordis-host-runner':
@@ -12483,13 +12483,13 @@ importers:
       '@worldapptechnologies/nulu-plugin-package-inventory':
         specifier: workspace:^
         version: link:../../packages/llm/plugin-package-inventory-deepseek
-      '@deepseek-ai/dsh-ptc-runtime':
+      '@worldapptechnologies/nulu-ptc-runtime':
         specifier: workspace:^
         version: link:../../packages/ptc-runtime/ptc-runtime
-      '@deepseek-ai/dsh-ptc-runtime-node':
+      '@worldapptechnologies/nulu-ptc-runtime-node':
         specifier: workspace:^
         version: link:../../packages/ptc-runtime/ptc-runtime-node
-      '@deepseek-ai/dsh-pwsh-local':
+      '@worldapptechnologies/nulu-pwsh-local':
         specifier: workspace:^
         version: link:../../packages/shell/pwsh-local
       '@worldapptechnologies/nulu-repeat-tool-reminder':
@@ -12546,10 +12546,10 @@ importers:
       '@worldapptechnologies/nulu-session-title':
         specifier: workspace:^
         version: link:../../packages/session/session-title
-      '@deepseek-ai/dsh-session-title-llm':
+      '@worldapptechnologies/nulu-session-title-llm':
         specifier: workspace:^
         version: link:../../packages/session/session-title-llm
-      '@deepseek-ai/dsh-settings':
+      '@worldapptechnologies/nulu-settings':
         specifier: workspace:^
         version: link:../../packages/settings/settings
       '@worldapptechnologies/nulu-shell':
@@ -12699,10 +12699,10 @@ importers:
       '@worldapptechnologies/nulu-workflow':
         specifier: workspace:^
         version: link:../../packages/workflow/workflow
-      '@deepseek-ai/dsh-workflow-ptc':
+      '@worldapptechnologies/nulu-workflow-ptc':
         specifier: workspace:^
         version: link:../../packages/workflow/workflow-ptc
-      '@deepseek-ai/schemastery':
+      '@worldapptechnologies/schemastery':
         specifier: link:../../vendor/schemastery
         version: link:../../vendor/schemastery
 

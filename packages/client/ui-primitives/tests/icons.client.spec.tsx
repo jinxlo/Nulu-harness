@@ -5,7 +5,7 @@ import * as primitives from '@worldapptechnologies/nulu-client-ui-primitives'
 import {
   IconAlarmClockOutline16, IconApiOutline14, IconArchiveOutline20, IconFolderClose16,
   IconGoalOutline16, IconSendOutline14,
-} from '@deepseek-ai/dsh-client-ui-primitives'
+} from '@worldapptechnologies/nulu-client-ui-primitives'
 
 afterEach(cleanup)
 

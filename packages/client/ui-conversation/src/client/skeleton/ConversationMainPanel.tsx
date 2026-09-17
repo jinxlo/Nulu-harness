@@ -5,7 +5,7 @@ import { ConversationContent } from './ConversationContent.tsx'
 import css from './ConversationRoot.module.css'
 
 /** localStorage key for the dragged transcript width preference (px). */
-const WIDTH_PREF_KEY = 'dsh.conversation.contentWidth'
+const WIDTH_PREF_KEY = 'nulu.conversation.contentWidth'
 /** Floor for a dragged content width; matches the layout center-column minimum. */
 const CONTENT_MIN = 640
 /** Column budget the content must leave free: 88px per side keeps the width
@@ -49,7 +49,7 @@ export function ConversationMainPanel(props: ConversationSlotProps) {
   const openState = session?.openState
   const summaryBlank = useSessions(s => sessionId === undefined ? undefined : s.byId[sessionId]?.blank)
 
-  // Publishes the column's live width as --dsh-conversation-column-width so
+  // Publishes the column's live width as --nulu-conversation-column-width so
   // the shared width axis can adapt (see the .root CSS), and re-clamps a
   // dragged preference against the shrunken column WITHOUT rewriting the
   // stored preference — widening the window restores it (the AppFrame
@@ -58,12 +58,12 @@ export function ConversationMainPanel(props: ConversationSlotProps) {
   const rootObserver = useRef<ResizeObserver | null>(null)
   const publishWidths = useCallback((root: HTMLDivElement): void => {
     const column = root.offsetWidth
-    root.style.setProperty('--dsh-conversation-column-width', `${column}px`)
+    root.style.setProperty('--nulu-conversation-column-width', `${column}px`)
     const preference = readWidthPreference()
     if (preference === null) {
-      root.style.removeProperty('--dsh-chat-user-width')
+      root.style.removeProperty('--nulu-chat-user-width')
     } else {
-      root.style.setProperty('--dsh-chat-user-width', `${resolveContentWidth(column, preference)}px`)
+      root.style.setProperty('--nulu-chat-user-width', `${resolveContentWidth(column, preference)}px`)
     }
   }, [])
   const rootResizeRef = useCallback((root: HTMLDivElement | null): void => {
@@ -93,7 +93,7 @@ export function ConversationMainPanel(props: ConversationSlotProps) {
     /* v8 ignore next -- handles render inside the root, so the ref is always attached. */
     if (root === null) return
     const clamped = resolveContentWidth(root.offsetWidth, width)
-    root.style.setProperty('--dsh-chat-user-width', `${clamped}px`)
+    root.style.setProperty('--nulu-chat-user-width', `${clamped}px`)
   }, [])
   const onHandleCommit = useCallback((width: number): void => {
     const root = rootEl.current

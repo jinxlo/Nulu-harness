@@ -35,13 +35,13 @@ function packageReadmes(): string[] {
  * or a document whose kind does not match its position fails here.
  */
 const KIND_TEMPLATES: Readonly<Record<string, string>> = {
-  'package-group': '.agents/skills/dsh-doc/templates/package-group.md',
-  'package-reference': '.agents/skills/dsh-doc/templates/package-reference.md',
-  'package-library': '.agents/skills/dsh-doc/templates/package-library.md',
-  'package-bundle': '.agents/skills/dsh-doc/templates/package-bundle.md',
-  'persistence-change': '.agents/skills/dsh-doc/templates/persistence-change.md',
-  'persistence-release': '.agents/skills/dsh-doc/templates/persistence-release.md',
-  'persistence-format': '.agents/skills/dsh-doc/templates/persistence-format.md',
+  'package-group': '.agents/skills/nulu-doc/templates/package-group.md',
+  'package-reference': '.agents/skills/nulu-doc/templates/package-reference.md',
+  'package-library': '.agents/skills/nulu-doc/templates/package-library.md',
+  'package-bundle': '.agents/skills/nulu-doc/templates/package-bundle.md',
+  'persistence-change': '.agents/skills/nulu-doc/templates/persistence-change.md',
+  'persistence-release': '.agents/skills/nulu-doc/templates/persistence-release.md',
+  'persistence-format': '.agents/skills/nulu-doc/templates/persistence-format.md',
 }
 
 /**
@@ -267,7 +267,7 @@ describe('Session format release authority', () => {
       `${record.evidenceTag}%2Fother`, `${record.evidenceTag})`, `${record.evidenceTag}\n`,
     ]) {
       const source = releaseDocument(`latestReleasedVersion: ${record.latestReleasedVersion}\nevidenceTag: ${JSON.stringify(tag)}`, evidence)
-      expect(() => validateSessionFormatRelease(source, record.latestReleasedVersion), String(tag)).toThrow('dsh-v version tag')
+      expect(() => validateSessionFormatRelease(source, record.latestReleasedVersion), String(tag)).toThrow('nulu-v version tag')
     }
   })
 
@@ -354,7 +354,7 @@ describe('nulu-doc skill consolidation', () => {
   })
 
   it('maps retrospective release comparisons to their dedicated document kind', () => {
-    const files = globSync('docs/persistence-changes/releases/dsh-*.md', { cwd: root })
+    const files = globSync('docs/persistence-changes/releases/nulu-*.md', { cwd: root })
     expect(files.length).toBeGreaterThan(0)
     for (const file of files) {
       const metadata = readFrontmatter(file)

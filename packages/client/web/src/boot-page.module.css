@@ -1,24 +1,24 @@
 /* The framework-free boot page cannot depend on theme delivery succeeding. */
 
 .boot {
-  --dsh-boot-label-primary: #0f1115;
-  --dsh-boot-label-secondary: #61666b;
-  --dsh-boot-label-tertiary: #81858c;
-  --dsh-boot-border: rgb(0 0 0 / 10%);
-  --dsh-boot-brand: #0f1115;
+  --nulu-boot-label-primary: #0f1115;
+  --nulu-boot-label-secondary: #61666b;
+  --nulu-boot-label-tertiary: #81858c;
+  --nulu-boot-border: rgb(0 0 0 / 10%);
+  --nulu-boot-brand: #0f1115;
 
   height: 100%;
   display: grid;
   place-items: center;
-  background: var(--dsw-alias-bg-base, var(--dsh-boot-bg, Canvas));
+  background: var(--dsw-alias-bg-base, var(--nulu-boot-bg, Canvas));
 }
 
 :global(body[data-ds-dark-theme]) .boot {
-  --dsh-boot-label-primary: #f9fafb;
-  --dsh-boot-label-secondary: #cfd3d6;
-  --dsh-boot-label-tertiary: #adb2b8;
-  --dsh-boot-border: rgb(255 255 255 / 12%);
-  --dsh-boot-brand: #f9fafb;
+  --nulu-boot-label-primary: #f9fafb;
+  --nulu-boot-label-secondary: #cfd3d6;
+  --nulu-boot-label-tertiary: #adb2b8;
+  --nulu-boot-border: rgb(255 255 255 / 12%);
+  --nulu-boot-brand: #f9fafb;
 }
 
 .card {

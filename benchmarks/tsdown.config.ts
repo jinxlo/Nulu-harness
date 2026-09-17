@@ -17,7 +17,7 @@ export default defineConfig([
   {
     ...shared,
     entry: { 'terminal-io.worker': 'terminal-io/terminal-io.worker.ts' },
-    outDir: '.dsh-build/terminal-io',
+    outDir: '.nulu-build/terminal-io',
     clean: true,
     tsconfig: 'tsconfig.host.json',
   },

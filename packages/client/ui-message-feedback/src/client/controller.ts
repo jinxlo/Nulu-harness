@@ -7,10 +7,10 @@
  * @module @worldapptechnologies/nulu-client-ui-message-feedback/client/controller
  */
 
-import type { HostObservable } from '@deepseek-ai/dsh-client-ui-slots'
-import type { ClientRemote, MessageId } from '@deepseek-ai/dsh-api-remotes/client'
-import type { SessionId } from '@deepseek-ai/dsh-session/types'
-import type { FeedbackRecord } from '@deepseek-ai/dsh-command-feedback/types'
+import type { HostObservable } from '@worldapptechnologies/nulu-client-ui-slots'
+import type { ClientRemote, MessageId } from '@worldapptechnologies/nulu-api-remotes/client'
+import type { SessionId } from '@worldapptechnologies/nulu-session/types'
+import type { FeedbackRecord } from '@worldapptechnologies/nulu-command-feedback/types'
 import type {
   MessageFeedbackItem,
   MessageFeedbackRating,

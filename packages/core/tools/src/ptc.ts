@@ -6,14 +6,14 @@
  * @module @worldapptechnologies/nulu-tools/src/ptc
  */
 
-import { brandString } from '@deepseek-ai/dsh-brand'
-import { createUserMessage, HarnessError } from '@deepseek-ai/dsh-llm'
-import type { ContentBlock, ToolCallId, ToolSchema } from '@deepseek-ai/dsh-llm'
-import type { PtcBindingFunction, PtcRunResult, PtcRunSandbox, PtcRuntime } from '@deepseek-ai/dsh-ptc-runtime'
-import { approveEscalation, ESCALATION_TARGETS, validateEscalationArgs } from '@deepseek-ai/dsh-sandbox'
-import type { SandboxExecutionPolicy } from '@deepseek-ai/dsh-sandbox'
-import type { ApprovalService } from '@deepseek-ai/dsh-user-approval'
-import { deepFreeze, snapshotJsonValue, type JsonValue } from '@deepseek-ai/dsh-util-values'
+import { brandString } from '@worldapptechnologies/nulu-brand'
+import { createUserMessage, HarnessError } from '@worldapptechnologies/nulu-llm'
+import type { ContentBlock, ToolCallId, ToolSchema } from '@worldapptechnologies/nulu-llm'
+import type { PtcBindingFunction, PtcRunResult, PtcRunSandbox, PtcRuntime } from '@worldapptechnologies/nulu-ptc-runtime'
+import { approveEscalation, ESCALATION_TARGETS, validateEscalationArgs } from '@worldapptechnologies/nulu-sandbox'
+import type { SandboxExecutionPolicy } from '@worldapptechnologies/nulu-sandbox'
+import type { ApprovalService } from '@worldapptechnologies/nulu-user-approval'
+import { deepFreeze, snapshotJsonValue, type JsonValue } from '@worldapptechnologies/nulu-util-values'
 import { defineTool, parameterSchemaSpecToJsonSchema } from './schema.ts'
 import { TOOL_RUNTIME_SCHEDULER } from './index.ts'
 import type { PtcDispatchLog, ToolDefinition, ToolExecutionResult, ToolRuntime, ToolRunContext } from './index.ts'

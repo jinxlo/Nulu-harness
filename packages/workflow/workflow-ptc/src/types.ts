@@ -1,7 +1,7 @@
 /**
  * Workflow guest inputs and the child callbacks consumed by its VM helpers.
  * PTC transfers initialization data, requests and results as lossless JSON.
- * @module @deepseek-ai/dsh-workflow-ptc/types
+ * @module @worldapptechnologies/nulu-workflow-ptc/types
  */
 
 import type { ContentBlock } from '@worldapptechnologies/nulu-llm'

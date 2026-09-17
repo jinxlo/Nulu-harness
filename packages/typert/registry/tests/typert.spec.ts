@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
+import { Context } from '@worldapptechnologies/cordis'
 import { z } from 'zod'
 import TypertRegistry, {
   typertEndpoint,
@@ -111,9 +111,9 @@ describe('TypertRegistry', () => {
       face: 'host',
       name: 'ToolInput',
     })
-    expect(ctx.typert.get('@deepseek-ai/dsh-tools#ToolInput')?.schema).toBe(contribution.schemas[0]?.create())
-    expect(ctx.typert.getPackage('@deepseek-ai/dsh-tools', 'host')).toMatchObject({
-      key: '@deepseek-ai/dsh-tools#host',
+    expect(ctx.typert.get('@worldapptechnologies/nulu-tools#ToolInput')?.schema).toBe(contribution.schemas[0]?.create())
+    expect(ctx.typert.getPackage('@worldapptechnologies/nulu-tools', 'host')).toMatchObject({
+      key: '@worldapptechnologies/nulu-tools#host',
       model: { services: [{ key: 'tools' }] },
     })
     expect(ctx.typert.list()).toHaveLength(1)
@@ -153,7 +153,7 @@ describe('TypertRegistry', () => {
     ctx.typert.register(original)
 
     expect(() => ctx.typert.register(toolsContribution(z.never()))).toThrow('package face')
-    expect(ctx.typert.get('@deepseek-ai/dsh-tools#ToolInput')?.schema).toBe(original.schemas[0]?.create())
+    expect(ctx.typert.get('@worldapptechnologies/nulu-tools#ToolInput')?.schema).toBe(original.schemas[0]?.create())
 
     const duplicateBatch: TypertContribution = {
       ...toolsContribution(),
@@ -196,11 +196,11 @@ describe('TypertRegistry', () => {
     ctx.typert.register({ ...toolsContribution(), schemas: [{ name: 'ToolInput', create }] })
     expect(create).not.toHaveBeenCalled()
 
-    expect(ctx.typert.resolve('@deepseek-ai/dsh-tools#ToolInput').name).toBe('ToolInput')
+    expect(ctx.typert.resolve('@worldapptechnologies/nulu-tools#ToolInput').name).toBe('ToolInput')
     expect(create).toHaveBeenCalledOnce()
-    expect(ctx.typert.resolve('@deepseek-ai/dsh-tools#ToolInput').schema).toBe(schema)
+    expect(ctx.typert.resolve('@worldapptechnologies/nulu-tools#ToolInput').schema).toBe(schema)
     expect(create).toHaveBeenCalledOnce()
-    expect(() => ctx.typert.resolve('@deepseek-ai/dsh-tools#Missing')).toThrow('contributes no schema named "Missing"')
+    expect(() => ctx.typert.resolve('@worldapptechnologies/nulu-tools#Missing')).toThrow('contributes no schema named "Missing"')
     expect(() => ctx.typert.resolve('@fixture/absent#Value')).toThrow('has no registered contribution')
     expect(() => ctx.typert.resolve('invalid')).toThrow('expected "<package>#<name>"')
     const projected = ctx.typert.toJSONSchema('@worldapptechnologies/nulu-tools#ToolInput')

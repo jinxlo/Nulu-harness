@@ -1,11 +1,11 @@
 ---
-description: "回溯 dsh-v0.1.0-rc.7 的已声明 Session 持久化类型及相邻版本变化。"
+description: "回溯 nulu-v0.1.0-rc.7 的已声明 Session 持久化类型及相邻版本变化。"
 kind: persistence-release
 ---
 
-# 持久化版本回溯: dsh-v0.1.0-rc.7
+# 持久化版本回溯: nulu-v0.1.0-rc.7
 
-[English](dsh-v0.1.0-rc.7.md) | 中文
+[English](nulu-v0.1.0-rc.7.md) | 中文
 
 ## 概述
 
@@ -28,13 +28,13 @@ assistant/chunk 的 replayState 从 unknown 改为包含必需字段 response �
 
 | 项目 | 记录值 |
 |---|---|
-| 源码 tag | `dsh-v0.1.0-rc.7` |
+| 源码 tag | `nulu-v0.1.0-rc.7` |
 | 源码日期 | 2026-08-17T11:03:17.000Z |
 | 发行记录 | 有 release 对象。 |
-| 前一版本 | [dsh-v0.1.0-rc.6](dsh-v0.1.0-rc.6.zh.md) |
+| 前一版本 | [nulu-v0.1.0-rc.6](nulu-v0.1.0-rc.6.zh.md) |
 | Session 写入版本 | 0 |
 | 完整重建清单 | <!-- persistence-release-inventory:start -->47 个根类型 / 376 种类型<!-- persistence-release-inventory:end --> |
-| 本条快照 | [dsh-v0.1.0-rc.7.schema.json](dsh-v0.1.0-rc.7.schema.json) |
+| 本条快照 | [nulu-v0.1.0-rc.7.schema.json](nulu-v0.1.0-rc.7.schema.json) |
 
 写入版本常量在该 tag 中的源码证据：
 
@@ -45,8 +45,8 @@ assistant/chunk 的 replayState 从 unknown 改为包含必需字段 response �
 
 ```yaml persistence-release
 schemaVersion: 1
-tag: dsh-v0.1.0-rc.7
-previous: dsh-v0.1.0-rc.6
+tag: nulu-v0.1.0-rc.7
+previous: nulu-v0.1.0-rc.6
 sessionFormatVersion: 0
 changes:
   - root: event:assistant/chunk

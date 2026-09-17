@@ -100,7 +100,7 @@ describe('SandboxPolicyService', () => {
   })
 
   it.skipIf(process.platform === 'win32')('preserves symlink-sensitive session cwd for its enforcing provider', async () => {
-    const root = mkdtempSync(join(tmpdir(), 'dsh-policy-cwd-'))
+    const root = mkdtempSync(join(tmpdir(), 'nulu-policy-cwd-'))
     try {
       const lexical = join(root, 'lexical')
       const physical = join(root, 'physical')

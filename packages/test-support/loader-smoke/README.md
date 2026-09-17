@@ -44,7 +44,7 @@ Set `expectedExitCode` when the scenario pins a designed failure surface — a o
 
 ### Testing a shipped profile
 
-Profile integration drivers use the repository-only `tests/fixtures/production-profile.ts` helper. It loads the named shipped profile and its bundle patches through `loadProfile`, materializes the retained link-mode fallback, mounts `PluginPackages` with native lookup as the link-mode launcher does, and passes the bundle patches followed by the test's `*.patch.yml` files to the root `cordis:include` mounted by `boot`. Those patches should contain only the test provider or model, isolated persistence paths, and subject-specific changes. Package-level unit tests that need an agent loop without profile integration mount `dsh-agent-loop-testkit` locally instead.
+Profile integration drivers use the repository-only `tests/fixtures/production-profile.ts` helper. It loads the named shipped profile and its bundle patches through `loadProfile`, materializes the retained link-mode fallback, mounts `PluginPackages` with native lookup as the link-mode launcher does, and passes the bundle patches followed by the test's `*.patch.yml` files to the root `cordis:include` mounted by `boot`. Those patches should contain only the test provider or model, isolated persistence paths, and subject-specific changes. Package-level unit tests that need an agent loop without profile integration mount `nulu-agent-loop-testkit` locally instead.
 
 ### Driving a fixture turn
 
@@ -72,7 +72,7 @@ This section explains the design of the harness; the observable behavior is full
 
 ### Design
 
-The harness is built on one separation: the smoke runs in a child process under an isolated world, and the test process only observes and asserts. `runLoaderSmoke` creates a temporary cwd (or reuses a caller-provided one), prepares world state there, spawns the resolved bin with isolated DSH homes (`DSH_HOME`, `DSH_AGENTS_HOME` under that cwd), closes stdin immediately, and awaits a clean exit within the deadline before inspecting on every outcome and removing only a cwd it created. `runFixtureTurn` stays in-process: it looks up the composition's single root agent, follows the task from its durable inbox receipt through whole-agent idle, sums per-step usage, and flushes the session before returning.
+The harness is built on one separation: the smoke runs in a child process under an isolated world, and the test process only observes and asserts. `runLoaderSmoke` creates a temporary cwd (or reuses a caller-provided one), prepares world state there, spawns the resolved bin with isolated DSH homes (`NULU_HOME`, `NULU_AGENTS_HOME` under that cwd), closes stdin immediately, and awaits a clean exit within the deadline before inspecting on every outcome and removing only a cwd it created. `runFixtureTurn` stays in-process: it looks up the composition's single root agent, follows the task from its durable inbox receipt through whole-agent idle, sums per-step usage, and flushes the session before returning.
 
 ### Source map
 

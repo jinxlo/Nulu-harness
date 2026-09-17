@@ -28,9 +28,9 @@ import z from '@worldapptechnologies/schemastery'
 import { Remote, RemoteError, TypertRemoteService } from '@worldapptechnologies/nulu-typert-protocol'
 import { bindScopeParent, createScope, scopeOf, type Scope, type ScopeKey, type ScopeParentBinding } from '@worldapptechnologies/nulu-scope'
 // Type-only: resolves the `agent/created` lifecycle event this service watches.
-import type {} from '@deepseek-ai/dsh-agent'
-import type {} from '@deepseek-ai/dsh-app-boot'
-import type { Agent } from '@deepseek-ai/dsh-agent'
+import type {} from '@worldapptechnologies/nulu-agent'
+import type {} from '@worldapptechnologies/nulu-app-boot'
+import type { Agent } from '@worldapptechnologies/nulu-agent'
 import type { AgentPresetDocument, AgentPresetRoster } from './types.ts'
 import type {} from '@worldapptechnologies/nulu-session-projection'
 // Type-only: resolves the registry notification emitted after scope reparenting.

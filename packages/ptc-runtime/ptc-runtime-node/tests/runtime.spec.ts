@@ -2,11 +2,11 @@ import { mkdtemp, mkdir, readFile, readdir, rm, symlink } from 'node:fs/promises
 import { homedir } from 'node:os'
 import { createServer, type Socket } from 'node:net'
 import { delimiter, join } from 'node:path'
-import { Context } from '@deepseek-ai/cordis'
-import Sandbox from '@deepseek-ai/dsh-sandbox-local'
-import { SandboxUnavailableError } from '@deepseek-ai/dsh-sandbox'
+import { Context } from '@worldapptechnologies/cordis'
+import Sandbox from '@worldapptechnologies/nulu-sandbox-local'
+import { SandboxUnavailableError } from '@worldapptechnologies/nulu-sandbox'
 import { describe, expect, it, onTestFinished, vi } from 'vitest'
-import type { PtcBindingFunction, PtcBindingNamespace, PtcRunRequest } from '@deepseek-ai/dsh-ptc-runtime'
+import type { PtcBindingFunction, PtcBindingNamespace, PtcRunRequest } from '@worldapptechnologies/nulu-ptc-runtime'
 import type { Config } from '../src/index.ts'
 import { mountRuntime } from './setup.ts'
 
@@ -24,7 +24,7 @@ const sandboxUsable = await (async () => {
 })()
 
 async function setup(config: Config = {}, mode: 'read-only' | 'workspace-write' | 'danger-full-access' = 'danger-full-access') {
-  const root = await mkdtemp(join(homedir(), '.dsh-node-runtime-test-'))
+  const root = await mkdtemp(join(homedir(), '.nulu-node-runtime-test-'))
   const cwd = join(root, 'workspace')
   await mkdir(cwd)
   const ctx = new Context()
@@ -74,23 +74,23 @@ describe('Node program process', () => {
     onTestFinished(() => { vi.unstubAllEnvs() })
     vi.stubEnv('TEMP', temp)
     vi.stubEnv('TMP', tmp)
-    vi.stubEnv('DSH_TEST_RUNTIME_SECRET', 'must-not-inherit')
+    vi.stubEnv('NULU_TEST_RUNTIME_SECRET', 'must-not-inherit')
     const childCode = 'const fs=require("node:fs"); const path=require("node:path"); const temp=require("node:os").tmpdir(); const file=path.join(temp,"native-temp.txt"); fs.writeFileSync(file,"native-temp"); fs.writeFileSync("native-observation.json",JSON.stringify({file,temp,env:Object.keys(process.env)}));'
     const result = await run({
       program: `const {spawnSync}=await import("node:child_process"); const child=spawnSync(process.execPath,["-e",${JSON.stringify(childCode)}],{stdio:"inherit"}); if(child.status!==0) throw new Error(child.error?.message ?? "native child failed"); const native=JSON.parse((await import("node:fs")).readFileSync("native-observation.json","utf8")); return {env:Object.keys(process.env),native,observed:await tools.inspect({path:native.file})};`,
       bindings: bindings({ inspect: async (args) => {
         const path = (args as { path: string }).path
-        expect(path.startsWith(`${temp}\\dsh-`)).toBe(true)
+        expect(path.startsWith(`${temp}\\nulu-`)).toBe(true)
         return await readFile(path, 'utf8')
       } }),
     })
     expect(result.error).toBeUndefined()
     const value = result.value as { env: string[]; native: { env: string[]; temp: string }; observed: string }
     expect(value.env).toEqual([])
-    expect(value.native.env).not.toContain('DSH_TEST_RUNTIME_SECRET')
-    expect(value.native.temp.startsWith(`${temp}\\dsh-`)).toBe(true)
+    expect(value.native.env).not.toContain('NULU_TEST_RUNTIME_SECRET')
+    expect(value.native.temp.startsWith(`${temp}\\nulu-`)).toBe(true)
     expect(value.observed).toBe('native-temp')
-    expect((await readdir(join(tmp, 'dsh-acl-locks'))).some(name => name.endsWith('.lock'))).toBe(true)
+    expect((await readdir(join(tmp, 'nulu-acl-locks'))).some(name => name.endsWith('.lock'))).toBe(true)
   })
 
   it('returns binding values and preserves typed binding rejection', async () => {

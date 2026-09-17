@@ -2,7 +2,7 @@
 import { afterEach, beforeEach, expect, it } from 'vitest'
 import { createTrajectoryStringWrappingStore } from '../src/client/string-wrapping-store.ts'
 
-const key = 'dsh.trajectory.jsonStringWrapping'
+const key = 'nulu.trajectory.jsonStringWrapping'
 let original: string | null
 
 beforeEach(() => {

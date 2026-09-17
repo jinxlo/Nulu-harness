@@ -41,14 +41,14 @@ it('loads one shared ESM instance from both host and external plugin while keepi
   expect(JSON.parse(output)).toEqual({ same: true, host: 'host', plugin: 'plugin' })
 })
 it('runtime resolution retains and ignores an existing Link generation', () => {
-  const { dsh, runtime, profile } = fixture()
+  const { nulu, runtime, profile } = fixture()
   const links = readDesktopProfileState(profile)?.links
   expect(links?.length).toBeGreaterThan(0)
 
   recordDesktopRuntimeProfile(profile, runtime)
   expect(readDesktopProfileState(profile)?.links).toEqual(links)
-  expect(lstatSync(join(profile, 'node_modules/@deepseek-ai/cordis')).isSymbolicLink()).toBe(true)
-  expect(() => { validateDesktopPluginGraph(profile, dsh, runtime, [], 'runtime') }).not.toThrow()
+  expect(lstatSync(join(profile, 'node_modules/@worldapptechnologies/cordis')).isSymbolicLink()).toBe(true)
+  expect(() => { validateDesktopPluginGraph(profile, nulu, runtime, [], 'runtime') }).not.toThrow()
 })
 it.each(['nested', 'alias'])('rejects a %s second copy of a host package', (placement) => {
   const { nulu, runtime, profile } = fixture()

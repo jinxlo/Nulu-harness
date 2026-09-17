@@ -1,6 +1,6 @@
 /** ACL/token bindings layered on the shared Win32 process owner. */
 
-import { createLazyRequire } from '@deepseek-ai/dsh-lazy-require'
+import { createLazyRequire } from '@worldapptechnologies/nulu-lazy-require'
 import {
   ERROR_INSUFFICIENT_BUFFER,
   Win32Error,

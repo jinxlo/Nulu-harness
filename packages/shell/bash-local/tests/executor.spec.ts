@@ -178,7 +178,7 @@ describe('LocalBashExecutor.start (background process handles)', () => {
   it('threads stdin and extra env into a background process', async () => {
     const { bash } = await setup()
     const proc = await bash.start(bash.resolve({
-      command: 'cat; echo "[$BG_VAR][$DSH_BG_VAR]"',
+      command: 'cat; echo "[$BG_VAR][$NULU_BG_VAR]"',
       stdin: 'bg-stdin\n',
       env: { BG_VAR: 'bg-env' },
       nuluEnv: { NULU_BG_VAR: 'bg-nulu-env' },
@@ -356,7 +356,7 @@ describe('LocalBashExecutor.start (background process handles)', () => {
 
   it('an asynchronous creation failure settles as killed with a stage-neutral note', async () => {
     const { bash } = await setup()
-    const proc = await bash.start(bash.resolve({ command: 'true', workdir: '/nonexistent-dsh' }))
+    const proc = await bash.start(bash.resolve({ command: 'true', workdir: '/nonexistent-nulu' }))
     // done resolves (never rejects) even though the process never ran.
     await expect(proc.done).resolves.toBeUndefined()
     expect(proc.status).toBe('killed')

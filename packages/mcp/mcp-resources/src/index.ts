@@ -1,17 +1,17 @@
 /**
  * Scoped MCP resource providers and the shared model-facing resource tools.
  *
- * @module @deepseek-ai/dsh-mcp-resources
+ * @module @worldapptechnologies/nulu-mcp-resources
  */
 
-import { Service, type Context } from '@deepseek-ai/cordis'
-import { createScope, NamedEntries, ScopedLayers, scopeOf, type ScopeKey, type ScopeLayer } from '@deepseek-ai/dsh-scope'
-import type { JsonValue } from '@deepseek-ai/dsh-util-values'
-import type { ToolExecution } from '@deepseek-ai/dsh-tools'
-import type {} from '@deepseek-ai/dsh-system-prompt'
+import { Service, type Context } from '@worldapptechnologies/cordis'
+import { createScope, NamedEntries, ScopedLayers, scopeOf, type ScopeKey, type ScopeLayer } from '@worldapptechnologies/nulu-scope'
+import type { JsonValue } from '@worldapptechnologies/nulu-util-values'
+import type { ToolExecution } from '@worldapptechnologies/nulu-tools'
+import type {} from '@worldapptechnologies/nulu-system-prompt'
 import { registerResourceTools } from './tools.ts'
 
-declare module '@deepseek-ai/cordis' {
+declare module '@worldapptechnologies/cordis' {
   interface Context {
     mcpResources: McpResourceRuntime
   }

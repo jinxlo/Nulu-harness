@@ -28,13 +28,13 @@
   "nulu": {
     "client": {
       "inject": [
-        "@deepseek-ai/dsh-api-session-controller",
-        "@deepseek-ai/dsh-client-connection",
-        "@deepseek-ai/dsh-client-locale",
-        "@deepseek-ai/dsh-client-ui-commands",
-        "@deepseek-ai/dsh-client-ui-conversation",
-        "@deepseek-ai/dsh-api-remotes",
-        "@deepseek-ai/dsh-client-ui-settings"
+        "@worldapptechnologies/nulu-api-session-controller",
+        "@worldapptechnologies/nulu-client-connection",
+        "@worldapptechnologies/nulu-client-locale",
+        "@worldapptechnologies/nulu-client-ui-commands",
+        "@worldapptechnologies/nulu-client-ui-conversation",
+        "@worldapptechnologies/nulu-api-remotes",
+        "@worldapptechnologies/nulu-client-ui-settings"
       ],
       "platform": "web"
     }
@@ -48,21 +48,21 @@
     "@worldapptechnologies/cordis": "workspace:^"
   },
   "devDependencies": {
-    "@deepseek-ai/dsh-remote-mock": "workspace:^",
-    "@deepseek-ai/cordis": "workspace:^",
-    "@deepseek-ai/dsh-api-remotes": "workspace:^",
-    "@deepseek-ai/dsh-api-session-controller": "workspace:^",
-    "@deepseek-ai/dsh-client-connection": "workspace:^",
-    "@deepseek-ai/dsh-client-locale": "workspace:^",
-    "@deepseek-ai/dsh-client-store": "workspace:^",
-    "@deepseek-ai/dsh-client-test-runtime": "workspace:^",
-    "@deepseek-ai/dsh-client-ui-commands": "workspace:^",
-    "@deepseek-ai/dsh-client-ui-conversation": "workspace:^",
-    "@deepseek-ai/dsh-client-ui-primitives": "workspace:^",
-    "@deepseek-ai/dsh-client-ui-settings": "workspace:^",
-    "@deepseek-ai/dsh-client-ui-input-trigger": "workspace:^",
-    "@deepseek-ai/dsh-client-ui-slots": "workspace:^",
-    "@deepseek-ai/dsh-permission-presets": "workspace:^",
+    "@worldapptechnologies/nulu-remote-mock": "workspace:^",
+    "@worldapptechnologies/cordis": "workspace:^",
+    "@worldapptechnologies/nulu-api-remotes": "workspace:^",
+    "@worldapptechnologies/nulu-api-session-controller": "workspace:^",
+    "@worldapptechnologies/nulu-client-connection": "workspace:^",
+    "@worldapptechnologies/nulu-client-locale": "workspace:^",
+    "@worldapptechnologies/nulu-client-store": "workspace:^",
+    "@worldapptechnologies/nulu-client-test-runtime": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-commands": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-conversation": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-primitives": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-settings": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-input-trigger": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-slots": "workspace:^",
+    "@worldapptechnologies/nulu-permission-presets": "workspace:^",
     "@types/react": "~18.3.1",
     "clsx": "^2.0.0",
     "react": "^18.2.0",

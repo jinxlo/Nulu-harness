@@ -1,8 +1,8 @@
-import { Context } from '@deepseek-ai/cordis'
-import AgentRegistry from '@deepseek-ai/dsh-agent'
-import type { Agent } from '@deepseek-ai/dsh-agent'
-import { unsupportedInbox } from '@deepseek-ai/dsh-agent-loop-testkit'
-import { Session, SessionId } from '@deepseek-ai/dsh-session'
+import { Context } from '@worldapptechnologies/cordis'
+import AgentRegistry from '@worldapptechnologies/nulu-agent'
+import type { Agent } from '@worldapptechnologies/nulu-agent'
+import { unsupportedInbox } from '@worldapptechnologies/nulu-agent-loop-testkit'
+import { Session, SessionId } from '@worldapptechnologies/nulu-session'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { SessionResources } from '../src/index.ts'
 

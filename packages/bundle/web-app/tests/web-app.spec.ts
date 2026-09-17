@@ -12,12 +12,12 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { PassThrough } from 'node:stream'
 import { afterEach, beforeEach, describe, expect, it, onTestFinished, vi } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import Loader from '@deepseek-ai/cordis-plugin-loader'
-import * as AppBoot from '@deepseek-ai/dsh-app-boot'
-import { createLaunchEnvironmentSnapshot, DSH_LAUNCH_ENVIRONMENT_KEY } from '@deepseek-ai/dsh-launch-environment'
-import SystemPrompt from '@deepseek-ai/dsh-system-prompt'
-import type { WebServer } from '@deepseek-ai/dsh-host-webserver'
+import { Context } from '@worldapptechnologies/cordis'
+import Loader from '@worldapptechnologies/cordis-plugin-loader'
+import * as AppBoot from '@worldapptechnologies/nulu-app-boot'
+import { createLaunchEnvironmentSnapshot, NULU_LAUNCH_ENVIRONMENT_KEY } from '@worldapptechnologies/nulu-launch-environment'
+import SystemPrompt from '@worldapptechnologies/nulu-system-prompt'
+import type { WebServer } from '@worldapptechnologies/nulu-host-webserver'
 import { apply, Config, internals } from '../src/index.ts'
 
 vi.mock('node:child_process', async importOriginal => ({
@@ -340,7 +340,7 @@ describe('web-app runtime glue', () => {
     await vi.waitFor(() => { expect(audit).toHaveBeenCalledOnce() })
     await Promise.allSettled(audit.mock.results.map(result => result.value as Promise<void>))
     if (announces) {
-      expect(log).toHaveBeenCalledWith('dsh web: http://127.0.0.1:4567/?token=test-token')
+      expect(log).toHaveBeenCalledWith('nulu web: http://127.0.0.1:4567/?token=test-token')
       expect(openBrowser).toHaveBeenCalledWith('http://127.0.0.1:4567/?token=test-token')
     } else {
       expect(log).not.toHaveBeenCalled()

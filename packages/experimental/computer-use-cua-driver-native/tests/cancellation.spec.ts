@@ -4,14 +4,14 @@ import { mkdtemp, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import LocalAttachmentStore from '@deepseek-ai/dsh-attachment-local'
-import { mountAgentLoopTestDependencies, mountAgentLoopTestHarness } from '@deepseek-ai/dsh-agent-loop-testkit'
-import ComputerUseRegistry from '@deepseek-ai/dsh-computer-use'
-import { LlmAdapter, ToolCallId } from '@deepseek-ai/dsh-llm'
-import type { GenerateOptions, LlmResolvedModelInfo, StreamChunk } from '@deepseek-ai/dsh-llm'
-import { SessionId } from '@deepseek-ai/dsh-session'
-import type { ToolExecution } from '@deepseek-ai/dsh-tools'
+import { Context } from '@worldapptechnologies/cordis'
+import LocalAttachmentStore from '@worldapptechnologies/nulu-attachment-local'
+import { mountAgentLoopTestDependencies, mountAgentLoopTestHarness } from '@worldapptechnologies/nulu-agent-loop-testkit'
+import ComputerUseRegistry from '@worldapptechnologies/nulu-computer-use'
+import { LlmAdapter, ToolCallId } from '@worldapptechnologies/nulu-llm'
+import type { GenerateOptions, LlmResolvedModelInfo, StreamChunk } from '@worldapptechnologies/nulu-llm'
+import { SessionId } from '@worldapptechnologies/nulu-session'
+import type { ToolExecution } from '@worldapptechnologies/nulu-tools'
 import * as NativeProvider from '../src/index.ts'
 import { fixture, resetFixture } from './fixtures/cua-driver.ts'
 
@@ -25,7 +25,7 @@ beforeEach(async () => {
   ctx = new Context()
   await mountAgentLoopTestDependencies(ctx)
   await ctx.plugin(ComputerUseRegistry)
-  root = await mkdtemp(join(tmpdir(), 'dsh-native-cancellation-'))
+  root = await mkdtemp(join(tmpdir(), 'nulu-native-cancellation-'))
   await ctx.plugin(LocalAttachmentStore, { dshHome: root })
 })
 

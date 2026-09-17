@@ -7,16 +7,16 @@ import { mkdtemp, readFile, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { Context, LoggerLevel } from '@deepseek-ai/cordis'
-import Loader from '@deepseek-ai/cordis-plugin-loader'
-import AgentRegistry from '@deepseek-ai/dsh-agent'
-import LocalAttachments from '@deepseek-ai/dsh-attachment-local'
-import DeepSeekLlmApiExtensionRegistry from '@deepseek-ai/dsh-deepseek-llm-api-extensions'
-import LlmRuntime, { BlockAssembler, createSystemMessage, createToolResultMessage, ReasoningEffortId } from '@deepseek-ai/dsh-llm'
-import type { Message } from '@deepseek-ai/dsh-llm'
-import * as PluginPackageInventoryDeepSeek from '@deepseek-ai/dsh-plugin-package-inventory-deepseek'
-import SessionStore, { SessionId } from '@deepseek-ai/dsh-session'
-import * as SessionLogDeepSeek from '@deepseek-ai/dsh-session-log-deepseek'
+import { Context, LoggerLevel } from '@worldapptechnologies/cordis'
+import Loader from '@worldapptechnologies/cordis-plugin-loader'
+import AgentRegistry from '@worldapptechnologies/nulu-agent'
+import LocalAttachments from '@worldapptechnologies/nulu-attachment-local'
+import DeepSeekLlmApiExtensionRegistry from '@worldapptechnologies/nulu-deepseek-llm-api-extensions'
+import LlmRuntime, { BlockAssembler, createSystemMessage, createToolResultMessage, ReasoningEffortId } from '@worldapptechnologies/nulu-llm'
+import type { Message } from '@worldapptechnologies/nulu-llm'
+import * as PluginPackageInventoryDeepSeek from '@worldapptechnologies/nulu-plugin-package-inventory-deepseek'
+import SessionStore, { SessionId } from '@worldapptechnologies/nulu-session'
+import * as SessionLogDeepSeek from '@worldapptechnologies/nulu-session-log-deepseek'
 import * as Messages from '../../src/index.ts'
 import { DeepSeekFilesClient, MESSAGES_FILES_BETA } from '../../src/common/files-api.ts'
 import { assemble, options, user } from './helpers.ts'
@@ -29,9 +29,9 @@ afterEach(async () => {
   vi.unstubAllGlobals()
 })
 async function boot(models?: Messages.Config['models']) {
-  const home = await mkdtemp(join(tmpdir(), 'dsh-messages-e2e-'))
+  const home = await mkdtemp(join(tmpdir(), 'nulu-messages-e2e-'))
   cleanups.push(() => rm(home, { recursive: true, force: true }))
-  vi.stubEnv('DSH_HOME', home)
+  vi.stubEnv('NULU_HOME', home)
   const ctx = new Context()
   cleanups.push(() => ctx.fiber.dispose())
   await ctx.plugin(LlmRuntime)
@@ -145,11 +145,11 @@ describe.skipIf(!process.env.DEEPSEEK_API_KEY)('DeepSeek Messages real API', () 
     ctx.loader.internal = {
       version: 'v2',
       async import(specifier: string) {
-        if (specifier !== '@deepseek-ai/dsh-plugin-package-inventory-deepseek') throw new Error(`unexpected Loader import: ${specifier}`)
+        if (specifier !== '@worldapptechnologies/nulu-plugin-package-inventory-deepseek') throw new Error(`unexpected Loader import: ${specifier}`)
         return PluginPackageInventoryDeepSeek
       },
     } as unknown as NonNullable<typeof ctx.loader.internal>
-    await ctx.loader.create({ name: '@deepseek-ai/dsh-plugin-package-inventory-deepseek' })
+    await ctx.loader.create({ name: '@worldapptechnologies/nulu-plugin-package-inventory-deepseek' })
     await ctx.loader.await()
     const packageIdentity = JSON.parse(await readFile(new URL('../../../plugin-package-inventory-deepseek/package.json', import.meta.url), 'utf8')) as { name: string; version: string }
     const session = ctx.sessions.create(SessionId(`real-messages-extensions-${randomUUID()}`))

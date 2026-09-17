@@ -30,14 +30,14 @@ import {
   LAUNCHER_FAILURE_EXIT,
   launcherPath as landlockLauncherPath,
   probe as defaultProbeLandlock,
-} from '@deepseek-ai/node-addon-system/landlock-run'
-import { Context } from '@deepseek-ai/cordis'
-import z from '@deepseek-ai/schemastery'
-import { SandboxProvider, SandboxUnavailableError, canonicalPath } from '@deepseek-ai/dsh-sandbox'
-import type { ConfinedArgv, ConfinedSandboxMode, RunnerFailureRule, SandboxEnforcement, SandboxPolicy } from '@deepseek-ai/dsh-sandbox'
-import type { SessionId } from '@deepseek-ai/dsh-session'
-import { AclWriteGrant, assertTempRootOutsideWorkspace, tempWriteSid, workspaceWriteSid } from '@deepseek-ai/dsh-sandbox-windows-acl'
-import { assertNever } from '@deepseek-ai/dsh-util-values'
+} from '@worldapptechnologies/node-addon-system/landlock-run'
+import { Context } from '@worldapptechnologies/cordis'
+import z from '@worldapptechnologies/schemastery'
+import { SandboxProvider, SandboxUnavailableError, canonicalPath } from '@worldapptechnologies/nulu-sandbox'
+import type { ConfinedArgv, ConfinedSandboxMode, RunnerFailureRule, SandboxEnforcement, SandboxPolicy } from '@worldapptechnologies/nulu-sandbox'
+import type { SessionId } from '@worldapptechnologies/nulu-session'
+import { AclWriteGrant, assertTempRootOutsideWorkspace, tempWriteSid, workspaceWriteSid } from '@worldapptechnologies/nulu-sandbox-windows-acl'
+import { assertNever } from '@worldapptechnologies/nulu-util-values'
 import { bwrapProfileArgs, landlockProfileArgs, seatbeltProfileArgs } from './profiles.ts'
 
 /** Plugin config. All optional — `static Config` supplies the defaults. */
@@ -564,7 +564,7 @@ export class LocalSandboxProvider extends SandboxProvider {
     if (override !== undefined) return override
     const builtEntry = this.internals.windowsAclRunnerEntry ?? fileURLToPath(import.meta.resolve('@worldapptechnologies/nulu-sandbox-windows-acl/runner'))
     if (existsSync(builtEntry)) return [process.execPath, builtEntry]
-    const sourceEntry = fileURLToPath(import.meta.resolve('@deepseek-ai/dsh-sandbox-windows-acl/src/runner.ts'))
+    const sourceEntry = fileURLToPath(import.meta.resolve('@worldapptechnologies/nulu-sandbox-windows-acl/src/runner.ts'))
     const sourceConfig = fileURLToPath(new URL('../../../../tsconfig.base.json', import.meta.url))
     const registration = `import { register } from ${JSON.stringify(import.meta.resolve('tsx/esm/api'))}; register({ tsconfig: ${JSON.stringify(sourceConfig)} });`
     return [process.execPath, '--import', `data:text/javascript,${encodeURIComponent(registration)}`, sourceEntry]

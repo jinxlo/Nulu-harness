@@ -1,6 +1,6 @@
 {
-  "name": "@deepseek-ai/dsh-storage-domain",
-  "description": "Domain data form (ctx.storage.domain): schema-validated, event-emitting KV domains over storage backends for the DeepSeek Harness",
+  "name": "@worldapptechnologies/nulu-storage-domain",
+  "description": "Domain data form (ctx.storage.domain): schema-validated, event-emitting KV domains over storage backends for the Nulu Harness",
   "version": "0.1.6-alpha.1",
   "publishConfig": {
     "access": "public"

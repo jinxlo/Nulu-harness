@@ -208,7 +208,7 @@
         maxDepth: provider-managed
 
     - id: workflow-ptc
-      name: '@deepseek-ai/dsh-workflow-ptc'
+      name: '@worldapptechnologies/nulu-workflow-ptc'
       config:
         provider: spawn
 
@@ -222,7 +222,7 @@
     # id and drops `disabled`; the shipped root shadows a copy that reuses this
     # id.
     - id: tool-ralph
-      name: '@deepseek-ai/dsh-tool-ralph'
+      name: '@worldapptechnologies/nulu-tool-ralph'
       disabled: true
       config:
         subagentProvider: spawn

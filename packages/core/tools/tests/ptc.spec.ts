@@ -1,21 +1,21 @@
 import { describe, expect, it, vi } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import { createUserMessage, ToolCallId  } from '@deepseek-ai/dsh-llm'
-import type { ToolSchema } from '@deepseek-ai/dsh-llm'
-import { createScope } from '@deepseek-ai/dsh-scope'
-import type { Scope } from '@deepseek-ai/dsh-scope'
-import SystemPrompt, { renderPrompt } from '@deepseek-ai/dsh-system-prompt'
-import { PtcRuntime } from '@deepseek-ai/dsh-ptc-runtime'
-import type { PtcRunRequest, PtcRunResult } from '@deepseek-ai/dsh-ptc-runtime'
-import ToolRuntime, { CodeRunFailedError, RUN_CODE_NAME, TOOL_ABORTED_BEFORE_DISPATCH, defineContentToolFixture, defineTool } from '@deepseek-ai/dsh-tools'
-import type { Config, JsonSchemaNode, PostToolDecision, ToolExecutionResult } from '@deepseek-ai/dsh-tools'
-import type { Agent } from '@deepseek-ai/dsh-agent'
-import { Session, SessionId } from '@deepseek-ai/dsh-session'
-import ApprovalService, { type ApprovalOutcome, type ApprovalRequest } from '@deepseek-ai/dsh-user-approval'
-import type { SessionEventMap } from '@deepseek-ai/dsh-session'
-import type { JsonValue } from '@deepseek-ai/dsh-util-values'
-import SandboxPolicy from '@deepseek-ai/dsh-sandbox-policy'
-import SessionProjections from '@deepseek-ai/dsh-session-projection'
+import { Context } from '@worldapptechnologies/cordis'
+import { createUserMessage, ToolCallId  } from '@worldapptechnologies/nulu-llm'
+import type { ToolSchema } from '@worldapptechnologies/nulu-llm'
+import { createScope } from '@worldapptechnologies/nulu-scope'
+import type { Scope } from '@worldapptechnologies/nulu-scope'
+import SystemPrompt, { renderPrompt } from '@worldapptechnologies/nulu-system-prompt'
+import { PtcRuntime } from '@worldapptechnologies/nulu-ptc-runtime'
+import type { PtcRunRequest, PtcRunResult } from '@worldapptechnologies/nulu-ptc-runtime'
+import ToolRuntime, { CodeRunFailedError, RUN_CODE_NAME, TOOL_ABORTED_BEFORE_DISPATCH, defineContentToolFixture, defineTool } from '@worldapptechnologies/nulu-tools'
+import type { Config, JsonSchemaNode, PostToolDecision, ToolExecutionResult } from '@worldapptechnologies/nulu-tools'
+import type { Agent } from '@worldapptechnologies/nulu-agent'
+import { Session, SessionId } from '@worldapptechnologies/nulu-session'
+import ApprovalService, { type ApprovalOutcome, type ApprovalRequest } from '@worldapptechnologies/nulu-user-approval'
+import type { SessionEventMap } from '@worldapptechnologies/nulu-session'
+import type { JsonValue } from '@worldapptechnologies/nulu-util-values'
+import SandboxPolicy from '@worldapptechnologies/nulu-sandbox-policy'
+import SessionProjections from '@worldapptechnologies/nulu-session-projection'
 
 const testToolSignal = new AbortController().signal
 
@@ -29,7 +29,7 @@ const testToolSignal = new AbortController().signal
 
 /** A scriptable in-repo PtcRuntime: each test sets `behavior` to drive the bindings however it needs. */
 class FakeRuntime extends PtcRuntime {
-  resolve(request: import('@deepseek-ai/dsh-ptc-runtime').PtcRunRequest): import('@deepseek-ai/dsh-ptc-runtime').PtcRunSpec { return { ...request, cwd: request.cwd ?? process.cwd(), timeoutMs: request.timeoutMs ?? 120_000 } }
+  resolve(request: import('@worldapptechnologies/nulu-ptc-runtime').PtcRunRequest): import('@worldapptechnologies/nulu-ptc-runtime').PtcRunSpec { return { ...request, cwd: request.cwd ?? process.cwd(), timeoutMs: request.timeoutMs ?? 120_000 } }
 
   readonly language: string
   readonly isolation = 'fake'
@@ -2137,7 +2137,7 @@ describe('PTC standing file policy and sandbox outcomes', () => {
       await ctx.plugin(ConfinedFakeRuntime)
       const result = await runCode(ctx, 'return 1')
       expect(result.isError).toBe(true)
-      expect(result.content).toEqual([{ type: 'text', text: 'Error: dsh-tools: confined PTC runtime requires sandboxPolicy' }])
+      expect(result.content).toEqual([{ type: 'text', text: 'Error: nulu-tools: confined PTC runtime requires sandboxPolicy' }])
       expect((ctx.ptcRuntime as ConfinedFakeRuntime).lastRequest).toBeUndefined()
     } finally { await ctx.fiber.dispose() }
   })

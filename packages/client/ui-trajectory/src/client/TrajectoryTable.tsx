@@ -17,8 +17,8 @@ import {
   MarkdownText,
   Tooltip,
   writeClipboard,
-} from '@deepseek-ai/dsh-client-ui-primitives'
-import type { JsonTreeLabels, JsonTreeProps, MarkdownLabels } from '@deepseek-ai/dsh-client-ui-primitives'
+} from '@worldapptechnologies/nulu-client-ui-primitives'
+import type { JsonTreeLabels, JsonTreeProps, MarkdownLabels } from '@worldapptechnologies/nulu-client-ui-primitives'
 import { structuredPatch } from 'diff'
 import type { ImageAttachmentRef } from '@worldapptechnologies/nulu-attachment'
 import type {

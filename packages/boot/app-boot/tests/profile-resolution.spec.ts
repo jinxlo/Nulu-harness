@@ -140,7 +140,7 @@ function fixture(name = 'resolution-lib'): {
   profile: Profile
 } {
   // macOS exposes tmpdir through /var while Node returns resolved module paths through /private/var.
-  const root = realpathSync(mkdtempSync(join(tmpdir(), 'dsh-profile-generation-')))
+  const root = realpathSync(mkdtempSync(join(tmpdir(), 'nulu-profile-generation-')))
   roots.push(root)
   const installDir = join(root, 'install')
   const installed = join(installDir, 'node_modules', name)
@@ -185,7 +185,7 @@ describe('profile resolution generation', { concurrent: false }, () => {
       scope: 'installation',
     })
     expect(existsSync(join(generation.profilesDir, 'node_modules'))).toBe(false)
-    expect(existsSync(join(f.profile.dir, '.dsh-module-fallback'))).toBe(false)
+    expect(existsSync(join(f.profile.dir, '.nulu-module-fallback'))).toBe(false)
     expect(Object.isFrozen(generation)).toBe(true)
     expect(Object.isFrozen(generation.entries)).toBe(true)
     expect(generation.entries.every(Object.isFrozen)).toBe(true)
@@ -221,7 +221,7 @@ describe('profile resolution generation', { concurrent: false }, () => {
     for (const entry of computed.entries) {
       const projected = entry.scope === 'installation'
         ? join(computed.profilesDir, 'node_modules', entry.name)
-        : join(f.profile.dir, '.dsh-module-fallback', 'node_modules', entry.name)
+        : join(f.profile.dir, '.nulu-module-fallback', 'node_modules', entry.name)
       expect(realpathSync(projected)).toBe(realpathSync(entry.packageDir))
     }
   })
@@ -1025,7 +1025,7 @@ describe('profile resolution generation', { concurrent: false }, () => {
     pkg(join(f.root, 'profiles', 'node_modules', 'stale-shared'), 'stale-shared', 9)
     pkg(join(f.root, 'node_modules', 'stale-shared'), 'stale-shared', 3)
     const target = join(f.root, 'stale-private-target')
-    const owned = join(f.profile.dir, '.dsh-module-fallback', 'node_modules', 'stale-private')
+    const owned = join(f.profile.dir, '.nulu-module-fallback', 'node_modules', 'stale-private')
     const projected = join(f.profile.dir, 'node_modules', 'stale-private')
     pkg(target, 'stale-private', 9)
     mkdirSync(dirname(owned), { recursive: true })
@@ -1045,7 +1045,7 @@ describe('profile resolution generation', { concurrent: false }, () => {
   })
 
   it('continues after a canonicalized profiles directory from the matching parent tree', async () => {
-    const root = realpathSync(mkdtempSync(join(tmpdir(), 'dsh-profile-generation-symlink-')))
+    const root = realpathSync(mkdtempSync(join(tmpdir(), 'nulu-profile-generation-symlink-')))
     roots.push(root)
     const carrier = join(root, 'carrier')
     const profilesDir = join(root, 'home', 'profiles')
@@ -1496,7 +1496,7 @@ describe('profile resolution generation', { concurrent: false }, () => {
   it('publishes and restores the generation inherited by owned Workers', async () => {
     const f = fixture()
     const generation = await generationOf(f)
-    const key = '@deepseek-ai/dsh-app-boot/profile-resolution'
+    const key = '@worldapptechnologies/nulu-app-boot/profile-resolution'
     const previous = getEnvironmentData(key)
     const dispose = registerWorkerResolution(generation, 'verify')
     try {

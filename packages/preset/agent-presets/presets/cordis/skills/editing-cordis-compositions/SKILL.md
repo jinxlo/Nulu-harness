@@ -89,7 +89,7 @@ When a preset genuinely owns a service, wrap the provider **and every consumer t
     workflows: true
   config:
     - id: workflow-ptc
-      name: '@deepseek-ai/dsh-workflow-ptc'
+      name: '@worldapptechnologies/nulu-workflow-ptc'
       config:
         provider: spawn
     - id: tool-workflow

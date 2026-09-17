@@ -87,7 +87,7 @@ packages/llm/llm-gateway/tests/messages/stream.spec.ts
 packages/llm/llm-gateway/tests/protocol.spec.ts
 packages/llm/plugin-package-inventory-deepseek/package.json
 packages/session/session-log-gateway/tests/config.spec.ts
-packages/subagent/subagent-dsh-sdk/package.json
+packages/subagent/subagent-nulu-sdk/package.json
 packages/workflow/workflow-worker-thread/README.md
 packages/workflow/workflow-worker-thread/src/host.ts
 packages/workflow/workflow-worker-thread/src/protocol.ts
@@ -97,4 +97,4 @@ packages/workflow/workflow-worker-thread/tests/built-worker.e2e.ts
 packages/workflow/workflow-worker-thread/tests/egress.spec.ts
 packages/workflow/workflow-worker-thread/tests/session.spec.ts
 packages/workflow/workflow-worker-thread/tests/source-worker.compat.spec.ts
-snapshots/sdk/subagent-dsh-sdk-dynamic-route/cordis.yml
+snapshots/sdk/subagent-nulu-sdk-dynamic-route/cordis.yml

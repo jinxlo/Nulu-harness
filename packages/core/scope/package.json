@@ -1,6 +1,6 @@
 {
-  "name": "@deepseek-ai/dsh-scope",
-  "description": "Scoped-context registration primitive (scope tags, scope-filtered event dispatch) for the DeepSeek Harness",
+  "name": "@worldapptechnologies/nulu-scope",
+  "description": "Scoped-context registration primitive (scope tags, scope-filtered event dispatch) for the Nulu Harness",
   "version": "0.1.6-alpha.1",
   "publishConfig": {
     "access": "public"

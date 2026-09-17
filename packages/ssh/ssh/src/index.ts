@@ -4,8 +4,8 @@ import { spawn, execFile, type ChildProcessWithoutNullStreams } from 'node:child
 import { mkdtemp, rm } from 'node:fs/promises'
 import { join } from 'node:path'
 import { createConnection, type Socket } from 'node:net'
-import { Context, Service } from '@deepseek-ai/cordis'
-import schema from '@deepseek-ai/schemastery'
+import { Context, Service } from '@worldapptechnologies/cordis'
+import schema from '@worldapptechnologies/schemastery'
 import { z } from 'zod'
 import { SshRpcPeer, SSH_PROTOCOL_VERSION } from './protocol.ts'
 import { helloSchema, type SshStreamEndpoint } from './schemas.ts'
@@ -39,7 +39,7 @@ export interface Config {
   leaseMs?: number
 }
 
-declare module '@deepseek-ai/cordis' {
+declare module '@worldapptechnologies/cordis' {
   interface Context { ssh: SshConnection }
 }
 
@@ -256,7 +256,7 @@ export class SshConnection extends Service {
   }
 
   private async start(): Promise<Hello> {
-    this.directory = await mkdtemp('/tmp/dsh-ssh-')
+    this.directory = await mkdtemp('/tmp/nulu-ssh-')
     if (this.closed) throw new Error('SSH connection closed before startup')
     const quote = (value: string): string => `'${value.replaceAll("'", "'\\''")}'`
     const command = [this.config.node, '--disable-sigusr1', this.config.helper].map(quote).join(' ')

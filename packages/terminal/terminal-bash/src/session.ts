@@ -2,7 +2,7 @@
 
 import { Buffer } from 'node:buffer'
 import type { IDisposable, Terminal as HeadlessTerminalType } from '@xterm/headless'
-import { createLazyRequire } from '@deepseek-ai/dsh-lazy-require'
+import { createLazyRequire } from '@worldapptechnologies/nulu-lazy-require'
 import type {
   SubprocessOutcome,
   SubprocessTerminalForeground,

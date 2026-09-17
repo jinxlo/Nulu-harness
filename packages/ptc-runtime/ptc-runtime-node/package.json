@@ -1,13 +1,13 @@
 {
-  "name": "@deepseek-ai/dsh-ptc-runtime-node",
-  "description": "Sandboxed Node process implementation of the DeepSeek Harness PTC execution capability",
+  "name": "@worldapptechnologies/nulu-ptc-runtime-node",
+  "description": "Sandboxed Node process implementation of the Nulu Harness PTC execution capability",
   "version": "0.1.6-alpha.1",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "url": "git+https://github.com/worldapptechnologies/nulu-harness.git",
     "directory": "packages/ptc-runtime/ptc-runtime-node"
   },
   "type": "module",
@@ -31,31 +31,31 @@
   ],
   "license": "MIT",
   "peerDependencies": {
-    "@deepseek-ai/cordis": "workspace:^",
-    "@deepseek-ai/dsh-ptc-runtime": "workspace:^",
-    "@deepseek-ai/dsh-session": "workspace:^",
-    "@deepseek-ai/dsh-timeout": "workspace:^",
-    "@deepseek-ai/dsh-fs": "workspace:^",
-    "@deepseek-ai/dsh-subprocess": "workspace:^",
-    "@deepseek-ai/dsh-sandbox": "workspace:^",
-    "@deepseek-ai/dsh-sandbox-policy": "workspace:^"
+    "@worldapptechnologies/cordis": "workspace:^",
+    "@worldapptechnologies/nulu-ptc-runtime": "workspace:^",
+    "@worldapptechnologies/nulu-session": "workspace:^",
+    "@worldapptechnologies/nulu-timeout": "workspace:^",
+    "@worldapptechnologies/nulu-fs": "workspace:^",
+    "@worldapptechnologies/nulu-subprocess": "workspace:^",
+    "@worldapptechnologies/nulu-sandbox": "workspace:^",
+    "@worldapptechnologies/nulu-sandbox-policy": "workspace:^"
   },
   "dependencies": {
-    "@deepseek-ai/dsh-util-values": "workspace:^",
-    "@deepseek-ai/schemastery": "workspace:^"
+    "@worldapptechnologies/nulu-util-values": "workspace:^",
+    "@worldapptechnologies/schemastery": "workspace:^"
   },
   "devDependencies": {
-    "@deepseek-ai/cordis": "workspace:^",
-    "@deepseek-ai/dsh-ptc-runtime": "workspace:^",
-    "@deepseek-ai/dsh-session": "workspace:^",
-    "@deepseek-ai/dsh-timeout": "workspace:^",
-    "@deepseek-ai/dsh-fs": "workspace:^",
-    "@deepseek-ai/dsh-subprocess": "workspace:^",
-    "@deepseek-ai/dsh-sandbox": "workspace:^",
-    "@deepseek-ai/dsh-sandbox-policy": "workspace:^",
-    "@deepseek-ai/dsh-fs-local": "workspace:^",
-    "@deepseek-ai/dsh-subprocess-local": "workspace:^",
-    "@deepseek-ai/dsh-session-projection": "workspace:^",
-    "@deepseek-ai/dsh-sandbox-local": "workspace:^"
+    "@worldapptechnologies/cordis": "workspace:^",
+    "@worldapptechnologies/nulu-ptc-runtime": "workspace:^",
+    "@worldapptechnologies/nulu-session": "workspace:^",
+    "@worldapptechnologies/nulu-timeout": "workspace:^",
+    "@worldapptechnologies/nulu-fs": "workspace:^",
+    "@worldapptechnologies/nulu-subprocess": "workspace:^",
+    "@worldapptechnologies/nulu-sandbox": "workspace:^",
+    "@worldapptechnologies/nulu-sandbox-policy": "workspace:^",
+    "@worldapptechnologies/nulu-fs-local": "workspace:^",
+    "@worldapptechnologies/nulu-subprocess-local": "workspace:^",
+    "@worldapptechnologies/nulu-session-projection": "workspace:^",
+    "@worldapptechnologies/nulu-sandbox-local": "workspace:^"
   }
 }

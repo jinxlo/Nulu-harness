@@ -3,10 +3,10 @@ import type {
   AssistantBlock, AssistantMessageNode, ConversationLocation,
   ConversationMatch, ConversationNodeContext, ConversationNodeDefinition,
   PartialAssistant, RequestView,
-} from '@deepseek-ai/dsh-client-ui-conversation/client'
-import type { StreamChunk } from '@deepseek-ai/dsh-llm'
-import { assistantStreamFirstTokenTime } from '@deepseek-ai/dsh-llm/assistant-stream'
-import type { SessionEvent } from '@deepseek-ai/dsh-session/types'
+} from '@worldapptechnologies/nulu-client-ui-conversation/client'
+import type { StreamChunk } from '@worldapptechnologies/nulu-llm'
+import { assistantStreamFirstTokenTime } from '@worldapptechnologies/nulu-llm/assistant-stream'
+import type { SessionEvent } from '@worldapptechnologies/nulu-session/types'
 import { trajectoryNode } from './trajectory-definition-common.ts'
 import {
   displayFailure, emptyAssistantBlock, isTokenDelta, toAssistantBlock, toAssistantBlocks,

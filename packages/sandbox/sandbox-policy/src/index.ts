@@ -21,14 +21,14 @@
  */
 
 import { isAbsolute } from 'node:path'
-import { Context, Service } from '@deepseek-ai/cordis'
+import { Context, Service } from '@worldapptechnologies/cordis'
 import { z as zod } from 'zod'
-import z from '@deepseek-ai/schemastery'
-import type {} from '@deepseek-ai/dsh-agent'
-import type { SandboxExecutionPolicy, SandboxMode } from '@deepseek-ai/dsh-sandbox'
-import type { Session } from '@deepseek-ai/dsh-session'
-import type {} from '@deepseek-ai/dsh-session-projection'
-import type {} from '@deepseek-ai/dsh-system-prompt'
+import z from '@worldapptechnologies/schemastery'
+import type {} from '@worldapptechnologies/nulu-agent'
+import type { SandboxExecutionPolicy, SandboxMode } from '@worldapptechnologies/nulu-sandbox'
+import type { Session } from '@worldapptechnologies/nulu-session'
+import type {} from '@worldapptechnologies/nulu-session-projection'
+import type {} from '@worldapptechnologies/nulu-system-prompt'
 
 export { SANDBOX_MODES, setSandboxMode } from './session-mode.ts'
 

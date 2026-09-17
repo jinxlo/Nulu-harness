@@ -5,8 +5,8 @@ import { basename, dirname, extname, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { JSDOM } from 'jsdom'
 import ts from 'typescript'
-import { applyEntryPatches, type PatchOptions } from '@deepseek-ai/cordis-plugin-include'
-import type { EntryOptions } from '@deepseek-ai/cordis-plugin-loader'
+import { applyEntryPatches, type PatchOptions } from '@worldapptechnologies/cordis-plugin-include'
+import type { EntryOptions } from '@worldapptechnologies/cordis-plugin-loader'
 import { loadOverlayPatches } from '../packages/boot/app-boot/src/index.ts'
 import { composeEntries } from '../packages/boot/app-boot/src/profile.ts'
 import { isCordisGroupEntry, loadCordisYaml } from './cordis-yaml.ts'
@@ -15,7 +15,7 @@ import {
   collectRuntimeSourceSpecifiers,
 } from './verify-client-packages.ts'
 
-const EXPERIMENTAL_PREFIX = '@deepseek-ai/dsh-experimental-'
+const EXPERIMENTAL_PREFIX = '@worldapptechnologies/nulu-experimental-'
 const PROFILE_SOURCE = 'packages/boot/app-boot/src/profile.ts'
 const PRESET_PATTERN = 'packages/preset/agent-presets/presets/*/agent.cordis.yml'
 const RUNTIME_SECTIONS = ['dependencies', 'optionalDependencies', 'peerDependencies'] as const
@@ -26,7 +26,7 @@ interface Manifest {
   optionalDependencies?: Record<string, string>
   peerDependencies?: Record<string, string>
   devDependencies?: Record<string, string>
-  dsh?: { bundle?: { patch?: string }; configTrees?: Array<{ path: string }> }
+  nulu?: { bundle?: { patch?: string }; configTrees?: Array<{ path: string }> }
 }
 
 interface Package {
@@ -68,8 +68,8 @@ export function verifyDefaultProductIsolation(root: string): ProductIsolationRes
   for (const path of ['apps/cli/package.json', 'apps/web/package.json', 'python/sdk-runtime/package.json']) {
     if (!existsSync(resolve(root, path))) failures.push(`missing default product root ${path}`)
   }
-  if (directories.get(resolve(root, 'apps/cli'))?.manifest.name !== '@deepseek-ai/dsh') {
-    failures.push('apps/cli/package.json must identify @deepseek-ai/dsh')
+  if (directories.get(resolve(root, 'apps/cli'))?.manifest.name !== '@worldapptechnologies/nulu') {
+    failures.push('apps/cli/package.json must identify @worldapptechnologies/nulu')
   }
 
   const queue: Package[] = []
@@ -112,7 +112,7 @@ export function verifyDefaultProductIsolation(root: string): ProductIsolationRes
     }
     const pkg = packages.get(packageName)
     if (pkg !== undefined) add(pkg, origin)
-    else if (packageName.startsWith('@deepseek-ai/')) failures.push(`${origin}: unknown workspace package ${name}`)
+    else if (packageName.startsWith('@worldapptechnologies/')) failures.push(`${origin}: unknown workspace package ${name}`)
   }
   const dependency = (name: string, range: string, owner: Package, origin: string): void => {
     reference(name, origin, owner)
@@ -166,7 +166,7 @@ export function verifyDefaultProductIsolation(root: string): ProductIsolationRes
         (entry.config as unknown[]).forEach(visit)
       }
       if (Array.isArray(entry.insert)) entry.insert.forEach(visit)
-      if ((entry.name === '@deepseek-ai/cordis-plugin-include' || entry.name === 'cordis:include') && isRecord(entry.config)) {
+      if ((entry.name === '@worldapptechnologies/cordis-plugin-include' || entry.name === 'cordis:include') && isRecord(entry.config)) {
         if (!composedWeb && Array.isArray(entry.config.patches)) entry.config.patches.forEach(visit)
         const included = entry.config.path
         if (typeof included !== 'string') return
@@ -213,13 +213,13 @@ export function verifyDefaultProductIsolation(root: string): ProductIsolationRes
     const selection = profilePackages(readFileSync(profilePath, 'utf8'))
     for (const name of selection.packages) {
       reference(name, PROFILE_SOURCE)
-      if (packages.get(name)?.manifest.dsh?.bundle?.patch === undefined) {
-        failures.push(`${PROFILE_SOURCE}: default bundle ${name} must declare dsh.bundle.patch`)
+      if (packages.get(name)?.manifest.nulu?.bundle?.patch === undefined) {
+        failures.push(`${PROFILE_SOURCE}: default bundle ${name} must declare nulu.bundle.patch`)
       }
     }
     const webLayers = selection.webBundles.flatMap((name) => {
       const pkg = packages.get(name)
-      const patch = pkg?.manifest.dsh?.bundle?.patch
+      const patch = pkg?.manifest.nulu?.bundle?.patch
       if (pkg === undefined || patch === undefined) return []
       return [loadOverlayPatches('verify-default-product-isolation', resolve(pkg.directory, patch))]
     })
@@ -265,8 +265,8 @@ export function verifyDefaultProductIsolation(root: string): ProductIsolationRes
         dependency(name, range, pkg, `${manifest.name} ${section}`)
       }
     }
-    if (manifest.dsh?.bundle?.patch !== undefined) scanConfig(resolve(pkg.directory, manifest.dsh.bundle.patch))
-    for (const tree of manifest.dsh?.configTrees ?? []) {
+    if (manifest.nulu?.bundle?.patch !== undefined) scanConfig(resolve(pkg.directory, manifest.nulu.bundle.patch))
+    for (const tree of manifest.nulu?.configTrees ?? []) {
       const treePath = resolve(pkg.directory, tree.path)
       const files = existsSync(treePath) && statSync(treePath).isDirectory()
         ? globSync('**/*.{yml,yaml}', { cwd: treePath, exclude: ['**/*.i18n.yaml', '**/preset.yml'] }) : []

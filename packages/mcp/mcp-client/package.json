@@ -27,20 +27,20 @@
   ],
   "license": "MIT",
   "peerDependencies": {
-    "@deepseek-ai/dsh-attachment": "workspace:^",
-    "@deepseek-ai/dsh-llm": "workspace:^",
-    "@deepseek-ai/dsh-scope": "workspace:^",
-    "@deepseek-ai/dsh-subprocess": "workspace:^",
-    "@deepseek-ai/dsh-timeout": "workspace:^",
-    "@deepseek-ai/dsh-tools": "workspace:^",
-    "@deepseek-ai/cordis": "workspace:^",
-    "@deepseek-ai/dsh-mcp-resources": "workspace:^",
-    "@deepseek-ai/dsh-system-prompt": "workspace:^"
+    "@worldapptechnologies/nulu-attachment": "workspace:^",
+    "@worldapptechnologies/nulu-llm": "workspace:^",
+    "@worldapptechnologies/nulu-scope": "workspace:^",
+    "@worldapptechnologies/nulu-subprocess": "workspace:^",
+    "@worldapptechnologies/nulu-timeout": "workspace:^",
+    "@worldapptechnologies/nulu-tools": "workspace:^",
+    "@worldapptechnologies/cordis": "workspace:^",
+    "@worldapptechnologies/nulu-mcp-resources": "workspace:^",
+    "@worldapptechnologies/nulu-system-prompt": "workspace:^"
   },
   "dependencies": {
-    "@deepseek-ai/schemastery": "workspace:^",
+    "@worldapptechnologies/schemastery": "workspace:^",
     "@modelcontextprotocol/client": "2.0.0",
-    "@deepseek-ai/dsh-util-values": "workspace:^"
+    "@worldapptechnologies/nulu-util-values": "workspace:^"
   },
   "devDependencies": {
     "@worldapptechnologies/nulu-attachment": "workspace:^",
@@ -52,19 +52,19 @@
     "@worldapptechnologies/nulu-tools": "workspace:^",
     "@modelcontextprotocol/server-everything": "^2026.7.4",
     "@modelcontextprotocol/server-filesystem": "^2026.7.4",
-    "@deepseek-ai/cordis": "workspace:^",
-    "@deepseek-ai/dsh-http-proxy": "workspace:^",
+    "@worldapptechnologies/cordis": "workspace:^",
+    "@worldapptechnologies/nulu-http-proxy": "workspace:^",
     "@modelcontextprotocol/server": "2.0.0",
     "@modelcontextprotocol/node": "2.0.0",
     "zod": "^4.4.3",
-    "@deepseek-ai/dsh-mcp-resources": "workspace:^",
-    "@deepseek-ai/dsh-system-prompt": "workspace:^"
+    "@worldapptechnologies/nulu-mcp-resources": "workspace:^",
+    "@worldapptechnologies/nulu-system-prompt": "workspace:^"
   },
   "peerDependenciesMeta": {
-    "@deepseek-ai/dsh-mcp-resources": {
+    "@worldapptechnologies/nulu-mcp-resources": {
       "optional": true
     },
-    "@deepseek-ai/dsh-system-prompt": {
+    "@worldapptechnologies/nulu-system-prompt": {
       "optional": true
     }
   }

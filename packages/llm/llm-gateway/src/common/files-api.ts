@@ -1,7 +1,7 @@
-/** DeepSeek Files API transport for Chat Completions and Messages endpoints. @module dsh-llm-deepseek/files-api */
+/** DeepSeek Files API transport for Chat Completions and Messages endpoints. @module nulu-llm-deepseek/files-api */
 
-import { attributionHeaders, LlmError } from '@deepseek-ai/dsh-llm'
-import type { ImageMediaType } from '@deepseek-ai/dsh-attachment'
+import { attributionHeaders, LlmError } from '@worldapptechnologies/nulu-llm'
+import type { ImageMediaType } from '@worldapptechnologies/nulu-attachment'
 import { DeepSeekFileId } from './file-id.ts'
 import type { DeepSeekFileId as DeepSeekFileIdType } from './file-id.ts'
 import type { DeepSeekProtocol } from './types.ts'

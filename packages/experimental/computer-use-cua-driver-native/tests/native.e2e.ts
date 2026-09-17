@@ -1,14 +1,14 @@
 /** Opt-in native SDK compatibility check without screenshots, input, or permission prompts. */
 
 import { expect, it } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import ComputerUseRegistry from '@deepseek-ai/dsh-computer-use'
-import { ToolCallId } from '@deepseek-ai/dsh-llm'
-import SystemPrompt from '@deepseek-ai/dsh-system-prompt'
-import ToolRuntime from '@deepseek-ai/dsh-tools'
+import { Context } from '@worldapptechnologies/cordis'
+import ComputerUseRegistry from '@worldapptechnologies/nulu-computer-use'
+import { ToolCallId } from '@worldapptechnologies/nulu-llm'
+import SystemPrompt from '@worldapptechnologies/nulu-system-prompt'
+import ToolRuntime from '@worldapptechnologies/nulu-tools'
 import * as NativeProvider from '../src/index.ts'
 
-it.skipIf(process.env.DSH_COMPUTER_USE_NATIVE_E2E !== '1')(
+it.skipIf(process.env.NULU_COMPUTER_USE_NATIVE_E2E !== '1')(
   'loads the installed native SDK, reads permission status without prompting, and shuts down',
   { retry: 0 },
   async ({ signal }) => {

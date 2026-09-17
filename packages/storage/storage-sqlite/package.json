@@ -1,6 +1,6 @@
 {
-  "name": "@deepseek-ai/dsh-storage-sqlite",
-  "description": "SQLite storage backend (kv facet) for the DeepSeek Harness storage hub",
+  "name": "@worldapptechnologies/nulu-storage-sqlite",
+  "description": "SQLite storage backend (kv facet) for the Nulu Harness storage hub",
   "version": "0.1.6-alpha.1",
   "publishConfig": {
     "access": "public"

@@ -2,8 +2,8 @@ import { mkdtemp, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { AttachmentId, ImageVariantId } from '@deepseek-ai/dsh-attachment'
-import type { ImageAttachmentRef, RequestImageAttachment } from '@deepseek-ai/dsh-attachment'
+import { AttachmentId, ImageVariantId } from '@worldapptechnologies/nulu-attachment'
+import type { ImageAttachmentRef, RequestImageAttachment } from '@worldapptechnologies/nulu-attachment'
 import { DeepSeekFileStore, MAX_IMAGE_BYTES } from '../src/common/file-store.ts'
 import { DeepSeekFileId } from '../src/common/file-id.ts'
 import { deepSeekFileScope, DeepSeekUploadIndex } from '../src/common/upload-index.ts'
@@ -69,14 +69,14 @@ function uploadFetch(now: () => number = () => NOW) {
 
 describe('DeepSeekFileStore', () => {
   it('separates native Files reuse, invalidation, and expiry from the chat namespace', async () => {
-    const dir = await mkdtemp(join(tmpdir(), 'dsh-native-file-store-'))
+    const dir = await mkdtemp(join(tmpdir(), 'nulu-native-file-store-'))
     roots.push(dir)
     let now = NOW
     let uploads = 0
     const fetchImpl: typeof fetch = async (input, init) => {
       if (init?.method !== 'POST') throw new Error('only uploads expected')
       uploads++
-      const common = { id: `file-${uploads}`, filename: 'dsh-image.png' }
+      const common = { id: `file-${uploads}`, filename: 'nulu-image.png' }
       return new Response(JSON.stringify(requestUrl(input).includes('/v1/files')
         ? { ...common, type: 'file', size_bytes: VERSION.bytes, created_at: new Date(now).toISOString(), mime_type: VERSION.mediaType }
         : { ...common, object: 'file', bytes: VERSION.bytes, created_at: now / 1_000, expires_at: now / 1_000 + POLICY.expiresAfterSeconds, purpose: 'user_data' }))
@@ -106,12 +106,12 @@ describe('DeepSeekFileStore', () => {
   })
 
   it('reclaims the oldest owned native file across descending pages before retrying an upload', async () => {
-    const dir = await mkdtemp(join(tmpdir(), 'dsh-native-file-quota-'))
+    const dir = await mkdtemp(join(tmpdir(), 'nulu-native-file-quota-'))
     roots.push(dir)
     const deleted: string[] = []
     const cursors: (string | null)[] = []
     let uploads = 0
-    const file = (id: string, age: number, filename = 'dsh-owned.png') => ({
+    const file = (id: string, age: number, filename = 'nulu-owned.png') => ({
       id, type: 'file', size_bytes: 3, created_at: new Date(NOW - age).toISOString(), filename, mime_type: 'image/png',
     })
     const fetchImpl: typeof fetch = async (input, init) => {

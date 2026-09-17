@@ -13,10 +13,10 @@ import { dirname, join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { act, cleanup } from '@testing-library/react'
 import { afterEach, beforeEach, vi } from 'vitest'
-import { bootInjections, orderByModuleGraph } from '@deepseek-ai/dsh-client-modules'
-import type { ClientModuleLoaderTarget, WebBootEntry, WebBootGraph } from '@deepseek-ai/dsh-client-modules/client'
-import type { RemoteMock } from '@deepseek-ai/dsh-remote-mock'
-import { AppWebEntry } from '@deepseek-ai/dsh-client-web'
+import { bootInjections, orderByModuleGraph } from '@worldapptechnologies/nulu-client-modules'
+import type { ClientModuleLoaderTarget, WebBootEntry, WebBootGraph } from '@worldapptechnologies/nulu-client-modules/client'
+import type { RemoteMock } from '@worldapptechnologies/nulu-remote-mock'
+import { AppWebEntry } from '@worldapptechnologies/nulu-client-web'
 import {
   createAssembledRemote, type AssembledRemote, type AssembledRemoteOptions,
 } from './assembled-remote.ts'
@@ -180,7 +180,7 @@ function bundleTable(graph: WebBootGraph, plugins: readonly AssembledPlugin[]): 
 interface FixtureWindow extends Window {
   __NULU_BOOT__?: WebBootGraph
   __ModuleLoader__?: ClientModuleLoaderTarget
-  __DSH_TRANSPORT__?: { readonly rpc: RemoteMock['rpc'] }
+  __NULU_TRANSPORT__?: { readonly rpc: RemoteMock['rpc'] }
 }
 
 class ResizeObserverStub {
@@ -251,7 +251,7 @@ export function installAssembledBootEnv(): void {
     cleanup()
     delete win.__NULU_BOOT__
     delete win.__ModuleLoader__
-    delete win.__DSH_TRANSPORT__
+    delete win.__NULU_TRANSPORT__
     document.body.innerHTML = ''
     document.head.querySelectorAll('style[data-plugin]').forEach((style) => { style.remove() })
     document.title = ''
@@ -277,7 +277,7 @@ export function mountAssembledApp(options: AssembledBootOptions = {}): Assembled
   const plugins = PLUGINS.filter(plugin => !excluded.has(plugin.id))
   const remote = createAssembledRemote(options.remote)
   mountedRemote = remote.mock
-  win.__DSH_TRANSPORT__ = { rpc: remote.mock.rpc }
+  win.__NULU_TRANSPORT__ = { rpc: remote.mock.rpc }
   history.replaceState(null, '', '/')
   const root = document.createElement('div')
   root.id = 'root'

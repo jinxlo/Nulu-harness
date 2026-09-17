@@ -1,7 +1,7 @@
 /** One-shot session-lineage and event-relationship tracing helpers. */
 
-import { currentSessionMessageProjections } from '@deepseek-ai/dsh-session-format-catalog/message-projections'
-import { foldSurface, isSurfaceEvent, snapshotSessionEvent } from '@deepseek-ai/dsh-session'
+import { currentSessionMessageProjections } from '@worldapptechnologies/nulu-session-format-catalog/message-projections'
+import { foldSurface, isSurfaceEvent, snapshotSessionEvent } from '@worldapptechnologies/nulu-session'
 import type {
   SessionEvent,
   SessionId,

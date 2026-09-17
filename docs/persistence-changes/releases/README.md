@@ -29,32 +29,32 @@ The [manifest](manifest.json) records every DSH alpha/RC tag captured on 2026-09
 
 | Tag | Source date (UTC) | Session version | Roots / types | Changed roots |
 |---|---|---|---|---|
-| [dsh-v0.0.1-rc.1](dsh-v0.0.1-rc.1.md) | 2026-08-10 | 0 | 42 / 341 | 42 |
-| [dsh-v0.0.1-rc.2](dsh-v0.0.1-rc.2.md) | 2026-08-11 | 0 | 47 / 374 | 45 |
-| [dsh-v0.0.1-rc.3](dsh-v0.0.1-rc.3.md) | 2026-08-12 | 0 | 47 / 374 | 12 |
-| [dsh-v0.0.1-rc.4](dsh-v0.0.1-rc.4.md) | 2026-08-12 | 0 | 47 / 374 | 0 |
-| [dsh-v0.0.1-rc.5](dsh-v0.0.1-rc.5.md) | 2026-08-12 | 0 | 47 / 374 | 0 |
-| [dsh-v0.1.0-rc.1](dsh-v0.1.0-rc.1.md) | 2026-08-13 | 0 | 47 / 374 | 0 |
-| [dsh-v0.1.0-rc.2](dsh-v0.1.0-rc.2.md) | 2026-08-13 | 0 | 47 / 374 | 0 |
-| [dsh-v0.1.0-rc.3](dsh-v0.1.0-rc.3.md) | 2026-08-13 | 0 | 47 / 374 | 0 |
-| [dsh-v0.1.0-rc.5](dsh-v0.1.0-rc.5.md) | 2026-08-13 | 0 | 47 / 374 | 0 |
-| [dsh-v0.1.0-rc.6](dsh-v0.1.0-rc.6.md) | 2026-08-13 | 0 | 47 / 374 | 0 |
-| [dsh-v0.1.0-rc.7](dsh-v0.1.0-rc.7.md) | 2026-08-17 | 0 | 47 / 376 | 1 |
-| [dsh-v0.1.0-rc.8](dsh-v0.1.0-rc.8.md) | 2026-08-19 | 0 | 51 / 403 | 8 |
-| [dsh-v0.1.1-rc.1](dsh-v0.1.1-rc.1.md) | 2026-08-21 | 0 | 51 / 407 | 1 |
-| [dsh-v0.1.1-rc.2](dsh-v0.1.1-rc.2.md) | 2026-08-21 | 0 | 51 / 404 | 10 |
-| [dsh-v0.1.2-alpha.1](dsh-v0.1.2-alpha.1.md) | 2026-08-27 | 0 | 54 / 417 | 52 |
-| [dsh-v0.1.2-alpha.2](dsh-v0.1.2-alpha.2.md) | 2026-08-30 | 0 | 54 / 417 | 52 |
-| [dsh-v0.1.2-alpha.3](dsh-v0.1.2-alpha.3.md) | 2026-08-31 | 0 | 54 / 417 | 0 |
-| [dsh-v0.1.2-alpha.4](dsh-v0.1.2-alpha.4.md) | 2026-09-01 | 0 | 54 / 415 | 4 |
-| [dsh-v0.1.2-alpha.5](dsh-v0.1.2-alpha.5.md) | 2026-09-02 | 0 | 54 / 415 | 0 |
-| [dsh-v0.1.2-rc.1](dsh-v0.1.2-rc.1.md) | 2026-09-03 | 0 | 54 / 415 | 0 |
-| [dsh-v0.1.3-alpha.1](dsh-v0.1.3-alpha.1.md) | 2026-09-04 | 2 | 54 / 425 | 17 |
-| [dsh-v0.1.3-alpha.2](dsh-v0.1.3-alpha.2.md) | 2026-09-07 | 2 | 56 / 435 | 2 |
-| [dsh-v0.1.5-alpha.1](dsh-v0.1.5-alpha.1.md) | 2026-09-08 | 3 | 57 / 443 | 12 |
-| [dsh-v0.1.5-alpha.2](dsh-v0.1.5-alpha.2.md) | 2026-09-09 | 3 | 59 / 462 | 4 |
-| [dsh-v0.1.5-rc.1](dsh-v0.1.5-rc.1.md) | 2026-09-10 | 3 | 59 / 462 | 0 |
-| [dsh-v0.1.5-rc.2](dsh-v0.1.5-rc.2.md) | 2026-09-10 | 3 | 59 / 462 | 0 |
+| [nulu-v0.0.1-rc.1](nulu-v0.0.1-rc.1.md) | 2026-08-10 | 0 | 42 / 341 | 42 |
+| [nulu-v0.0.1-rc.2](nulu-v0.0.1-rc.2.md) | 2026-08-11 | 0 | 47 / 374 | 45 |
+| [nulu-v0.0.1-rc.3](nulu-v0.0.1-rc.3.md) | 2026-08-12 | 0 | 47 / 374 | 12 |
+| [nulu-v0.0.1-rc.4](nulu-v0.0.1-rc.4.md) | 2026-08-12 | 0 | 47 / 374 | 0 |
+| [nulu-v0.0.1-rc.5](nulu-v0.0.1-rc.5.md) | 2026-08-12 | 0 | 47 / 374 | 0 |
+| [nulu-v0.1.0-rc.1](nulu-v0.1.0-rc.1.md) | 2026-08-13 | 0 | 47 / 374 | 0 |
+| [nulu-v0.1.0-rc.2](nulu-v0.1.0-rc.2.md) | 2026-08-13 | 0 | 47 / 374 | 0 |
+| [nulu-v0.1.0-rc.3](nulu-v0.1.0-rc.3.md) | 2026-08-13 | 0 | 47 / 374 | 0 |
+| [nulu-v0.1.0-rc.5](nulu-v0.1.0-rc.5.md) | 2026-08-13 | 0 | 47 / 374 | 0 |
+| [nulu-v0.1.0-rc.6](nulu-v0.1.0-rc.6.md) | 2026-08-13 | 0 | 47 / 374 | 0 |
+| [nulu-v0.1.0-rc.7](nulu-v0.1.0-rc.7.md) | 2026-08-17 | 0 | 47 / 376 | 1 |
+| [nulu-v0.1.0-rc.8](nulu-v0.1.0-rc.8.md) | 2026-08-19 | 0 | 51 / 403 | 8 |
+| [nulu-v0.1.1-rc.1](nulu-v0.1.1-rc.1.md) | 2026-08-21 | 0 | 51 / 407 | 1 |
+| [nulu-v0.1.1-rc.2](nulu-v0.1.1-rc.2.md) | 2026-08-21 | 0 | 51 / 404 | 10 |
+| [nulu-v0.1.2-alpha.1](nulu-v0.1.2-alpha.1.md) | 2026-08-27 | 0 | 54 / 417 | 52 |
+| [nulu-v0.1.2-alpha.2](nulu-v0.1.2-alpha.2.md) | 2026-08-30 | 0 | 54 / 417 | 52 |
+| [nulu-v0.1.2-alpha.3](nulu-v0.1.2-alpha.3.md) | 2026-08-31 | 0 | 54 / 417 | 0 |
+| [nulu-v0.1.2-alpha.4](nulu-v0.1.2-alpha.4.md) | 2026-09-01 | 0 | 54 / 415 | 4 |
+| [nulu-v0.1.2-alpha.5](nulu-v0.1.2-alpha.5.md) | 2026-09-02 | 0 | 54 / 415 | 0 |
+| [nulu-v0.1.2-rc.1](nulu-v0.1.2-rc.1.md) | 2026-09-03 | 0 | 54 / 415 | 0 |
+| [nulu-v0.1.3-alpha.1](nulu-v0.1.3-alpha.1.md) | 2026-09-04 | 2 | 54 / 425 | 17 |
+| [nulu-v0.1.3-alpha.2](nulu-v0.1.3-alpha.2.md) | 2026-09-07 | 2 | 56 / 435 | 2 |
+| [nulu-v0.1.5-alpha.1](nulu-v0.1.5-alpha.1.md) | 2026-09-08 | 3 | 57 / 443 | 12 |
+| [nulu-v0.1.5-alpha.2](nulu-v0.1.5-alpha.2.md) | 2026-09-09 | 3 | 59 / 462 | 4 |
+| [nulu-v0.1.5-rc.1](nulu-v0.1.5-rc.1.md) | 2026-09-10 | 3 | 59 / 462 | 0 |
+| [nulu-v0.1.5-rc.2](nulu-v0.1.5-rc.2.md) | 2026-09-10 | 3 | 59 / 462 | 0 |
 
 <!-- persistence-release-index:end -->
 
@@ -90,7 +90,7 @@ pnpm run doc-sync
 
 The marker-delimited index, inventory cells, and structural-change facts are generated from the snapshots. Default verification rejects stale facts. Run `pnpm run verify-persistence-releases --write` to refresh those regions and pairing records after validating all machine data; authored summaries, source evidence, machine declarations, and schema files are preserved.
 
-Tag completeness is relative to the manifest’s captured scope; offline checks do not discover later tags automatically. Standard documentation checks validate pairing records and Markdown links. The [format template](../../../.agents/skills/dsh-doc/templates/persistence-release.md) defines each record’s fields.
+Tag completeness is relative to the manifest’s captured scope; offline checks do not discover later tags automatically. Standard documentation checks validate pairing records and Markdown links. The [format template](../../../.agents/skills/nulu-doc/templates/persistence-release.md) defines each record’s fields.
 
 <a id="dev-note"></a>
 ## Dev Note

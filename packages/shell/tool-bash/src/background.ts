@@ -4,8 +4,8 @@
  * @module @worldapptechnologies/nulu-tool-bash/background
  */
 
-import type { ShellProcess } from '@deepseek-ai/dsh-shell'
-import type { JobHooks, JobOutcome } from '@deepseek-ai/dsh-jobs'
+import type { ShellProcess } from '@worldapptechnologies/nulu-shell'
+import type { JobHooks, JobOutcome } from '@worldapptechnologies/nulu-jobs'
 
 /**
  * Map a settled background process onto the generic task-outcome vocabulary:

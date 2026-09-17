@@ -1,6 +1,6 @@
 {
-  "name": "@deepseek-ai/dsh-shell-env",
-  "description": "Tool-independent managed DSH_* shell environment registry",
+  "name": "@worldapptechnologies/nulu-shell-env",
+  "description": "Tool-independent managed NULU_* shell environment registry",
   "version": "0.1.6-alpha.1",
   "publishConfig": {
     "access": "public"

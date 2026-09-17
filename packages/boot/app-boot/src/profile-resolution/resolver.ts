@@ -5,12 +5,12 @@ import { createRequire, isBuiltin } from 'node:module'
 import { basename, dirname, join, resolve, sep } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { getEnvironmentData, setEnvironmentData } from 'node:worker_threads'
-import type { ModuleLoaderV1, ModuleLoaderV2, ResolveResult } from '@deepseek-ai/cordis-plugin-loader'
+import type { ModuleLoaderV1, ModuleLoaderV2, ResolveResult } from '@worldapptechnologies/cordis-plugin-loader'
 import { imports as resolvePackageImports, type Package as ResolvePackageManifest } from 'resolve.exports'
 import { isProfileModuleFallbackLink } from './legacy-links.ts'
 import type { ProfileResolutionEntry, ProfileResolutionGeneration } from '../profile.ts'
 
-const WORKER_RESOLUTION_KEY = '@deepseek-ai/dsh-app-boot/profile-resolution'
+const WORKER_RESOLUTION_KEY = '@worldapptechnologies/nulu-app-boot/profile-resolution'
 const EMPTY_ATTRIBUTES: ImportAttributes = Object.freeze({})
 
 interface CommonJsParent {
@@ -484,7 +484,7 @@ class ResolutionRouter {
   ): { index: number; parent: string } | undefined {
     if (barePackageName(request) === undefined) return undefined
     for (const [index, path] of paths.entries()) {
-      const parent = join(resolve(path), '.dsh-profile-resolution.cjs')
+      const parent = join(resolve(path), '.nulu-profile-resolution.cjs')
       if (startsWithin(parent, this.current.profilePaths) || startsWithin(parent, this.current.profile)) {
         return { index, parent }
       }

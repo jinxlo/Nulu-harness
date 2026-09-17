@@ -5,10 +5,10 @@ import { createConnection, type Socket } from 'node:net'
 import { PassThrough } from 'node:stream'
 import { setImmediate } from 'node:timers/promises'
 import { createServer, type Server, type TLSSocket } from 'node:tls'
-import { Context } from '@deepseek-ai/cordis'
-import { LocalFileSystem } from '@deepseek-ai/dsh-fs-local'
-import { LocalSubprocessRuntime } from '@deepseek-ai/dsh-subprocess-local'
-import type { SubprocessHandle, SubprocessOutcome } from '@deepseek-ai/dsh-subprocess'
+import { Context } from '@worldapptechnologies/cordis'
+import { LocalFileSystem } from '@worldapptechnologies/nulu-fs-local'
+import { LocalSubprocessRuntime } from '@worldapptechnologies/nulu-subprocess-local'
+import type { SubprocessHandle, SubprocessOutcome } from '@worldapptechnologies/nulu-subprocess'
 import { describe, expect, it, onTestFinished, vi } from 'vitest'
 import { RemoteProcesses } from '../src/helper-processes.ts'
 import { authenticateStream } from '../src/stream-security.ts'
@@ -37,7 +37,7 @@ function nativeProcess() {
 }
 
 async function harness(child: ReturnType<typeof nativeProcess>, control: boolean) {
-  const root = await mkdtemp('/tmp/dsh-ssh-finalize-')
+  const root = await mkdtemp('/tmp/nulu-ssh-finalize-')
   const ctx = new Context()
   const owner = new RemoteProcesses(ctx, root, 1, 5000)
   const sockets: Socket[] = []

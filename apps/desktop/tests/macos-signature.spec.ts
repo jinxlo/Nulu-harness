@@ -47,10 +47,10 @@ describe('desktop macOS release signature', () => {
     if (!dshFiles || !dshNodeModules || typeof dshFiles === 'string' || typeof dshNodeModules === 'string') {
       throw new Error('desktop DSH resources must use electron-builder file mappings')
     }
-    expect(portablePath(dshFiles.from)).toContain('/.desktop-build/targets/mac-arm64/dsh')
-    expect(dshFiles.to).toBe('dsh')
-    expect(portablePath(dshNodeModules.from)).toContain('/.desktop-build/targets/mac-arm64/dsh/node_modules')
-    expect(dshNodeModules.to).toBe('dsh/node_modules')
+    expect(portablePath(dshFiles.from)).toContain('/.desktop-build/targets/mac-arm64/nulu')
+    expect(dshFiles.to).toBe('nulu')
+    expect(portablePath(dshNodeModules.from)).toContain('/.desktop-build/targets/mac-arm64/nulu/node_modules')
+    expect(dshNodeModules.to).toBe('nulu/node_modules')
     expect(config.asarUnpack).toEqual(expect.arrayContaining([
       '**/*.{node,dylib,dll,so,exe}',
       '**/@vscode/ripgrep/bin/rg',
@@ -61,7 +61,7 @@ describe('desktop macOS release signature', () => {
         identity: RELEASE_ENVIRONMENT.NULU_DESKTOP_MACOS_SIGNING_IDENTITY,
         forceCodeSigning: true,
         notarize: true,
-        signIgnore: ['/Contents/Resources/app\\.asar\\.unpacked/dsh(?:/|$)', '\\.pak$'],
+        signIgnore: ['/Contents/Resources/app\\.asar\\.unpacked/nulu(?:/|$)', '\\.pak$'],
       },
       dmg: {
         sign: true,

@@ -1,14 +1,14 @@
 /** Remote subprocess and PTY handles with independent SSH streams and helper-owned process lifetimes. */
 import { Duplex, PassThrough, type Readable, type Writable } from 'node:stream'
 import type { Socket } from 'node:net'
-import { Context } from '@deepseek-ai/cordis'
-import { SubprocessRuntime, SubprocessExecutableNotFoundError } from '@deepseek-ai/dsh-subprocess'
-import type { SubprocessCollectedOutputs, SubprocessHandle, SubprocessOutcome, SubprocessOutputMode, SubprocessSpawnSpec, SubprocessTerminalHandle, SubprocessTerminalEnvironment, SubprocessTerminalSignal, SubprocessTerminalSpawnSpec } from '@deepseek-ai/dsh-subprocess'
-import { OutputCollector } from '@deepseek-ai/dsh-subprocess-local/output'
-import type { SshConnection } from '@deepseek-ai/dsh-ssh'
-import { doneSchema, foregroundSchema, outputSnapshotFrameLimit, outputSnapshotSchema, preparedSchema, remotePath, streamEndpointSchema } from '@deepseek-ai/dsh-ssh/schemas'
-import type { SshProcessId } from '@deepseek-ai/dsh-ssh/schemas'
-import { SshRpcPeer, RemoteOperationError } from '@deepseek-ai/dsh-ssh/protocol'
+import { Context } from '@worldapptechnologies/cordis'
+import { SubprocessRuntime, SubprocessExecutableNotFoundError } from '@worldapptechnologies/nulu-subprocess'
+import type { SubprocessCollectedOutputs, SubprocessHandle, SubprocessOutcome, SubprocessOutputMode, SubprocessSpawnSpec, SubprocessTerminalHandle, SubprocessTerminalEnvironment, SubprocessTerminalSignal, SubprocessTerminalSpawnSpec } from '@worldapptechnologies/nulu-subprocess'
+import { OutputCollector } from '@worldapptechnologies/nulu-subprocess-local/output'
+import type { SshConnection } from '@worldapptechnologies/nulu-ssh'
+import { doneSchema, foregroundSchema, outputSnapshotFrameLimit, outputSnapshotSchema, preparedSchema, remotePath, streamEndpointSchema } from '@worldapptechnologies/nulu-ssh/schemas'
+import type { SshProcessId } from '@worldapptechnologies/nulu-ssh/schemas'
+import { SshRpcPeer, RemoteOperationError } from '@worldapptechnologies/nulu-ssh/protocol'
 import { z } from 'zod'
 
 function environment(env?: NodeJS.ProcessEnv): Record<string, string | null> | undefined {

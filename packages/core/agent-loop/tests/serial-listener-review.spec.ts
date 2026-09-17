@@ -3,19 +3,19 @@ import { afterEach, describe, expect, it } from 'vitest'
 import { mkdtemp, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { Context } from '@deepseek-ai/cordis'
-import AgentLoop from '@deepseek-ai/dsh-agent-loop'
-import JsonlSessionPersistence from '@deepseek-ai/dsh-session-persistence-jsonl'
-import { mountAgentLoopTestDependencies } from '@deepseek-ai/dsh-agent-loop-testkit'
-import { SessionId } from '@deepseek-ai/dsh-session'
-import { defineContentToolFixture } from '@deepseek-ai/dsh-tools'
-import { bindScopeParent, createScope, scopeOf } from '@deepseek-ai/dsh-scope'
-import LocalFileReference from '@deepseek-ai/dsh-file-reference-local'
-import SubagentRuntime from '@deepseek-ai/dsh-subagent'
-import * as SubagentSpawn from '@deepseek-ai/dsh-subagent-spawn-in-process'
-import * as SubagentTool from '@deepseek-ai/dsh-tool-subagent'
-import Selection from '@deepseek-ai/dsh-tool-subagent/model-selection-settings'
-import * as Schedule from '@deepseek-ai/dsh-schedule'
+import { Context } from '@worldapptechnologies/cordis'
+import AgentLoop from '@worldapptechnologies/nulu-agent-loop'
+import JsonlSessionPersistence from '@worldapptechnologies/nulu-session-persistence-jsonl'
+import { mountAgentLoopTestDependencies } from '@worldapptechnologies/nulu-agent-loop-testkit'
+import { SessionId } from '@worldapptechnologies/nulu-session'
+import { defineContentToolFixture } from '@worldapptechnologies/nulu-tools'
+import { bindScopeParent, createScope, scopeOf } from '@worldapptechnologies/nulu-scope'
+import LocalFileReference from '@worldapptechnologies/nulu-file-reference-local'
+import SubagentRuntime from '@worldapptechnologies/nulu-subagent'
+import * as SubagentSpawn from '@worldapptechnologies/nulu-subagent-spawn-in-process'
+import * as SubagentTool from '@worldapptechnologies/nulu-tool-subagent'
+import Selection from '@worldapptechnologies/nulu-tool-subagent/model-selection-settings'
+import * as Schedule from '@worldapptechnologies/nulu-schedule'
 
 const roots: string[] = []
 const contexts: Context[] = []
@@ -80,7 +80,7 @@ describe('serial creation listener integrations', () => {
   })
 
   it('starts due Schedule work only after every creation listener finishes', async () => {
-    const root = await mkdtemp(join(tmpdir(), 'dsh-serial-schedule-'))
+    const root = await mkdtemp(join(tmpdir(), 'nulu-serial-schedule-'))
     roots.push(root)
     const ctx = await core(root)
     await ctx.plugin(Schedule)

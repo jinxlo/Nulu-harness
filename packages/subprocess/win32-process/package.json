@@ -30,7 +30,7 @@
     "@worldapptechnologies/cordis": "workspace:^"
   },
   "dependencies": {
-    "@deepseek-ai/dsh-lazy-require": "workspace:^",
+    "@worldapptechnologies/nulu-lazy-require": "workspace:^",
     "koffi": "^3.1.0"
   },
   "devDependencies": {

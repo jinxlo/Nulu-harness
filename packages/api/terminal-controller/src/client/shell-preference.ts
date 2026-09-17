@@ -1,5 +1,5 @@
 /** Browser-local shell preference; Host discovery decides whether the saved path is usable. */
-const KEY = 'dsh.terminal.shell'
+const KEY = 'nulu.terminal.shell'
 
 /**
  * Read the browser preference.

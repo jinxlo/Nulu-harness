@@ -315,10 +315,10 @@ export function installConnection(ctx: Context, options: ConnectionInstallOption
 export function apply(ctx: Context): void {
   const globals = globalThis as ClientTransportGlobal
   const pageLocation = typeof location === 'undefined' ? undefined : location
-  const transport = globals.__DSH_TRANSPORT__
+  const transport = globals.__NULU_TRANSPORT__
   installConnection(ctx, {
     ...(transport === undefined ? {} : { transport }),
-    recovery: resolveConnectionConfig(globals.__DSH_CONNECTION_RECOVERY__),
+    recovery: resolveConnectionConfig(globals.__NULU_CONNECTION_RECOVERY__),
     ...(pageLocation === undefined ? {} : { location: pageLocation }),
   })
 }

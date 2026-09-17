@@ -92,7 +92,7 @@
       name: '@worldapptechnologies/nulu-tools'
 
     - id: mcp-resources
-      name: '@deepseek-ai/dsh-mcp-resources'
+      name: '@worldapptechnologies/nulu-mcp-resources'
 
     - id: agent
       name: '@worldapptechnologies/nulu-agent'

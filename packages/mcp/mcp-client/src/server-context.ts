@@ -1,12 +1,12 @@
 /**
  * Publish connection-owned MCP resources and literal server instructions.
  *
- * @module @deepseek-ai/dsh-mcp-client
+ * @module @worldapptechnologies/nulu-mcp-client
  */
 
-import type { Context } from '@deepseek-ai/cordis'
-import type { McpResourceProvider } from '@deepseek-ai/dsh-mcp-resources'
-import type {} from '@deepseek-ai/dsh-system-prompt'
+import type { Context } from '@worldapptechnologies/cordis'
+import type { McpResourceProvider } from '@worldapptechnologies/nulu-mcp-resources'
+import type {} from '@worldapptechnologies/nulu-system-prompt'
 
 /** Connection-owned values used by the resource and prompt consumers. */
 export interface ServerContext {

@@ -2,7 +2,7 @@
  * Workflow VM hooks, child callbacks, ordinary concurrency limits and result serialization.
  * PTC owns process confinement and cancellation. Fatal hook and provider failures propagate
  * through combinators; ordinary child failures and stage errors become per-item nulls.
- * @module @deepseek-ai/dsh-workflow-ptc/runtime
+ * @module @worldapptechnologies/nulu-workflow-ptc/runtime
  */
 
 import * as vm from 'node:vm'

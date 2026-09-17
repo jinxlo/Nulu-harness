@@ -10,12 +10,12 @@ import { pnpmInvocation } from '../../../../scripts/pnpm-invocation.ts'
 const packageDirectory = fileURLToPath(new URL('..', import.meta.url))
 const built = [
   'lib/index.js',
-  'node_modules/@deepseek-ai/schemastery/lib/index.mjs',
+  'node_modules/@worldapptechnologies/schemastery/lib/index.mjs',
 ].every(file => existsSync(join(packageDirectory, file)))
 
 describe.skipIf(!built)('experimental Inspector built artifact', () => {
   it('packs its sibling Worker and evaluates the Host from the tarball through plain Node', { retry: 0 }, async (test) => {
-    const root = await mkdtemp(join(tmpdir(), 'dsh-inspector-packed-'))
+    const root = await mkdtemp(join(tmpdir(), 'nulu-inspector-packed-'))
     const consumer = join(root, 'package')
     const dependencies = join(consumer, 'node_modules')
     let linked = false

@@ -1,6 +1,6 @@
 {
-  "name": "@deepseek-ai/dsh-session-turn-outline",
-  "description": "Whole-log turn outline projection (turnOutline) for the DeepSeek Harness",
+  "name": "@worldapptechnologies/nulu-session-turn-outline",
+  "description": "Whole-log turn outline projection (turnOutline) for the Nulu Harness",
   "version": "0.1.6-alpha.1",
   "publishConfig": {
     "access": "public"

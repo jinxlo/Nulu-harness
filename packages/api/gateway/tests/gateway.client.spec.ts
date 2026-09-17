@@ -3,7 +3,7 @@ import { Context, Service } from '@worldapptechnologies/cordis'
 import type { Fiber } from '@worldapptechnologies/cordis'
 import { describe, expect, expectTypeOf, it, vi } from 'vitest'
 import { z } from 'zod'
-import { RemoteMock } from '@deepseek-ai/dsh-remote-mock'
+import { RemoteMock } from '@worldapptechnologies/nulu-remote-mock'
 import {
   apply as applyConnection,
   type ClientTransportHooks,
@@ -1979,13 +1979,13 @@ describe('Client Typert API', () => {
 
   it('publishes injected Host facts after Remote events report ready', async () => {
     const locationDescriptor = Object.getOwnPropertyDescriptor(globalThis, 'location')
-    const transportDescriptor = Object.getOwnPropertyDescriptor(globalThis, '__DSH_TRANSPORT__')
+    const transportDescriptor = Object.getOwnPropertyDescriptor(globalThis, '__NULU_TRANSPORT__')
     const mock = RemoteMock.create({ host: { home: '/home/mock' } })
     Object.defineProperty(globalThis, 'location', {
       configurable: true,
       value: { hostname: '127.0.0.1', search: '' },
     })
-    Object.defineProperty(globalThis, '__DSH_TRANSPORT__', {
+    Object.defineProperty(globalThis, '__NULU_TRANSPORT__', {
       configurable: true,
       value: { rpc: mock.rpc } satisfies ClientTransportHooks,
     })
@@ -2004,8 +2004,8 @@ describe('Client Typert API', () => {
       await ctx.fiber.dispose()
       if (locationDescriptor === undefined) Reflect.deleteProperty(globalThis, 'location')
       else Object.defineProperty(globalThis, 'location', locationDescriptor)
-      if (transportDescriptor === undefined) Reflect.deleteProperty(globalThis, '__DSH_TRANSPORT__')
-      else Object.defineProperty(globalThis, '__DSH_TRANSPORT__', transportDescriptor)
+      if (transportDescriptor === undefined) Reflect.deleteProperty(globalThis, '__NULU_TRANSPORT__')
+      else Object.defineProperty(globalThis, '__NULU_TRANSPORT__', transportDescriptor)
     }
   })
 

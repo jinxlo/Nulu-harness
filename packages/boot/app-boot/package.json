@@ -32,8 +32,8 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@deepseek-ai/dsh-atomic-write": "workspace:^",
-    "@deepseek-ai/dsh-package-manifest": "workspace:^",
+    "@worldapptechnologies/nulu-atomic-write": "workspace:^",
+    "@worldapptechnologies/nulu-package-manifest": "workspace:^",
     "chokidar": "4.0.3",
     "js-yaml": "^4.2.0",
     "node-addon-require-builtin": "^0.1.6",
@@ -64,6 +64,6 @@
     "@worldapptechnologies/nulu-home-paths": "workspace:^",
     "@worldapptechnologies/nulu-system-prompt": "workspace:^",
     "@types/js-yaml": "^4.0.9",
-    "@deepseek-ai/cordis": "workspace:^"
+    "@worldapptechnologies/cordis": "workspace:^"
   }
 }

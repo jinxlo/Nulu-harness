@@ -11,8 +11,8 @@
  * @module nulu-llm-gateway/image-tokens
  */
 
-import { longEdgeDimensions } from '@deepseek-ai/dsh-attachment'
-import type { ProjectedDimensions } from '@deepseek-ai/dsh-attachment'
+import { longEdgeDimensions } from '@worldapptechnologies/nulu-attachment'
+import type { ProjectedDimensions } from '@worldapptechnologies/nulu-attachment'
 /** Vision patch edge in pixels. */
 const PATCH_SIZE = 14
 /** Per-axis patch-to-token downsampling ratio. */

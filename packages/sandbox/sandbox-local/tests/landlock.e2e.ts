@@ -75,7 +75,7 @@ describe.skipIf(!landlockUsable)('sandbox-local: real Landlock confinement throu
     // the persistent host effect read-only promises never happen.
     const workdir = await tempDir(tmpdir())
     const sandbox = await provider()
-    const target = `/dev/shm/dsh-landlock-e2e-${process.pid}`
+    const target = `/dev/shm/nulu-landlock-e2e-${process.pid}`
     const { result } = await runConfined(sandbox, `echo hi > ${target}`, { mode: 'read-only', workspaceRoot: workdir })
     expect(result.status).not.toBe(0)
     expect(existsSync(target)).toBe(false)

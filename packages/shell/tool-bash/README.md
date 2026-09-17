@@ -55,7 +55,7 @@ The tool executes `bash -c <command>` and returns the combined output. Commands 
 <a id="running-long-commands-in-the-background"></a>
 ### Running long commands in the background
 
-Passing `run_in_background: true` admits a job and returns its id immediately; confinement preparation may still be pending, and no background execution timeout applies. Output is empty until the process is available. Job cancellation aborts preparation and stops any process that arrives afterward; startup failure settles the admitted job as failed. The agent reads its output with `job_output` (non-blocking unless `wait: true`), lists jobs with `job_list`, and stops it with `job_kill`; a finished job notifies the owning agent in-session. Background support needs the generic job runtime (`dsh-jobs-local`) and its control tools (`dsh-tool-jobs`) mounted.
+Passing `run_in_background: true` admits a job and returns its id immediately; confinement preparation may still be pending, and no background execution timeout applies. Output is empty until the process is available. Job cancellation aborts preparation and stops any process that arrives afterward; startup failure settles the admitted job as failed. The agent reads its output with `job_output` (non-blocking unless `wait: true`), lists jobs with `job_list`, and stops it with `job_kill`; a finished job notifies the owning agent in-session. Background support needs the generic job runtime (`nulu-jobs-local`) and its control tools (`nulu-tool-jobs`) mounted.
 
 ### Sandboxed execution and escalation
 

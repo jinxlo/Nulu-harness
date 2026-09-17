@@ -559,7 +559,7 @@ describe('auditStartupEntries', () => {
     const original = new Error('todo apply failure')
     await auditStartupEntries(ctxWith([
       { options: { id: 'missing-tool', name: './missing.mjs' } },
-      { fiber: fiber(3, original), options: { id: 'tool-todo', name: '@deepseek-ai/dsh-tool-todo' } },
+      { fiber: fiber(3, original), options: { id: 'tool-todo', name: '@worldapptechnologies/nulu-tool-todo' } },
       {
         fiber: fiber(0, undefined, { ready: {}, missing: {} }, ['ready']),
         options: { id: 'waiting-tool', name: './waiting.mjs' },
@@ -569,7 +569,7 @@ describe('auditStartupEntries', () => {
     expect(warn).toHaveBeenCalledWith([
       `${NAME}: warning: 3 entries did not activate`,
       'missing-tool (./missing.mjs): failed to import',
-      `tool-todo (@deepseek-ai/dsh-tool-todo): ${original.stack!}`,
+      `tool-todo (@worldapptechnologies/nulu-tool-todo): ${original.stack!}`,
       'waiting-tool (./waiting.mjs): pending (waiting for service: missing)',
       '',
     ].join('\n'))
@@ -676,20 +676,20 @@ describe('auditStartupEntries', () => {
     const optionalError = new Error('todo unavailable')
     await expect(auditStartupEntries(ctxWith([
       { fiber: fiber(3, requiredError), options: { id, name: './required.mjs' } },
-      { fiber: fiber(3, optionalError), options: { id: 'tool-todo', name: '@deepseek-ai/dsh-tool-todo' } },
+      { fiber: fiber(3, optionalError), options: { id: 'tool-todo', name: '@worldapptechnologies/nulu-tool-todo' } },
     ]), NAME, warn)).rejects.toThrow([
       'required startup failure: 1 entry did not activate',
       `${id} (./required.mjs): ${requiredError.stack!}`,
     ].join('\n'))
-    expect(warn).toHaveBeenCalledWith(`${NAME}: warning: 1 entry did not activate\ntool-todo (@deepseek-ai/dsh-tool-todo): ${optionalError.stack!}\n`)
+    expect(warn).toHaveBeenCalledWith(`${NAME}: warning: 1 entry did not activate\ntool-todo (@worldapptechnologies/nulu-tool-todo): ${optionalError.stack!}\n`)
   })
 
   it('rejects a required entry pending on an injected service', async () => {
     await expect(auditStartupEntries(ctxWith([{
       fiber: fiber(0, undefined, { headlessStartup: {} }),
-      options: { id: 'headless-runner', name: '@deepseek-ai/dsh-headless' },
+      options: { id: 'headless-runner', name: '@worldapptechnologies/nulu-headless' },
     }]), NAME, vi.fn())).rejects.toThrow(
-      'headless-runner (@deepseek-ai/dsh-headless): pending (waiting for service: headlessStartup)',
+      'headless-runner (@worldapptechnologies/nulu-headless): pending (waiting for service: headlessStartup)',
     )
   })
 })
@@ -980,8 +980,8 @@ describe('boot', () => {
     let disposed = false
     writeFileSync(join(dir, 'good.mjs'), [
       'export function apply(ctx) {',
-      '  globalThis.__DSH_REQUIRED_TEST_DISPOSED__ = false',
-      '  ctx.effect(() => () => { globalThis.__DSH_REQUIRED_TEST_DISPOSED__ = true })',
+      '  globalThis.__NULU_REQUIRED_TEST_DISPOSED__ = false',
+      '  ctx.effect(() => () => { globalThis.__NULU_REQUIRED_TEST_DISPOSED__ = true })',
       '}',
       '',
     ].join('\n'))
@@ -999,8 +999,8 @@ describe('boot', () => {
       String.raw`webserver \(\.\/required-failure\.mjs\):`,
       'required apply failure',
     ].join(String.raw`[\s\S]*`)))
-    disposed = (globalThis as { __DSH_REQUIRED_TEST_DISPOSED__?: boolean }).__DSH_REQUIRED_TEST_DISPOSED__ ?? false
-    delete (globalThis as { __DSH_REQUIRED_TEST_DISPOSED__?: boolean }).__DSH_REQUIRED_TEST_DISPOSED__
+    disposed = (globalThis as { __NULU_REQUIRED_TEST_DISPOSED__?: boolean }).__NULU_REQUIRED_TEST_DISPOSED__ ?? false
+    delete (globalThis as { __NULU_REQUIRED_TEST_DISPOSED__?: boolean }).__NULU_REQUIRED_TEST_DISPOSED__
     expect(disposed).toBe(true)
   })
 

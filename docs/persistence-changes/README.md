@@ -37,7 +37,7 @@ Each dated record has four sibling files:
 | `YYYY-MM-DD-slug.i18n.yaml` | Generated bilingual consistency record |
 | `YYYY-MM-DD-slug.schema.json` | Generated complete after schemas for the affected roots that remain present |
 
-The [record template](../../.agents/skills/dsh-doc/templates/persistence-change.md) defines the authored format. Record creation accepts a bilingual prose input and generates the machine declaration, snapshots, catalog pair, and consistency records. The verifier reads the machine declaration once from the English file and checks the Chinese declaration for equality. A declaration names each affected root, its predecessor record, its after digest, and its compatibility decision. A new root has no predecessor; a deletion has no after schema and retains an explicit tombstone.
+The [record template](../../.agents/skills/nulu-doc/templates/persistence-change.md) defines the authored format. Record creation accepts a bilingual prose input and generates the machine declaration, snapshots, catalog pair, and consistency records. The verifier reads the machine declaration once from the English file and checks the Chinese declaration for equality. A declaration names each affected root, its predecessor record, its after digest, and its compatibility decision. A new root has no predecessor; a deletion has no after schema and retains an explicit tombstone.
 
 <a id="compatibility-rules"></a>
 ## Compatibility rules

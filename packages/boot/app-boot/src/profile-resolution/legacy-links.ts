@@ -4,7 +4,7 @@ import { lstatSync, readlinkSync, realpathSync } from 'node:fs'
 import { basename, dirname, join, resolve } from 'node:path'
 
 /** Profile-private package links projected into its pnpm-managed node_modules. */
-export const PROFILE_MODULE_FALLBACK_DIR = '.dsh-module-fallback'
+export const PROFILE_MODULE_FALLBACK_DIR = '.nulu-module-fallback'
 
 /**
  * Return whether the process reads application modules from pkg's virtual filesystem.

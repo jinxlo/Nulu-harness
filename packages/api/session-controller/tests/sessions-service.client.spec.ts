@@ -6,15 +6,15 @@
  * deferral — the stage follows list.current), binding identity, breadcrumb
  * projection, create.
  */
-import { Context } from '@deepseek-ai/cordis'
+import { Context } from '@worldapptechnologies/cordis'
 import { afterEach, describe, expect, vi } from 'vitest'
-import type { SessionId } from '@deepseek-ai/dsh-api-remotes/client'
-import { RemoteError } from '@deepseek-ai/dsh-typert-protocol'
-import { LlmAttemptId } from '@deepseek-ai/dsh-llm'
-import { RemoteStreamCarrierError } from '@deepseek-ai/dsh-api-gateway/client'
-import { SESSION_FORMAT_VERSION, SessionSeq } from '@deepseek-ai/dsh-session/types'
-import { ok, type RemoteMock } from '@deepseek-ai/dsh-remote-mock'
-import { createClientTest, webApp } from '@deepseek-ai/dsh-client-test-runtime/src/assembly/index.ts'
+import type { SessionId } from '@worldapptechnologies/nulu-api-remotes/client'
+import { RemoteError } from '@worldapptechnologies/nulu-typert-protocol'
+import { LlmAttemptId } from '@worldapptechnologies/nulu-llm'
+import { RemoteStreamCarrierError } from '@worldapptechnologies/nulu-api-gateway/client'
+import { SESSION_FORMAT_VERSION, SessionSeq } from '@worldapptechnologies/nulu-session/types'
+import { ok, type RemoteMock } from '@worldapptechnologies/nulu-remote-mock'
+import { createClientTest, webApp } from '@worldapptechnologies/nulu-client-test-runtime/src/assembly/index.ts'
 import { ClientSessions, SessionCreateError } from '../src/client/sessions/service.ts'
 import { scopeOf } from '../src/client/scope.ts'
 import type {
@@ -24,7 +24,7 @@ import { FOLLOW, err, followScript, sessionWorld } from './remote/session.client
 
 const sid = (s: string): SessionId => s as SessionId
 /** ClientSessions uses the Gateway client for stream supervision and the native Remote mocks for responses. */
-const API_ROSTER = webApp.closure(['@deepseek-ai/dsh-api-gateway'])
+const API_ROSTER = webApp.closure(['@worldapptechnologies/nulu-api-gateway'])
 /** The first client boot pays the cold module transform of the api cone. */
 const COLD_BOOT_TIMEOUT_MS = 60_000
 
@@ -755,7 +755,7 @@ describe('current selection (migrated from ui-layout, arbitrated into the list s
     expect(b.svc.list.getSnapshot().current).toBe('s1')
   })
 
-  it('persists the selection under dsh.sessions.current and rehydrates it into a fresh service', async ({ bench }) => {
+  it('persists the selection under nulu.sessions.current and rehydrates it into a fresh service', async ({ bench }) => {
     const storage = new Map<string, string>()
     vi.stubGlobal('localStorage', {
       getItem: (k: string) => storage.get(k) ?? null,

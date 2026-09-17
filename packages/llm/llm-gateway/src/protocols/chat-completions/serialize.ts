@@ -6,9 +6,9 @@
  * @module nulu-llm-gateway/serialize
  */
 
-import { contentHasImage, IMAGE_OFFLOAD_REQUIRED_CODE, LlmError, offloadedImageText, projectOffloadedImages, requestImageHandleText, requiredImageOffload } from '@deepseek-ai/dsh-llm'
-import type { ContentBlock, GenerateOptions, ImageAttachmentAccessResolver, Message } from '@deepseek-ai/dsh-llm'
-import type { ImageAttachmentRef, RequestImageAttachment } from '@deepseek-ai/dsh-attachment'
+import { contentHasImage, IMAGE_OFFLOAD_REQUIRED_CODE, LlmError, offloadedImageText, projectOffloadedImages, requestImageHandleText, requiredImageOffload } from '@worldapptechnologies/nulu-llm'
+import type { ContentBlock, GenerateOptions, ImageAttachmentAccessResolver, Message } from '@worldapptechnologies/nulu-llm'
+import type { ImageAttachmentRef, RequestImageAttachment } from '@worldapptechnologies/nulu-attachment'
 import type {
   WireImageContentPart,
   WireMessage,

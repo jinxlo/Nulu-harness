@@ -64,7 +64,7 @@ jobs:
     name: plan targets
     if: inputs.ci || inputs.release || github.event_name == 'workflow_dispatch'
     runs-on: >-
-      ${{ inputs.ci && !inputs.release && vars.DSH_CI_FAILOVER_LINUX == 'blacksmith'
+      ${{ inputs.ci && !inputs.release && vars.NULU_CI_FAILOVER_LINUX == 'blacksmith'
           && 'blacksmith-4vcpu-ubuntu-2404' || 'ubuntu-latest' }}
     timeout-minutes: 5
     outputs:
@@ -126,7 +126,7 @@ jobs:
     needs: plan
     name: deepseek_harness_sdk-${{ needs.plan.outputs.version }}-py3-none-any.whl
     runs-on: >-
-      ${{ inputs.ci && !inputs.release && vars.DSH_CI_FAILOVER_LINUX == 'blacksmith'
+      ${{ inputs.ci && !inputs.release && vars.NULU_CI_FAILOVER_LINUX == 'blacksmith'
           && 'blacksmith-4vcpu-ubuntu-2404' || 'ubuntu-latest' }}
     timeout-minutes: 5
     steps:
@@ -157,9 +157,9 @@ jobs:
     name: ${{ matrix.target }}
     runs-on: >-
       ${{ inputs.ci && !inputs.release && matrix.target == 'node24-linux-x64'
-          && vars.DSH_CI_FAILOVER_LINUX == 'blacksmith' && 'blacksmith-16vcpu-ubuntu-2404'
+          && vars.NULU_CI_FAILOVER_LINUX == 'blacksmith' && 'blacksmith-16vcpu-ubuntu-2404'
           || inputs.ci && !inputs.release && matrix.target == 'node24-win-x64'
-          && vars.DSH_CI_FAILOVER_WINDOWS == 'blacksmith' && 'blacksmith-16vcpu-windows-2025'
+          && vars.NULU_CI_FAILOVER_WINDOWS == 'blacksmith' && 'blacksmith-16vcpu-windows-2025'
           || matrix.runner }}
     timeout-minutes: 45
     strategy:

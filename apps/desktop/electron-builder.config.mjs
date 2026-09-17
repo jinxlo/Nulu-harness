@@ -65,9 +65,9 @@ export function createElectronBuilderConfig(
       'lib/*.cjs',
       'renderer/**/*',
       'package.json',
-      { from: buildPaths.dsh, to: 'dsh', filter: ['**/*'] },
+      { from: buildPaths.nulu, to: 'nulu', filter: ['**/*'] },
       // electron-builder excludes a source directory's root node_modules.
-      { from: join(buildPaths.dsh, 'node_modules'), to: 'dsh/node_modules', filter: ['**/*'] },
+      { from: join(buildPaths.nulu, 'node_modules'), to: 'nulu/node_modules', filter: ['**/*'] },
     ],
     asarUnpack: [
       '**/*.{node,dylib,dll,so,exe}',
@@ -84,7 +84,7 @@ export function createElectronBuilderConfig(
       forceCodeSigning: !unsigned,
       hardenedRuntime: true,
       // ASAR-unpacked native runtime files are pre-signed; PAK resources are sealed by their enclosing bundle.
-      signIgnore: ['/Contents/Resources/app\\.asar\\.unpacked/dsh(?:/|$)', '\\.pak$'],
+      signIgnore: ['/Contents/Resources/app\\.asar\\.unpacked/nulu(?:/|$)', '\\.pak$'],
       notarize: true,
       target: ['dmg', 'zip'],
     },

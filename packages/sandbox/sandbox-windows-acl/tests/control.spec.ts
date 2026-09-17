@@ -1,6 +1,6 @@
-import { Context } from '@deepseek-ai/cordis'
-import { LocalSubprocessRuntime } from '@deepseek-ai/dsh-subprocess-local'
-import { SUBPROCESS_CONTROL_ENV } from '@deepseek-ai/dsh-subprocess/control'
+import { Context } from '@worldapptechnologies/cordis'
+import { LocalSubprocessRuntime } from '@worldapptechnologies/nulu-subprocess-local'
+import { SUBPROCESS_CONTROL_ENV } from '@worldapptechnologies/nulu-subprocess/control'
 import { mkdtemp, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -19,11 +19,11 @@ afterEach(async () => {
 
 describe.skipIf(process.platform !== 'win32')('managed Windows ACL control pipe', () => {
   it('preserves binary bytes through the Job and restricted-token runners while denying writes', async () => {
-    scratch = await mkdtemp(join(tmpdir(), 'dsh-acl-control-'))
+    scratch = await mkdtemp(join(tmpdir(), 'nulu-acl-control-'))
     ctx = new Context()
     await ctx.plugin(LocalSubprocessRuntime)
     const runner = fileURLToPath(new URL('../src/runner.ts', import.meta.url))
-    const helper = import.meta.resolve('@deepseek-ai/dsh-subprocess/src/control.ts')
+    const helper = import.meta.resolve('@worldapptechnologies/nulu-subprocess/src/control.ts')
     const program = `
       const { openInheritedControlChannel } = await import(process.argv[1]);
       const { writeFileSync } = await import('node:fs');

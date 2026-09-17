@@ -10,10 +10,10 @@ import { pnpmInvocation } from '../../../../scripts/pnpm-invocation.ts'
 
 const experimentalDirectory = fileURLToPath(new URL('../..', import.meta.url))
 const packages = ['webworker-runtime', 'webworker-packer']
-const packageNames = new Set(packages.map(name => `@deepseek-ai/dsh-experimental-${name}`))
+const packageNames = new Set(packages.map(name => `@worldapptechnologies/nulu-experimental-${name}`))
 
 it('loads both tarballs through plain Node and mounts their base image and overlay', { retry: 0 }, async (test) => {
-  const root = await mkdtemp(join(tmpdir(), 'dsh-webworker-packed-'))
+  const root = await mkdtemp(join(tmpdir(), 'nulu-webworker-packed-'))
   const links: string[] = []
   let pending: Promise<string> = Promise.resolve('')
   test.onTestFinished(async () => {
@@ -45,7 +45,7 @@ it('loads both tarballs through plain Node and mounts their base image and overl
   await writeFile(join(root, 'package.json'), JSON.stringify({ private: true, type: 'module' }))
   for (const name of packages) {
     const source = join(experimentalDirectory, name)
-    const directory = join(root, 'node_modules/@deepseek-ai', `dsh-experimental-${name}`)
+    const directory = join(root, 'node_modules/@worldapptechnologies', `nulu-experimental-${name}`)
     const packRoot = join(root, name)
     await mkdir(packRoot, { recursive: true })
     await mkdir(directory, { recursive: true })
@@ -73,26 +73,26 @@ it('loads both tarballs through plain Node and mounts their base image and overl
     import assert from 'node:assert/strict'
     import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
     import { fileURLToPath } from 'node:url'
-    import * as packer from '@deepseek-ai/dsh-experimental-webworker-packer'
-    import * as runtime from '@deepseek-ai/dsh-experimental-webworker-runtime'
-    import * as client from '@deepseek-ai/dsh-experimental-webworker-runtime/client'
+    import * as packer from '@worldapptechnologies/nulu-experimental-webworker-packer'
+    import * as runtime from '@worldapptechnologies/nulu-experimental-webworker-runtime'
+    import * as client from '@worldapptechnologies/nulu-experimental-webworker-runtime/client'
     for (const name of ['webworker-packer', 'webworker-runtime']) {
-      assert.equal(import.meta.resolve('@deepseek-ai/dsh-experimental-' + name),
-        new URL('./node_modules/@deepseek-ai/dsh-experimental-' + name + '/lib/index.js', import.meta.url).href)
+      assert.equal(import.meta.resolve('@worldapptechnologies/nulu-experimental-' + name),
+        new URL('./node_modules/@worldapptechnologies/nulu-experimental-' + name + '/lib/index.js', import.meta.url).href)
     }
     assert.equal(typeof client.connectWorkerHost, 'function')
-    const worker = fileURLToPath(import.meta.resolve('@deepseek-ai/dsh-experimental-webworker-runtime/worker'))
+    const worker = fileURLToPath(import.meta.resolve('@worldapptechnologies/nulu-experimental-webworker-runtime/worker'))
     assert.ok(existsSync(worker))
     assert.equal(readFileSync(worker, 'utf8').match(/^import[ \\t]/m), null)
     const base = packer.packVfsImage({ config: '[]\\n', profile: 'packed-consumer', workspaces: new Map(), resolveFrom: process.cwd(), entries: [] })
     assert.deepEqual(base.missing, [])
     const vfs = runtime.loadVfsImage(await runtime.inflateImage(base.image, 'packed base'))
-    assert.ok(vfs.existsSync('/dsh/' + packer.MANIFEST_PATH))
+    assert.ok(vfs.existsSync('/nulu/' + packer.MANIFEST_PATH))
     mkdirSync('overlay')
     writeFileSync('overlay/hello.txt', 'packed worker pair\\n')
     const overlay = packer.packVfsOverlay([{ mount: 'workspace', directory: fileURLToPath(new URL('./overlay', import.meta.url)) }])
-    runtime.loadVfsOverlay(await runtime.inflateImage(overlay.image, 'packed overlay'), '/dsh', vfs)
-    assert.equal(vfs.readFileSync('/dsh/workspace/hello.txt', 'utf8'), 'packed worker pair\\n')
+    runtime.loadVfsOverlay(await runtime.inflateImage(overlay.image, 'packed overlay'), '/nulu', vfs)
+    assert.equal(vfs.readFileSync('/nulu/workspace/hello.txt', 'utf8'), 'packed worker pair\\n')
     console.log('packed image and overlay mounted')
   `
   await writeFile(join(root, 'consumer.mjs'), script)

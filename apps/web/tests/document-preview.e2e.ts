@@ -311,7 +311,7 @@ describe.skipIf(MODE === 'record')('web e2e: document preview through Files', ()
     sections.push([
       '## PDF', '',
       `- Viewer menu hidden: ${String(await viewer.count() === 0)}`,
-      `- Worker: ${workerNames.find(name => name === 'dsh-pdf')}`,
+      `- Worker: ${workerNames.find(name => name === 'nulu-pdf')}`,
       `- Continuous pages: ${await preview.locator('[data-pdf-page]').count()}`,
       `- Horizontal overflow: ${String(await body.evaluate(node => node.scrollWidth > node.clientWidth))}`,
       `- Canvas fills: ${[firstColor, secondColor, restoredColor].join(' -> ')}`,

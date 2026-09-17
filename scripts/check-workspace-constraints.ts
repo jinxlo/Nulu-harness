@@ -48,7 +48,7 @@ const publicationSourceAllowlist: Readonly<Record<string, readonly string[]>> = 
   '@worldapptechnologies/node-addon-system': ['src/main.c', 'src/flock.c'],
 }
 /** Public source home recorded in maintained package manifests. */
-const publishedRepositoryUrl = 'git+https://github.com/deepseek-ai/deepseek-harness.git'
+const publishedRepositoryUrl = 'git+https://github.com/worldapptechnologies/nulu-harness.git'
 /** Packages that participate in the experimental policy. */
 const experimentalPackageDirectory = /^packages\/experimental\/[^/]+$/
 /** npm namespace reserved for experimental packages. */
@@ -149,7 +149,7 @@ function workspaceManifests(): WorkspaceManifest[] {
 
 const packageFileExtras: Readonly<Record<string, readonly string[]>> = {
   // Owned Worker bundles import this public bootstrap before their business entry.
-  '@deepseek-ai/dsh-app-boot': ['lib/worker/profile-resolution-bootstrap.js'],
+  '@worldapptechnologies/nulu-app-boot': ['lib/worker/profile-resolution-bootstrap.js'],
   // Statically linked client libraries keep their stylesheets next to the emitted
   // JavaScript, which imports them by relative path: the compile shell runs
   // them through its own CSS pipeline, so the sheets are published artifacts.
@@ -160,11 +160,11 @@ const packageFileExtras: Readonly<Record<string, readonly string[]>> = {
   '@worldapptechnologies/nulu-client-web': ['lib/**/*.css'],
   '@worldapptechnologies/nulu-client-ui-theme': ['lib/styles'],
   // The CPython side ships as source .py files, published as-is rather than built.
-  '@deepseek-ai/dsh-experimental-ptc-runtime-python': ['py/**/*.py'],
+  '@worldapptechnologies/nulu-experimental-ptc-runtime-python': ['py/**/*.py'],
   // The isolated Node bootstrap is a separately launched bundle.
-  '@deepseek-ai/dsh-ptc-runtime-node': ['lib/process.js'],
+  '@worldapptechnologies/nulu-ptc-runtime-node': ['lib/process.js'],
   // The Host entry starts its sibling Worker by URL rather than a package export.
-  '@deepseek-ai/dsh-experimental-inspector': ['lib/worker.js'],
+  '@worldapptechnologies/nulu-experimental-inspector': ['lib/worker.js'],
   // The shipped preset compositions travel inside the roster package.
   '@worldapptechnologies/nulu-agent-presets': ['presets'],
   // The Web Host mounts the default-off settings owner independently of each
@@ -176,12 +176,12 @@ const packageFileExtras: Readonly<Record<string, readonly string[]>> = {
   // The argv-prefix runner entry ships beside the lib as its own bundle;
   // sandbox-local resolves it through the package's ./runner export. tsdown
   // also shares its generated FFI code through a hashed runtime chunk.
-  '@deepseek-ai/dsh-sandbox-windows-acl': ['lib/runner.js', 'lib/types-*.js'],
-  '@deepseek-ai/dsh-skill-badge': ['assets'],
-  '@deepseek-ai/dsh-subprocess': ['lib/control.js'],
+  '@worldapptechnologies/nulu-sandbox-windows-acl': ['lib/runner.js', 'lib/types-*.js'],
+  '@worldapptechnologies/nulu-skill-badge': ['assets'],
+  '@worldapptechnologies/nulu-subprocess': ['lib/control.js'],
   // SSH launches a private helper and shares wire definitions and TLS setup
   // between that helper and the connection owner.
-  '@deepseek-ai/dsh-ssh': [
+  '@worldapptechnologies/nulu-ssh': [
     'lib/helper.js', 'lib/protocol.js', 'lib/schemas.js',
     'lib/protocol-*.js', 'lib/schemas-*.js', 'lib/stream-security-*.js',
   ],
@@ -196,10 +196,10 @@ const packageFileExtras: Readonly<Record<string, readonly string[]>> = {
   // tsdown shares the repository/pack code between the lib entry and the bin
   // through a hashed chunk. The committed bin.js is the link target pnpm can
   // resolve at install time, before the build produces lib/bin.js.
-  '@deepseek-ai/dsh-experimental-webworker-packer': ['bin.js', 'lib/repository-*.js'],
+  '@worldapptechnologies/nulu-experimental-webworker-packer': ['bin.js', 'lib/repository-*.js'],
   // The headless entry and its startup row share the JSON projection code
   // through a hashed tsdown chunk; both import it by relative path.
-  '@deepseek-ai/dsh-headless': ['lib/json-stream-*.js'],
+  '@worldapptechnologies/nulu-headless': ['lib/json-stream-*.js'],
 }
 
 function sameStringList(actual: readonly string[] | undefined, expected: readonly string[]): boolean {

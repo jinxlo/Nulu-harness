@@ -8,19 +8,19 @@
  * @module @worldapptechnologies/nulu-subagent/child-agent
  */
 
-import type { Context } from '@deepseek-ai/cordis'
-import type { Agent, AgentOptions, CreateAgentOptions } from '@deepseek-ai/dsh-agent'
-import type { SandboxMode } from '@deepseek-ai/dsh-sandbox'
-import type { Session, SessionId } from '@deepseek-ai/dsh-session'
-import type {} from '@deepseek-ai/dsh-system-prompt'
-import type { ToolRestriction } from '@deepseek-ai/dsh-tools'
+import type { Context } from '@worldapptechnologies/cordis'
+import type { Agent, AgentOptions, CreateAgentOptions } from '@worldapptechnologies/nulu-agent'
+import type { SandboxMode } from '@worldapptechnologies/nulu-sandbox'
+import type { Session, SessionId } from '@worldapptechnologies/nulu-session'
+import type {} from '@worldapptechnologies/nulu-system-prompt'
+import type { ToolRestriction } from '@worldapptechnologies/nulu-tools'
 // Type-only: make `ctx.get('sandboxPolicy')`, `ctx.get('approval')`, and
 // `ctx.get('permissionPresets')` resolve to their services when composed — delegation consumes them
 // opportunistically (the documented `ctx.get` pattern), never as a hard dep —
 // and merge the inherited permission session-event payloads.
-import type {} from '@deepseek-ai/dsh-sandbox-policy'
-import type {} from '@deepseek-ai/dsh-user-approval'
-import type {} from '@deepseek-ai/dsh-permission-presets'
+import type {} from '@worldapptechnologies/nulu-sandbox-policy'
+import type {} from '@worldapptechnologies/nulu-user-approval'
+import type {} from '@worldapptechnologies/nulu-permission-presets'
 // Type-only: make `ctx.get('agentPresets')` resolve to the preset roster when
 // composed — a child inherits its parent's composition opportunistically (the
 // documented `ctx.get` pattern), never as a hard dep. A rosterless deployment

@@ -944,7 +944,7 @@ An entered agent is ready for per-agent initialization after factory setup. List
  * @param payload.agent - the newly registered agent with its live session and completed setup.
  * @param payload.source - fresh creation, resume, clear, or compaction source.
  * @param payload.signal - factory initialization cancellation signal, when provided.
- * Scope-filtered dispatch (`@deepseek-ai/dsh-scope`): agent-scoped listeners receive only that agent.
+ * Scope-filtered dispatch (`@worldapptechnologies/nulu-scope`): agent-scoped listeners receive only that agent.
  * @mode serial
  */
 'agent/created'(this: Scoped<Agent>, payload: { agent: Agent; source: SessionStartSource; signal?: AbortSignal }): undefined | Promise<undefined>

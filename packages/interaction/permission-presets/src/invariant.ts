@@ -1,8 +1,8 @@
 /** Package-owned permission-preset event invariants. @module @worldapptechnologies/nulu-permission-presets/invariant */
 
-import type { Context } from '@deepseek-ai/cordis'
-import type { Session, SessionEvent } from '@deepseek-ai/dsh-session'
-import type { InvariantFailure, InvariantInstaller } from '@deepseek-ai/dsh-invariants'
+import type { Context } from '@worldapptechnologies/cordis'
+import type { Session, SessionEvent } from '@worldapptechnologies/nulu-session'
+import type { InvariantFailure, InvariantInstaller } from '@worldapptechnologies/nulu-invariants'
 import { AUTO_PRESET } from './index.ts'
 
 const PACKAGE_NAME = '@worldapptechnologies/nulu-permission-presets'

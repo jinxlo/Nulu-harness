@@ -62,7 +62,7 @@ Reads are offset-based and non-consuming: a background reader and a final batch 
 <a id="using-a-control-pipe"></a>
 ### Using a control pipe
 
-Set `stdio.control: 'pipe'` to receive a separate raw `Duplex` in `handle.control`. The Node child opens fd 7 with `openInheritedControlChannel()` from `@deepseek-ai/dsh-subprocess/control`; this helper consumes the provider-owned `DSH_SUBPROCESS_CONTROL=pipe` marker. Callers cannot supply that marker through `env`. Control bytes never enter stdout/stderr collectors. The consumer owns framing, validation, backpressure, and closing its endpoint; provider disposal destroys any endpoint remaining after process teardown. Omitting the request returns `control: undefined`. This channel is available only for ordinary processes, and carries no authority to bypass tool approval.
+Set `stdio.control: 'pipe'` to receive a separate raw `Duplex` in `handle.control`. The Node child opens fd 7 with `openInheritedControlChannel()` from `@worldapptechnologies/nulu-subprocess/control`; this helper consumes the provider-owned `NULU_SUBPROCESS_CONTROL=pipe` marker. Callers cannot supply that marker through `env`. Control bytes never enter stdout/stderr collectors. The consumer owns framing, validation, backpressure, and closing its endpoint; provider disposal destroys any endpoint remaining after process teardown. Omitting the request returns `control: undefined`. This channel is available only for ordinary processes, and carries no authority to bypass tool approval.
 
 ### Managing process lifetime
 
@@ -119,9 +119,9 @@ One implementation registers per context; loading a second throws (Cordis standa
 
 Read these pages when the package-level contract is not enough. They move from the exhaustive type reference to the providers and the decision evidence behind the seam.
 
-- [Subprocess subsystem](../../../docs/subsystems/subprocess.md) — spawn specs, output readers, outcomes, and the `DSH_*` environment in full.
-- [dsh-subprocess-local](../subprocess-local/README.md) — the local host provider that implements this contract.
-- [dsh-bash-local](../../shell/bash-local/README.md) — the largest consumer: bash commands over this service.
+- [Subprocess subsystem](../../../docs/subsystems/subprocess.md) — spawn specs, output readers, outcomes, and the `NULU_*` environment in full.
+- [nulu-subprocess-local](../subprocess-local/README.md) — the local host provider that implements this contract.
+- [nulu-bash-local](../../shell/bash-local/README.md) — the largest consumer: bash commands over this service.
 - [Subprocess seam Agent Note](../../../.agents/notes/archived/architecture/2026-07-26-subprocess-seam.md) — why the process half became its own seam and what moved with it.
 
 -----

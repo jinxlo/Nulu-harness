@@ -547,7 +547,7 @@ async function runScenario(scenario: CorpusScenario): Promise<{
   let childSessionsRoot: string | undefined
   let childEnvironment: Record<string, string> = {}
   if (assertions.dshSdkChild !== undefined) {
-    const childHome = join(cwd, '.child-dsh')
+    const childHome = join(cwd, '.child-nulu')
     const childPatch = materializeProfilePatch(assertions.dshSdkChild.config, cwd, 'sdk', patchRoot, patches.length)
     await mkdir(childHome, { recursive: true })
     childSessionsRoot = join(childHome, 'sessions')

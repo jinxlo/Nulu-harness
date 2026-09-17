@@ -4,12 +4,12 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import Loader from '@deepseek-ai/cordis-plugin-loader'
-import { PluginPackages } from '@deepseek-ai/dsh-app-boot'
-import TypertRegistry from '@deepseek-ai/dsh-typert-registry'
-import * as typertLoader from '@deepseek-ai/dsh-typert-loader'
-import { validateTypertManifest } from '@deepseek-ai/dsh-typert-loader'
+import { Context } from '@worldapptechnologies/cordis'
+import Loader from '@worldapptechnologies/cordis-plugin-loader'
+import { PluginPackages } from '@worldapptechnologies/nulu-app-boot'
+import TypertRegistry from '@worldapptechnologies/nulu-typert-registry'
+import * as typertLoader from '@worldapptechnologies/nulu-typert-loader'
+import { validateTypertManifest } from '@worldapptechnologies/nulu-typert-loader'
 import { z } from 'zod'
 
 let root: string | undefined
@@ -236,7 +236,7 @@ describe('typert loader', () => {
   })
 
   it('skips package-subpath rows and validates npm aliases against the manifest owner', LOADER_TEST_TIMEOUT, async () => {
-    root = await mkdtemp(join(tmpdir(), 'dsh-typert-loader-'))
+    root = await mkdtemp(join(tmpdir(), 'nulu-typert-loader-'))
     await linkZod(root)
     await writePackage(root, '@fixture/subpath', {
       pluginSubpath: './plugin',

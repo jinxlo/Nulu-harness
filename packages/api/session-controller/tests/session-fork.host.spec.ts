@@ -1,17 +1,17 @@
 /** Session Controller fork boundaries, lineage, and inherited model routing. */
 
 import { describe, expect, it, vi } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
-import AgentRegistry, { agentEvents } from '@deepseek-ai/dsh-agent'
-import type { Agent, AgentHandle, CreateAgentOptions } from '@deepseek-ai/dsh-agent'
-import { mountAgentLoopTestDependencies, mountAgentLoopTestHarness } from '@deepseek-ai/dsh-agent-loop-testkit'
+import { Context } from '@worldapptechnologies/cordis'
+import AgentRegistry, { agentEvents } from '@worldapptechnologies/nulu-agent'
+import type { Agent, AgentHandle, CreateAgentOptions } from '@worldapptechnologies/nulu-agent'
+import { mountAgentLoopTestDependencies, mountAgentLoopTestHarness } from '@worldapptechnologies/nulu-agent-loop-testkit'
 import { MockAdapter, textResponse } from '../../../core/agent-loop/tests/mock-adapter.ts'
-import { createUserMessage, ReasoningEffortId } from '@deepseek-ai/dsh-llm'
-import type { LlmCallConfig } from '@deepseek-ai/dsh-llm'
-import SessionStore, { SESSION_FORMAT_VERSION, SessionLogOffset, SessionSeq } from '@deepseek-ai/dsh-session'
-import type { Session, SessionEvent, SessionHeader, SessionId } from '@deepseek-ai/dsh-session'
-import SystemPrompt from '@deepseek-ai/dsh-system-prompt'
-import type { Workspace } from '@deepseek-ai/dsh-workspace'
+import { createUserMessage, ReasoningEffortId } from '@worldapptechnologies/nulu-llm'
+import type { LlmCallConfig } from '@worldapptechnologies/nulu-llm'
+import SessionStore, { SESSION_FORMAT_VERSION, SessionLogOffset, SessionSeq } from '@worldapptechnologies/nulu-session'
+import type { Session, SessionEvent, SessionHeader, SessionId } from '@worldapptechnologies/nulu-session'
+import SystemPrompt from '@worldapptechnologies/nulu-system-prompt'
+import type { Workspace } from '@worldapptechnologies/nulu-workspace'
 import {
   createSessionTestRemote, installSessionReadTestServices, testSessionPersistence,
 } from './test-remote.ts'

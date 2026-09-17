@@ -1,12 +1,12 @@
 /**
  * Service Definition for the PTC execution capability seam that runs one model-written program against host async bindings.
  * Runtimes know nothing about tools or sessions; consumers own those concerns.
- * @module @deepseek-ai/dsh-ptc-runtime
+ * @module @worldapptechnologies/nulu-ptc-runtime
  */
 
-import { Context, Service } from '@deepseek-ai/cordis'
+import { Context, Service } from '@worldapptechnologies/cordis'
 import type { PtcRunRequest, PtcRunResult, PtcRunSpec } from './types.ts'
-import type { SandboxMode } from '@deepseek-ai/dsh-sandbox'
+import type { SandboxMode } from '@worldapptechnologies/nulu-sandbox'
 
 export type {
   PtcBindingErrorClass,

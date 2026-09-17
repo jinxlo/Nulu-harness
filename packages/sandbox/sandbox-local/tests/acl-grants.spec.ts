@@ -74,7 +74,7 @@ async function setup() {
 }
 
 function workspaceRoot(): string {
-  return realpathSync(mkdtempSync(join(tmpdir(), 'dsh-acl-grants-ws-')))
+  return realpathSync(mkdtempSync(join(tmpdir(), 'nulu-acl-grants-ws-')))
 }
 
 function flag(argv: readonly string[], name: string): string | undefined {

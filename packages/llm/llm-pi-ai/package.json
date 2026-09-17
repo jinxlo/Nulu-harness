@@ -1,6 +1,6 @@
 {
-  "name": "@deepseek-ai/dsh-llm-pi-ai",
-  "description": "pi-ai-backed DeepSeek adapter for the DeepSeek Harness LLM seam (design-verification twin of dsh-llm-deepseek)",
+  "name": "@worldapptechnologies/nulu-llm-pi-ai",
+  "description": "pi-ai-backed DeepSeek adapter for the Nulu Harness LLM seam (design-verification twin of nulu-llm-deepseek)",
   "version": "0.1.6-alpha.1",
   "publishConfig": {
     "access": "public"

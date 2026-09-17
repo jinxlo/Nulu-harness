@@ -1,6 +1,6 @@
 {
-  "name": "@deepseek-ai/dsh-settings-file",
-  "description": "File-backed settings provider (settings.yaml) for the DeepSeek Harness",
+  "name": "@worldapptechnologies/nulu-settings-file",
+  "description": "File-backed settings provider (settings.yaml) for the Nulu Harness",
   "version": "0.1.6-alpha.1",
   "publishConfig": {
     "access": "public"
