@@ -1,0 +1,77 @@
+# Nulu Harness upstream-sync policy.
+#
+# Machine-readable invariants that the synchronization system must never
+# violate. `scripts/upstream-sync/validate.mjs` consumes this file and fails the
+# sync if any invariant is broken, so an upstream merge can never silently revert
+# the Nulu product architecture.
+#
+# Keep this in sync with UPSTREAM_POLICY.md (the human-readable explanation).
+
+version: 1
+
+branding:
+  product_name: "Nulu Harness"
+  company_name: "World App Technologies"
+
+package_scope:
+  forbidden: ["@deepseek-ai/"]
+  required: "@worldapptechnologies/"
+
+cli:
+  name: "nulu"
+  forbidden: "dsh"
+
+environment:
+  required_prefix: "NULU_"
+  forbidden_prefix: "DSH_"
+
+paths:
+  forbidden_home: "~/.dsh"
+
+providers:
+  # The harness is Nulu-only. pi-ai's bundled third-party provider catalog must
+  # never be exposed, and no provider route other than the World App routes may
+  # be registered by the shipped bundles.
+  expose_builtin_catalog: false
+  allowed_routes:
+    - worldapp
+    - worldapp-gateway
+  forbidden_provider_names:
+    - deepseek
+    - openai
+    - anthropic
+    - claude
+    - kimi
+    - moonshot
+    - google
+    - groq
+    - mistral
+
+models:
+  # The model catalog is controlled by the World App Technologies API, never by
+  # the harness's own registry or upstream model definitions.
+  source: worldapp_api
+  expose_upstream_models: false
+  allowed_chat_model_ids:
+    - nulu-5-ultra
+    - nulu-5-pro
+  allowed_image_model_ids:
+    - nulu-image-3
+    - nulu-image-1.5
+
+deepseek:
+  user_facing_references: forbidden
+  provider_packages: forbidden
+  # Bare lowercase protocol identifiers the platform endpoint requires. These
+  # are wire-format names, not brand or provider references, and must survive.
+  protocol_identifiers:
+    - "thinkingFormat: deepseek"
+    - "'deepseek': true"
+
+ui:
+  preserve_nulu_customizations: true
+
+architecture:
+  preserve_worldapp_adapter: true
+  preserve_nulu_model_catalog: true
+  preserve_nulu_desktop: true

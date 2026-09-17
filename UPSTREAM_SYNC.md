@@ -1,25 +1,23 @@
-# Upstream Sync
+# Upstream Adaptation System
 
-Nulu Harness is a rebranded fork of DeepSeek Harness. This document describes
-how to pull upstream changes and re-apply the Nulu transformation so the fork
-stays current without losing the rebrand.
+Nulu Harness is a downstream product built on DeepSeek Harness technology — not
+a renamed Git fork. This system pulls upstream changes, classifies them,
+adapts the useful ones to the Nulu architecture, and proves the Nulu invariants
+survived — never merging upstream directly into `main`.
 
-## Layout
+## Pipeline
 
 ```
-deepseek-ai/deepseek-harness (upstream)   ← tracked as the `upstream` remote
-        │  merge
-        ▼
-worldapptechnologies/nulu-harness         ← rebrand applied on top
+upstream/deepseek ──fetch──▶ sync/deepseek-YYYY-MM-DD
+                                    │
+                     classify (analyze before modifying)
+                     merge
+                     rebrand (Level 1 deterministic)
+                     validate (invariant gate)
+                     report (audit trail)
+                                    │
+                     nulu-integration ──human approve──▶ main
 ```
-
-The Nulu fork carries two kinds of changes on top of upstream:
-
-1. **Brand/identity** — `dsh` → `nulu`, `@deepseek-ai/*` → `@worldapptechnologies/*`,
-   `DSH_*` → `NULU_*`, `~/.dsh` → `~/.nulu`, "DeepSeek Harness" → "Nulu Harness".
-2. **Provider replacement** — the DeepSeek provider packages are removed and the
-   World App Technologies route (`worldapp` with `nulu-5-ultra` / `nulu-5-pro`)
-   is the only servable provider.
 
 ## One-time setup
 
@@ -27,53 +25,56 @@ The Nulu fork carries two kinds of changes on top of upstream:
 git remote add upstream https://github.com/deepseek-ai/deepseek-harness.git
 ```
 
-## Syncing
+## Running a sync
 
 ```sh
-./scripts/sync-upstream.sh
+./scripts/sync-upstream.sh                # full pipeline (creates sync branch)
+./scripts/sync-upstream.sh --classify-only  # analyze + report, no changes
 ```
 
-This does `fetch → merge → rebrand → report`. If the merge conflicts, resolve the
-conflicts, then run `node scripts/rebrand-upstream.mjs` and commit.
-
-Use `./scripts/sync-upstream.sh --no-merge` to re-run only the rebrand pass.
-
-## What the rebrand pass does
-
-`scripts/rebrand-upstream.mjs` is idempotent and safe to re-run:
-
-- Applies the string mappings (package scope, CLI name, env vars, home dir,
-  product name, repo name).
-- Deletes the DeepSeek-specific packages Nulu does not ship:
-  `packages/llm/llm-deepseek`, `packages/llm/deepseek-llm-api-extensions`,
-  `packages/llm/plugin-package-inventory-deepseek`,
-  `packages/session/session-log-deepseek`, `packages/web/web-search-deepseek`,
-  the `DeepSeekModelsEditor` / `DeepSeekOnboardingDialog` UI, and the Python
-  `deepseek_harness_runtime`.
-- Never touches `LICENSE`, `THIRD_PARTY_NOTICES`, or the `.agents/notes/` archive.
-- Leaves the `thinkingFormat: deepseek` reasoning wire format intact (it is a
-  protocol identifier the platform endpoint requires, not a brand reference).
-
-## After syncing — manual steps
-
-The script prints a report of remaining `deepseek` references. Review each:
-
-- **Protocol identifiers** — `thinkingFormat: deepseek`, `'deepseek': true`
-  (the reasoning wire format gate). Keep these.
-- **Test fixtures** — `packages/llm/llm-pi-ai/tests/*.spec.ts` and
-  `apps/web/tests/expected/*.expected.md` still use `deepseek` as an example
-  provider/model. These are not user-facing; regenerate web snapshots with the
-  normal snapshot command and, if desired, migrate the pi-ai test fixtures to a
-  generic provider name.
-- **Docs** — `docs/user/guide/providers.md` explains `thinkingFormat: deepseek`;
-  that is expected.
-
-Finally run the verification gates that the rebrand relies on:
+The script never touches `main`. It creates `sync/deepseek-<date>`, merges,
+rebrands, validates, and reports. Review and merge manually:
 
 ```sh
-pnpm install
-pnpm build
-pnpm test
+git diff main...sync/deepseek-<date>
+git checkout main && git merge --no-ff sync/deepseek-<date>
 ```
 
-and confirm the model selector exposes only `nulu-5-ultra` and `nulu-5-pro`.
+## The three adaptation levels
+
+- **Level 1 — deterministic** (`scripts/rebrand-upstream.mjs`): string mappings
+  (`dsh` → `nulu`, `@deepseek-ai/*` → `@worldapptechnologies/*`, `DSH_*` →
+  `NULU_*`, `~/.dsh` → `~/.nulu`, "DeepSeek Harness" → "Nulu Harness"), package
+  deletion, path migration. Idempotent and safe to re-run.
+- **Level 2 — structural** (`scripts/upstream-sync/classify.mjs`): classifies
+  each commit by type and touched paths and assigns an action
+  (`AUTO-PORT`, `PORT-PRESERVE-NULU`, `PORT-WITH-ADAPTATION`,
+  `IGNORE-PROVIDER`, `REBRAND-OR-IGNORE`, `REVIEW`), flagging commits that
+  touch protected fork files.
+- **Level 3 — semantic** (AI-assisted, future work): an agent reimplements
+  upstream functionality while preserving the Nulu invariants, rather than
+  copying DeepSeek-specific behavior.
+
+## Invariants and protected files
+
+- `upstream-policy.yml` — machine-readable invariants consumed by the validator.
+- `UPSTREAM_POLICY.md` — the human-readable explanation.
+- `nulu-fork-manifest.json` — files Nulu materially changed, with their merge
+  strategies and the DeepSeek packages Nulu removed.
+
+`scripts/upstream-sync/validate.mjs` runs after every sync and fails if any
+invariant is broken, so a merge cannot silently restore DeepSeek branding,
+providers, or models.
+
+## Report
+
+`scripts/upstream-sync/report.mjs` writes an auditable report to
+`reports/upstream-sync/sync-<timestamp>.json` summarizing the classification
+and validation results.
+
+## Manual review after syncing
+
+- Regenerate web snapshots (`apps/web/tests/expected/*.expected.md` still use
+  `deepseek` as an example model).
+- Optionally migrate the pi-ai test fixtures off the `deepseek` provider name.
+- Review any commit the classifier marked `REVIEW` or `touchingProtected`.

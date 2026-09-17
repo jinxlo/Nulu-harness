@@ -1,0 +1,99 @@
+{
+  "$schema": "nulu-fork-manifest.schema.json",
+  "version": 1,
+  "description": "Files Nulu Harness has materially changed relative to upstream. The sync system treats these differently from a normal git merge: it preserves the Nulu behavior and only ports compatible upstream changes, rather than overwriting them.",
+  "protected": [
+    {
+      "file": "packages/llm/llm-pi-ai/src/catalog.ts",
+      "reason": "Nulu-only model catalog",
+      "upstream_behavior": "Exposes every pi-ai builtin provider (DeepSeek, OpenAI, Anthropic, ...)",
+      "nulu_behavior": "catalogProviderIds() returns an empty list; only the World App route is servable",
+      "merge_strategy": "preserve-nulu-and-port-compatible-upstream-changes"
+    },
+    {
+      "file": "packages/llm/llm-gateway/src/index.ts",
+      "reason": "Nulu model catalog",
+      "upstream_behavior": "Ships DeepSeek model entries as DEFAULT_MODELS",
+      "nulu_behavior": "DEFAULT_MODELS lists only nulu-5-ultra and nulu-5-pro",
+      "merge_strategy": "preserve-nulu-and-port-compatible-upstream-changes"
+    },
+    {
+      "file": "packages/bundle/base/cordis.patch.yml",
+      "reason": "World App Technologies provider configuration",
+      "upstream_behavior": "Configures the DeepSeek provider as default",
+      "nulu_behavior": "Configures the worldapp route (World App Technologies API) with nulu-5-ultra / nulu-5-pro",
+      "merge_strategy": "preserve-nulu-and-port-compatible-upstream-changes"
+    },
+    {
+      "file": "packages/bundle/acp-app/cordis.patch.yml",
+      "reason": "ACP default model",
+      "upstream_behavior": "Defaults to a DeepSeek model",
+      "nulu_behavior": "Defaults to worldapp-gateway / nulu-5-ultra",
+      "merge_strategy": "preserve-nulu"
+    },
+    {
+      "file": "packages/client/ui-model-selection/src/client/index.ts",
+      "reason": "Nulu-only model selector description keys",
+      "upstream_behavior": "Maps DeepSeek model ids to descriptions",
+      "nulu_behavior": "Maps nulu-5-ultra and nulu-5-pro",
+      "merge_strategy": "preserve-nulu-and-port-compatible-upstream-changes"
+    },
+    {
+      "file": "packages/client/ui-model-selection/src/client/locales.ts",
+      "reason": "Nulu model selector copy",
+      "upstream_behavior": "DeepSeek model descriptions",
+      "nulu_behavior": "Nulu 5 Ultra / Nulu 5 Pro descriptions",
+      "merge_strategy": "preserve-nulu-and-port-compatible-upstream-changes"
+    },
+    {
+      "file": "packages/sdk/client/src/api.ts",
+      "reason": "Nulu default model",
+      "upstream_behavior": "Defaults to a DeepSeek model id",
+      "nulu_behavior": "Defaults to nulu-5-ultra",
+      "merge_strategy": "preserve-nulu"
+    },
+    {
+      "file": "packages/web/web-search-gateway/src/provider.ts",
+      "reason": "Nulu web-search default model",
+      "upstream_behavior": "Defaults to a DeepSeek model id",
+      "nulu_behavior": "Defaults to nulu-5-ultra",
+      "merge_strategy": "preserve-nulu"
+    },
+    {
+      "file": "packages/subagent/subagent-nulu-sdk/src/index.ts",
+      "reason": "Nulu subagent default model",
+      "upstream_behavior": "Defaults to a DeepSeek model id",
+      "nulu_behavior": "Defaults to nulu-5-ultra",
+      "merge_strategy": "preserve-nulu"
+    },
+    {
+      "file": "apps/desktop/src/github-update-check.ts",
+      "reason": "Nulu GitHub-releases auto-updater",
+      "upstream_behavior": "Absent (Nulu-specific feature)",
+      "nulu_behavior": "Checks the World App Technologies nulu-harness GitHub repository for releases",
+      "merge_strategy": "preserve-nulu"
+    },
+    {
+      "file": "apps/desktop/src/main.ts",
+      "reason": "Nulu desktop update-check integration",
+      "upstream_behavior": "COS-hosted update stream only",
+      "nulu_behavior": "Adds the GitHub release check and prompt",
+      "merge_strategy": "preserve-nulu-and-port-compatible-upstream-changes"
+    },
+    {
+      "file": "apps/desktop/src/locale.ts",
+      "reason": "Nulu desktop update copy",
+      "upstream_behavior": "Absent update strings",
+      "nulu_behavior": "GitHub update prompt strings",
+      "merge_strategy": "preserve-nulu-and-port-compatible-upstream-changes"
+    }
+  ],
+  "removed_upstream_packages": [
+    "packages/llm/llm-deepseek",
+    "packages/llm/deepseek-llm-api-extensions",
+    "packages/llm/plugin-package-inventory-deepseek",
+    "packages/session/session-log-deepseek",
+    "packages/web/web-search-deepseek",
+    "python/sdk-runtime/src/deepseek_harness_runtime"
+  ]
+}

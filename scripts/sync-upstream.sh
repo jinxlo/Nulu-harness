@@ -1,60 +1,83 @@
 #!/usr/bin/env bash
-# Sync DeepSeek Harness upstream into Nulu Harness.
+# Nulu Harness upstream adaptation pipeline.
 #
-#   fetch -> merge -> rebrand -> report
+#   fetch → classify → sync branch → merge → rebrand → validate → report
 #
-# The rebrand pass converts DeepSeek branding, CLI names, package scope, and
-# DeepSeek-specific provider packages back into their Nulu equivalents, then
-# reports anything still referencing "deepseek" for manual review.
+# This NEVER merges upstream into `main`. It creates a dated sync branch,
+# classifies the incoming changes, applies the deterministic rebrand, runs the
+# invariant validation, and writes an audit report. A human then reviews and
+# merges the branch into `main`.
 #
 # Usage:
-#   ./scripts/sync-upstream.sh              # fetch + merge + rebrand + report
-#   ./scripts/sync-upstream.sh --no-merge   # rebrand the current tree only
+#   ./scripts/sync-upstream.sh                  # full pipeline
+#   ./scripts/sync-upstream.sh --classify-only  # analyze + report, no merge
 #
-# Requires a clean working tree and the `upstream` remote already configured:
+# Requires a clean working tree and the `upstream` remote:
 #   git remote add upstream https://github.com/deepseek-ai/deepseek-harness.git
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
-NO_MERGE=0
+CLASSIFY_ONLY=0
 for arg in "$@"; do
   case "$arg" in
-    --no-merge) NO_MERGE=1 ;;
+    --classify-only) CLASSIFY_ONLY=1 ;;
   esac
 done
 
-# Ensure the upstream remote exists.
 if ! git remote | grep -qx upstream; then
   echo "[sync-upstream] adding upstream remote"
   git remote add upstream https://github.com/deepseek-ai/deepseek-harness.git
 fi
 
-if [[ "$NO_MERGE" == "0" ]]; then
-  if ! git diff --quiet || ! git diff --cached --quiet; then
-    echo "[sync-upstream] error: working tree is not clean; commit or stash first" >&2
-    exit 1
-  fi
+echo "[sync-upstream] fetching upstream master"
+git fetch upstream master
 
-  echo "[sync-upstream] fetching upstream master"
-  git fetch upstream master
+BASE="$(git merge-base HEAD upstream/master)"
+echo "[sync-upstream] fork base: ${BASE:0:12}"
 
-  if git merge-base --is-ancestor HEAD upstream/master; then
-    echo "[sync-upstream] already up to date with upstream"
-  else
-    echo "[sync-upstream] merging upstream/master"
-    if ! git merge upstream/master --no-edit; then
-      echo "[sync-upstream] merge conflicts detected; resolve them, then run:"
-      echo "  node scripts/rebrand-upstream.mjs"
-      echo "  git add -A && git commit"
-      exit 1
-    fi
-  fi
+# Analyze before modifying anything.
+echo "[sync-upstream] classifying incoming changes"
+node scripts/upstream-sync/classify.mjs "${BASE}..upstream/master"
+
+if [[ "$CLASSIFY_ONLY" == "1" ]]; then
+  echo "[sync-upstream] --classify-only: no changes made"
+  exit 0
 fi
 
-echo "[sync-upstream] rebranding tree"
+if ! git diff --quiet || ! git diff --cached --quiet; then
+  echo "[sync-upstream] error: working tree is not clean; commit or stash first" >&2
+  exit 1
+fi
+
+STAMP="$(date +%Y-%m-%d)"
+BRANCH="sync/deepseek-${STAMP}"
+echo "[sync-upstream] creating sync branch ${BRANCH}"
+git checkout -b "$BRANCH"
+
+echo "[sync-upstream] merging upstream/master"
+if ! git merge upstream/master --no-edit; then
+  echo "[sync-upstream] merge conflicts — resolve them on ${BRANCH}, then run:"
+  echo "  node scripts/rebrand-upstream.mjs"
+  echo "  node scripts/upstream-sync/validate.mjs"
+  exit 1
+fi
+
+echo "[sync-upstream] applying deterministic rebrand (Level 1)"
 node scripts/rebrand-upstream.mjs
 
-echo "[sync-upstream] done — review the report above, then commit the result:"
-echo "  git add -A && git commit -m 'chore: sync upstream and re-apply Nulu rebrand'"
+echo "[sync-upstream] validating Nulu invariants"
+if ! node scripts/upstream-sync/validate.mjs; then
+  echo "[sync-upstream] FAILED validation — Nulu invariants were violated by the sync" >&2
+  echo "[sync-upstream] do not merge ${BRANCH} until every FAIL is resolved" >&2
+  exit 1
+fi
+
+echo "[sync-upstream] generating report"
+node scripts/upstream-sync/report.mjs "${BASE}..upstream/master"
+
+echo
+echo "[sync-upstream] done. Review the report and the branch, then approve:"
+echo "  git diff main...${BRANCH}"
+echo "  git checkout main && git merge --no-ff ${BRANCH}"

@@ -44,3 +44,6 @@ worktrees/
 .agents/worktrees/
 .typert-*/
 native/system/test/bin/
+
+# upstream sync audit trail (regenerated each sync)
+reports/upstream-sync/
