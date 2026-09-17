@@ -3,13 +3,13 @@ import { mkdtemp, mkdir, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, describe, expect, it } from 'vitest'
-import { Context } from '@worldapptechnologies/cordis'
-import { SessionId } from '@worldapptechnologies/nulu-session'
-import type { Agent } from '@worldapptechnologies/nulu-agent'
-import AgentLoop from '@worldapptechnologies/nulu-agent-loop'
-import { mountAgentLoopTestDependencies } from '@worldapptechnologies/nulu-agent-loop-testkit'
-import * as LlmGateway from '@worldapptechnologies/nulu-llm-gateway'
-import * as WorkspaceContext from '@worldapptechnologies/nulu-agent-instructions'
+import { Context } from '@deepseek-ai/cordis'
+import { SessionId } from '@deepseek-ai/dsh-session'
+import type { Agent } from '@deepseek-ai/dsh-agent'
+import AgentLoop from '@deepseek-ai/dsh-agent-loop'
+import { mountAgentLoopTestDependencies } from '@deepseek-ai/dsh-agent-loop-testkit'
+import * as LlmDeepSeek from '@deepseek-ai/dsh-llm-deepseek'
+import * as AgentInstructions from '@deepseek-ai/dsh-agent-instructions'
 import { candidateScopeKey } from '../src/render.ts'
 import LocalFileSystem from '@worldapptechnologies/nulu-fs-local'
 import * as ToolFs from '@worldapptechnologies/nulu-tool-fs'
@@ -39,7 +39,7 @@ async function harness(): Promise<{ ctx: Context; agent: Agent }> {
   })
   await ctx.plugin(LocalFileSystem, { cwd: '/' })
   await ctx.plugin(ToolFs)
-  await ctx.plugin(WorkspaceContext, { maxBytes: 65536 })
+  await ctx.plugin(AgentInstructions, { maxBytes: 65536 })
   await ctx.plugin(AgentLoop, { agents: [] })
   await ctx.plugin(LlmGateway, { models: [{ id: 'nulu-5' }] })
   const handle = await ctx.agents.create({

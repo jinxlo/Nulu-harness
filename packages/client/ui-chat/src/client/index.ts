@@ -14,7 +14,7 @@ export type {} from './conversation-nodes/turn-process.ts'
 export type {} from './conversation-nodes/turn-tail.ts'
 
 export type {
-  AssistantBlock, AssistantMessageNode, AssistantProvenanceView, AssistantRequestConfig,
+  AssistantBlock, AssistantMessageNode, AssistantProviderMetadataView, AssistantRequestConfig,
   AssistantTiming, ChatLocationNodeIndex, ChatNodeProcessSource, ChatNodeSource, ChatNodeStore,
   ChatSnapshot, ChatTurnNavigationIndex, ChatTurnProcessPresentation,
   CommandNode, CompactionSummaryNode, ContextMessageNode, ConversationNode,
@@ -42,8 +42,8 @@ export type {
 export type { ChatKey } from './locale.ts'
 export type { ConversationContext, ConversationContextOriginKind } from './model/conversation-context.ts'
 export type {
-  ContextProvenanceView, ContextRole, KnownContextForm,
-} from '@worldapptechnologies/nulu-client-ui-conversation/client'
+  ContextProducerView, ContextRole, KnownContextForm,
+} from '@deepseek-ai/dsh-client-ui-conversation/client'
 export type {
   ConversationPromptSnapshot, RequestInspectionSnapshot, RequestPromptChange, RequestView,
 } from '@worldapptechnologies/nulu-client-ui-conversation/client'

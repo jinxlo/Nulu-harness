@@ -38,7 +38,8 @@ async function harness(
   vi.stubEnv('WORLD_APP_TECHNOLOGIES_API_KEY', 'mock-key')
   const ctx = new Context()
   await mountAgentLoopTestDependencies(ctx)
-  await ctx.plugin(LlmGateway, {
+  await ctx.plugin(LlmDeepSeek, {
+    protocol: 'chat-completions',
     baseURL,
     streamIdleTimeoutMs: options.streamIdleTimeoutMs ?? 1_000,
     retryPolicy: {

@@ -31,10 +31,11 @@ const CONFIGURATION_ONLY_DEV_DEPENDENCIES = {
 
 /** Workspace packages whose complete runtime surface is safe across duplicate installations. */
 const DUPLICATE_SAFE_PACKAGES: readonly string[] = [
-  '@worldapptechnologies/nulu-brand',
-  '@worldapptechnologies/nulu-typert-protocol',
-  '@worldapptechnologies/nulu-util-crypto',
-  '@worldapptechnologies/nulu-util-values',
+  '@deepseek-ai/dsh-brand',
+  '@deepseek-ai/dsh-lazy-require',
+  '@deepseek-ai/dsh-typert-protocol',
+  '@deepseek-ai/dsh-util-crypto',
+  '@deepseek-ai/dsh-util-values',
 ]
 
 /**
@@ -54,9 +55,10 @@ const SAFE_HOST_DEPENDENCY_EXPORTS = {
 
 /** Runtime exports that require every consumer to resolve the provider's shared peer instance. */
 const PEER_REQUIRED_HOST_EXPORTS = {
-  '@worldapptechnologies/nulu-scope': ['carrierKeyOf', 'scopeOf', 'scopeTarget'],
-  '@worldapptechnologies/nulu-session': ['SESSION_FORMAT_VERSION'],
-  '@worldapptechnologies/nulu-session-persistence': ['SessionPersistenceNotFoundError'],
+  '@deepseek-ai/dsh-subprocess': ['SubprocessExecutableNotFoundError'],
+  '@deepseek-ai/dsh-scope': ['carrierKeyOf', 'scopeOf', 'scopeTarget'],
+  '@deepseek-ai/dsh-session': ['SESSION_FORMAT_VERSION'],
+  '@deepseek-ai/dsh-session-persistence': ['SessionPersistenceNotFoundError'],
 } as const satisfies HostDependencyExports
 
 /** Exact import specifier to reviewed runtime exports. */

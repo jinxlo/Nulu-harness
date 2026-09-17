@@ -1,7 +1,7 @@
 {
-  "name": "@worldapptechnologies/nulu-client-connection",
-  "description": "Authenticated RPC transport, generation lifecycle, and browser fixture",
-  "version": "0.1.5-rc.2",
+  "name": "@deepseek-ai/dsh-client-connection",
+  "description": "Authenticated RPC transport and generation lifecycle",
+  "version": "0.1.6-alpha.1",
   "publishConfig": {
     "access": "public"
   },
@@ -47,17 +47,11 @@
     "@worldapptechnologies/cordis": "workspace:^"
   },
   "devDependencies": {
-    "@worldapptechnologies/cordis": "workspace:^",
-    "@worldapptechnologies/nulu-api-session-controller": "workspace:^",
-    "@worldapptechnologies/nulu-attachment": "workspace:^",
-    "@worldapptechnologies/nulu-brand": "workspace:^",
-    "@worldapptechnologies/nulu-commands": "workspace:^",
-    "@worldapptechnologies/nulu-host-directory-picker": "workspace:^",
-    "@worldapptechnologies/nulu-host-webserver": "workspace:^",
-    "@worldapptechnologies/nulu-llm": "workspace:^",
-    "@worldapptechnologies/nulu-session": "workspace:^",
-    "@worldapptechnologies/nulu-settings": "workspace:^",
-    "@worldapptechnologies/nulu-tool-todo": "workspace:^",
-    "@worldapptechnologies/nulu-util-values": "workspace:^"
+    "@deepseek-ai/cordis": "workspace:^",
+    "@deepseek-ai/dsh-attachment": "workspace:^",
+    "@deepseek-ai/dsh-brand": "workspace:^",
+    "@deepseek-ai/dsh-host-webserver": "workspace:^",
+    "@deepseek-ai/dsh-llm": "workspace:^",
+    "@deepseek-ai/dsh-session": "workspace:^"
   }
 }

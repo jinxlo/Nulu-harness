@@ -20,8 +20,8 @@ import LocalSubprocessRuntime from '@worldapptechnologies/nulu-subprocess-local'
 import * as claudeCode from '../src/index.ts'
 
 const execFileAsync = promisify(execFile)
-const OFFICIAL_WORLD_APP_TECHNOLOGIES_BASE_URL = 'https://platform.worldapptechnologies.com/api/v1'
-const GATEWAY_MODEL = 'nulu-5'
+const OFFICIAL_DEEPSEEK_MESSAGES_BASE_URL = 'https://api.deepseek.com/anthropic'
+const DEEPSEEK_MODEL = 'deepseek-v4-flash'
 const sdkRoot = dirname(fileURLToPath(
   import.meta.resolve('@anthropic-ai/claude-agent-sdk'),
 ))
@@ -47,15 +47,6 @@ afterEach(async () => {
   await Promise.all(contexts.splice(0).map(ctx => ctx.fiber.dispose()))
   for (const root of roots.splice(0)) rmSync(root, { recursive: true, force: true })
 })
-
-function nuluBaseUrl(): string {
-  const configured = (process.env.WORLD_APP_TECHNOLOGIES_BASE_URL ?? OFFICIAL_WORLD_APP_TECHNOLOGIES_BASE_URL)
-    .replace(/\/+$/, '')
-  if (configured !== OFFICIAL_WORLD_APP_TECHNOLOGIES_BASE_URL) {
-    throw new Error('Claude Code Nulu e2e requires the official Nulu base URL')
-  }
-  return configured
-}
 
 async function expectQuiescent(handles: readonly SubprocessHandle[]): Promise<void> {
   expect(handles.length).toBeGreaterThan(0)
@@ -90,12 +81,12 @@ describe.skipIf(!process.env.WORLD_APP_TECHNOLOGIES_API_KEY)(
 
       const env = {
         ANTHROPIC_AUTH_TOKEN: apiKey,
-        ANTHROPIC_BASE_URL: `${nuluBaseUrl()}/anthropic`,
-        ANTHROPIC_MODEL: GATEWAY_MODEL,
-        ANTHROPIC_DEFAULT_OPUS_MODEL: GATEWAY_MODEL,
-        ANTHROPIC_DEFAULT_SONNET_MODEL: GATEWAY_MODEL,
-        ANTHROPIC_DEFAULT_HAIKU_MODEL: GATEWAY_MODEL,
-        CLAUDE_CODE_SUBAGENT_MODEL: GATEWAY_MODEL,
+        ANTHROPIC_BASE_URL: OFFICIAL_DEEPSEEK_MESSAGES_BASE_URL,
+        ANTHROPIC_MODEL: DEEPSEEK_MODEL,
+        ANTHROPIC_DEFAULT_OPUS_MODEL: DEEPSEEK_MODEL,
+        ANTHROPIC_DEFAULT_SONNET_MODEL: DEEPSEEK_MODEL,
+        ANTHROPIC_DEFAULT_HAIKU_MODEL: DEEPSEEK_MODEL,
+        CLAUDE_CODE_SUBAGENT_MODEL: DEEPSEEK_MODEL,
         CLAUDE_CODE_EFFORT_LEVEL: 'max',
         CLAUDE_CONFIG_DIR: claudeConfig,
         HOME: root,

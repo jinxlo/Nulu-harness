@@ -53,20 +53,11 @@ function taskText(body: Record<string, unknown>): string {
   return typeof body.instructions === 'string' ? body.instructions : ''
 }
 
-function nuluBaseUrl(): string {
-  const configured = (process.env.WORLD_APP_TECHNOLOGIES_BASE_URL ?? OFFICIAL_WORLD_APP_TECHNOLOGIES_BASE_URL)
-    .replace(/\/+$/, '')
-  if (configured !== OFFICIAL_WORLD_APP_TECHNOLOGIES_BASE_URL) {
-    throw new Error('Codex Nulu e2e requires the official Nulu base URL')
-  }
-  return configured
-}
-
-async function completeWithNulu(
+async function completeWithDeepSeek(
   authorization: string,
   task: string,
 ): Promise<string> {
-  const response = await fetch(`${nuluBaseUrl()}/chat/completions`, {
+  const response = await fetch(`${OFFICIAL_DEEPSEEK_BASE_URL}/chat/completions`, {
     method: 'POST',
     headers: {
       authorization,

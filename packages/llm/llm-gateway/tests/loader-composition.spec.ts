@@ -29,12 +29,14 @@ import * as NuluPluginPackageInventory from '@worldapptechnologies/nulu-plugin-p
 import * as LlmGateway from '@worldapptechnologies/nulu-llm-gateway'
 import { assemble } from './assemble.ts'
 import { closeMockServers, mockServer, textEvents } from './mock-server.ts'
+import { server as messagesServer } from './messages/helpers.ts'
 
 const NS = 'llm-gateway'
 const KEY_REF = credentialRef('WORLD_APP_TECHNOLOGIES_API_KEY')
 
 let root: string | undefined
 let context: Context | undefined
+const closeMessagesServers: (() => Promise<void>)[] = []
 
 afterEach(async () => {
   await context?.fiber.dispose()
@@ -42,11 +44,12 @@ afterEach(async () => {
   if (root !== undefined) await rm(root, { recursive: true, force: true })
   root = undefined
   await closeMockServers()
+  while (closeMessagesServers.length) await closeMessagesServers.pop()!()
   vi.unstubAllEnvs()
 })
 
 async function loadComposition(
-  options: { withDynamic: boolean; baseURL: string; reuseRoot?: string; enableSessionLog?: boolean },
+  options: { withDynamic: boolean; baseURL: string; reuseRoot?: string; enableSessionLog?: boolean; protocol?: 'chat-completions' | 'messages' },
 ): Promise<{ ctx: Context; settingsPath: string; credentialsPath: string }> {
   // A reused root is the restart case: the same harness home, its documents
   // exactly as the previous process left them.
@@ -67,13 +70,13 @@ async function loadComposition(
     '- id: session',
     "  name: '@worldapptechnologies/nulu-session'",
     '- id: agents',
-    "  name: '@worldapptechnologies/nulu-agent'",
-    '- id: llm-api-extensions',
-    "  name: '@worldapptechnologies/nulu-llm-api-extensions'",
-    '- id: session-log-gateway',
-    "  name: '@worldapptechnologies/nulu-session-log-gateway'",
-    ...options.enableSessionLog === true
-      ? ['  config:', '    enabled: true']
+    "  name: '@deepseek-ai/dsh-agent'",
+    '- id: deepseek-llm-api-extensions',
+    "  name: '@deepseek-ai/dsh-deepseek-llm-api-extensions'",
+    '- id: session-log-deepseek',
+    "  name: '@deepseek-ai/dsh-session-log-deepseek'",
+    ...options.enableSessionLog !== undefined
+      ? ['  config:', `    enabled: ${String(options.enableSessionLog)}`]
       : [],
     '- id: plugin-package-inventory',
     "  name: '@worldapptechnologies/nulu-plugin-package-inventory'",
@@ -94,6 +97,7 @@ async function loadComposition(
     '- id: llm-gateway',
     "  name: '@worldapptechnologies/nulu-llm-gateway'",
     '  config:',
+    `    protocol: ${options.protocol ?? 'chat-completions'}`,
     `    baseURL: ${JSON.stringify(options.baseURL)}`,
     '',
   ].join('\n'))
@@ -140,11 +144,18 @@ async function loadComposition(
   return { ctx, settingsPath, credentialsPath }
 }
 
-describe('llm-gateway real dynamic composition', () => {
-  it('keeps session upload off and package inventory on by default in the real Loader composition', async () => {
-    vi.stubEnv('WORLD_APP_TECHNOLOGIES_API_KEY', 'entry-key')
-    const server = await mockServer([{ kind: 'sse', events: textEvents }])
-    const { ctx } = await loadComposition({ withDynamic: false, baseURL: server.url })
+async function extensionServer(protocol: 'chat-completions' | 'messages') {
+  if (protocol === 'chat-completions') return mockServer([{ kind: 'sse', events: textEvents }])
+  const server = await messagesServer()
+  closeMessagesServers.push(() => server.close())
+  return { url: server.url, get requests() { return server.requests.map(request => request.body) } }
+}
+
+describe('llm-deepseek real dynamic composition', () => {
+  it.each(['chat-completions', 'messages'] as const)('keeps package inventory on when the %s Loader composition disables session upload', async (protocol) => {
+    vi.stubEnv('DEEPSEEK_API_KEY', 'entry-key')
+    const server = await extensionServer(protocol)
+    const { ctx } = await loadComposition({ withDynamic: false, baseURL: server.url, protocol, enableSessionLog: false })
     const session = ctx.sessions.create(SessionId('extension-composition'))
     session.append('turn/start', { turn: 1 })
 
@@ -160,13 +171,13 @@ describe('llm-gateway real dynamic composition', () => {
     expect(SessionLogGateway.acceptedThrough(session)).toBe(-1)
   })
 
-  it('sends the canonical session suffix when the Loader composition explicitly enables upload', async () => {
-    vi.stubEnv('WORLD_APP_TECHNOLOGIES_API_KEY', 'entry-key')
-    const server = await mockServer([{ kind: 'sse', events: textEvents }])
+  it.each(['chat-completions', 'messages'] as const)('sends the canonical session suffix by default through %s Loader composition', async (protocol) => {
+    vi.stubEnv('DEEPSEEK_API_KEY', 'entry-key')
+    const server = await extensionServer(protocol)
     const { ctx } = await loadComposition({
       withDynamic: false,
       baseURL: server.url,
-      enableSessionLog: true,
+      protocol,
     })
     const session = ctx.sessions.create(SessionId('extension-composition-enabled'))
     session.append('turn/start', { turn: 1 })

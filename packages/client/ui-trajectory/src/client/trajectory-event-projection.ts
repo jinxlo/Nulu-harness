@@ -2,8 +2,8 @@
 
 import type { ContentBlock, StreamChunk } from '@worldapptechnologies/nulu-llm/types'
 import type {
-  AssistantBlock, ContextProvenanceView, KnownContextForm,
-} from '@worldapptechnologies/nulu-client-ui-conversation/client'
+  AssistantBlock, ContextProducerView, KnownContextForm,
+} from '@deepseek-ai/dsh-client-ui-conversation/client'
 
 /* jscpd:ignore-start -- Chat and Trajectory own independent event-to-view projections. */
 
@@ -57,7 +57,7 @@ export function contextForm(source: unknown): KnownContextForm | null {
  * @param source - Logged `user/message` source.
  * @returns Role and label rendered by Trajectory.
  */
-export function contextProvenance(source: unknown): ContextProvenanceView {
+export function contextProducer(source: unknown): ContextProducerView {
   const record = asRecord(source)
   const kind = record === null ? null : readString(record, 'kind')
   if (record === null || kind === null) return { role: 'inject', label: null }

@@ -42,19 +42,29 @@ afterEach(() => {
 })
 
 describe('release families', () => {
-  it('publishes Agent Teams while excluding private experimental packages', () => {
-    const members = releaseFamily('nulu').members(resolve(import.meta.dirname, '../..'))
+  it('publishes all current experimental packages', () => {
+    const members = releaseFamily('dsh').members(resolve(import.meta.dirname, '../..'))
 
     expect(members
       .filter(member => member.directory.startsWith('packages/experimental/'))
       .map(member => member.name)).toEqual([
-      '@worldapptechnologies/nulu-experimental-agent-team-profile',
-      '@worldapptechnologies/nulu-experimental-agent-team-web-profile',
-      '@worldapptechnologies/nulu-experimental-agent-team',
-      '@worldapptechnologies/nulu-experimental-client-ui-agent-team',
-      '@worldapptechnologies/nulu-experimental-tool-agent-team',
+      '@deepseek-ai/dsh-experimental-agent-team-profile',
+      '@deepseek-ai/dsh-experimental-agent-team-web-profile',
+      '@deepseek-ai/dsh-experimental-agent-team',
+      '@deepseek-ai/dsh-experimental-auto-review',
+      '@deepseek-ai/dsh-experimental-browser-use-chrome-devtools-mcp',
+      '@deepseek-ai/dsh-experimental-browser-use-playwright-mcp',
+      '@deepseek-ai/dsh-experimental-browser-use-runtime',
+      '@deepseek-ai/dsh-experimental-browser-use-stagehand-native',
+      '@deepseek-ai/dsh-experimental-client-ui-agent-team',
+      '@deepseek-ai/dsh-experimental-computer-use-cua-driver-mcp',
+      '@deepseek-ai/dsh-experimental-computer-use-cua-driver-native',
+      '@deepseek-ai/dsh-experimental-inspector',
+      '@deepseek-ai/dsh-experimental-ptc-runtime-python',
+      '@deepseek-ai/dsh-experimental-tool-agent-team',
+      '@deepseek-ai/dsh-experimental-webworker-packer',
+      '@deepseek-ai/dsh-experimental-webworker-runtime',
     ])
-    expect(members.map(member => member.name)).not.toContain('@worldapptechnologies/nulu-experimental-inspector')
   })
 
   it('excludes private applications from the publish set', () => {
@@ -66,8 +76,27 @@ describe('release families', () => {
     expect(releaseFamily('nulu').members(root).map(entry => entry.name)).toEqual(['@worldapptechnologies/nulu-public'])
   })
 
-  it('bumps private nulu workspaces without adding release tags', () => {
-    const root = mkdtempSync(join(tmpdir(), 'nulu-release-version-'))
+  it('publishes unlisted experimental packages while retaining private exclusions', () => {
+    const root = mkdtempSync(join(tmpdir(), 'dsh-release-experimental-'))
+    roots.push(root)
+    write(join(root, 'packages/experimental/prototype/package.json'), JSON.stringify({
+      name: '@deepseek-ai/dsh-experimental-prototype',
+      version: '0.0.1',
+      publishConfig: { access: 'public' },
+    }))
+    write(join(root, 'packages/experimental/inspector/package.json'), JSON.stringify({
+      name: '@deepseek-ai/dsh-experimental-inspector',
+      version: '0.0.1',
+      private: true,
+    }))
+
+    expect(releaseFamily('dsh').members(root).map(entry => entry.name)).toEqual([
+      '@deepseek-ai/dsh-experimental-prototype',
+    ])
+  })
+
+  it('bumps private dsh workspaces without adding release tags', () => {
+    const root = mkdtempSync(join(tmpdir(), 'dsh-release-version-'))
     roots.push(root)
     write(join(root, 'package.json'), '{"version":"0.0.1"}\n')
     write(join(root, 'apps/desktop/package.json'), '{"version":"0.0.1","private":true}\n')

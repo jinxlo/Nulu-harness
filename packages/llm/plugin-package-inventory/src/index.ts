@@ -1,23 +1,24 @@
 /**
  * Active Loader-backed plugin package inventory for official Nulu requests.
  * Host entries and the requesting agent's standing preset are resolved at request time;
- * installed dependencies and plugin fibers without Loader package provenance are excluded.
- * @module @worldapptechnologies/nulu-plugin-package-inventory
+ * installed dependencies and plugin fibers without Loader-backed package identity are excluded.
+ * @module @deepseek-ai/dsh-plugin-package-inventory-deepseek
  */
 
 import { existsSync, readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { dirname, isAbsolute, join, parse } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { FiberState, type Context } from '@worldapptechnologies/cordis'
-import z from '@worldapptechnologies/schemastery'
-import { brandString } from '@worldapptechnologies/nulu-brand'
-import type { Entry, EntryTree } from '@worldapptechnologies/cordis-plugin-loader'
-import type {} from '@worldapptechnologies/nulu-agent'
-import type {} from '@worldapptechnologies/nulu-llm-api-extensions'
-import type { SessionId } from '@worldapptechnologies/nulu-session'
-import type {} from '@worldapptechnologies/nulu-agent-presets'
-import type { NuluPluginPackageIdentity, NuluPluginPackageInventoryExtension } from './types.ts'
+import { FiberState, type Context } from '@deepseek-ai/cordis'
+import z from '@deepseek-ai/schemastery'
+import { brandString } from '@deepseek-ai/dsh-brand'
+import type { Entry, EntryTree } from '@deepseek-ai/cordis-plugin-loader'
+import type {} from '@deepseek-ai/dsh-agent'
+import type {} from '@deepseek-ai/dsh-deepseek-llm-api-extensions'
+import type { SessionId } from '@deepseek-ai/dsh-session'
+import type {} from '@deepseek-ai/dsh-agent-presets'
+import type {} from '@deepseek-ai/dsh-app-boot'
+import type { DeepSeekPluginPackageIdentity, DeepSeekPluginPackageInventoryExtension } from './types.ts'
 import type {} from './types.ts'
 
 export type * from './types.ts'
@@ -69,12 +70,14 @@ function identityFromManifest(path: string, allowAnonymous: boolean): NuluPlugin
 }
 
 /** Resolve a bare package without requiring it to export `./package.json`. */
-function barePackageManifest(packageName: string, anchors: readonly string[]): string | undefined {
+function barePackageManifest(
+  packageName: string, anchors: readonly string[], packages: Context['pluginPackages'] | undefined,
+): string | undefined {
   for (const anchor of anchors) {
-    const searchPaths = createRequire(anchor).resolve.paths(packageName)
-    /* v8 ignore next -- active non-builtin package entries always have Node package search paths */
-    if (searchPaths === null) continue
-    for (const searchPath of searchPaths) {
+    const pkg = packages?.packageOf(packageName, anchor)
+    if (pkg !== undefined) return pkg.manifestPath
+    if (packages !== undefined) continue
+    for (const searchPath of createRequire(anchor).resolve.paths(packageName) as string[]) {
       const manifest = join(searchPath, packageName, 'package.json')
       if (existsSync(manifest)) return manifest
     }
@@ -99,7 +102,10 @@ class PackageIdentityResolver {
   // TODO: Invalidate manifest identities if in-process package-version replacement becomes a supported upgrade path.
   private readonly cache = new Map<string, NuluPluginPackageIdentity | undefined>()
 
-  constructor(private readonly hostBaseUrl: string) {}
+  constructor(
+    private readonly hostBaseUrl: string,
+    private readonly packages: Context['pluginPackages'] | undefined,
+  ) {}
 
   /** Resolve one Loader entry's owning package, or absence for a non-package loose module. */
   resolve({ entry, bareBaseUrl }: ActiveEntry): NuluPluginPackageIdentity | undefined {
@@ -112,7 +118,7 @@ class PackageIdentityResolver {
     const packageName = barePackageName(entry.options.name)
     let manifest: string | undefined
     if (packageName !== undefined) {
-      manifest = barePackageManifest(packageName, anchors)
+      manifest = barePackageManifest(packageName, anchors, this.packages)
       if (manifest === undefined) {
         throw new Error(`plugin-package-inventory: cannot resolve active package ${JSON.stringify(packageName)}`)
       }
@@ -179,15 +185,15 @@ async function collectActivePluginPackages(
 }
 
 /**
- * Register the complete `nulu_plugin_packages` request contribution when enabled.
- * @param ctx - plugin context carrying Loader provenance and the Nulu request-extension registry.
+ * Register the complete `dsh_plugin_packages` request contribution when enabled.
+ * @param ctx - plugin context carrying Loader entry metadata and the DeepSeek request-extension registry.
  * @param config - validated default-on configuration.
  */
 export function apply(ctx: Context, config: Config): void {
   if (config.enabled === false) return
   const hostBaseUrl = ctx.baseUrl ?? import.meta.url
-  const resolver = new PackageIdentityResolver(hostBaseUrl)
-  ctx.nuluLlmApiExtensions.register('nulu_plugin_packages', {
+  const resolver = new PackageIdentityResolver(hostBaseUrl, ctx.get('pluginPackages'))
+  ctx.deepseekLlmApiExtensions.register('dsh_plugin_packages', {
     prepare: async (request) => {
       const value: NuluPluginPackageInventoryExtension = {
         version: 1,

@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from 'vitest'
-import { AttachmentId, ImageVariantId } from '@worldapptechnologies/nulu-attachment'
-import type { AttachmentStore, ImageAttachmentRef, ImageRequestPolicy, RequestImageAttachment } from '@worldapptechnologies/nulu-attachment'
-import { createUserMessage, ToolCallId, CONTEXT_WINDOW_EXCEEDED_CODE, EMPTY_RESPONSE_CODE, createMessage } from '@worldapptechnologies/nulu-llm'
-import type { ContentBlock, StreamChunk } from '@worldapptechnologies/nulu-llm'
+import { AttachmentId, ImageVariantId } from '@deepseek-ai/dsh-attachment'
+import type { AttachmentStore, ImageAttachmentRef, ImageRequestTarget, RequestImageAttachment } from '@deepseek-ai/dsh-attachment'
+import { createUserMessage, ToolCallId, CONTEXT_WINDOW_EXCEEDED_CODE, EMPTY_RESPONSE_CODE, createMessage } from '@deepseek-ai/dsh-llm'
+import type { ContentBlock, StreamChunk } from '@deepseek-ai/dsh-llm'
 import type { AssistantMessage, AssistantMessageEvent, Usage } from '@earendil-works/pi-ai'
 import { transformMessages } from '@earendil-works/pi-ai/api/transform-messages'
 import { getBuiltinModels } from '@earendil-works/pi-ai/providers/all'
@@ -62,7 +62,7 @@ function requestVersion(ref: ImageAttachmentRef): RequestImageAttachment {
 
 function attachmentStore(readImageRequest: (
   ref: ImageAttachmentRef,
-  policy: ImageRequestPolicy,
+  policy: ImageRequestTarget,
   signal?: AbortSignal,
 ) => Promise<RequestImageAttachment>): AttachmentStore {
   return { readImageRequest, imageHostPath: () => undefined } as unknown as AttachmentStore
@@ -105,7 +105,7 @@ describe('toPiContext', () => {
       width: 1,
       height: 1,
     }
-    const readImageRequest = vi.fn((value: ImageAttachmentRef, _policy: ImageRequestPolicy) => (
+    const readImageRequest = vi.fn((value: ImageAttachmentRef, _target: ImageRequestTarget) => (
       Promise.resolve(requestVersion(value))
     ))
     const context = await toPiContext({
@@ -119,7 +119,7 @@ describe('toPiContext', () => {
 
     expect(readImageRequest).toHaveBeenCalledWith(
       attachment,
-      { maxPixels: 2048 * 2048, maxBytes: 1024 * 1024 },
+      { width: 1, height: 1, maxBytes: 1024 * 1024 },
       undefined,
     )
     expect(context.messages[0]).toEqual({
@@ -141,7 +141,7 @@ describe('toPiContext', () => {
       width: 1,
       height: 1,
     }
-    const readImageRequest = vi.fn((value: ImageAttachmentRef, _policy: ImageRequestPolicy) => (
+    const readImageRequest = vi.fn((value: ImageAttachmentRef, _target: ImageRequestTarget) => (
       Promise.resolve(requestVersion(value))
     ))
     const context = await toPiContext({

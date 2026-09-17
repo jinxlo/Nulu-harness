@@ -1,20 +1,20 @@
 import { describe, expect, it } from 'vitest'
-import { Context } from '@worldapptechnologies/cordis'
-import { ToolCallId } from '@worldapptechnologies/nulu-llm'
-import { Session, SessionId } from '@worldapptechnologies/nulu-session'
-import AgentRegistry from '@worldapptechnologies/nulu-agent'
-import type { Agent } from '@worldapptechnologies/nulu-agent'
-import SystemPrompt from '@worldapptechnologies/nulu-system-prompt'
-import ToolRuntime, { renderToolsSdk } from '@worldapptechnologies/nulu-tools'
-import type { ToolSdkSchema } from '@worldapptechnologies/nulu-tools/src/ts-types.ts'
-import TerminalSessionService, { TerminalSessionId } from '@worldapptechnologies/nulu-terminal'
-import type { TerminalBackend, TerminalBackendSession, TerminalSendOperation, TerminalSendRequest, TerminalSessionStatus, TerminalSignal } from '@worldapptechnologies/nulu-terminal'
-import LocalJobRegistry from '@worldapptechnologies/nulu-jobs-local'
-import * as ToolTasks from '@worldapptechnologies/nulu-tool-jobs'
-import * as ToolPty from '@worldapptechnologies/nulu-tool-terminal'
-import { unsupportedInbox } from '@worldapptechnologies/nulu-agent-loop-testkit'
+import { Context } from '@deepseek-ai/cordis'
+import { ToolCallId } from '@deepseek-ai/dsh-llm'
+import { Session, SessionId } from '@deepseek-ai/dsh-session'
+import AgentRegistry from '@deepseek-ai/dsh-agent'
+import type { Agent } from '@deepseek-ai/dsh-agent'
+import SystemPrompt from '@deepseek-ai/dsh-system-prompt'
+import ToolRuntime, { renderToolsSdk } from '@deepseek-ai/dsh-tools'
+import type { ToolSdkSchema } from '@deepseek-ai/dsh-tools/src/ts-types.ts'
+import TerminalSessionService, { TerminalSessionId } from '@deepseek-ai/dsh-terminal'
+import type { TerminalBackend, TerminalBackendSession, TerminalSendOperation, TerminalSendRequest, TerminalSessionStatus, TerminalSignal } from '@deepseek-ai/dsh-terminal'
+import LocalJobRegistry from '@deepseek-ai/dsh-jobs-local'
+import * as ToolJobs from '@deepseek-ai/dsh-tool-jobs'
+import * as ToolPty from '@deepseek-ai/dsh-tool-terminal'
+import { unsupportedInbox } from '@deepseek-ai/dsh-agent-loop-testkit'
 
-function fakeAgent(ctx: Context, rawId: string): Agent {
+async function fakeAgent(ctx: Context, rawId: string): Promise<Agent> {
   const scope = ctx.plugin(() => {})
   const id = SessionId(rawId)
   const session = Session.create(id)
@@ -27,7 +27,7 @@ function fakeAgent(ctx: Context, rawId: string): Agent {
     runMaintenance: job => job(new AbortController().signal),
     whenIdle: () => Promise.resolve(),
   }
-  ctx.agents.register(agent)
+  await ctx.agents.register(agent)
   return agent
 }
 
@@ -114,9 +114,9 @@ async function setupBase(jobs: boolean) {
   ctx.terminals.registerBackend(stub.backend)
   if (jobs) {
     await ctx.plugin(LocalJobRegistry)
-    await ctx.plugin(ToolTasks)
+    await ctx.plugin(ToolJobs)
   }
-  return { ctx, stub, agent: fakeAgent(ctx, jobs ? 'with-tasks' : 'foreground') }
+  return { ctx, stub, agent: await fakeAgent(ctx, jobs ? 'with-tasks' : 'foreground') }
 }
 
 let callNumber = 0

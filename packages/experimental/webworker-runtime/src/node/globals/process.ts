@@ -24,6 +24,8 @@ export interface ProcessShim {
   readonly env: Record<string, string>
   readonly argv: string[]
   readonly execArgv: string[]
+  /** Virtual host identity; spawning this path reports ENOENT because Node execution is unavailable. */
+  readonly execPath: string
   /** Node process identity used by dependencies for environment detection. */
   readonly title: string
   /**
@@ -89,7 +91,8 @@ export function installProcessGlobal(options: ProcessShimOptions): ProcessShim {
     env: { ...options.env },
     argv: [...(options.argv ?? ['node', 'nulu-webworker'])],
     execArgv: [],
-    title: 'nulu-webworker',
+    execPath: '/dsh/bin/node',
+    title: 'dsh-webworker',
     platform: 'linux',
     arch: 'x64',
     pid: 1,

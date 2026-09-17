@@ -327,10 +327,10 @@ async function sendGitHubDelivery(origin: string): Promise<Response> {
   const body = JSON.stringify({
     action: 'ready_for_review',
     number: 4242,
-    repository: { full_name: 'nulu-harness/nulu-harness' },
+    repository: { full_name: 'deepseek-ai/deepseek-harness' },
     pull_request: {
       title: 'Real CLI webhook e2e',
-      html_url: 'https://github.com/nulu-harness/nulu-harness/pull/4242',
+      html_url: 'https://github.com/deepseek-ai/deepseek-harness/pull/4242',
       draft: false,
       user: { login: 'octocat' },
       base: { ref: 'master', sha: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' },
@@ -412,7 +412,7 @@ describe.skipIf(!process.env.WORLD_APP_TECHNOLOGIES_API_KEY)('GitHub webhook thr
       const admitted = await eventually(
         child,
         observation.text,
-        'webhook provenance, title, and permission events',
+        'webhook source, title, and permission events',
         async () => await history(baseUrl, sessionId),
         (page) => {
           const events = historyEvents(page)

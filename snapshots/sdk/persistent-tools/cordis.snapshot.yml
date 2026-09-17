@@ -12,4 +12,8 @@
           - id: worldapp-gateway
             name: Nulu
             models:
-              - id: nulu-5
+              - id: deepseek-v4-flash
+
+- id: session-log-deepseek
+  config:
+    enabled: false

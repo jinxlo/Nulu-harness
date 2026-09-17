@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-api-gateway",
   "description": "Typert Remote Host dispatcher and Client API endpoint",
-  "version": "0.1.5-rc.2",
+  "version": "0.1.6-alpha.1",
   "publishConfig": {
     "access": "public"
   },
@@ -61,11 +61,12 @@
     "@worldapptechnologies/cordis": "workspace:^"
   },
   "devDependencies": {
-    "@worldapptechnologies/nulu-brand": "workspace:^",
-    "@worldapptechnologies/nulu-client-connection": "workspace:^",
-    "@worldapptechnologies/nulu-host-webserver": "workspace:^",
-    "@worldapptechnologies/nulu-typert-registry": "workspace:^",
-    "@worldapptechnologies/nulu-util-crypto": "workspace:^",
+    "@deepseek-ai/dsh-brand": "workspace:^",
+    "@deepseek-ai/dsh-client-connection": "workspace:^",
+    "@deepseek-ai/dsh-host-webserver": "workspace:^",
+    "@deepseek-ai/dsh-remote-mock": "workspace:^",
+    "@deepseek-ai/dsh-typert-registry": "workspace:^",
+    "@deepseek-ai/dsh-util-crypto": "workspace:^",
     "@types/ws": "^8.18.1",
     "@worldapptechnologies/cordis": "workspace:^",
     "zod": "^4.4.3"

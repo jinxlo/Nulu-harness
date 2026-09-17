@@ -1,31 +1,33 @@
 import { mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { afterEach, describe, expect, it, vi } from 'vitest'
-import { Context } from '@worldapptechnologies/cordis'
-import LlmRuntime, { createUserMessage, ToolCallId, HarnessError  } from '@worldapptechnologies/nulu-llm'
-import SessionStore, { SessionId } from '@worldapptechnologies/nulu-session'
-import type { SessionEvent } from '@worldapptechnologies/nulu-session'
-import SystemPrompt from '@worldapptechnologies/nulu-system-prompt'
-import ToolRuntime, { RUN_CODE_NAME, defineTool } from '@worldapptechnologies/nulu-tools'
-import type { ToolExecutionResult } from '@worldapptechnologies/nulu-tools'
-import AgentRegistry, { type Agent } from '@worldapptechnologies/nulu-agent'
+import { afterEach, describe, expect, it, onTestFinished, vi } from 'vitest'
+import { Context } from '@deepseek-ai/cordis'
+import LlmRuntime, { createUserMessage, ToolCallId, HarnessError  } from '@deepseek-ai/dsh-llm'
+import SessionStore, { SessionId } from '@deepseek-ai/dsh-session'
+import type { SessionEvent } from '@deepseek-ai/dsh-session'
+import SystemPrompt from '@deepseek-ai/dsh-system-prompt'
+import ToolRuntime, { RUN_CODE_NAME, defineTool } from '@deepseek-ai/dsh-tools'
+import type { ToolExecutionResult } from '@deepseek-ai/dsh-tools'
+import AgentRegistry, { type Agent } from '@deepseek-ai/dsh-agent'
 
-import AgentLoop from '@worldapptechnologies/nulu-agent-loop'
-import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projection'
-import { LocalBashExecutor } from '@worldapptechnologies/nulu-bash-local'
-import * as BashEnvPlugin from '@worldapptechnologies/nulu-shell-env'
-import LocalSubprocessRuntime from '@worldapptechnologies/nulu-subprocess-local'
-import * as ToolBash from '@worldapptechnologies/nulu-tool-bash'
-import * as LlmGateway from '@worldapptechnologies/nulu-llm-gateway'
-import { WorkerThreadCodeRuntime } from '@worldapptechnologies/nulu-code-runtime-worker-thread'
-import LocalFileSystem from '@worldapptechnologies/nulu-fs-local'
-import * as ToolFs from '@worldapptechnologies/nulu-tool-fs'
-import * as WorkspaceContext from '@worldapptechnologies/nulu-agent-instructions'
-import LocalJobRegistry from '@worldapptechnologies/nulu-jobs-local'
-import * as ToolTasks from '@worldapptechnologies/nulu-tool-jobs'
-import CordisHostRunner from '@worldapptechnologies/nulu-cordis-host-runner'
-import * as ToolCordis from '@worldapptechnologies/nulu-tool-cordis'
+import AgentLoop from '@deepseek-ai/dsh-agent-loop'
+import SessionProjectionRegistry from '@deepseek-ai/dsh-session-projection'
+import { LocalBashExecutor } from '@deepseek-ai/dsh-bash-local'
+import * as BashEnvPlugin from '@deepseek-ai/dsh-shell-env'
+import LocalSubprocessRuntime from '@deepseek-ai/dsh-subprocess-local'
+import * as ToolBash from '@deepseek-ai/dsh-tool-bash'
+import * as LlmDeepSeek from '@deepseek-ai/dsh-llm-deepseek'
+import NodeRuntime from '@deepseek-ai/dsh-ptc-runtime-node'
+import Sandbox from '@deepseek-ai/dsh-sandbox-local'
+import SandboxPolicy from '@deepseek-ai/dsh-sandbox-policy'
+import LocalFileSystem from '@deepseek-ai/dsh-fs-local'
+import * as ToolFs from '@deepseek-ai/dsh-tool-fs'
+import * as AgentInstructions from '@deepseek-ai/dsh-agent-instructions'
+import LocalJobRegistry from '@deepseek-ai/dsh-jobs-local'
+import * as ToolJobs from '@deepseek-ai/dsh-tool-jobs'
+import CordisHostRunner from '@deepseek-ai/dsh-cordis-host-runner'
+import * as ToolCordis from '@deepseek-ai/dsh-tool-cordis'
 
 /**
  * With-key PTC mode proof: a real model receives only `run_code`, composes two
@@ -42,7 +44,7 @@ let workdir: string | undefined
 
 afterEach(async () => {
   // Always dispose, even on failure/retry/timeout: agent-loop teardown stops
-  // the loop, the executor kills stray processes, and the code runtime's
+  // the loop, the executor kills stray processes, and the PTC runtime's
   // dispose awaits worker exits.
   await ctx?.fiber.dispose()
   ctx = undefined
@@ -59,12 +61,12 @@ async function ptcModeHarness(cwd: string): Promise<Context> {
   await harness.plugin(ToolRuntime, { mode: 'ptc' })
   await harness.plugin(AgentRegistry)
   await harness.plugin(AgentLoop, { agents: [] })
-  await harness.plugin(LlmGateway)
-  await harness.plugin(LocalSubprocessRuntime)
+  await harness.plugin(LlmDeepSeek)
+  if (harness.get('subprocess') === undefined) await harness.plugin(LocalSubprocessRuntime)
   await harness.plugin(BashEnvPlugin)
   await harness.plugin(LocalBashExecutor, { cwd, timeoutMs: 30_000 })
   await harness.plugin(ToolBash)
-  await harness.plugin(WorkerThreadCodeRuntime, {})
+  await mountRuntime(harness)
   return harness
 }
 
@@ -78,17 +80,17 @@ async function workspacePtcModeHarness(): Promise<Context> {
   await harness.plugin(AgentRegistry)
   await harness.plugin(LocalFileSystem, { cwd: '/' })
   await harness.plugin(ToolFs)
-  await harness.plugin(WorkspaceContext, { maxBytes: 65536 })
+  await harness.plugin(AgentInstructions, { maxBytes: 65536 })
   await harness.plugin(AgentLoop, { agents: [] })
-  await harness.plugin(LlmGateway, { models: [{ id: 'nulu-5' }] })
-  await harness.plugin(WorkerThreadCodeRuntime, {})
+  await harness.plugin(LlmDeepSeek, { models: [{ id: 'deepseek-v4-flash' }] })
+  await mountRuntime(harness)
   return harness
 }
 
 let keylessCall = 0
 const testToolSignal = new AbortController().signal
 
-/** Execute one outer PTC mode call through the real registry and worker. */
+/** Execute one outer PTC mode call through the real registry and Node process. */
 function runCode(
   harness: Context,
   code: string,
@@ -114,28 +116,39 @@ function completion(result: ToolExecutionResult): unknown {
   return value.result
 }
 
-/** Keyless real-worker harness for direct typed-binding acceptance tests. */
+async function mountRuntime(harness: Context): Promise<void> {
+  onTestFinished(async () => { await harness.fiber.dispose() })
+  if (!harness.get('sessions')) await harness.plugin(SessionStore)
+  if (!harness.get('fs')) await harness.plugin(LocalFileSystem)
+  if (!harness.get('subprocess')) await harness.plugin(LocalSubprocessRuntime)
+  if (!harness.get('sandbox')) await harness.plugin(Sandbox, {})
+  if (!harness.get('sessionProjections')) await harness.plugin(SessionProjectionRegistry)
+  if (!harness.get('sandboxPolicy')) await harness.plugin(SandboxPolicy, { mode: 'danger-full-access' })
+  await harness.plugin(NodeRuntime, {})
+}
+
+/** Keyless real-process harness for direct typed-binding acceptance tests. */
 async function typedPtcModeHarness(): Promise<Context> {
   const harness = new Context()
   await harness.plugin(SystemPrompt)
   await harness.plugin(ToolRuntime, { mode: 'ptc' })
-  await harness.plugin(WorkerThreadCodeRuntime, {})
+  await mountRuntime(harness)
   return harness
 }
 
-/** Keyless real-worker harness with the task-owned bash lifecycle. */
+/** Keyless real-process harness with the task-owned bash lifecycle. */
 async function backgroundPtcModeHarness(cwd: string): Promise<Context> {
   const harness = await typedPtcModeHarness()
   await harness.plugin(LocalJobRegistry)
-  await harness.plugin(ToolTasks, {})
-  await harness.plugin(LocalSubprocessRuntime)
+  await harness.plugin(ToolJobs, {})
+  if (harness.get('subprocess') === undefined) await harness.plugin(LocalSubprocessRuntime)
   await harness.plugin(BashEnvPlugin)
   await harness.plugin(LocalBashExecutor, { cwd, timeoutMs: 30_000 })
   await harness.plugin(ToolBash)
   return harness
 }
 
-describe('PTC mode typed values: keyless real-worker contracts', () => {
+describe('PTC mode typed values: keyless real-process contracts', () => {
   it('crosses a large intermediate value intact and exposes only typed tool failure fields', async () => {
     ctx = await typedPtcModeHarness()
     ctx.tools.register(defineTool({
@@ -270,7 +283,7 @@ describe('PTC mode typed values: keyless real-worker contracts', () => {
     await ctx.plugin(ToolCordis)
     const agent = {
       id: SessionId('ptc-cordis'),
-      session: { append: vi.fn() },
+      session: ctx.sessions.create(SessionId('ptc-cordis'), { meta: { cwd: process.cwd() } }),
     } as unknown as Agent
 
     const value = completion(await runCode(ctx, `

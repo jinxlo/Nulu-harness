@@ -1,15 +1,16 @@
 /** Producer-to-UI regression for shell results bounded by the real spill policy. */
-import { Context } from '@worldapptechnologies/cordis'
-import type { Agent } from '@worldapptechnologies/nulu-agent'
-import type { ToolResultNode } from '@worldapptechnologies/nulu-client-ui-chat/client'
-import { WorkerThreadCodeRuntime } from '@worldapptechnologies/nulu-code-runtime-worker-thread'
-import { ToolCallId } from '@worldapptechnologies/nulu-llm'
-import { Session, SessionId } from '@worldapptechnologies/nulu-session'
-import { SpillLocator, SpillStore, type SaveTextSpill, type SpillRef } from '@worldapptechnologies/nulu-spill'
-import * as SpillPolicy from '@worldapptechnologies/nulu-spill-policy'
-import { formatSpillNotice } from '@worldapptechnologies/nulu-spill-policy/notice'
-import SystemPrompt from '@worldapptechnologies/nulu-system-prompt'
-import ToolRuntime, { defineContentToolFixture } from '@worldapptechnologies/nulu-tools'
+import { Context } from '@deepseek-ai/cordis'
+import type { Agent } from '@deepseek-ai/dsh-agent'
+import type { ToolResultNode } from '@deepseek-ai/dsh-client-ui-chat/client'
+import { PtcRuntime } from '@deepseek-ai/dsh-ptc-runtime'
+import type { PtcRunRequest, PtcRunSpec, PtcRunResult } from '@deepseek-ai/dsh-ptc-runtime'
+import { ToolCallId } from '@deepseek-ai/dsh-llm'
+import { Session, SessionId } from '@deepseek-ai/dsh-session'
+import { SpillLocator, SpillStore, type SaveTextSpill, type SpillRef } from '@deepseek-ai/dsh-spill'
+import * as SpillPolicy from '@deepseek-ai/dsh-spill-policy'
+import { formatSpillNotice } from '@deepseek-ai/dsh-spill-policy/notice'
+import SystemPrompt from '@deepseek-ai/dsh-system-prompt'
+import ToolRuntime, { defineContentToolFixture } from '@deepseek-ai/dsh-tools'
 import { describe, expect, it } from 'vitest'
 import { isSpilledShellCall, terminalCardModel } from '../src/client/tool/models/terminal-card-model.ts'
 
@@ -40,7 +41,24 @@ async function executeShell(text: string, nested: boolean, name = 'bash', maxInl
     await ctx.plugin(ToolRuntime, { mode: 'both' })
     await ctx.plugin(MemorySpillStore)
     await ctx.plugin(SpillPolicy, { maxInlineBytes })
-    if (nested) await ctx.plugin(WorkerThreadCodeRuntime, {})
+    if (nested) {
+      // The real registry and spill policy own nested output; evaluator execution has its own process suite.
+      class BindingRuntime extends PtcRuntime {
+        readonly language = 'typescript'
+        readonly isolation = 'fixture'
+        resolve(request: PtcRunRequest): PtcRunSpec {
+          return { ...request, cwd: process.cwd(), timeoutMs: 120_000 }
+        }
+        async run(spec: PtcRunSpec): Promise<PtcRunResult> {
+          const tool = spec.bindings.find(binding => binding.global === 'tools')?.functions[name]
+          if (tool === undefined) throw new Error('missing fixture binding')
+          const blocks = await tool(shellArgs)
+          expect(blocks).toEqual([{ type: 'text', text }])
+          return { logs: [], value: true }
+        }
+      }
+      await ctx.plugin(BindingRuntime)
+    }
     ctx.effect(() => ctx.tools.register(defineContentToolFixture({
       name,
       description: 'Return deterministic shell text without spawning a process.',

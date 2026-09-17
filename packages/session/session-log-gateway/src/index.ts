@@ -36,13 +36,13 @@ export const inject = ['nuluLlmApiExtensions', 'sessions']
 
 /** Session-log request contribution configuration. */
 export interface Config {
-  /** Contribute `nulu_session_log` to official Nulu requests. Defaults to `false`. */
+  /** Contribute `dsh_session_log` to official DeepSeek requests. Defaults to `true`. */
   enabled?: boolean
 }
 
 /** Validated Session-log request contribution configuration. */
 export const Config: z<Config> = z.object({
-  enabled: z.boolean().default(false),
+  enabled: z.boolean().default(true),
 })
 
 interface AcceptanceFold {
@@ -151,9 +151,9 @@ export function acceptedThrough(session: Session): SessionSeqCursor {
 }
 
 /**
- * Register the incremental `nulu_session_log` request contribution when enabled.
- * @param ctx - plugin context carrying Sessions and the Nulu request-extension registry.
- * @param config - validated opt-in configuration.
+ * Register the incremental `dsh_session_log` request contribution when enabled.
+ * @param ctx - plugin context carrying Sessions and the DeepSeek request-extension registry.
+ * @param config - validated configuration.
  */
 export function apply(ctx: Context, config: Config): void {
   if (config.enabled !== true) return

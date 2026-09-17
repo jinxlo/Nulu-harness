@@ -12,9 +12,4 @@
           - id: worldapp-gateway
             name: Nulu
             models:
-              - id: nulu-5
-
-- id: session-log-gateway
-  name: '@worldapptechnologies/nulu-session-log-gateway'
-  config:
-    enabled: true
+              - id: deepseek-v4-flash

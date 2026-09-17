@@ -28,11 +28,6 @@
     enableRunInBackground: false
     maxDepth: 1
 
-- id: session-log-gateway
-  name: '@worldapptechnologies/nulu-session-log-gateway'
-  config:
-    enabled: true
-
 - insert:
     - id: snapshot-message-feedback
       name: '@worldapptechnologies/nulu-message-feedback'

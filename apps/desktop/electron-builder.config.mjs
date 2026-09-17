@@ -65,37 +65,35 @@ export function createElectronBuilderConfig(
       'lib/*.cjs',
       'renderer/**/*',
       'package.json',
+      { from: buildPaths.dsh, to: 'dsh', filter: ['**/*'] },
+      // electron-builder excludes a source directory's root node_modules.
+      { from: join(buildPaths.dsh, 'node_modules'), to: 'dsh/node_modules', filter: ['**/*'] },
+    ],
+    asarUnpack: [
+      '**/*.{node,dylib,dll,so,exe}',
+      '**/*.so.*',
+      '**/spawn-helper',
+      '**/@vscode/ripgrep/bin/rg',
     ],
     extraResources: [
       { from: buildPaths.runtime, to: 'runtime' },
-      { from: buildPaths.nulu, to: 'nulu' },
-      // electron-builder excludes a source directory's root node_modules.
-      { from: join(buildPaths.nulu, 'node_modules'), to: 'nulu/node_modules' },
     ],
     mac: {
       category: 'public.app-category.developer-tools',
       identity: unsigned ? null : macOSSigning?.signingIdentity,
       forceCodeSigning: !unsigned,
       hardenedRuntime: true,
-      // Native runtime files are pre-signed; PAK resources are sealed by their enclosing bundle.
-      signIgnore: ['/Contents/Resources/nulu(?:/|$)', '\\.pak$'],
-      notarize: !unsigned,
+      // ASAR-unpacked native runtime files are pre-signed; PAK resources are sealed by their enclosing bundle.
+      signIgnore: ['/Contents/Resources/app\\.asar\\.unpacked/dsh(?:/|$)', '\\.pak$'],
+      notarize: true,
       target: ['dmg', 'zip'],
     },
     dmg: {
       sign: true,
       writeUpdateInfo: false,
     },
-    afterPack: async context => {
-      const { verifyDesktopRuntime } = await import('./lib/types/runtime-tree.js')
-      await verifyDesktopRuntime(join(context.packager.getResourcesDir(context.appOutDir), 'nulu'),
-        context.packager.appInfo.version, { platform: resolvedPlatform, arch: resolvedArch })
-    },
     afterSign: async context => {
-      if (unsigned || context.electronPlatformName !== 'darwin') return
-      const { verifyDesktopRuntime } = await import('./lib/types/runtime-tree.js')
-      await verifyDesktopRuntime(join(context.appOutDir, `${context.packager.appInfo.productFilename}.app`, 'Contents', 'Resources', 'nulu'),
-        context.packager.appInfo.version, { platform: 'darwin', arch: resolvedArch })
+      if (context.electronPlatformName !== 'darwin') return
       verifyMacOSSignatureAfterSign(context, macOSSigning ?? resolveMacOSSigningEnvironment(env))
     },
     artifactBuildCompleted: artifact => {

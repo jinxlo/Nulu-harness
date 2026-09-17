@@ -8,66 +8,70 @@
 
 import { globSync, readFileSync, writeFileSync } from 'node:fs'
 import { basename, resolve } from 'node:path'
-import { Context } from '@worldapptechnologies/cordis'
-import LlmRuntime from '@worldapptechnologies/nulu-llm'
-import type { ToolSchema } from '@worldapptechnologies/nulu-llm'
-import AgentRegistry from '@worldapptechnologies/nulu-agent'
-import type { Agent } from '@worldapptechnologies/nulu-agent'
-import { createScope } from '@worldapptechnologies/nulu-scope'
-import SessionStore, { SessionId } from '@worldapptechnologies/nulu-session'
-import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projection'
-import SqliteSessionQueryEngine from '@worldapptechnologies/nulu-session-query-sqlite'
-import GoalService from '@worldapptechnologies/nulu-goal'
-import SystemPrompt from '@worldapptechnologies/nulu-system-prompt'
-import ToolRuntime, { type Config as ToolsConfig } from '@worldapptechnologies/nulu-tools'
-import LocalBashExecutor from '@worldapptechnologies/nulu-bash-local'
-import * as BashEnvPlugin from '@worldapptechnologies/nulu-shell-env'
-import { PwshLocalExecutor } from '@worldapptechnologies/nulu-pwsh-local'
-import LocalSubprocessRuntime from '@worldapptechnologies/nulu-subprocess-local'
-import LocalFileSystem from '@worldapptechnologies/nulu-fs-local'
-import { AttachmentStore } from '@worldapptechnologies/nulu-attachment'
-import type { ImageAttachmentLimits, ImageAttachmentRef, SaveImageAttachment, StoredImageAttachment } from '@worldapptechnologies/nulu-attachment'
-import UserQuestionService from '@worldapptechnologies/nulu-user-questions'
-import PlanModeController from '@worldapptechnologies/nulu-plan-mode'
-import WebRuntime from '@worldapptechnologies/nulu-web'
-import * as WebSearchExa from '@worldapptechnologies/nulu-web-search-exa'
-import * as WebFetchLocal from '@worldapptechnologies/nulu-web-fetch-http'
-import SubagentRuntime from '@worldapptechnologies/nulu-subagent'
-import type { SubagentProvider } from '@worldapptechnologies/nulu-subagent'
-import * as ToolSubagentControl from '@worldapptechnologies/nulu-tool-subagent-control'
-import * as ToolSubagentListAgents from '@worldapptechnologies/nulu-tool-subagent-control/list-agents'
-import SkillRegistry from '@worldapptechnologies/nulu-skill'
-import * as SkillFileSystem from '@worldapptechnologies/nulu-skill-filesystem'
-import LocalJobRegistry from '@worldapptechnologies/nulu-jobs-local'
-import * as ToolAskUser from '@worldapptechnologies/nulu-tool-ask-user'
-import * as ToolBash from '@worldapptechnologies/nulu-tool-bash'
-import * as ToolPwsh from '@worldapptechnologies/nulu-tool-pwsh'
-import * as ToolBashPersistent from '@worldapptechnologies/nulu-tool-bash-persistent'
-import * as ToolPwshPersistent from '@worldapptechnologies/nulu-tool-pwsh-persistent'
-import CordisHostRunner from '@worldapptechnologies/nulu-cordis-host-runner'
-import * as ToolCordis from '@worldapptechnologies/nulu-tool-cordis'
-import * as ToolPresent from '@worldapptechnologies/nulu-tool-present'
-import * as ToolFs from '@worldapptechnologies/nulu-tool-fs'
-import * as ToolFsSearch from '@worldapptechnologies/nulu-tool-fs-search'
-import * as ToolStrReplaceEditor from '@worldapptechnologies/nulu-tool-str-replace-editor'
-import TerminalSessionService from '@worldapptechnologies/nulu-terminal'
-import * as ToolPty from '@worldapptechnologies/nulu-tool-terminal'
-import * as ToolGoal from '@worldapptechnologies/nulu-tool-goal'
-import * as ToolSchedule from '@worldapptechnologies/nulu-schedule'
-import Lsp from '@worldapptechnologies/nulu-lsp'
-import * as ToolLsp from '@worldapptechnologies/nulu-tool-lsp'
-import * as ToolSkill from '@worldapptechnologies/nulu-tool-skill'
-import * as ToolSessionQuery from '@worldapptechnologies/nulu-tool-session-query'
-import * as ToolTasks from '@worldapptechnologies/nulu-tool-jobs'
-import type TeamService from '@worldapptechnologies/nulu-experimental-agent-team'
-import * as ToolTeam from '@worldapptechnologies/nulu-experimental-tool-agent-team'
-import * as ToolTodo from '@worldapptechnologies/nulu-tool-todo'
-import * as ToolSubagent from '@worldapptechnologies/nulu-tool-subagent'
+import { Context } from '@deepseek-ai/cordis'
+import LlmRuntime from '@deepseek-ai/dsh-llm'
+import type { ToolSchema } from '@deepseek-ai/dsh-llm'
+import AgentRegistry from '@deepseek-ai/dsh-agent'
+import type { Agent } from '@deepseek-ai/dsh-agent'
+import { createScope } from '@deepseek-ai/dsh-scope'
+import SessionStore, { SessionId } from '@deepseek-ai/dsh-session'
+import SessionProjectionRegistry from '@deepseek-ai/dsh-session-projection'
+import SqliteSessionQueryEngine from '@deepseek-ai/dsh-session-query-sqlite'
+import GoalService from '@deepseek-ai/dsh-goal'
+import SystemPrompt from '@deepseek-ai/dsh-system-prompt'
+import ToolRuntime, { type Config as ToolsConfig } from '@deepseek-ai/dsh-tools'
+import LocalBashExecutor from '@deepseek-ai/dsh-bash-local'
+import * as BashEnvPlugin from '@deepseek-ai/dsh-shell-env'
+import { PwshLocalExecutor } from '@deepseek-ai/dsh-pwsh-local'
+import LocalSubprocessRuntime from '@deepseek-ai/dsh-subprocess-local'
+import LocalFileSystem from '@deepseek-ai/dsh-fs-local'
+import { AttachmentStore } from '@deepseek-ai/dsh-attachment'
+import type { ImageAttachmentLimits, ImageAttachmentRef, SaveImageAttachment, StoredImageAttachment } from '@deepseek-ai/dsh-attachment'
+import UserQuestionService from '@deepseek-ai/dsh-user-questions'
+import PlanModeController from '@deepseek-ai/dsh-plan-mode'
+import WebRuntime from '@deepseek-ai/dsh-web'
+import * as WebSearchExa from '@deepseek-ai/dsh-web-search-exa'
+import * as WebFetchLocal from '@deepseek-ai/dsh-web-fetch-http'
+import SubagentRuntime from '@deepseek-ai/dsh-subagent'
+import type { SubagentProvider } from '@deepseek-ai/dsh-subagent'
+import * as ToolSubagentControl from '@deepseek-ai/dsh-tool-subagent-control'
+import * as ToolSubagentListAgents from '@deepseek-ai/dsh-tool-subagent-control/list-agents'
+import SkillRegistry from '@deepseek-ai/dsh-skill'
+import * as SkillFileSystem from '@deepseek-ai/dsh-skill-filesystem'
+import LocalJobRegistry from '@deepseek-ai/dsh-jobs-local'
+import * as ToolAskUser from '@deepseek-ai/dsh-tool-ask-user'
+import * as ToolBash from '@deepseek-ai/dsh-tool-bash'
+import * as ToolPwsh from '@deepseek-ai/dsh-tool-pwsh'
+import * as ToolBashPersistent from '@deepseek-ai/dsh-tool-bash-persistent'
+import * as ToolPwshPersistent from '@deepseek-ai/dsh-tool-pwsh-persistent'
+import CordisHostRunner from '@deepseek-ai/dsh-cordis-host-runner'
+import * as ToolCordis from '@deepseek-ai/dsh-tool-cordis'
+import * as ToolPresent from '@deepseek-ai/dsh-tool-present'
+import * as ToolFs from '@deepseek-ai/dsh-tool-fs'
+import * as ToolFsSearch from '@deepseek-ai/dsh-tool-fs-search'
+import * as ToolStrReplaceEditor from '@deepseek-ai/dsh-tool-str-replace-editor'
+import TerminalSessionService from '@deepseek-ai/dsh-terminal'
+import * as ToolPty from '@deepseek-ai/dsh-tool-terminal'
+import * as ToolGoal from '@deepseek-ai/dsh-tool-goal'
+import * as ToolSchedule from '@deepseek-ai/dsh-schedule'
+import Lsp from '@deepseek-ai/dsh-lsp'
+import * as ToolLsp from '@deepseek-ai/dsh-tool-lsp'
+import * as ToolSkill from '@deepseek-ai/dsh-tool-skill'
+import * as ToolSessionQuery from '@deepseek-ai/dsh-tool-session-query'
+import * as ToolJobs from '@deepseek-ai/dsh-tool-jobs'
+import BrowserUseRegistry from '@deepseek-ai/dsh-browser-use'
+import * as StagehandBrowserTools from '@deepseek-ai/dsh-experimental-browser-use-stagehand-native'
+import type TeamService from '@deepseek-ai/dsh-experimental-agent-team'
+import * as ToolTeam from '@deepseek-ai/dsh-experimental-tool-agent-team'
+import * as ToolTodo from '@deepseek-ai/dsh-tool-todo'
+import McpResources from '@deepseek-ai/dsh-mcp-resources'
+import * as ToolSubagent from '@deepseek-ai/dsh-tool-subagent'
 import { registerListSubagentModels } from '../packages/subagent/tool-subagent/src/list-models.ts'
-import * as ToolWeb from '@worldapptechnologies/nulu-tool-web'
-import VmWorkflowEngine from '@worldapptechnologies/nulu-workflow-worker-thread'
-import * as ToolRalph from '@worldapptechnologies/nulu-tool-ralph'
-import * as ToolWorkflow from '@worldapptechnologies/nulu-tool-workflow'
+import * as ToolWeb from '@deepseek-ai/dsh-tool-web'
+import WorkflowEngine from '@deepseek-ai/dsh-workflow'
+import type { WorkflowRun, WorkflowStartRequest } from '@deepseek-ai/dsh-workflow'
+import * as ToolRalph from '@deepseek-ai/dsh-tool-ralph'
+import * as ToolWorkflow from '@deepseek-ai/dsh-tool-workflow'
 import { githubSlug } from './verify-md-links.ts'
 
 /** Attachment seam marker that makes the attachments-conditional `read_image` schema harvestable. */
@@ -96,6 +100,13 @@ class CatalogAttachmentStore extends AttachmentStore {
 
 const root = resolve(import.meta.dirname, '..')
 const OUT = 'docs/tool-catalog.md'
+
+/** Workflow tools expose their schemas without executing a program. */
+class CatalogWorkflowEngine extends WorkflowEngine {
+  start(_request: WorkflowStartRequest): WorkflowRun {
+    throw new Error('gen-tool-catalog: workflow execution is unavailable during schema harvest')
+  }
+}
 
 /**
  * Register the descriptor needed to mount schema-producing consumers. Declares
@@ -189,7 +200,34 @@ export interface ToolPackage {
  */
 const TOOL_PACKAGES: ToolPackage[] = [
   {
-    pkg: '@worldapptechnologies/nulu-tool-ask-user',
+    pkg: '@deepseek-ai/dsh-mcp-resources',
+    dir: 'mcp-resources',
+    source: 'packages/mcp/mcp-resources/src/tools.ts',
+    requires: ['ctx.tools', 'ctx.mcpResources'],
+    writes: ['tool/call', 'tool/result'],
+    async mount(ctx) {
+      await ctx.plugin(McpResources)
+      ctx.mcpResources.register('catalog', {
+        request: () => Promise.reject(new Error('gen-tool-catalog: MCP requests are unreachable during schema harvest')),
+      })
+    },
+  },
+  {
+    pkg: '@deepseek-ai/dsh-experimental-browser-use-stagehand-native',
+    dir: 'browser-use-stagehand-native',
+    source: 'packages/experimental/browser-use-stagehand-native/src/index.ts',
+    requires: ['ctx.browserUse', 'ctx.agents', 'ctx.tools', 'ctx.systemPrompt'],
+    writes: ['tool/call', 'tool/result'],
+    async mount(ctx) {
+      await ctx.plugin(BrowserUseRegistry)
+      await ctx.plugin(AgentRegistry)
+      await ctx.plugin(StagehandBrowserTools, {
+        mode: 'launch', model: { modelName: 'openai/gpt-5.4-mini', apiKey: 'catalog-placeholder' },
+      })
+    },
+  },
+  {
+    pkg: '@deepseek-ai/dsh-tool-ask-user',
     dir: 'tool-ask-user',
     source: 'packages/interaction/tool-ask-user/src/index.ts',
     requires: ['ctx.tools', 'ctx.userQuestions'],
@@ -205,10 +243,10 @@ const TOOL_PACKAGES: ToolPackage[] = [
     pkg: '@worldapptechnologies/nulu-tools',
     dir: 'tools',
     source: 'packages/core/tools/src/ptc.ts',
-    requires: ['ctx.tools', 'ctx.codeRuntime (execution time)', 'ctx.systemPrompt'],
+    requires: ['ctx.tools', 'ctx.ptcRuntime (execution time)', 'ctx.systemPrompt'],
     writes: ['tool/call', 'one tool/ptc-dispatch-start + tool/ptc-dispatch pair per bridged sub-call', 'tool/result'],
     // The registry's OWN tool: run_code exists only under a non-native mode
-    // (the registry registers it in its constructor; the code runtime is read
+    // (the registry registers it in its constructor; the PTC runtime is read
     // at assembly/execution time, so the schema harvest needs none mounted).
     toolsConfig: { mode: 'ptc' },
     async mount() {},
@@ -430,7 +468,7 @@ const TOOL_PACKAGES: ToolPackage[] = [
     async mount(ctx) {
       await ctx.plugin(SubagentRuntime)
       registerCatalogSubagentProvider(ctx, 'mock')
-      await ctx.plugin(VmWorkflowEngine, { provider: 'mock' })
+      await ctx.plugin(CatalogWorkflowEngine)
       await ctx.plugin(ToolRalph, { subagentProvider: 'mock' })
     },
     note:
@@ -515,7 +553,7 @@ const TOOL_PACKAGES: ToolPackage[] = [
     writes: ['tool/call', 'tool/result', 'user/message via agent.inject() for background completion notices'],
     async mount(ctx) {
       await ctx.plugin(LocalJobRegistry)
-      await ctx.plugin(ToolTasks)
+      await ctx.plugin(ToolJobs)
     },
     note:
       'The kind-agnostic background-job controller: background bash commands, PTY sends, and subagents are read, listed, and killed through the same three tools. Loading the plugin attaches the controller that arms producers\' `ctx.jobs.start()`.',
@@ -541,7 +579,7 @@ const TOOL_PACKAGES: ToolPackage[] = [
         tryMembership: (candidate: Agent) => candidate === agent ? membership : undefined,
         membership: () => membership,
       } as unknown as TeamService)
-      await ctx.plugin(Object.assign((inner: Context) => {
+      await ctx.plugin(Object.assign(async (inner: Context) => {
         agent = {
           id: session.id,
           session,
@@ -549,7 +587,7 @@ const TOOL_PACKAGES: ToolPackage[] = [
           status: 'idle',
         } as unknown as Agent
         Object.assign(agent, { ctx: createScope(inner, agent).ctx })
-        inner.agents.register(agent)
+        await inner.agents.register(agent)
       }, { inject: ['tools', 'systemPrompt', 'agents', 'agentTeams'] }))
       await ctx.plugin(ToolTeam)
       catalogChildScopes.set(ctx, agent)
@@ -577,12 +615,9 @@ const TOOL_PACKAGES: ToolPackage[] = [
     requires: ['ctx.tools', 'ctx.workflowEngine', 'ctx.systemPrompt', 'a calling Agent (exec.agent parents the script children)'],
     writes: ['tool/call', 'tool/result'],
     async mount(ctx) {
-      // The tool injects `workflows`; boot the vm engine over a scripted
-      // subagent provider to satisfy it. The schema does not depend on which
-      // provider backs the engine.
       await ctx.plugin(SubagentRuntime)
       registerCatalogSubagentProvider(ctx, 'mock')
-      await ctx.plugin(VmWorkflowEngine, { provider: 'mock' })
+      await ctx.plugin(CatalogWorkflowEngine)
       await ctx.plugin(ToolWorkflow)
     },
   },

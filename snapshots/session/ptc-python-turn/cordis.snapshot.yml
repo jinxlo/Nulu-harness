@@ -1,6 +1,6 @@
-# Keyless private Python PTC composition through the real headless Loader.
-- id: llm-gateway
-  name: '@worldapptechnologies/nulu-llm-gateway'
+# Keyless Python PTC composition through the real headless Loader.
+- id: llm-deepseek
+  name: '@deepseek-ai/dsh-llm-deepseek'
   disabled: true
 
 - id: plugin-package-inventory
@@ -28,12 +28,18 @@
   config:
     mode: ptc
 
-- id: code-runtime
+- id: ptc-runtime
+  disabled: true
+
+- id: workflow-ptc
+  disabled: true
+
+- id: tool-workflow
   disabled: true
 
 - insert:
-    - id: code-runtime-python
-      name: '@worldapptechnologies/nulu-experimental-code-runtime-python'
+    - id: ptc-runtime-python
+      name: '@deepseek-ai/dsh-experimental-ptc-runtime-python'
 
 - id: system-prompt
   name: '@worldapptechnologies/nulu-system-prompt'

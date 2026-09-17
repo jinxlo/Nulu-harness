@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { LlmError } from '@worldapptechnologies/nulu-llm'
-import { DONE, parseSse } from '../src/sse.ts'
+import { LlmError } from '@deepseek-ai/dsh-llm'
+import { DONE, parseSse } from '../src/protocols/chat-completions/sse.ts'
 
 /**
  * Nulu protocol contract only: the [DONE] sentinel and STREAM_CLOSED on

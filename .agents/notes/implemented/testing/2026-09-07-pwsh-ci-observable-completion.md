@@ -5,9 +5,9 @@ Status: implemented
 
 ## Problem
 
-The [hosted coverage job](https://github.com/nulu-harness/nulu-harness/actions/runs/34033367752/job/101605386802) rejects a persistent PowerShell send because it returns `inferred_idle` rather than `stdin_read`. Output silence is a supported bounded inference, not proof that a command finished. The real-shell test also searches output for text present in the echoed command, which cannot independently prove execution.
+The hosted coverage job (run 34033367752, job 101605386802) rejects a persistent PowerShell send because it returns `inferred_idle` rather than `stdin_read`. Output silence is a supported bounded inference, not proof that a command finished. The real-shell test also searches output for text present in the echoed command, which cannot independently prove execution.
 
-The [snapshot job](https://github.com/nulu-harness/nulu-harness/actions/runs/34033367752/job/101605386868) rejects both PowerShell scenarios despite successful `PWSH_OK` output. Their fixtures omit the headless profile’s policy events and runtime-context message; their prompt and tool-schema pins also describe an older, smaller composition. Hosts without PowerShell skip these cases and cannot detect that drift.
+The snapshot job (run 34033367752, job 101605386868) rejects both PowerShell scenarios despite successful `PWSH_OK` output. Their fixtures omit the headless profile’s policy events and runtime-context message; their prompt and tool-schema pins also describe an older, smaller composition. Hosts without PowerShell skip these cases and cannot detect that drift.
 
 ## Decision
 

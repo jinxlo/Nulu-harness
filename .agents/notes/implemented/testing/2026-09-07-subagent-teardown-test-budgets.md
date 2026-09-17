@@ -5,7 +5,7 @@ Status: implemented
 
 ## Problem
 
-The [Windows coverage run](https://github.com/nulu-harness/nulu-harness/actions/runs/34085536250/job/101628739668) reports two teardown failures despite granting tests and hooks 90 seconds. The ACP ignored-EOF test races disposal against its own five-second timer. The real Codex test overrides the hook budget with 30 seconds. Neither deadline tests a product latency guarantee. The Codex body has already observed process-tree exit before its hook fails; the log does not identify whether context disposal, HTTP closure, or temporary-directory removal exceeded the hook budget.
+The Windows coverage run (run 34085536250, job 101628739668) reports two teardown failures despite granting tests and hooks 90 seconds. The ACP ignored-EOF test races disposal against its own five-second timer. The real Codex test overrides the hook budget with 30 seconds. Neither deadline tests a product latency guarantee. The Codex body has already observed process-tree exit before its hook fails; the log does not identify whether context disposal, HTTP closure, or temporary-directory removal exceeded the hook budget.
 
 ## Decision
 

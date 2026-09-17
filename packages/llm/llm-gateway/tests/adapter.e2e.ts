@@ -14,19 +14,19 @@ import LocalAttachments from '@worldapptechnologies/nulu-attachment-local'
 import type {
   ImageAttachmentLimits,
   ImageAttachmentRef,
-  ImageRequestPolicy,
+  ImageRequestTarget,
   RequestImageAttachment,
   SaveImageAttachment,
   StoredImageAttachment,
-} from '@worldapptechnologies/nulu-attachment'
-import { LocalCredentialProvider } from '@worldapptechnologies/nulu-credentials-local'
-import SessionStore, { SessionId } from '@worldapptechnologies/nulu-session'
-import NuluLlmApiExtensionRegistry from '@worldapptechnologies/nulu-llm-api-extensions'
-import * as PluginPackageInventoryGateway from '@worldapptechnologies/nulu-plugin-package-inventory'
-import * as SessionLogGateway from '@worldapptechnologies/nulu-session-log-gateway'
-import * as LlmGateway from '@worldapptechnologies/nulu-llm-gateway'
-import type { Config } from '@worldapptechnologies/nulu-llm-gateway'
-import type { WireMessage, WireRequest } from '../src/types.ts'
+} from '@deepseek-ai/dsh-attachment'
+import { LocalCredentialProvider } from '@deepseek-ai/dsh-credentials-local'
+import SessionStore, { SessionId } from '@deepseek-ai/dsh-session'
+import DeepSeekLlmApiExtensionRegistry from '@deepseek-ai/dsh-deepseek-llm-api-extensions'
+import * as PluginPackageInventoryDeepSeek from '@deepseek-ai/dsh-plugin-package-inventory-deepseek'
+import * as SessionLogDeepSeek from '@deepseek-ai/dsh-session-log-deepseek'
+import * as LlmDeepSeek from '@deepseek-ai/dsh-llm-deepseek'
+import type { Config } from '@deepseek-ai/dsh-llm-deepseek'
+import type { WireMessage, WireRequest } from '../src/protocols/chat-completions/types.ts'
 import { assemble, type AssembledResult } from './assemble.ts'
 
 /**
@@ -92,7 +92,7 @@ class E2eAttachmentStore extends AttachmentStore {
 
   override readImageRequest(
     _ref: ImageAttachmentRef,
-    _policy: ImageRequestPolicy,
+    _target: ImageRequestTarget,
     _signal?: AbortSignal,
   ): Promise<RequestImageAttachment> {
     return Promise.resolve(this.version)
@@ -109,7 +109,9 @@ async function harness(model: string, config: Partial<Config> = {}) {
   contexts.push(ctx)
   await ctx.plugin(LlmRuntime)
   await ctx.plugin(E2eAttachmentStore)
-  await ctx.plugin(LlmGateway, {
+  await ctx.plugin(LlmDeepSeek, {
+    protocol: 'chat-completions',
+    baseURL: LlmDeepSeek.PUBLIC_BASE_URL,
     ...model === VISION ? { models: [{ id: VISION, inputModalities: ['text', 'image'] }] } : {},
     ...config,
   })
@@ -153,9 +155,9 @@ describe.skipIf(!process.env.WORLD_APP_TECHNOLOGIES_API_KEY)('llm-gateway e2e (r
     contexts.push(ctx)
     await ctx.plugin(LlmRuntime)
     await ctx.plugin(LocalAttachments)
-    await ctx.plugin(LlmGateway, { maxTokens: 4096 })
-    const model = 'nulu-5'
-    await expect(ctx.llm.resolveModelInfo('worldapp-gateway', model)).resolves.toMatchObject({
+    await ctx.plugin(LlmDeepSeek, { protocol: 'chat-completions', baseURL: LlmDeepSeek.PUBLIC_BASE_URL, maxTokens: 4096 })
+    const model = 'deepseek-flash'
+    await expect(ctx.llm.resolveModelInfo('deepseek-official', model)).resolves.toMatchObject({
       inputModalities: ['text', 'image'], systemPromptUpdate: 'in-history',
     })
     const attachment = await ctx.attachments.saveImage({ data: readFileSync(new URL('fixtures/red.png', import.meta.url)), mediaType: 'image/png' })
@@ -178,9 +180,9 @@ describe.skipIf(!process.env.WORLD_APP_TECHNOLOGIES_API_KEY)('llm-gateway e2e (r
   })
 
   it.skipIf(!VISION_E2E_ENABLED)('uses the built-in official route to upload, reference, and delete one image', async () => {
-    const key = process.env.WORLD_APP_TECHNOLOGIES_API_KEY
-    if (key === undefined) throw new Error('e2e ran without WORLD_APP_TECHNOLOGIES_API_KEY')
-    const baseURL = process.env.WORLD_APP_TECHNOLOGIES_BASE_URL ?? LlmGateway.PUBLIC_BASE_URL
+    const key = process.env.DEEPSEEK_API_KEY
+    if (key === undefined) throw new Error('e2e ran without DEEPSEEK_API_KEY')
+    const baseURL = LlmDeepSeek.PUBLIC_BASE_URL
     const ctx = await harness(VISION, { baseURL })
     await ctx.plugin(E2eAttachmentStore)
     const attachments = ctx.attachments as E2eAttachmentStore
@@ -197,7 +199,7 @@ describe.skipIf(!process.env.WORLD_APP_TECHNOLOGIES_API_KEY)('llm-gateway e2e (r
       return response
     }
     vi.stubGlobal('fetch', observedFetch)
-    const files = new LlmGateway.NuluFilesClient({ baseURL, apiKey: key })
+    const files = new LlmDeepSeek.DeepSeekFilesClient({ protocol: 'chat-completions', baseURL, apiKey: key })
 
     try {
       const result = await assemble(ctx, {
@@ -229,10 +231,10 @@ describe.skipIf(!process.env.WORLD_APP_TECHNOLOGIES_API_KEY)('llm-gateway e2e (r
     await ctx.plugin(AgentRegistry)
     await ctx.plugin(LlmRuntime)
     await ctx.plugin(SessionStore)
-    await ctx.plugin(NuluLlmApiExtensionRegistry)
-    await ctx.plugin(SessionLogGateway, { enabled: true })
-    await ctx.plugin(PluginPackageInventoryGateway)
-    await ctx.plugin(LlmGateway, { thinking: 'disabled' })
+    await ctx.plugin(DeepSeekLlmApiExtensionRegistry)
+    await ctx.plugin(SessionLogDeepSeek, { enabled: true })
+    await ctx.plugin(PluginPackageInventoryDeepSeek)
+    await ctx.plugin(LlmDeepSeek, { protocol: 'chat-completions', baseURL: LlmDeepSeek.PUBLIC_BASE_URL, thinking: 'disabled' })
     const session = ctx.sessions.create(SessionId('real-extension-fields'))
     session.append('turn/start', { turn: 1 })
 
@@ -262,7 +264,7 @@ describe.skipIf(!process.env.WORLD_APP_TECHNOLOGIES_API_KEY)('llm-gateway e2e (r
       contexts.push(ctx)
       await ctx.plugin(LlmRuntime)
       await ctx.plugin(LocalCredentialProvider, { path: join(dir, '.credentials.yaml'), watch: false })
-      await ctx.plugin(LlmGateway, {})
+      await ctx.plugin(LlmDeepSeek, { protocol: 'chat-completions', baseURL: LlmDeepSeek.PUBLIC_BASE_URL })
 
       const result = await assemble(ctx, {
         model: FLASH,

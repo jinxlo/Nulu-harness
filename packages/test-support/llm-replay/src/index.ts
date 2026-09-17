@@ -31,9 +31,9 @@ import type {
   StreamChunk,
   SystemPromptUpdate,
   TokenUsage,
-} from '@worldapptechnologies/nulu-llm'
-import { LlmAdapter, LlmError, ReasoningEffortId, expandAssistantStream, requestImageHandleText, resolveRetryPolicy } from '@worldapptechnologies/nulu-llm'
-import { assertNever } from '@worldapptechnologies/nulu-util-values'
+} from '@deepseek-ai/dsh-llm'
+import { LlmAdapter, LlmError, ReasoningEffortId, expandAssistantStream, offloadedImageText, requestImageHandleText, resolveRetryPolicy } from '@deepseek-ai/dsh-llm'
+import { assertNever } from '@deepseek-ai/dsh-util-values'
 
 const PACKED_CHUNK_ROW_TYPES = new Set(['text-chunks', 'reasoning-chunks', 'tool-call-chunks'])
 
@@ -879,10 +879,9 @@ class ReplayAdapter extends LlmAdapter {
     const visualTokens = configured?.models?.find(candidate => candidate.id === model)?.imageRequestTokens
     if (visualTokens === undefined) return undefined
     return {
-      priceImages: images => images.map(ref => ({
-        visualTokens,
-        text: requestImageHandleText(ref, { width: ref.width, height: ref.height }),
-      })),
+      priceImages: images => images.map(({ attachment: ref, offloaded }) => (offloaded === true
+        ? { visualTokens: 0, text: offloadedImageText(ref) }
+        : { visualTokens, text: requestImageHandleText(ref, { width: ref.width, height: ref.height }) })),
     }
   }
 

@@ -30,8 +30,8 @@
   "author": "Shigma <shigma10826@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
-    "@worldapptechnologies/cordis": "workspace:^",
-    "node-addon-require-builtin": "^0.1.4"
+    "@deepseek-ai/cordis": "workspace:^",
+    "node-addon-require-builtin": "^0.1.6"
   },
   "peerDependenciesMeta": {
     "node-addon-require-builtin": {

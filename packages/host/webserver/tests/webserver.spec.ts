@@ -12,9 +12,9 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { afterEach, describe, expect, it } from 'vitest'
-import { Context } from '@worldapptechnologies/cordis'
-import Loader from '@worldapptechnologies/cordis-plugin-loader'
-import Include from '@worldapptechnologies/cordis-plugin-include'
+import { Context, FiberState } from '@deepseek-ai/cordis'
+import Loader from '@deepseek-ai/cordis-plugin-loader'
+import Include from '@deepseek-ai/cordis-plugin-include'
 import HttpServer, { renderIndexInjections } from '../src/index.ts'
 
 let root: string | undefined
@@ -363,14 +363,10 @@ describe('real Loader composition', () => {
 
     let second: Context | undefined
     try {
-      let failure: unknown
-      try {
-        await loadComposition(takenPort)
-      } catch (error) {
-        failure = error
-      }
-      second = context
-      expect(String(failure)).toMatch(/failed to apply loader entry.*EADDRINUSE/)
+      second = await loadComposition(takenPort)
+      const entry = [...second.loader.entries()].find(e => e.options.name === '@deepseek-ai/dsh-host-webserver')
+      expect(entry?.fiber?.state).toBe(FiberState.FAILED)
+      await expect(entry?.fiber?.await()).rejects.toThrow('EADDRINUSE')
     } finally {
       await second?.fiber.dispose()
       context = first

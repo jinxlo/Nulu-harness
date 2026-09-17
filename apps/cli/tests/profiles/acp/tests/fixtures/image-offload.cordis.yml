@@ -4,8 +4,9 @@
 - id: llm-gateway
   name: '@worldapptechnologies/nulu-llm-gateway'
   config:
-    apiKeyEnv: NULU_SNAPSHOT_API_KEY
-    baseURL: !!js process.env.NULU_SNAPSHOT_BASE_URL
+    protocol: !!js process.env.DSH_SNAPSHOT_PROTOCOL
+    apiKeyEnv: DSH_SNAPSHOT_API_KEY
+    baseURL: !!js process.env.DSH_SNAPSHOT_BASE_URL
     thinking: disabled
     maxRequestFilesBytes: 92
     imageOffloadByteQuantum: 1

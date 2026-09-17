@@ -1,7 +1,7 @@
 /** Minimal managed-range ownership bound to one ordinary subprocess handle. */
 
-import type { Readable, Writable } from 'node:stream'
-import type { SubprocessOutcome } from '@worldapptechnologies/nulu-subprocess'
+import type { Duplex, Readable, Writable } from 'node:stream'
+import type { SubprocessOutcome } from '@deepseek-ai/dsh-subprocess'
 
 /** Platform owner used by termination and whole-range settlement. */
 export interface BoundProcessOwner {
@@ -20,6 +20,7 @@ export interface ManagedProcessLaunch {
   stdin: Writable | null
   stdout: Readable | null
   stderr: Readable | null
+  control?: Duplex | undefined
   direct: Promise<SubprocessOutcome>
   owner: BoundProcessOwner
 }

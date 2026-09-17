@@ -36,5 +36,10 @@
           - id: worldapp-gateway
             name: Nulu
             models:
-              - id: nulu-5
-              - id: nulu-5-ultra
+              - id: deepseek-v4-flash
+              - id: deepseek-v4-pro
+          - id: deepseek-messages
+            name: DeepSeek Messages
+            models:
+              - id: deepseek-v4-flash
+              - id: deepseek-v4-pro

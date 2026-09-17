@@ -20,21 +20,21 @@
  */
 
 import { isAbsolute, resolve as resolvePath } from 'node:path'
-import type { Context } from '@worldapptechnologies/cordis'
-import z from '@worldapptechnologies/schemastery'
-import { defineTool, TOOL_ABORTED } from '@worldapptechnologies/nulu-tools'
-import type { GenericCallView, TerminalCallView, ToolExecution, ToolResult, ToolResultView } from '@worldapptechnologies/nulu-tools'
-import { HarnessError } from '@worldapptechnologies/nulu-llm'
-import type { Agent } from '@worldapptechnologies/nulu-agent'
-import type {} from '@worldapptechnologies/nulu-jobs'
-import type {} from '@worldapptechnologies/nulu-shell-env'
-import type {} from '@worldapptechnologies/nulu-user-approval'
-import type { SandboxExecutionPolicy, SandboxMode } from '@worldapptechnologies/nulu-sandbox'
-import { ESCALATION_TARGETS, approveEscalation, validateEscalationArgs } from '@worldapptechnologies/nulu-sandbox'
-import type { SandboxPolicyService } from '@worldapptechnologies/nulu-sandbox-policy'
-import type { ShellRunResult } from '@worldapptechnologies/nulu-shell'
-import { parseExitStatus } from '@worldapptechnologies/nulu-shell'
-import { processOutcome } from './background.ts'
+import type { Context } from '@deepseek-ai/cordis'
+import z from '@deepseek-ai/schemastery'
+import { defineTool, TOOL_ABORTED } from '@deepseek-ai/dsh-tools'
+import type { GenericCallView, TerminalCallView, ToolExecution, ToolResult, ToolResultView } from '@deepseek-ai/dsh-tools'
+import { HarnessError } from '@deepseek-ai/dsh-llm'
+import type { Agent } from '@deepseek-ai/dsh-agent'
+import type {} from '@deepseek-ai/dsh-jobs'
+import type {} from '@deepseek-ai/dsh-shell-env'
+import type {} from '@deepseek-ai/dsh-user-approval'
+import type { SandboxExecutionPolicy, SandboxMode } from '@deepseek-ai/dsh-sandbox'
+import { ESCALATION_TARGETS, approveEscalation, validateEscalationArgs } from '@deepseek-ai/dsh-sandbox'
+import type { SandboxPolicyService } from '@deepseek-ai/dsh-sandbox-policy'
+import type { ShellRunResult } from '@deepseek-ai/dsh-shell'
+import { parseExitStatus } from '@deepseek-ai/dsh-shell'
+import { processJob } from './background.ts'
 import { renderPwshProcessRead, renderPwshResult } from './render.ts'
 import type { RenderablePwshResult } from './render.ts'
 
@@ -381,14 +381,10 @@ export function apply(ctx: Context, config: Config = {}): void {
           kind: 'pwsh',
           label: args.command,
           ...exec.agent ? { owner: exec.agent } : {},
-          run: () => {
-            const proc = ctx.shell.start(ctx.shell.resolve(request))
-            return {
-              cancel: () => void proc.kill(),
-              done: proc.done.then(() => processOutcome(proc)),
-              readOutput: () => renderPwshProcessRead(proc.readOutput(), proc.sandbox, escalationModes),
-            }
-          },
+          run: () => processJob(
+            signal => ctx.shell.start(ctx.shell.resolve({ ...request, signal })),
+            proc => renderPwshProcessRead(proc.readOutput(), proc.sandbox, escalationModes),
+          ),
         })
         return { kind: 'background' as const, jobId: id }
       }

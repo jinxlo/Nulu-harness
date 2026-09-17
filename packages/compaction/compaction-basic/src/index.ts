@@ -4,17 +4,16 @@
  * @module @worldapptechnologies/nulu-compaction-basic
  */
 
-import { Context } from '@worldapptechnologies/cordis'
-import z from '@worldapptechnologies/schemastery'
-import { CompactionEngine, ManualCompactionError } from '@worldapptechnologies/nulu-compaction'
-import type { CompactionResult, CompactionTrigger } from '@worldapptechnologies/nulu-compaction'
-import type { TokenMeter } from '@worldapptechnologies/nulu-token-meter'
-import type { Session, SessionSeq } from '@worldapptechnologies/nulu-session'
-import { CONTEXT_WINDOW_EXCEEDED_CODE } from '@worldapptechnologies/nulu-llm'
-import type { LlmCallConfig } from '@worldapptechnologies/nulu-llm'
-import { assertNever } from '@worldapptechnologies/nulu-util-values'
-import type { Agent, PreStepDecision } from '@worldapptechnologies/nulu-agent'
-import type { CommandId } from '@worldapptechnologies/nulu-commands/brand'
+import { Context } from '@deepseek-ai/cordis'
+import z from '@deepseek-ai/schemastery'
+import { CompactionEngine, ManualCompactionError } from '@deepseek-ai/dsh-compaction'
+import type { CompactionResult, CompactionTrigger } from '@deepseek-ai/dsh-compaction'
+import type { Session, SessionSeq } from '@deepseek-ai/dsh-session'
+import { CONTEXT_WINDOW_EXCEEDED_CODE } from '@deepseek-ai/dsh-llm'
+import type { LlmCallConfig } from '@deepseek-ai/dsh-llm'
+import { assertNever } from '@deepseek-ai/dsh-util-values'
+import type { Agent, PreStepDecision } from '@deepseek-ai/dsh-agent'
+import type { CommandId } from '@deepseek-ai/dsh-commands/brand'
 // Type-only: makes the optional sibling service available to `ctx.get()`.
 import type {} from '@worldapptechnologies/nulu-compaction-tool-result-pruner'
 import {
@@ -45,9 +44,6 @@ export type {
   ResolvedRetention,
   ResolvedTargetPolicy,
 } from './types.ts'
-
-/** The region transaction's view of this service's dynamically dispatched summarizer. */
-type RegionSummarize = (input: SummarizationInput, agent: Agent, signal?: AbortSignal) => Promise<SummaryResult>
 
 /** Resolve the exact provider/model durably routed for the latest request. */
 function routedTarget(
@@ -421,10 +417,16 @@ export class BasicCompactionEngine extends CompactionEngine {
   }
 
   /** Bind the effective token meter and dynamically dispatched summarizer hook. */
-  private regionDependencies(): { meter: TokenMeter; summarize: RegionSummarize } {
+  private regionDependencies(): Parameters<typeof compactSurfaceRegion>[0] {
     return {
       meter: this.ctx.tokenMeter,
       summarize: (input, owner, abort) => this.summarize(input, owner, abort),
+      recover: (error, agent, sourceEventSeqs, signal) => this.ctx.waterfall('compaction/summary-error', {
+        session: agent.session,
+        sourceEventSeqs,
+        error,
+        ...signal === undefined ? {} : { signal },
+      }, () => false),
     }
   }
 }

@@ -28,6 +28,7 @@ const SPAWN_TIMEOUT_MS = 60_000
 const cliVersion = (JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')) as { version: string }).version
 const nuluBin = join(repoRoot, 'apps/cli/lib/bin.js')
 const invalidProvider = fileURLToPath(new URL('./fixtures/invalid-provider.cordis.yml', import.meta.url))
+const webReadyExitHook = new URL('./fixtures/web-browser-open/register.mjs', import.meta.url).href
 
 async function runBuiltBin(
   args: readonly string[] = [],
@@ -400,8 +401,8 @@ describe.skipIf(!existsSync(nuluBin))('nulu BUILT bin (node lib/bin.js, no tsx)'
     }
   }, SPAWN_TIMEOUT_MS * 3 + 30_000)
 
-  it('reports SDK startup failure when stdin reaches EOF first', async () => {
-    const home = mkdtempSync(join(tmpdir(), 'nulu-built-sdk-startup-failure-'))
+  it('ignores an optional SDK plugin import failure before stdin reaches EOF', async () => {
+    const home = mkdtempSync(join(tmpdir(), 'dsh-built-sdk-startup-failure-'))
     const patch = join(home, 'broken-sdk.cordis.yml')
     writeFileSync(patch, [
       '- insert:',
@@ -415,10 +416,10 @@ describe.skipIf(!existsSync(nuluBin))('nulu BUILT bin (node lib/bin.js, no tsx)'
         NULU_TELEMETRY_DISABLED: '1',
         WORLD_APP_TECHNOLOGIES_API_KEY: 'built-sdk-startup-failure-no-call',
       }, home)
-      expect(result.code).toBe(1)
+      expect(result.code).toBe(0)
       expect(result.stdout).toBe('')
-      expect(result.stderr).toContain('plugin tree failed to load')
-      expect(result.stderr).toContain('@worldapptechnologies/nulu-missing-sdk-startup-plugin')
+      expect(result.stderr).toContain('warning: 1 entry did not activate')
+      expect(result.stderr).toContain('@deepseek-ai/dsh-missing-sdk-startup-plugin')
     } finally {
       rmSync(home, { recursive: true, force: true })
     }
@@ -501,8 +502,9 @@ describe.skipIf(!existsSync(nuluBin))('nulu BUILT bin (node lib/bin.js, no tsx)'
       apiKey,
       successText: 'ACP BUILT PROFILE OK',
     })
-    const home = mkdtempSync(join(tmpdir(), 'nulu-built-acp-'))
-    const child = execa(process.execPath, [nuluBin, '--profile', 'acp'], {
+    const home = mkdtempSync(join(tmpdir(), 'dsh-built-acp-'))
+    writeFileSync(join(home, 'settings.yaml'), 'llm-deepseek:\n  protocol: chat-completions\n')
+    const child = execa(process.execPath, [dshBin, '--profile', 'acp'], {
       cwd: home,
       reject: false,
       timeout: SPAWN_TIMEOUT_MS,
@@ -586,7 +588,8 @@ describe.skipIf(!existsSync(nuluBin))('nulu BUILT bin (node lib/bin.js, no tsx)'
       reasoningText: 'Inspecting the published entry.',
       successText: 'published headless profile reached the mock',
     })
-    const home = mkdtempSync(join(tmpdir(), 'nulu-built-headless-'))
+    const home = mkdtempSync(join(tmpdir(), 'dsh-built-headless-'))
+    writeFileSync(join(home, 'settings.yaml'), 'llm-deepseek:\n  protocol: chat-completions\n')
     try {
       const result = await runBuiltBin(['--profile', 'headless', 'answer', 'from', 'the', 'published', 'entry'], {
         NULU_HOME: home,
@@ -723,9 +726,10 @@ describe.skipIf(!existsSync(nuluBin))('nulu BUILT bin (node lib/bin.js, no tsx)'
       apiKey,
       successText: 'launching endpoint reached the mock',
     })
-    const home = mkdtempSync(join(tmpdir(), 'nulu-home-environment-'))
-    const project = mkdtempSync(join(tmpdir(), 'nulu-home-project-'))
-    writeFileSync(join(home, '.credentials.yaml'), `version: 1\nrefs:\n  WORLD_APP_TECHNOLOGIES_API_KEY: ${apiKey}\n`, { mode: 0o600 })
+    const home = mkdtempSync(join(tmpdir(), 'dsh-home-environment-'))
+    writeFileSync(join(home, 'settings.yaml'), 'llm-deepseek:\n  protocol: chat-completions\n')
+    const project = mkdtempSync(join(tmpdir(), 'dsh-home-project-'))
+    writeFileSync(join(home, '.credentials.yaml'), `version: 1\nrefs:\n  DEEPSEEK_API_KEY: ${apiKey}\n`, { mode: 0o600 })
     createEnvironmentProbeProfile(home, project)
     try {
       const result = await runBuiltBin(
@@ -756,20 +760,18 @@ describe.skipIf(!existsSync(nuluBin))('nulu BUILT bin (node lib/bin.js, no tsx)'
     }
   }, SPAWN_TIMEOUT_MS + 30_000)
 
-  it('reports a patch-overlay boot failure without hanging', async () => {
-    // The HMR main watcher's initial scan once refreshed the include
-    // mid-initial-apply, deadlocking the failing apply's rollback against the
-    // refresh drain: nulu exited 13 with no diagnostic instead of settling
-    // ([vendor/README.md](../../../vendor/README.md)).
-    const home = mkdtempSync(join(tmpdir(), 'nulu-invalid-patch-'))
+  it('keeps serving when an optional patch-overlay plugin fails', async () => {
+    const home = mkdtempSync(join(tmpdir(), 'dsh-invalid-patch-'))
     try {
-      const result = await runBuiltBin(['--profile', 'web', '--patch', invalidProvider], {
-        NULU_HOME: home,
-        WORLD_APP_TECHNOLOGIES_API_KEY: 'keyless-invalid-config',
-        NULU_TELEMETRY_DISABLED: '1',
+      const result = await runBuiltBin(['--profile', 'web', '--patch', invalidProvider, '--port', '0', '--no-open'], {
+        DSH_HOME: home,
+        DSH_BROWSER_OPEN_TEST_EXIT_ON_READY: '1',
+        DEEPSEEK_API_KEY: 'keyless-invalid-config',
+        DSH_TELEMETRY_DISABLED: '1',
+        NODE_OPTIONS: `--import=${webReadyExitHook}`,
       })
-      expect(result.code).toBe(1)
-      expect(result.stdout).toBe('')
+      expect(result.code, result.stderr).toBe(0)
+      expect(result.stdout).toMatch(/^dsh web: http:\/\/127\.0\.0\.1:\d+\/\?token=[A-Za-z0-9_-]+$/u)
       expect(result.stderr).toContain('llm-pi-ai')
     } finally {
       rmSync(home, { recursive: true, force: true })
@@ -866,6 +868,7 @@ describe.skipIf(!existsSync(nuluBin))('nulu BUILT bin (node lib/bin.js, no tsx)'
     try {
       await waitForFile(fixture.ready)
       expect(readFileSync(fixture.echo, 'utf8')).toBe('bundle-default')
+      expect(existsSync(join(fixture.home, 'profiles', 'node_modules'))).toBe(true)
       requestProfileShutdown(child, fixture)
       expect((await child).exitCode).toBe(0)
     } finally {
@@ -1068,37 +1071,38 @@ describe.skipIf(!existsSync(nuluBin))('nulu BUILT bin (node lib/bin.js, no tsx)'
       expect(stderr).toBe('')
       const rows = yaml.load(stdout, { schema: entryListSchema }) as Array<{ id?: string; name?: string }>
       expect(rows.map(row => [row.id, row.name])).toEqual([
-        ['sdk-app-startup', '@worldapptechnologies/nulu-sdk-app'],
-        ['sdk-jsonrpc-server', '@worldapptechnologies/nulu-sdk-jsonrpc-server'],
-        ['llm-api-extensions', '@worldapptechnologies/nulu-llm-api-extensions'],
-        ['session-log-gateway', '@worldapptechnologies/nulu-session-log-gateway'],
-        ['plugin-package-inventory', '@worldapptechnologies/nulu-plugin-package-inventory'],
-        ['llm-gateway', '@worldapptechnologies/nulu-llm-gateway'],
-        ['sandbox', '@worldapptechnologies/nulu-sandbox-local'],
-        ['session-projection', '@worldapptechnologies/nulu-session-projection'],
-        ['sandbox-policy', '@worldapptechnologies/nulu-sandbox-policy'],
-        ['subprocess', '@worldapptechnologies/nulu-subprocess-local'],
-        ['pty', '@worldapptechnologies/nulu-terminal'],
-        ['terminal-bash', '@worldapptechnologies/nulu-terminal-bash'],
-        ['terminal-pwsh', '@worldapptechnologies/nulu-terminal-bash'],
-        ['timer', '@worldapptechnologies/cordis-plugin-timer'],
-        ['llm', '@worldapptechnologies/nulu-llm'],
-        ['session', '@worldapptechnologies/nulu-session'],
-        ['session-title', '@worldapptechnologies/nulu-session-title'],
-        ['system-prompt', '@worldapptechnologies/nulu-system-prompt'],
-        ['tools', '@worldapptechnologies/nulu-tools'],
-        ['agent', '@worldapptechnologies/nulu-agent'],
-        ['llm-retry', '@worldapptechnologies/nulu-llm-retry'],
-        ['jobs', '@worldapptechnologies/nulu-jobs-local'],
-        ['invariants', '@worldapptechnologies/nulu-invariants'],
-        ['session-invariant', '@worldapptechnologies/nulu-session/invariant'],
-        ['agent-invariant', '@worldapptechnologies/nulu-agent/invariant'],
-        ['scope-invariant', '@worldapptechnologies/nulu-scope/invariant'],
-        ['agent-loop-invariant', '@worldapptechnologies/nulu-agent-loop/invariant'],
-        ['agent-loop', '@worldapptechnologies/nulu-agent-loop'],
-        ['persistent-bash', '@worldapptechnologies/nulu-tool-bash-persistent'],
-        ['persistent-pwsh', '@worldapptechnologies/nulu-tool-pwsh-persistent'],
-        ['sessions', '@worldapptechnologies/nulu-session-persistence-jsonl'],
+        ['sdk-app-startup', '@deepseek-ai/dsh-sdk-app'],
+        ['sdk-jsonrpc-server', '@deepseek-ai/dsh-sdk-jsonrpc-server'],
+        ['deepseek-llm-api-extensions', '@deepseek-ai/dsh-deepseek-llm-api-extensions'],
+        ['session-log-deepseek', '@deepseek-ai/dsh-session-log-deepseek'],
+        ['plugin-package-inventory-deepseek', '@deepseek-ai/dsh-plugin-package-inventory-deepseek'],
+        ['llm-deepseek', '@deepseek-ai/dsh-llm-deepseek'],
+        ['sandbox', '@deepseek-ai/dsh-sandbox-local'],
+        ['session-projection', '@deepseek-ai/dsh-session-projection'],
+        ['sandbox-policy', '@deepseek-ai/dsh-sandbox-policy'],
+        ['subprocess', '@deepseek-ai/dsh-subprocess-local'],
+        ['pty', '@deepseek-ai/dsh-terminal'],
+        ['terminal-bash', '@deepseek-ai/dsh-terminal-bash'],
+        ['terminal-pwsh', '@deepseek-ai/dsh-terminal-bash'],
+        ['timer', '@deepseek-ai/cordis-plugin-timer'],
+        ['llm', '@deepseek-ai/dsh-llm'],
+        ['session', '@deepseek-ai/dsh-session'],
+        ['session-title', '@deepseek-ai/dsh-session-title'],
+        ['system-prompt', '@deepseek-ai/dsh-system-prompt'],
+        ['tools', '@deepseek-ai/dsh-tools'],
+        ['mcp-resources', '@deepseek-ai/dsh-mcp-resources'],
+        ['agent', '@deepseek-ai/dsh-agent'],
+        ['llm-retry', '@deepseek-ai/dsh-llm-retry'],
+        ['jobs', '@deepseek-ai/dsh-jobs-local'],
+        ['invariants', '@deepseek-ai/dsh-invariants'],
+        ['session-invariant', '@deepseek-ai/dsh-session/invariant'],
+        ['agent-invariant', '@deepseek-ai/dsh-agent/invariant'],
+        ['scope-invariant', '@deepseek-ai/dsh-scope/invariant'],
+        ['agent-loop-invariant', '@deepseek-ai/dsh-agent-loop/invariant'],
+        ['agent-loop', '@deepseek-ai/dsh-agent-loop'],
+        ['persistent-bash', '@deepseek-ai/dsh-tool-bash-persistent'],
+        ['persistent-pwsh', '@deepseek-ai/dsh-tool-pwsh-persistent'],
+        ['sessions', '@deepseek-ai/dsh-session-persistence-jsonl'],
       ])
       expect(stdout).toContain('# == @worldapptechnologies/nulu-sdk-minimal')
       expect(stdout).not.toContain('@worldapptechnologies/nulu-base')

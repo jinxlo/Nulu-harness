@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-tool-workflow",
   "description": "Model-facing workflow tool: run a JavaScript orchestration script over ctx.workflowEngine",
-  "version": "0.1.5-rc.2",
+  "version": "0.1.6-alpha.1",
   "publishConfig": {
     "access": "public"
   },
@@ -50,16 +50,16 @@
     "@worldapptechnologies/schemastery": "workspace:^"
   },
   "devDependencies": {
-    "@worldapptechnologies/nulu-agent": "workspace:^",
-    "@worldapptechnologies/nulu-invariants": "workspace:^",
-    "@worldapptechnologies/nulu-llm": "workspace:^",
-    "@worldapptechnologies/nulu-session": "workspace:^",
-    "@worldapptechnologies/nulu-subagent": "workspace:^",
-    "@worldapptechnologies/nulu-system-prompt": "workspace:^",
-    "@worldapptechnologies/nulu-tools": "workspace:^",
-    "@worldapptechnologies/nulu-workflow": "workspace:^",
-    "@worldapptechnologies/nulu-workflow-worker-thread": "workspace:^",
-    "@worldapptechnologies/cordis": "workspace:^",
-    "@worldapptechnologies/nulu-session-projection": "workspace:^"
+    "@deepseek-ai/dsh-agent": "workspace:^",
+    "@deepseek-ai/dsh-invariants": "workspace:^",
+    "@deepseek-ai/dsh-llm": "workspace:^",
+    "@deepseek-ai/dsh-session": "workspace:^",
+    "@deepseek-ai/dsh-subagent": "workspace:^",
+    "@deepseek-ai/dsh-system-prompt": "workspace:^",
+    "@deepseek-ai/dsh-tools": "workspace:^",
+    "@deepseek-ai/dsh-workflow": "workspace:^",
+    "@deepseek-ai/dsh-workflow-ptc": "workspace:^",
+    "@deepseek-ai/cordis": "workspace:^",
+    "@deepseek-ai/dsh-session-projection": "workspace:^"
   }
 }

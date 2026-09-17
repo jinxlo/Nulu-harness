@@ -8,22 +8,22 @@
  * @module @worldapptechnologies/nulu-tool-bash
  */
 
-import type { Context } from '@worldapptechnologies/cordis'
-import z from '@worldapptechnologies/schemastery'
-import { isAbsolute, resolve as resolvePath } from 'node:path'
-import { defineTool, TOOL_ABORTED } from '@worldapptechnologies/nulu-tools'
-import type { GenericCallView, TerminalCallView, ToolExecution, ToolResult, ToolResultView } from '@worldapptechnologies/nulu-tools'
-import { HarnessError } from '@worldapptechnologies/nulu-llm'
-import type { Agent } from '@worldapptechnologies/nulu-agent'
-import type {} from '@worldapptechnologies/nulu-jobs'
-import type {} from '@worldapptechnologies/nulu-user-approval'
-import type {} from '@worldapptechnologies/nulu-shell-env'
-import type { SandboxExecutionPolicy, SandboxMode } from '@worldapptechnologies/nulu-sandbox'
-import { ESCALATION_TARGETS, approveEscalation, canonicalPath, validateEscalationArgs } from '@worldapptechnologies/nulu-sandbox'
-import type { SandboxPolicyService } from '@worldapptechnologies/nulu-sandbox-policy'
-import { NULU_ENV_PREFIX } from '@worldapptechnologies/nulu-shell'
-import type { ShellRunResult } from '@worldapptechnologies/nulu-shell'
-import { processOutcome } from './background.ts'
+import type { Context } from '@deepseek-ai/cordis'
+import z from '@deepseek-ai/schemastery'
+import { isAbsolute, sep } from 'node:path'
+import { defineTool, TOOL_ABORTED } from '@deepseek-ai/dsh-tools'
+import type { GenericCallView, TerminalCallView, ToolExecution, ToolResult, ToolResultView } from '@deepseek-ai/dsh-tools'
+import { HarnessError } from '@deepseek-ai/dsh-llm'
+import type { Agent } from '@deepseek-ai/dsh-agent'
+import type {} from '@deepseek-ai/dsh-jobs'
+import type {} from '@deepseek-ai/dsh-user-approval'
+import type {} from '@deepseek-ai/dsh-shell-env'
+import type { SandboxExecutionPolicy, SandboxMode } from '@deepseek-ai/dsh-sandbox'
+import { ESCALATION_TARGETS, approveEscalation, validateEscalationArgs } from '@deepseek-ai/dsh-sandbox'
+import type { SandboxPolicyService } from '@deepseek-ai/dsh-sandbox-policy'
+import { DSH_ENV_PREFIX } from '@deepseek-ai/dsh-shell'
+import type { ShellRunResult } from '@deepseek-ai/dsh-shell'
+import { processJob } from './background.ts'
 import { parseExitStatus, renderProcessRead, renderResult } from './render.ts'
 
 export const name = 'tool-bash'
@@ -146,10 +146,10 @@ function resolveWorkdir(
   policyWorkspaceRoot?: string,
 ): string | undefined {
   const headerCwd = exec.agent?.session.header.cwd
-  const sessionCwd = policyWorkspaceRoot ?? (headerCwd === undefined ? undefined : canonicalPath(headerCwd))
+  const sessionCwd = policyWorkspaceRoot ?? headerCwd
   if (modelWorkdir === undefined) return sessionCwd
   if (sessionCwd !== undefined && !isAbsolute(modelWorkdir)) {
-    return resolvePath(sessionCwd, modelWorkdir)
+    return `${sessionCwd}${sep}${modelWorkdir}`
   }
   return modelWorkdir
 }
@@ -365,14 +365,10 @@ export function apply(ctx: Context, config: Config = {}): void {
           kind: 'bash',
           label: args.command,
           ...exec.agent ? { owner: exec.agent } : {},
-          run: () => {
-            const proc = ctx.shell.start(ctx.shell.resolve(request))
-            return {
-              cancel: () => void proc.kill(),
-              done: proc.done.then(() => processOutcome(proc)),
-              readOutput: () => renderProcessRead(proc.readOutput(), proc.sandbox, escalationModes),
-            }
-          },
+          run: () => processJob(
+            signal => ctx.shell.start(ctx.shell.resolve({ ...request, signal })),
+            proc => renderProcessRead(proc.readOutput(), proc.sandbox, escalationModes),
+          ),
         })
         return { kind: 'background' as const, jobId: id }
       }

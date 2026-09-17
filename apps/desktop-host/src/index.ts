@@ -15,16 +15,19 @@ import type { PatchOptions } from '@worldapptechnologies/cordis-plugin-include'
 import {
   boot,
   composeEntries,
+  createProfileResolutionGeneration,
   loadLayeredEnv,
   loadProfileDirectory,
   loadOverlayPatches,
-} from '@worldapptechnologies/nulu-app-boot'
-import { provideCmdline } from '@worldapptechnologies/nulu-cmdline'
-import { NULU_LAUNCH_ENVIRONMENT_KEY } from '@worldapptechnologies/nulu-launch-environment'
-import type {} from '@worldapptechnologies/nulu-api-gateway'
-import type { ConnectionFetchHandler } from '@worldapptechnologies/nulu-client-connection'
-import type {} from '@worldapptechnologies/nulu-client-modules'
-import { renderIndexInjections, type IndexInjection } from '@worldapptechnologies/nulu-host-webserver'
+  PluginPackages,
+  type Profile,
+} from '@deepseek-ai/dsh-app-boot'
+import { provideCmdline } from '@deepseek-ai/dsh-cmdline'
+import { DSH_LAUNCH_ENVIRONMENT_KEY } from '@deepseek-ai/dsh-launch-environment'
+import type {} from '@deepseek-ai/dsh-api-gateway'
+import type { ConnectionFetchHandler } from '@deepseek-ai/dsh-client-connection'
+import type {} from '@deepseek-ai/dsh-client-modules'
+import { renderIndexInjections, type IndexInjection } from '@deepseek-ai/dsh-host-webserver'
 import {
   DESKTOP_HOST_PROTOCOL_VERSION,
   DESKTOP_PIPE_CHUNK_BYTES,
@@ -149,9 +152,20 @@ function isProjectPath(projectDir: string, target: string): boolean {
   return path === root || path.startsWith(root + sep)
 }
 
-function desktopPatches(runtimeDir: string, projectDir: string, allowLinkedPackages: boolean): PatchOptions[] {
-  const nuluRoot = dirname(packageManifestPath(runtimeDir, '@worldapptechnologies/nulu'))
-  const profile = loadProfileDirectory('nulu desktop', projectDir, join(nuluRoot, 'package.json'))
+interface DesktopComposition {
+  readonly installAnchor: string
+  readonly profile: Profile
+  readonly patches: PatchOptions[]
+}
+
+function desktopComposition(
+  runtimeDir: string,
+  projectDir: string,
+  allowLinkedPackages: boolean,
+): DesktopComposition {
+  const installAnchor = packageManifestPath(runtimeDir, '@deepseek-ai/dsh')
+  const dshRoot = dirname(installAnchor)
+  const profile = loadProfileDirectory('dsh desktop', projectDir, installAnchor)
   for (const layer of profile.layers) {
     if (!allowLinkedPackages && !isProjectPath(projectDir, layer.packageDir) && !isProjectPath(runtimeDir, layer.packageDir)) {
       throw new Error(`nulu desktop: profile bundle ${JSON.stringify(layer.packageName)} resolved outside the Desktop runtime and profile`)
@@ -173,7 +187,7 @@ function desktopPatches(runtimeDir: string, projectDir: string, allowLinkedPacka
       },
     }])
   }
-  return layers.flat()
+  return { installAnchor, profile, patches: layers.flat() }
 }
 
 function nuluVersion(runtimeDir: string): string {
@@ -282,19 +296,22 @@ export async function runDesktopHost(
   writeResponse: (frame: Buffer) => Promise<void>,
   options: { allowLinkedPackages?: boolean } = {},
 ): Promise<DesktopHostController> {
+  const absoluteRuntime = resolve(runtimeDir)
   const absoluteProject = resolve(projectDir)
   mkdirSync(absoluteProject, { recursive: true })
   const rootConfig = join(absoluteProject, ROOT_CONFIG_FILENAME)
   writeFileSync(rootConfig, ROOT_CONFIG)
-  const environment = loadLayeredEnv('nulu desktop')
+  const environment = loadLayeredEnv('dsh desktop')
+  const composition = desktopComposition(absoluteRuntime, absoluteProject, options.allowLinkedPackages === true)
+  const resolution = await createProfileResolutionGeneration({
+    installAnchor: composition.installAnchor,
+    profile: composition.profile,
+  })
   let current: Context | undefined
-  const ctx = await boot('nulu desktop', rootConfig, structuredClone(desktopPatches(
-    resolve(runtimeDir),
-    absoluteProject,
-    options.allowLinkedPackages === true,
-  )), (hostCtx) => {
+  const ctx = await boot('dsh desktop', rootConfig, structuredClone(composition.patches), async (hostCtx) => {
     current = hostCtx
-    hostCtx.provide(NULU_LAUNCH_ENVIRONMENT_KEY, environment)
+    hostCtx.provide(DSH_LAUNCH_ENVIRONMENT_KEY, environment)
+    await hostCtx.plugin(PluginPackages, { generation: resolution })
     provideCmdline(hostCtx, { args: [], exit: () => {} })
   })
   current = ctx
@@ -306,7 +323,7 @@ export async function runDesktopHost(
     throw new Error('nulu desktop: composition did not provide connection, typertGateway, and clientModules')
   }
   const api = connection.createSharedFetchHandler('/api')
-  const assets = assetHandler(ctx, resolve(runtimeDir))
+  const assets = assetHandler(ctx, absoluteRuntime)
   const streams = remoteStreamHandler(ctx)
   const requests = new Map<number, AbortController>()
   let disposing: Promise<void> | undefined
@@ -322,7 +339,7 @@ export async function runDesktopHost(
   }
 
   return {
-    nuluVersion: nuluVersion(resolve(runtimeDir)),
+    dshVersion: dshVersion(absoluteRuntime),
     cancel(streamId) {
       requests.get(streamId)?.abort()
     },

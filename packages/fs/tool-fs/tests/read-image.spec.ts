@@ -10,20 +10,20 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { Context } from '@worldapptechnologies/cordis'
-import { CodeRuntime } from '@worldapptechnologies/nulu-code-runtime'
-import type { CodeRunRequest, CodeRunResult } from '@worldapptechnologies/nulu-code-runtime'
-import { ToolCallId, LlmAdapter, LlmRuntime } from '@worldapptechnologies/nulu-llm'
-import type { GenerateOptions, LlmModelInfo, LlmResolvedModelInfo, Message, StreamChunk } from '@worldapptechnologies/nulu-llm'
-import SystemPrompt from '@worldapptechnologies/nulu-system-prompt'
-import ToolRuntime, { RUN_CODE_NAME } from '@worldapptechnologies/nulu-tools'
-import type { Config as ToolConfig } from '@worldapptechnologies/nulu-tools'
-import LocalFileSystem from '@worldapptechnologies/nulu-fs-local'
-import * as FsPolicy from '@worldapptechnologies/nulu-fs-observation-policy'
-import LocalAttachmentStore from '@worldapptechnologies/nulu-attachment-local'
-import { AttachmentError, AttachmentId, AttachmentStore } from '@worldapptechnologies/nulu-attachment'
-import type { ImageAttachmentLimits, ImageAttachmentRef, SaveImageAttachment, StoredImageAttachment } from '@worldapptechnologies/nulu-attachment'
-import * as ToolFs from '@worldapptechnologies/nulu-tool-fs'
+import { Context } from '@deepseek-ai/cordis'
+import { PtcRuntime } from '@deepseek-ai/dsh-ptc-runtime'
+import type { PtcRunRequest, PtcRunResult } from '@deepseek-ai/dsh-ptc-runtime'
+import { ToolCallId, LlmAdapter, LlmRuntime } from '@deepseek-ai/dsh-llm'
+import type { GenerateOptions, LlmModelInfo, LlmResolvedModelInfo, Message, StreamChunk } from '@deepseek-ai/dsh-llm'
+import SystemPrompt from '@deepseek-ai/dsh-system-prompt'
+import ToolRuntime, { RUN_CODE_NAME } from '@deepseek-ai/dsh-tools'
+import type { Config as ToolConfig } from '@deepseek-ai/dsh-tools'
+import LocalFileSystem from '@deepseek-ai/dsh-fs-local'
+import * as FsPolicy from '@deepseek-ai/dsh-fs-observation-policy'
+import LocalAttachmentStore from '@deepseek-ai/dsh-attachment-local'
+import { AttachmentError, AttachmentId, AttachmentStore } from '@deepseek-ai/dsh-attachment'
+import type { ImageAttachmentLimits, ImageAttachmentRef, SaveImageAttachment, StoredImageAttachment } from '@deepseek-ai/dsh-attachment'
+import * as ToolFs from '@deepseek-ai/dsh-tool-fs'
 import {
   applyReadImageTool,
   formatImageReadOutput,
@@ -70,12 +70,14 @@ class CatalogAdapter extends LlmAdapter {
 }
 
 /** In-process PTC mode seam fake that invokes the real registry bindings. */
-class FakeRuntime extends CodeRuntime {
+class FakeRuntime extends PtcRuntime {
+  resolve(request: import('@deepseek-ai/dsh-ptc-runtime').PtcRunRequest): import('@deepseek-ai/dsh-ptc-runtime').PtcRunSpec { return { ...request, cwd: request.cwd ?? process.cwd(), timeoutMs: request.timeoutMs ?? 120_000 } }
+
   readonly language = 'typescript'
   readonly isolation = 'fake'
-  behavior: (request: CodeRunRequest) => Promise<CodeRunResult> = () => Promise.resolve({ logs: [] })
+  behavior: (request: PtcRunRequest) => Promise<PtcRunResult> = () => Promise.resolve({ logs: [] })
 
-  run(request: CodeRunRequest): Promise<CodeRunResult> {
+  run(request: PtcRunRequest): Promise<PtcRunResult> {
     return this.behavior(request)
   }
 }
@@ -288,7 +290,7 @@ describe('read_image happy path', () => {
   it('forwards a nested PTC mode image through the outer run_code context', async () => {
     await writeFile(join(dir, 'red.png'), PNG_1X1)
     const ctx = await setup({ toolMode: 'ptc' })
-    const runtime = ctx.codeRuntime as FakeRuntime
+    const runtime = ctx.ptcRuntime as FakeRuntime
     runtime.behavior = async (request) => {
       const value = await request.bindings[0]!.functions.read_image!({ file_path: 'red.png' })
       return { logs: [], value }

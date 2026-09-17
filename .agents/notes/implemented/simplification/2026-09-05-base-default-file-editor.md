@@ -5,7 +5,7 @@ Status: implemented
 
 ## Problem
 
-The shared base selects both `read`/`write`/`edit` and `str_replace_editor`, which offer overlapping file editing interfaces. [Issue #3599](https://github.com/nulu-harness/nulu-harness/issues/3599) requests one default interface for base-backed profiles while preserving the dedicated minimal compositions.
+The shared base selects both `read`/`write`/`edit` and `str_replace_editor`, which offer overlapping file editing interfaces. Issue #3599 requests one default interface for base-backed profiles while preserving the dedicated minimal compositions.
 
 ## Decision
 

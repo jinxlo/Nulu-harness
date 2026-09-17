@@ -28,8 +28,9 @@ import z from '@worldapptechnologies/schemastery'
 import { Remote, RemoteError, TypertRemoteService } from '@worldapptechnologies/nulu-typert-protocol'
 import { bindScopeParent, createScope, scopeOf, type Scope, type ScopeKey, type ScopeParentBinding } from '@worldapptechnologies/nulu-scope'
 // Type-only: resolves the `agent/created` lifecycle event this service watches.
-import type {} from '@worldapptechnologies/nulu-agent'
-import type { Agent } from '@worldapptechnologies/nulu-agent'
+import type {} from '@deepseek-ai/dsh-agent'
+import type {} from '@deepseek-ai/dsh-app-boot'
+import type { Agent } from '@deepseek-ai/dsh-agent'
 import type { AgentPresetDocument, AgentPresetRoster } from './types.ts'
 import type {} from '@worldapptechnologies/nulu-session-projection'
 // Type-only: resolves the registry notification emitted after scope reparenting.
@@ -139,7 +140,6 @@ export class AgentPresets extends TypertRemoteService {
    * base here is what lets health answer the question before a session does.
    */
   private readonly harnessBase: string
-
   /**
    * The user layer over `config.default`, present only while a settings
    * provider is composed. Held rather than snapshotted so a hot-reloaded
@@ -263,7 +263,14 @@ export class AgentPresets extends TypertRemoteService {
    * @returns the presets, first-root-wins per id.
    */
   async list(): Promise<AgentPreset[]> {
-    return await discoverPresets(this.resolvedRoots, this.harnessBase)
+    const packages = this.ctx.get('pluginPackages')
+    return packages === undefined
+      ? await discoverPresets(this.resolvedRoots, this.harnessBase)
+      : await discoverPresets(
+        this.resolvedRoots,
+        this.harnessBase,
+        (specifier, base) => packages.packageOf(specifier, base) !== undefined,
+      )
   }
 
   /**

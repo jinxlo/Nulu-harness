@@ -203,10 +203,11 @@ describe('package dependency scope', () => {
       '@worldapptechnologies/nulu-client-ui-tool': ['@worldapptechnologies/nulu-api-remotes'],
     })
     expect(PACKAGE_DEPENDENCY_POLICY.duplicateSafePackages).toEqual([
-      '@worldapptechnologies/nulu-brand',
-      '@worldapptechnologies/nulu-typert-protocol',
-      '@worldapptechnologies/nulu-util-crypto',
-      '@worldapptechnologies/nulu-util-values',
+      '@deepseek-ai/dsh-brand',
+      '@deepseek-ai/dsh-lazy-require',
+      '@deepseek-ai/dsh-typert-protocol',
+      '@deepseek-ai/dsh-util-crypto',
+      '@deepseek-ai/dsh-util-values',
     ])
     expect(PACKAGE_DEPENDENCY_POLICY.safeHostDependencyExports['@worldapptechnologies/nulu-deque']).toEqual(['Deque'])
     expect(PACKAGE_DEPENDENCY_POLICY.safeHostDependencyExports['@worldapptechnologies/schemastery']).toEqual(['default'])
@@ -612,12 +613,20 @@ describe('face-aware source classification', () => {
       "export * from '@f/star'",
       "void import('@f/dynamic')",
       "void require('@f/required')",
+      "import { createLazyRequire as lazy } from '@deepseek-ai/dsh-lazy-require'",
+      "import * as lazyModule from '@deepseek-ai/dsh-lazy-require'",
+      "void lazy('@f/lazy', import.meta.url)",
+      "void lazyModule.createLazyRequire('@f/lazy-namespace', import.meta.url)",
       'void defaultValue; void local; void namespace',
     ].join('\n')
     const uses = collectRuntimeSourceExportUses('probe.ts', source)
     expect(uses.map(({ specifier, exportName }) => ({ specifier, exportName }))).toEqual([
+      { specifier: '@deepseek-ai/dsh-lazy-require', exportName: '*' },
+      { specifier: '@deepseek-ai/dsh-lazy-require', exportName: 'createLazyRequire' },
       { specifier: '@f/dynamic', exportName: '*' },
       { specifier: '@f/effect', exportName: '(side effect)' },
+      { specifier: '@f/lazy', exportName: '*' },
+      { specifier: '@f/lazy-namespace', exportName: '*' },
       { specifier: '@f/namespace', exportName: '*' },
       { specifier: '@f/reexport', exportName: 'source' },
       { specifier: '@f/required', exportName: '*' },

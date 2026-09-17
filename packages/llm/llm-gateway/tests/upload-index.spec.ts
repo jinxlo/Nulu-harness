@@ -2,9 +2,9 @@ import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, describe, expect, it } from 'vitest'
-import { AttachmentId, ImageVariantId } from '@worldapptechnologies/nulu-attachment'
-import { NuluFileId } from '../src/file-id.ts'
-import { nuluFileScope, NuluUploadIndex } from '../src/upload-index.ts'
+import { AttachmentId, ImageVariantId } from '@deepseek-ai/dsh-attachment'
+import { DeepSeekFileId } from '../src/common/file-id.ts'
+import { deepSeekFileScope, DeepSeekUploadIndex } from '../src/common/upload-index.ts'
 
 const ATTACHMENT = AttachmentId(`sha256:${'a'.repeat(64)}`)
 const VARIANT = ImageVariantId(`sha256:${'b'.repeat(64)}`)
