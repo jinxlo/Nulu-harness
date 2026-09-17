@@ -1,0 +1,37 @@
+{
+  "product": "Nulu Harness",
+  "sync_branch": "sync/deepseek-2026-09-17",
+  "upstream_base": "c291e7961a51",
+  "upstream_target": "0d1f50007f9b",
+  "upstream_commits_total": 666,
+  "upstream_commits_non_merge": 467,
+  "feature_groups": 312,
+  "merge_strategy": "-X theirs (upstream wins text conflicts), then deterministic rebrand + protected-file restore",
+  "conflicts": {
+    "total_raw": 1337,
+    "after_X_theirs": 629,
+    "deterministic_resolved": 529,
+    "semantic_remaining": 100
+  },
+  "deterministic_resolution": {
+    "translation_corpus_retired": 518,
+    "archived_agent_notes_kept": 189,
+    "deepseek_packages_removed": 23
+  },
+  "semantic_conflict_areas": {
+    "llm-gateway": 46,
+    "e2b": 22,
+    "workflow": 9,
+    "code-runtime": 9,
+    "client-connection": 2,
+    "session-log-gateway": 1,
+    "app-boot": 1,
+    "session-controller": 1,
+    "subagent-dsh-sdk": 1,
+    "plugin-package-inventory-deepseek": 1,
+    "docs-other": 3
+  },
+  "status": "merge in progress — 100 semantic conflicts pending adaptation",
+  "full_build_performed": false,
+  "notes": "Full harness build not performed (native toolchains unavailable). Sync validation (invariants) pending conflict resolution."
+}
