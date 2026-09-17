@@ -411,7 +411,7 @@ importers:
       '@worldapptechnologies/nulu-credentials-local':
         specifier: workspace:^
         version: link:../../packages/credentials/credentials-local
-      '@worldapptechnologies/nulu-deepseek-llm-api-extensions':
+      '@worldapptechnologies/nulu-llm-api-extensions':
         specifier: workspace:^
         version: link:../../packages/llm/deepseek-llm-api-extensions
       '@worldapptechnologies/nulu-experimental-agent-team':
@@ -441,7 +441,7 @@ importers:
       '@worldapptechnologies/nulu-llm':
         specifier: workspace:^
         version: link:../../packages/llm/llm
-      '@worldapptechnologies/nulu-llm-deepseek':
+      '@worldapptechnologies/nulu-llm-gateway':
         specifier: workspace:^
         version: link:../../packages/llm/llm-deepseek
       '@worldapptechnologies/nulu-llm-mock-server':
@@ -5406,7 +5406,7 @@ importers:
       '@worldapptechnologies/nulu-llm':
         specifier: workspace:^
         version: link:../../llm/llm
-      '@worldapptechnologies/nulu-llm-deepseek':
+      '@worldapptechnologies/nulu-llm-gateway':
         specifier: workspace:^
         version: link:../../llm/llm-deepseek
       '@worldapptechnologies/nulu-session':
@@ -6153,7 +6153,7 @@ importers:
       '@worldapptechnologies/nulu-llm':
         specifier: workspace:^
         version: link:../../llm/llm
-      '@worldapptechnologies/nulu-llm-deepseek':
+      '@worldapptechnologies/nulu-llm-gateway':
         specifier: workspace:^
         version: link:../../llm/llm-deepseek
       '@worldapptechnologies/nulu-permission-presets':
@@ -6670,7 +6670,7 @@ importers:
       '@worldapptechnologies/nulu-llm':
         specifier: workspace:^
         version: link:../../llm/llm
-      '@worldapptechnologies/nulu-llm-deepseek':
+      '@worldapptechnologies/nulu-llm-gateway':
         specifier: workspace:^
         version: link:../../llm/llm-deepseek
       '@worldapptechnologies/nulu-scope':
@@ -8139,7 +8139,7 @@ importers:
       '@worldapptechnologies/nulu-credentials-local':
         specifier: workspace:^
         version: link:../../credentials/credentials-local
-      '@worldapptechnologies/nulu-deepseek-llm-api-extensions':
+      '@worldapptechnologies/nulu-llm-api-extensions':
         specifier: workspace:^
         version: link:../deepseek-llm-api-extensions
       '@worldapptechnologies/nulu-fs':
@@ -8325,7 +8325,7 @@ importers:
       '@worldapptechnologies/nulu-app-boot':
         specifier: workspace:^
         version: link:../../boot/app-boot
-      '@worldapptechnologies/nulu-deepseek-llm-api-extensions':
+      '@worldapptechnologies/nulu-llm-api-extensions':
         specifier: workspace:^
         version: link:../llm-api-extensions
       '@worldapptechnologies/nulu-scope':

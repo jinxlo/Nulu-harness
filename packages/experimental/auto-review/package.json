@@ -48,7 +48,7 @@
     "@worldapptechnologies/nulu-fs-observation-policy": "workspace:^",
     "@worldapptechnologies/nulu-fs-sandbox": "workspace:^",
     "@worldapptechnologies/nulu-llm": "workspace:^",
-    "@worldapptechnologies/nulu-llm-deepseek": "workspace:^",
+    "@worldapptechnologies/nulu-llm-gateway": "workspace:^",
     "@worldapptechnologies/nulu-permission-presets": "workspace:^",
     "@worldapptechnologies/nulu-ptc-runtime-node": "workspace:^",
     "@worldapptechnologies/nulu-sandbox": "workspace:^",

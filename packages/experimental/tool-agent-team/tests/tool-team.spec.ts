@@ -17,7 +17,7 @@ import * as SubagentSpawn from '@worldapptechnologies/nulu-subagent-spawn-in-pro
 import { renderPrompt, renderContextSnapshot } from '@worldapptechnologies/nulu-system-prompt'
 import * as ToolSubagentControl from '@worldapptechnologies/nulu-tool-subagent-control'
 import { defineContentToolFixture } from '@worldapptechnologies/nulu-tools'
-import { serializeRequest } from '@worldapptechnologies/nulu-llm-deepseek/src/protocols/chat-completions/serialize.ts'
+import { serializeRequest } from '@worldapptechnologies/nulu-llm-gateway/src/protocols/chat-completions/serialize.ts'
 import { MockAdapter, textResponse, toolCallResponse } from '../../../core/agent-loop/tests/mock-adapter.ts'
 import TeamService from '../../agent-team/src/index.ts'
 import * as toolTeam from '../src/index.ts'

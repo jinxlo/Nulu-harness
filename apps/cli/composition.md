@@ -14,7 +14,7 @@ flowchart LR
   cfg --> plugin_dsh_base_hmr
   plugin_dsh_base_llm["llm<br/>@worldapptechnologies/nulu-llm"]
   cfg --> plugin_dsh_base_llm
-  plugin_dsh_base_deepseek_llm_api_extensions["deepseek-llm-api-extensions<br/>@worldapptechnologies/nulu-deepseek-llm-api-extensions"]
+  plugin_dsh_base_deepseek_llm_api_extensions["deepseek-llm-api-extensions<br/>@worldapptechnologies/nulu-llm-api-extensions"]
   cfg --> plugin_dsh_base_deepseek_llm_api_extensions
   plugin_dsh_base_session["session<br/>@worldapptechnologies/nulu-session"]
   cfg --> plugin_dsh_base_session
@@ -180,7 +180,7 @@ flowchart LR
   cfg --> plugin_dsh_base_agent_loop
   plugin_dsh_base_fs_sandbox["fs-sandbox<br/>@worldapptechnologies/nulu-fs-sandbox"]
   cfg --> plugin_dsh_base_fs_sandbox
-  plugin_dsh_base_llm_deepseek["llm-deepseek<br/>@worldapptechnologies/nulu-llm-deepseek"]
+  plugin_dsh_base_llm_deepseek["llm-deepseek<br/>@worldapptechnologies/nulu-llm-gateway"]
   cfg --> plugin_dsh_base_llm_deepseek
 ```
 
@@ -189,7 +189,7 @@ flowchart LR
 | `timer` | `@worldapptechnologies/cordis-plugin-timer` |
 | `hmr` | `@worldapptechnologies/cordis-plugin-hmr` |
 | `llm` | `@worldapptechnologies/nulu-llm` |
-| `deepseek-llm-api-extensions` | `@worldapptechnologies/nulu-deepseek-llm-api-extensions` |
+| `deepseek-llm-api-extensions` | `@worldapptechnologies/nulu-llm-api-extensions` |
 | `session` | `@worldapptechnologies/nulu-session` |
 | `session-log-deepseek` | `@worldapptechnologies/nulu-session-log-deepseek` |
 | `typert` | `@worldapptechnologies/nulu-typert-registry` |
@@ -272,7 +272,7 @@ flowchart LR
 | `system-prompt` | `@worldapptechnologies/nulu-system-prompt` |
 | `agent-loop` | `@worldapptechnologies/nulu-agent-loop` |
 | `fs-sandbox` | `@worldapptechnologies/nulu-fs-sandbox` |
-| `llm-deepseek` | `@worldapptechnologies/nulu-llm-deepseek` |
+| `llm-deepseek` | `@worldapptechnologies/nulu-llm-gateway` |
 
 Source config: [`packages/bundle/base/cordis.patch.yml`](../../packages/bundle/base/cordis.patch.yml).
 

@@ -6,7 +6,7 @@
  * token meter through `LlmAdapter.imageRequestPricing`; provider usage
  * remains the authoritative anchor for completed requests.
  *
- * @module nulu-llm-deepseek/request-pricing
+ * @module nulu-llm-gateway/request-pricing
  */
 
 import { offloadedImageText, requestImageHandleText, textOnlyImageText } from '@worldapptechnologies/nulu-llm'

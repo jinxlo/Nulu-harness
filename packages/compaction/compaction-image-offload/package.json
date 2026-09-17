@@ -46,7 +46,7 @@
     "@worldapptechnologies/nulu-compaction": "workspace:^",
     "@worldapptechnologies/nulu-compaction-basic": "workspace:^",
     "@worldapptechnologies/nulu-llm": "workspace:^",
-    "@worldapptechnologies/nulu-llm-deepseek": "workspace:^",
+    "@worldapptechnologies/nulu-llm-gateway": "workspace:^",
     "@worldapptechnologies/nulu-session": "workspace:^",
     "@worldapptechnologies/nulu-session-projection": "workspace:^",
     "@worldapptechnologies/nulu-token-meter": "workspace:^"

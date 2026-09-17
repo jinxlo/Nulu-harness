@@ -1073,10 +1073,10 @@ describe.skipIf(!existsSync(nuluBin))('nulu BUILT bin (node lib/bin.js, no tsx)'
       expect(rows.map(row => [row.id, row.name])).toEqual([
         ['sdk-app-startup', '@worldapptechnologies/nulu-sdk-app'],
         ['sdk-jsonrpc-server', '@worldapptechnologies/nulu-sdk-jsonrpc-server'],
-        ['deepseek-llm-api-extensions', '@worldapptechnologies/nulu-deepseek-llm-api-extensions'],
+        ['deepseek-llm-api-extensions', '@worldapptechnologies/nulu-llm-api-extensions'],
         ['session-log-deepseek', '@worldapptechnologies/nulu-session-log-deepseek'],
         ['plugin-package-inventory-deepseek', '@worldapptechnologies/nulu-plugin-package-inventory-deepseek'],
-        ['llm-deepseek', '@worldapptechnologies/nulu-llm-deepseek'],
+        ['llm-deepseek', '@worldapptechnologies/nulu-llm-gateway'],
         ['sandbox', '@worldapptechnologies/nulu-sandbox-local'],
         ['session-projection', '@worldapptechnologies/nulu-session-projection'],
         ['sandbox-policy', '@worldapptechnologies/nulu-sandbox-policy'],

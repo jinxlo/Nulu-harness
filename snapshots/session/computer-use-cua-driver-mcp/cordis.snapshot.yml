@@ -1,5 +1,5 @@
 - id: llm-deepseek
-  name: '@worldapptechnologies/nulu-llm-deepseek'
+  name: '@worldapptechnologies/nulu-llm-gateway'
   disabled: true
 
 - id: agent-default-model

@@ -1489,11 +1489,11 @@
       ]
     },
     {
-      "name": "@worldapptechnologies/nulu-deepseek-llm-api-extensions",
+      "name": "@worldapptechnologies/nulu-llm-api-extensions",
       "version": "0.1.5-rc.2",
       "installations": [
         {
-          "location": "node_modules/@worldapptechnologies/nulu-deepseek-llm-api-extensions",
+          "location": "node_modules/@worldapptechnologies/nulu-llm-api-extensions",
           "direct": false,
           "optional": false,
           "peer": false
@@ -1837,11 +1837,11 @@
       ]
     },
     {
-      "name": "@worldapptechnologies/nulu-llm-deepseek",
+      "name": "@worldapptechnologies/nulu-llm-gateway",
       "version": "0.1.5-rc.2",
       "installations": [
         {
-          "location": "node_modules/@worldapptechnologies/nulu-llm-deepseek",
+          "location": "node_modules/@worldapptechnologies/nulu-llm-gateway",
           "direct": false,
           "optional": false,
           "peer": false

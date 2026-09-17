@@ -3,7 +3,7 @@
 import { attributionHeaders, LlmAdapter, LlmError } from '@worldapptechnologies/nulu-llm'
 import type { GenerateOptions, ImageAttachmentAccessResolver, PreparedAdapterCall, StreamChunk } from '@worldapptechnologies/nulu-llm'
 import type { AttachmentStore } from '@worldapptechnologies/nulu-attachment'
-import type { DeepSeekLlmApiJson } from '@worldapptechnologies/nulu-deepseek-llm-api-extensions'
+import type { DeepSeekLlmApiJson } from '@worldapptechnologies/nulu-llm-api-extensions'
 import { idleWatchdog, timeoutOf } from '@worldapptechnologies/nulu-timeout'
 import { catalogModelInfo, modelInfo } from '../../common/model-info.ts'
 import type { DeepSeekAdapterOptions, DeepSeekConnectionOptions as Connection } from '../../common/types.ts'

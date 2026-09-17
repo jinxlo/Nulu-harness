@@ -5,7 +5,7 @@
  * operation and the bearer token through a per-request resolver, so the
  * registering plugin owns validation, layering, and credential policy.
  *
- * @module nulu-llm-deepseek/adapter
+ * @module nulu-llm-gateway/adapter
  */
 
 import { attributionHeaders, contentHasImage, CONTEXT_WINDOW_EXCEEDED_CODE, isContextWindowExceededError, isQuotaExceededError, LlmAdapter, LlmError, ProviderRequestId, QUOTA_EXCEEDED_CODE } from '@worldapptechnologies/nulu-llm'
@@ -30,7 +30,7 @@ import type { AnonymousUserId } from '@worldapptechnologies/nulu-anonymous-user-
 import { idleWatchdog, timeoutOf } from '@worldapptechnologies/nulu-timeout'
 import type {
   DeepSeekLlmApiJson,
-} from '@worldapptechnologies/nulu-deepseek-llm-api-extensions'
+} from '@worldapptechnologies/nulu-llm-api-extensions'
 import { serializeRequest, serializeRequestWithImages } from './serialize.ts'
 import { deepSeekImageRequestPricing, resolveRequestImageTarget } from '../../common/request-pricing.ts'
 import { catalogModelInfo, modelInfo } from '../../common/model-info.ts'

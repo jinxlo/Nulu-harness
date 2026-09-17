@@ -1,7 +1,7 @@
 /** Prepare plugin-contributed request fields and commit their delivery after HTTP acceptance. */
 
 import { LlmError } from '@worldapptechnologies/nulu-llm'
-import type { DeepSeekLlmApiExtensionRequest, PreparedDeepSeekLlmApiExtensions } from '@worldapptechnologies/nulu-deepseek-llm-api-extensions'
+import type { DeepSeekLlmApiExtensionRequest, PreparedDeepSeekLlmApiExtensions } from '@worldapptechnologies/nulu-llm-api-extensions'
 import type { DeepSeekAdapterOptions } from './types.ts'
 
 /**

@@ -12,7 +12,7 @@ import SessionProjectionRegistry from '@worldapptechnologies/nulu-session-projec
 import { createScope } from '@worldapptechnologies/nulu-scope'
 import AgentPresets, { mountPreset } from '@worldapptechnologies/nulu-agent-presets'
 import { PluginPackages } from '@worldapptechnologies/nulu-app-boot'
-import DeepSeekLlmApiExtensionRegistry from '@worldapptechnologies/nulu-deepseek-llm-api-extensions'
+import DeepSeekLlmApiExtensionRegistry from '@worldapptechnologies/nulu-llm-api-extensions'
 import * as PluginInventory from '../src/index.ts'
 
 const contexts: Context[] = []

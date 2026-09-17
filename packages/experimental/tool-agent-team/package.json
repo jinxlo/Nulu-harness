@@ -55,6 +55,6 @@
     "@worldapptechnologies/nulu-tools": "workspace:^",
     "@worldapptechnologies/cordis": "workspace:^",
     "@worldapptechnologies/nulu-llm": "workspace:^",
-    "@worldapptechnologies/nulu-llm-deepseek": "workspace:^"
+    "@worldapptechnologies/nulu-llm-gateway": "workspace:^"
   }
 }

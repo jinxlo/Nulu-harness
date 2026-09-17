@@ -7,7 +7,7 @@ import type { AnonymousUserId } from '@worldapptechnologies/nulu-anonymous-user-
 import AgentLoop from '@worldapptechnologies/nulu-agent-loop'
 import { mountAgentLoopTestDependencies } from '@worldapptechnologies/nulu-agent-loop-testkit'
 import { createUserMessage } from '@worldapptechnologies/nulu-llm'
-import { DeepSeekAdapter, resolveAdapterOptions } from '@worldapptechnologies/nulu-llm-deepseek'
+import { DeepSeekAdapter, resolveAdapterOptions } from '@worldapptechnologies/nulu-llm-gateway'
 import { SessionId } from '@worldapptechnologies/nulu-session'
 import JsonlSessionPersistence from '@worldapptechnologies/nulu-session-persistence-jsonl'
 import * as SubagentSpawn from '@worldapptechnologies/nulu-subagent-spawn-in-process'

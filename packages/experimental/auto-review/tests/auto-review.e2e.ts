@@ -14,7 +14,7 @@ import {
   createUserMessage, isAgentLoopRequest, ToolCallId,
   type StreamChunk,
 } from '@worldapptechnologies/nulu-llm'
-import * as LlmDeepSeek from '@worldapptechnologies/nulu-llm-deepseek'
+import * as LlmDeepSeek from '@worldapptechnologies/nulu-llm-gateway'
 import PermissionPresetService, { AUTO_PRESET } from '@worldapptechnologies/nulu-permission-presets'
 import SandboxProvider, { type ConfinedArgv, type SandboxPolicy } from '@worldapptechnologies/nulu-sandbox'
 import SandboxPolicyService from '@worldapptechnologies/nulu-sandbox-policy'

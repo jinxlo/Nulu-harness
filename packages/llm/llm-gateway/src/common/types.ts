@@ -3,7 +3,7 @@ import type { ModelModality, SystemPromptUpdate, ResolvedRetryPolicy, ImageAttac
 import type { AttachmentStore, ImageAttachmentRef } from '@worldapptechnologies/nulu-attachment'
 import type { CredentialRef } from '@worldapptechnologies/nulu-credentials'
 import type { AnonymousUserId } from '@worldapptechnologies/nulu-anonymous-user-id'
-import type { DeepSeekLlmApiExtensionRequest, PreparedDeepSeekLlmApiExtensions } from '@worldapptechnologies/nulu-deepseek-llm-api-extensions'
+import type { DeepSeekLlmApiExtensionRequest, PreparedDeepSeekLlmApiExtensions } from '@worldapptechnologies/nulu-llm-api-extensions'
 import type { DeepSeekFileStore, DeepSeekFilePolicy } from './file-store.ts'
 
 /** Supported wire implementations; Responses is not yet implemented. */

@@ -2,7 +2,7 @@
 # script comes from the scenario's committed session JSONL.
 
 - id: llm-deepseek
-  name: '@worldapptechnologies/nulu-llm-deepseek'
+  name: '@worldapptechnologies/nulu-llm-gateway'
   disabled: true
 
 - id: plugin-package-inventory-deepseek

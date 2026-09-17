@@ -15,7 +15,7 @@
   config:
     path: {{credentials}}
     watch: false
-- name: '@worldapptechnologies/nulu-llm-deepseek'
+- name: '@worldapptechnologies/nulu-llm-gateway'
   config:
     apiKeyEnv: DEEPSEEK_API_KEY
     baseURL: {{endpoint}}

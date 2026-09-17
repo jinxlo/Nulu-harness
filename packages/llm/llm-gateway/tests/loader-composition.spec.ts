@@ -72,7 +72,7 @@ async function loadComposition(
     '- id: agents',
     "  name: '@worldapptechnologies/nulu-agent'",
     '- id: deepseek-llm-api-extensions',
-    "  name: '@worldapptechnologies/nulu-deepseek-llm-api-extensions'",
+    "  name: '@worldapptechnologies/nulu-llm-api-extensions'",
     '- id: session-log-deepseek',
     "  name: '@worldapptechnologies/nulu-session-log-deepseek'",
     ...options.enableSessionLog !== undefined

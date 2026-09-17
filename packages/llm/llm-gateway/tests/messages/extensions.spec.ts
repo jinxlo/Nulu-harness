@@ -5,13 +5,13 @@ import { join } from 'node:path'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { Context } from '@worldapptechnologies/cordis'
 import LlmRuntime from '@worldapptechnologies/nulu-llm'
-import DeepSeekLlmApiExtensionRegistry from '@worldapptechnologies/nulu-deepseek-llm-api-extensions'
-import type { DeepSeekLlmApiExtensionRequest } from '@worldapptechnologies/nulu-deepseek-llm-api-extensions'
+import DeepSeekLlmApiExtensionRegistry from '@worldapptechnologies/nulu-llm-api-extensions'
+import type { DeepSeekLlmApiExtensionRequest } from '@worldapptechnologies/nulu-llm-api-extensions'
 import { SessionId } from '@worldapptechnologies/nulu-session'
 import * as DeepSeek from '../../src/index.ts'
 import { assemble, options, sse, textEvents } from './helpers.ts'
 
-declare module '@worldapptechnologies/nulu-deepseek-llm-api-extensions' {
+declare module '@worldapptechnologies/nulu-llm-api-extensions' {
   interface DeepSeekLlmApiExtensionMap {
     dsh_messages_test: { value: string }
   }

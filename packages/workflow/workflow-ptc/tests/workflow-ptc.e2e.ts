@@ -4,7 +4,7 @@ import { SessionId } from '@worldapptechnologies/nulu-session'
 
 import AgentLoop from '@worldapptechnologies/nulu-agent-loop'
 import { mountAgentLoopTestDependencies } from '@worldapptechnologies/nulu-agent-loop-testkit'
-import * as LlmDeepSeek from '@worldapptechnologies/nulu-llm-deepseek'
+import * as LlmDeepSeek from '@worldapptechnologies/nulu-llm-gateway'
 import SubagentRuntime from '@worldapptechnologies/nulu-subagent'
 import * as Spawn from '@worldapptechnologies/nulu-subagent-spawn-in-process'
 import PtcWorkflowEngine from '../src/index.ts'

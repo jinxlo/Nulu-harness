@@ -200,7 +200,7 @@ describe('Cordis provider composition', () => {
     await ctx.plugin(Loader)
     ctx.loader.builtins.include = Include
     const modules = new Map<string, unknown>([
-      ['@worldapptechnologies/nulu-llm', LlmRuntime], ['@worldapptechnologies/nulu-llm-deepseek', Messages],
+      ['@worldapptechnologies/nulu-llm', LlmRuntime], ['@worldapptechnologies/nulu-llm-gateway', Messages],
       ['@worldapptechnologies/nulu-credentials-local', LocalCredentials], ['@worldapptechnologies/nulu-settings-file', FileSettings],
       ['@worldapptechnologies/nulu-agent', AgentRegistry], ['@worldapptechnologies/nulu-agent-loop', AgentLoop],
       ['@worldapptechnologies/nulu-session', SessionStore], ['@worldapptechnologies/nulu-session-projection', SessionProjectionRegistry],

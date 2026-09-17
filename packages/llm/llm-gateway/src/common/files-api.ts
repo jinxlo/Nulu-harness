@@ -1,4 +1,4 @@
-/** DeepSeek Files API transport for Chat Completions and Messages endpoints. @module nulu-llm-deepseek/files-api */
+/** DeepSeek Files API transport for Chat Completions and Messages endpoints. @module nulu-llm-gateway/files-api */
 
 import { attributionHeaders, LlmError } from '@worldapptechnologies/nulu-llm'
 import type { ImageMediaType } from '@worldapptechnologies/nulu-attachment'
