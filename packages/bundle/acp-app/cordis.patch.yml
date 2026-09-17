@@ -18,4 +18,4 @@
       inject: [acpAppStartup]
       config:
         provider: worldapp-gateway
-        model: nulu-5
+        model: nulu-5-ultra

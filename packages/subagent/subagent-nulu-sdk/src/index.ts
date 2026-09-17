@@ -84,7 +84,7 @@ export const Config: z<Config> = z.object({
   nuluHome: z.string().required(),
   cwd: z.string(),
   provider: z.string().default('worldapp-gateway'),
-  model: z.string().default('nulu-5'),
+  model: z.string().default('nulu-5-ultra'),
   maxTokens: z.number().step(1).min(1).max(Number.MAX_SAFE_INTEGER),
   env: z.dict(z.string()).default({}),
   shutdownTimeoutMs: z.number().default(DEFAULT_SHUTDOWN_TIMEOUT_MS),

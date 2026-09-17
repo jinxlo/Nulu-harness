@@ -35,7 +35,7 @@ export const GATEWAY_PROVIDER_ID = 'worldapp-gateway'
 export const GATEWAY_DEFAULT_BASE_URL = 'https://platform.worldapptechnologies.com/api/v1'
 
 /** Default Anthropic-format model name (aligned with the repo's Nulu model vocabulary). */
-export const GATEWAY_DEFAULT_MODEL = 'nulu-5'
+export const GATEWAY_DEFAULT_MODEL = 'nulu-5-ultra'
 
 /** Default `anthropic-version` header value. */
 export const GATEWAY_DEFAULT_API_VERSION = '2023-06-01'

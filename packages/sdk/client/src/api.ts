@@ -40,7 +40,7 @@ export class NuluHarness implements AsyncDisposable {
     // relative value would double-resolve (e.g. `worker` → `worker/worker`).
     this.cwd = resolve(options.cwd ?? options.processCwd ?? process.cwd())
     this.provider = options.provider ?? 'worldapp-gateway'
-    this.model = options.model ?? 'nulu-5'
+    this.model = options.model ?? 'nulu-5-ultra'
     this.reasoningEffort = options.reasoningEffort
     this.maxTokens = options.maxTokens
   }
