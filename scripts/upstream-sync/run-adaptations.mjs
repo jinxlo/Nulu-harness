@@ -57,8 +57,12 @@ function validate() {
   }
 }
 
-function policyStaged() {
-  try { return git(['diff', '--cached', '--name-only']).trim().split('\n').filter(f => POLICY_FILES.has(f)) } catch { return [] }
+function policyChanged() {
+  try {
+    const staged = git(['diff', '--cached', '--name-only'])
+    const unstaged = git(['diff', '--name-only'])
+    return [...new Set([...staged.split('\n'), ...unstaged.split('\n')])].filter(f => POLICY_FILES.has(f))
+  } catch { return [] }
 }
 
 function loadQueue() { return JSON.parse(readFileSync(join(ADAPT_DIR, 'queue.json'), 'utf8')) }
@@ -141,7 +145,7 @@ function main() {
     }
 
     // Policy write-protection.
-    const pchanged = policyStaged()
+    const pchanged = policyChanged()
     if (pchanged.length > 0) {
       stats.policy_blocks += 1
       git(['reset', '--', ...pchanged])
