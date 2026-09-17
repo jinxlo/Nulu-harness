@@ -75,4 +75,3 @@ architecture:
   preserve_worldapp_adapter: true
   preserve_nulu_model_catalog: true
   preserve_nulu_desktop: true
-# injected

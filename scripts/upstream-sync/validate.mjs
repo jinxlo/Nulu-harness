@@ -47,6 +47,9 @@ function isUserFacing(hit) {
     && !/fixture/i.test(file)
     && !/THIRD_PARTY|LICENSE|NOTICE|CHANGELOG/i.test(file)
     && !file.startsWith('.agents/notes/')
+    // Sync analysis artifacts (reports/) legitimately reference "DeepSeek" as
+    // the upstream source being adapted; they are not product surfaces.
+    && !file.startsWith('reports/')
     // The sync system itself necessarily references the source names it
     // transforms; it is build tooling, not the product.
     && !file.startsWith('scripts/upstream-sync/')
