@@ -91,8 +91,9 @@ const PROVIDER = 'worldapp-gateway'
 
 const DEFAULT_MODELS: NuluCatalogModel[] = [
   {
-    id: 'nulu-5',
-    name: 'Nulu 5',
+    id: 'nulu-5-ultra',
+    name: 'Nulu 5 Ultra',
+    description: 'Flagship multimodal model for advanced reasoning, code, agentic tasks, vision, and long-context work.',
     contextWindow: DEFAULT_CONTEXT_WINDOW,
     inputModalities: ['text', 'image'],
     imagePixelBudget: DEFAULT_REQUEST_IMAGE_PIXEL_BUDGET,
@@ -100,24 +101,10 @@ const DEFAULT_MODELS: NuluCatalogModel[] = [
     systemPromptUpdate: 'in-history',
   },
   {
-    id: 'nulu-5',
-    name: 'Nulu 5',
-    description: 'Fast, efficient, and economical; suited to focused, routine, or parallel tasks.',
+    id: 'nulu-5-pro',
+    name: 'Nulu 5 Pro',
+    description: 'Deep reasoning model for complex analysis, technical planning, and code.',
     contextWindow: DEFAULT_CONTEXT_WINDOW,
-  },
-  {
-    id: 'nulu-5-ultra',
-    name: 'Nulu 5 Ultra',
-    description: 'Stronger agentic coding, knowledge, and difficult reasoning; suited to complex or quality-critical tasks at higher cost.',
-    contextWindow: DEFAULT_CONTEXT_WINDOW,
-  },
-  {
-    id: 'nulu-5-vision',
-    name: 'Nulu 5 Vision',
-    contextWindow: DEFAULT_CONTEXT_WINDOW,
-    inputModalities: ['text', 'image'],
-    imagePixelBudget: DEFAULT_REQUEST_IMAGE_PIXEL_BUDGET,
-    imageMaxBytes: DEFAULT_REQUEST_IMAGE_MAX_BYTES,
   },
 ]
 
