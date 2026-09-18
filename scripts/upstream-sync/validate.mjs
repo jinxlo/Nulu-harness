@@ -158,9 +158,11 @@ function check(name, pass, detail = '') {
 
 // 12. Provider environment: no DEEPSEEK_* variables in product source.
 {
-  const hits = grep('DEEPSEEK_')
-    .split('\n')
-    .filter(line => line && line.startsWith('packages/') && !/\.(spec|test|e2e)\.[cm]?[jt]sx?$/.test(line))
+  const hits = grep('DEEPSEEK_').split('\n').filter((line) => {
+    if (!line || !line.startsWith('packages/')) return false
+    const file = line.slice(0, line.indexOf(':'))
+    return !/\.(spec|test|e2e)\.[cm]?[jt]sx?$/.test(file) && !/\/tests?\//.test(file) && !/fixture/.test(file)
+  })
   check('providers: no DEEPSEEK_ env vars in product source', hits.length === 0, hits.slice(0, 5).join('\n'))
 }
 
