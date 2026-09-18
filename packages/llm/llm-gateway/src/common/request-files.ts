@@ -114,7 +114,7 @@ export class RequestFiles {
    * @returns the reusable provider id.
    */
   async resolve(version: RequestImageAttachment, location: ImageWireLocation): Promise<NuluFileId> {
-    using limit = deadline(this.signal, this.timeoutMs, 'DEEPSEEK_FILES_API_TIMEOUT')
+    using limit = deadline(this.signal, this.timeoutMs, 'NULU_FILES_API_TIMEOUT')
     let resolved: Awaited<ReturnType<NuluFileStore['ensureUploaded']>>
     try {
       resolved = await this.files.ensureUploaded(version, this.connection, this.policy, limit.signal)

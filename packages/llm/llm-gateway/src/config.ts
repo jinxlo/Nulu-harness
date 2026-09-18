@@ -10,7 +10,7 @@ import { DEFAULT_MODELS } from './common/models.ts'
 import { DEFAULT_STREAM_IDLE_TIMEOUT_MS, DEFAULT_CONTEXT_WINDOW, DEFAULT_MAX_TOKENS, DEFAULT_MAX_INLINE_REQUEST_IMAGE_BYTES, DEFAULT_IMAGE_OFFLOAD_BYTE_QUANTUM, DEFAULT_INLINE_IMAGE_OFFLOAD_BYTE_QUANTUM, DEFAULT_IMAGE_OFFLOAD_COUNT_QUANTUM, DEFAULT_FILE_EXPIRY_SECONDS, DEFAULT_FILE_REFRESH_MARGIN_SECONDS, DEFAULT_FILE_QUOTA_CLEANUP_BATCH, DEFAULT_FILES_API_TIMEOUT_MS } from './common/defaults.ts'
 import { DEFAULT_MAX_IMAGES_PER_REQUEST, DEFAULT_MAX_REQUEST_FILES_BYTES, DEFAULT_REQUEST_IMAGE_MAX_BYTES } from './common/request-pricing.ts'
 
-const DEFAULT_API_KEY_ENV = 'DEEPSEEK_API_KEY'
+const DEFAULT_API_KEY_ENV = 'WORLD_APP_TECHNOLOGIES_API_KEY'
 
 const MODEL_MODALITIES = ['text', 'image'] as const satisfies readonly ModelModality[]
 
@@ -25,9 +25,9 @@ const MODEL_MODALITIES = ['text', 'image'] as const satisfies readonly ModelModa
 export interface Config {
   /** Wire protocol; defaults to messages. Configure through Cordis YAML. */
   protocol?: NuluProtocol
-  /** Credential reference (environment-variable name) resolved per request; defaults to `DEEPSEEK_API_KEY`. */
+  /** Credential reference (environment-variable name) resolved per request; defaults to `WORLD_APP_TECHNOLOGIES_API_KEY`. */
   apiKeyEnv?: string
-  /** Endpoint base; falls back to $DEEPSEEK_BASE_URL from a trusted environment layer, then the public API. */
+  /** Endpoint base; falls back to $WORLD_APP_TECHNOLOGIES_BASE_URL from a trusted environment layer, then the public API. */
   baseURL?: string
   /** Deployment thinking policy; `disabled` limits every conversation request to `off`. */
   thinking?: 'enabled' | 'disabled'
@@ -100,14 +100,14 @@ export const Config: z<Config> = z.object({
   retryPolicy: RetryPolicySchema,
 })
 
-/** Public API default; the internal endpoint comes from $DEEPSEEK_BASE_URL. */
+/** Public API default; the internal endpoint comes from $WORLD_APP_TECHNOLOGIES_BASE_URL. */
 export const PUBLIC_BASE_URL = 'https://api.nulu.com'
 
 /** Official Messages protocol root. */
 export const MESSAGES_BASE_URL = 'https://api.nulu.com/anthropic'
 
 /** Environment variable naming this provider's endpoint, honored only from trusted layers. */
-const BASE_URL_ENV = 'DEEPSEEK_BASE_URL'
+const BASE_URL_ENV = 'WORLD_APP_TECHNOLOGIES_BASE_URL'
 
 /**
  * One resolution's complete request facts. Connection and credential facts
