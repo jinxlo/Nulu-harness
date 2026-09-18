@@ -12,7 +12,7 @@ import { prepareImages } from '../../src/protocols/messages/images.ts'
 import { providerErrorDetail } from '../../src/protocols/messages/transport.ts'
 import { chunks, options, prepareExtensions, sse, textEvents, user } from './helpers.ts'
 
-const model = 'nulu-flash'
+const model = 'nulu-5-ultra'
 const ref: ImageAttachmentRef = { attachmentId: AttachmentId(`sha256:${'a'.repeat(64)}`), width: 1, height: 1, mediaType: 'image/png', bytes: 3 }
 const second = { ...ref, attachmentId: AttachmentId(`sha256:${'c'.repeat(64)}`) }
 const version = (attachment: ImageAttachmentRef): RequestImageAttachment => ({
@@ -51,7 +51,7 @@ describe('Messages Files requests', () => {
     vi.stubGlobal('fetch', fetchImpl)
     const h = harness()
     const callId = ToolCallId('image-tool')
-    const messages = [user(), createAssistantMessage({ source: { provider: 'nulu-official', model }, content: [{ type: 'tool-call', id: callId, name: 'read_image', arguments: '{}' }] }),
+    const messages = [user(), createAssistantMessage({ source: { provider: 'nulu-5-ultra', model }, content: [{ type: 'tool-call', id: callId, name: 'read_image', arguments: '{}' }] }),
       createToolResultMessage({ callId, isError: false, content: [{ type: 'image', attachment: ref }, { type: 'image', attachment: ref }] })]
     await chunks(h.adapter.stream(options({ model, messages })))
     expect(h.readImageRequest).toHaveBeenCalledTimes(1)
@@ -141,7 +141,7 @@ describe('Messages Files requests', () => {
     const images = [{ type: 'image' as const, attachment: ref, offloaded: true as const }, { type: 'image' as const, attachment: second }]
     await chunks(h.adapter.stream(options({ model, messages: [{ ...user(), content: images }] })))
     expect(h.readImageRequest).toHaveBeenCalledExactlyOnceWith(second, expect.anything(), expect.any(AbortSignal))
-    expect(h.adapter.imageRequestPricing('nulu-official', model).priceImages(images).map(image => image.visualTokens)).toEqual([0, expect.any(Number)])
+    expect(h.adapter.imageRequestPricing('nulu-5-ultra', model).priceImages(images).map(image => image.visualTokens)).toEqual([0, expect.any(Number)])
   })
 
   it.each([

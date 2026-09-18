@@ -156,8 +156,8 @@ describe.skipIf(!process.env.WORLD_APP_TECHNOLOGIES_API_KEY)('llm-gateway e2e (r
     await ctx.plugin(LlmRuntime)
     await ctx.plugin(LocalAttachments)
     await ctx.plugin(LlmNulu, { protocol: 'chat-completions', baseURL: LlmNulu.PUBLIC_BASE_URL, maxTokens: 4096 })
-    const model = 'nulu-flash'
-    await expect(ctx.llm.resolveModelInfo('nulu-official', model)).resolves.toMatchObject({
+    const model = 'nulu-5-ultra'
+    await expect(ctx.llm.resolveModelInfo('nulu-5-ultra', model)).resolves.toMatchObject({
       inputModalities: ['text', 'image'], systemPromptUpdate: 'in-history',
     })
     const attachment = await ctx.attachments.saveImage({ data: readFileSync(new URL('fixtures/red.png', import.meta.url)), mediaType: 'image/png' })
@@ -180,8 +180,8 @@ describe.skipIf(!process.env.WORLD_APP_TECHNOLOGIES_API_KEY)('llm-gateway e2e (r
   })
 
   it.skipIf(!VISION_E2E_ENABLED)('uses the built-in official route to upload, reference, and delete one image', async () => {
-    const key = process.env.DEEPSEEK_API_KEY
-    if (key === undefined) throw new Error('e2e ran without DEEPSEEK_API_KEY')
+    const key = process.env.WORLD_APP_TECHNOLOGIES_API_KEY
+    if (key === undefined) throw new Error('e2e ran without WORLD_APP_TECHNOLOGIES_API_KEY')
     const baseURL = LlmNulu.PUBLIC_BASE_URL
     const ctx = await harness(VISION, { baseURL })
     await ctx.plugin(E2eAttachmentStore)

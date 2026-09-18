@@ -35,9 +35,9 @@ nulu --profile web --no-open --port 8080
 
 After startup you see a `nulu web:` line whose root URL carries a fresh process token. Unless `--no-open` or an SSH session suppresses it, the default browser opens that URL, receives a signed cookie, and redirects to the clean root page. You know it worked when the page loads and you can chat with the agent. Two failures to expect: if the frontend is not built, startup stops with a build hint (`pnpm run build` in a checkout); if the browser cannot be opened, a credential-free diagnostic prints to stderr while the server keeps running — open the printed startup URL yourself.
 
-**Settings → Models** displays **Nulu**, using `DEEPSEEK_API_KEY`. The default is `nulu-official` / `nulu-flash` (Nulu-V41-Flash). The [Nulu plugin](../../llm/llm-gateway/README.md#choose-a-protocol) defaults to Messages; set `protocol: chat-completions` in Cordis YAML to select Chat Completions. Web has no protocol selector.
+**Settings → Models** displays **Nulu**, using `WORLD_APP_TECHNOLOGIES_API_KEY`. The default is `nulu-5-ultra` / `nulu-5-ultra` (Nulu 5 Ultra). The [Nulu plugin](../../llm/llm-gateway/README.md#choose-a-protocol) defaults to Messages; set `protocol: chat-completions` in Cordis YAML to select Chat Completions. Web has no protocol selector.
 
-Saved model selections override the composition default. Both protocols share `nulu-official` and `llm-gateway` settings, so switching preserves model selections and credential references. Endpoint overrides retain their values; the settings card lets users supply a compatible API address.
+Saved model selections override the composition default. Both protocols share `nulu-5-ultra` and `llm-gateway` settings, so switching preserves model selections and credential references. Endpoint overrides retain their values; the settings card lets users supply a compatible API address.
 
 ### Configuration
 

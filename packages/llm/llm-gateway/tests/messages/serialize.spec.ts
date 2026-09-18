@@ -14,7 +14,7 @@ import { MODEL, options, user } from './helpers.ts'
 
 const connection = resolveAdapterOptions({})
 const call = (id = 'a'): ContentBlock => ({ type: 'tool-call', id: ToolCallId(id), name: 'read', arguments: '{"path":"a"}' })
-const assistant = (content: ContentBlock[]) => createAssistantMessage({ content, source: { provider: 'nulu-official', model: MODEL } })
+const assistant = (content: ContentBlock[]) => createAssistantMessage({ content, source: { provider: 'nulu-5-ultra', model: MODEL } })
 const result = (id = 'a', content: ContentBlock[] = [{ type: 'text', text: 'result' }]) => createToolResultMessage({ callId: ToolCallId(id), content, isError: false })
 const body = (messages: Message[] = [user()], overrides: Partial<GenerateOptions> = {}) => serialize(
   options({ messages, ...overrides }), connection, messages, new Map(), () => undefined,
@@ -155,7 +155,7 @@ describe('Messages request conversion', () => {
 
   it('preserves own signed thinking, omits absent signatures and validates durable metadata', () => {
     const content: ContentBlock[] = [{ type: 'reasoning', text: '' }, { type: 'text', text: 'answer' }]
-    const source = { provider: 'nulu-official', model: MODEL, replayState: replayState(MODEL, [{ type: 'reasoning', signature: 'signed' }, { type: 'text' }]) }
+    const source = { provider: 'nulu-5-ultra', model: MODEL, replayState: replayState(MODEL, [{ type: 'reasoning', signature: 'signed' }, { type: 'text' }]) }
     const message = createAssistantMessage({ content, source })
     expect(body([user(), message, user()]).messages[1]?.content).toEqual([{ type: 'thinking', thinking: '', signature: 'signed' }, { type: 'text', text: 'answer' }])
     expect(body([assistant([{ type: 'reasoning', text: 'foreign thought' }])]).messages[0]?.content).toEqual([{ type: 'thinking', thinking: 'foreign thought' }])
@@ -176,7 +176,7 @@ describe('Messages request conversion', () => {
     { response: { kind: 'nulu-messages', version: 1, model: MODEL }, blocks: [{ type: 'tool-call' }] },
     { response: { kind: 'nulu-messages', version: 1, model: MODEL }, blocks: [{ type: 'reasoning', signature: 3 }] },
   ].map(state => ({ state })))('degrades unusable replay state with a diagnostic %#', ({ state }) => {
-    const message = createAssistantMessage({ content: [{ type: 'reasoning', text: 'think' }], source: { provider: 'nulu-official', model: MODEL, replayState: state } })
+    const message = createAssistantMessage({ content: [{ type: 'reasoning', text: 'think' }], source: { provider: 'nulu-5-ultra', model: MODEL, replayState: state } })
     const onDegrade = vi.fn()
     expect(readReplay(message, MODEL, onDegrade)).toBeUndefined()
     expect(onDegrade).toHaveBeenCalledExactlyOnceWith(expect.any(String))
@@ -186,7 +186,7 @@ describe('Messages request conversion', () => {
   it.each([MODEL, 'different-model'])('keeps durable content when replay degrades for %s', async (model) => {
     const message = createAssistantMessage({
       content: [{ type: 'reasoning', text: 'Read the file.' }, { type: 'text', text: 'Checking a.' }, call()],
-      source: { provider: 'nulu-official', model: MODEL, replayState: replayState(MODEL, [
+      source: { provider: 'nulu-5-ultra', model: MODEL, replayState: replayState(MODEL, [
         { type: 'reasoning', signature: 'do-not-send' }, { type: 'text', signature: 'invalid-for-text' }, { type: 'tool-call' },
       ]) },
     })
@@ -203,7 +203,7 @@ describe('Messages request conversion', () => {
   it('keeps valid cross-model and foreign history quiet and propagates diagnostic failures', () => {
     const onDegrade = vi.fn()
     const message = createAssistantMessage({ content: [{ type: 'reasoning', text: 'think' }], source: {
-      provider: 'nulu-official', model: MODEL, replayState: replayState(MODEL, [{ type: 'reasoning', signature: '' }]),
+      provider: 'nulu-5-ultra', model: MODEL, replayState: replayState(MODEL, [{ type: 'reasoning', signature: '' }]),
     } })
     expect(readReplay(message, MODEL, onDegrade)).toEqual([{ type: 'reasoning', signature: '' }])
     expect(readReplay(message, 'different-model', onDegrade)).toBeUndefined()
@@ -216,7 +216,7 @@ describe('Messages request conversion', () => {
 
   it('still rejects invalid tool JSON after discarding unusable replay metadata', () => {
     const message = createAssistantMessage({ content: [{ type: 'tool-call', id: ToolCallId('a'), name: 'read', arguments: '{' }], source: {
-      provider: 'nulu-official', model: MODEL, replayState: { response: {}, blocks: [] },
+      provider: 'nulu-5-ultra', model: MODEL, replayState: { response: {}, blocks: [] },
     } })
     expect(() => body([message, result()])).toThrow(/historical tool input is invalid JSON/)
   })
@@ -224,13 +224,13 @@ describe('Messages request conversion', () => {
 
 describe('validated configuration', () => {
   it('advertises exact model metadata and allows unlisted text models', () => {
-    expect(modelInfo(connection, 'nulu-official', MODEL)).toMatchObject({ context: { contextWindow: 1_000_000 }, defaultMaxTokens: 256_000, reasoning: { defaultEffort: 'high' } })
-    expect(modelInfo(connection, 'nulu-official', 'custom').inputModalities).toEqual(['text'])
-    expect(modelInfo(connection, 'nulu-official', MODEL).systemPromptUpdate).toBeUndefined()
-    expect(modelInfo(connection, 'nulu-official', 'custom').systemPromptUpdate).toBeUndefined()
-    expect(modelInfo(capable, 'nulu-official', MODEL).systemPromptUpdate).toBe('in-history')
-    expect(modelInfo(capable, 'nulu-official', 'custom').systemPromptUpdate).toBeUndefined()
-    expect(modelInfo(resolveAdapterOptions({ thinking: 'disabled' }), 'nulu-official', MODEL).reasoning?.efforts).toMatchObject([{ id: 'off', name: 'Off' }])
+    expect(modelInfo(connection, 'nulu-5-ultra', MODEL)).toMatchObject({ context: { contextWindow: 1_000_000 }, defaultMaxTokens: 256_000, reasoning: { defaultEffort: 'high' } })
+    expect(modelInfo(connection, 'nulu-5-ultra', 'custom').inputModalities).toEqual(['text'])
+    expect(modelInfo(connection, 'nulu-5-ultra', MODEL).systemPromptUpdate).toBeUndefined()
+    expect(modelInfo(connection, 'nulu-5-ultra', 'custom').systemPromptUpdate).toBeUndefined()
+    expect(modelInfo(capable, 'nulu-5-ultra', MODEL).systemPromptUpdate).toBe('in-history')
+    expect(modelInfo(capable, 'nulu-5-ultra', 'custom').systemPromptUpdate).toBeUndefined()
+    expect(modelInfo(resolveAdapterOptions({ thinking: 'disabled' }), 'nulu-5-ultra', MODEL).reasoning?.efforts).toMatchObject([{ id: 'off', name: 'Off' }])
     expect(resolveAdapterOptions({ baseURL: 'https://example.com/anthropic///' }).baseURL).toBe('https://example.com/anthropic///')
   })
   it.each([
@@ -255,7 +255,7 @@ describe('Messages images', () => {
   // Only the read operation is consumed by image preparation; the transport is mocked, not durable content.
   const attachments = { readImageRequest: async () => version } as unknown as AttachmentStore
   const signal = new AbortController().signal
-  it.each(['nulu-flash', model])('keeps image bytes inside tool results and deduplicates normalization for %s', async (model) => {
+  it.each(['nulu-5-ultra', model])('keeps image bytes inside tool results and deduplicates normalization for %s', async (model) => {
     const history = [assistant([call()]), result('a', [image, image])]
     const prepared = await prepareImages(history, connection, model, attachments, access, signal)
     expect(prepared.versions.size).toBe(1)

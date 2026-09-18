@@ -153,7 +153,7 @@ async function extensionServer(protocol: 'chat-completions' | 'messages') {
 
 describe('llm-gateway real dynamic composition', () => {
   it.each(['chat-completions', 'messages'] as const)('keeps package inventory on when the %s Loader composition disables session upload', async (protocol) => {
-    vi.stubEnv('DEEPSEEK_API_KEY', 'entry-key')
+    vi.stubEnv('WORLD_APP_TECHNOLOGIES_API_KEY', 'entry-key')
     const server = await extensionServer(protocol)
     const { ctx } = await loadComposition({ withDynamic: false, baseURL: server.url, protocol, enableSessionLog: false })
     const session = ctx.sessions.create(SessionId('extension-composition'))
@@ -172,7 +172,7 @@ describe('llm-gateway real dynamic composition', () => {
   })
 
   it.each(['chat-completions', 'messages'] as const)('sends the canonical session suffix by default through %s Loader composition', async (protocol) => {
-    vi.stubEnv('DEEPSEEK_API_KEY', 'entry-key')
+    vi.stubEnv('WORLD_APP_TECHNOLOGIES_API_KEY', 'entry-key')
     const server = await extensionServer(protocol)
     const { ctx } = await loadComposition({
       withDynamic: false,

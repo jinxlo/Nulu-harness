@@ -36,7 +36,7 @@ it.each([false, true])('uses Messages when protocol is omitted, schema=%s', asyn
   expect(http.requests).toHaveLength(1)
   expect(http.requests[0]).toMatchObject({
     path: '/anthropic/v1/messages',
-    headers: { 'x-api-key': 'key-for-DEEPSEEK_API_KEY', 'anthropic-version': '2023-06-01' },
+    headers: { 'x-api-key': 'key-for-WORLD_APP_TECHNOLOGIES_API_KEY', 'anthropic-version': '2023-06-01' },
     body: { model: MODEL, messages: [{ role: 'user', content: [{ type: 'text', text: 'hello' }] }] },
   })
 })
@@ -45,12 +45,12 @@ it('keeps the prepared Messages protocol, credential reference and endpoint afte
   const first = await endpoint(), second = await endpoint(response => response.end(chat))
   let connection = resolveAdapterOptions({ protocol: 'messages', baseURL: first.url, apiKeyEnv: 'MESSAGES_KEY', maxTokens: 12 })
   const llm = adapter(() => connection)
-  const prepared = await llm.prepareCall('nulu-official', MODEL)
+  const prepared = await llm.prepareCall('nulu-5-ultra', MODEL)
   connection = resolveAdapterOptions({ protocol: 'chat-completions', baseURL: second.url, apiKeyEnv: 'CHAT_KEY', maxTokens: 24 })
   await chunks(prepared.stream(options()))
   await chunks(prepared.stream(options()))
   expect(prepared.model.defaultMaxTokens).toBe(12)
-  expect((await llm.resolveModel('nulu-official', MODEL)).defaultMaxTokens).toBe(24)
+  expect((await llm.resolveModel('nulu-5-ultra', MODEL)).defaultMaxTokens).toBe(24)
   await chunks(llm.stream(options()))
   expect(first.requests).toHaveLength(2)
   for (const request of first.requests) expect(request).toMatchObject({

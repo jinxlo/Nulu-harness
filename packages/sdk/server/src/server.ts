@@ -148,7 +148,7 @@ export class HarnessSdkJsonRpcServer {
       ? undefined
       : ReasoningEffortId(params.reasoningEffort)
     if (!this.hasAdapterFor(provider)) {
-      if (provider !== 'nulu-official') throw new Error(`no adapter registered for provider "${provider}"`)
+      if (provider !== 'nulu-5-ultra') throw new Error(`no adapter registered for provider "${provider}"`)
       this.llmFiber = await this.ctx.plugin(LlmNulu)
     }
     // Adapter presence was read from this service above; a successful fallback mount also requires it.

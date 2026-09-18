@@ -56,7 +56,7 @@ describe('direct Messages HTTP', () => {
   it('continues without a diagnostic callback when replay metadata is unusable', async () => {
     const http = await endpoint()
     const message = createAssistantMessage({ content: [{ type: 'text', text: 'Remember 731.' }], source: {
-      provider: 'nulu-official', model: MODEL, replayState: { response: {}, blocks: [] },
+      provider: 'nulu-5-ultra', model: MODEL, replayState: { response: {}, blocks: [] },
     } })
     const response = await assemble(adapter({ baseURL: http.url }).stream(options({ messages: [user(), message, user()] })))
     expect(response.assembler.finish.kind).toBe('stop')
@@ -70,25 +70,25 @@ describe('direct Messages HTTP', () => {
   it('uses the Messages endpoint, authentication, attribution and final usage', async () => {
     const http = await endpoint()
     const llm = adapter({ baseURL: http.url })
-    const response = await assemble(llm.stream(options({ model: 'nulu-flash', sessionId: SessionId('session-test'), purpose: 'compaction' })), 'nulu-flash')
+    const response = await assemble(llm.stream(options({ model: 'nulu-5-ultra', sessionId: SessionId('session-test'), purpose: 'compaction' })), 'nulu-5-ultra')
     expect(response.message.content).toEqual([{ type: 'text', text: 'Hello 世界' }])
     expect(response.message.source).toMatchObject({
-      model: 'nulu-flash', replayState: { response: { model: 'nulu-flash' } },
+      model: 'nulu-5-ultra', replayState: { response: { model: 'nulu-5-ultra' } },
     })
     expect(http.requests[0]).toMatchObject({ path: '/anthropic/v1/messages', headers: {
       'x-api-key': 'test-key', 'anthropic-version': '2023-06-01',
       'user-agent': expect.stringContaining('nulu-harness/') as string, 'x-nulu-harness-user-id': 'test-user',
       'x-nulu-harness-session-id': 'session-test', 'x-nulu-harness-compact': '1',
     }, body: { thinking: { type: 'enabled' }, output_config: { effort: 'high' } } })
-    expect(llm.providerInfo('nulu-official')).toEqual({ id: 'nulu-official', name: 'Nulu' })
-    expect((await llm.listModels('nulu-official')).map(model => model.id)).toEqual([
-      'nulu-flash', 'nulu-v4-flash', 'nulu-v4-pro', 'nulu-v4-flash-vision-exp',
+    expect(llm.providerInfo('nulu-5-ultra')).toEqual({ id: 'nulu-5-ultra', name: 'Nulu' })
+    expect((await llm.listModels('nulu-5-ultra')).map(model => model.id)).toEqual([
+      'nulu-5-ultra', 'nulu-v4-flash', 'nulu-v4-pro', 'nulu-v4-flash-vision-exp',
     ])
-    expect(await llm.resolveModel('nulu-official', 'nulu-flash')).toMatchObject({
-      name: 'Nulu-V41-Flash', inputModalities: ['text', 'image'], systemPromptUpdate: 'in-history',
+    expect(await llm.resolveModel('nulu-5-ultra', 'nulu-5-ultra')).toMatchObject({
+      name: 'Nulu 5 Ultra', inputModalities: ['text', 'image'], systemPromptUpdate: 'in-history',
     })
-    expect(await llm.resolveModel('nulu-official', MODEL)).toMatchObject({ id: MODEL })
-    expect(llm.imageRequestPricing('nulu-official', MODEL)).toBeDefined()
+    expect(await llm.resolveModel('nulu-5-ultra', MODEL)).toMatchObject({ id: MODEL })
+    expect(llm.imageRequestPricing('nulu-5-ultra', MODEL)).toBeDefined()
   })
 
   it.each([true, false])('maps non-2xx responses (JSON=%s)', async (json) => {
@@ -125,10 +125,10 @@ describe('direct Messages HTTP', () => {
     let config = Messages.resolveAdapterOptions({ baseURL: first.url, maxTokens: 10, models: [{ id: MODEL, systemPromptUpdate: 'in-history' }] })
     const files = new NuluFileStore()
     const llm = new NuluMessagesAdapter({ connection: () => config, apiKey: snapshot => Promise.resolve(snapshot.maxTokens === 10 ? 'first' : 'second'), userId: () => 'user', attachments: () => undefined, imageAccess: () => undefined, files: () => files, prepareExtensions })
-    const prepared = await llm.prepareCall('nulu-official', MODEL)
+    const prepared = await llm.prepareCall('nulu-5-ultra', MODEL)
     config = Messages.resolveAdapterOptions({ baseURL: second.url, maxTokens: 20 })
     expect(prepared.model.systemPromptUpdate).toBe('in-history')
-    expect((await llm.resolveModel('nulu-official', MODEL)).systemPromptUpdate).toBeUndefined()
+    expect((await llm.resolveModel('nulu-5-ultra', MODEL)).systemPromptUpdate).toBeUndefined()
     await chunks(prepared.stream(options()))
     await chunks(llm.stream(options()))
     expect(first.requests[0]).toMatchObject({ headers: { 'x-api-key': 'first' }, body: { max_tokens: 10 } })
@@ -167,11 +167,11 @@ describe('Cordis provider composition', () => {
   it('resolves an attachment service loaded after the adapter and maps its read-only path', async () => {
     const http = await endpoint()
     const { ctx, home } = await context()
-    vi.stubEnv('DEEPSEEK_API_KEY', 'test-key')
+    vi.stubEnv('WORLD_APP_TECHNOLOGIES_API_KEY', 'test-key')
     await ctx.plugin(LlmRuntime)
     await ctx.plugin(Messages, { baseURL: http.url })
     const model = 'nulu-v4-flash-vision-exp'
-    const price = () => ctx.llm.imageRequestPricing('nulu-official', model)!
+    const price = () => ctx.llm.imageRequestPricing('nulu-5-ultra', model)!
     const dummy = { attachmentId: AttachmentId(`sha256:${'a'.repeat(64)}`), width: 1, height: 1, bytes: 3, mediaType: 'image/png' as const }
     expect(price().priceImages([{ type: 'image', attachment: dummy }])[0]?.text).toBeDefined()
     await ctx.plugin(LocalAttachments, { nuluHome: home })
@@ -191,8 +191,8 @@ describe('Cordis provider composition', () => {
   async function boot(...args: Parameters<typeof server>) {
     const http = await endpoint(...args)
     const { ctx, home } = await context()
-    vi.stubEnv('DEEPSEEK_API_KEY', '')
-    await writeFile(join(home, '.credentials.yaml'), 'version: 1\nrefs:\n  DEEPSEEK_API_KEY: stored-key\n', { mode: 0o600 })
+    vi.stubEnv('WORLD_APP_TECHNOLOGIES_API_KEY', '')
+    await writeFile(join(home, '.credentials.yaml'), 'version: 1\nrefs:\n  WORLD_APP_TECHNOLOGIES_API_KEY: stored-key\n', { mode: 0o600 })
     await writeFile(join(home, 'settings.yaml'), '{}\n')
     const template = await readFile(new URL('fixtures/cordis.yml', import.meta.url), 'utf8')
     await writeFile(join(home, 'cordis.yml'), template.replaceAll('{{endpoint}}', JSON.stringify(http.url)).replaceAll('{{settings}}', JSON.stringify(join(home, 'settings.yaml'))).replaceAll('{{credentials}}', JSON.stringify(join(home, '.credentials.yaml'))))
@@ -224,7 +224,7 @@ describe('Cordis provider composition', () => {
   it.each([
     { model: MODEL, inHistory: false },
     { model: MODEL, inHistory: true },
-    { model: 'nulu-flash', inHistory: true },
+    { model: 'nulu-5-ultra', inHistory: true },
   ])('updates, clears and restores prompts across continued and resumed sessions, model=$model in-history=$inHistory', async ({ model, inHistory }) => {
     const { ctx, http } = await boot()
     if (inHistory && model === MODEL) await ctx.settings.update(Messages.name, { models: [{ id: model, systemPromptUpdate: 'in-history' }] })
@@ -232,7 +232,7 @@ describe('Cordis provider composition', () => {
     ctx.on('system-prompt/assemble', async (_assembly, _context, next) => ({
       ...await next(), sections: [{ name: 'test', text: prompt, order: 0 }],
     }))
-    const agentOptions = { provider: 'nulu-official', model }
+    const agentOptions = { provider: 'nulu-5-ultra', model }
     const agent = await ctx.agentLoop.create(SessionId('prompt-update'), agentOptions)
     await send(agent, 'first')
     prompt = 'second prompt'
@@ -274,7 +274,7 @@ describe('Cordis provider composition', () => {
     ctx.on('system-prompt/assemble', async (_assembly, _context, next) => ({
       ...await next(), sections: [{ name: 'test', text: prompt, order: 0 }],
     }))
-    const selection: ModelSelectionRef = { current: { provider: 'nulu-official', model: MODEL }, assembled: undefined }
+    const selection: ModelSelectionRef = { current: { provider: 'nulu-5-ultra', model: MODEL }, assembled: undefined }
     const agent = await ctx.agentLoop.create(SessionId('protocol-switch'), selection.current)
     installModelSelection(agent.ctx, selection)
     await send(agent, 'first')
@@ -285,7 +285,7 @@ describe('Cordis provider composition', () => {
     const saved = JSON.stringify(seed)
     messagesProtocol = true
     await ctx.settings.update(Messages.name, { protocol: 'messages', models: [{ id: MODEL, ...inHistory ? { systemPromptUpdate: 'in-history' } : {} }] })
-    selection.current = { provider: 'nulu-official', model: MODEL }
+    selection.current = { provider: 'nulu-5-ultra', model: MODEL }
     await send(agent, 'switch')
     const { agent: resumed } = await ctx.agents.create({ sessionId: SessionId('switch-resume'), agentOptions: selection.current, seed })
     await send(resumed, 'resume')
@@ -305,7 +305,7 @@ describe('Cordis provider composition', () => {
   it('maps multiple system snapshots on direct compaction calls to the latest prompt', async () => {
     const { ctx, http } = await boot()
     const history = [createSystemMessage('old', 'test'), user(),
-      createAssistantMessage({ content: [{ type: 'text', text: 'OK' }], source: { provider: 'nulu-official', model: MODEL } }),
+      createAssistantMessage({ content: [{ type: 'text', text: 'OK' }], source: { provider: 'nulu-5-ultra', model: MODEL } }),
       createSystemMessage('current', 'test'), user('summarize')]
     const saved = JSON.stringify(history)
     const response = await assemble(ctx.llm.stream(options({ messages: history, purpose: 'compaction' })))
@@ -322,12 +322,12 @@ describe('Cordis provider composition', () => {
     const fixture = await readFile(new URL('../../../../../snapshots/session/nulu-messages-degraded-replay/session.v2.jsonl', import.meta.url), 'utf8')
     const records = fixture.trim().split('\n').map(line => JSON.parse(line) as { type: string; data: { message?: Message } })
     const assistant = records.find(record => record.type === 'assistant/message')!.data.message!
-    if (assistant.source.kind === 'model') assistant.source.provider = 'nulu-official'
+    if (assistant.source.kind === 'model') assistant.source.provider = 'nulu-5-ultra'
     const result = records.find(record => record.type === 'tool/result')!.data.message!
     const saved = JSON.stringify([assistant, result])
     const response = await assemble(ctx.llm.stream(options({ messages: [user(), assistant, result] })))
     expect(response.assembler.finish.kind).toBe('stop')
-    expect(warnings).toEqual([[`llm-gateway: unusable Messages replay state on assistant history for route "nulu-official/${MODEL}"; sending provider-neutral content (Nulu Messages replay: unsupported kind or version)`]])
+    expect(warnings).toEqual([[`llm-gateway: unusable Messages replay state on assistant history for route "nulu-5-ultra/${MODEL}"; sending provider-neutral content (Nulu Messages replay: unsupported kind or version)`]])
     expect(http.requests).toHaveLength(1)
     expect(http.requests[0]?.body.messages).toEqual([
       { role: 'user', content: [{ type: 'text', text: 'hello' }] },
@@ -342,12 +342,12 @@ describe('Cordis provider composition', () => {
 
   it('loads one provider from YAML, rotates settings and credentials, then removes disposed registrations', async () => {
     const { ctx, http } = await boot()
-    expect(ctx.llm.listProviders().map(provider => provider.id)).toEqual(['nulu-official'])
+    expect(ctx.llm.listProviders().map(provider => provider.id)).toEqual(['nulu-5-ultra'])
     expect((await assemble(ctx.llm.stream(options()))).assembler.finish.kind).toBe('stop')
     expect(http.requests[0]?.headers['x-api-key']).toBe('stored-key')
     const second = await endpoint()
     await ctx.settings.update(Messages.name, { baseURL: second.url, maxTokens: 51, retryPolicy: { mode: 'always' } })
-    await ctx.credentials.set(credentialRef('DEEPSEEK_API_KEY'), 'rotated')
+    await ctx.credentials.set(credentialRef('WORLD_APP_TECHNOLOGIES_API_KEY'), 'rotated')
     await chunks(ctx.llm.stream(options()))
     expect(second.requests[0]).toMatchObject({ headers: { 'x-api-key': 'rotated' }, body: { max_tokens: 51 } })
     await ctx.settings.update(Messages.name, { models: [{ id: 'duplicate' }, { id: 'duplicate' }], baseURL: http.url })
@@ -366,16 +366,16 @@ describe('Cordis provider composition', () => {
   it('uses environment credentials and reports missing or malformed keys without network access', async () => {
     const http = await endpoint()
     const { ctx } = await context()
-    vi.stubEnv('DEEPSEEK_BASE_URL', http.url)
-    vi.stubEnv('DEEPSEEK_API_KEY', 'env-key')
+    vi.stubEnv('WORLD_APP_TECHNOLOGIES_BASE_URL', http.url)
+    vi.stubEnv('WORLD_APP_TECHNOLOGIES_API_KEY', 'env-key')
     await ctx.plugin(LlmRuntime)
     const fiber = ctx.plugin(Messages)
     await fiber
     await chunks(ctx.llm.stream(options()))
     expect(http.requests[0]?.headers['x-api-key']).toBe('env-key')
-    vi.stubEnv('DEEPSEEK_API_KEY', '')
+    vi.stubEnv('WORLD_APP_TECHNOLOGIES_API_KEY', '')
     expect((await assemble(ctx.llm.stream(options()))).assembler.finish).toMatchObject({ kind: 'error', failure: { code: 'MISSING_CREDENTIAL' } })
-    vi.stubEnv('DEEPSEEK_API_KEY', 'bad\nkey')
+    vi.stubEnv('WORLD_APP_TECHNOLOGIES_API_KEY', 'bad\nkey')
     expect((await assemble(ctx.llm.stream(options()))).assembler.finish).toMatchObject({ kind: 'error', failure: { code: 'INVALID_CREDENTIAL' } })
     await fiber.dispose()
     expect(ctx.llm.listProviders()).toEqual([])

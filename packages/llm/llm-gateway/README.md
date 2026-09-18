@@ -8,7 +8,7 @@ kind: "package-reference"
 
 ## Summary
 
-Stream Nulu models through `nulu-official` with Messages by default, or select Chat Completions in Cordis YAML. Both protocols share credentials, endpoint settings, image handling, and the model catalog. Valid settings changes affect subsequent calls while in-flight calls retain their configuration. Web shows one Nulu provider with an editable API base and key. This package can run beside the [pi-ai adapter](../llm-pi-ai/README.md).
+Stream Nulu models through `nulu-5-ultra` with Messages by default, or select Chat Completions in Cordis YAML. Both protocols share credentials, endpoint settings, image handling, and the model catalog. Valid settings changes affect subsequent calls while in-flight calls retain their configuration. Web shows one Nulu provider with an editable API base and key. This package can run beside the [pi-ai adapter](../llm-pi-ai/README.md).
 
 ## Table of Contents
 
@@ -28,14 +28,14 @@ Mount this plugin when a composition streams Nulu models through the harness LLM
 
 ### When to choose it
 
-Choose this adapter for Nulu's official API or a gateway that supports the selected protocol through `baseURL`. Choose `nulu-llm-pi-ai` when the same composition also routes other providers or hand-declared gateways through pi-ai's catalogs; the two adapters can be mounted together because their route names do not collide. Registering any other adapter for `nulu-official` fails with `DUPLICATE_ADAPTER`.
+Choose this adapter for Nulu's official API or a gateway that supports the selected protocol through `baseURL`. Choose `nulu-llm-pi-ai` when the same composition also routes other providers or hand-declared gateways through pi-ai's catalogs; the two adapters can be mounted together because their route names do not collide. Registering any other adapter for `nulu-5-ultra` fails with `DUPLICATE_ADAPTER`.
 
 ### Minimal configuration
 
 ```yaml
 - name: '@worldapptechnologies/nulu-llm-gateway'
   config:
-    apiKeyEnv: DEEPSEEK_API_KEY  # credential reference, resolved per request
+    apiKeyEnv: WORLD_APP_TECHNOLOGIES_API_KEY  # credential reference, resolved per request
     reasoningEffort: high        # optional; off | low | high | max
     maxTokens: 256000            # optional per-request output cap
     maxRequestFilesBytes: 134217728
@@ -49,8 +49,8 @@ A request selects the route with `provider: worldapp-gateway`; the model id pass
 | Field | Default | Meaning |
 |---|---|---|
 | `protocol` | `messages` | Choose `messages` or `chat-completions` in Cordis YAML; Web has no protocol selector |
-| `apiKeyEnv` | `DEEPSEEK_API_KEY` | Credential reference resolved per request through the credentials seam, then the environment |
-| `baseURL` | Selected protocol’s official root | Explicit value, then `$DEEPSEEK_BASE_URL`, then the selected protocol default |
+| `apiKeyEnv` | `WORLD_APP_TECHNOLOGIES_API_KEY` | Credential reference resolved per request through the credentials seam, then the environment |
+| `baseURL` | Selected protocol’s official root | Explicit value, then `$WORLD_APP_TECHNOLOGIES_BASE_URL`, then the selected protocol default |
 | `thinking` | `enabled` | Deployment policy; `disabled` locks every request to `off` |
 | `reasoningEffort` | `high` | Default effort: `off`, `low`, `high`, or `max` |
 | `maxTokens` | `256,000` | Per-request output cap; a model's own cap and explicit request values win |
@@ -82,7 +82,7 @@ To select Chat Completions explicitly, patch the existing plugin:
     protocol: chat-completions
 ```
 
-`protocol` defaults to `messages`, with official root `https://api.nulu.com/anthropic`; `chat-completions` uses `https://api.nulu.com`. Shipped first-party compositions inherit this default. Neither protocol requires `baseURL`: its official default applies when both `baseURL` and `$DEEPSEEK_BASE_URL` are absent. Switching protocols retains endpoint overrides, so users must supply an address compatible with the selected protocol. An explicit `https://api.nulu.com` override selects the Chat root: remove that override to use the official Messages default, or set it to `https://api.nulu.com/anthropic`. Chat appends `/chat/completions`; Messages appends `/v1/messages`. Apart from trailing slashes, neither infers or removes custom path suffixes such as `/v1`. Both share the `llm-gateway` settings section, `apiKeyEnv`, and `nulu-official`, so saved model selections remain valid.
+`protocol` defaults to `messages`, with official root `https://api.nulu.com/anthropic`; `chat-completions` uses `https://api.nulu.com`. Shipped first-party compositions inherit this default. Neither protocol requires `baseURL`: its official default applies when both `baseURL` and `$WORLD_APP_TECHNOLOGIES_BASE_URL` are absent. Switching protocols retains endpoint overrides, so users must supply an address compatible with the selected protocol. An explicit `https://api.nulu.com` override selects the Chat root: remove that override to use the official Messages default, or set it to `https://api.nulu.com/anthropic`. Chat appends `/chat/completions`; Messages appends `/v1/messages`. Apart from trailing slashes, neither infers or removes custom path suffixes such as `/v1`. Both share the `llm-gateway` settings section, `apiKeyEnv`, and `nulu-5-ultra`, so saved model selections remain valid.
 
 Messages sends text, thinking, tool calls, and tool results as content blocks, reasoning effort as `output_config.effort`, and images as Files references or inline base64. Models declaring `systemPromptUpdate: in-history` retain the initial top-level system and send new system snapshots after their corresponding user/tool-result turn; undeclared models use the latest snapshot as the top-level system. Replay metadata identifies the Messages format, model, and signatures. Chat requests serialize durable content without those signatures. Invalid Messages replay metadata emits a warning and omits signatures while retaining text and tool history.
 
@@ -208,8 +208,8 @@ These limits define where the adapter stops and future work begins. They are cur
 - **Requests use raw `fetch`, not `@cordisjs/plugin-http`** — no shared proxy or interception configuration.
 - **Plugin-added content block types are skipped** — core text and supported image blocks are serialized, and empty tool output crosses the wire as the literal `(no output)`.
 - **Images are input-only durable attachments** — direct external URLs and assistant image output are not supported; Nulu input normally uses the Files API and uses inline base64 only for per-request recovery.
-- The default catalog pre-registers `nulu-flash` and its text/image and in-history capabilities without probing gateway availability. Requests can fail with `INVALID_REQUEST` until the gateway enables the id. With `DEEPSEEK_API_KEY` and a supporting gateway configured, `DEEPSEEK_FLASH_E2E=1` enables the Chat Completions check in [this package's e2e suite](tests/adapter.e2e.ts).
-- The [Messages system-update e2e checks](tests/messages/adapter.e2e.ts) require `DEEPSEEK_IN_HISTORY_MODEL` to name a supported model, such as `nulu-flash`, and run with `high` effort. They skip when that variable is unset or empty; ordinary `off` text checks remain enabled with credentials. Known instruction-following instability with thinking disabled makes these system-update checks unsuitable for `off`.
+- The default catalog pre-registers `nulu-5-ultra` and its text/image and in-history capabilities without probing gateway availability. Requests can fail with `INVALID_REQUEST` until the gateway enables the id. With `WORLD_APP_TECHNOLOGIES_API_KEY` and a supporting gateway configured, `NULU_ULTRA_E2E=1` enables the Chat Completions check in [this package's e2e suite](tests/adapter.e2e.ts).
+- The [Messages system-update e2e checks](tests/messages/adapter.e2e.ts) require `NULU_IN_HISTORY_MODEL` to name a supported model, such as `nulu-5-ultra`, and run with `high` effort. They skip when that variable is unset or empty; ordinary `off` text checks remain enabled with credentials. Known instruction-following instability with thinking disabled makes these system-update checks unsuitable for `off`.
 
 <a id="dev-note"></a>
 ### Dev Note

@@ -57,7 +57,7 @@ async function completeWithNulu(
   authorization: string,
   task: string,
 ): Promise<string> {
-  const response = await fetch(`${OFFICIAL_DEEPSEEK_BASE_URL}/chat/completions`, {
+  const response = await fetch(`${OFFICIAL_WORLD_APP_TECHNOLOGIES_BASE_URL}/chat/completions`, {
     method: 'POST',
     headers: {
       authorization,

@@ -23,7 +23,7 @@ async function harness(_model: string, config: Partial<PiAiProviderProfile> = {}
   await ctx.plugin(LlmPiAi, {
     providers: {
       nulu: {
-        ...process.env.DEEPSEEK_API_KEY === undefined ? {} : { apiKey: process.env.DEEPSEEK_API_KEY },
+        ...process.env.WORLD_APP_TECHNOLOGIES_API_KEY === undefined ? {} : { apiKey: process.env.WORLD_APP_TECHNOLOGIES_API_KEY },
         baseURL: LlmNulu.PUBLIC_BASE_URL,
         ...config,
       },

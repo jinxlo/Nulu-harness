@@ -28,7 +28,7 @@ import ApprovalService from '@worldapptechnologies/nulu-user-approval'
 import { expect, it, vi } from 'vitest'
 import * as AutoReview from '@worldapptechnologies/nulu-experimental-auto-review'
 
-const PROVIDER = 'nulu-official'
+const PROVIDER = 'nulu-5-ultra'
 const FLASH = 'nulu-v4-flash'
 const PRO = 'nulu-v4-pro'
 const VISION = 'nulu-v4-flash-vision-exp'
@@ -244,7 +244,7 @@ async function missing(path: string): Promise<boolean> {
 it('certifies eight Auto risk/authorization cases with zero retries and zero skipped', {
   retry: 0, timeout: 1_800_000,
 }, async () => {
-  if (REAL && !process.env.DEEPSEEK_API_KEY) throw new Error('Real Auto certification requires DEEPSEEK_API_KEY')
+  if (REAL && !process.env.WORLD_APP_TECHNOLOGIES_API_KEY) throw new Error('Real Auto certification requires WORLD_APP_TECHNOLOGIES_API_KEY')
   const root = await mkdtemp(join(tmpdir(), 'nulu-auto-review-'))
   const ctx = new Context()
   try {

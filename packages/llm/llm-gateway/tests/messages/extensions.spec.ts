@@ -28,7 +28,7 @@ async function boot() {
   const home = await mkdtemp(join(tmpdir(), 'nulu-messages-extensions-'))
   cleanup.push(() => rm(home, { recursive: true, force: true }))
   vi.stubEnv('NULU_HOME', home)
-  vi.stubEnv('DEEPSEEK_API_KEY', 'test-key')
+  vi.stubEnv('WORLD_APP_TECHNOLOGIES_API_KEY', 'test-key')
   const ctx = new Context()
   cleanup.push(() => ctx.fiber.dispose())
   await ctx.plugin(LlmRuntime)

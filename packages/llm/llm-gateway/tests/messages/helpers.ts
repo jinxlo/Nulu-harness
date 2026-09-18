@@ -14,7 +14,7 @@ export const prepareExtensions = async () => ({ fields: {}, accept: async () => 
 
 export const MODEL = 'nulu-v4-flash'
 export const user = (text = 'hello') => createUserMessage({ source: { kind: 'user' }, content: [{ type: 'text', text }] })
-export const options = (overrides: Partial<GenerateOptions> = {}): GenerateOptions => ({ provider: 'nulu-official', model: MODEL, messages: [user()], ...overrides })
+export const options = (overrides: Partial<GenerateOptions> = {}): GenerateOptions => ({ provider: 'nulu-5-ultra', model: MODEL, messages: [user()], ...overrides })
 export const start = { type: 'message_start', message: { id: 'msg_1', model: MODEL, usage: { input_tokens: 12, output_tokens: 1 } } }
 export const end = (reason = 'end_turn') => [
   { type: 'message_delta', delta: { stop_reason: reason }, usage: { output_tokens: 5 } },
@@ -35,7 +35,7 @@ export async function assemble(stream: AsyncIterable<StreamChunk>, model = MODEL
   const assembler = new BlockAssembler()
   const output = await chunks(stream)
   for (const chunk of output) assembler.push(chunk)
-  const message = createAssistantMessage({ content: assembler.blocks(), source: { provider: 'nulu-official', model, ...assembler.replayState === undefined ? {} : { replayState: assembler.replayState } } })
+  const message = createAssistantMessage({ content: assembler.blocks(), source: { provider: 'nulu-5-ultra', model, ...assembler.replayState === undefined ? {} : { replayState: assembler.replayState } } })
   return { output, message, assembler }
 }
 export function adapter(config: Config = {}) {

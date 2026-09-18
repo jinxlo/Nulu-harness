@@ -46,8 +46,8 @@ it('continues the parent through default Messages after a reasoning-bearing cont
     await ctx.plugin(AgentLoop, { agents: [] })
     await ctx.plugin(SubagentRuntime)
     await ctx.plugin(SubagentSpawn, { providerName: 'spawn' })
-    ctx.llm.registerAdapter(['nulu-official'], adapter)
-    const parent = await ctx.agentLoop.create(SessionId('parent'), { provider: 'nulu-official', model: MODEL })
+    ctx.llm.registerAdapter(['nulu-5-ultra'], adapter)
+    const parent = await ctx.agentLoop.create(SessionId('parent'), { provider: 'nulu-5-ultra', model: MODEL })
     const ends: SubagentRunEndInfo[] = []
     const settled = Promise.withResolvers<undefined>()
     ctx.on('subagent/end', (info) => {

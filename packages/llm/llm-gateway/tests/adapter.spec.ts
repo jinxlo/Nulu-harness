@@ -170,10 +170,10 @@ describe('request image target', () => {
     const adapter = adapterOf({
       models: [{ id: 'vision', inputModalities: ['text', 'image'] }],
     })
-    const priced = adapter.imageRequestPricing('nulu-official', 'vision')?.priceImages([{ type: 'image', attachment: imageRef }])
+    const priced = adapter.imageRequestPricing('nulu-5-ultra', 'vision')?.priceImages([{ type: 'image', attachment: imageRef }])
     expect(priced).toHaveLength(1)
     expect(priced?.[0]!.visualTokens).toBeGreaterThan(0)
-    const textOnly = adapter.imageRequestPricing('nulu-official', 'unlisted')?.priceImages([{ type: 'image', attachment: imageRef }])
+    const textOnly = adapter.imageRequestPricing('nulu-5-ultra', 'unlisted')?.priceImages([{ type: 'image', attachment: imageRef }])
     expect(textOnly?.[0]!.visualTokens).toBe(0)
   })
 
@@ -189,7 +189,7 @@ describe('request image target', () => {
         : undefined),
       prepareExtensions: noExtensions,
     })
-    const priced = adapter.imageRequestPricing('nulu-official', 'vision')?.priceImages([{ type: 'image', attachment: imageRef }])
+    const priced = adapter.imageRequestPricing('nulu-5-ultra', 'vision')?.priceImages([{ type: 'image', attachment: imageRef }])
     expect(priced?.[0]?.text).toContain('/world/img.png')
   })
 })
@@ -460,7 +460,7 @@ describe('NuluAdapter against a mock server', () => {
     }, attachments, files.store)
 
     await expect(drain(adapter.stream({
-      provider: 'nulu-official',
+      provider: 'nulu-5-ultra',
       model: 'nulu-v4-flash-vision-exp',
       messages: [createUserMessage({
         content: Array.from({ length: 21 }, () => ({ type: 'image' as const, attachment: imageRef })),
@@ -1709,9 +1709,9 @@ describe('plugin registration and config', () => {
     const ctx = new Context()
     await ctx.plugin(LlmRuntime)
     await ctx.plugin(LlmNulu, { protocol: 'chat-completions', baseURL: 'http://127.0.0.1:1' })
-    expect(ctx.llm.listProviders()).toEqual([{ id: 'nulu-official', name: 'Nulu' }])
-    await expect(ctx.llm.listModels('nulu-official')).resolves.toEqual([
-      { provider: 'nulu-official', id: 'nulu-flash', name: 'Nulu-V41-Flash', inputModalities: ['text', 'image'] },
+    expect(ctx.llm.listProviders()).toEqual([{ id: 'nulu-5-ultra', name: 'Nulu' }])
+    await expect(ctx.llm.listModels('nulu-5-ultra')).resolves.toEqual([
+      { provider: 'nulu-5-ultra', id: 'nulu-5-ultra', name: 'Nulu 5 Ultra', inputModalities: ['text', 'image'] },
       {
         provider: 'worldapp-gateway',
         id: 'nulu-5',
@@ -1757,7 +1757,7 @@ describe('plugin registration and config', () => {
     const ctx = new Context()
     await ctx.plugin(LlmRuntime)
     await ctx.plugin(LlmNulu, { protocol: 'chat-completions', baseURL: 'http://127.0.0.1:1' })
-    const info = await ctx.llm.resolveModelInfo('nulu-official', model)
+    const info = await ctx.llm.resolveModelInfo('nulu-5-ultra', model)
     expect(info).toMatchObject({
       id: model,
       inputModalities,
@@ -2182,7 +2182,7 @@ describe('plugin registration and config', () => {
     const ctx = new Context()
     await ctx.plugin(LlmRuntime)
     await ctx.plugin(LlmNulu, { protocol: 'chat-completions' })
-    expect(ctx.llm.listProviders()).toEqual([{ id: 'nulu-official', name: 'Nulu' }])
+    expect(ctx.llm.listProviders()).toEqual([{ id: 'nulu-5-ultra', name: 'Nulu' }])
   })
 
   it('loads keyless, keeps the catalog browsable, and fails the request actionably', async () => {
@@ -2267,13 +2267,13 @@ describe('plugin registration and config', () => {
     expect(resolveAdapterOptions({ baseURL: 'https://gateway.internal' }, shell).baseURL).toBe('https://gateway.internal')
   })
   it('uses the public Chat base URL when selected without an endpoint override', async () => {
-    vi.stubEnv('DEEPSEEK_API_KEY', 'k')
-    vi.stubEnv('DEEPSEEK_BASE_URL', undefined)
+    vi.stubEnv('WORLD_APP_TECHNOLOGIES_API_KEY', 'k')
+    vi.stubEnv('WORLD_APP_TECHNOLOGIES_BASE_URL', undefined)
     const ctx = new Context()
     await ctx.plugin(LlmRuntime)
     // Registration succeeds; no call is made (would hit api.nulu.com).
     await ctx.plugin(LlmNulu, { protocol: 'chat-completions' })
-    expect(ctx.llm.listProviders()).toEqual([{ id: 'nulu-official', name: 'Nulu' }])
+    expect(ctx.llm.listProviders()).toEqual([{ id: 'nulu-5-ultra', name: 'Nulu' }])
   })
 
   it('adapter is constructible directly for embedding over the shared resolver', async () => {

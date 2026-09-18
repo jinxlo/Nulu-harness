@@ -1,6 +1,6 @@
 /**
  * Real Messages round trips use the official root and require credentials.
- * System-update checks additionally require DEEPSEEK_IN_HISTORY_MODEL.
+ * System-update checks additionally require NULU_IN_HISTORY_MODEL.
  */
 import { randomUUID } from 'node:crypto'
 import { mkdtemp, readFile, rm } from 'node:fs/promises'
@@ -21,7 +21,7 @@ import * as Messages from '../../src/index.ts'
 import { NuluFilesClient, MESSAGES_FILES_BETA } from '../../src/common/files-api.ts'
 import { assemble, options, user } from './helpers.ts'
 
-const IN_HISTORY_MODEL = process.env.DEEPSEEK_IN_HISTORY_MODEL
+const IN_HISTORY_MODEL = process.env.NULU_IN_HISTORY_MODEL
 const cleanups: (() => Promise<unknown>)[] = []
 afterEach(async () => {
   while (cleanups.length) await cleanups.pop()!()
@@ -44,7 +44,7 @@ async function boot(models?: Messages.Config['models']) {
 }
 const tool = { name: 'lookup_value', description: 'Read the requested value. Always call this tool to obtain a value.', parameters: { type: 'object', properties: { key: { type: 'string' } }, required: ['key'] } }
 
-describe.skipIf(!process.env.DEEPSEEK_API_KEY)('Nulu Messages real API', () => {
+describe.skipIf(!process.env.WORLD_APP_TECHNOLOGIES_API_KEY)('Nulu Messages real API', () => {
   it.skipIf(!IN_HISTORY_MODEL).each([false, true])('updates system instructions during a conversation, in-history=%s', async (inHistory) => {
     const model = IN_HISTORY_MODEL as string
     // Each case owns the capability, even for a model with an in-history catalog default.
@@ -72,7 +72,7 @@ describe.skipIf(!process.env.DEEPSEEK_API_KEY)('Nulu Messages real API', () => {
     const fetchImpl = globalThis.fetch
     const uploads: string[] = []
     const bodies: string[] = []
-    const files = new NuluFilesClient({ baseURL: Messages.MESSAGES_BASE_URL, protocol: 'messages', apiKey: process.env.DEEPSEEK_API_KEY as string, fetch: fetchImpl })
+    const files = new NuluFilesClient({ baseURL: Messages.MESSAGES_BASE_URL, protocol: 'messages', apiKey: process.env.WORLD_APP_TECHNOLOGIES_API_KEY as string, fetch: fetchImpl })
     const ownedFiles = new Set<ReturnType<typeof Messages.NuluFileId>>()
     cleanups.push(async () => {
       for (const id of ownedFiles) await files.delete(id)
@@ -95,7 +95,7 @@ describe.skipIf(!process.env.DEEPSEEK_API_KEY)('Nulu Messages real API', () => {
     const attachment = await ctx.attachments.saveImage({ data: await readFile(new URL('fixtures/red.png', import.meta.url)), mediaType: 'image/png' })
     const message = user('What is the dominant color of this image? Reply with one English color word.')
     const request = options({
-      model: 'nulu-flash', reasoningEffort: ReasoningEffortId('off'),
+      model: 'nulu-5-ultra', reasoningEffort: ReasoningEffortId('off'),
       messages: [{ ...message, content: [...message.content, { type: 'image', attachment }] }],
     })
     for (let run = 0; run < 2; run++) {

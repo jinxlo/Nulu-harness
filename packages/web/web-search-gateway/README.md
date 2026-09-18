@@ -32,7 +32,7 @@ Choose this backend when a deployment wants Nulu's native server-side web search
 
 ### Minimal configuration
 
-Load the web service and the provider; the key resolves from `ctx.credentials` when that service is mounted, otherwise from the process environment. The auxiliary search call has its own endpoint setting and uses the Anthropic-compatible base `https://api.nulu.com/anthropic/v1`, with `/messages` appended. It reads `$DEEPSEEK_SEARCH_BASE_URL`, independently of the conversation adapter’s `$DEEPSEEK_BASE_URL` and protocol.
+Load the web service and the provider; the key resolves from `ctx.credentials` when that service is mounted, otherwise from the process environment. The auxiliary search call has its own endpoint setting and uses the Anthropic-compatible base `https://api.nulu.com/anthropic/v1`, with `/messages` appended. It reads `$NULU_SEARCH_BASE_URL`, independently of the conversation adapter’s `$WORLD_APP_TECHNOLOGIES_BASE_URL` and protocol.
 
 ```yaml
 - name: '@worldapptechnologies/nulu-web'
@@ -81,7 +81,7 @@ This section explains the design decisions behind the provider; the observable b
 The provider is built on two commitments:
 
 - **Structured blocks only.** Nulu runs the search server-side and returns structured `web_search_tool_result` blocks; the provider parses those blocks and never scrapes URLs out of model prose. In strict mode, a response with no such block throws `WEB_PROVIDER_ERROR` instead of degrading.
-- **One credential, resolved per search.** The provider reuses the `DEEPSEEK_API_KEY` reference (no new secret) but keeps its auxiliary request endpoint independent through `$DEEPSEEK_SEARCH_BASE_URL`. A mounted credentials service is authoritative; without one the provider falls back to the launching process environment. Resolving per call means a key stored or rotated in the Web Models page reaches the next search without a restart.
+- **One credential, resolved per search.** The provider reuses the `WORLD_APP_TECHNOLOGIES_API_KEY` reference (no new secret) but keeps its auxiliary request endpoint independent through `$NULU_SEARCH_BASE_URL`. A mounted credentials service is authoritative; without one the provider falls back to the launching process environment. Resolving per call means a key stored or rotated in the Web Models page reaches the next search without a restart.
 
 ### Source map
 

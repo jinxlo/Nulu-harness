@@ -1,7 +1,7 @@
 /**
  * Register a Nulu-backed provider in `ctx.web`. It calls the Anthropic-compatible Messages API
- * with native `web_search_20250305`. The provider reuses `DEEPSEEK_API_KEY` but not
- * `DEEPSEEK_BASE_URL`; auxiliary search has its own endpoint configuration.
+ * with native `web_search_20250305`. The provider reuses `WORLD_APP_TECHNOLOGIES_API_KEY` but not
+ * `WORLD_APP_TECHNOLOGIES_BASE_URL`; auxiliary search has its own endpoint configuration.
  * @module @worldapptechnologies/nulu-web-search-gateway
  */
 
@@ -75,7 +75,7 @@ export const Config: z<Config> = z.object({
 
 /**
  * Auxiliary-search endpoint, independent of the conversation adapter's
- * `$DEEPSEEK_BASE_URL` and selected protocol.
+ * `$WORLD_APP_TECHNOLOGIES_BASE_URL` and selected protocol.
  */
 const SEARCH_BASE_URL_ENV = 'WORLD_APP_TECHNOLOGIES_SEARCH_BASE_URL'
 

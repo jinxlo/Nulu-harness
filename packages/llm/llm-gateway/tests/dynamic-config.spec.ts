@@ -220,13 +220,13 @@ describe('request-level dynamic configuration', () => {
     await assemble(ctx, { model: 'nulu-5', messages })
     await ctx.settings.update(NS, { maxRequestFilesBytes: 4, imageOffloadByteQuantum: 2 })
     // A request whose retained exact bytes exceed the tightened budget names the occurrences to offload.
-    const rejected = await assemble(ctx, { model: 'nulu-flash', messages })
+    const rejected = await assemble(ctx, { model: 'nulu-5-ultra', messages })
     expect(rejected.finish).toMatchObject({
       kind: 'error',
       failure: { code: 'IMAGE_OFFLOAD_REQUIRED', offloadImages: 1 },
     })
     await assemble(ctx, {
-      model: 'nulu-flash',
+      model: 'nulu-5-ultra',
       messages: [createUserMessage({
         content: [
           { type: 'image', attachment: IMAGE_REF, offloaded: true },
