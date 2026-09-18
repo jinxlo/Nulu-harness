@@ -80,8 +80,8 @@ function check(name, pass, detail = '') {
 
 // 3. Environment prefix.
 {
-  const hits = userFacingHits('NULU_')
-  check('env: no NULU_ variables', hits.length === 0, hits.slice(0, 5).join('\n'))
+  const hits = userFacingHits('DSH_')
+  check('env: no DSH_ variables', hits.length === 0, hits.slice(0, 5).join('\n'))
 }
 
 // 4. Home path.
@@ -132,6 +132,36 @@ function check(name, pass, detail = '') {
   const manifest = JSON.parse(read(join(ROOT, 'nulu-fork-manifest.json')))
   const present = (manifest.removed_upstream_packages ?? []).filter(pkg => existsSync(join(ROOT, pkg)))
   check('providers: DeepSeek packages absent', present.length === 0, present.join(', '))
+}
+
+// 11. Model catalog purity: every model id must be an allowed Nulu id; no
+//     DeepSeek-derived ids (deepseek-*, nulu-v4-*, nulu-flash, ...) may survive.
+{
+  const allowed = new Set([
+    ...policy.models.allowed_chat_model_ids,
+    ...policy.models.allowed_image_model_ids,
+  ])
+  const hits = []
+  for (const pattern of ["id: 'nulu-", "id: 'deepseek-"]) {
+    for (const line of grep(pattern).split('\n')) {
+      if (!line) continue
+      const file = line.slice(0, line.indexOf(':'))
+      if (!file.startsWith('packages/llm/')) continue
+      if (/\.(spec|test|e2e)\.[cm]?[jt]sx?$/.test(file)) continue
+      if (/fixture|snapshot/.test(file)) continue
+      const match = line.match(/id: '([a-z0-9-]+)'/)
+      if (match && !allowed.has(match[1])) hits.push(`${file}: ${match[1]}`)
+    }
+  }
+  check('models: catalog purity (only nulu-5-*/nulu-image-*)', hits.length === 0, hits.slice(0, 10).join('\n'))
+}
+
+// 12. Provider environment: no DEEPSEEK_* variables in product source.
+{
+  const hits = grep('DEEPSEEK_')
+    .split('\n')
+    .filter(line => line && line.startsWith('packages/') && !/\.(spec|test|e2e)\.[cm]?[jt]sx?$/.test(line))
+  check('providers: no DEEPSEEK_ env vars in product source', hits.length === 0, hits.slice(0, 5).join('\n'))
 }
 
 const failed = results.filter(r => !r.pass)

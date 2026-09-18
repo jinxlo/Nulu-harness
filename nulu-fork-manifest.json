@@ -89,11 +89,11 @@
     }
   ],
   "removed_upstream_packages": [
-    "packages/llm/llm-gateway",
-    "packages/llm/llm-api-extensions",
-    "packages/llm/plugin-package-inventory",
-    "packages/session/session-log-gateway",
-    "packages/web/web-search-gateway",
+    "packages/llm/llm-deepseek",
+    "packages/llm/deepseek-llm-api-extensions",
+    "packages/llm/plugin-package-inventory-deepseek",
+    "packages/session/session-log-deepseek",
+    "packages/web/web-search-deepseek",
     "python/sdk-runtime/src/deepseek_harness_runtime"
   ]
 }
