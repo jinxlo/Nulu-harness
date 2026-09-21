@@ -108,13 +108,12 @@ export function createElectronBuilderConfig(
       )
     },
     win: {
-      // NSIS publisher metadata; must match the code-signing certificate subject
-      // once a certificate is configured.
-      publisherName: 'World App Technologies',
       forceCodeSigning: !unsigned,
       signtoolOptions: {
         sign: windowsSigner,
         signingHashAlgorithms: ['sha256'],
+        // Must match the code-signing certificate subject once one is configured.
+        publisherName: 'World App Technologies',
       },
       target: ['nsis'],
     },
