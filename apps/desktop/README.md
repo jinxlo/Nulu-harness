@@ -193,6 +193,35 @@ A packaged application checks its target-specific release stream ten seconds aft
 
 Signed packaging emits generic-provider channel metadata for the deployment selected by `NULU_DESKTOP_AUTO_UPDATE_ENV`. NSIS differential packages and the macOS ZIP target allow electron-updater to reuse unchanged blocks; the manually installed DMG is notarized without a blockmap because it is not a macOS updater payload. The runtime and shell still form one signed Desktop release. macOS signing and notarization credentials use electron-builder's standard environment; Windows EV signing uses the public certificate, validated SignTool, SafeNet container, and runner PIN described above. The required Desktop release environment selects the application and platform signature identities that the build verifies.
 
+## Release signing in CI
+
+The Desktop build workflow signs Windows automatically once the certificate
+secrets exist, and falls back to the unsigned installer path otherwise.
+
+| Kind | Name | Purpose |
+| --- | --- | --- |
+| Secret | `NULU_WINDOWS_CER_BASE64` | Base64 of the public code-signing certificate (`.cer`) |
+| Secret | `NULU_WINDOWS_TOKEN_PIN` | SafeNet eToken/HSM PIN used by SignTool |
+| Secret | `NULU_WINDOWS_KEY_CONTAINER` | CNG key container that holds the private key |
+| Variable | `NULU_WINDOWS_SIGNTOOL` | Optional explicit `signtool.exe` path |
+
+Signing uses SHA-256 with an RFC3161 timestamp (`http://timestamp.digicert.com`)
+and covers the application executable plus the NSIS bootstrap and uninstaller.
+The workflow then verifies with `Get-AuthenticodeSignature` that both the
+installed executable and the installer report `Valid` and carry a timestamp;
+a failure fails the job. `win.publisherName` in `electron-builder.config.mjs`
+must match the certificate subject exactly.
+
+SmartScreen shows an identified publisher for signed releases. Reputation is
+tied to the signing identity: an OV certificate builds reputation as downloads
+accumulate, while a Microsoft-issued identity (Azure Trusted Signing) is the
+fastest path to a trusted publisher. Never ship instructions that ask users to
+disable Windows security; signing is the only supported answer.
+
+macOS releases additionally require the Apple Developer ID Application identity
+and notarization credentials; without them the macOS targets stay unsigned and
+Gatekeeper warns on first launch.
+
 ## Low-level development overrides
 
 An unpackaged Electron process uses `.desktop-build/development/project` under its application directory as its development project. `NULU_DESKTOP_NODE_BINARY`, `NULU_DESKTOP_PNPM_ENTRY`, and `NULU_DESKTOP_NULU_DIR` select explicit runtime resources. Packaged applications ignore these variables, resolve signed resources from `process.resourcesPath`, and use the managed Desktop profile.

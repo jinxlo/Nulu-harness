@@ -91,13 +91,64 @@ jobs:
           sudo apt-get update -q
           sudo apt-get install -yq musl-tools
 
+      # Windows code signing activates only when the certificate secrets exist.
+      # Without them the job falls back to the unsigned installer path.
+      - name: Configure Windows signing
+        id: windows-signing
+        if: matrix.target == 'win-x64'
+        shell: bash
+        env:
+          NULU_WINDOWS_CER_BASE64: ${{ secrets.NULU_WINDOWS_CER_BASE64 }}
+          NULU_WINDOWS_TOKEN_PIN: ${{ secrets.NULU_WINDOWS_TOKEN_PIN }}
+          NULU_WINDOWS_KEY_CONTAINER: ${{ secrets.NULU_WINDOWS_KEY_CONTAINER }}
+          NULU_WINDOWS_SIGNTOOL: ${{ vars.NULU_WINDOWS_SIGNTOOL }}
+        run: |
+          if [ -z "${NULU_WINDOWS_CER_BASE64:-}" ]; then
+            echo "signed=false" >> "$GITHUB_OUTPUT"
+            echo "Windows code signing is not configured; building an unsigned installer." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          cert="$RUNNER_TEMP/nulu-codesign.cer"
+          printf '%s' "$NULU_WINDOWS_CER_BASE64" | base64 -d > "$cert"
+          {
+            echo "NULU_DESKTOP_WINDOWS_CER_FILE=$cert"
+            echo "NULU_DESKTOP_WINDOWS_TOKEN_PIN=$NULU_WINDOWS_TOKEN_PIN"
+            echo "NULU_DESKTOP_WINDOWS_KEY_CONTAINER=$NULU_WINDOWS_KEY_CONTAINER"
+          } >> "$GITHUB_ENV"
+          if [ -n "${NULU_WINDOWS_SIGNTOOL:-}" ]; then
+            echo "NULU_DESKTOP_WINDOWS_SIGNTOOL=$NULU_WINDOWS_SIGNTOOL" >> "$GITHUB_ENV"
+          fi
+          echo "signed=true" >> "$GITHUB_OUTPUT"
+
       - name: Package desktop installer
-        run: pnpm run ${{ matrix.command }}
+        shell: bash
+        run: |
+          command="${{ matrix.command }}"
+          if [ "${{ matrix.target }}" = "win-x64" ] && [ "${{ steps.windows-signing.outputs.signed }}" = "true" ]; then
+            command="package:desktop:win:x64"
+          fi
+          pnpm run "$command"
+
+      # A signed release must prove a valid, timestamped Authenticode signature.
+      - name: Verify Windows signature
+        if: matrix.target == 'win-x64' && steps.windows-signing.outputs.signed == 'true'
+        shell: pwsh
+        run: |
+          $targets = @(
+            'apps/desktop/.desktop-build/targets/win-x64/artifacts/win-unpacked/Nulu Harness.exe',
+            (Get-ChildItem 'apps/desktop/.desktop-build/targets/win-x64/artifacts/*.exe' | Select-Object -First 1).FullName
+          )
+          foreach ($target in $targets) {
+            $signature = Get-AuthenticodeSignature $target
+            if ($signature.Status -ne 'Valid') { throw "$target signature is $($signature.Status)" }
+            if (-not $signature.TimeStamperCertificate) { throw "$target has no timestamp" }
+            Write-Host "Verified $target -> $($signature.SignerCertificate.Subject)"
+          }
 
       - uses: actions/upload-artifact@v7
         with:
           name: nulu-harness-${{ matrix.target }}
-          path: ${{ matrix.artifacts }}
+          path: ${{ (matrix.target == 'win-x64' && steps.windows-signing.outputs.signed == 'true') && 'apps/desktop/.desktop-build/targets/win-x64/artifacts' || matrix.artifacts }}
           if-no-files-found: error
           retention-days: 14
 
