@@ -13,6 +13,27 @@ import { capture } from './process.ts'
 /** Name of the file recording the order in which a packed family uploads. */
 export const PUBLISH_ORDER_FILE = 'publish-order.txt'
 
+/**
+ * Run one tar read, retrying with GNU tar's `--force-local`.
+ *
+ * Windows GNU tar mistakes a drive-letter colon for a remote host, so the
+ * failed read is retried with `--force-local` inserted after the operation
+ * flags; libarchive tar never needs it.
+ *
+ * @param args - operation flags followed by the tarball and any members.
+ * @returns tar's standard output.
+ */
+function captureTar(args: readonly string[]): string {
+  const [flags = '', ...rest] = args
+  try {
+    return capture('tar', args)
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error)
+    if (!/cannot connect to|resolve failed/iu.test(message)) throw error
+    return capture('tar', [flags, '--force-local', ...rest])
+  }
+}
+
 /** What a packed tarball calls itself. */
 export interface PackedIdentity {
   /** Package name from the packed manifest. */
@@ -27,7 +48,7 @@ export interface PackedIdentity {
  * @returns Every path inside the archive.
  */
 export function tarballFiles(tarball: string): string[] {
-  return capture('tar', ['-tzf', tarball]).split(/\r?\n/u).filter(line => line !== '')
+  return captureTar(['-tzf', tarball]).split(/\r?\n/u).filter(line => line !== '')
 }
 
 /**
@@ -36,7 +57,7 @@ export function tarballFiles(tarball: string): string[] {
  * @returns The name and version the tarball declares.
  */
 export function packedIdentity(tarball: string): PackedIdentity {
-  const manifest: unknown = JSON.parse(capture('tar', ['-xOzf', tarball, 'package/package.json']))
+  const manifest: unknown = JSON.parse(captureTar(['-xOzf', tarball, 'package/package.json']))
   if (manifest === null || typeof manifest !== 'object') throw new Error(`${tarball} has no manifest`)
   const { name, version } = manifest as Record<string, unknown>
   if (typeof name !== 'string' || typeof version !== 'string') throw new Error(`${tarball} manifest lacks name/version`)
