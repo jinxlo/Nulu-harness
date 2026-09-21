@@ -23,6 +23,7 @@ import type { ModelsOperations } from './operations.ts'
 import type { NuluModelDraft } from './NuluModelsEditor.tsx'
 import type { en } from './locales.ts'
 import styles from './ModelsSection.module.css'
+import { isForbiddenModel, withoutForbiddenModels } from './forbidden.ts'
 
 /**
  * One configured model row. Fields this card does not edit must survive an
@@ -240,7 +241,7 @@ export function ModelListEditor(props: ModelListEditorProps): ReactNode {
         setFailure(answer.message)
         return
       }
-      const found = answer.models
+      const found = withoutForbiddenModels(answer.models)
       if (found.length === 0) {
         setFailure(t('fetchEmpty'))
         return
@@ -286,12 +287,18 @@ export function ModelListEditor(props: ModelListEditorProps): ReactNode {
     })
   }
 
-  const activeCandidates = candidates ?? []
+  const activeCandidates = withoutForbiddenModels(candidates ?? [])
   const normalizedCandidateQuery = candidateQuery.trim().toLowerCase()
   const visibleCandidates = normalizedCandidateQuery.length === 0
     ? activeCandidates
     : activeCandidates.filter(candidate => candidate.id.toLowerCase().includes(normalizedCandidateQuery)
       || candidate.name?.toLowerCase().includes(normalizedCandidateQuery) === true)
+  // Forbidden entries never render; original indices stay attached so row
+  // actions still address the stored array.
+  const visibleModels = models
+    .map((model, index) => ({ model, index }))
+    .filter(({ model }) => !isForbiddenModel(model))
+
   const allVisibleCandidatesPicked = visibleCandidates.length > 0
     && visibleCandidates.every(candidate => picked.has(candidate.id))
 
@@ -346,8 +353,8 @@ export function ModelListEditor(props: ModelListEditorProps): ReactNode {
           {busy ? t('fetching') : t('fetchModels')}
         </button>
       </div>
-      {models.length === 0 ? <p className={styles['modelEmpty']}>{t('modelsEmpty')}</p> : null}
-      {models.map((model, index) => (
+      {visibleModels.length === 0 ? <p className={styles['modelEmpty']}>{t('modelsEmpty')}</p> : null}
+      {visibleModels.map(({ model, index }) => (
         <div key={index} className={styles['modelEntry']}>
           <div className={styles['modelRow']}>
             <input

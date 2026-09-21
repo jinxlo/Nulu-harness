@@ -25,6 +25,7 @@ import type { ModelsOperations } from './operations.ts'
 import type { SettingsSchemaOperations } from './schema-operations.ts'
 import { ProviderEditor, type ProviderEditorProps } from './ProviderEditor.tsx'
 import type { en } from './locales.ts'
+import { isForbiddenProvider } from './forbidden.ts'
 import styles from './ModelsSection.module.css'
 
 /** Injected dependencies of {@link ModelsSection} (slot `inject`). */
@@ -288,9 +289,10 @@ function Loaded({ injected, renderSlot }: { injected: ModelsSectionFace; renderS
 
   // One fact decides both first-run postures on this page and the onboarding
   // step: whether the user already has a provider to talk to.
-  const anyUsable = state.rows.some(providerUsable)
-  const configured = state.rows.filter(row => row.configured)
-  const configurable = state.rows.filter(row => state.namespaces.has(row.entry.settingsNs))
+  const usableRows = state.rows.filter(row => !isForbiddenProvider(row.entry.provider))
+  const anyUsable = usableRows.some(providerUsable)
+  const configured = usableRows.filter(row => row.configured)
+  const configurable = usableRows.filter(row => state.namespaces.has(row.entry.settingsNs))
   const addable = configurable.filter(row => !row.configured)
   const addTarget = adding ? editing : undefined
   const addNamespace = addTarget === undefined ? undefined : state.namespaces.get(addTarget.settingsNs)
@@ -490,7 +492,7 @@ function Loaded({ injected, renderSlot }: { injected: ModelsSectionFace; renderS
             ? (
               <div className={styles['addCard']}>
                 <CustomProviderCard
-                  taken={state.rows.map(row => row.entry.provider)}
+                  taken={usableRows.map(row => row.entry.provider)}
                   protocols={protocols}
                   /* v8 ignore next -- the card only opens from a button disabled without this namespace */
                   revision={state.namespaces.get('llm-pi-ai')?.revision ?? 0}

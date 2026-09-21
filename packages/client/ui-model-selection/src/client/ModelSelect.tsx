@@ -24,6 +24,7 @@ import {
 } from '@worldapptechnologies/nulu-client-ui-primitives'
 import type { PropsLocale } from '@worldapptechnologies/nulu-client-ui-slots'
 import type { ModelSelectInjected } from './slots.ts'
+import { isForbiddenModel } from './forbidden.ts'
 import css from './ModelSelect.module.css'
 
 /** Which pane the dropdown shows: the two-row root or one drilled-in list. */
@@ -70,7 +71,7 @@ export function ModelSelect(
   const id = useId()
 
   const choices = useMemo(() => state.groups.flatMap(group =>
-    group.models.map(model => ({
+    group.models.filter(model => !isForbiddenModel(model)).map(model => ({
       group,
       model,
       selection: {
