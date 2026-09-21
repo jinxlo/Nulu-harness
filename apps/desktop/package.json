@@ -1,6 +1,6 @@
 {
   "name": "@worldapptechnologies/nulu-desktop",
-  "description": "Electron desktop shell for a bundled nulu runtime and external plugins",
+  "description": "Nulu Harness desktop application",
   "version": "1.6.0",
   "private": true,
   "license": "MIT",
@@ -51,5 +51,9 @@
     "pnpm": "11.7.0",
     "tar": "^7.5.0",
     "typescript": "^6.0.3"
-  }
+  },
+  "author": {
+    "name": "World App Technologies"
+  },
+  "copyright": "Copyright \u00a9 2026 World App Technologies"
 }

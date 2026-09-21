@@ -9,6 +9,7 @@ import {
   resolveDesktopAutoUpdateConfig,
 } from './desktop-auto-update-environment.mjs'
 import { desktopTargetBuildPaths } from './desktop-build-paths.mjs'
+import { validatePackagedResources } from './validate-package.mjs'
 import { packageMacOSArtifacts, type DesktopPrepackagedArtifact } from './package-macos.ts'
 
 const APP_ROOT = resolve(import.meta.dirname, '..')
@@ -367,6 +368,13 @@ async function main(): Promise<void> {
   } else {
     await runPnpm(desktopElectronBuilderArguments(target, invocation.directory), electronBuilderEnv)
   }
+  validatePackagedResources({
+    outputDir: invocation.unsigned
+      ? join(buildPaths.root, 'unsigned-artifacts')
+      : buildPaths.artifacts,
+    platform: target.platform,
+    unsigned: invocation.unsigned,
+  })
   if (!invocation.directory && !invocation.unsigned) writeReleaseRecord(target, electronBuilderEnv, buildPaths.artifacts)
 }
 

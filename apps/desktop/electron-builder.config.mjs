@@ -57,6 +57,7 @@ export function createElectronBuilderConfig(
   return {
     appId,
     productName: 'Nulu Harness',
+    copyright: 'Copyright © 2026 World App Technologies',
     artifactName: 'nulu-harness-${version}-${os}-${arch}.${ext}',
     directories: { output: unsigned ? join(buildPaths.root, 'unsigned-artifacts') : buildPaths.artifacts },
     asar: true,
@@ -65,9 +66,6 @@ export function createElectronBuilderConfig(
       'lib/*.cjs',
       'renderer/**/*',
       'package.json',
-      { from: buildPaths.nulu, to: 'nulu', filter: ['**/*'] },
-      // electron-builder excludes a source directory's root node_modules.
-      { from: join(buildPaths.nulu, 'node_modules'), to: 'nulu/node_modules', filter: ['**/*'] },
     ],
     asarUnpack: [
       '**/*.{node,dylib,dll,so,exe}',
@@ -77,6 +75,11 @@ export function createElectronBuilderConfig(
     ],
     extraResources: [
       { from: buildPaths.runtime, to: 'runtime' },
+      // The application reads the runtime tree from `resources/nulu` on disk, so it
+      // must be an extra resource, never part of app.asar.
+      { from: buildPaths.nulu, to: 'nulu' },
+      // electron-builder excludes a source directory's root node_modules.
+      { from: join(buildPaths.nulu, 'node_modules'), to: 'nulu/node_modules' },
     ],
     mac: {
       category: 'public.app-category.developer-tools',
@@ -84,7 +87,7 @@ export function createElectronBuilderConfig(
       forceCodeSigning: !unsigned,
       hardenedRuntime: true,
       // ASAR-unpacked native runtime files are pre-signed; PAK resources are sealed by their enclosing bundle.
-      signIgnore: ['/Contents/Resources/app\\.asar\\.unpacked/nulu(?:/|$)', '\\.pak$'],
+      signIgnore: ['/Contents/Resources/nulu(?:/|$)', '\\.pak$'],
       notarize: true,
       target: ['dmg', 'zip'],
     },
@@ -105,6 +108,9 @@ export function createElectronBuilderConfig(
       )
     },
     win: {
+      // NSIS publisher metadata; must match the code-signing certificate subject
+      // once a certificate is configured.
+      publisherName: 'World App Technologies',
       forceCodeSigning: !unsigned,
       signtoolOptions: {
         sign: windowsSigner,
