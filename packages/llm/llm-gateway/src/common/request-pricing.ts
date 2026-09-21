@@ -21,6 +21,9 @@ export const DEFAULT_MAX_REQUEST_FILES_BYTES = 128 * 1024 * 1024
 /** Provider request image-count limit. */
 export const DEFAULT_MAX_IMAGES_PER_REQUEST = 600
 /** Total-pixel budget matching provider low-detail image input. */
+/** Default pixel budget for catalog models without an explicit image budget. */
+export const DEFAULT_REQUEST_IMAGE_PIXEL_BUDGET = 640_000
+
 export const DEFAULT_LOW_DETAIL_IMAGE_PIXEL_BUDGET = 512 * 512
 /** Encoded-byte target for one deterministic model-request image; the smallest quality-ladder output is used when no quality fits. */
 export const DEFAULT_REQUEST_IMAGE_MAX_BYTES = 2 * 1024 * 1024

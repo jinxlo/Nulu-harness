@@ -151,7 +151,7 @@ describe('incremental Nulu session-log upload', () => {
     contexts.push(ctx)
     await ctx.plugin(SessionStore)
     await ctx.plugin(NuluLlmApiExtensionRegistry)
-    await ctx.plugin(SessionLogNulu, { enabled: false })
+    await ctx.plugin(SessionLogGateway, { enabled: false })
     const session = ctx.sessions.create(SessionId('explicit-off'))
     session.append('turn/start', { turn: 1 })
 

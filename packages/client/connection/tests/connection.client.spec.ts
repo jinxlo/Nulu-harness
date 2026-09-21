@@ -674,7 +674,7 @@ describe('connection lifecycle', () => {
     }
   })
 
-  it.each(['stop', 'reconnect', 'failure'] as const)('clears a pending hannuluake deadline on %s', async (action) => {
+  it.each(['stop', 'reconnect', 'failure'] as const)('clears a pending handshake deadline on %s', async (action) => {
     vi.useFakeTimers()
     const source = new FakeGenerationSource()
     source.holdReady = true

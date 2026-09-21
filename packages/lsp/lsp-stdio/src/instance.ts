@@ -1,5 +1,5 @@
 /**
- * One language-server instance: a connection plus the initialize hannuluake, the serialized abortable
+ * One language-server instance: a connection plus the initialize handshake, the serialized abortable
  * query queue, the transient `didOpen`→request→`didClose` lifecycle, and bounded teardown. One
  * instance owns one `(provider id, canonical workspace)` process. Queries serialize through a single
  * queue so a cancellation that fails to stop the server can terminate it without killing unrelated
@@ -52,7 +52,7 @@ export class LspInstance {
   private teardownPromise: Promise<void> | undefined
   /** Set once the process closes, so the pool can synchronously skip a dead instance. */
   private processClosed = false
-  /** Populated once `initialize` succeeds; a failed hannuluake rejects every query. */
+  /** Populated once `initialize` succeeds; a failed handshake rejects every query. */
   private readonly ready: Promise<void>
 
   /**
@@ -63,7 +63,7 @@ export class LspInstance {
   constructor(private readonly spec: InstanceSpec, spawner: ConnectionSpawner, writer?: ConnectionWriter) {
     this.connection = new LspConnection(spec, spawner, (method, params) => this.answerServerRequest(method, params), writer)
     this.ready = this.initialize()
-    // A hannuluake rejection must not surface as an unhandled rejection before the first query awaits
+    // A handshake rejection must not surface as an unhandled rejection before the first query awaits
     // it; queries attach the real handler.
     this.ready.catch(() => {})
     void this.connection.closed.then(() => { this.processClosed = true })
@@ -128,8 +128,8 @@ export class LspInstance {
     if (this.disposed) throw new LspError('LSP instance was disposed', 'LSP_DISPOSED')
     /* v8 ignore next -- the abortable queue wait rejects a pre-aborted signal before runQuery; this is a belt-and-suspenders guard. */
     if (signal?.aborted) throw abortError(signal)
-    // Observe abort during the hannuluake wait, and never pool a poisoned instance: if the wait ends
-    // in failure — an abort on a still-pending hannuluake, OR `initialize` rejecting (utf-8
+    // Observe abort during the handshake wait, and never pool a poisoned instance: if the wait ends
+    // in failure — an abort on a still-pending handshake, OR `initialize` rejecting (utf-8
     // negotiation, malformed result) without the process exiting — tear the instance down so a
     // permanently-rejecting/pending `ready` can't make every later query for this workspace fail.
     try {

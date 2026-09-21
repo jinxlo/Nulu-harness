@@ -205,7 +205,9 @@ describe('Session format release authority', () => {
     const records = ['docs/session-format-status.md', 'docs/session-format-status.zh.md'].map(file =>
       validateSessionFormatRelease(readFileSync(resolve(root, file), 'utf8'), readCurrentSessionFormatVersion(root)),
     )
-    expect(record.evidenceTag).toMatch(/^nulu-v/)
+    for (const record of records) {
+      expect(record.evidenceTag).toMatch(/^nulu-v/)
+    }
   })
 
   it('accepts a released writer and a newer development writer, including format zero', () => {

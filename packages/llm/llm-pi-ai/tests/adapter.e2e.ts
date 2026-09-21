@@ -24,7 +24,7 @@ async function harness(_model: string, config: Partial<PiAiProviderProfile> = {}
     providers: {
       nulu: {
         ...process.env.WORLD_APP_TECHNOLOGIES_API_KEY === undefined ? {} : { apiKey: process.env.WORLD_APP_TECHNOLOGIES_API_KEY },
-        baseURL: LlmNulu.PUBLIC_BASE_URL,
+        baseURL: LlmGateway.PUBLIC_BASE_URL,
         ...config,
       },
     },

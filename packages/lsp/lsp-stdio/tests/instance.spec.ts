@@ -193,15 +193,15 @@ describe('LspInstance query and abort', () => {
     await instance.dispose()
   })
 
-  it('observes abort while awaiting a slow initialize hannuluake', async () => {
+  it('observes abort while awaiting a slow initialize handshake', async () => {
     // A server that answers nothing (not even initialize) leaves `ready` pending; an abort must be
     // observed during that wait instead of hanging the tool-timeout signal.
     const instance = scriptInstance('setInterval(()=>{},1000)', { killGraceMs: 100 })
     const controller = new AbortController()
     const pending = run(instance, 'goToDefinition', controller.signal)
     await new Promise<void>(resolve => setTimeout(resolve, 150))
-    controller.abort(new Error('hannuluake-abort'))
-    await expect(pending).rejects.toThrow(/hannuluake-abort/)
+    controller.abort(new Error('handshake-abort'))
+    await expect(pending).rejects.toThrow(/handshake-abort/)
     await instance.dispose()
   })
 
@@ -407,7 +407,7 @@ function failingWriter(method: string, failure = new Error(`fixture ${method} fa
   }
 }
 
-/** Wait until a fixture marker exists, bounded so a broken hannuluake cannot hang the test. */
+/** Wait until a fixture marker exists, bounded so a broken handshake cannot hang the test. */
 async function waitForFile(path: string, timeoutMs: number, signal: AbortSignal): Promise<void> {
   const started = Date.now()
   for (;;) {

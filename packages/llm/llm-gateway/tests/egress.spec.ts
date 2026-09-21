@@ -56,7 +56,7 @@ async function streamOnce(): Promise<void> {
   const ctx = new Context()
   await ctx.plugin(LlmRuntime)
   await ctx.plugin(NuluLlmApiExtensionRegistry)
-  await ctx.plugin(LlmNulu, { protocol: 'chat-completions', baseURL: 'http://nulu-probe.invalid/v1', models: [{ id: 'm' }] })
+  await ctx.plugin(LlmGateway, { protocol: 'chat-completions', baseURL: 'http://nulu-probe.invalid/v1', models: [{ id: 'm' }] })
   for await (const _chunk of ctx.llm.stream({ provider: 'nulu-5-ultra', model: 'm', messages: [] })) {
     // The endpoint never answers; the proxy record is the assertion.
   }

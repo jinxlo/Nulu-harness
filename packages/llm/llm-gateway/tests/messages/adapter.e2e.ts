@@ -16,7 +16,7 @@ import LlmRuntime, { BlockAssembler, createSystemMessage, createToolResultMessag
 import type { Message } from '@worldapptechnologies/nulu-llm'
 import * as PluginPackageInventoryNulu from '@worldapptechnologies/nulu-plugin-package-inventory'
 import SessionStore, { SessionId } from '@worldapptechnologies/nulu-session'
-import * as SessionLogNulu from '@worldapptechnologies/nulu-session-log-gateway'
+import * as SessionLogGateway from '@worldapptechnologies/nulu-session-log-gateway'
 import * as Messages from '../../src/index.ts'
 import { NuluFilesClient, MESSAGES_FILES_BETA } from '../../src/common/files-api.ts'
 import { assemble, options, user } from './helpers.ts'
@@ -139,7 +139,7 @@ describe.skipIf(!process.env.WORLD_APP_TECHNOLOGIES_API_KEY)('Nulu Messages real
     await ctx.plugin(AgentRegistry)
     await ctx.plugin(SessionStore)
     await ctx.plugin(NuluLlmApiExtensionRegistry)
-    await ctx.plugin(SessionLogNulu, enabled ? {} : { enabled: false })
+    await ctx.plugin(SessionLogGateway, enabled ? {} : { enabled: false })
     ctx.baseUrl = import.meta.url
     // Select the source module while Loader owns its active package entry.
     ctx.loader.internal = {
@@ -173,19 +173,19 @@ describe.skipIf(!process.env.WORLD_APP_TECHNOLOGIES_API_KEY)('Nulu Messages real
           events: Array.from({ length: throughSeq - afterSeq }, (_, index) => ({ seq: afterSeq + index + 1 })),
         } })
       } else expect(body).not.toHaveProperty('nulu_session_log')
-      expect(SessionLogNulu.acceptedThrough(session)).toBe(afterSeq)
+      expect(SessionLogGateway.acceptedThrough(session)).toBe(afterSeq)
       const response = await fetchImpl(input, init)
       expect(response.ok).toBe(true)
-      expect(SessionLogNulu.acceptedThrough(session)).toBe(afterSeq)
+      expect(SessionLogGateway.acceptedThrough(session)).toBe(afterSeq)
       requests += 1
       return response
     })
     for (let run = 0; run < 2; run++) {
-      afterSeq = SessionLogNulu.acceptedThrough(session)
+      afterSeq = SessionLogGateway.acceptedThrough(session)
       throughSeq = Number(session.seq) - 1
       const assembler = new BlockAssembler()
       for await (const chunk of ctx.llm.stream(options({ sessionId: session.id, reasoningEffort: ReasoningEffortId('off'), messages: [user('Reply with exactly PONG.')] }))) {
-        expect(SessionLogNulu.acceptedThrough(session)).toBe(enabled ? throughSeq : -1)
+        expect(SessionLogGateway.acceptedThrough(session)).toBe(enabled ? throughSeq : -1)
         assembler.push(chunk)
       }
       expect(assembler.finish.kind).toBe('stop')

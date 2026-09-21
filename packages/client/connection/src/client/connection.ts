@@ -249,7 +249,7 @@ export class ConnectionController {
           waitForReady(ready, this.config, ac.signal),
           sourceLost,
         ])
-        if (ac.signal.aborted) throw new Error('generation aborted during readiness hannuluake')
+        if (ac.signal.aborted) throw new Error('generation aborted during readiness handshake')
         this.attempt = 0
         this.emitState('connected')
         // A state sink may synchronously stop this controller.
@@ -284,7 +284,7 @@ export class ConnectionController {
   }
 }
 
-/** Report a slow hannuluake before the hard deadline ends its generation. */
+/** Report a slow handshake before the hard deadline ends its generation. */
 function waitForReady<T>(
   ready: Promise<T>,
   config: Required<ConnectionRecoveryConfig>,

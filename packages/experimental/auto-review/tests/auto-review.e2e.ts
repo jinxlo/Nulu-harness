@@ -14,7 +14,7 @@ import {
   createUserMessage, isAgentLoopRequest, ToolCallId,
   type StreamChunk,
 } from '@worldapptechnologies/nulu-llm'
-import * as LlmNulu from '@worldapptechnologies/nulu-llm-gateway'
+import * as LlmGateway from '@worldapptechnologies/nulu-llm-gateway'
 import PermissionPresetService, { AUTO_PRESET } from '@worldapptechnologies/nulu-permission-presets'
 import SandboxProvider, { type ConfinedArgv, type SandboxPolicy } from '@worldapptechnologies/nulu-sandbox'
 import SandboxPolicyService from '@worldapptechnologies/nulu-sandbox-policy'
@@ -133,7 +133,7 @@ async function mount(ctx: Context, workspace: string, nuluHome: string): Promise
     systemPrompt: {}, tools: { mode: 'both' },
   })
   // No reasoning or output-budget override: use each shipped model's defaults.
-  await ctx.plugin(LlmNulu, { retryPolicy: { mode: 'normal', maxRetries: 0 } })
+  await ctx.plugin(LlmGateway, { retryPolicy: { mode: 'normal', maxRetries: 0 } })
   await ctx.plugin(SandboxPolicyService, { mode: 'workspace-write', workspaceRoot: workspace })
   await ctx.plugin(UnusedSandbox)
   await ctx.plugin(SandboxedFileSystem, { cwd: workspace })

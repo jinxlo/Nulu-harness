@@ -90,6 +90,16 @@ const DEFAULT_GATEWAY_MODELS = [
   { id: 'nulu-5-ultra', name: 'Nulu 5 Ultra', contextWindow: 1_000_000 },
 ]
 
+const DEFAULT_NULU_MODELS = [
+  {
+    id: 'nulu-v4-flash',
+    name: 'Nulu V4 Flash',
+    description: 'Preserved hidden detail',
+    contextWindow: 1_000_000,
+  },
+  { id: 'nulu-v4-pro', name: 'Nulu V4 Pro', contextWindow: 1_000_000 },
+]
+
 function wireNamespaces(): SettingsNamespaceView[] {
   return [
     {
@@ -669,7 +679,7 @@ describe('ModelsSection', () => {
     const namespace: SettingsNamespaceView = {
       ...wireNamespaces()[0]!,
       ns: 'llm-gateway',
-      value: { protocol: 'messages', apiKeyEnv: 'DEEPSEEK_API_KEY', models: DEFAULT_DEEPSEEK_MODELS },
+      value: { protocol: 'messages', apiKeyEnv: 'DEEPSEEK_API_KEY', models: DEFAULT_NULU_MODELS },
       user: {},
     }
     const { face, mutate, set } = scriptedFace({
@@ -702,8 +712,8 @@ describe('ModelsSection', () => {
       [
         { op: 'set', path: ['baseURL'], value: 'https://messages.example/anthropic' },
         { op: 'set', path: ['models'], value: [
-          { ...DEFAULT_DEEPSEEK_MODELS[0], name: 'Messages Flash' },
-          DEFAULT_DEEPSEEK_MODELS[1],
+          { ...DEFAULT_NULU_MODELS[0], name: 'Messages Flash' },
+          DEFAULT_NULU_MODELS[1],
         ] },
       ],
       0,

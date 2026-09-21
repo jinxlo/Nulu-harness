@@ -12,7 +12,7 @@ import type { ContentBlock, ReasoningEffortId } from '@worldapptechnologies/nulu
 import type { SessionEvent } from '@worldapptechnologies/nulu-session'
 import type { SubagentStopReason } from '@worldapptechnologies/nulu-subagent'
 
-/** Parameters for the process-wide SDK hannuluake. */
+/** Parameters for the process-wide SDK handshake. */
 export interface InitializeParams {
   /** Working directory recorded on every SDK-created session's header. */
   cwd: string

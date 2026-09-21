@@ -126,7 +126,7 @@ describe('hand-declared providers', () => {
     // A catalog route is unaffected: its models carry the metadata that makes
     // `off` actually disable thinking.
     const withCatalog = await harness({ providers: { nulu: { baseURL: server.url } } })
-    const [catalogModel] = getBuiltinModels('nulu')
+    const [catalogModel] = getBuiltinModels('nulu' as never)
     if (catalogModel === undefined) throw new Error('the installed catalog ships no nulu model')
     expect((await withCatalog.llm.resolveModelInfo('nulu', catalogModel.id)).reasoning?.efforts.map(e => e.id))
       .toContain('off')
@@ -263,7 +263,7 @@ describe('hand-declared providers', () => {
     // materializes `[]` for an absent array, so an entry naming a catalog
     // model without declaring modalities must keep the catalog's rather than
     // describe a model that accepts nothing.
-    const [catalogModel] = getBuiltinModels('nulu')
+    const [catalogModel] = getBuiltinModels('nulu' as never)
     if (catalogModel === undefined) throw new Error('the installed catalog ships no nulu model')
     const resolved = resolveProfiles({
       'nulu': { baseURL: 'https://catalog.test', models: [{ id: catalogModel.id, input: [] }] },
@@ -429,12 +429,12 @@ describe('catalog routes with per-model configuration', () => {
 
     const listed = await ctx.llm.listModels('nulu')
     expect(listed.map(model => model.id).sort())
-      .toEqual(getBuiltinModels('nulu').map(model => model.id).sort())
+      .toEqual(getBuiltinModels('nulu' as never).map(model => model.id).sort())
   })
 
   it('overrides one catalog model field and defaults the rest from the catalog', async () => {
     const server = await mockServer([])
-    const [catalogModel] = getBuiltinModels('nulu')
+    const [catalogModel] = getBuiltinModels('nulu' as never)
     if (catalogModel === undefined) throw new Error('the installed catalog ships no nulu model')
     const ctx = await harness({
       providers: {
@@ -458,7 +458,7 @@ describe('catalog routes with per-model configuration', () => {
 
   it('materializes a request default only from a configured output cap', async () => {
     const server = await mockServer([])
-    const [catalogModel] = getBuiltinModels('nulu')
+    const [catalogModel] = getBuiltinModels('nulu' as never)
     if (catalogModel === undefined) throw new Error('the installed catalog ships no nulu model')
     const ctx = await harness({
       providers: {
@@ -658,7 +658,7 @@ describe('per-model reasoning efforts', () => {
   })
 
   it('narrows a catalog model’s levels in place', () => {
-    const [catalogModel] = getBuiltinModels('nulu')
+    const [catalogModel] = getBuiltinModels('nulu' as never)
     if (catalogModel === undefined) throw new Error('the installed catalog ships no nulu model')
     expect(getSupportedThinkingLevels(catalogModel as Model<Api>)).toEqual(['off', 'low', 'high', 'max'])
 
@@ -673,7 +673,7 @@ describe('per-model reasoning efforts', () => {
   })
 
   it('strips reasoning from a catalog model with false', () => {
-    const [catalogModel] = getBuiltinModels('nulu')
+    const [catalogModel] = getBuiltinModels('nulu' as never)
     if (catalogModel === undefined) throw new Error('the installed catalog ships no nulu model')
     expect(catalogModel.reasoning).toBe(true)
 
@@ -684,7 +684,7 @@ describe('per-model reasoning efforts', () => {
   })
 
   it('inherits the catalog capability when the field is absent', () => {
-    const [catalogModel] = getBuiltinModels('nulu')
+    const [catalogModel] = getBuiltinModels('nulu' as never)
     if (catalogModel === undefined) throw new Error('the installed catalog ships no nulu model')
 
     const model = modelOf({ nulu: { models: [{ id: catalogModel.id }] } }, 'nulu')
@@ -710,13 +710,13 @@ describe('per-model reasoning efforts', () => {
 
 describe('modelOverrides', () => {
   const nuluModel = (): Model<Api> => {
-    const [model] = getBuiltinModels('nulu')
+    const [model] = getBuiltinModels('nulu' as never)
     if (model === undefined) throw new Error('the installed catalog ships no nulu model')
     return model
   }
 
   it('reshapes one catalog model while the rest of the catalog keeps serving', () => {
-    const catalogSize = getBuiltinModels('nulu').length
+    const catalogSize = getBuiltinModels('nulu' as never).length
     const target = nuluModel()
     const resolved = resolveProfiles({
       nulu: {
@@ -743,7 +743,7 @@ describe('modelOverrides', () => {
     expect(resolved.get('nulu')?.configuredMaxTokens.get(target.id)).toBe(4096)
     // A sibling the overrides do not name is byte-identical to the catalog.
     const sibling = models.find(model => model.id !== target.id)
-    expect(sibling?.maxTokens).toBe(getBuiltinModels('nulu').find(model => model.id === sibling?.id)?.maxTokens)
+    expect(sibling?.maxTokens).toBe(getBuiltinModels('nulu' as never).find(model => model.id === sibling?.id)?.maxTokens)
   })
 
   it('refuses every override that lands nowhere instead of skipping it', () => {
@@ -791,7 +791,7 @@ describe('compat switches', () => {
       'acme-gateway': {
         api: 'openai-completions',
         baseURL: 'https://acme.test',
-        compat: { thinkingFormat: 'nulu' },
+        compat: { thinkingFormat: 'deepseek' },
         models: [
           { id: 'dialect-default', reasoningEfforts: { off: null, high: 'high' } },
           { id: 'dialect-odd', compat: { thinkingFormat: 'openai', supportsReasoningEffort: false } },
@@ -799,14 +799,14 @@ describe('compat switches', () => {
       },
     }, 'acme-gateway')
 
-    expect(models.get('dialect-default')?.compat).toEqual({ thinkingFormat: 'nulu' })
+    expect(models.get('dialect-default')?.compat).toEqual({ thinkingFormat: 'deepseek' })
     expect(models.get('dialect-odd')?.compat).toEqual({ thinkingFormat: 'openai', supportsReasoningEffort: false })
   })
 
   it('merges the switches over the catalog entry’s own compat instead of replacing it', () => {
-    const [catalogModel] = getBuiltinModels('nulu')
+    const [catalogModel] = getBuiltinModels('nulu' as never)
     if (catalogModel === undefined) throw new Error('the installed catalog ships no nulu model')
-    const inherited = catalogModel.compat as OpenAICompletionsCompat
+    const inherited = catalogModel.compat as unknown as OpenAICompletionsCompat
     expect(inherited.requiresReasoningContentOnAssistantMessages).toBe(true)
 
     const models = modelsOf({

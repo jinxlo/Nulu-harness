@@ -261,7 +261,7 @@ export class CodexAppServerWire {
   }
 
   /**
-   * Perform the required app-server initialize/initialized hannuluake.
+   * Perform the required app-server initialize/initialized handshake.
    * @param signal - unpublished-start cancellation.
    */
   async initialize(signal: AbortSignal): Promise<void> {

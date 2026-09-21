@@ -78,12 +78,12 @@ describe('catalog-route model discovery', () => {
     const server = await listingServer({ body: JSON.stringify({ data: [{ id: 'from-the-endpoint' }] }) })
     const ctx = await harness()
 
-    const models = await ctx.llm.discoverModels('llm-pi-ai', { provider: 'nulu', baseURL: server.url })
+    const models = await ctx.llm.discoverModels('llm-pi-ai', { provider: 'nulu' as never, baseURL: server.url })
 
     // pi-ai's own registry is the authority for its own providers, and it
     // carries what a listing endpoint would not disclose.
     expect(models.map(model => model.id).sort())
-      .toEqual(getBuiltinModels('nulu').map(model => model.id).sort())
+      .toEqual(getBuiltinModels('nulu' as never).map(model => model.id).sort())
     expect(models.every(model => (model.contextWindow ?? 0) > 0 && (model.maxTokens ?? 0) > 0)).toBe(true)
     expect(server.paths).toEqual([])
   })

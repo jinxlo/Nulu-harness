@@ -124,7 +124,7 @@ async function boot(dir: string, config: object): Promise<Harness> {
   const settingsFiber = ctx.plugin(FileSettingsProvider, { path: join(dir, 'settings.yaml'), watch: false })
   await settingsFiber
   await ctx.plugin(LocalCredentialProvider, { path: join(dir, '.credentials.yaml'), watch: false })
-  await ctx.plugin(LlmNulu, { protocol: 'chat-completions', ...config })
+  await ctx.plugin(LlmGateway, { protocol: 'chat-completions', ...config })
   return { ctx, settingsFiber }
 }
 

@@ -118,7 +118,7 @@ export async function chooseWorkerHostSource(
 }
 
 /**
- * Connect a spawned host worker and complete the pre-Cordis hannuluake.
+ * Connect a spawned host worker and complete the pre-Cordis handshake.
  *
  * The caller constructs the Worker so its bundler resolves the bundle URL
  * statically; the opening `init` frame then carries the base image and ordered
@@ -129,9 +129,9 @@ export async function chooseWorkerHostSource(
  * boot rows — the `__ModuleLoader__` registration queue, the parser-preload
  * bundles, `__NULU_BOOT__`, the theme bootstrap — in table order. The
  * boot-readiness deferred (`__NULU_BOOT_READY__`) is installed before the
- * first await and settles with the hannuluake, so a client entry evaluating
+ * first await and settles with the handshake, so a client entry evaluating
  * concurrently in the same document holds at its pre-boot await until every
- * row has taken effect, and surfaces a failed hannuluake instead of
+ * row has taken effect, and surfaces a failed handshake instead of
  * proceeding on missing globals.
  * @param worker - The host worker.
  * @param options - Base-image and overlay location overrides.
@@ -139,7 +139,7 @@ export async function chooseWorkerHostSource(
  */
 export async function connectWorkerHost(worker: Worker, options?: WorkerHostConnectOptions): Promise<WorkerHostConnection> {
   const ready = bootReadyGate()
-  // The hannuluake may fail before any entry awaits the promise; this no-op
+  // The handshake may fail before any entry awaits the promise; this no-op
   // subscription keeps that from surfacing as an unhandled rejection.
   void ready.promise.catch(() => {})
   try {

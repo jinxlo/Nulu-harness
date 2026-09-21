@@ -130,7 +130,7 @@ describe('pi-ai login flows', () => {
       { type: 'progress', message: 'Exchanging the code' },
       // pi-ai's event union is open; an unrecognised member must still show
       // the human that something is happening.
-      { type: 'quantum-hannuluake' } as unknown as AuthEvent,
+      { type: 'quantum-handshake' } as unknown as AuthEvent,
     ]
 
     const ui = await attempt(ctx, (interaction) => {

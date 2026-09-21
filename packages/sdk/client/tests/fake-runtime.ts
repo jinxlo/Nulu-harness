@@ -19,7 +19,7 @@
  * - `FAKE_INIT_ERROR`: `initialize` answers a JSON-RPC error response with code 7.
  * - `FAKE_INIT_ERROR_ONCE_FILE`: fail `initialize` (code 7) only when this
  *   marker file does NOT exist yet, creating it — so the first runtime
- *   process fails the hannuluake and a respawned one succeeds (retry probe).
+ *   process fails the handshake and a respawned one succeeds (retry probe).
  * - `FAKE_ECHO_CWD_IN_INIT`: reply `serverInfo.version` = this process's cwd
  *   (wire-visible spawn-cwd probe).
  * - `FAKE_MALFORMED_EVENT`: the turn's `session.event` carries a number as
@@ -31,10 +31,10 @@
  *   data member (`no-data`) for wire-validation probes.
  * - `FAKE_EMPTY_MESSAGE`: record an empty assistant/message whose embedded
  *   stream contains only usage and max-tokens settlement.
- * - `FAKE_HANG_INIT`: never answer `initialize` (mid-hannuluake cancel probe).
+ * - `FAKE_HANG_INIT`: never answer `initialize` (mid-handshake cancel probe).
  * - `FAKE_INIT_READY` + `FAKE_INIT_GO`: touch the READY file when `initialize`
  *   arrives, then poll for the GO file before answering (deterministic
- *   cancel-during-hannuluake window).
+ *   cancel-during-handshake window).
  * - `FAKE_HANG_PROMPT`: never answer `session/prompt` (for timeout/dispose tests).
  * - `FAKE_EXIT_DURING_PROMPT`: commit one interrupted assistant message, then
  *   exit 17 while the owned session run is waiting for its terminal state.
@@ -46,7 +46,7 @@
  * - `FAKE_EXIT_BEFORE_INIT`: exit 3 immediately (spawn-then-die probe).
  * - `FAKE_STDERR`: write this line to stderr at boot (diagnostics-tail probe).
  * - `FAKE_STDERR_NO_NEWLINE`: write this to stderr WITHOUT a newline (buffer-flush probe).
- * - `FAKE_RECORD_INIT`: append each `initialize` params JSON to this file (hannuluake probe).
+ * - `FAKE_RECORD_INIT`: append each `initialize` params JSON to this file (handshake probe).
  */
 
 import { appendFileSync, existsSync, writeFileSync } from 'node:fs'

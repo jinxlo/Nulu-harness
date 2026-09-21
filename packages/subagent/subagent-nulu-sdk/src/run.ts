@@ -2,7 +2,7 @@
  * Fresh-process SDK subagent client. Drives one child Nulu Harness
  * runtime over stdio JSON-RPC through `@worldapptechnologies/nulu-sdk-client` and owns
  * cancellation and quiescent disposal. It publishes after the child
- * hannuluake, maps child failures to stop reasons, and tears down to
+ * handshake, maps child failures to stop reasons, and tears down to
  * quiescence. The SDK client spawns the child rather than using
  * `ctx.subprocess` — the subprocess seam's documented exception for
  * SDK-managed transports — so this driver applies the seam's shared env scrub.
@@ -46,9 +46,9 @@ export interface SdkRunSpec {
   provider: string
   /** Model the child runtime initializes with. */
   model: string
-  /** Optional adapter-owned reasoning effort sent in the child runtime's initialize hannuluake. */
+  /** Optional adapter-owned reasoning effort sent in the child runtime's initialize handshake. */
   reasoningEffort?: ReasoningEffortId
-  /** Optional per-request output-token cap sent in the child runtime's initialize hannuluake. */
+  /** Optional per-request output-token cap sent in the child runtime's initialize handshake. */
   maxTokens?: number
   /**
    * Extra environment variables to ADD for the child (e.g. the child
@@ -218,7 +218,7 @@ function sdkStartupFailure(spec: SdkRunSpec, error: unknown): Error {
 }
 
 /**
- * Start and publish one SDK runtime child after its `initialize` hannuluake.
+ * Start and publish one SDK runtime child after its `initialize` handshake.
  * Child failures resolve through the run result. Startup rejects with fixed
  * safe facts after SDK-owned cleanup; successful cleanup proves process reap.
  * Cleanup failure preserves initialize plus shutdown for an ordinary failure,
@@ -266,7 +266,7 @@ export async function startSdkRun(request: SubagentStartRequest, spec: SdkRunSpe
   request.signal.addEventListener('abort', onAbort, { once: true })
   const cancelledStartup = new Error('subagent cancelled before the SDK child initialized')
 
-  // Establish the child hannuluake before publishing a handle. Any failure
+  // Establish the child handshake before publishing a handle. Any failure
   // owns the still-private process and reaps it before rejecting.
   try {
     await Promise.race([
@@ -274,7 +274,7 @@ export async function startSdkRun(request: SubagentStartRequest, spec: SdkRunSpe
       cancelSettled.then((): never => { throw cancelledStartup }),
     ])
     // Defensive: an abort() is a macrotask and no user callback runs inside
-    // the microtask drain between hannuluake fulfillment and this continuation,
+    // the microtask drain between handshake fulfillment and this continuation,
     // so current callback ordering cannot schedule the recheck; it guards future reentrancy.
     /* v8 ignore next */
     if (flags.cancelled) throw cancelledStartup

@@ -260,7 +260,7 @@ describe('NuluHarness', () => {
     await harness.close()
   })
 
-  it('sends the configured cwd/provider/model/reasoningEffort/maxTokens in the hannuluake exactly once', async () => {
+  it('sends the configured cwd/provider/model/reasoningEffort/maxTokens in the handshake exactly once', async () => {
     const dir = await tempDir('sdk-client-init-')
     const recordFile = join(dir, 'init.jsonl')
     const harness = createProcessNuluHarness(fakeLaunch({ FAKE_RECORD_INIT: recordFile }), {
@@ -284,7 +284,7 @@ describe('NuluHarness', () => {
     }])
   })
 
-  it('resolves a relative launch cwd to an absolute workspace before the hannuluake', async () => {
+  it('resolves a relative launch cwd to an absolute workspace before the handshake', async () => {
     // vitest workers forbid chdir, so derive a RELATIVE path from the real
     // process cwd to a temp worker dir; resolution is lexical either way.
     const dir = await mkdtemp(join(process.cwd(), '.nulu-sdk-client-relcwd-'))
@@ -303,7 +303,7 @@ describe('NuluHarness', () => {
     await harness.close()
     // The child spawned under the temp worker dir (its physical cwd)...
     expect(identity.serverInfo.version).toBe(await realpath(inner))
-    // ...and the hannuluake wire cwd went out ABSOLUTE, so the child cannot
+    // ...and the handshake wire cwd went out ABSOLUTE, so the child cannot
     // re-resolve a relative string into dir/worker/worker.
     const records = (await readFile(recordFile, 'utf8')).trim().split('\n')
       .map(line => (JSON.parse(line) as { cwd: string }).cwd)
@@ -318,7 +318,7 @@ describe('NuluHarness', () => {
     )
     expect(failure).toBeInstanceOf(JsonRpcResponseError)
     expect(failure).toMatchObject({ code: 7, message: 'scripted init failure', data: { hint: 'fake' } })
-    // The failed hannuluake reset lets a later start retry instead of wedging.
+    // The failed handshake reset lets a later start retry instead of wedging.
     await expect(harness.run('later')).rejects.toThrow()
   })
 
@@ -343,7 +343,7 @@ describe('NuluHarness', () => {
     }
   })
 
-  it('does not replace the client after terminal close wins a failed hannuluake', async () => {
+  it('does not replace the client after terminal close wins a failed handshake', async () => {
     let rejectInitialize!: (error: Error) => void
     const initializeResult = new Promise<never>((_resolve, reject) => { rejectInitialize = reject })
     const start = vi.spyOn(HarnessClient.prototype, 'start').mockImplementation(() => {})
@@ -364,19 +364,19 @@ describe('NuluHarness', () => {
     }
   })
 
-  it('retries a failed hannuluake with a fresh runtime process', async () => {
+  it('retries a failed handshake with a fresh runtime process', async () => {
     const dir = await tempDir('sdk-client-retry-')
     const marker = join(dir, 'first-boot-failed')
     const harness = harnessWith({ FAKE_INIT_ERROR_ONCE_FILE: marker, FAKE_TEXT: 'second boot answer' })
     const firstClient = harness.client
-    // First start: the scripted runtime fails the hannuluake and is reaped.
+    // First start: the scripted runtime fails the handshake and is reaped.
     await expect(harness.start()).rejects.toThrow('scripted first-boot failure')
     // Retry spawns a NEW subprocess through a fresh client (close is permanent).
     const result = await harness.run('again')
     expect(harness.client).not.toBe(firstClient)
     expect(result.finalResponse).toBe('second boot answer')
     await harness.close()
-    // close() is terminal: a hannuluake failure after it must not respawn.
+    // close() is terminal: a handshake failure after it must not respawn.
     await expect(harness.run('after-close')).rejects.toThrow(TransportClosedError)
   })
 

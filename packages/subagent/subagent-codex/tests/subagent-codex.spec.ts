@@ -721,7 +721,7 @@ describe('task admission and package contracts', () => {
 })
 
 describe('CodexAppServerWire', () => {
-  it('sends the fixed hannuluake, thread, and turn payloads and keeps final_answer', async () => {
+  it('sends the fixed handshake, thread, and turn payloads and keeps final_answer', async () => {
     const child = fakeChild()
     const wire = defaultWire(child)
     expect(wire.collectOutput()).toEqual([])
@@ -909,7 +909,7 @@ describe('CodexAppServerWire', () => {
     }
   })
 
-  it('rejects invalid hannuluake, thread, and turn response shapes', async () => {
+  it('rejects invalid handshake, thread, and turn response shapes', async () => {
     {
       const child = fakeChild()
       const wire = defaultWire(child)

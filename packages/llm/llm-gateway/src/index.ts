@@ -22,6 +22,7 @@ import type {} from '@worldapptechnologies/nulu-settings'
 import { MAX_TIMER_DELAY_MS } from '@worldapptechnologies/nulu-timeout'
 import { deepEqualJson } from '@worldapptechnologies/nulu-util-values'
 import { getOrCreateAnonymousUserId, type AnonymousUserId } from '@worldapptechnologies/nulu-anonymous-user-id'
+import { NuluAdapter } from './adapter.ts'
 import {
   DEFAULT_CONTEXT_WINDOW,
   DEFAULT_FILE_EXPIRY_SECONDS,
@@ -34,17 +35,18 @@ import {
   DEFAULT_MAX_INLINE_REQUEST_IMAGE_BYTES,
   DEFAULT_MAX_TOKENS,
   DEFAULT_STREAM_IDLE_TIMEOUT_MS,
-  NuluAdapter,
-} from './adapter.ts'
-import type { NuluCatalogModel, NuluConnectionOptions } from './adapter.ts'
+} from './common/defaults.ts'
+import type { NuluCatalogModel, NuluConnectionOptions, NuluProtocol } from './common/types.ts'
 import {
   DEFAULT_LOW_DETAIL_IMAGE_PIXEL_BUDGET,
   DEFAULT_MAX_IMAGES_PER_REQUEST,
   DEFAULT_MAX_REQUEST_FILES_BYTES,
   DEFAULT_REQUEST_IMAGE_MAX_BYTES,
   DEFAULT_REQUEST_IMAGE_PIXEL_BUDGET,
-} from './request-pricing.ts'
+} from './common/request-pricing.ts'
 
+export { NuluAdapter } from './adapter.ts'
+export { MESSAGES_BASE_URL } from './config.ts'
 export {
   DEFAULT_CONTEXT_WINDOW,
   DEFAULT_FILE_EXPIRY_SECONDS,
@@ -57,9 +59,8 @@ export {
   DEFAULT_MAX_INLINE_REQUEST_IMAGE_BYTES,
   DEFAULT_MAX_TOKENS,
   DEFAULT_STREAM_IDLE_TIMEOUT_MS,
-  NuluAdapter,
-} from './adapter.ts'
-export type { NuluAdapterOptions, NuluCatalogModel, NuluConnectionOptions } from './adapter.ts'
+} from './common/defaults.ts'
+export type { NuluAdapterOptions, NuluCatalogModel, NuluConnectionOptions } from './common/types.ts'
 export {
   DEFAULT_LOW_DETAIL_IMAGE_PIXEL_BUDGET,
   DEFAULT_MAX_IMAGES_PER_REQUEST,
@@ -67,19 +68,18 @@ export {
   DEFAULT_REQUEST_IMAGE_MAX_BYTES,
   DEFAULT_REQUEST_IMAGE_PIXEL_BUDGET,
   nuluImageRequestPricing,
-  resolveRequestImagePolicy,
-} from './request-pricing.ts'
-export { nuluImageTokens } from './image-tokens.ts'
-export { NuluFileStore, MAX_CHAT_IMAGE_BYTES } from './file-store.ts'
-export type { NuluFileConnection, NuluFilePolicy, NuluFileReference } from './file-store.ts'
-export { NuluFilesClient, MAX_FILE_EXPIRY_SECONDS, MAX_FILE_UPLOAD_BYTES, MAX_STORED_FILE_BYTES, MAX_STORED_FILE_COUNT, MIN_FILE_EXPIRY_SECONDS } from './files-api.ts'
-export type { NuluFileObject, NuluFilePage } from './files-api.ts'
-export { NuluFileId } from './file-id.ts'
-export type { NuluFileId as NuluFileIdType } from './file-id.ts'
-export { NuluUploadIndex, nuluFileScope } from './upload-index.ts'
-export type { NuluUploadRecord } from './upload-index.ts'
-export type { RequestDefaults } from './serialize.ts'
-export type * from './types.ts'
+} from './common/request-pricing.ts'
+export { nuluImageTokens } from './common/image-tokens.ts'
+export { NuluFileStore, MAX_IMAGE_BYTES } from './common/file-store.ts'
+export type { NuluFileConnection, NuluFilePolicy, NuluFileReference } from './common/file-store.ts'
+export { NuluFilesClient, MAX_FILE_EXPIRY_SECONDS, MAX_FILE_UPLOAD_BYTES, MAX_STORED_FILE_BYTES, MAX_STORED_FILE_COUNT, MIN_FILE_EXPIRY_SECONDS } from './common/files-api.ts'
+export type { NuluFileObject, NuluFilePage } from './common/files-api.ts'
+export { NuluFileId } from './common/file-id.ts'
+export type { NuluFileId as NuluFileIdType } from './common/file-id.ts'
+export { NuluUploadIndex, nuluFileScope } from './common/upload-index.ts'
+export type { NuluUploadRecord } from './common/upload-index.ts'
+export type { RequestDefaults } from './common/types.ts'
+export type * from './common/types.ts'
 
 export const name = 'llm-gateway'
 export const inject = ['llm']
@@ -119,6 +119,8 @@ const MODEL_MODALITIES = ['text', 'image'] as const satisfies readonly ModelModa
  * reasoning effort resolves to `high`.
  */
 export interface Config {
+  /** Wire protocol; defaults to messages. Configure through Cordis YAML. */
+  protocol?: NuluProtocol
   /** Credential reference (environment-variable name) resolved per request; defaults to `WORLD_APP_TECHNOLOGIES_API_KEY`. */
   apiKeyEnv?: string
   /** Endpoint base; falls back to $WORLD_APP_TECHNOLOGIES_BASE_URL from a trusted environment layer, then the public API. */
@@ -172,6 +174,7 @@ const catalogModel: z<NuluCatalogModel> = z.object({
 })
 
 export const Config: z<Config> = z.object({
+  protocol: z.union(['chat-completions', 'messages']).default('messages'),
   apiKeyEnv: z.string().role('credential-ref').default(DEFAULT_API_KEY_ENV),
   baseURL: z.string(),
   thinking: z.union(['enabled', 'disabled']),
@@ -234,7 +237,7 @@ function resolveModels(models: readonly NuluCatalogModel[] | undefined): NuluCat
     if (inputModalities.length === 0) {
       throw new Error(`llm-gateway: catalog model "${model.id}" inputModalities must not be empty`)
     }
-    if (inputModalities.some(modality => !MODEL_MODALITIES.includes(modality))) {
+    if (inputModalities.some((modality: ModelModality) => !MODEL_MODALITIES.includes(modality))) {
       throw new Error(
         `llm-gateway: catalog model "${model.id}" inputModalities must contain only "text" and "image"`,
       )
@@ -377,6 +380,7 @@ export function resolveAdapterOptions(config: Config, environment?: LaunchEnviro
     throw new Error('llm-gateway: fileQuotaCleanupBatch must be an integer from 1 through 1000')
   }
   return {
+    protocol: config.protocol ?? 'messages',
     apiKeyEnv: credentialRef(config.apiKeyEnv ?? DEFAULT_API_KEY_ENV),
     baseURL: config.baseURL
       ?? environment?.get(BASE_URL_ENV)?.value

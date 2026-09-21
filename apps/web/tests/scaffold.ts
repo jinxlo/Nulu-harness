@@ -459,9 +459,7 @@ export async function launchWebScaffold(options: LaunchOptions = {}): Promise<We
     ...maskNuluCredential ? { WORLD_APP_TECHNOLOGIES_API_KEY: process.env.WORLD_APP_TECHNOLOGIES_API_KEY } : {},
     ...mode === 'record' ? {} : { WORLD_APP_TECHNOLOGIES_API_KEY: process.env.WORLD_APP_TECHNOLOGIES_API_KEY },
   }
-  const maskNuluCredential = mode !== 'record' && options.nuluMissingCredential === true
   const messages = options.nuluMessages === true
-  const originalNuluCredential = process.env.DEEPSEEK_API_KEY
   let credentialEnvironmentRestored = false
   const restoreCredentialEnvironment = (): void => {
     if (credentialEnvironmentRestored) return

@@ -59,7 +59,7 @@ export async function codingHarness(workdir: string, options: CodingHarnessOptio
     systemPrompt: { personaPrefix: options.personaPrefix ?? '' },
   })
   await ctx.plugin(AgentLoop, { agents: [] })
-  await ctx.plugin(LlmNulu, {
+  await ctx.plugin(LlmGateway, {
     ...options.modelContextWindow === undefined ? {} : {
       models: [{ id: 'nulu-v4-flash', contextWindow: options.modelContextWindow }],
     },
