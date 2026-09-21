@@ -30,7 +30,7 @@ function captureTar(args: readonly string[]): string {
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error)
     if (!/cannot connect to|resolve failed/iu.test(message)) throw error
-    return capture('tar', [flags, '--force-local', ...rest])
+    return capture('tar', ['--force-local', flags, ...rest])
   }
 }
 
