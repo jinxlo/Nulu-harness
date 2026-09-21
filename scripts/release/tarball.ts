@@ -57,11 +57,22 @@ export function tarballFiles(tarball: string): string[] {
  * @returns The name and version the tarball declares.
  */
 export function packedIdentity(tarball: string): PackedIdentity {
-  const manifest: unknown = JSON.parse(captureTar(['-xOzf', tarball, 'package/package.json']))
-  if (manifest === null || typeof manifest !== 'object') throw new Error(`${tarball} has no manifest`)
-  const { name, version } = manifest as Record<string, unknown>
+  const { name, version } = tarballManifest(tarball)
   if (typeof name !== 'string' || typeof version !== 'string') throw new Error(`${tarball} manifest lacks name/version`)
   return { name, version }
+}
+
+/**
+ * Read a packed tarball's own manifest.
+ * @param tarball - absolute tarball path.
+ * @returns The parsed manifest object.
+ */
+export function tarballManifest(tarball: string): Record<string, unknown> {
+  const manifest: unknown = JSON.parse(captureTar(['-xOzf', tarball, 'package/package.json']))
+  if (manifest === null || typeof manifest !== 'object' || Array.isArray(manifest)) {
+    throw new Error(`${tarball} has no manifest`)
+  }
+  return manifest as Record<string, unknown>
 }
 
 /**

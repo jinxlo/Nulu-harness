@@ -21,8 +21,7 @@ import {
   parseDesktopCorePackageSet,
   type DesktopCorePackageRecord,
 } from '../src/core-package-set.ts'
-import { capture } from '../../../scripts/release/process.ts'
-import { tarballFiles } from '../../../scripts/release/tarball.ts'
+import { tarballFiles, tarballManifest } from '../../../scripts/release/tarball.ts'
 import { resolveDesktopTargetBuildPaths } from './desktop-build-paths.mjs'
 
 const NULU_PACKAGE = '@worldapptechnologies/nulu'
@@ -82,11 +81,7 @@ export function selectDesktopPackageClosure(
 }
 
 function packedManifest(tarball: string): Record<string, unknown> {
-  const value: unknown = JSON.parse(capture('tar', ['-xOzf', tarball, 'package/package.json']))
-  if (value === null || typeof value !== 'object' || Array.isArray(value)) {
-    throw new Error(`desktop package set: ${tarball} has no package manifest`)
-  }
-  return value as Record<string, unknown>
+  return tarballManifest(tarball)
 }
 
 function packedPackages(inputs: readonly string[]): Map<string, PackedDesktopPackage> {
