@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-experimental-ptc-runtime-python",
   "description": "CPython subprocess implementation of the Nulu Harness PTC execution seam",
-  "version": "0.1.6-alpha.1",
+  "version": "1.6.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/worldapptechnologies/nulu-harness.git",

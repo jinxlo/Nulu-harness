@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-tool-web",
   "description": "Model-facing web tools (web_search, web_fetch) over the Nulu Harness web capability seam (ctx.web)",
-  "version": "0.1.6-alpha.1",
+  "version": "1.6.0",
   "publishConfig": {
     "access": "public"
   },

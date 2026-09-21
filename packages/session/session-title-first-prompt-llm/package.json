@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-session-title-first-prompt-llm",
   "description": "First-message LLM provider plugin for Nulu Harness session titles",
-  "version": "0.1.6-alpha.1",
+  "version": "1.6.0",
   "publishConfig": {
     "access": "public"
   },

@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-subprocess",
   "description": "Subprocess seam (ctx.subprocess) for the Nulu Harness \u2014 managed process groups, bounded spill-backed output, and escalated kills behind one abstract service",
-  "version": "0.1.6-alpha.1",
+  "version": "1.6.0",
   "publishConfig": {
     "access": "public"
   },

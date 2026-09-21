@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-llm-api-extensions",
   "description": "Additive request-field registry for the official Nulu LLM API adapter",
-  "version": "0.1.6-alpha.1",
+  "version": "1.6.0",
   "publishConfig": {
     "access": "public"
   },

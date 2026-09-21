@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-cmdline",
   "description": "Immutable command-line handoff from a nulu launcher to any app plugin that injects cmdlineArgs",
-  "version": "0.1.6-alpha.1",
+  "version": "1.6.0",
   "publishConfig": {
     "access": "public"
   },

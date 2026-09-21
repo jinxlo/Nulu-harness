@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-llm-pi-ai",
   "description": "pi-ai-backed Nulu adapter for the Nulu Harness LLM seam (design-verification twin of nulu-llm-gateway)",
-  "version": "0.1.6-alpha.1",
+  "version": "1.6.0",
   "publishConfig": {
     "access": "public"
   },

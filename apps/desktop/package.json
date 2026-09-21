@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-desktop",
   "description": "Electron desktop shell for a bundled nulu runtime and external plugins",
-  "version": "0.1.6-alpha.1",
+  "version": "1.6.0",
   "private": true,
   "license": "MIT",
   "type": "module",

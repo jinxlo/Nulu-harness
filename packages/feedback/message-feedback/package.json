@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-message-feedback",
   "description": "Canonical Session-log ratings and notes for finalized assistant messages",
-  "version": "0.1.6-alpha.1",
+  "version": "1.6.0",
   "publishConfig": {
     "access": "public"
   },

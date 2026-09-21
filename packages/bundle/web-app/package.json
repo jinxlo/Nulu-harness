@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-web-app",
   "description": "The nulu browser-surface bundle: the web patch layer over nulu-base plus the runtime glue plugin (frontend dist serving, web-surface prompt, bash runtime variables, URL line)",
-  "version": "0.1.6-alpha.1",
+  "version": "1.6.0",
   "publishConfig": {
     "access": "public"
   },

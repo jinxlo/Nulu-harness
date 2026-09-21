@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-experimental-agent-team-profile",
   "description": "Experimental profile bundle enabling Agent Teams over nulu-base",
-  "version": "0.1.6-alpha.1",
+  "version": "1.6.0",
   "publishConfig": {
     "access": "public"
   },

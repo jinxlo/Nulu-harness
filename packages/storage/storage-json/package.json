@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-storage-json",
   "description": "JSON file KV storage backend for the Nulu Harness storage hub",
-  "version": "0.1.6-alpha.1",
+  "version": "1.6.0",
   "publishConfig": {
     "access": "public"
   },

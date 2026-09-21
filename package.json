@@ -1,6 +1,6 @@
 {
   "name": "@worldapptechnologies/nulu-root",
-  "version": "0.1.6-alpha.1",
+  "version": "1.6.0",
   "license": "MIT",
   "private": true,
   "type": "module",

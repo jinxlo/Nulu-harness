@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-web-search-perplexity",
   "description": "Perplexity-backed search provider for the Nulu Harness web capability seam (ctx.web)",
-  "version": "0.1.6-alpha.1",
+  "version": "1.6.0",
   "publishConfig": {
     "access": "public"
   },

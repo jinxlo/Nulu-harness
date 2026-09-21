@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-sandbox-windows-acl",
   "description": "Windows ACL write-restriction sandbox backend (restricted-token spawn with capability-SID write allowlist) for the Nulu Harness sandbox seam",
-  "version": "0.1.6-alpha.1",
+  "version": "1.6.0",
   "publishConfig": {
     "access": "public"
   },

@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-experimental-auto-review",
   "description": "Per-tool LLM authorization review for the Nulu Harness Auto permission preset",
-  "version": "0.1.6-alpha.1",
+  "version": "1.6.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/worldapptechnologies/nulu-harness.git",

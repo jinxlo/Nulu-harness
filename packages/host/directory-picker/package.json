@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-host-directory-picker",
   "description": "Abstract workspace-directory picking seam (ctx.directoryPicker) for the Nulu Harness web GUI host",
-  "version": "0.1.6-alpha.1",
+  "version": "1.6.0",
   "publishConfig": {
     "access": "public"
   },

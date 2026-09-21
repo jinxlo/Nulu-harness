@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-workflow-ptc",
   "description": "Workflow orchestration in the shared sandboxed Node PTC runtime",
-  "version": "0.1.6-alpha.1",
+  "version": "1.6.0",
   "publishConfig": {
     "access": "public"
   },
