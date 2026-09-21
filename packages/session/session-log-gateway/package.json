@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-session-log-gateway",
   "description": "Incremental lossless session-log request extension for the official Nulu LLM API",
-  "version": "0.1.5-rc.2",
+  "version": "1.6.0",
   "publishConfig": {
     "access": "public"
   },

@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-subagent-nulu-sdk",
   "description": "Out-of-process SDK subagent backend: drives a child Nulu Harness runtime subprocess over stdio JSON-RPC through the TypeScript SDK client",
-  "version": "0.1.5-rc.2",
+  "version": "1.6.0",
   "publishConfig": {
     "access": "public"
   },

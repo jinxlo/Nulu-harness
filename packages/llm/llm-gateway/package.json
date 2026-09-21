@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-llm-gateway",
   "description": "Nulu chat-completions adapter for the Nulu Harness LLM seam",
-  "version": "0.1.5-rc.2",
+  "version": "1.6.0",
   "publishConfig": {
     "access": "public"
   },

@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-plugin-package-inventory",
   "description": "Active Loader-backed plugin package inventory for official Nulu LLM API requests",
-  "version": "0.1.5-rc.2",
+  "version": "1.6.0",
   "publishConfig": {
     "access": "public"
   },

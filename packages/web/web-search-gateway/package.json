@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-web-search-gateway",
   "description": "Nulu-backed search provider (native web_search via the Anthropic-compatible API) for the Nulu Harness web capability seam (ctx.web)",
-  "version": "0.1.5-rc.2",
+  "version": "1.6.0",
   "publishConfig": {
     "access": "public"
   },
