@@ -93,7 +93,7 @@ export function createElectronBuilderConfig(
       writeUpdateInfo: false,
     },
     afterSign: async context => {
-      if (context.electronPlatformName !== 'darwin') return
+      if (unsigned || context.electronPlatformName !== 'darwin') return
       verifyMacOSSignatureAfterSign(context, macOSSigning ?? resolveMacOSSigningEnvironment(env))
     },
     artifactBuildCompleted: artifact => {
