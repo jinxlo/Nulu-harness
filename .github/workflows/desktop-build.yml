@@ -126,6 +126,7 @@ jobs:
           RELEASE_TAG: ${{ inputs.release_tag }}
         run: |
           gh release create "$RELEASE_TAG" \
+            --repo "$GITHUB_REPOSITORY" \
             --draft \
             --title "$RELEASE_TAG" \
             --generate-notes \
