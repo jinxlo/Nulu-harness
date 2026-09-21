@@ -176,13 +176,21 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           RELEASE_TAG: ${{ inputs.release_tag }}
         run: |
+          # Upload installers and update metadata only; the merged artifact tree
+          # also contains unpacked directories that gh cannot attach.
+          mapfile -t assets < <(find dist/desktop -maxdepth 1 -type f \
+            \( -name '*.exe' -o -name '*.dmg' -o -name '*.zip' -o -name '*.AppImage' -o -name 'latest*.yml' \) | sort)
+          if [ "${#assets[@]}" -eq 0 ]; then
+            echo "no release assets found in dist/desktop" >&2
+            exit 1
+          fi
           if gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-            gh release upload "$RELEASE_TAG" dist/desktop/* --repo "$GITHUB_REPOSITORY" --clobber
+            gh release upload "$RELEASE_TAG" "${assets[@]}" --repo "$GITHUB_REPOSITORY" --clobber
           else
             gh release create "$RELEASE_TAG" \
               --repo "$GITHUB_REPOSITORY" \
               --draft \
               --title "$RELEASE_TAG" \
               --generate-notes \
-              dist/desktop/*
+              "${assets[@]}"
           fi
