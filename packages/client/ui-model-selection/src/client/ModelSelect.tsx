@@ -240,10 +240,14 @@ export function ModelSelect(
   }
 
   const waiting = state.current === null && state.status === 'loading'
+  // A persisted selection can outlive a provider removal; a forbidden route
+  // must not surface its provider/model in the trigger either.
+  const currentFallback = state.current === null || isForbiddenModel(state.current)
+    ? t('trigger.fallback')
+    : `${state.current.provider}/${state.current.model}`
   const modelLabel = waiting
     ? t('trigger.loading')
-    : currentChoice?.model.name
-      ?? (state.current === null ? t('trigger.fallback') : `${state.current.provider}/${state.current.model}`)
+    : currentChoice?.model.name ?? currentFallback
   const triggerLabel = effortLabel === undefined ? modelLabel : `${modelLabel} · ${effortLabel}`
   const triggerAria = waiting
     ? t('trigger.loading')
@@ -335,10 +339,14 @@ export function ModelSelect(
               <div className={clsx(css.groups, 'scrollable')}>
                 {state.groups.map((group) => {
                   const headingId = `${id}-${group.id}`
+                  const visibleGroupModels = group.models.filter(model => !isForbiddenModel(model))
+                  if (visibleGroupModels.length === 0) {
+                    return null
+                  }
                   return (
                     <section role="group" aria-labelledby={headingId} className={css.group} key={group.id}>
                       <div className={css.groupTitle} id={headingId}>{group.name}</div>
-                      {group.models.map((model) => {
+                      {visibleGroupModels.map((model) => {
                         const selected = state.current?.provider === group.id && state.current.model === model.id
                         return (
                           <button
