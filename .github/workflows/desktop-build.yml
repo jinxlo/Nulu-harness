@@ -53,7 +53,7 @@ jobs:
             artifacts: apps/desktop/.desktop-build/targets/win-x64/unsigned-artifacts
     steps:
       # Complete history: the release scripts read tags.
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           persist-credentials: false
