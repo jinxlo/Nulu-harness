@@ -134,7 +134,10 @@ try {
     if (process.env.GITHUB_OUTPUT) writeFileSync(process.env.GITHUB_OUTPUT, `changed=true\nsha=${report.candidate}\nbranch=${report.branch}\nversion=${version}\nbase=${expectedMain}\n`, { flag: 'a' })
   }
 } catch (error) {
-  report.status = 'blocked'; report.error = error.message; save()
+  report.status = 'blocked'; report.error = error.message
+  report.detail = `${error.stdout ?? ''}\n${error.stderr ?? ''}`.trim().slice(-14000)
+  save()
   console.error(error.message)
+  if (report.detail) console.error(report.detail)
   process.exitCode = 1
 }
