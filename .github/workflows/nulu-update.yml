@@ -96,6 +96,7 @@ jobs:
       - run: node --test scripts/automation/automation.test.mjs
       - run: pnpm run build:official
       - run: pnpm run lint:contracts-ready
+      - run: pnpm run doc-sync
       - run: pnpm run test:coverage
       - run: pnpm run test:snapshot
       - run: pnpm --filter @worldapptechnologies/nulu-benchmarks exec playwright install --with-deps chromium

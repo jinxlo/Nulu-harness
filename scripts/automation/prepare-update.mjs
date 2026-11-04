@@ -4,7 +4,7 @@ import { join } from 'node:path'
 import { adapt } from './adapter.mjs'
 import { rebrandTree } from './brand-tree.mjs'
 import { versionOrder } from './release-catalog.mjs'
-import { ROOT, REPORT, command, git, json, pnpm, trustedPath } from './common.mjs'
+import { ROOT, REPORT, assertTrustedFilesUnchanged, command, git, json, pnpm, trustedPath } from './common.mjs'
 
 let base = git(['rev-parse', 'HEAD'])
 const report = { schemaVersion: 1, base, startedAt: new Date().toISOString(), status: 'preparing', checks: [] }
@@ -22,6 +22,7 @@ function restoreTools() {
 
 
 function qualify() {
+  assertTrustedFilesUnchanged(base)
   const steps = [
     ['policy', () => command(process.execPath, ['scripts/upstream-sync/validate.mjs', '--json'], { env: environment })],
     ['dependencies', () => pnpm(['install', '--frozen-lockfile'], { env: environment })],
@@ -29,7 +30,7 @@ function qualify() {
     ['desktop-and-catalog', () => pnpm(['exec', 'vitest', 'run', 'apps/desktop/tests', 'packages/llm/llm-pi-ai/tests/catalog.spec.ts', '--maxWorkers=2'], { env: environment })],
   ]
   for (const [name, run] of steps) {
-    try { run(); report.checks.push({ name, status: 'passed' }); save() }
+    try { run(); assertTrustedFilesUnchanged(base); report.checks.push({ name, status: 'passed' }); save() }
     catch (error) {
       const detail = `${error.stdout ?? ''}\n${error.stderr ?? ''}`.slice(-14000)
       report.checks.push({ name, status: 'failed', detail }); save()

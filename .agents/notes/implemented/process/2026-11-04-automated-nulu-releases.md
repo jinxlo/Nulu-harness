@@ -10,6 +10,8 @@ The Nulu release history and default branch differ. Upstream sync is manual, its
 
 The [update workflow](../../../../.github/workflows/nulu-update.yml) qualifies an isolated candidate before promotion. The [automation implementation](../../../../scripts/automation/README.md) owns batching, protected files, model adaptation, version identity, real API verification, native installation tests, hosted checksum verification and release publication. A configurable trusted source ref permits baseline repairs to be tested before the application history is promoted to the default branch.
 
+Preparation verifies protected Nulu files after each qualification command, including dependency lifecycle scripts. Changes, removals, renames, and newly introduced protected files stop the candidate before its release checkpoint is written. A temporary Git fixture exercises those rejection paths.
+
 The workflow preserves the current unsigned developer-preview channel. Signed installation remains dependent on explicit signing infrastructure. The [existing desktop packaging decision](../architecture/2026-08-25-electron-desktop-packaging-and-updates.md) continues to own runtime release identity and signing requirements; this note adds unattended qualification and download promotion.
 
 ## Alternatives considered
