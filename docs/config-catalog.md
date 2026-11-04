@@ -1094,7 +1094,7 @@ export interface NuluCatalogModel {
 
 Depends on: [`ModelModality`](../packages/llm/llm/src/index.ts) · [`RetryPolicyConfig`](../packages/llm/llm/src/index.ts) · [`SystemPromptUpdate`](../packages/llm/llm/src/index.ts)
 
-Source: [`packages/llm/llm-gateway/src/index.ts:134`](../packages/llm/llm-gateway/src/index.ts)
+Source: [`packages/llm/llm-gateway/src/index.ts:121`](../packages/llm/llm-gateway/src/index.ts)
 
 <a id="worldapptechnologiesnulu-llm-pi-ai"></a>
 

@@ -1,0 +1,91 @@
+import assert from 'node:assert/strict'
+import { mkdtempSync, mkdirSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+import test from 'node:test'
+import { brandText, editablePath, readablePath, trustedPath } from './common.mjs'
+import { buildCatalog, installerName, TARGETS, validateCatalog, validateNativeEvidence, versionOrder } from './release-catalog.mjs'
+import { gatewayModelIds, validateModelPolicy } from './brand-policy.mjs'
+import { adapt } from './adapter.mjs'
+
+test('release ordering rejects downgrades and compares numeric version components', () => {
+  assert.ok(versionOrder('1.6.10', '1.6.9') > 0)
+  assert.ok(versionOrder('1.6.1', '1.7.0') < 0)
+  assert.equal(versionOrder('1.6.1', '1.6.1'), 0)
+  assert.throws(() => versionOrder('next', '1.6.1'))
+})
+
+test('publication rejects native results for another commit or any unfinished required check', () => {
+  const source = 'a'.repeat(40)
+  const evidence = { schemaVersion: 1, target: 'win-x64', version: '1.6.1', source, branding: 'passed', updateNotification: 'passed', packagedLaunch: 'passed', profileRestart: 'passed', upgrade: 'passed' }
+  assert.equal(validateNativeEvidence(evidence, 'win-x64', '1.6.1', source), true)
+  for (const field of ['branding', 'updateNotification', 'packagedLaunch', 'profileRestart', 'upgrade']) {
+    assert.throws(() => validateNativeEvidence({ ...evidence, [field]: 'skipped' }, 'win-x64', '1.6.1', source))
+  }
+  assert.throws(() => validateNativeEvidence(evidence, 'mac-arm64', '1.6.1', source))
+  assert.throws(() => validateNativeEvidence(evidence, 'win-x64', '1.6.2', source))
+  assert.throws(() => validateNativeEvidence(evidence, 'win-x64', '1.6.1', 'b'.repeat(40)))
+})
+
+test('adapter blocks incomplete decisions and forbidden writes without changing policy', async () => {
+  const input = { base: 'a'.repeat(40), upstream: 'b'.repeat(40), details: 'Fixture update', apiKey: 'fixture-only-key' }
+  const result = (name, args) => async () => Response.json({ choices: [{ message: { role: 'assistant', tool_calls: [{ id: 'fixture-call', type: 'function', function: { name, arguments: JSON.stringify(args) } }] } }] })
+  await assert.rejects(adapt({ ...input, fetchImpl: result('finish', { status: 'blocked', summary: 'Unverified migration' }) }), /blocked/)
+  await assert.rejects(adapt({ ...input, fetchImpl: async () => Response.json({ choices: [{ message: { role: 'assistant', content: 'done' } }] }) }), /no executable decision/)
+  await assert.rejects(adapt({ ...input, fetchImpl: result('write_files', { files: [{ path: 'scripts/automation/publish.mjs', content: 'unsafe' }] }) }), /file write rejected/)
+  const success = await adapt({ ...input, fetchImpl: result('finish', { status: 'completed', summary: 'No change required' }) })
+  assert.equal(success.status, 'completed')
+  assert.deepEqual(success.changed, [])
+})
+
+test('model policy rejects foreign IDs even alongside valid Nulu IDs', () => {
+  const gateway = "const DEFAULT_MODELS = [{id: 'nulu-5-ultra'}]"
+  const bundle = '- insert:\n  - id: llm-pi-ai\n    config:\n      providers:\n        worldapp:\n          baseURL: https://platform.worldapptechnologies.com/api/v1\n          apiKeyEnv: WORLD_APP_TECHNOLOGIES_API_KEY\n          models:\n          - id: nulu-5-ultra\n'
+  assert.equal(validateModelPolicy(gateway, bundle, ['nulu-5-ultra']), true)
+  assert.throws(() => validateModelPolicy(gateway.replace('}]', "}, {id: 'foreign-model'}]"), bundle, ['nulu-5-ultra']))
+  assert.throws(() => validateModelPolicy(gateway, bundle.replace('worldapp:', 'other:'), ['nulu-5-ultra']))
+  assert.throws(() => validateModelPolicy(gateway, bundle.replace('https://platform.worldapptechnologies.com/api/v1', 'https://wrong.example/v1'), ['nulu-5-ultra']))
+  assert.throws(() => gatewayModelIds('const DEFAULT_MODELS = unverifiedCatalog()'))
+  assert.throws(() => gatewayModelIds('const DEFAULT_MODELS = [{id: unknownId}]'))
+})
+
+test('branding preserves the protected policy and bare protocol identifiers', () => {
+  assert.equal(brandText('DeepSeek Harness @deepseek-ai/dsh DSH_HOME ~/.dsh thinkingFormat: deepseek'), 'Nulu Harness @worldapptechnologies/nulu NULU_HOME ~/.nulu thinkingFormat: deepseek')
+  for (const path of ['.github/workflows/release.yml', 'upstream-policy.yml', 'scripts/automation/common.mjs', '.agents/notes/archived/manifest.json', 'packages/client/ui-primitives/src/NuluMark.tsx', 'apps/desktop/build/icon.png', 'apps/desktop/electron-builder.config.mjs']) assert.equal(trustedPath(path), true)
+})
+
+test('adapter rejects credentials, traversal, release tooling and test rewriting', () => {
+  for (const path of ['../secret', '/etc/passwd', 'apps/../../secret', 'apps/.env', 'apps/x/../../../.git/config', 'scripts/automation/common.mjs', 'packages/x/tests/a.ts', 'packages/x/a.spec.ts', 'packages/x/AGENTS.md', 'apps\\file']) assert.throws(() => editablePath(path))
+  assert.ok(readablePath('packages/x/tests/a.ts').endsWith('/packages/x/tests/a.ts'))
+  for (const path of ['apps/.env', 'apps/x/node_modules/credential', '/etc/passwd', 'apps/../../secret']) assert.throws(() => readablePath(path))
+})
+
+test('adapter rejects symlink escapes without changing the destination', t => {
+  const root = mkdtempSync(join(tmpdir(), 'nulu-path-test-'))
+  t.after(() => rmSync(root, { recursive: true, force: true }))
+  mkdirSync(join(root, 'apps'))
+  symlinkSync(tmpdir(), join(root, 'apps/link'), process.platform === 'win32' ? 'junction' : 'dir')
+  assert.throws(() => editablePath('apps/link/file.ts', root), /symlink/)
+  assert.equal(editablePath('apps/new/file.ts', root), join(root, 'apps/new/file.ts'))
+})
+
+test('catalog requires every installer and both Mac updater ZIPs', async t => {
+  const root = mkdtempSync(join(tmpdir(), 'nulu-catalog-test-'))
+  t.after(() => rmSync(root, { recursive: true, force: true }))
+  for (const target of TARGETS) writeFileSync(join(root, installerName('1.6.1', target)), `payload-${target}`)
+  await assert.rejects(buildCatalog(root, '1.6.1', 'a'.repeat(40)), /Missing required/)
+  for (const arch of ['arm64', 'x64']) writeFileSync(join(root, `nulu-harness-1.6.1-mac-${arch}.zip`), 'zip payload')
+  const catalog = await buildCatalog(root, '1.6.1', 'a'.repeat(40))
+  assert.equal(catalog.downloads.length, 4)
+  for (const mutate of [
+    x => x.downloads.pop(),
+    x => { x.downloads[0].url = 'https://example.com/foreign.exe' },
+    x => { x.downloads[0].size = 0 },
+    x => { x.downloads[0].sha256 = '' },
+    x => { x.downloads[0] = x.downloads[1] },
+    x => { x.version = '1.6.2' },
+  ]) {
+    const invalid = structuredClone(catalog); mutate(invalid)
+    assert.throws(() => validateCatalog(invalid))
+  }
+})
