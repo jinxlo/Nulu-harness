@@ -4,7 +4,7 @@ import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'nod
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { _electron } from 'playwright-core'
-import { git, json } from './common.mjs'
+import { ROOT, git, json } from './common.mjs'
 
 const [executable, target, evidenceRoot, previousExecutable, previousVersion] = process.argv.slice(2)
 if (!executable || !target || !evidenceRoot) throw new Error('Usage: desktop-smoke.mjs <executable> <target> <evidence-directory>')
@@ -15,6 +15,8 @@ const env = Object.fromEntries(Object.entries(process.env).filter(([name]) => !/
 env.NULU_HOME = home
 env.NULU_TELEMETRY_DISABLED = '1'
 const errors = []
+const geometry = /NULU_MARK_PATH\s*=\s*'([^']+)'/.exec(readFileSync(join(ROOT, 'packages/client/ui-primitives/src/NuluMark.tsx'), 'utf8'))?.[1]
+assert.ok(geometry, 'The trusted Nulu mark must be available for visual identity verification')
 try {
   const stages = [...(previousExecutable ? [{ executable: previousExecutable, version: previousVersion, label: 'previous' }] : []),
     { executable, version: json('package.json').version, label: 'upgrade' },
@@ -33,6 +35,8 @@ try {
       assert.doesNotMatch(text, /DeepSeek Harness|DSH_|@deepseek-ai\//i)
       assert.doesNotMatch(text, /Desktop renderer exited|reinstall the application|startup failed/i)
       assert.match(await window.title(), /Nulu/i)
+      await window.locator(`svg path[d="${geometry}"]`).first().waitFor({ state: 'visible', timeout: 30000 })
+      await window.locator('svg text').filter({ hasText: /Nulu/ }).first().waitFor({ state: 'visible', timeout: 30000 })
       await window.screenshot({ path: join(evidence, `${target}-${stage.label}.png`), fullPage: true })
       if (attempt === 0) {
         writeFileSync(join(home, 'release-smoke-sentinel'), 'preserved')
@@ -45,7 +49,7 @@ try {
       await application.close()
     }
   }
-  writeFileSync(join(evidence, `${target}-evidence.json`), `${JSON.stringify({ schemaVersion: 1, target, version: json('package.json').version, source: git(['rev-parse', 'HEAD']), packagedLaunch: 'passed', profileRestart: 'passed', upgrade: previousExecutable ? 'passed' : 'not-tested', errors }, null, 2)}\n`)
+  writeFileSync(join(evidence, `${target}-evidence.json`), `${JSON.stringify({ schemaVersion: 1, target, version: json('package.json').version, source: git(['rev-parse', 'HEAD']), branding: 'passed', packagedLaunch: 'passed', profileRestart: 'passed', upgrade: previousExecutable ? 'passed' : 'not-tested', errors }, null, 2)}\n`)
 } finally {
   rmSync(home, { recursive: true, force: true, maxRetries: 3 })
 }

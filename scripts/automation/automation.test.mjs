@@ -39,7 +39,7 @@ test('model policy rejects foreign IDs even alongside valid Nulu IDs', () => {
 
 test('branding preserves the protected policy and bare protocol identifiers', () => {
   assert.equal(brandText('DeepSeek Harness @deepseek-ai/dsh DSH_HOME ~/.dsh thinkingFormat: deepseek'), 'Nulu Harness @worldapptechnologies/nulu NULU_HOME ~/.nulu thinkingFormat: deepseek')
-  for (const path of ['.github/workflows/release.yml', 'upstream-policy.yml', 'scripts/automation/common.mjs', '.agents/notes/archived/manifest.json']) assert.equal(trustedPath(path), true)
+  for (const path of ['.github/workflows/release.yml', 'upstream-policy.yml', 'scripts/automation/common.mjs', '.agents/notes/archived/manifest.json', 'packages/client/ui-primitives/src/NuluMark.tsx', 'apps/desktop/build/icon.png', 'apps/desktop/electron-builder.config.mjs']) assert.equal(trustedPath(path), true)
 })
 
 test('adapter rejects credentials, traversal, release tooling and test rewriting', () => {
