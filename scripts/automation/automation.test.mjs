@@ -114,3 +114,12 @@ test('qualification rejects protected changes made by build steps, including unt
   run(['add', '-A'])
   assert.throws(() => assertTrustedFilesUnchanged(base, root), /release.yml/)
 })
+
+
+test('pnpm exec automation can run package commands without npm_execpath', () => {
+  const environment = { ...process.env }
+  delete environment.npm_execpath
+  const script = "import {pnpm} from './scripts/automation/common.mjs'; process.stdout.write(pnpm(['--version']))"
+  const version = command(process.execPath, ['--input-type=module', '-e', script], { env: environment, timeout: 30000 }).trim()
+  assert.match(version, /^\d+\.\d+\.\d+$/)
+})
