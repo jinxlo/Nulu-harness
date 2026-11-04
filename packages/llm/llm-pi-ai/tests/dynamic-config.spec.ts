@@ -55,13 +55,12 @@ async function boot(
 }
 
 describe('login flows in a real composition', () => {
-  it('offers a sign-in for a provider no route names, once the seam is mounted', async () => {
+  it('does not offer hidden provider sign-ins when the seam is mounted', async () => {
     const ctx = await boot(await home(), {}, { authorization: true })
 
-    // Zero routes configured: signing in is what makes a route worth adding,
-    // so the offer cannot wait for a profile to name the provider.
     const codex = ctx.authorization.describe(LlmPiAi.recordKeyFor('openai-codex'))
-    expect(codex?.methods.map(method => method.id)).toEqual(['oauth'])
+    expect(codex).toBeUndefined()
+    expect(ctx.authorization.list()).toEqual([])
   })
 
   it('mounts without the seam, and simply offers no sign-in', async () => {
@@ -70,7 +69,7 @@ describe('login flows in a real composition', () => {
     // A headless or ACP composition has no surface to sign in from; everything
     // else this plugin does still works.
     expect(ctx.get('authorization')).toBeUndefined()
-    expect(ctx.llm.listConfigurableProviders().length).toBeGreaterThan(0)
+    expect(ctx.llm.listConfigurableProviders()).toEqual([])
   })
 })
 
@@ -79,14 +78,14 @@ describe('request-level dynamic profiles', () => {
   it('retains the last accepted profiles after an invalid external edit and accepts a repaired file', { timeout: 30_000 }, async () => {
     const dir = await home()
     const path = join(dir, 'settings.yaml')
-    await writeFile(path, JSON.stringify({ [NS]: { providers: { nulu: {} } } }))
+    await writeFile(path, JSON.stringify({ [NS]: { providers: { deepseek: {} } } }))
     const ctx = await boot(dir, {}, { watchSettings: true })
 
     await writeFile(path, JSON.stringify({ [NS]: { providers: { openrouter: { models: [{ id: '111' }] } } } }))
     // The raw section proves the watcher processed the edit even though validation kept the old resolved value.
     await expect.poll(() => ctx.settings.describe().find(section => section.ns === NS)?.user, { timeout: 10_000 })
       .toEqual({ providers: { openrouter: { models: [{ id: '111' }] } } })
-    expect(ctx.llm.listProviders()).toEqual([{ id: 'nulu', name: 'nulu' }])
+    expect(ctx.llm.listProviders()).toEqual([{ id: 'deepseek', name: 'deepseek' }])
 
     await writeFile(path, JSON.stringify({ [NS]: { providers: {
       openrouter: { api: 'openai-completions', models: [{ id: '111' }] },
@@ -118,7 +117,7 @@ describe('request-level dynamic profiles', () => {
     expect(ctx.llm.listProviders()).toEqual([{ id: 'openrouter', name: 'openrouter' }])
     expect(ctx.llm.listConfigurableProviders()).toContainEqual({
       provider: 'openrouter', displayName: 'openrouter', settingsNs: NS,
-      settingsPath: ['providers', 'openrouter'], declared: false, error: failure,
+      settingsPath: ['providers', 'openrouter'], declared: true, error: failure,
     })
     expect(await readFile(path, 'utf8')).toBe(stored)
     expect((await ctx.llm.listModels('openrouter')).map(model => model.id)).toEqual([known.id])
@@ -128,8 +127,8 @@ describe('request-level dynamic profiles', () => {
     const good = await assemble(ctx, { provider: 'openrouter', model: known.id, messages: [] })
     expect(good.message.content).toEqual([{ type: 'text', text: 'hello' }])
 
-    await ctx.settings.update(NS, { providers: { nulu: { apiKeyEnv: 'PI_DYNAMIC_KEY', baseURL: server.url } } })
-    expect(ctx.llm.listProviders().map(provider => provider.id)).toEqual(['openrouter', 'nulu'])
+    await ctx.settings.update(NS, { providers: { deepseek: { apiKeyEnv: 'PI_DYNAMIC_KEY', baseURL: server.url } } })
+    expect(ctx.llm.listProviders().map(provider => provider.id)).toEqual(['openrouter', 'deepseek'])
     const beforeRejected = await readFile(path, 'utf8')
     await expect(ctx.settings.update(NS, { providers: { openrouter: { displayName: 'Edited' } } })).rejects.toThrow(failure)
     expect(await readFile(path, 'utf8')).toBe(beforeRejected)
@@ -184,21 +183,14 @@ describe('request-level dynamic profiles', () => {
     // Dormant ≠ invisible: every installed catalog provider is configurable
     // before any route exists, each addressed inside the providers dict.
     const directory = ctx.llm.listConfigurableProviders()
-    expect(directory.length).toBeGreaterThan(30)
-    expect(directory).toContainEqual({
-      provider: 'openai',
-      displayName: 'openai',
-      settingsNs: 'llm-pi-ai',
-      settingsPath: ['providers', 'openai'],
-      declared: false,
-    })
+    expect(directory).toEqual([])
     await ctx.settings.update(NS, {
-      providers: { nulu: { apiKeyEnv: 'PI_DYNAMIC_KEY', baseURL: server.url } },
+      providers: { deepseek: { apiKeyEnv: 'PI_DYNAMIC_KEY', baseURL: server.url } },
     })
-    expect(ctx.llm.listProviders().map(provider => provider.id)).toEqual(['nulu'])
-    await expect(ctx.llm.listModels('nulu')).resolves.not.toHaveLength(0)
+    expect(ctx.llm.listProviders().map(provider => provider.id)).toEqual(['deepseek'])
+    await expect(ctx.llm.listModels('deepseek')).resolves.not.toHaveLength(0)
 
-    const result = await assemble(ctx, { provider: 'nulu', model: 'nulu-v4-flash', messages: [] })
+    const result = await assemble(ctx, { provider: 'deepseek', model: 'deepseek-v4-flash', messages: [] })
     expect(result.message.content).toEqual([{ type: 'text', text: 'hello' }])
     expect(server.headers[0]?.authorization).toBe('Bearer pk-from-settings')
 
@@ -221,11 +213,11 @@ describe('request-level dynamic profiles', () => {
 
     expect(ctx.llm.listProviders().map(provider => provider.id)).toEqual(['openai'])
     await ctx.settings.update(NS, {
-      providers: { nulu: { apiKeyEnv: 'PI_LIVE_KEY', baseURL: server.url } },
+      providers: { deepseek: { apiKeyEnv: 'PI_LIVE_KEY', baseURL: server.url } },
     })
-    expect(ctx.llm.listProviders().map(provider => provider.id)).toEqual(['openai', 'nulu'])
+    expect(ctx.llm.listProviders().map(provider => provider.id)).toEqual(['openai', 'deepseek'])
 
-    const result = await assemble(ctx, { provider: 'nulu', model: 'nulu-v4-flash', messages: [] })
+    const result = await assemble(ctx, { provider: 'deepseek', model: 'deepseek-v4-flash', messages: [] })
     expect(result.message.content).toEqual([{ type: 'text', text: 'hello' }])
     expect(server.headers[0]?.authorization).toBe('Bearer live-key')
 
@@ -233,7 +225,7 @@ describe('request-level dynamic profiles', () => {
     // composition route stays.
     await ctx.settings.replace(NS, {})
     expect(ctx.llm.listProviders().map(provider => provider.id)).toEqual(['openai'])
-    const removed = await assemble(ctx, { provider: 'nulu', model: 'nulu-v4-flash', messages: [] })
+    const removed = await assemble(ctx, { provider: 'deepseek', model: 'deepseek-v4-flash', messages: [] })
     expect(removed.finish).toMatchObject({ kind: 'error', failure: { code: 'NO_ADAPTER' } })
   })
 
@@ -243,14 +235,14 @@ describe('request-level dynamic profiles', () => {
     await writeFile(join(dir, '.credentials.yaml'), 'version: 1\nrefs:\n  PI_DYNAMIC_KEY: pk-one\n', { mode: 0o600 })
     const server = await mockServer([{ events: textEvents }, { events: textEvents }])
     const ctx = await boot(dir, {
-      providers: { nulu: { apiKeyEnv: 'PI_DYNAMIC_KEY', baseURL: server.url } },
+      providers: { deepseek: { apiKeyEnv: 'PI_DYNAMIC_KEY', baseURL: server.url } },
     })
 
-    await assemble(ctx, { provider: 'nulu', model: 'nulu-v4-flash', messages: [] })
+    await assemble(ctx, { provider: 'deepseek', model: 'deepseek-v4-flash', messages: [] })
     expect(server.headers[0]?.authorization).toBe('Bearer pk-one')
 
     await ctx.credentials.set(credentialRef('PI_DYNAMIC_KEY'), 'pk-two')
-    await assemble(ctx, { provider: 'nulu', model: 'nulu-v4-flash', messages: [] })
+    await assemble(ctx, { provider: 'deepseek', model: 'deepseek-v4-flash', messages: [] })
     expect(server.headers[1]?.authorization).toBe('Bearer pk-two')
   })
 

@@ -15,7 +15,7 @@
 #   ./scripts/sync-upstream.sh --resume         # resume adaptation executor
 #
 # Requires a clean working tree and the `upstream` remote:
-#   git remote add upstream https://github.com/worldapptechnologies/nulu-harness.git
+#   git remote add upstream https://github.com/deepseek-ai/deepseek-harness.git
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -34,13 +34,15 @@ done
 
 # Short-circuit: the adaptation executor consumes an existing queue and state.
 if [[ "$ADAPT" == "1" || "$RESUME" == "1" ]]; then
-  node scripts/upstream-sync/run-adaptations.mjs ${RESUME:+"--resume"}
+  RESUME_FLAG=""
+  if [[ "$RESUME" == "1" ]]; then RESUME_FLAG="--resume"; fi
+  node scripts/upstream-sync/run-adaptations.mjs ${RESUME_FLAG:-}
   exit $?
 fi
 
 if ! git remote | grep -qx upstream; then
   echo "[sync-upstream] adding upstream remote"
-  git remote add upstream https://github.com/worldapptechnologies/nulu-harness.git
+  git remote add upstream https://github.com/deepseek-ai/deepseek-harness.git
 fi
 
 echo "[sync-upstream] fetching upstream master"

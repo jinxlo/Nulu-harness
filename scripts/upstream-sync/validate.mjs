@@ -19,6 +19,7 @@ import { readFileSync, existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 import { load } from 'js-yaml'
+import { validateModelPolicy } from '../automation/brand-policy.mjs'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..')
 const JSON_OUT = process.argv.includes('--json')
@@ -28,8 +29,9 @@ const policy = load(readFileSync(join(ROOT, 'upstream-policy.yml'), 'utf8'))
 function grep(pattern) {
   try {
     return execFileSync('git', ['grep', '-n', '-I', '-e', pattern], { encoding: 'utf8' }).trim()
-  } catch {
-    return ''
+  } catch (error) {
+    if (error.status === 1) return ''
+    throw error
   }
 }
 
@@ -50,6 +52,7 @@ function isUserFacing(hit) {
     // Sync analysis artifacts (reports/) legitimately reference "DeepSeek" as
     // the upstream source being adapted; they are not product surfaces.
     && !file.startsWith('reports/')
+    && !file.startsWith('scripts/')
     // The sync system itself necessarily references the source names it
     // transforms; it is build tooling, not the product.
     && !file.startsWith('scripts/upstream-sync/')
@@ -68,14 +71,14 @@ function check(name, pass, detail = '') {
 
 // 1. Package scope.
 {
-  const hits = userFacingHits('@worldapptechnologies/')
-  check('package_scope: no @worldapptechnologies/ scope', hits.length === 0, hits.slice(0, 5).join('\n'))
+  const hits = userFacingHits('@deepseek-ai/')
+  check('package_scope: no upstream scope', hits.length === 0, hits.slice(0, 5).join('\n'))
 }
 
 // 2. CLI name (nulu as a standalone word, user-facing only).
 {
   const hits = userFacingHits('\\bdsh\\b')
-  check('cli: no `nulu` command', hits.length === 0, hits.slice(0, 5).join('\n'))
+  check('cli: no upstream command', hits.length === 0, hits.slice(0, 5).join('\n'))
 }
 
 // 3. Environment prefix.
@@ -86,8 +89,8 @@ function check(name, pass, detail = '') {
 
 // 4. Home path.
 {
-  const hits = userFacingHits('~\\.nulu')
-  check('paths: no ~/.nulu', hits.length === 0, hits.slice(0, 5).join('\n'))
+  const hits = userFacingHits('~/\\.dsh')
+  check('paths: no upstream home', hits.length === 0, hits.slice(0, 5).join('\n'))
 }
 
 // 5. Brand: no "DeepSeek" (capital-D) user-facing reference.
@@ -164,6 +167,14 @@ function check(name, pass, detail = '') {
     return !/\.(spec|test|e2e)\.[cm]?[jt]sx?$/.test(file) && !/\/tests?\//.test(file) && !/fixture/.test(file)
   })
   check('providers: no DEEPSEEK_ env vars in product source', hits.length === 0, hits.slice(0, 5).join('\n'))
+}
+
+try {
+  validateModelPolicy(read(join(ROOT, 'packages/llm/llm-gateway/src/index.ts')),
+    read(join(ROOT, 'packages/bundle/base/cordis.patch.yml')), policy.models.allowed_chat_model_ids)
+  check('models: every default ID and API route conforms to policy', true)
+} catch (error) {
+  check('models: every default ID and API route conforms to policy', false, error.message)
 }
 
 const failed = results.filter(r => !r.pass)

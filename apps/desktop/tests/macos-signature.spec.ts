@@ -40,10 +40,10 @@ describe('desktop macOS release signature', () => {
     const { createElectronBuilderConfig } = await import('../electron-builder.config.mjs')
     const config = createElectronBuilderConfig(RELEASE_ENVIRONMENT, 'darwin', 'arm64')
     expect(portablePath(config.directories.output)).toContain('/.desktop-build/targets/mac-arm64/artifacts')
-    expect(config.extraResources).toHaveLength(1)
+    expect(config.extraResources).toHaveLength(3)
     expect(config.extraResources[0]?.to).toBe('runtime')
     expect(portablePath(config.extraResources[0]?.from ?? '')).toContain('/.desktop-build/targets/mac-arm64/runtime')
-    const [nuluFiles, nuluNodeModules] = config.files.slice(-2)
+    const [nuluFiles, nuluNodeModules] = config.extraResources.slice(-2)
     if (!nuluFiles || !nuluNodeModules || typeof nuluFiles === 'string' || typeof nuluNodeModules === 'string') {
       throw new Error('desktop DSH resources must use electron-builder file mappings')
     }
@@ -51,17 +51,14 @@ describe('desktop macOS release signature', () => {
     expect(nuluFiles.to).toBe('nulu')
     expect(portablePath(nuluNodeModules.from)).toContain('/.desktop-build/targets/mac-arm64/nulu/node_modules')
     expect(nuluNodeModules.to).toBe('nulu/node_modules')
-    expect(config.asarUnpack).toEqual(expect.arrayContaining([
-      '**/*.{node,dylib,dll,so,exe}',
-      '**/@vscode/ripgrep/bin/rg',
-    ]))
+    expect(config.files).not.toContainEqual(expect.objectContaining({ to: 'nulu' }))
     expect(config).toMatchObject({
       appId: RELEASE_ENVIRONMENT.NULU_DESKTOP_APP_ID,
       mac: {
         identity: RELEASE_ENVIRONMENT.NULU_DESKTOP_MACOS_SIGNING_IDENTITY,
         forceCodeSigning: true,
         notarize: true,
-        signIgnore: ['/Contents/Resources/app\\.asar\\.unpacked/nulu(?:/|$)', '\\.pak$'],
+        signIgnore: ['/Contents/Resources/nulu(?:/|$)', '\\.pak$'],
       },
       dmg: {
         sign: true,

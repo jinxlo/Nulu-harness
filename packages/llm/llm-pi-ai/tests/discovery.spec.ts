@@ -78,19 +78,19 @@ describe('catalog-route model discovery', () => {
     const server = await listingServer({ body: JSON.stringify({ data: [{ id: 'from-the-endpoint' }] }) })
     const ctx = await harness()
 
-    const models = await ctx.llm.discoverModels('llm-pi-ai', { provider: 'nulu' as never, baseURL: server.url })
+    const models = await ctx.llm.discoverModels('llm-pi-ai', { provider: 'deepseek' as never, baseURL: server.url })
 
     // pi-ai's own registry is the authority for its own providers, and it
     // carries what a listing endpoint would not disclose.
     expect(models.map(model => model.id).sort())
-      .toEqual(getBuiltinModels('nulu' as never).map(model => model.id).sort())
+      .toEqual(getBuiltinModels('deepseek' as never).map(model => model.id).sort())
     expect(models.every(model => (model.contextWindow ?? 0) > 0 && (model.maxTokens ?? 0) > 0)).toBe(true)
     expect(server.paths).toEqual([])
   })
 
   it('needs no endpoint for a route the catalog describes', async () => {
     const ctx = await harness()
-    await expect(ctx.llm.discoverModels('llm-pi-ai', { provider: 'nulu' })).resolves.not.toHaveLength(0)
+    await expect(ctx.llm.discoverModels('llm-pi-ai', { provider: 'deepseek' })).resolves.not.toHaveLength(0)
   })
 
   it('says where a route the catalog does not describe must get its models', async () => {
@@ -140,7 +140,7 @@ describe('draft-provider model discovery', () => {
       body: JSON.stringify({
         models: {
           'lobechat-nulu-chat': {
-            id: 'nulu/nulu-v4-flash',
+            id: 'nulu/deepseek-v4-flash',
             name: 'Nulu V4 Flash',
             limit: { context: 1_048_576, output: 384_000 },
           },
@@ -296,9 +296,9 @@ describe('draft-provider model discovery', () => {
     const ctx = new Context()
     await ctx.plugin(LlmRuntime)
     Reflect.deleteProperty(process.env, 'ABSENT_FOR_DISCOVERY')
-    await ctx.plugin(LlmPiAi, { providers: { nulu: { apiKeyEnv: 'ABSENT_FOR_DISCOVERY' } } })
+    await ctx.plugin(LlmPiAi, { providers: { deepseek: { apiKeyEnv: 'ABSENT_FOR_DISCOVERY' } } })
 
-    await expect(ctx.llm.discoverModels('llm-pi-ai', { provider: 'nulu' })).resolves.not.toHaveLength(0)
+    await expect(ctx.llm.discoverModels('llm-pi-ai', { provider: 'deepseek' })).resolves.not.toHaveLength(0)
   })
 
   it('drops unusable rows rather than failing the whole listing', async () => {
@@ -499,7 +499,7 @@ const RECORDED_LISTINGS = [
       { id: 'anthropic/claude-fable-5.1', name: 'Anthropic: Claude Fable 5.1', contextWindow: 1_000_000, maxTokens: 128_000 },
       // The router's own aggregate route reports no completion cap.
       { id: 'openrouter/auto-beta', name: 'Auto Router (Beta)', contextWindow: 2_000_000 },
-      { id: 'nulu/nulu-v4-flash', name: 'Nulu: Nulu V4 Flash 0423', contextWindow: 1_048_576, maxTokens: 384_000 },
+      { id: 'nulu/deepseek-v4-flash', name: 'Nulu: Nulu V4 Flash 0423', contextWindow: 1_048_576, maxTokens: 384_000 },
     ],
   },
   {
@@ -514,12 +514,12 @@ const RECORDED_LISTINGS = [
   },
   {
     name: 'Nulu GET /models',
-    file: 'nulu-2026-09-02.json',
+    file: 'deepseek-2026-09-02.json',
     api: 'openai-completions',
     models: [
-      { id: 'nulu-v4-flash', name: 'nulu-v4-flash' },
-      { id: 'nulu-v4-pro', name: 'nulu-v4-pro' },
-      { id: 'nulu-v4-flash-vision-exp', name: 'nulu-v4-flash-vision-exp' },
+      { id: 'deepseek-v4-flash', name: 'deepseek-v4-flash' },
+      { id: 'deepseek-v4-pro', name: 'deepseek-v4-pro' },
+      { id: 'deepseek-v4-flash-vision-exp', name: 'deepseek-v4-flash-vision-exp' },
     ],
   },
   {

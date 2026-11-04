@@ -8,11 +8,11 @@ import { gt, valid } from 'semver'
  * code changes.
  */
 export function githubReleaseOwner(env: NodeJS.ProcessEnv = process.env): string {
-  return env.NULU_GITHUB_UPDATE_OWNER?.trim() || 'worldapptechnologies'
+  return env.NULU_GITHUB_UPDATE_OWNER?.trim() || 'jinxlo'
 }
 
 export function githubReleaseRepo(env: NodeJS.ProcessEnv = process.env): string {
-  return env.NULU_GITHUB_UPDATE_REPO?.trim() || 'nulu-harness'
+  return env.NULU_GITHUB_UPDATE_REPO?.trim() || 'Nulu-harness'
 }
 
 /** One published GitHub release reduced to the facts the updater needs. */
@@ -70,7 +70,16 @@ export async function fetchLatestGitHubRelease(
 
 function parseRelease(entry: unknown): GitHubReleaseInfo | null {
   if (entry === null || typeof entry !== 'object') return null
-  const payload = entry as { tag_name?: unknown; name?: unknown; html_url?: unknown; published_at?: unknown }
+  const payload = entry as {
+    tag_name?: unknown
+    name?: unknown
+    html_url?: unknown
+    published_at?: unknown
+    draft?: unknown
+    prerelease?: unknown
+  }
+  if (payload.draft !== false || payload.prerelease !== false) return null
+  if (typeof payload.html_url !== 'string' || !payload.html_url.startsWith('https://github.com/')) return null
   const tagName = typeof payload.tag_name === 'string' ? payload.tag_name.replace(/^v/, '') : ''
   const version = valid(tagName)
   if (version === null) return null

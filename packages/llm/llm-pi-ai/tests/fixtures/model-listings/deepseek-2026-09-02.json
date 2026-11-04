@@ -2,19 +2,19 @@
   "object": "list",
   "data": [
     {
-      "id": "nulu-v4-flash",
+      "id": "deepseek-v4-flash",
       "object": "model",
-      "owned_by": "nulu"
+      "owned_by": "deepseek"
     },
     {
-      "id": "nulu-v4-pro",
+      "id": "deepseek-v4-pro",
       "object": "model",
-      "owned_by": "nulu"
+      "owned_by": "deepseek"
     },
     {
-      "id": "nulu-v4-flash-vision-exp",
+      "id": "deepseek-v4-flash-vision-exp",
       "object": "model",
-      "owned_by": "nulu"
+      "owned_by": "deepseek"
     }
   ]
 }

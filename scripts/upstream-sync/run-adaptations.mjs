@@ -202,6 +202,7 @@ function main() {
 
   console.log(`\n[run-adaptations] ${JSON.stringify(stats)}`)
   console.log('[run-adaptations] resume: node scripts/upstream-sync/run-adaptations.mjs --resume')
+  if (stats.blocked > 0 || stats.human_review > 0) process.exitCode = 1
 }
 
 main()

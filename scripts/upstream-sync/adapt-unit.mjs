@@ -1,49 +1,25 @@
 #!/usr/bin/env node
-/**
- * Adapter hook for run-adaptations.mjs.
- *
- * This is the pluggable "AI step". The executor invokes it as:
- *
- *   node scripts/upstream-sync/adapt-unit.mjs <brief-file> <record-file> [--repair <detail>]
- *
- * The adapter reads the brief (the full context bundle), performs the semantic
- * adaptation against the working tree, and writes a record JSON to the record
- * file describing what it did.
- *
- * THIS STUB does not perform any adaptation. It records "needs-manual-adaptation"
- * so the executor marks the unit for human review. Replace it (or point
- * NULU_ADAPTER_CMD at another command) with a real agent that implements the
- * upstream functionality while preserving the Nulu invariants.
- */
-
+/** Run the real Nulu coding adapter for one legacy adaptation brief. */
 import { readFileSync, writeFileSync } from 'node:fs'
+import { adapt } from '../automation/adapter.mjs'
+import { git, json } from '../automation/common.mjs'
 
-const briefFile = process.argv[2]
-const recordFile = process.argv[3]
-const repairing = process.argv.includes('--repair')
-
-const brief = readFileSync(briefFile, 'utf8')
-const unitId = brief.match(/group_key: (\S+)/)?.[1] ?? 'unit'
-
-const record = {
-  id: `adaptation-${unitId.replace(/[^a-zA-Z0-9-]+/g, '-')}`,
-  group_key: unitId,
-  upstream_commits: [],
-  classification: '',
-  risk: '',
-  confidence: 'LOW',
-  upstream_functionality: '',
-  nulu_adaptation: '',
-  files_changed: [],
-  tests_added: [],
-  invariants_affected: [],
-  validation: 'pending',
-  status: repairing ? 'repair-attempted' : 'needs-manual-adaptation',
-  blocked_reason: 'no adapter configured — manual semantic adaptation required',
-  human_review: true,
-  corrections: [],
-  generated_at: new Date().toISOString(),
+const [briefFile, recordFile, ...args] = process.argv.slice(2)
+if (!briefFile || !recordFile) throw new Error('Usage: adapt-unit.mjs <brief> <record> [--repair detail] [--context file]')
+let record
+try {
+  const base = git(['rev-parse', 'HEAD'])
+  const brief = readFileSync(briefFile, 'utf8')
+  let upstream = process.env.NULU_UPSTREAM_SHA || base
+  try { upstream = git(['rev-parse', json('reports/upstream-sync/adaptations/queue.json').range.split('..').at(-1)]) }
+  catch { /* A standalone brief can use the current tree as its reference. */ }
+  const repair = args.includes('--repair') ? args[args.indexOf('--repair') + 1] : ''
+  const context = args.includes('--context') ? readFileSync(args[args.indexOf('--context') + 1], 'utf8') : ''
+  const result = await adapt({ base, upstream, details: `${brief}\nRepair details: ${repair}\nAdditional context: ${context}` })
+  record = { status: result.changed.length ? 'adapted' : 'no-change-required', nulu_adaptation: result.summary,
+    files_changed: result.changed, validation: 'pending', turns: result.turns, confidence: 'LOW' }
+} catch (error) {
+  record = { status: 'failed', blocked_reason: error.message, human_review: true, validation: 'pending', confidence: 'LOW' }
+  process.exitCode = 1
 }
-
-writeFileSync(recordFile, JSON.stringify(record, null, 2) + '\n')
-console.log(`[adapt-unit] stub adapter: ${unitId} marked needs-manual-adaptation`)
+writeFileSync(recordFile, `${JSON.stringify(record, null, 2)}\n`)

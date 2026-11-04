@@ -125,10 +125,10 @@ describe('hand-declared providers', () => {
 
     // A catalog route is unaffected: its models carry the metadata that makes
     // `off` actually disable thinking.
-    const withCatalog = await harness({ providers: { nulu: { baseURL: server.url } } })
-    const [catalogModel] = getBuiltinModels('nulu' as never)
-    if (catalogModel === undefined) throw new Error('the installed catalog ships no nulu model')
-    expect((await withCatalog.llm.resolveModelInfo('nulu', catalogModel.id)).reasoning?.efforts.map(e => e.id))
+    const withCatalog = await harness({ providers: { deepseek: { baseURL: server.url } } })
+    const [catalogModel] = getBuiltinModels('deepseek' as never)
+    if (catalogModel === undefined) throw new Error('the installed catalog ships no fixture provider model')
+    expect((await withCatalog.llm.resolveModelInfo('deepseek', catalogModel.id)).reasoning?.efforts.map(e => e.id))
       .toContain('off')
   })
 
@@ -146,11 +146,10 @@ describe('hand-declared providers', () => {
       // configuration surfaces mark as a route this deployment declared.
       declared: true,
     })
-    // Membership of the catalog, not of the settings document: a shipped
-    // provider carries a stored profile the moment anyone corrects it.
+    // Built-in provider fixtures do not enter the Nulu public directory.
     expect(directory.filter(entry => entry.declared).map(entry => entry.provider))
       .toEqual(['acme-gateway'])
-    expect(directory.find(entry => entry.provider === 'nulu')?.declared).toBe(false)
+    expect(directory.some(entry => entry.provider === 'deepseek')).toBe(false)
   })
 
   it('sizes a model the catalog cannot describe from the route\u2019s own fallbacks', () => {
@@ -263,10 +262,10 @@ describe('hand-declared providers', () => {
     // materializes `[]` for an absent array, so an entry naming a catalog
     // model without declaring modalities must keep the catalog's rather than
     // describe a model that accepts nothing.
-    const [catalogModel] = getBuiltinModels('nulu' as never)
-    if (catalogModel === undefined) throw new Error('the installed catalog ships no nulu model')
+    const [catalogModel] = getBuiltinModels('deepseek' as never)
+    if (catalogModel === undefined) throw new Error('the installed catalog ships no fixture provider model')
     const resolved = resolveProfiles({
-      'nulu': { baseURL: 'https://catalog.test', models: [{ id: catalogModel.id, input: [] }] },
+      'deepseek': { baseURL: 'https://catalog.test', models: [{ id: catalogModel.id, input: [] }] },
       'acme-gateway': {
         api: 'openai-completions',
         baseURL: 'https://acme.test',
@@ -274,7 +273,7 @@ describe('hand-declared providers', () => {
       },
     })
     expect(resolved.get('acme-gateway')?.piProvider?.getModels()[0]?.input).toEqual(['text'])
-    expect(resolved.get('nulu')?.piProvider?.getModels()[0]?.input).toEqual(catalogModel.input)
+    expect(resolved.get('deepseek')?.piProvider?.getModels()[0]?.input).toEqual(catalogModel.input)
 
     // Nothing sits below the route value, so its empty list states no answer
     // anything could take, and is refused where it is written.
@@ -425,27 +424,27 @@ describe('hand-declared providers', () => {
 describe('catalog routes with per-model configuration', () => {
   it('serves the installed catalog untouched when the profile lists no models', async () => {
     const server = await mockServer([])
-    const ctx = await harness({ providers: { nulu: { baseURL: server.url } } })
+    const ctx = await harness({ providers: { deepseek: { baseURL: server.url } } })
 
-    const listed = await ctx.llm.listModels('nulu')
+    const listed = await ctx.llm.listModels('deepseek')
     expect(listed.map(model => model.id).sort())
-      .toEqual(getBuiltinModels('nulu' as never).map(model => model.id).sort())
+      .toEqual(getBuiltinModels('deepseek' as never).map(model => model.id).sort())
   })
 
   it('overrides one catalog model field and defaults the rest from the catalog', async () => {
     const server = await mockServer([])
-    const [catalogModel] = getBuiltinModels('nulu' as never)
-    if (catalogModel === undefined) throw new Error('the installed catalog ships no nulu model')
+    const [catalogModel] = getBuiltinModels('deepseek' as never)
+    if (catalogModel === undefined) throw new Error('the installed catalog ships no fixture provider model')
     const ctx = await harness({
       providers: {
-        nulu: {
+        deepseek: {
           baseURL: server.url,
           models: [{ id: catalogModel.id, contextWindow: 4096 }],
         },
       },
     })
 
-    const info = await ctx.llm.resolveModelInfo('nulu', catalogModel.id)
+    const info = await ctx.llm.resolveModelInfo('deepseek', catalogModel.id)
     // The configured field wins and the name still comes from the catalog. The
     // catalog's own output cap is the model's capability, not a cap anyone
     // chose, so it must not arrive as the request default.
@@ -453,16 +452,16 @@ describe('catalog routes with per-model configuration', () => {
     expect(info.name).toBe(catalogModel.name)
     expect(info.defaultMaxTokens).toBeUndefined()
     // An explicit list replaces the catalog rather than adding to it.
-    expect((await ctx.llm.listModels('nulu')).map(model => model.id)).toEqual([catalogModel.id])
+    expect((await ctx.llm.listModels('deepseek')).map(model => model.id)).toEqual([catalogModel.id])
   })
 
   it('materializes a request default only from a configured output cap', async () => {
     const server = await mockServer([])
-    const [catalogModel] = getBuiltinModels('nulu' as never)
-    if (catalogModel === undefined) throw new Error('the installed catalog ships no nulu model')
+    const [catalogModel] = getBuiltinModels('deepseek' as never)
+    if (catalogModel === undefined) throw new Error('the installed catalog ships no fixture provider model')
     const ctx = await harness({
       providers: {
-        nulu: {
+        deepseek: {
           baseURL: server.url,
           models: [{ id: catalogModel.id, maxTokens: 4096 }],
         },
@@ -471,22 +470,22 @@ describe('catalog routes with per-model configuration', () => {
 
     // Configuring the cap is the deployment choosing one, so it becomes the
     // default the seam materializes into requests that name none.
-    expect((await ctx.llm.resolveModelInfo('nulu', catalogModel.id)).defaultMaxTokens).toBe(4096)
+    expect((await ctx.llm.resolveModelInfo('deepseek', catalogModel.id)).defaultMaxTokens).toBe(4096)
   })
 
   it('adds a model the installed catalog does not describe to a catalog route', async () => {
     const server = await mockServer([{ events: textEvents }])
     const ctx = await harness({
       providers: {
-        nulu: {
+        deepseek: {
           apiKeyEnv: KEY_ENV,
           baseURL: `${server.url}/v1`,
-          models: [{ id: 'nulu-preview', contextWindow: 200_000, maxTokens: 8192 }],
+          models: [{ id: 'deepseek-preview', contextWindow: 200_000, maxTokens: 8192 }],
         },
       },
     })
 
-    const result = await assemble(ctx, { provider: 'nulu', model: 'nulu-preview', messages: [] })
+    const result = await assemble(ctx, { provider: 'deepseek', model: 'deepseek-preview', messages: [] })
     expect(result.finish).toEqual({ kind: 'stop' })
     // The catalog route keeps its catalog protocol, so the new model reaches
     // the same endpoint shape the shipped models use.
@@ -497,11 +496,11 @@ describe('catalog routes with per-model configuration', () => {
     const server = await mockServer([])
     const ctx = await harness({
       providers: {
-        nulu: { baseURL: server.url, models: [{ id: 'nulu-preview', contextWindow: 1, maxTokens: 1 }] },
+        deepseek: { baseURL: server.url, models: [{ id: 'deepseek-preview', contextWindow: 1, maxTokens: 1 }] },
       },
     })
 
-    const result = await assemble(ctx, { provider: 'nulu', model: 'not-configured', messages: [] })
+    const result = await assemble(ctx, { provider: 'deepseek', model: 'not-configured', messages: [] })
 
     expect(result.finish).toMatchObject({ kind: 'error', failure: { code: 'UNKNOWN_MODEL' } })
     expect(server.requests).toHaveLength(0)
@@ -525,8 +524,8 @@ describe('catalog routes with per-model configuration', () => {
 
   it('delegates both stream methods back to the reused catalog provider', async () => {
     const server = await mockServer([{ events: textEvents }, { events: textEvents }])
-    const resolved = resolveProfiles({ nulu: { baseURL: `${server.url}/v1` } })
-    const built = resolved.get('nulu')?.piProvider
+    const resolved = resolveProfiles({ deepseek: { baseURL: `${server.url}/v1` } })
+    const built = resolved.get('deepseek')?.piProvider
     if (built === undefined) throw new Error('the nulu route built no provider')
     const [model] = built.getModels()
     if (model === undefined) throw new Error('the nulu route resolved no models')
@@ -658,13 +657,13 @@ describe('per-model reasoning efforts', () => {
   })
 
   it('narrows a catalog model’s levels in place', () => {
-    const [catalogModel] = getBuiltinModels('nulu' as never)
-    if (catalogModel === undefined) throw new Error('the installed catalog ships no nulu model')
+    const [catalogModel] = getBuiltinModels('deepseek' as never)
+    if (catalogModel === undefined) throw new Error('the installed catalog ships no fixture provider model')
     expect(getSupportedThinkingLevels(catalogModel as Model<Api>)).toEqual(['off', 'low', 'high', 'max'])
 
     const model = modelOf({
-      nulu: { models: [{ id: catalogModel.id, reasoningEfforts: { off: null, high: 'high' } }] },
-    }, 'nulu')
+      deepseek: { models: [{ id: catalogModel.id, reasoningEfforts: { off: null, high: 'high' } }] },
+    }, 'deepseek')
 
     expect(getSupportedThinkingLevels(model)).toEqual(['off', 'high'])
     // Only the reasoning fields change; identity and capacities stay catalog.
@@ -673,21 +672,21 @@ describe('per-model reasoning efforts', () => {
   })
 
   it('strips reasoning from a catalog model with false', () => {
-    const [catalogModel] = getBuiltinModels('nulu' as never)
-    if (catalogModel === undefined) throw new Error('the installed catalog ships no nulu model')
+    const [catalogModel] = getBuiltinModels('deepseek' as never)
+    if (catalogModel === undefined) throw new Error('the installed catalog ships no fixture provider model')
     expect(catalogModel.reasoning).toBe(true)
 
-    const model = modelOf({ nulu: { models: [{ id: catalogModel.id, reasoningEfforts: false }] } }, 'nulu')
+    const model = modelOf({ deepseek: { models: [{ id: catalogModel.id, reasoningEfforts: false }] } }, 'deepseek')
 
     expect(model.reasoning).toBe(false)
     expect(getSupportedThinkingLevels(model)).toEqual(['off'])
   })
 
   it('inherits the catalog capability when the field is absent', () => {
-    const [catalogModel] = getBuiltinModels('nulu' as never)
-    if (catalogModel === undefined) throw new Error('the installed catalog ships no nulu model')
+    const [catalogModel] = getBuiltinModels('deepseek' as never)
+    if (catalogModel === undefined) throw new Error('the installed catalog ships no fixture provider model')
 
-    const model = modelOf({ nulu: { models: [{ id: catalogModel.id }] } }, 'nulu')
+    const model = modelOf({ deepseek: { models: [{ id: catalogModel.id }] } }, 'deepseek')
 
     expect(model.reasoning).toBe(catalogModel.reasoning)
     expect(model.thinkingLevelMap).toEqual(catalogModel.thinkingLevelMap)
@@ -710,16 +709,16 @@ describe('per-model reasoning efforts', () => {
 
 describe('modelOverrides', () => {
   const nuluModel = (): Model<Api> => {
-    const [model] = getBuiltinModels('nulu' as never)
-    if (model === undefined) throw new Error('the installed catalog ships no nulu model')
+    const [model] = getBuiltinModels('deepseek' as never)
+    if (model === undefined) throw new Error('the installed catalog ships no fixture provider model')
     return model
   }
 
   it('reshapes one catalog model while the rest of the catalog keeps serving', () => {
-    const catalogSize = getBuiltinModels('nulu' as never).length
+    const catalogSize = getBuiltinModels('deepseek' as never).length
     const target = nuluModel()
     const resolved = resolveProfiles({
-      nulu: {
+      deepseek: {
         modelOverrides: {
           [target.id]: {
             name: 'Nulu (proxied)',
@@ -729,7 +728,7 @@ describe('modelOverrides', () => {
         },
       },
     })
-    const models = resolved.get('nulu')?.piProvider?.getModels() ?? []
+    const models = resolved.get('deepseek')?.piProvider?.getModels() ?? []
     const reshaped = models.find(model => model.id === target.id)
     if (reshaped === undefined) throw new Error('the overridden model vanished from the route')
 
@@ -740,15 +739,15 @@ describe('modelOverrides', () => {
     expect(getSupportedThinkingLevels(reshaped)).toEqual(['off', 'high'])
     // An override's cap is explicit configuration, so it becomes the request
     // default exactly as a models entry's would.
-    expect(resolved.get('nulu')?.configuredMaxTokens.get(target.id)).toBe(4096)
+    expect(resolved.get('deepseek')?.configuredMaxTokens.get(target.id)).toBe(4096)
     // A sibling the overrides do not name is byte-identical to the catalog.
     const sibling = models.find(model => model.id !== target.id)
-    expect(sibling?.maxTokens).toBe(getBuiltinModels('nulu' as never).find(model => model.id === sibling?.id)?.maxTokens)
+    expect(sibling?.maxTokens).toBe(getBuiltinModels('deepseek' as never).find(model => model.id === sibling?.id)?.maxTokens)
   })
 
   it('refuses every override that lands nowhere instead of skipping it', () => {
     expect(() => resolveProfiles({
-      nulu: { modelOverrides: { 'no-such-model': { name: 'ghost' } } },
+      deepseek: { modelOverrides: { 'no-such-model': { name: 'ghost' } } },
     })).toThrow(/which the installed catalog does not describe/)
     expect(() => resolveProfiles({
       'acme-gateway': {
@@ -760,13 +759,13 @@ describe('modelOverrides', () => {
     })).toThrow(/a declared route spells every model out/)
     const declaredOnly = nuluModel()
     expect(() => resolveProfiles({
-      nulu: {
+      deepseek: {
         models: [{ id: declaredOnly.id }],
         modelOverrides: { [declaredOnly.id]: { name: 'renamed' } },
       },
     })).toThrow(/models already replaces the served catalog/)
     expect(() => resolveProfiles({
-      nulu: { modelOverrides: { '': { name: 'nameless' } } },
+      deepseek: { modelOverrides: { '': { name: 'nameless' } } },
     })).toThrow(/empty model id/)
     // The dict key is the id; a value smuggling its own would quietly rename
     // the model it meant to customize. The schema passes unknown keys
@@ -774,7 +773,7 @@ describe('modelOverrides', () => {
     // indirection mirrors that boundary by sidestepping the literal check.
     const smuggled = { name: 'x', id: 'other' }
     expect(() => resolveProfiles({
-      nulu: { modelOverrides: { [nuluModel().id]: smuggled } },
+      deepseek: { modelOverrides: { [nuluModel().id]: smuggled } },
     })).toThrow(/sets "id", which is the dict key/)
   })
 })
@@ -804,14 +803,14 @@ describe('compat switches', () => {
   })
 
   it('merges the switches over the catalog entry’s own compat instead of replacing it', () => {
-    const [catalogModel] = getBuiltinModels('nulu' as never)
-    if (catalogModel === undefined) throw new Error('the installed catalog ships no nulu model')
+    const [catalogModel] = getBuiltinModels('deepseek' as never)
+    if (catalogModel === undefined) throw new Error('the installed catalog ships no fixture provider model')
     const inherited = catalogModel.compat as unknown as OpenAICompletionsCompat
     expect(inherited.requiresReasoningContentOnAssistantMessages).toBe(true)
 
     const models = modelsOf({
-      nulu: { models: [{ id: catalogModel.id, compat: { thinkingFormat: 'openai' } }] },
-    }, 'nulu')
+      deepseek: { models: [{ id: catalogModel.id, compat: { thinkingFormat: 'openai' } }] },
+    }, 'deepseek')
 
     // The one switched field changes; the catalog's other quirks survive,
     // because configuration has no way to restate them.
@@ -1055,10 +1054,10 @@ describe('compat switches', () => {
 
   it('refuses a valueless compat key on a model entry too', () => {
     expect(() => resolveProfiles({
-      nulu: {
-        modelOverrides: { 'nulu-v4-flash': { compat: { requiresReasoningContentOnAssistantMessages: null } } as never },
+      deepseek: {
+        modelOverrides: { 'deepseek-v4-flash': { compat: { requiresReasoningContentOnAssistantMessages: null } } as never },
       },
-    })).toThrow(/model "nulu-v4-flash" sets compat "requiresReasoningContentOnAssistantMessages" with no value/)
+    })).toThrow(/model "deepseek-v4-flash" sets compat "requiresReasoningContentOnAssistantMessages" with no value/)
   })
 
   it('serves the Responses compat type on every protocol pi-ai gives it to', () => {
@@ -1106,7 +1105,7 @@ describe('compat switches', () => {
 describe('resolution snapshots', () => {
   it('finishes an in-flight request under the configuration it started with', async () => {
     const server = await mockServer([{ events: textEvents }])
-    let current = resolveProfiles({ nulu: { baseURL: `${server.url}/v1` } })
+    let current = resolveProfiles({ deepseek: { baseURL: `${server.url}/v1` } })
     let release: () => void = () => {}
     const held = new Promise<void>((resolve) => { release = resolve })
     const adapter = new PiAiAdapter({
@@ -1120,8 +1119,8 @@ describe('resolution snapshots', () => {
     const chunks: StreamChunk[] = []
     const inFlight = (async () => {
       for await (const chunk of adapter.stream({
-        provider: 'nulu',
-        model: 'nulu-v4-flash',
+        provider: 'deepseek',
+        model: 'deepseek-v4-flash',
         messages: [],
       })) chunks.push(chunk)
     })()
@@ -1142,7 +1141,7 @@ describe('resolution snapshots', () => {
   it('serves the next request from the new configuration', async () => {
     const first = await mockServer([{ events: textEvents }])
     const second = await mockServer([{ events: textEvents }])
-    let current = resolveProfiles({ nulu: { baseURL: `${first.url}/v1` } })
+    let current = resolveProfiles({ deepseek: { baseURL: `${first.url}/v1` } })
     const adapter = new PiAiAdapter({
       profiles: () => current,
       resolveApiKey: () => Promise.resolve('k'),
@@ -1150,12 +1149,12 @@ describe('resolution snapshots', () => {
     })
     const drain = async (): Promise<void> => {
       for await (const _chunk of adapter.stream({
-        provider: 'nulu', model: 'nulu-v4-flash', messages: [],
+        provider: 'deepseek', model: 'deepseek-v4-flash', messages: [],
       })) { /* drain */ }
     }
 
     await drain()
-    current = resolveProfiles({ nulu: { baseURL: `${second.url}/v1` } })
+    current = resolveProfiles({ deepseek: { baseURL: `${second.url}/v1` } })
     await drain()
 
     expect(first.paths).toHaveLength(1)
@@ -1171,7 +1170,7 @@ describe('configurable-provider directory', () => {
       { provider: 'worldapp-gateway', displayName: 'Nulu', settingsNs: 'llm-gateway', settingsPath: [] },
     ])
     const before = ctx.llm.listConfigurableProviders().length
-    expect(before).toBeGreaterThan(30)
+    expect(before).toBe(1)
 
     await ctx.settings.update('llm-pi-ai', {
       providers: {
@@ -1213,22 +1212,14 @@ describe('configurable-provider directory', () => {
     expect(ctx.llm.listConfigurableProviders()).toHaveLength(catalogOnly)
   })
 
-  it('offers every installed catalog route, including one that only signs in', async () => {
+  it('keeps built-in provider routes out of the public directory', async () => {
     const ctx = await harness({})
     const offered = ctx.llm.listConfigurableProviders().map(entry => entry.provider)
 
-    // `openai-codex` is the one installed provider that authenticates through
-    // OAuth alone. It is offered like any other because the collection now
-    // carries a durable credential store and a login flow writes into it, so
-    // the route has a posture that works rather than only one that fails.
-    expect(offered).toContain('openai-codex')
-    expect(offered).toContain('anthropic')
-    expect(offered).toContain('openai')
+    expect(offered).toEqual([])
   })
 
-  it('lists a route a stored profile names as a catalog route, not a declared one', async () => {
-    // `declared` answers catalog membership, so a profile stored against a
-    // route pi-ai ships is not mislabelled as one this deployment invented.
+  it('lists only the route explicitly declared by a stored profile', async () => {
     const ctx = await harness({ providers: { 'openai-codex': { apiKeyEnv: KEY_ENV } } })
 
     expect(ctx.llm.listConfigurableProviders()).toContainEqual({
@@ -1236,7 +1227,7 @@ describe('configurable-provider directory', () => {
       displayName: 'openai-codex',
       settingsNs: 'llm-pi-ai',
       settingsPath: ['providers', 'openai-codex'],
-      declared: false,
+      declared: true,
     })
   })
 })

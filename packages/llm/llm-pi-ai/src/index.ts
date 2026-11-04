@@ -216,7 +216,7 @@ export function apply(ctx: Context, config: Config): void {
     // page empty. The candidate set is validated first, so a collision keeps
     // the previous entries serving and only costs a diagnostic.
     if (directory === undefined) {
-      directory = ctx.llm.registerConfigurableProviders(entries)
+      if (entries.length > 0) directory = ctx.llm.registerConfigurableProviders(entries)
     } else {
       directory.replace(entries)
     }

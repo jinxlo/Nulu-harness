@@ -1,0 +1,213 @@
+name: Nulu automatic updates
+
+on:
+  schedule:
+    - cron: '23 * * * *'
+  workflow_dispatch:
+    inputs:
+      baseline:
+        description: Qualify a new baseline release without importing upstream changes
+        type: boolean
+        default: false
+
+concurrency:
+  group: nulu-automatic-release
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  NULU_TELEMETRY_DISABLED: '1'
+  NULU_DESKTOP_APP_ID: com.worldapptechnologies.nulu-harness
+  NULU_DESKTOP_AUTO_UPDATE_ENV: test
+  DOWNLOAD_TEST_ORIGIN: https://download.worldapptechnologies.com
+
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    permissions:
+      contents: write
+    outputs:
+      changed: ${{ steps.prepare.outputs.changed }}
+      sha: ${{ steps.prepare.outputs.sha }}
+      base: ${{ steps.prepare.outputs.base }}
+      version: ${{ steps.prepare.outputs.version }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ vars.NULU_AUTOMATION_SOURCE_REF || 'main' }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: bash scripts/prepare-ci-bubblewrap.sh
+      - name: Identify release author
+        run: |
+          git config user.name 'Nulu release automation'
+          git config user.email 'nulu-release@users.noreply.github.com'
+      - name: Prepare and qualify source
+        id: prepare
+        env:
+          WORLD_APP_TECHNOLOGIES_API_KEY: ${{ secrets.WORLD_APP_TECHNOLOGIES_API_KEY_EXTERNAL }}
+          NULU_BASELINE_RELEASE: ${{ inputs.baseline || vars.NULU_NEEDS_BASELINE == 'true' }}
+        run: pnpm exec node scripts/automation/prepare-update.mjs
+      - name: Push isolated candidate
+        if: steps.prepare.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CANDIDATE_BRANCH: ${{ steps.prepare.outputs.branch }}
+        run: git -c credential.helper= -c 'credential.helper=!gh auth git-credential' push origin "HEAD:refs/heads/$CANDIDATE_BRANCH"
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: update-report
+          path: reports/upstream-sync/
+          if-no-files-found: error
+          retention-days: 30
+
+  quality:
+    needs: prepare
+    if: needs.prepare.outputs.changed == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.prepare.outputs.sha }}
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: bash scripts/prepare-ci-bubblewrap.sh
+      - run: node --test scripts/automation/automation.test.mjs
+      - run: pnpm run build:official
+      - run: pnpm run lint:contracts-ready
+      - run: pnpm run test:coverage
+      - run: pnpm run test:snapshot
+      - run: pnpm --filter @worldapptechnologies/nulu-benchmarks exec playwright install --with-deps chromium
+      - run: pnpm run test:web:built
+      - name: Real Nulu inference, tools, streaming and saved sessions
+        env:
+          WORLD_APP_TECHNOLOGIES_API_KEY: ${{ secrets.WORLD_APP_TECHNOLOGIES_API_KEY_EXTERNAL }}
+        run: pnpm exec node scripts/automation/api-smoke.mjs
+
+  desktop:
+    needs: [prepare, quality]
+    if: needs.prepare.outputs.changed == 'true'
+    name: Qualify ${{ matrix.target }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: ubuntu-24.04
+            target: linux-x64
+            command: package:desktop:linux:x64
+            artifacts: artifacts
+            suffix: linux-x86_64.AppImage
+          - runner: macos-15
+            target: mac-arm64
+            command: package:desktop:mac:arm64:unsigned
+            artifacts: unsigned-artifacts
+            suffix: mac-arm64.dmg
+          - runner: macos-15-intel
+            target: mac-x64
+            command: package:desktop:mac:x64:unsigned
+            artifacts: unsigned-artifacts
+            suffix: mac-x64.dmg
+          - runner: windows-2025
+            target: win-x64
+            command: package:desktop:win:x64:unsigned
+            artifacts: unsigned-artifacts
+            suffix: win-x64.exe
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.prepare.outputs.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+      - name: Install Linux build and GUI dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -yq musl-tools xvfb libnss3 libatk-bridge2.0-0 libgtk-3-0t64 libgbm1 libasound2t64
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run ${{ matrix.command }}
+      - name: Download the current public installer for upgrade testing
+        env:
+          GH_TOKEN: ${{ github.token }}
+          INSTALLER_SUFFIX: ${{ matrix.suffix }}
+        run: gh release download --repo jinxlo/Nulu-harness --pattern "*-${env:INSTALLER_SUFFIX}" --dir previous
+        if: runner.os == 'Windows'
+        shell: pwsh
+      - name: Download previous installer (POSIX)
+        if: runner.os != 'Windows'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          INSTALLER_SUFFIX: ${{ matrix.suffix }}
+        run: gh release download --repo jinxlo/Nulu-harness --pattern "*-$INSTALLER_SUFFIX" --dir previous
+      - name: Test Linux installer, upgrade and restart
+        if: runner.os == 'Linux'
+        run: xvfb-run -a pnpm exec node scripts/automation/install-smoke.mjs apps/desktop/.desktop-build/targets/${{ matrix.target }}/${{ matrix.artifacts }} previous ${{ matrix.target }} evidence
+      - name: Test macOS installer, upgrade and restart
+        if: runner.os == 'macOS'
+        run: pnpm exec node scripts/automation/install-smoke.mjs apps/desktop/.desktop-build/targets/${{ matrix.target }}/${{ matrix.artifacts }} previous ${{ matrix.target }} evidence
+      - name: Test Windows installer, upgrade and restart
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: pnpm exec node scripts/automation/install-smoke.mjs apps/desktop/.desktop-build/targets/${{ matrix.target }}/${{ matrix.artifacts }} previous ${{ matrix.target }} evidence
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: desktop-${{ matrix.target }}
+          path: |
+            apps/desktop/.desktop-build/targets/${{ matrix.target }}/${{ matrix.artifacts }}/*.exe
+            apps/desktop/.desktop-build/targets/${{ matrix.target }}/${{ matrix.artifacts }}/*.dmg
+            apps/desktop/.desktop-build/targets/${{ matrix.target }}/${{ matrix.artifacts }}/*.zip
+            apps/desktop/.desktop-build/targets/${{ matrix.target }}/${{ matrix.artifacts }}/*.AppImage
+            evidence/
+          if-no-files-found: error
+          retention-days: 30
+
+  publish:
+    needs: [prepare, quality, desktop]
+    if: needs.prepare.outputs.changed == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.prepare.outputs.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: desktop-*
+          path: release-input
+      - name: Stage, verify, and promote the complete release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NULU_EXPECTED_BASE: ${{ needs.prepare.outputs.base }}
+          NULU_CANDIDATE_SHA: ${{ needs.prepare.outputs.sha }}
+          NULU_RELEASE_VERSION: ${{ needs.prepare.outputs.version }}
+        run: node scripts/automation/publish.mjs

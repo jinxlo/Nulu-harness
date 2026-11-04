@@ -404,8 +404,8 @@
         toolName: subagent_fork
         backgroundMode: one-shot
 
-    - id: workflow-worker-thread
-      name: '@worldapptechnologies/nulu-workflow-worker-thread'
+    - id: workflow-ptc
+      name: '@worldapptechnologies/nulu-workflow-ptc'
       config:
         provider: spawn
 
@@ -497,6 +497,9 @@
     # keeps the schema default (native).
     - id: tools
       name: '@worldapptechnologies/nulu-tools'
+
+    - id: mcp-resources
+      name: '@worldapptechnologies/nulu-mcp-resources'
 
     # The deployment persona is a deployment choice; plan-mode and tool plugins own
     # their own prompt sections.

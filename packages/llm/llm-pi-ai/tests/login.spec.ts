@@ -11,6 +11,13 @@ import type { AuthEvent, AuthInteraction, AuthPrompt, AuthType, Credential } fro
 
 const login = vi.hoisted(() => vi.fn())
 
+// Exercise the reusable translation with explicitly enabled provider fixtures.
+// Product compositions keep this catalog empty and are tested separately.
+vi.mock('../src/catalog.ts', async importOriginal => ({
+  ...await importOriginal<typeof import('../src/catalog.ts')>(),
+  catalogProviderIds: () => ['openai-codex', 'anthropic', 'deepseek'],
+}))
+
 // The whole of what this module does with pi-ai is run one provider's login
 // against a collection built with the harness store, so the collection is the
 // boundary worth observing; a real login would open a browser.
@@ -94,7 +101,7 @@ describe('pi-ai login flows', () => {
       .toEqual(['oauth', 'api-key'])
     // A key-only provider still gets a flow, because pi-ai collects the key
     // through its own prompt rather than leaving it to the settings form.
-    expect(offered.find(entry => entry.key === recordKeyFor('nulu'))?.methods.map(one => one.id))
+    expect(offered.find(entry => entry.key === recordKeyFor('deepseek'))?.methods.map(one => one.id))
       .toEqual(['api-key'])
   })
 

@@ -157,8 +157,8 @@
       }
     },
     {
-      "id": "nulu/nulu-v4-flash",
-      "canonical_slug": "nulu/nulu-v4-flash-20260423",
+      "id": "nulu/deepseek-v4-flash",
+      "canonical_slug": "nulu/deepseek-v4-flash-20260423",
       "hugging_face_id": "worldapptechnologies/Nulu-V4-Flash",
       "name": "Nulu: Nulu V4 Flash 0423",
       "created": 1777000666,
@@ -215,7 +215,7 @@
       "knowledge_cutoff": null,
       "expiration_date": null,
       "links": {
-        "details": "/api/v1/models/nulu/nulu-v4-flash-20260423/endpoints"
+        "details": "/api/v1/models/nulu/deepseek-v4-flash-20260423/endpoints"
       },
       "benchmarks": {
         "design_arena": [

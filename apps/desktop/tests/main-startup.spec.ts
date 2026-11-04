@@ -301,11 +301,15 @@ describe('desktop main startup', () => {
     expect(harness.applyRelease).toHaveBeenCalledTimes(1)
     expect(harness.assertProfileRuntime).toHaveBeenCalledWith('desktop-test-profile')
     expect(harness.hosts[0]).toMatchObject({
-      node: process.execPath,
-      runtime: join(harness.app.getAppPath(), 'nulu'),
+      node: join('desktop-test-resources', 'runtime', 'node', process.platform === 'win32' ? 'node.exe' : 'node'),
+      runtime: join('desktop-test-resources', 'nulu'),
       profile: 'desktop-test-profile',
     })
-    expect(harness.managerRuntimes[0]).toMatchObject({ profileResolution: 'runtime' })
+    expect(harness.managerRuntimes[0]).toMatchObject({
+      node: join('desktop-test-resources', 'runtime', 'node', process.platform === 'win32' ? 'node.exe' : 'node'),
+      nulu: join('desktop-test-resources', 'nulu'),
+      pnpm: join('desktop-test-resources', 'runtime', 'pnpm', 'bin', 'pnpm.mjs'),
+    })
     expect(harness.hosts[0]!.start).toHaveBeenCalledTimes(1)
     expect(harness.windows).toHaveLength(1)
     expect(window.urls).toEqual(['nulu-app://shell/startup.html', 'nulu-app://app/index.html'])
