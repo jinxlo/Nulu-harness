@@ -14,12 +14,12 @@ flowchart LR
   cfg --> plugin_nulu_base_hmr
   plugin_nulu_base_llm["llm<br/>@worldapptechnologies/nulu-llm"]
   cfg --> plugin_nulu_base_llm
-  plugin_nulu_base_nulu_llm_api_extensions["llm-api-extensions<br/>@worldapptechnologies/nulu-llm-api-extensions"]
-  cfg --> plugin_nulu_base_nulu_llm_api_extensions
+  plugin_nulu_base_llm_api_extensions["llm-api-extensions<br/>@worldapptechnologies/nulu-llm-api-extensions"]
+  cfg --> plugin_nulu_base_llm_api_extensions
   plugin_nulu_base_session["session<br/>@worldapptechnologies/nulu-session"]
   cfg --> plugin_nulu_base_session
-  plugin_nulu_base_session_log_nulu["session-log-gateway<br/>@worldapptechnologies/nulu-session-log-gateway"]
-  cfg --> plugin_nulu_base_session_log_nulu
+  plugin_nulu_base_session_log_gateway["session-log-gateway<br/>@worldapptechnologies/nulu-session-log-gateway"]
+  cfg --> plugin_nulu_base_session_log_gateway
   plugin_nulu_base_typert["typert<br/>@worldapptechnologies/nulu-typert-registry"]
   cfg --> plugin_nulu_base_typert
   plugin_nulu_base_typert_loader["typert-loader<br/>@worldapptechnologies/nulu-typert-loader"]
@@ -34,8 +34,8 @@ flowchart LR
   cfg --> plugin_nulu_base_user_questions
   plugin_nulu_base_agent["agent<br/>@worldapptechnologies/nulu-agent"]
   cfg --> plugin_nulu_base_agent
-  plugin_nulu_base_plugin_package_inventory_nulu["plugin-package-inventory<br/>@worldapptechnologies/nulu-plugin-package-inventory"]
-  cfg --> plugin_nulu_base_plugin_package_inventory_nulu
+  plugin_nulu_base_plugin_package_inventory["plugin-package-inventory<br/>@worldapptechnologies/nulu-plugin-package-inventory"]
+  cfg --> plugin_nulu_base_plugin_package_inventory
   plugin_nulu_base_agent_default_model["agent-default-model<br/>@worldapptechnologies/nulu-agent-default-model"]
   cfg --> plugin_nulu_base_agent_default_model
   plugin_nulu_base_jobs["jobs<br/>@worldapptechnologies/nulu-jobs-local"]
@@ -48,6 +48,10 @@ flowchart LR
   cfg --> plugin_nulu_base_credentials
   plugin_nulu_base_llm_pi_ai["llm-pi-ai<br/>@worldapptechnologies/nulu-llm-pi-ai"]
   cfg --> plugin_nulu_base_llm_pi_ai
+  plugin_nulu_base_nulu_5_ultra["nulu-5-ultra<br/>Nulu 5 Ultra"]
+  cfg --> plugin_nulu_base_nulu_5_ultra
+  plugin_nulu_base_nulu_5_pro["nulu-5-pro<br/>Nulu 5 Pro"]
+  cfg --> plugin_nulu_base_nulu_5_pro
   plugin_nulu_base_session_persistence_jsonl["session-persistence-jsonl<br/>@worldapptechnologies/nulu-session-persistence-jsonl"]
   cfg --> plugin_nulu_base_session_persistence_jsonl
   plugin_nulu_base_attachment_local["attachment-local<br/>@worldapptechnologies/nulu-attachment-local"]
@@ -136,8 +140,6 @@ flowchart LR
   cfg --> plugin_nulu_base_tool_subagent
   plugin_nulu_base_tool_subagent_fork["tool-subagent-fork<br/>@worldapptechnologies/nulu-tool-subagent"]
   cfg --> plugin_nulu_base_tool_subagent_fork
-  plugin_nulu_base_ptc_runtime["ptc-runtime<br/>@worldapptechnologies/nulu-ptc-runtime-node"]
-  cfg --> plugin_nulu_base_ptc_runtime
   plugin_nulu_base_workflow_ptc["workflow-ptc<br/>@worldapptechnologies/nulu-workflow-ptc"]
   cfg --> plugin_nulu_base_workflow_ptc
   plugin_nulu_base_tool_workflow["tool-workflow<br/>@worldapptechnologies/nulu-tool-workflow"]
@@ -152,8 +154,6 @@ flowchart LR
   cfg --> plugin_nulu_base_session_checkpoint_policy
   plugin_nulu_base_tool_result_pruner["tool-result-pruner<br/>@worldapptechnologies/nulu-compaction-tool-result-pruner"]
   cfg --> plugin_nulu_base_tool_result_pruner
-  plugin_nulu_base_image_offload["image-offload<br/>@worldapptechnologies/nulu-compaction-image-offload"]
-  cfg --> plugin_nulu_base_image_offload
   plugin_nulu_base_tool_todo["tool-todo<br/>@worldapptechnologies/nulu-tool-todo"]
   cfg --> plugin_nulu_base_tool_todo
   plugin_nulu_base_tool_goal["tool-goal<br/>@worldapptechnologies/nulu-tool-goal"]
@@ -164,24 +164,24 @@ flowchart LR
   cfg --> plugin_nulu_base_repeat_tool_reminder
   plugin_nulu_base_web["web<br/>@worldapptechnologies/nulu-web"]
   cfg --> plugin_nulu_base_web
-  plugin_nulu_base_web_search_nulu["web-search-gateway<br/>@worldapptechnologies/nulu-web-search-gateway"]
-  cfg --> plugin_nulu_base_web_search_nulu
+  plugin_nulu_base_web_search_gateway["web-search-gateway<br/>@worldapptechnologies/nulu-web-search-gateway"]
+  cfg --> plugin_nulu_base_web_search_gateway
   plugin_nulu_base_web_fetch_http["web-fetch-http<br/>@worldapptechnologies/nulu-web-fetch-http"]
   cfg --> plugin_nulu_base_web_fetch_http
   plugin_nulu_base_tool_web["tool-web<br/>@worldapptechnologies/nulu-tool-web"]
   cfg --> plugin_nulu_base_tool_web
-  plugin_nulu_base_mcp_resources["mcp-resources<br/>@worldapptechnologies/nulu-mcp-resources"]
-  cfg --> plugin_nulu_base_mcp_resources
   plugin_nulu_base_tools["tools<br/>@worldapptechnologies/nulu-tools"]
   cfg --> plugin_nulu_base_tools
+  plugin_nulu_base_mcp_resources["mcp-resources<br/>@worldapptechnologies/nulu-mcp-resources"]
+  cfg --> plugin_nulu_base_mcp_resources
   plugin_nulu_base_system_prompt["system-prompt<br/>@worldapptechnologies/nulu-system-prompt"]
   cfg --> plugin_nulu_base_system_prompt
   plugin_nulu_base_agent_loop["agent-loop<br/>@worldapptechnologies/nulu-agent-loop"]
   cfg --> plugin_nulu_base_agent_loop
   plugin_nulu_base_fs_sandbox["fs-sandbox<br/>@worldapptechnologies/nulu-fs-sandbox"]
   cfg --> plugin_nulu_base_fs_sandbox
-  plugin_nulu_base_llm_nulu["llm-gateway<br/>@worldapptechnologies/nulu-llm-gateway"]
-  cfg --> plugin_nulu_base_llm_nulu
+  plugin_nulu_base_llm_gateway["llm-gateway<br/>@worldapptechnologies/nulu-llm-gateway"]
+  cfg --> plugin_nulu_base_llm_gateway
 ```
 
 | Plugin id | Package / module |
@@ -206,6 +206,8 @@ flowchart LR
 | `settings` | `@worldapptechnologies/nulu-settings-file` |
 | `credentials` | `@worldapptechnologies/nulu-credentials-local` |
 | `llm-pi-ai` | `@worldapptechnologies/nulu-llm-pi-ai` |
+| `nulu-5-ultra` | `Nulu 5 Ultra` |
+| `nulu-5-pro` | `Nulu 5 Pro` |
 | `session-persistence-jsonl` | `@worldapptechnologies/nulu-session-persistence-jsonl` |
 | `attachment-local` | `@worldapptechnologies/nulu-attachment-local` |
 | `session-query-sqlite` | `@worldapptechnologies/nulu-session-query-sqlite` |
@@ -250,7 +252,6 @@ flowchart LR
 | `tool-subagent-list-agents` | `@worldapptechnologies/nulu-tool-subagent-control/list-agents` |
 | `tool-subagent` | `@worldapptechnologies/nulu-tool-subagent` |
 | `tool-subagent-fork` | `@worldapptechnologies/nulu-tool-subagent` |
-| `ptc-runtime` | `@worldapptechnologies/nulu-ptc-runtime-node` |
 | `workflow-ptc` | `@worldapptechnologies/nulu-workflow-ptc` |
 | `tool-workflow` | `@worldapptechnologies/nulu-tool-workflow` |
 | `timeout-policy` | `@worldapptechnologies/nulu-tool-call-timeout-policy` |
@@ -258,7 +259,6 @@ flowchart LR
 | `spill-policy` | `@worldapptechnologies/nulu-spill-policy` |
 | `session-checkpoint-policy` | `@worldapptechnologies/nulu-session-checkpoint-policy` |
 | `tool-result-pruner` | `@worldapptechnologies/nulu-compaction-tool-result-pruner` |
-| `image-offload` | `@worldapptechnologies/nulu-compaction-image-offload` |
 | `tool-todo` | `@worldapptechnologies/nulu-tool-todo` |
 | `tool-goal` | `@worldapptechnologies/nulu-tool-goal` |
 | `tool-ralph` | `@worldapptechnologies/nulu-tool-ralph` |
@@ -267,8 +267,8 @@ flowchart LR
 | `web-search-gateway` | `@worldapptechnologies/nulu-web-search-gateway` |
 | `web-fetch-http` | `@worldapptechnologies/nulu-web-fetch-http` |
 | `tool-web` | `@worldapptechnologies/nulu-tool-web` |
-| `mcp-resources` | `@worldapptechnologies/nulu-mcp-resources` |
 | `tools` | `@worldapptechnologies/nulu-tools` |
+| `mcp-resources` | `@worldapptechnologies/nulu-mcp-resources` |
 | `system-prompt` | `@worldapptechnologies/nulu-system-prompt` |
 | `agent-loop` | `@worldapptechnologies/nulu-agent-loop` |
 | `fs-sandbox` | `@worldapptechnologies/nulu-fs-sandbox` |

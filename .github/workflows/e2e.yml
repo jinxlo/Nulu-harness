@@ -120,4 +120,4 @@ jobs:
           WORLD_APP_TECHNOLOGIES_BASE_URL: https://platform.worldapptechnologies.com/api/v1
           NULU_E2E_MAX_WORKERS: 4
           NULU_EXAMPLE_MODE: lib
-        run: pnpm run test:e2e
+        run: pnpm exec node scripts/automation/api-smoke.mjs

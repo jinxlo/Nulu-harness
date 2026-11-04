@@ -413,7 +413,7 @@ export interface ConnectionRecoveryConfig {
   /** Maximum retry delay cap in ms; retries continue at this cap. Default: 10000. */
   backoffMaxMs?: number
   /**
-   * Delay before reporting a slow hannuluake, without cancelling it. Default: 3000.
+   * Delay before reporting a slow handshake, without cancelling it. Default: 3000.
    * Omitted when readiness, failure, cancellation, or the hard deadline occurs first.
    */
   generationReadyWarnMs?: number
@@ -1110,7 +1110,7 @@ Requires: `llm`
 export interface Config {
   /** Wire protocol; defaults to messages. Configure through Cordis YAML. */
   protocol?: NuluProtocol
-  /** Credential reference (environment-variable name) resolved per request; defaults to `DEEPSEEK_API_KEY`. */
+  /** Credential reference (environment-variable name) resolved per request; defaults to `WORLD_APP_TECHNOLOGIES_API_KEY`. */
   apiKeyEnv?: string
   /** Endpoint base; falls back to $WORLD_APP_TECHNOLOGIES_BASE_URL from a trusted environment layer, then the public API. */
   baseURL?: string
@@ -1186,7 +1186,7 @@ export interface NuluCatalogModel {
 
 Depends on: [`ModelModality`](../packages/llm/llm/src/index.ts) · [`RetryPolicyConfig`](../packages/llm/llm/src/index.ts) · [`SystemPromptUpdate`](../packages/llm/llm/src/index.ts)
 
-Source: [`packages/llm/llm-gateway/src/config.ts:25`](../packages/llm/llm-gateway/src/config.ts)
+Source: [`packages/llm/llm-gateway/src/index.ts:121`](../packages/llm/llm-gateway/src/index.ts)
 
 <a id="worldapptechnologiesnulu-llm-pi-ai"></a>
 
@@ -2019,22 +2019,6 @@ Source: [`packages/sdk/server/src/index.ts:25`](../packages/sdk/server/src/index
 
 <a id="worldapptechnologiesnulu-session-log-export"></a>
 
-## `@worldapptechnologies/nulu-session-log-gateway`
-
-Requires: `nuluLlmApiExtensions` · `sessions`
-
-```ts config-catalog
-/** Session-log request contribution configuration. */
-export interface Config {
-  /** Contribute `nulu_session_log` to official Nulu requests. Defaults to `true`. */
-  enabled?: boolean
-}
-```
-
-Source: [`packages/session/session-log-gateway/src/index.ts:38`](../packages/session/session-log-gateway/src/index.ts)
-
-<a id="worldapptechnologiesnulu-session-log-export"></a>
-
 ## `@worldapptechnologies/nulu-session-log-export`
 
 Requires: `commands` · `connection`
@@ -2061,7 +2045,7 @@ Requires: `nuluLlmApiExtensions` · `sessions`
 ```ts config-catalog
 /** Session-log request contribution configuration. */
 export interface Config {
-  /** Contribute `nulu_session_log` to official Nulu requests. Defaults to `false`. */
+  /** Contribute `nulu_session_log` to official Nulu requests. Defaults to `true`. */
   enabled?: boolean
 }
 ```
@@ -3616,7 +3600,7 @@ These load from a `cordis.yml` entry with no `config:` block; they declare no co
 - `@worldapptechnologies/nulu-client-ui-agent-preset` ([`packages/client/ui-agent-preset/src/index.ts`](../packages/client/ui-agent-preset/src/index.ts))
 - `@worldapptechnologies/nulu-client-ui-approval` ([`packages/client/ui-approval/src/index.ts`](../packages/client/ui-approval/src/index.ts))
 - `@worldapptechnologies/nulu-client-ui-attachment` ([`packages/client/ui-attachment/src/index.ts`](../packages/client/ui-attachment/src/index.ts))
-- `@worldapptechnologies/nulu-client-ui-brand-official` ([`packages/client/ui-brand-official/src/index.ts`](../packages/client/ui-brand-official/src/index.ts))
+- `@worldapptechnologies/nulu-client-ui-brand-official` ([`packages/client/ui-brand/src/index.ts`](../packages/client/ui-brand/src/index.ts))
 - `@worldapptechnologies/nulu-client-ui-chat` ([`packages/client/ui-chat/src/index.ts`](../packages/client/ui-chat/src/index.ts))
 - `@worldapptechnologies/nulu-client-ui-commands` ([`packages/client/ui-commands/src/index.ts`](../packages/client/ui-commands/src/index.ts))
 - `@worldapptechnologies/nulu-client-ui-conversation` ([`packages/client/ui-conversation/src/index.ts`](../packages/client/ui-conversation/src/index.ts))
@@ -3663,7 +3647,6 @@ These load from a `cordis.yml` entry with no `config:` block; they declare no co
 - `@worldapptechnologies/nulu-compaction-image-offload` — requires `agents` · `sessions` ([`packages/compaction/compaction-image-offload/src/index.ts`](../packages/compaction/compaction-image-offload/src/index.ts))
 - `@worldapptechnologies/nulu-computer-use` ([`packages/computer-use/computer-use/src/index.ts`](../packages/computer-use/computer-use/src/index.ts))
 - `@worldapptechnologies/nulu-cordis-client-runner` ([`packages/extensions/cordis-client-runner/src/index.ts`](../packages/extensions/cordis-client-runner/src/index.ts))
-- `@worldapptechnologies/nulu-llm-api-extensions` ([`packages/llm/llm-api-extensions/src/index.ts`](../packages/llm/llm-api-extensions/src/index.ts))
 - `@worldapptechnologies/nulu-experimental-auto-review` — requires `llm` · `permissionPresets` · `sessions` · `tools` ([`packages/experimental/auto-review/src/index.ts`](../packages/experimental/auto-review/src/index.ts))
 - `@worldapptechnologies/nulu-experimental-client-ui-agent-team` ([`packages/experimental/client-ui-agent-team/src/index.ts`](../packages/experimental/client-ui-agent-team/src/index.ts))
 - `@worldapptechnologies/nulu-experimental-computer-use-cua-driver-native` — requires `computerUse` · `tools` · `systemPrompt` ([`packages/experimental/computer-use-cua-driver-native/src/index.ts`](../packages/experimental/computer-use-cua-driver-native/src/index.ts))
@@ -3674,6 +3657,7 @@ These load from a `cordis.yml` entry with no `config:` block; they declare no co
 - `@worldapptechnologies/nulu-host-directory-picker-native` ([`packages/host/directory-picker-native/src/index.ts`](../packages/host/directory-picker-native/src/index.ts))
 - `@worldapptechnologies/nulu-host-plugin-inventory` — requires `loader` ([`packages/host/plugin-inventory/src/index.ts`](../packages/host/plugin-inventory/src/index.ts))
 - `@worldapptechnologies/nulu-llm` ([`packages/llm/llm/src/index.ts`](../packages/llm/llm/src/index.ts))
+- `@worldapptechnologies/nulu-llm-api-extensions` ([`packages/llm/llm-api-extensions/src/index.ts`](../packages/llm/llm-api-extensions/src/index.ts))
 - `@worldapptechnologies/nulu-lsp` ([`packages/lsp/lsp/src/index.ts`](../packages/lsp/lsp/src/index.ts))
 - `@worldapptechnologies/nulu-mcp-resources` — requires `tools` ([`packages/mcp/mcp-resources/src/index.ts`](../packages/mcp/mcp-resources/src/index.ts))
 - `@worldapptechnologies/nulu-sandbox-ssh` — requires `ssh` ([`packages/ssh/sandbox-ssh/src/index.ts`](../packages/ssh/sandbox-ssh/src/index.ts))
