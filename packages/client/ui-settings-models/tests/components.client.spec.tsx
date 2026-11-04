@@ -680,6 +680,7 @@ describe('ModelsSection', () => {
       ...wireNamespaces()[0]!,
       ns: 'llm-gateway',
       value: { protocol: 'messages', apiKeyEnv: 'DEEPSEEK_API_KEY', models: DEFAULT_NULU_MODELS },
+      base: { models: DEFAULT_NULU_MODELS },
       user: {},
     }
     const { face, mutate, set } = scriptedFace({
@@ -699,7 +700,7 @@ describe('ModelsSection', () => {
     />)
     fireEvent.click(screen.getByText(en.customized))
     expect(screen.getByLabelText<HTMLInputElement>(en.baseUrl).placeholder)
-      .toBe('https://api.nulu.com/anthropic')
+      .toBe('https://your-messages-endpoint.example')
     expect(screen.queryByLabelText(en.customApi)).toBeNull()
     expect(screen.getByText(en.nuluEndpointHint)).toBeTruthy()
     fireEvent.change(screen.getByLabelText(en.keyInput), { target: { value: 'sk-messages-test' } })

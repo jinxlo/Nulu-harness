@@ -1,5 +1,5 @@
 /**
- * Real Messages round trips use the official root and require credentials.
+ * Real Messages round trips require an explicit compatible endpoint and credentials.
  * System-update checks additionally require NULU_IN_HISTORY_MODEL.
  */
 import { randomUUID } from 'node:crypto'
@@ -21,6 +21,7 @@ import * as Messages from '../../src/index.ts'
 import { NuluFilesClient, MESSAGES_FILES_BETA } from '../../src/common/files-api.ts'
 import { assemble, options, user } from './helpers.ts'
 
+const MESSAGES_BASE_URL = process.env.NULU_MESSAGES_BASE_URL ?? ''
 const IN_HISTORY_MODEL = process.env.NULU_IN_HISTORY_MODEL
 const cleanups: (() => Promise<unknown>)[] = []
 afterEach(async () => {
@@ -36,7 +37,8 @@ async function boot(models?: Messages.Config['models']) {
   cleanups.push(() => ctx.fiber.dispose())
   await ctx.plugin(LlmRuntime)
   await ctx.plugin(Messages, {
-    baseURL: Messages.MESSAGES_BASE_URL,
+    protocol: 'messages',
+    baseURL: MESSAGES_BASE_URL,
     maxTokens: 4096,
     ...models === undefined ? {} : { models },
   })
@@ -44,7 +46,7 @@ async function boot(models?: Messages.Config['models']) {
 }
 const tool = { name: 'lookup_value', description: 'Read the requested value. Always call this tool to obtain a value.', parameters: { type: 'object', properties: { key: { type: 'string' } }, required: ['key'] } }
 
-describe.skipIf(!process.env.WORLD_APP_TECHNOLOGIES_API_KEY)('Nulu Messages real API', () => {
+describe.skipIf(!process.env.WORLD_APP_TECHNOLOGIES_API_KEY || !MESSAGES_BASE_URL)('Nulu Messages real API', () => {
   it.skipIf(!IN_HISTORY_MODEL).each([false, true])('updates system instructions during a conversation, in-history=%s', async (inHistory) => {
     const model = IN_HISTORY_MODEL as string
     // Each case owns the capability, even for a model with an in-history catalog default.
@@ -72,7 +74,7 @@ describe.skipIf(!process.env.WORLD_APP_TECHNOLOGIES_API_KEY)('Nulu Messages real
     const fetchImpl = globalThis.fetch
     const uploads: string[] = []
     const bodies: string[] = []
-    const files = new NuluFilesClient({ baseURL: Messages.MESSAGES_BASE_URL, protocol: 'messages', apiKey: process.env.WORLD_APP_TECHNOLOGIES_API_KEY as string, fetch: fetchImpl })
+    const files = new NuluFilesClient({ baseURL: MESSAGES_BASE_URL, protocol: 'messages', apiKey: process.env.WORLD_APP_TECHNOLOGIES_API_KEY as string, fetch: fetchImpl })
     const ownedFiles = new Set<ReturnType<typeof Messages.NuluFileId>>()
     cleanups.push(async () => {
       for (const id of ownedFiles) await files.delete(id)
@@ -80,12 +82,12 @@ describe.skipIf(!process.env.WORLD_APP_TECHNOLOGIES_API_KEY)('Nulu Messages real
     vi.stubGlobal('fetch', async (input: string | URL | Request, init?: RequestInit) => {
       const url = typeof input === 'string' ? input : input instanceof URL ? input.href : input.url
       const response = await fetchImpl(input, init)
-      if (url === `${Messages.MESSAGES_BASE_URL}/v1/files` && init?.method === 'POST' && response.ok) {
+      if (url === `${MESSAGES_BASE_URL}/v1/files` && init?.method === 'POST' && response.ok) {
         const file = await response.clone().json() as { id: string }
         uploads.push(file.id)
         ownedFiles.add(Messages.NuluFileId(file.id))
       }
-      if (url === `${Messages.MESSAGES_BASE_URL}/v1/messages`) {
+      if (url === `${MESSAGES_BASE_URL}/v1/messages`) {
         expect(new Headers(init?.headers).get('anthropic-beta')).toBe(MESSAGES_FILES_BETA)
         if (typeof init?.body !== 'string') throw new Error('expected a JSON Messages request')
         bodies.push(init.body)
@@ -160,7 +162,7 @@ describe.skipIf(!process.env.WORLD_APP_TECHNOLOGIES_API_KEY)('Nulu Messages real
     let requests = 0
     vi.stubGlobal('fetch', async (input: string | URL | Request, init?: RequestInit) => {
       const url = typeof input === 'string' ? input : input instanceof URL ? input.href : input.url
-      if (url !== `${Messages.MESSAGES_BASE_URL}/v1/messages`) return fetchImpl(input, init)
+      if (url !== `${MESSAGES_BASE_URL}/v1/messages`) return fetchImpl(input, init)
       if (typeof init?.body !== 'string') throw new Error('expected a JSON Messages request')
       const body = JSON.parse(init.body) as Record<string, unknown>
       expect(body).toMatchObject({ nulu_plugin_packages: {

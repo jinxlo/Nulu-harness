@@ -26,18 +26,18 @@ function adapter(connection: () => NuluConnectionOptions) {
   })
 }
 
-it.each([false, true])('uses Messages when protocol is omitted, schema=%s', async (schema) => {
-  const http = await endpoint()
+it.each([false, true])('uses Chat Completions when protocol is omitted, schema=%s', async (schema) => {
+  const http = await endpoint(response => response.end(chat))
   const raw = { baseURL: http.url }
   const connection = resolveAdapterOptions(schema ? Config(raw) : raw)
   const response = await assemble(adapter(() => connection).stream(options()))
 
-  expect(response.message.content).toEqual([{ type: 'text', text: 'Hello 世界' }])
+  expect(response.message.content).toEqual([{ type: 'text', text: 'Chat answer' }])
   expect(http.requests).toHaveLength(1)
   expect(http.requests[0]).toMatchObject({
-    path: '/anthropic/v1/messages',
-    headers: { 'x-api-key': 'key-for-WORLD_APP_TECHNOLOGIES_API_KEY', 'anthropic-version': '2023-06-01' },
-    body: { model: MODEL, messages: [{ role: 'user', content: [{ type: 'text', text: 'hello' }] }] },
+    path: '/anthropic/chat/completions',
+    headers: { authorization: 'Bearer key-for-WORLD_APP_TECHNOLOGIES_API_KEY' },
+    body: { model: MODEL, messages: [{ role: 'user', content: 'hello' }] },
   })
 })
 
@@ -89,4 +89,11 @@ it('continues Messages → Chat → Messages with the same provider and without 
     { role: 'assistant', content: [{ type: 'thinking', thinking: 'Reasoning', signature: 'native-signature' }, { type: 'text', text: 'Messages answer' }] },
     { role: 'assistant', content: [{ type: 'text', text: 'Chat answer' }] },
   ])
+})
+
+it('uses the public Nulu Chat endpoint and requires an explicit Messages endpoint', () => {
+  expect(resolveAdapterOptions({})).toMatchObject({ protocol: 'chat-completions', baseURL: 'https://platform.worldapptechnologies.com/api/v1' })
+  expect(() => resolveAdapterOptions({ protocol: 'messages' })).toThrow('explicit compatible baseURL')
+  expect(() => resolveAdapterOptions({ protocol: 'messages', baseURL: 'https://user:password@example.com' })).toThrow('without credentials')
+  expect(() => resolveAdapterOptions({ protocol: 'unknown' as never })).toThrow('protocol must be')
 })

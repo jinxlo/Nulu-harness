@@ -2,6 +2,8 @@
 
 Status: implemented
 
+The Nulu public endpoint and protocol default follow the [automatic release qualification decision](../process/2026-11-04-automated-nulu-releases.md); this note continues to own the optional Messages transport and replay implementation.
+
 English | [中文](2026-09-07-deepseek-messages-adapter.zh.md)
 
 ## Problem

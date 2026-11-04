@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict'
-import { mkdtempSync, mkdirSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
+import { mkdtempSync, mkdirSync, renameSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import test from 'node:test'
-import { brandText, editablePath, readablePath, trustedPath } from './common.mjs'
+import { assertTrustedFilesUnchanged, brandText, command, editablePath, readablePath, trustedPath } from './common.mjs'
 import { buildCatalog, installerName, TARGETS, validateCatalog, validateNativeEvidence, versionOrder } from './release-catalog.mjs'
 import { gatewayModelIds, validateModelPolicy } from './brand-policy.mjs'
 import { adapt } from './adapter.mjs'
@@ -88,4 +88,29 @@ test('catalog requires every installer and both Mac updater ZIPs', async t => {
     const invalid = structuredClone(catalog); mutate(invalid)
     assert.throws(() => validateCatalog(invalid))
   }
+})
+
+
+test('qualification rejects protected changes made by build steps, including untracked files and renames', t => {
+  const root = mkdtempSync(join(tmpdir(), 'nulu-protected-test-'))
+  t.after(() => rmSync(root, { recursive: true, force: true }))
+  const run = args => command('git', args, { cwd: root })
+  run(['init', '--quiet'])
+  mkdirSync(join(root, '.github/workflows'), { recursive: true })
+  writeFileSync(join(root, '.github/workflows/release.yml'), 'trusted')
+  writeFileSync(join(root, 'application.txt'), 'original')
+  run(['add', '.'])
+  run(['-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid', 'commit', '--quiet', '-m', 'Fixture'])
+  const base = run(['rev-parse', 'HEAD']).trim()
+  writeFileSync(join(root, 'application.txt'), 'adapted')
+  assert.doesNotThrow(() => assertTrustedFilesUnchanged(base, root))
+  writeFileSync(join(root, '.github/workflows/release.yml'), 'rewritten')
+  assert.throws(() => assertTrustedFilesUnchanged(base, root), /Protected Nulu files/)
+  run(['restore', '--', '.github/workflows/release.yml'])
+  writeFileSync(join(root, '.github/workflows/new.yml'), 'untracked')
+  assert.throws(() => assertTrustedFilesUnchanged(base, root), /new.yml/)
+  rmSync(join(root, '.github/workflows/new.yml'))
+  renameSync(join(root, '.github/workflows/release.yml'), join(root, 'renamed.yml'))
+  run(['add', '-A'])
+  assert.throws(() => assertTrustedFilesUnchanged(base, root), /release.yml/)
 })

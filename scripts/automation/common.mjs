@@ -53,6 +53,14 @@ export function command(executable, args, options = {}) {
 
 export function git(args, options) { return command('git', args, options).trim() }
 
+/** Reject source or build steps that alter protected release controls after restoration. */
+export function assertTrustedFilesUnchanged(base, root = ROOT) {
+  const changed = command('git', ['diff', '--no-renames', '--name-only', '-z', base, '--'], { cwd: root }).split('\0')
+  const added = command('git', ['ls-files', '--others', '--exclude-standard', '-z'], { cwd: root }).split('\0')
+  const protectedChanges = [...new Set([...changed, ...added].filter(trustedPath))]
+  if (protectedChanges.length) throw new Error(`Protected Nulu files changed during qualification: ${protectedChanges.join(', ')}`)
+}
+
 /** Run the package manager that launched this process without a shell. */
 export function pnpm(args, options = {}) {
   const entry = process.env.npm_execpath

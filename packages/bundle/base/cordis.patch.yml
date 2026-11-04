@@ -404,6 +404,9 @@
         toolName: subagent_fork
         backgroundMode: one-shot
 
+    - id: ptc-runtime-node
+      name: '@worldapptechnologies/nulu-ptc-runtime-node'
+
     - id: workflow-ptc
       name: '@worldapptechnologies/nulu-workflow-ptc'
       config:

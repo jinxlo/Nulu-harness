@@ -10,6 +10,8 @@ The Nulu release history and default branch differ. Upstream sync is manual, its
 
 The [update workflow](../../../../.github/workflows/nulu-update.yml) qualifies an isolated candidate before promotion. The [automation implementation](../../../../scripts/automation/README.md) owns batching, protected files, model adaptation, version identity, real API verification, native installation tests, hosted checksum verification and release publication. A configurable trusted source ref permits baseline repairs to be tested before the application history is promoted to the default branch.
 
+Qualification tests both the direct gateway and the shipped CLI against the public Nulu API. The direct gateway defaults to Chat Completions at the public endpoint; Messages requires an explicit compatible endpoint because the public Messages route returns HTTP 404. This overrides only the upstream [Messages adapter decision](../feature/2026-09-07-deepseek-messages-adapter.md) on default protocol and endpoint; its replay and transport design remains active. The base bundle also supplies the Node PTC runtime required by its workflow engine, preventing inactive workflow tools.
+
 The workflow preserves the current unsigned developer-preview channel. Signed installation remains dependent on explicit signing infrastructure. The [existing desktop packaging decision](../architecture/2026-08-25-electron-desktop-packaging-and-updates.md) continues to own runtime release identity and signing requirements; this note adds unattended qualification and download promotion.
 
 ## Alternatives considered

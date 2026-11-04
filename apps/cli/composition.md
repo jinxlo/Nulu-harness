@@ -140,6 +140,8 @@ flowchart LR
   cfg --> plugin_nulu_base_tool_subagent
   plugin_nulu_base_tool_subagent_fork["tool-subagent-fork<br/>@worldapptechnologies/nulu-tool-subagent"]
   cfg --> plugin_nulu_base_tool_subagent_fork
+  plugin_nulu_base_ptc_runtime_node["ptc-runtime-node<br/>@worldapptechnologies/nulu-ptc-runtime-node"]
+  cfg --> plugin_nulu_base_ptc_runtime_node
   plugin_nulu_base_workflow_ptc["workflow-ptc<br/>@worldapptechnologies/nulu-workflow-ptc"]
   cfg --> plugin_nulu_base_workflow_ptc
   plugin_nulu_base_tool_workflow["tool-workflow<br/>@worldapptechnologies/nulu-tool-workflow"]
@@ -252,6 +254,7 @@ flowchart LR
 | `tool-subagent-list-agents` | `@worldapptechnologies/nulu-tool-subagent-control/list-agents` |
 | `tool-subagent` | `@worldapptechnologies/nulu-tool-subagent` |
 | `tool-subagent-fork` | `@worldapptechnologies/nulu-tool-subagent` |
+| `ptc-runtime-node` | `@worldapptechnologies/nulu-ptc-runtime-node` |
 | `workflow-ptc` | `@worldapptechnologies/nulu-workflow-ptc` |
 | `tool-workflow` | `@worldapptechnologies/nulu-tool-workflow` |
 | `timeout-policy` | `@worldapptechnologies/nulu-tool-call-timeout-policy` |

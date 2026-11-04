@@ -1108,7 +1108,7 @@ Requires: `llm`
  * reasoning effort resolves to `high`.
  */
 export interface Config {
-  /** Wire protocol; defaults to messages. Configure through Cordis YAML. */
+  /** Wire protocol; defaults to Chat Completions. Configure through Cordis YAML. */
   protocol?: NuluProtocol
   /** Credential reference (environment-variable name) resolved per request; defaults to `WORLD_APP_TECHNOLOGIES_API_KEY`. */
   apiKeyEnv?: string
@@ -1122,7 +1122,7 @@ export interface Config {
   maxTokens?: number
   /** Positive context capacity used when the selected model has no exact value (default 1,000,000). */
   defaultContextWindow?: number
-  /** Advisory models shown by discovery consumers; defaults to V41 Flash, V4 Flash, V4 Pro, and V4 Flash Vision Exp. */
+  /** Advisory models shown by discovery consumers; defaults to Nulu 5 Ultra and Nulu 5 Pro. */
   models?: NuluCatalogModel[]
   /** Maximum provider idle time while one stream read is outstanding (default five minutes). */
   streamIdleTimeoutMs?: number
@@ -1186,7 +1186,7 @@ export interface NuluCatalogModel {
 
 Depends on: [`ModelModality`](../packages/llm/llm/src/index.ts) · [`RetryPolicyConfig`](../packages/llm/llm/src/index.ts) · [`SystemPromptUpdate`](../packages/llm/llm/src/index.ts)
 
-Source: [`packages/llm/llm-gateway/src/index.ts:121`](../packages/llm/llm-gateway/src/index.ts)
+Source: [`packages/llm/llm-gateway/src/index.ts:120`](../packages/llm/llm-gateway/src/index.ts)
 
 <a id="worldapptechnologiesnulu-llm-pi-ai"></a>
 

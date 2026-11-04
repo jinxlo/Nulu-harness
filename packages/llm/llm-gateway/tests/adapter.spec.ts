@@ -1642,10 +1642,10 @@ describe('NuluAdapter against a mock server', () => {
 })
 
 describe('plugin registration and config', () => {
-  it('defaults to Messages and resolves the selected protocol endpoint without rewriting overrides', () => {
-    expect(resolveAdapterOptions({})).toMatchObject({ protocol: 'messages', baseURL: 'https://api.nulu.com/anthropic' })
-    expect(resolveAdapterOptions({ protocol: 'chat-completions' })).toMatchObject({ protocol: 'chat-completions', baseURL: 'https://api.nulu.com' })
-    expect(resolveAdapterOptions({ protocol: 'messages' })).toMatchObject({ protocol: 'messages', baseURL: 'https://api.nulu.com/anthropic' })
+  it('defaults to public Nulu Chat and preserves explicitly configured Messages endpoints', () => {
+    expect(resolveAdapterOptions({})).toMatchObject({ protocol: 'chat-completions', baseURL: 'https://platform.worldapptechnologies.com/api/v1' })
+    expect(resolveAdapterOptions({ protocol: 'chat-completions' })).toMatchObject({ protocol: 'chat-completions', baseURL: 'https://platform.worldapptechnologies.com/api/v1' })
+    expect(() => resolveAdapterOptions({ protocol: 'messages' })).toThrow('explicit compatible baseURL')
     for (const baseURL of ['https://gateway.example/custom/v1', 'https://gateway.example/v1/messages']) {
       expect(resolveAdapterOptions({ protocol: 'messages', baseURL }).baseURL).toBe(baseURL)
     }

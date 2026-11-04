@@ -58,6 +58,8 @@ Default file editing uses `read`, `write`, and `edit`. The `str_replace_editor` 
         maxOutputChars: 16000
 ```
 
+Workflow execution uses the [Node PTC runtime](../../ptc-runtime/ptc-runtime-node/README.md), mounted alongside the workflow engine so its tools activate in shipped profiles.
+
 The bundle mounts [MCP resources](../../mcp/mcp-resources/README.md) once. Configure only [MCP client entries](../../mcp/mcp-client/README.md) for the servers you need. Clients mounted by another provider also count as configured in their scope. Callers with no configured server in scope receive no MCP tools or prompt text.
 
 ### Shell tools per platform

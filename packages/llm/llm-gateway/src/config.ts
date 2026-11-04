@@ -23,7 +23,7 @@ const MODEL_MODALITIES = ['text', 'image'] as const satisfies readonly ModelModa
  * reasoning effort resolves to `high`.
  */
 export interface Config {
-  /** Wire protocol; defaults to messages. Configure through Cordis YAML. */
+  /** Wire protocol; defaults to Chat Completions. Configure through Cordis YAML. */
   protocol?: NuluProtocol
   /** Credential reference (environment-variable name) resolved per request; defaults to `WORLD_APP_TECHNOLOGIES_API_KEY`. */
   apiKeyEnv?: string
@@ -37,7 +37,7 @@ export interface Config {
   maxTokens?: number
   /** Positive context capacity used when the selected model has no exact value (default 1,000,000). */
   defaultContextWindow?: number
-  /** Advisory models shown by discovery consumers; defaults to V41 Flash, V4 Flash, V4 Pro, and V4 Flash Vision Exp. */
+  /** Advisory models shown by discovery consumers; defaults to Nulu 5 Ultra and Nulu 5 Pro. */
   models?: NuluCatalogModel[]
   /** Maximum provider idle time while one stream read is outstanding (default five minutes). */
   streamIdleTimeoutMs?: number
@@ -78,7 +78,7 @@ const catalogModel: z<NuluCatalogModel> = z.object({
 })
 
 export const Config: z<Config> = z.object({
-  protocol: z.union(['chat-completions', 'messages']).default('messages'),
+  protocol: z.union(['chat-completions', 'messages']).default('chat-completions'),
   apiKeyEnv: z.string().role('credential-ref').default(DEFAULT_API_KEY_ENV),
   baseURL: z.string(),
   thinking: z.union(['enabled', 'disabled']),
@@ -101,10 +101,7 @@ export const Config: z<Config> = z.object({
 })
 
 /** Public API default; the internal endpoint comes from $WORLD_APP_TECHNOLOGIES_BASE_URL. */
-export const PUBLIC_BASE_URL = 'https://api.nulu.com'
-
-/** Official Messages protocol root. */
-export const MESSAGES_BASE_URL = 'https://api.nulu.com/anthropic'
+export const PUBLIC_BASE_URL = 'https://platform.worldapptechnologies.com/api/v1'
 
 /** Environment variable naming this provider's endpoint, honored only from trusted layers. */
 const BASE_URL_ENV = 'WORLD_APP_TECHNOLOGIES_BASE_URL'
@@ -204,7 +201,7 @@ function resolveModels(models: readonly NuluCatalogModel[] | undefined): NuluCat
  */
 export function resolveAdapterOptions(config: Config, environment?: LaunchEnvironmentSnapshot): ResolvedNuluOptions {
   // Settings updates can reach this resolver without schema validation.
-  const protocol: string = config.protocol ?? 'messages'
+  const protocol: string = config.protocol ?? 'chat-completions'
   if (protocol !== 'chat-completions' && protocol !== 'messages') {
     throw new Error('llm-gateway: protocol must be chat-completions or messages')
   }
@@ -289,8 +286,11 @@ export function resolveAdapterOptions(config: Config, environment?: LaunchEnviro
     || fileQuotaCleanupBatch > 1_000) {
     throw new Error('llm-gateway: fileQuotaCleanupBatch must be an integer from 1 through 1000')
   }
-  const baseURL = config.baseURL ?? environment?.get(BASE_URL_ENV)?.value
-    ?? (protocol === 'messages' ? MESSAGES_BASE_URL : PUBLIC_BASE_URL)
+  const configuredBaseURL = config.baseURL ?? environment?.get(BASE_URL_ENV)?.value
+  if (protocol === 'messages' && !configuredBaseURL) {
+    throw new Error('llm-gateway: Messages requires an explicit compatible baseURL; the public Nulu API uses Chat Completions')
+  }
+  const baseURL = configuredBaseURL ?? PUBLIC_BASE_URL
   if (protocol === 'messages') {
     const parsed = new URL(baseURL)
     if (!['http:', 'https:'].includes(parsed.protocol) || parsed.username || parsed.password || parsed.search || parsed.hash) {

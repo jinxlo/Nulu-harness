@@ -242,7 +242,7 @@ describe('validated configuration', () => {
     { maxTokens: 0 }, { streamIdleTimeoutMs: 0 },
     { models: [{ id: MODEL, systemPromptUpdate: 'unsupported' }] },
   ])('rejects invalid composition input %#', (value) => {
-    expect(() => resolveAdapterOptions(value as Config)).toThrow()
+    expect(() => resolveAdapterOptions({ protocol: 'messages', baseURL: 'https://messages.example.test', ...value } as Config)).toThrow()
   })
 })
 

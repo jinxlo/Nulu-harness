@@ -8,7 +8,7 @@ kind: "package-reference"
 
 ## Summary
 
-Stream Nulu models through `nulu-5-ultra` with Messages by default, or select Chat Completions in Cordis YAML. Both protocols share credentials, endpoint settings, image handling, and the model catalog. Valid settings changes affect subsequent calls while in-flight calls retain their configuration. Web shows one Nulu provider with an editable API base and key. This package can run beside the [pi-ai adapter](../llm-pi-ai/README.md).
+Stream Nulu models through `nulu-5-ultra` with Chat Completions by default, or select Messages with an explicit compatible endpoint in Cordis YAML. Both protocols share credentials, endpoint settings, image handling, and the model catalog. Valid settings changes affect subsequent calls while in-flight calls retain their configuration. Web shows one Nulu provider with an editable API base and key. This package can run beside the [pi-ai adapter](../llm-pi-ai/README.md).
 
 ## Table of Contents
 
@@ -48,9 +48,9 @@ A request selects the route with `provider: worldapp-gateway`; the model id pass
 
 | Field | Default | Meaning |
 |---|---|---|
-| `protocol` | `messages` | Choose `messages` or `chat-completions` in Cordis YAML; Web has no protocol selector |
+| `protocol` | `chat-completions` | Choose `messages` or `chat-completions` in Cordis YAML; Web has no protocol selector |
 | `apiKeyEnv` | `WORLD_APP_TECHNOLOGIES_API_KEY` | Credential reference resolved per request through the credentials seam, then the environment |
-| `baseURL` | Selected protocol’s official root | Explicit value, then `$WORLD_APP_TECHNOLOGIES_BASE_URL`, then the selected protocol default |
+| `baseURL` | Public Nulu Chat endpoint | Explicit value, then `$WORLD_APP_TECHNOLOGIES_BASE_URL`, then the selected protocol default |
 | `thinking` | `enabled` | Deployment policy; `disabled` locks every request to `off` |
 | `reasoningEffort` | `high` | Default effort: `off`, `low`, `high`, or `max` |
 | `maxTokens` | `256,000` | Per-request output cap; a model's own cap and explicit request values win |
@@ -82,7 +82,7 @@ To select Chat Completions explicitly, patch the existing plugin:
     protocol: chat-completions
 ```
 
-`protocol` defaults to `messages`, with official root `https://api.nulu.com/anthropic`; `chat-completions` uses `https://api.nulu.com`. Shipped first-party compositions inherit this default. Neither protocol requires `baseURL`: its official default applies when both `baseURL` and `$WORLD_APP_TECHNOLOGIES_BASE_URL` are absent. Switching protocols retains endpoint overrides, so users must supply an address compatible with the selected protocol. An explicit `https://api.nulu.com` override selects the Chat root: remove that override to use the official Messages default, or set it to `https://api.nulu.com/anthropic`. Chat appends `/chat/completions`; Messages appends `/v1/messages`. Apart from trailing slashes, neither infers or removes custom path suffixes such as `/v1`. Both share the `llm-gateway` settings section, `apiKeyEnv`, and `nulu-5-ultra`, so saved model selections remain valid.
+`protocol` defaults to `chat-completions`, using `https://platform.worldapptechnologies.com/api/v1` when neither `baseURL` nor `$WORLD_APP_TECHNOLOGIES_BASE_URL` is set. The public Nulu API does not serve Messages. Selecting `messages` requires an explicit compatible `baseURL` or environment override and rejects URLs with credentials, query strings, or fragments. Switching protocols retains endpoint overrides, so supply an address compatible with the selected protocol. Chat appends `/chat/completions`; Messages appends `/v1/messages`. Neither removes custom path suffixes such as `/v1`. Both share the `llm-gateway` settings section and `apiKeyEnv`, so saved model selections remain valid.
 
 Messages sends text, thinking, tool calls, and tool results as content blocks, reasoning effort as `output_config.effort`, and images as Files references or inline base64. Models declaring `systemPromptUpdate: in-history` retain the initial top-level system and send new system snapshots after their corresponding user/tool-result turn; undeclared models use the latest snapshot as the top-level system. Replay metadata identifies the Messages format, model, and signatures. Chat requests serialize durable content without those signatures. Invalid Messages replay metadata emits a warning and omits signatures while retaining text and tool history.
 
@@ -209,7 +209,7 @@ These limits define where the adapter stops and future work begins. They are cur
 - **Plugin-added content block types are skipped** — core text and supported image blocks are serialized, and empty tool output crosses the wire as the literal `(no output)`.
 - **Images are input-only durable attachments** — direct external URLs and assistant image output are not supported; Nulu input normally uses the Files API and uses inline base64 only for per-request recovery.
 - The default catalog pre-registers `nulu-5-ultra` and its text/image and in-history capabilities without probing gateway availability. Requests can fail with `INVALID_REQUEST` until the gateway enables the id. With `WORLD_APP_TECHNOLOGIES_API_KEY` and a supporting gateway configured, `NULU_ULTRA_E2E=1` enables the Chat Completions check in [this package's e2e suite](tests/adapter.e2e.ts).
-- The [Messages system-update e2e checks](tests/messages/adapter.e2e.ts) require `NULU_IN_HISTORY_MODEL` to name a supported model, such as `nulu-5-ultra`, and run with `high` effort. They skip when that variable is unset or empty; ordinary `off` text checks remain enabled with credentials. Known instruction-following instability with thinking disabled makes these system-update checks unsuitable for `off`.
+- All real Messages tests require both `WORLD_APP_TECHNOLOGIES_API_KEY` and a compatible `NULU_MESSAGES_BASE_URL`. The mandatory public API smoke uses Chat Completions. The [Messages system-update e2e checks](tests/messages/adapter.e2e.ts) require `NULU_IN_HISTORY_MODEL` to name a supported model, such as `nulu-5-ultra`, and run with `high` effort. They skip when that variable is unset or empty; ordinary `off` text checks require the explicit endpoint and credentials. Known instruction-following instability with thinking disabled makes these system-update checks unsuitable for `off`.
 
 <a id="dev-note"></a>
 ### Dev Note

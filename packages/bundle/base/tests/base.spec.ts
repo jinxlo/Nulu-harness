@@ -32,6 +32,8 @@ describe('nulu-base bundle', () => {
     )
     expect(rows.length).toBeGreaterThan(50)
     expect(rows.some(row => row.id === 'agent-loop')).toBe(true)
+    expect(rows.filter(row => row.id === 'ptc-runtime-node')).toHaveLength(1)
+    expect(rows.filter(row => row.id === 'workflow-ptc')).toHaveLength(1)
     const telemetry = rows.find(row => row.id === 'session-telemetry-otel')
     if (telemetry === undefined) throw new Error('base patch must mount session-telemetry-otel')
     const telemetryGate = (telemetry.disabled as { __jsExpr?: string } | undefined)?.__jsExpr
