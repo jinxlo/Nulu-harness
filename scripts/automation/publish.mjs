@@ -34,7 +34,7 @@ function unique(name) {
 for (const target of TARGETS) {
   const evidence = JSON.parse(readFileSync(unique(`${target}-evidence.json`), 'utf8'))
   if (evidence.schemaVersion !== 1 || evidence.target !== target || evidence.source !== source || evidence.version !== version
-    || evidence.branding !== 'passed' || evidence.packagedLaunch !== 'passed' || evidence.profileRestart !== 'passed' || evidence.upgrade !== 'passed') throw new Error(`Incomplete or stale native evidence for ${target}`)
+    || evidence.branding !== 'passed' || evidence.updateNotification !== 'passed' || evidence.packagedLaunch !== 'passed' || evidence.profileRestart !== 'passed' || evidence.upgrade !== 'passed') throw new Error(`Incomplete or stale native evidence for ${target}`)
 }
 const assets = [...TARGETS.map(target => installerName(version, target)), ...['arm64', 'x64'].map(arch => `nulu-harness-${version}-mac-${arch}.zip`)]
 for (const name of assets) copyFileSync(unique(name), join(output, name))
