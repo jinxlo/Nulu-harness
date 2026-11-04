@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import test from 'node:test'
 import { brandText, editablePath, readablePath, trustedPath } from './common.mjs'
-import { buildCatalog, installerName, TARGETS, validateCatalog, versionOrder } from './release-catalog.mjs'
+import { buildCatalog, installerName, TARGETS, validateCatalog, validateNativeEvidence, versionOrder } from './release-catalog.mjs'
 import { gatewayModelIds, validateModelPolicy } from './brand-policy.mjs'
 import { adapt } from './adapter.mjs'
 
@@ -13,6 +13,18 @@ test('release ordering rejects downgrades and compares numeric version component
   assert.ok(versionOrder('1.6.1', '1.7.0') < 0)
   assert.equal(versionOrder('1.6.1', '1.6.1'), 0)
   assert.throws(() => versionOrder('next', '1.6.1'))
+})
+
+test('publication rejects native results for another commit or any unfinished required check', () => {
+  const source = 'a'.repeat(40)
+  const evidence = { schemaVersion: 1, target: 'win-x64', version: '1.6.1', source, branding: 'passed', updateNotification: 'passed', packagedLaunch: 'passed', profileRestart: 'passed', upgrade: 'passed' }
+  assert.equal(validateNativeEvidence(evidence, 'win-x64', '1.6.1', source), true)
+  for (const field of ['branding', 'updateNotification', 'packagedLaunch', 'profileRestart', 'upgrade']) {
+    assert.throws(() => validateNativeEvidence({ ...evidence, [field]: 'skipped' }, 'win-x64', '1.6.1', source))
+  }
+  assert.throws(() => validateNativeEvidence(evidence, 'mac-arm64', '1.6.1', source))
+  assert.throws(() => validateNativeEvidence(evidence, 'win-x64', '1.6.2', source))
+  assert.throws(() => validateNativeEvidence(evidence, 'win-x64', '1.6.1', 'b'.repeat(40)))
 })
 
 test('adapter blocks incomplete decisions and forbidden writes without changing policy', async () => {

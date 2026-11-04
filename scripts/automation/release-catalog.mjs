@@ -19,6 +19,13 @@ export function installerName(version, target) {
   return `nulu-harness-${version}-${suffix}`
 }
 
+export function validateNativeEvidence(evidence, target, version, source) {
+  if (evidence?.schemaVersion !== 1 || evidence.target !== target || evidence.source !== source || evidence.version !== version
+    || evidence.branding !== 'passed' || evidence.updateNotification !== 'passed' || evidence.packagedLaunch !== 'passed'
+    || evidence.profileRestart !== 'passed' || evidence.upgrade !== 'passed') throw new Error(`Incomplete or stale native evidence for ${target}`)
+  return true
+}
+
 /** Refuse partial releases, wrong versions, empty payloads, foreign URLs, or missing hashes. */
 export function validateCatalog(catalog) {
   if (catalog?.schemaVersion !== 1 || !/^\d+\.\d+\.\d+$/.test(catalog.version)

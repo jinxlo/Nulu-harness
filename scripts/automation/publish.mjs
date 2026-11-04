@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto'
 import { copyFileSync, createReadStream, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { command, git } from './common.mjs'
-import { buildCatalog, installerName, TARGETS, versionOrder } from './release-catalog.mjs'
+import { buildCatalog, installerName, TARGETS, validateNativeEvidence, versionOrder } from './release-catalog.mjs'
 
 const version = process.env.NULU_RELEASE_VERSION
 const source = process.env.NULU_CANDIDATE_SHA
@@ -33,8 +33,7 @@ function unique(name) {
 }
 for (const target of TARGETS) {
   const evidence = JSON.parse(readFileSync(unique(`${target}-evidence.json`), 'utf8'))
-  if (evidence.schemaVersion !== 1 || evidence.target !== target || evidence.source !== source || evidence.version !== version
-    || evidence.branding !== 'passed' || evidence.updateNotification !== 'passed' || evidence.packagedLaunch !== 'passed' || evidence.profileRestart !== 'passed' || evidence.upgrade !== 'passed') throw new Error(`Incomplete or stale native evidence for ${target}`)
+  validateNativeEvidence(evidence, target, version, source)
 }
 const assets = [...TARGETS.map(target => installerName(version, target)), ...['arm64', 'x64'].map(arch => `nulu-harness-${version}-mac-${arch}.zip`)]
 for (const name of assets) copyFileSync(unique(name), join(output, name))
