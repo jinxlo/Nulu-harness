@@ -1,6 +1,11 @@
 name: Nulu automatic updates
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/nulu-update.yml
+      - scripts/automation/**
   schedule:
     - cron: '23 * * * *'
   workflow_dispatch:
