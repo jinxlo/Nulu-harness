@@ -61,11 +61,12 @@ export function assertTrustedFilesUnchanged(base, root = ROOT) {
   if (protectedChanges.length) throw new Error(`Protected Nulu files changed during qualification: ${protectedChanges.join(', ')}`)
 }
 
-/** Run the package manager that launched this process without a shell. */
+/** Run pnpm without a shell; pnpm exec omits npm_execpath, so POSIX runners use its PATH launcher. */
 export function pnpm(args, options = {}) {
   const entry = process.env.npm_execpath
-  if (!entry) throw new Error('Run automation through pnpm exec node')
-  return command(process.execPath, [entry, ...args], options)
+  return entry
+    ? command(process.execPath, [entry, ...args], options)
+    : command('pnpm', args, options)
 }
 
 export function json(path) { return JSON.parse(readFileSync(join(ROOT, path), 'utf8')) }
