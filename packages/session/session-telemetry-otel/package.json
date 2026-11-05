@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-session-telemetry-otel",
   "description": "OpenTelemetry backend for the Nulu Harness telemetry seam: hands captured session records to the OTel JS SDK's log pipeline",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "publishConfig": {
     "access": "public"
   },

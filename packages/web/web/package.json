@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-web",
   "description": "Abstract web access capability seam (ctx.web) for the Nulu Harness — search/fetch provider registry, registration-order-independent selection, request/result vocabulary, and the WebError taxonomy",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "publishConfig": {
     "access": "public"
   },
