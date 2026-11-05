@@ -26,6 +26,8 @@ The independent heartbeat recognizes a published baseline whose exact release co
 
 The base composition mounts the declared image-offload recovery plugin. The SDK composition regression requires the exact oldest three image occurrences to be offloaded and the retried request to return `DONE` before any fixture refresh can write. Replay metadata retains historical scenario names and explicit recorded model routes. Current-writer prompt and tool sidecars include the shipped Ralph tool; retained older Session inputs remain immutable. Keyless serial-created replay disables external log uploads and excludes the live-only delivery receipt from its current expected output.
 
+Windows installation is sequential: the previous application launches and closes before NSIS replaces its installed directory. Installing both versions before launching the previous one lets NSIS delete the payload that the test is meant to exercise.
+
 ## Alternatives considered
 
 **Merge and rebrand upstream on the default branch.** This exposes incomplete adaptation and can rewrite Nulu policy or publishing controls. Candidate isolation and protected tooling preserve a working release during failures.

@@ -8,11 +8,15 @@ const [currentDirectory, previousDirectory, target, evidence] = process.argv.sli
 if (!currentDirectory || !previousDirectory || !target || !evidence) throw new Error('Usage: install-smoke.mjs <current-assets> <previous-assets> <target> <evidence>')
 const root = mkdtempSync(join(tmpdir(), 'nulu-install-smoke-'))
 
-function unpack(directory, label) {
+function installerFor(directory) {
   const suffix = target === 'win-x64' ? '-win-x64.exe' : target === 'linux-x64' ? '-linux-x86_64.AppImage' : `-${target}.dmg`
   const names = readdirSync(directory).filter(name => name.endsWith(suffix))
   if (names.length !== 1) throw new Error(`Expected one ${target} installer in ${directory}`)
-  const installer = resolve(directory, names[0])
+  return resolve(directory, names[0])
+}
+
+function unpack(directory, label) {
+  const installer = installerFor(directory)
   const destination = join(root, label)
   mkdirSync(destination, { recursive: true })
   if (process.platform === 'linux') {
@@ -34,11 +38,13 @@ function unpack(directory, label) {
 
 try {
   const previous = unpack(resolve(previousDirectory), 'previous')
-  const current = unpack(resolve(currentDirectory), 'current')
+  // NSIS uninstalls the registered previous payload before installing its replacement.
+  const upgradeInstaller = process.platform === 'win32' ? installerFor(resolve(currentDirectory)) : undefined
+  const current = upgradeInstaller === undefined ? unpack(resolve(currentDirectory), 'current') : previous
   if (!existsSync(previous) || !existsSync(current)) throw new Error('Installer did not produce its application executable')
   const version = readdirSync(previousDirectory).map(name => /^nulu-harness-(\d+\.\d+\.\d+)-/.exec(name)?.[1]).find(Boolean)
   if (!version) throw new Error('Cannot determine the previous installer version')
-  command(process.execPath, ['scripts/automation/desktop-smoke.mjs', current, target, resolve(evidence), previous, version], { stdio: 'inherit', timeout: 600000 })
+  command(process.execPath, ['scripts/automation/desktop-smoke.mjs', current, target, resolve(evidence), previous, version, ...upgradeInstaller === undefined ? [] : [upgradeInstaller]], { stdio: 'inherit', timeout: 600000 })
 } finally {
   rmSync(root, { recursive: true, force: true, maxRetries: 3 })
 }
