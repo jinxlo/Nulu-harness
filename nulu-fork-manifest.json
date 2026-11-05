@@ -11,7 +11,7 @@
       "merge_strategy": "preserve-nulu-and-port-compatible-upstream-changes"
     },
     {
-      "file": "packages/llm/llm-gateway/src/index.ts",
+      "file": "packages/llm/llm-gateway/src/common/models.ts",
       "reason": "Nulu model catalog",
       "upstream_behavior": "Ships DeepSeek model entries as DEFAULT_MODELS",
       "nulu_behavior": "DEFAULT_MODELS lists only nulu-5-ultra and nulu-5-pro",
@@ -28,7 +28,7 @@
       "file": "packages/bundle/acp-app/cordis.patch.yml",
       "reason": "ACP default model",
       "upstream_behavior": "Defaults to a DeepSeek model",
-      "nulu_behavior": "Defaults to worldapp-gateway / nulu-5-ultra",
+      "nulu_behavior": "Defaults to worldapp / nulu-5-ultra, the provider mounted by the base bundle",
       "merge_strategy": "preserve-nulu"
     },
     {
@@ -85,6 +85,13 @@
       "reason": "Nulu desktop update copy",
       "upstream_behavior": "Absent update strings",
       "nulu_behavior": "GitHub update prompt strings",
+      "merge_strategy": "preserve-nulu-and-port-compatible-upstream-changes"
+    },
+    {
+      "file": "packages/llm/llm-gateway/src/config.ts",
+      "reason": "Nulu public gateway defaults",
+      "upstream_behavior": "Resolves upstream provider endpoints and credentials",
+      "nulu_behavior": "Resolves the World App Technologies public Chat Completions endpoint and Nulu credentials; Messages requires an explicit endpoint",
       "merge_strategy": "preserve-nulu-and-port-compatible-upstream-changes"
     }
   ],

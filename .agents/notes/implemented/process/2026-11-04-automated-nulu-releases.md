@@ -22,6 +22,8 @@ The recovered archive retains three version-1 artifacts with their original seal
 
 The SDK mounts the actual `worldapp-gateway` route. Its transport fixtures use the public Chat Completions protocol. Historical delivery and search event names remain read-compatible, while new Nulu requests and receipts retain the Nulu event names and endpoint. The schema-v1 hashing namespace remains its original technical identifier; branding never rewrites that identifier or captured persistence history.
 
+The independent heartbeat recognizes a published baseline whose exact release commit remains in `main` after later maintenance commits. Divergent history, draft releases, and missing catalogs leave baseline qualification enabled. Captured persistence history and technical event identifiers retain their original bytes during branding.
+
 ## Alternatives considered
 
 **Merge and rebrand upstream on the default branch.** This exposes incomplete adaptation and can rewrite Nulu policy or publishing controls. Candidate isolation and protected tooling preserve a working release during failures.

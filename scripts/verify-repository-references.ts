@@ -33,6 +33,7 @@ function isMaintained(file: string): boolean {
  * @param source - File text or a symlink's stored target.
  * @param commits - Lowercase, unambiguous full or abbreviated commit identifiers.
  * @returns One finding per line and reference kind; digests and other Git object types are accepted.
+ * Upstream synchronization records retain exact commit identities; organization URLs remain checked.
  */
 export function findRepositoryReferences(
   file: string,
@@ -45,7 +46,9 @@ export function findRepositoryReferences(
     if (organizationUrl.test(canonicalReferenceText(line))) {
       references.push({ file, line: index + 1, kind: 'organization-url' })
     }
-    if ([...line.matchAll(commitCandidate)].some(match => commits.has(match[0].toLowerCase()))) {
+    // Synchronization evidence and its historical plan generator require exact source commits.
+    const recordsCommits = file.startsWith('reports/upstream-sync/') || file === 'scripts/upstream-sync/generate-first-batch.mjs'
+    if (!recordsCommits && [...line.matchAll(commitCandidate)].some(match => commits.has(match[0].toLowerCase()))) {
       references.push({ file, line: index + 1, kind: 'commit-hash' })
     }
   }

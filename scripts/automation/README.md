@@ -22,7 +22,7 @@ Reports are retained as Actions artifacts for 30 days. Native screenshots and up
 
 If publication fails after the `main` update, rerun the failed publish job against its original candidate. Draft upload is idempotent; the publisher refuses to overwrite a public release. Withdraw a bad public release by selecting a previously qualified release for downloads. Installed session data must not be downgraded automatically.
 
-The independent server [watchdog](watchdog.mjs) checks for missed hourly runs and dispatches a replacement after two hours without a completed check. It records its observation locally and reports a stuck run after four hours.
+The independent server [watchdog](watchdog.mjs) checks for missed hourly runs and dispatches a replacement after two hours without a completed check. It records its observation locally and reports a stuck run after four hours. A published baseline switches scheduled updates to `main` once its release commit is verified as an ancestor of `main`, including when later maintenance commits have landed.
 
 ## Validation
 

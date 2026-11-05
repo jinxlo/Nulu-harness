@@ -273,7 +273,7 @@ describe('Messages images', () => {
   })
   it('requires logged offload at exact encoded bytes and preserves durable references', async () => {
     const config = resolveAdapterOptions({
-      models: imageConnection.models,
+      models: [...imageConnection.models],
       maxInlineRequestImageBytes: 4, inlineImageOffloadByteQuantum: 1, maxImagesPerRequest: 2, imageOffloadCountQuantum: 1,
     })
     const history = [result('a', [image, image])]

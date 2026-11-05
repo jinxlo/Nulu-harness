@@ -10,7 +10,7 @@ Ordinary DeepSeek requests do not contain the complete canonical Session traject
 
 `session-log-gateway.Config.enabled` defaults to `true` in every process. An explicit `enabled: false` disables the contribution. The plugin does not inspect test-runner or snapshot environment variables.
 
-This supersedes only the opt-in default in the [request-extension decision](2026-08-21-deepseek-llm-api-request-extensions.md); that note still owns field serialization, destinations, acceptance, and retry semantics. The headless and ACP corpus base patches and Web scaffold explicitly disable upload. Later scenario patches can enable it. The SDK text-turn recording omits the setting and exercises the shipped default, including durable acceptance events.
+This supersedes only the opt-in default in the [request-extension decision](2026-08-21-nulu-llm-api-request-extensions.md); that note still owns field serialization, destinations, acceptance, and retry semantics. The headless and ACP corpus base patches and Web scaffold explicitly disable upload. Later scenario patches can enable it. The SDK text-turn recording omits the setting and exercises the shipped default, including durable acceptance events.
 
 ## Alternatives considered
 

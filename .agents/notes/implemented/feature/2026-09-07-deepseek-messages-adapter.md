@@ -22,7 +22,7 @@ System updates use the existing [route capability](2026-09-02-in-history-system-
 
 Web always displays DeepSeek without a protocol selector. Both protocols share `baseURL` and `apiKeyEnv`, with no nested per-protocol configuration map. Without an endpoint override, resolution uses the selected protocol’s official default; Messages uses `https://api.deepseek.com/anthropic`. Switching retains existing endpoint overrides, whose compatibility belongs to the deployment. One model catalog includes `deepseek-flash` text/image and in-history system capabilities and retains the V4 entries. Explicit `chat-completions` remains supported with its own official default; a custom `baseURL` or environment override is never rewritten to match a protocol.
 
-Both transports use the existing [request-extension registry](../architecture/2026-08-21-deepseek-llm-api-request-extensions.md) after native serialization and accept captured contributions after HTTP 2xx, before reading the stream. Session-log delivery and plugin inventory retain their owners and remain outside model input. The auxiliary [web-search provider](../../../../packages/web/web-search-gateway/README.md) retains its separate endpoint, request, and settings.
+Both transports use the existing [request-extension registry](../architecture/2026-08-21-nulu-llm-api-request-extensions.md) after native serialization and accept captured contributions after HTTP 2xx, before reading the stream. Session-log delivery and plugin inventory retain their owners and remain outside model input. The auxiliary [web-search provider](../../../../packages/web/web-search-gateway/README.md) retains its separate endpoint, request, and settings.
 
 ## Alternatives considered
 

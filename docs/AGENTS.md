@@ -72,4 +72,4 @@ Hunt these in any doc; [nulu-doc](../.agents/skills/nulu-doc/SKILL.md) runs this
 
 ## Repository references
 
-Use relative Markdown links for current files and tags or PR numbers for historical references. `verify-md-links` checks local targets. [Reference validation](../scripts/verify-repository-references.ts) rejects actual commit identifiers and disallowed organization URLs in maintained files.
+Use relative Markdown links for current files and tags or PR numbers for historical references. `verify-md-links` checks local targets. [Reference validation](../scripts/verify-repository-references.ts) rejects actual commit identifiers and disallowed organization URLs in maintained files. Synchronization reports and their plan generator retain exact source commits; repository URLs remain checked.

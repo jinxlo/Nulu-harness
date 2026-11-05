@@ -1,3 +1,4 @@
+import { isPromotedBaseline } from './watchdog-policy.mjs'
 import assert from 'node:assert/strict'
 import { mkdtempSync, mkdirSync, renameSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
@@ -146,4 +147,21 @@ test('qualification permits only the allocated version in the protected brand ma
   assert.throws(() => assertTrustedFilesUnchanged(base, root, '1.6.2'), /Protected Nulu/)
   write({ ...manifest, version: '1.6.1', name: 'foreign-brand' })
   assert.throws(() => assertTrustedFilesUnchanged(base, root, '1.6.1'), /Protected Nulu/)
+})
+
+
+test('watchdog completes the baseline after later main commits but rejects divergent release history', () => {
+  const source = 'a'.repeat(40)
+  const release = { target_commitish: source, draft: false, prerelease: false, assets: [{ name: 'nulu-release.json' }] }
+  const comparison = { status: 'ahead', base_commit: { sha: source }, merge_base_commit: { sha: source } }
+  assert.equal(isPromotedBaseline(release, comparison), true)
+  assert.equal(isPromotedBaseline(release, { ...comparison, status: 'identical' }), true)
+  assert.equal(isPromotedBaseline(release, { ...comparison, status: 'diverged' }), false)
+  assert.equal(isPromotedBaseline(release, { ...comparison, merge_base_commit: { sha: 'b'.repeat(40) } }), false)
+  assert.equal(isPromotedBaseline(release, { ...comparison, base_commit: { sha: 'b'.repeat(40) } }), false)
+  assert.equal(isPromotedBaseline({ ...release, draft: true }, comparison), false)
+  assert.equal(isPromotedBaseline({ ...release, prerelease: true }, comparison), false)
+  assert.equal(isPromotedBaseline({ ...release, assets: [] }, comparison), false)
+  assert.equal(isPromotedBaseline({ ...release, target_commitish: 'main' }, comparison), false)
+  assert.equal(isPromotedBaseline(release, undefined), false)
 })

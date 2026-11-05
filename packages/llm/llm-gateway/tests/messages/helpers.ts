@@ -40,7 +40,7 @@ export async function assemble(stream: AsyncIterable<StreamChunk>, model = MODEL
 }
 export function adapter(config: Config = {}) {
   const files = new NuluFileStore()
-  return new NuluMessagesAdapter({ connection: () => resolveAdapterOptions({ protocol: 'messages', baseURL: 'https://messages.example.test', ...config }), apiKey: () => Promise.resolve('test-key'), userId: () => 'test-user', attachments: () => undefined, imageAccess: () => undefined, files: () => files, prepareExtensions })
+  return new NuluMessagesAdapter({ connection: () => resolveAdapterOptions(Object.assign({ protocol: 'messages' as const, baseURL: 'https://messages.example.test' }, config)), apiKey: () => Promise.resolve('test-key'), userId: () => 'test-user', attachments: () => undefined, imageAccess: () => undefined, files: () => files, prepareExtensions })
 }
 export async function server(reply: (response: ServerResponse, count: number) => void = response => response.end(sse(textEvents))) {
   const requests: { path: string; headers: IncomingHttpHeaders; body: Record<string, unknown> }[] = []

@@ -111,6 +111,19 @@ describe('maintained repository reference policy', () => {
     expect(scanRepositoryReferences(fixture.root)).toEqual([])
   })
 
+  it('retains synchronization commit evidence while checking its repository URLs and adjacent maintained files', () => {
+    const commit = 'a'.repeat(40)
+    for (const file of ['reports/upstream-sync/first-batch/metadata.json', 'scripts/upstream-sync/generate-first-batch.mjs']) {
+      expect(findRepositoryReferences(file, commit, new Set([commit]))).toEqual([])
+      expect(findRepositoryReferences(file, organizationUrl, new Set([commit])))
+        .toEqual([{ file, line: 1, kind: 'organization-url' }])
+    }
+    for (const file of ['reports/maintained.md', 'scripts/upstream-sync/validate.mjs', 'docs/upstream-sync.md']) {
+      expect(findRepositoryReferences(file, commit, new Set([commit])))
+        .toEqual([{ file, line: 1, kind: 'commit-hash' }])
+    }
+  })
+
   it('excludes only ignored new files, vendored sources, frozen notes, and deleted files', (test) => {
     const fixture = repository(test)
     fixture.write('.gitignore', 'ignored.md\ntracked-ignore.md\n')
