@@ -54,10 +54,17 @@ export function command(executable, args, options = {}) {
 export function git(args, options) { return command('git', args, options).trim() }
 
 /** Reject source or build steps that alter protected release controls after restoration. */
-export function assertTrustedFilesUnchanged(base, root = ROOT) {
+export function assertTrustedFilesUnchanged(base, root = ROOT, releaseVersion) {
   const changed = command('git', ['diff', '--no-renames', '--name-only', '-z', base, '--'], { cwd: root }).split('\0')
   const added = command('git', ['ls-files', '--others', '--exclude-standard', '-z'], { cwd: root }).split('\0')
-  const protectedChanges = [...new Set([...changed, ...added].filter(trustedPath))]
+  const protectedChanges = [...new Set([...changed, ...added].filter(trustedPath))].filter(path => {
+    if (path !== 'packages/client/ui-brand/package.json' || !/^\d+\.\d+\.\d+$/.test(releaseVersion ?? '')) return true
+    const original = JSON.parse(command('git', ['show', `${base}:${path}`], { cwd: root }))
+    const absolute = join(root, path)
+    const info = lstatSync(absolute)
+    const expected = `${JSON.stringify({ ...original, version: releaseVersion }, null, 2)}\n`
+    return !info.isFile() || (info.mode & 0o111) !== 0 || readFileSync(absolute, 'utf8') !== expected
+  })
   if (protectedChanges.length) throw new Error(`Protected Nulu files changed during qualification: ${protectedChanges.join(', ')}`)
 }
 

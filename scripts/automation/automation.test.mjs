@@ -123,3 +123,26 @@ test('pnpm exec automation can run package commands without npm_execpath', () =>
   const version = command(process.execPath, ['--input-type=module', '-e', script], { env: environment, timeout: 30000 }).trim()
   assert.match(version, /^\d+\.\d+\.\d+$/)
 })
+
+
+test('qualification permits only the allocated version in the protected brand manifest', t => {
+  const root = mkdtempSync(join(tmpdir(), 'nulu-brand-version-test-'))
+  t.after(() => rmSync(root, { recursive: true, force: true }))
+  const run = args => command('git', args, { cwd: root })
+  run(['init', '--quiet'])
+  const directory = join(root, 'packages/client/ui-brand')
+  mkdirSync(directory, { recursive: true })
+  const file = join(directory, 'package.json')
+  const manifest = { name: '@worldapptechnologies/nulu-client-ui-brand-official', version: '1.6.0' }
+  const write = value => writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`)
+  write(manifest)
+  run(['add', '.'])
+  run(['-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid', 'commit', '--quiet', '-m', 'Fixture'])
+  const base = run(['rev-parse', 'HEAD']).trim()
+  write({ ...manifest, version: '1.6.1' })
+  assert.throws(() => assertTrustedFilesUnchanged(base, root), /Protected Nulu/)
+  assert.doesNotThrow(() => assertTrustedFilesUnchanged(base, root, '1.6.1'))
+  assert.throws(() => assertTrustedFilesUnchanged(base, root, '1.6.2'), /Protected Nulu/)
+  write({ ...manifest, version: '1.6.1', name: 'foreign-brand' })
+  assert.throws(() => assertTrustedFilesUnchanged(base, root, '1.6.1'), /Protected Nulu/)
+})
