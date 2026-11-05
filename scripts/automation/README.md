@@ -18,6 +18,8 @@ The isolated `automation/windows-installer-diagnostics` branch runs the exact fa
 
 The same diagnostic branch verifies the coding worker through the live Nulu API. Its probe removes file-writing tools, rejects unexpected tools before execution, allows only the root package manifest read, and requires a later completion to report the observed package identity. The repository remains unchanged and the workflow cannot publish.
 
+An upstream-response comparison prepares the normal isolated merge, records response token counts and tool names, and compares an explicit tool request with disabled thinking. It stops before either model response executes tools. Response content and credentials are excluded from logs, and the workflow cannot publish.
+
 The publisher stages a draft release, downloads and verifies its bytes, rejects concurrent changes to `main`, advances the qualified commit, and promotes the release. Published assets are immutable. The website reads `nulu-release.json` and retains its existing complete download list if the catalog is invalid or unavailable.
 
 ## Failure recovery

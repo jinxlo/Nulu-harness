@@ -1,0 +1,80 @@
+name: Diagnose upstream worker responses
+
+on:
+  push:
+    branches: [automation/windows-installer-diagnostics]
+    paths: [.github/workflows/nulu-adapter-response-diagnostics.yml]
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: bash scripts/prepare-ci-bubblewrap.sh
+      - name: Identify the disposable diagnostic checkout
+        run: |
+          git config user.name 'Nulu update diagnostics'
+          git config user.email 'nulu-release@users.noreply.github.com'
+      - name: Compare the real upstream request without executing model tools
+        env:
+          WORLD_APP_TECHNOLOGIES_API_KEY: ${{ secrets.WORLD_APP_TECHNOLOGIES_API_KEY_EXTERNAL }}
+          NULU_BASELINE_RELEASE: 'false'
+        run: |
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict'
+          const realFetch = globalThis.fetch
+          let captured = false
+          function metrics(payload) {
+            const choice = payload.choices?.[0]
+            const message = choice?.message
+            return {
+              finishReason: choice?.finish_reason,
+              usage: payload.usage,
+              contentBytes: Buffer.byteLength(message?.content ?? ''),
+              reasoningBytes: Buffer.byteLength(message?.reasoning_content ?? ''),
+              tools: message?.tool_calls?.map(call => call.function?.name) ?? [],
+            }
+          }
+          globalThis.fetch = async (url, options) => {
+            const response = await realFetch(url, options)
+            if (String(url) !== 'https://platform.worldapptechnologies.com/api/v1/chat/completions') return response
+            assert.equal(response.status, 200)
+            const original = await response.json()
+            console.log('ORIGINAL_WORKER_RESPONSE', JSON.stringify(metrics(original)))
+            const body = { ...JSON.parse(options.body), thinking: { type: 'disabled' }, tool_choice: 'required' }
+            const comparison = await realFetch(url, { ...options, body: JSON.stringify(body), signal: AbortSignal.timeout(180000) })
+            console.log('COMPARISON_HTTP_STATUS', comparison.status)
+            assert.equal(comparison.status, 200)
+            const changed = await comparison.json()
+            console.log('EXPLICIT_TOOL_WORKER_RESPONSE', JSON.stringify(metrics(changed)))
+            const calls = changed.choices?.[0]?.message?.tool_calls
+            assert.ok(Array.isArray(calls) && calls.length > 0, 'The comparison must return an executable tool decision')
+            for (const call of calls) JSON.parse(call.function.arguments)
+            captured = true
+            throw new Error('DIAGNOSTIC_COMPLETE_NO_MODEL_TOOLS_EXECUTED')
+          }
+          await import('./scripts/automation/prepare-update.mjs')
+          assert.ok(captured, 'The diagnostic must reach the real worker request')
+          process.exitCode = 0
+          console.log('PASS: response comparison captured; neither response executed model tools or published a candidate')
+          NODE
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: worker-response-report
+          path: reports/upstream-sync/automation.json
+          retention-days: 7

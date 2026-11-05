@@ -32,6 +32,8 @@ An isolated Windows diagnostic branch reuses the exact failed candidate and deli
 
 The live coding-worker probe permits only a package-manifest read and completion after the model receives its result. The request omits file-writing tools and responses reject unexpected calls before execution. Exact observed package identity and a clean Git checkout verify the conversation without adapting or publishing source.
 
+The upstream-response diagnostic compares the normal merged-batch request with an explicit tool request using disabled thinking. It records token counts and tool names without response content, then stops before executing either model response. The isolated checkout has no publication permissions.
+
 Native branding checks complete the first-run notice and expand the collapsed sidebar before measuring the candidate wordmark. Startup screenshots remain available when those checks fail. The wordmark canvas contains the complete label on supported system fonts; previous releases retain their own artwork while their version and Nulu identity are checked. Cosmetic notice copy omits an obsolete application version without resetting existing acknowledgements.
 
 ## Alternatives considered
