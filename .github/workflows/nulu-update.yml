@@ -97,7 +97,12 @@ jobs:
       - run: pnpm run build:official
       - run: pnpm run lint:contracts-ready
       - run: pnpm run doc-sync
-      - run: pnpm run test:coverage
+      - name: Exhaustive coverage with the repository CI budget
+        env:
+          NULU_COVERAGE_MAX_WORKERS: '3'
+          NULU_COVERAGE_TEST_TIMEOUT_MS: '90000'
+          NULU_GATE_CONCURRENCY: '2'
+        run: pnpm run check:ci:coverage
       - run: pnpm run test:snapshot
       - run: pnpm --filter @worldapptechnologies/nulu-benchmarks exec playwright install --with-deps chromium
       - run: pnpm run test:web:built
@@ -107,7 +112,7 @@ jobs:
         run: pnpm exec node scripts/automation/api-smoke.mjs
 
   desktop:
-    needs: [prepare, quality]
+    needs: [prepare]
     if: needs.prepare.outputs.changed == 'true'
     name: Qualify ${{ matrix.target }}
     runs-on: ${{ matrix.runner }}

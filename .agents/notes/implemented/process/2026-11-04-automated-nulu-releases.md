@@ -8,7 +8,7 @@ The Nulu release history and default branch differ. Upstream sync is manual, its
 
 ## Decision
 
-The [update workflow](../../../../.github/workflows/nulu-update.yml) qualifies an isolated candidate before promotion. The [automation implementation](../../../../scripts/automation/README.md) owns batching, protected files, model adaptation, version identity, real API verification, native installation tests, hosted checksum verification and release publication. A configurable trusted source ref permits baseline repairs to be tested before the application history is promoted to the default branch.
+The [update workflow](../../../../.github/workflows/nulu-update.yml) qualifies an isolated candidate before promotion. The [automation implementation](../../../../scripts/automation/README.md) owns batching, protected files, model adaptation, version identity, real API verification, native installation tests, hosted checksum verification and release publication. A configurable trusted source ref permits baseline repairs to be tested before the application history is promoted to the default branch. Native builds and exhaustive source checks run concurrently after basic preparation; publication still requires both. Coverage uses the repository aggregate and its existing instrumentation budget.
 
 Preparation verifies protected Nulu files after each qualification command, including dependency lifecycle scripts. Changes, removals, renames, and newly introduced protected files stop the candidate before its release checkpoint is written. A temporary Git fixture exercises those rejection paths.
 
