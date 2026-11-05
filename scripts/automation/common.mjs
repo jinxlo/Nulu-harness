@@ -16,6 +16,27 @@ export function trustedPath(path) {
   return /^(?:\.github\/|\.agents\/notes\/archived\/|packages\/client\/ui-brand\/|scripts\/automation\/|scripts\/upstream-sync\/|scripts\/(?:sync-upstream\.sh|rebrand-upstream\.mjs)$|(?:upstream-policy\.yml|nulu-fork-manifest\.json|UPSTREAM_POLICY\.md|UPSTREAM_SYNC\.md|AGENTS\.md|CLAUDE\.md)$)/.test(path)
 }
 
+/**
+ * Identify captured parent and child Session generations, including compressed files.
+ * @param path - repository-relative file name.
+ * @returns whether the file names a retained Session generation.
+ */
+export function sessionGenerationPath(path) {
+  return /(?:^|\/)session(?:\.\d+)?(?:\.v\d+)?\.jsonl(?:\.zstd)?$/.test(path)
+}
+
+/**
+ * Select product files for mechanical branding without rewriting historical readers or data.
+ * @param path - repository-relative file name.
+ * @returns whether product-name rewriting is permitted.
+ */
+export function brandablePath(path) {
+  return !trustedPath(path) && !sessionGenerationPath(path)
+    && !/^(?:vendor\/|\.agents\/notes\/|snapshots\/|reports\/|docs\/persistence-changes\/|apps\/cli\/reference\/)/.test(path)
+    && !/(?:^|\/)(?:LICENSE|NOTICE|THIRD_PARTY|CHANGELOG)/i.test(path)
+    && !['docs/persistence-catalog.md', 'scripts/persistence-formats.ts', 'scripts/persistence-releases.ts', 'scripts/translation-pairing.ts', 'scripts/verify-concrete-terms.ts'].includes(path)
+}
+
 /** Read only repository source and public configuration, never credentials or dependency trees. */
 export function readablePath(path, root = ROOT) {
   if (typeof path !== 'string' || isAbsolute(path) || path.includes('\\')
@@ -56,11 +77,18 @@ export function command(executable, args, options = {}) {
 
 export function git(args, options) { return command('git', args, options).trim() }
 
-/** Reject source or build steps that alter protected release controls after restoration. */
+/**
+ * Reject source or build steps that alter protected release controls or retained Session inputs.
+ * @param base - trusted Nulu source commit.
+ * @param root - isolated qualification checkout.
+ * @param releaseVersion - allocated version permitted in the protected brand manifest.
+ * @returns normally only when protected bytes and the optional version change match.
+ */
 export function assertTrustedFilesUnchanged(base, root = ROOT, releaseVersion) {
   const changed = command('git', ['diff', '--no-renames', '--name-only', '-z', base, '--'], { cwd: root }).split('\0')
   const added = command('git', ['ls-files', '--others', '--exclude-standard', '-z'], { cwd: root }).split('\0')
-  const protectedChanges = [...new Set([...changed, ...added].filter(trustedPath))].filter(path => {
+  const history = new Set(command('git', ['ls-tree', '-r', '--name-only', '-z', base], { cwd: root }).split('\0').filter(sessionGenerationPath))
+  const protectedChanges = [...new Set([...changed, ...added].filter(path => trustedPath(path) || history.has(path)))].filter(path => {
     if (path !== 'packages/client/ui-brand/package.json' || !/^\d+\.\d+\.\d+$/.test(releaseVersion ?? '')) return true
     const original = JSON.parse(command('git', ['show', `${base}:${path}`], { cwd: root }))
     const absolute = join(root, path)
@@ -98,11 +126,12 @@ export function brandText(text, { providerFixture = false } = {}) {
     ['DEEPSEEK_API_KEY', 'WORLD_APP_TECHNOLOGIES_API_KEY'],
     ['DEEPSEEK_BASE_URL', 'WORLD_APP_TECHNOLOGIES_BASE_URL'],
     ['DSH_', 'NULU_'], ['~/.dsh', '~/.nulu'],
+    ['--dsh-', '--nulu-'], ['deepseekLlmApiExtensions', 'nuluLlmApiExtensions'], ['dsh_plugin_packages', 'nulu_plugin_packages'],
   ]
   for (const [from, to] of replacements) {
     if (providerFixture && from.startsWith('DEEPSEEK_')) continue
     if (from === 'session-log-deepseek') text = text.replace(/session-log-deepseek(?!\/delivery-accepted\b)/g, to)
     else text = text.split(from).join(to)
   }
-  return text.replace(/(?<![\w-])dsh(?![\w-])/g, 'nulu')
+  return text
 }

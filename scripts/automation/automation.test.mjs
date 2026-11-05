@@ -10,6 +10,7 @@ import { buildCatalog, installerName, TARGETS, validateCatalog, validateNativeEv
 import { gatewayModelIds, validateModelPolicy } from './brand-policy.mjs'
 import { adapt } from './adapter.mjs'
 import { runInstaller } from './run-installer.mjs'
+import './normalize-merge.test.mjs'
 
 async function until(predicate) {
   const deadline = Date.now() + 10000

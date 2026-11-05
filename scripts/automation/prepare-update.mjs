@@ -3,6 +3,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { adapt } from './adapter.mjs'
 import { rebrandTree } from './brand-tree.mjs'
+import { normalizeUpstreamMerge } from './normalize-merge.mjs'
 import { versionOrder } from './release-catalog.mjs'
 import { ROOT, REPORT, assertTrustedFilesUnchanged, command, git, json, pnpm, trustedPath } from './common.mjs'
 
@@ -93,8 +94,12 @@ try {
         if (!git(['diff', '--name-only', '--diff-filter=U'])) throw error
       }
       restoreTools()
+      report.normalization = normalizeUpstreamMerge(base)
       rebrandTree()
-      report.adaptation = await adapt({ base, upstream: target, details: `Implement all compatible changes in this batch.\n${diff}\n${patch}\nUnresolved paths:\n${git(['diff', '--name-only', '--diff-filter=U'])}` })
+      const unresolved = git(['diff', '--name-only', '--diff-filter=U'])
+      report.adaptation = unresolved
+        ? await adapt({ base, upstream: target, details: `Implement all compatible changes in this batch.\n${diff}\n${patch}\nUnresolved paths:\n${unresolved}` })
+        : { status: 'not-required', summary: 'The branded Git merge is clean; mandatory qualification determines whether repairs are needed.' }
       for (const path of git(['diff', '--name-only', '--diff-filter=U']).split('\n').filter(Boolean)) {
         if (existsSync(join(ROOT, path)) && /^(?:<<<<<<<|=======|>>>>>>>)/m.test(readFileSync(join(ROOT, path), 'utf8'))) throw new Error(`Unresolved merge conflict: ${path}`)
       }

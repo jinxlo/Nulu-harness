@@ -1,14 +1,13 @@
 /** Transform tracked UTF-8 product files while preserving Nulu-owned release controls. */
 import { existsSync, lstatSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { ROOT, brandText, git, json, trustedPath } from './common.mjs'
+import { ROOT, brandText, brandablePath, git, json } from './common.mjs'
 
 export function rebrandTree({ check = false } = {}) {
   const manifest = json('nulu-fork-manifest.json')
   const changed = []
   for (const path of git(['ls-files', '-z']).split('\0').filter(Boolean)) {
-    if (trustedPath(path) || path.startsWith('docs/persistence-changes/') || /^(?:vendor\/|\.agents\/notes\/|snapshots\/|reports\/)/.test(path)
-      || /(?:^|\/)(?:LICENSE|NOTICE|THIRD_PARTY|CHANGELOG)/i.test(path)) continue
+    if (!brandablePath(path)) continue
     const absolute = join(ROOT, path)
     if (!existsSync(absolute) || !lstatSync(absolute).isFile()) continue
     if ((manifest.removed_upstream_packages ?? []).some(removed => path.startsWith(`${removed}/`))) {
