@@ -46,8 +46,10 @@ export function findRepositoryReferences(
     if (organizationUrl.test(canonicalReferenceText(line))) {
       references.push({ file, line: index + 1, kind: 'organization-url' })
     }
-    // Synchronization evidence and its historical plan generator require exact source commits.
-    const recordsCommits = file.startsWith('reports/upstream-sync/') || file === 'scripts/upstream-sync/generate-first-batch.mjs'
+    // Synchronization evidence, its plan generator, and the live checkpoint require exact commits.
+    const recordsCommits = file.startsWith('reports/upstream-sync/')
+      || file === 'scripts/upstream-sync/generate-first-batch.mjs'
+      || file === 'scripts/automation/upstream-state.json'
     if (!recordsCommits && [...line.matchAll(commitCandidate)].some(match => commits.has(match[0].toLowerCase()))) {
       references.push({ file, line: index + 1, kind: 'commit-hash' })
     }

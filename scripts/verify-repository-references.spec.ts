@@ -124,6 +124,23 @@ describe('maintained repository reference policy', () => {
     }
   })
 
+  it('retains exact automation checkpoints while inspecting sibling records and repository URLs', (test) => {
+    const fixture = repository(test)
+    const checkpoint = 'scripts/automation/upstream-state.json'
+    const sibling = 'scripts/automation/upstream-state.backup.json'
+    fixture.write(checkpoint, JSON.stringify({ schemaVersion: 1, integrated: fixture.commit, observed: fixture.commit }))
+    fixture.write(sibling, fixture.commit)
+    expect(scanRepositoryReferences(fixture.root)).toEqual([
+      { file: sibling, line: 1, kind: 'commit-hash' },
+    ])
+    fixture.write(checkpoint, JSON.stringify({ integrated: fixture.commit, url: organizationUrl }))
+    expect(scanRepositoryReferences(fixture.root)).toEqual(expect.arrayContaining([
+      { file: checkpoint, line: 1, kind: 'organization-url' },
+      { file: sibling, line: 1, kind: 'commit-hash' },
+    ]))
+    expect(scanRepositoryReferences(fixture.root)).toHaveLength(2)
+  })
+
   it('excludes only ignored new files, vendored sources, frozen notes, and deleted files', (test) => {
     const fixture = repository(test)
     fixture.write('.gitignore', 'ignored.md\ntracked-ignore.md\n')
