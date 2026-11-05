@@ -1,7 +1,7 @@
 /** Merge branded source with Git while retaining Nulu's documentation and captured-data policies. */
-import { lstatSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { lstatSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
+import { basename, join } from 'node:path'
 import { ROOT, brandablePath, brandText, command, readablePath, sessionGenerationPath } from './common.mjs'
 
 function regularFile(root, path) {
@@ -42,6 +42,22 @@ export function normalizeUpstreamMerge(base, { root = ROOT } = {}) {
     if (retiredMirror(path, tracked) && regularFile(root, path)) {
       run(['rm', '-f', '--ignore-unmatch', '--', path])
       result.retired.push(path)
+      if (path.endsWith('.zh.md')) {
+        const english = path.slice(0, -6) + '.md'
+        if (!regularFile(root, english) || run(['ls-files', '--unmerged', '--', english])) continue
+        const lines = readFileSync(join(root, english), 'utf8').split('\n')
+        const banner = `English | [中文](${basename(path)})`
+        // Only the known title/status header admits automatic removal; body links remain checked.
+        const index = lines[0]?.startsWith('# ') && lines[1] === ''
+          ? lines[2] === banner ? 2
+            : lines[2]?.startsWith('Status: ') && lines[3] === '' && lines[4] === banner ? 4 : -1
+          : -1
+        if (index >= 0) {
+          lines.splice(index, lines[index + 1] === '' ? 2 : 1)
+          writeFileSync(join(root, english), lines.join('\n'))
+          run(['add', '--', english])
+        }
+      }
     }
   }
   for (const path of names(['diff', '--no-renames', '--name-only', '-z', base])) {

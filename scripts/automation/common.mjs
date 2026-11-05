@@ -128,6 +128,7 @@ export function brandText(text, { providerFixture = false } = {}) {
     ['DSH_', 'NULU_'], ['~/.dsh', '~/.nulu'],
     ['--dsh-', '--nulu-'], ['deepseekLlmApiExtensions', 'nuluLlmApiExtensions'], ['dsh_plugin_packages', 'nulu_plugin_packages'],
     ['dsh.terminal.', 'nulu.terminal.'], ['dsh.sidebar-right.', 'nulu.sidebar-right.'],
+    ['dsh-shell-', 'nulu-shell-'],
   ]
   for (const [from, to] of replacements) {
     if (providerFixture && from.startsWith('DEEPSEEK_')) continue

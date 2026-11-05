@@ -27,6 +27,7 @@ function qualify() {
   const steps = [
     ['policy', () => command(process.execPath, ['scripts/upstream-sync/validate.mjs', '--json'], { env: environment })],
     ['dependencies', () => pnpm(['install', '--frozen-lockfile'], { env: environment })],
+    ['generated-persistence-reference', () => pnpm(['run', 'gen-persistence-catalog'], { env: environment })],
     ['build', () => pnpm(['run', 'build:official'], { env: environment })],
     ['desktop-and-catalog', () => pnpm(['exec', 'vitest', 'run', 'apps/desktop/tests', 'packages/llm/llm-pi-ai/tests/catalog.spec.ts', '--maxWorkers=2'], { env: environment })],
   ]
