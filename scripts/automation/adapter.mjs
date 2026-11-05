@@ -22,14 +22,17 @@ export async function adapt({ base, upstream, details, fetchImpl = fetch, apiKey
   for (let turn = 0; turn < 30; turn += 1) {
     const response = await fetchImpl('https://platform.worldapptechnologies.com/api/v1/chat/completions', {
       method: 'POST', headers: { authorization: `Bearer ${key}`, 'content-type': 'application/json' },
-      body: JSON.stringify({ model: process.env.NULU_AUTOMATION_MODEL || 'nulu-5-ultra', messages, tools, max_tokens: 16000 }),
+      body: JSON.stringify({ model: process.env.NULU_AUTOMATION_MODEL || 'nulu-5-ultra', messages, tools, tool_choice: 'required', thinking: { type: 'disabled' }, max_tokens: 16000 }),
       signal: AbortSignal.timeout(180000),
     })
     if (!response.ok) throw new Error(`Adaptation API returned HTTP ${response.status}`)
     const payload = await response.json()
-    const message = payload.choices?.[0]?.message
+    const choice = payload.choices?.[0]
+    const message = choice?.message
+    const outcome = `finish_reason=${choice?.finish_reason ?? 'missing'}, completion_tokens=${payload.usage?.completion_tokens ?? 'unknown'}`
+    if (choice?.finish_reason === 'length') throw new Error(`Adaptation exceeded its output budget (${outcome})`)
     if (!message || !Array.isArray(message.tool_calls) || message.tool_calls.length === 0) {
-      throw new Error('Adaptation returned no executable decision')
+      throw new Error(`Adaptation returned no executable decision (${outcome})`)
     }
     messages.push(message)
     let decision

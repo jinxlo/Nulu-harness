@@ -88,6 +88,36 @@ test('adapter blocks incomplete decisions and forbidden writes without changing 
   assert.deepEqual(success.changed, [])
 })
 
+test('adapter requires executable tool decisions without implicit thinking', async () => {
+  const result = await adapt({
+    base: 'a'.repeat(40), upstream: 'b'.repeat(40), details: 'Fixture update', apiKey: 'fixture-only-key',
+    fetchImpl: async (_url, request) => {
+      const body = JSON.parse(request.body)
+      assert.equal(body.tool_choice, 'required')
+      assert.deepEqual(body.thinking, { type: 'disabled' })
+      return Response.json({ choices: [{ finish_reason: 'tool_calls', message: { role: 'assistant', tool_calls: [{ id: 'finish', type: 'function', function: { name: 'finish', arguments: JSON.stringify({ status: 'completed', summary: 'No change required' }) } }] } }] })
+    },
+  })
+  assert.equal(result.status, 'completed')
+})
+
+test('adapter rejects truncated decisions before executing even a complete finish call', async () => {
+  await assert.rejects(adapt({
+    base: 'a'.repeat(40), upstream: 'b'.repeat(40), details: 'Fixture update', apiKey: 'fixture-only-key',
+    fetchImpl: async () => Response.json({
+      usage: { completion_tokens: 16000 },
+      choices: [{ finish_reason: 'length', message: {
+        role: 'assistant', content: 'private fixture content', reasoning_content: 'private fixture reasoning',
+        tool_calls: [{ id: 'finish', type: 'function', function: { name: 'finish', arguments: JSON.stringify({ status: 'completed', summary: 'Incomplete response' }) } }],
+      } }],
+    }),
+  }), error => {
+    assert.match(error.message, /output budget.*finish_reason=length.*completion_tokens=16000/)
+    assert.doesNotMatch(error.message, /private fixture|fixture-only-key/)
+    return true
+  })
+})
+
 test('model policy rejects foreign IDs even alongside valid Nulu IDs', () => {
   const gateway = "const DEFAULT_MODELS = [{id: 'nulu-5-ultra'}]"
   const bundle = '- insert:\n  - id: llm-pi-ai\n    config:\n      providers:\n        worldapp:\n          baseURL: https://platform.worldapptechnologies.com/api/v1\n          apiKeyEnv: WORLD_APP_TECHNOLOGIES_API_KEY\n          models:\n          - id: nulu-5-ultra\n'

@@ -12,6 +12,10 @@ The [update workflow](../../../../.github/workflows/nulu-update.yml) qualifies a
 
 Preparation verifies protected Nulu files after each qualification command, including dependency lifecycle scripts. Changes, removals, renames, and newly introduced protected files stop the candidate before its release checkpoint is written. A temporary Git fixture exercises those rejection paths.
 
+The coding worker requires a tool decision on every response. Requests explicitly disable thinking and require tool selection; this combination is accepted by the live Nulu API. Output exhaustion rejects the entire response before any tool executes, including a complete-looking finish call. Missing decisions and exhausted budgets expose finish reason and token count without logging model content or reasoning. Source qualification and protected-file checks remain mandatory.
+
+The exact upstream checkpoint retains its required commit identifiers in full-history checkouts. The [repository reference decision](2026-09-12-maintained-repository-references.md) permits that state file while continuing to inspect adjacent records and repository URLs.
+
 Qualification tests both the direct gateway and the shipped CLI against the public Nulu API. The direct gateway defaults to Chat Completions at the public endpoint; Messages requires an explicit compatible endpoint because the public Messages route returns HTTP 404. This overrides only the upstream [Messages adapter decision](../feature/2026-09-07-deepseek-messages-adapter.md) on default protocol and endpoint; its replay and transport design remains active. The base bundle also supplies the Node PTC runtime required by its workflow engine, preventing inactive workflow tools.
 
 The workflow preserves the current unsigned developer-preview channel. Signed installation remains dependent on explicit signing infrastructure. The [existing desktop packaging decision](../architecture/2026-08-25-electron-desktop-packaging-and-updates.md) continues to own runtime release identity and signing requirements; this note adds unattended qualification and download promotion.
