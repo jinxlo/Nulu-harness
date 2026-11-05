@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-web-frontend",
   "description": "Web application entry: vite build over the @worldapptechnologies/nulu-client-web shell library; dist/ served by apps/cli's nulu web",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "publishConfig": {
     "access": "public"
   },
