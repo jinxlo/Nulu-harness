@@ -494,7 +494,7 @@ describe('web-search-gateway plugin registration', () => {
       const [url, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit]
       expect(url).toBe('https://platform.worldapptechnologies.com/api/v1/messages')
       expect((init.headers as Record<string, string>)['x-api-key']).toBe('env-key')
-      expect(JSON.parse(init.body as string)).toMatchObject({ model: 'nulu-5' })
+      expect(JSON.parse(init.body as string)).toMatchObject({ model: 'nulu-5-ultra' })
       await ctx.fiber.dispose()
     } finally {
       if (prev === undefined) delete process.env.WORLD_APP_TECHNOLOGIES_API_KEY

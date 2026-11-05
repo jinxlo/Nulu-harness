@@ -56,7 +56,7 @@ describe('direct Messages HTTP', () => {
   it('continues without a diagnostic callback when replay metadata is unusable', async () => {
     const http = await endpoint()
     const message = createAssistantMessage({ content: [{ type: 'text', text: 'Remember 731.' }], source: {
-      provider: 'nulu-5-ultra', model: MODEL, replayState: { response: {}, blocks: [] },
+      provider: 'worldapp-gateway', model: MODEL, replayState: { response: {}, blocks: [] },
     } })
     const response = await assemble(adapter({ baseURL: http.url }).stream(options({ messages: [user(), message, user()] })))
     expect(response.assembler.finish.kind).toBe('stop')
@@ -80,15 +80,15 @@ describe('direct Messages HTTP', () => {
       'user-agent': expect.stringContaining('nulu-harness/') as string, 'x-nulu-harness-user-id': 'test-user',
       'x-nulu-harness-session-id': 'session-test', 'x-nulu-harness-compact': '1',
     }, body: { thinking: { type: 'enabled' }, output_config: { effort: 'high' } } })
-    expect(llm.providerInfo('nulu-5-ultra')).toEqual({ id: 'nulu-5-ultra', name: 'Nulu' })
-    expect((await llm.listModels('nulu-5-ultra')).map(model => model.id)).toEqual([
-      'nulu-5-ultra', 'nulu-v4-flash', 'nulu-v4-pro', 'nulu-v4-flash-vision-exp',
+    expect(llm.providerInfo('worldapp-gateway')).toEqual({ id: 'worldapp-gateway', name: 'Nulu' })
+    expect((await llm.listModels('worldapp-gateway')).map(model => model.id)).toEqual([
+      'nulu-5-ultra', 'nulu-5-pro',
     ])
-    expect(await llm.resolveModel('nulu-5-ultra', 'nulu-5-ultra')).toMatchObject({
+    expect(await llm.resolveModel('worldapp-gateway', 'nulu-5-ultra')).toMatchObject({
       name: 'Nulu 5 Ultra', inputModalities: ['text', 'image'], systemPromptUpdate: 'in-history',
     })
-    expect(await llm.resolveModel('nulu-5-ultra', MODEL)).toMatchObject({ id: MODEL })
-    expect(llm.imageRequestPricing('nulu-5-ultra', MODEL)).toBeDefined()
+    expect(await llm.resolveModel('worldapp-gateway', MODEL)).toMatchObject({ id: MODEL })
+    expect(llm.imageRequestPricing('worldapp-gateway', MODEL)).toBeDefined()
   })
 
   it.each([true, false])('maps non-2xx responses (JSON=%s)', async (json) => {
@@ -125,10 +125,10 @@ describe('direct Messages HTTP', () => {
     let config = Messages.resolveAdapterOptions({ baseURL: first.url, maxTokens: 10, models: [{ id: MODEL, systemPromptUpdate: 'in-history' }] })
     const files = new NuluFileStore()
     const llm = new NuluMessagesAdapter({ connection: () => config, apiKey: snapshot => Promise.resolve(snapshot.maxTokens === 10 ? 'first' : 'second'), userId: () => 'user', attachments: () => undefined, imageAccess: () => undefined, files: () => files, prepareExtensions })
-    const prepared = await llm.prepareCall('nulu-5-ultra', MODEL)
+    const prepared = await llm.prepareCall('worldapp-gateway', MODEL)
     config = Messages.resolveAdapterOptions({ baseURL: second.url, maxTokens: 20 })
     expect(prepared.model.systemPromptUpdate).toBe('in-history')
-    expect((await llm.resolveModel('nulu-5-ultra', MODEL)).systemPromptUpdate).toBeUndefined()
+    expect((await llm.resolveModel('worldapp-gateway', MODEL)).systemPromptUpdate).toBeUndefined()
     await chunks(prepared.stream(options()))
     await chunks(llm.stream(options()))
     expect(first.requests[0]).toMatchObject({ headers: { 'x-api-key': 'first' }, body: { max_tokens: 10 } })
@@ -169,9 +169,9 @@ describe('Cordis provider composition', () => {
     const { ctx, home } = await context()
     vi.stubEnv('WORLD_APP_TECHNOLOGIES_API_KEY', 'test-key')
     await ctx.plugin(LlmRuntime)
-    await ctx.plugin(Messages, { baseURL: http.url })
-    const model = 'nulu-v4-flash-vision-exp'
-    const price = () => ctx.llm.imageRequestPricing('nulu-5-ultra', model)!
+    await ctx.plugin(Messages, { protocol: 'messages', baseURL: http.url })
+    const model = 'nulu-5-ultra'
+    const price = () => ctx.llm.imageRequestPricing('worldapp-gateway', model)!
     const dummy = { attachmentId: AttachmentId(`sha256:${'a'.repeat(64)}`), width: 1, height: 1, bytes: 3, mediaType: 'image/png' as const }
     expect(price().priceImages([{ type: 'image', attachment: dummy }])[0]?.text).toBeDefined()
     await ctx.plugin(LocalAttachments, { nuluHome: home })
@@ -232,7 +232,7 @@ describe('Cordis provider composition', () => {
     ctx.on('system-prompt/assemble', async (_assembly, _context, next) => ({
       ...await next(), sections: [{ name: 'test', text: prompt, order: 0 }],
     }))
-    const agentOptions = { provider: 'nulu-5-ultra', model }
+    const agentOptions = { provider: 'worldapp-gateway', model }
     const agent = await ctx.agentLoop.create(SessionId('prompt-update'), agentOptions)
     await send(agent, 'first')
     prompt = 'second prompt'
@@ -274,7 +274,7 @@ describe('Cordis provider composition', () => {
     ctx.on('system-prompt/assemble', async (_assembly, _context, next) => ({
       ...await next(), sections: [{ name: 'test', text: prompt, order: 0 }],
     }))
-    const selection: ModelSelectionRef = { current: { provider: 'nulu-5-ultra', model: MODEL }, assembled: undefined }
+    const selection: ModelSelectionRef = { current: { provider: 'worldapp-gateway', model: MODEL }, assembled: undefined }
     const agent = await ctx.agentLoop.create(SessionId('protocol-switch'), selection.current)
     installModelSelection(agent.ctx, selection)
     await send(agent, 'first')
@@ -285,7 +285,7 @@ describe('Cordis provider composition', () => {
     const saved = JSON.stringify(seed)
     messagesProtocol = true
     await ctx.settings.update(Messages.name, { protocol: 'messages', models: [{ id: MODEL, ...inHistory ? { systemPromptUpdate: 'in-history' } : {} }] })
-    selection.current = { provider: 'nulu-5-ultra', model: MODEL }
+    selection.current = { provider: 'worldapp-gateway', model: MODEL }
     await send(agent, 'switch')
     const { agent: resumed } = await ctx.agents.create({ sessionId: SessionId('switch-resume'), agentOptions: selection.current, seed })
     await send(resumed, 'resume')
@@ -305,7 +305,7 @@ describe('Cordis provider composition', () => {
   it('maps multiple system snapshots on direct compaction calls to the latest prompt', async () => {
     const { ctx, http } = await boot()
     const history = [createSystemMessage('old', 'test'), user(),
-      createAssistantMessage({ content: [{ type: 'text', text: 'OK' }], source: { provider: 'nulu-5-ultra', model: MODEL } }),
+      createAssistantMessage({ content: [{ type: 'text', text: 'OK' }], source: { provider: 'worldapp-gateway', model: MODEL } }),
       createSystemMessage('current', 'test'), user('summarize')]
     const saved = JSON.stringify(history)
     const response = await assemble(ctx.llm.stream(options({ messages: history, purpose: 'compaction' })))
@@ -319,15 +319,18 @@ describe('Cordis provider composition', () => {
     const { ctx, http } = await boot()
     const warnings: unknown[][] = []
     ctx.logger.exporter({ levels: { default: LoggerLevel.WARN }, export: (message) => { if (message.type === 'warn') warnings.push(message.args) } })
-    const fixture = await readFile(new URL('../../../../../snapshots/session/nulu-messages-degraded-replay/session.v2.jsonl', import.meta.url), 'utf8')
+    const fixture = await readFile(new URL('../../../../../snapshots/session/deepseek-messages-degraded-replay/session.v3.jsonl', import.meta.url), 'utf8')
     const records = fixture.trim().split('\n').map(line => JSON.parse(line) as { type: string; data: { message?: Message } })
     const assistant = records.find(record => record.type === 'assistant/message')!.data.message!
-    if (assistant.source.kind === 'model') assistant.source.provider = 'nulu-5-ultra'
+    if (assistant.source.kind === 'model') {
+      assistant.source.provider = 'worldapp-gateway'
+      assistant.source.model = MODEL
+    }
     const result = records.find(record => record.type === 'tool/result')!.data.message!
     const saved = JSON.stringify([assistant, result])
     const response = await assemble(ctx.llm.stream(options({ messages: [user(), assistant, result] })))
     expect(response.assembler.finish.kind).toBe('stop')
-    expect(warnings).toEqual([[`llm-gateway: unusable Messages replay state on assistant history for route "nulu-5-ultra/${MODEL}"; sending provider-neutral content (Nulu Messages replay: unsupported kind or version)`]])
+    expect(warnings).toEqual([[`llm-gateway: unusable Messages replay state on assistant history for route "worldapp-gateway/${MODEL}"; sending provider-neutral content (Nulu Messages replay: unsupported kind or version)`]])
     expect(http.requests).toHaveLength(1)
     expect(http.requests[0]?.body.messages).toEqual([
       { role: 'user', content: [{ type: 'text', text: 'hello' }] },
@@ -342,7 +345,7 @@ describe('Cordis provider composition', () => {
 
   it('loads one provider from YAML, rotates settings and credentials, then removes disposed registrations', async () => {
     const { ctx, http } = await boot()
-    expect(ctx.llm.listProviders().map(provider => provider.id)).toEqual(['nulu-5-ultra'])
+    expect(ctx.llm.listProviders().map(provider => provider.id)).toEqual(['worldapp-gateway'])
     expect((await assemble(ctx.llm.stream(options()))).assembler.finish.kind).toBe('stop')
     expect(http.requests[0]?.headers['x-api-key']).toBe('stored-key')
     const second = await endpoint()
@@ -369,7 +372,7 @@ describe('Cordis provider composition', () => {
     vi.stubEnv('WORLD_APP_TECHNOLOGIES_BASE_URL', http.url)
     vi.stubEnv('WORLD_APP_TECHNOLOGIES_API_KEY', 'env-key')
     await ctx.plugin(LlmRuntime)
-    const fiber = ctx.plugin(Messages)
+    const fiber = ctx.plugin(Messages, { protocol: 'messages' })
     await fiber
     await chunks(ctx.llm.stream(options()))
     expect(http.requests[0]?.headers['x-api-key']).toBe('env-key')

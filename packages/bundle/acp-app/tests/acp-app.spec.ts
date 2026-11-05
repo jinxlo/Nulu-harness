@@ -30,7 +30,7 @@ describe('nulu-acp-app bundle', () => {
     expect(rows.find(row => row.id === 'acp-app-startup')?.name).toBe('@worldapptechnologies/nulu-acp-app')
     expect(rows.find(row => row.id === 'acp')).toMatchObject({
       inject: ['acpAppStartup'],
-      config: { provider: 'worldapp-gateway', model: 'nulu-5' },
+      config: { provider: 'worldapp', model: 'nulu-5-ultra' },
     })
   })
 })

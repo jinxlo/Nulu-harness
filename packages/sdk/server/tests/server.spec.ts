@@ -1,4 +1,4 @@
-import { MESSAGES_RESPONSE } from './messages-response.ts'
+import { CHAT_RESPONSE } from './chat-response.ts'
 import { createUserMessage, LlmAdapter, ReasoningEffortId } from '@worldapptechnologies/nulu-llm'
 import type { GenerateOptions, LlmResolvedModelInfo, StreamChunk } from '@worldapptechnologies/nulu-llm'
 import { createServer } from 'node:http'
@@ -48,7 +48,7 @@ async function mockCompletionServer(): Promise<{ url: string; requests: unknown[
       requests.push(JSON.parse(body))
       headers.push(request.headers)
       response.writeHead(200, { 'content-type': 'text/event-stream' })
-      response.end(MESSAGES_RESPONSE)
+      response.end(CHAT_RESPONSE)
     })
   })
   servers.push(server)
@@ -139,16 +139,16 @@ describe('HarnessSdkJsonRpcServer', () => {
         model: string
         messages: { role: string }[]
         system?: string
-        output_config?: { effort: string }
+        reasoning_effort?: string
         max_tokens?: number
       }
       expect(body.model).toBe('dsagent-model')
-      expect(body.output_config).toEqual({ effort: 'max' })
+      expect(body.reasoning_effort).toBe('max')
       expect(body.max_tokens).toBe(321)
-      expect(body.system).toBeTypeOf('string')
-      expect(body.messages[0]?.role).toBe('user')
+      expect(body).not.toHaveProperty('system')
+      expect(body.messages[0]?.role).toBe('system')
       expect(body.messages.at(-1)?.role).toBe('user')
-      expect(llmServer.headers[0]?.['x-api-key']).toBe('test-key')
+      expect(llmServer.headers[0]?.authorization).toBe('Bearer test-key')
       expect(transport.notifications.some(n => n.method === 'session.event')).toBe(true)
       await vi.waitFor(() => {
         expect(transport.notifications.findLast(n => n.method === 'session.status')).toEqual({

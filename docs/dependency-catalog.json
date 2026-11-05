@@ -373,2946 +373,6 @@
       ]
     },
     {
-      "name": "@worldapptechnologies/cordis",
-      "version": "4.0.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/cordis",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/cordis-plugin-group",
-      "version": "1.0.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/cordis-plugin-group",
-          "direct": false,
-          "optional": false,
-          "peer": true
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/cordis-plugin-hmr",
-      "version": "1.0.17",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/cordis-plugin-hmr",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/cordis-plugin-include",
-      "version": "1.0.7",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/cordis-plugin-include",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/cordis-plugin-loader",
-      "version": "1.0.3",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/cordis-plugin-loader",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/cordis-plugin-timer",
-      "version": "1.1.4",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/cordis-plugin-timer",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/cosmokit",
-      "version": "1.8.3",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/cosmokit",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-acp",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-acp",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-acp-app",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-acp-app",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-agent",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-agent",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-agent-default-model",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-agent-default-model",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-agent-instructions",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-agent-instructions",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-agent-loop",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-agent-loop",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-agent-presets",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-agent-presets",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-agent-tool-presentation",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-agent-tool-presentation",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-anonymous-user-id",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-anonymous-user-id",
-          "direct": false,
-          "optional": false,
-          "peer": true
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-api-gateway",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-api-gateway",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-api-remotes",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-api-remotes",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-api-session-controller",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-api-session-controller",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-api-settings-controller",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-api-settings-controller",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-api-workspace-controller",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-api-workspace-controller",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-api-workspace-files",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-api-workspace-files",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-app-boot",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-app-boot",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-atomic-write",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-atomic-write",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-attachment",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-attachment",
-          "direct": false,
-          "optional": false,
-          "peer": true
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-attachment-local",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-attachment-local",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-authorization",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-authorization",
-          "direct": false,
-          "optional": false,
-          "peer": true
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-base",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-base",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-bash-local",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-bash-local",
-          "direct": false,
-          "optional": false,
-          "peer": true
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-bash-sandbox",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-bash-sandbox",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-brand",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-brand",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-chunked-list",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-chunked-list",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-connection",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-connection",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-file-upload",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-file-upload",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-hmr",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-hmr",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-locale",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-locale",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-modules",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-modules",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-resources",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-resources",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-agent-preset",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-agent-preset",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-approval",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-approval",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-attachment",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-attachment",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-brand-official",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-brand-official",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-chat",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-chat",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-commands",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-commands",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-conversation",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-conversation",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-cordis",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-cordis",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-deliverables",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-deliverables",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-directory-picker-browse",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-directory-picker-browse",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-directory-picker-native",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-directory-picker-native",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-goal",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-goal",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-input-trigger",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-input-trigger",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-jobs",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-jobs",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-layout",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-layout",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-message-feedback",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-message-feedback",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-model-selection",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-model-selection",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-open-in-app",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-open-in-app",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-permission-presets",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-permission-presets",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-plan",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-plan",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-reference",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-reference",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-renderer",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-renderer",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-schedule",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-schedule",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-session",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-session",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-settings",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-settings",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-settings-general",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-settings-general",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-settings-models",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-settings-models",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-settings-plugin-inventory",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-settings-plugin-inventory",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-settings-plugins",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-settings-plugins",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-sidebar",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-sidebar",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-sidebar-documentpreview",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-sidebar-documentpreview",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-sidebar-files",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-sidebar-files",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-sidebar-right",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-sidebar-right",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-skill",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-skill",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-subagent",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-subagent",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-theme",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-theme",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-tool",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-tool",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-trajectory",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-trajectory",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-user-questions",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-user-questions",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-workflow-run",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-workflow-run",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-client-ui-workspace",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-client-ui-workspace",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-cmdline",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-cmdline",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-code-runtime",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-code-runtime",
-          "direct": false,
-          "optional": false,
-          "peer": true
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-code-runtime-worker-thread",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-code-runtime-worker-thread",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-command-compact",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-command-compact",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-command-feedback",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-command-feedback",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-command-goal",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-command-goal",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-commands",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-commands",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-compaction",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-compaction",
-          "direct": false,
-          "optional": false,
-          "peer": true
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-compaction-basic",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-compaction-basic",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-compaction-tool-result-pruner",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-compaction-tool-result-pruner",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-cordis-client-runner",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-cordis-client-runner",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-cordis-host-runner",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-cordis-host-runner",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-credentials",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-credentials",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-credentials-local",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-credentials-local",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-llm-api-extensions",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-llm-api-extensions",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-deque",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-deque",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-file-reference",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-file-reference",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-file-reference-local",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-file-reference-local",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-fs",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-fs",
-          "direct": false,
-          "optional": false,
-          "peer": true
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-fs-local",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-fs-local",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-fs-observation-policy",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-fs-observation-policy",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-fs-sandbox",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-fs-sandbox",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-goal",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-goal",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-goal-round-driver",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-goal-round-driver",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-headless",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-headless",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-home-paths",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-home-paths",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-hook-protocol",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-hook-protocol",
-          "direct": false,
-          "optional": false,
-          "peer": true
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-hooks-claude-code",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-hooks-claude-code",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-hooks-codex",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-hooks-codex",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-host-directory-picker",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-host-directory-picker",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-host-directory-picker-auto",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-host-directory-picker-auto",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-host-directory-picker-browse",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-host-directory-picker-browse",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-host-directory-picker-native",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-host-directory-picker-native",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-host-frontend-static",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-host-frontend-static",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-host-open-in-app",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-host-open-in-app",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-host-plugin-inventory",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-host-plugin-inventory",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-host-webserver",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-host-webserver",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-http-proxy",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-http-proxy",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-invariants",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-invariants",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-jobs",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-jobs",
-          "direct": false,
-          "optional": false,
-          "peer": true
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-jobs-local",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-jobs-local",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-launch-environment",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-launch-environment",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-llm",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-llm",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-llm-gateway",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-llm-gateway",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-llm-pi-ai",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-llm-pi-ai",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-llm-retry",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-llm-retry",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-mcp-client",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-mcp-client",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-message-feedback",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-message-feedback",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-native-command",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-native-command",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-output-retention",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-output-retention",
-          "direct": false,
-          "optional": false,
-          "peer": true
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-package-manifest",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-package-manifest",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-permission-presets",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-permission-presets",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-persona",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-persona",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-plan-mode",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-plan-mode",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-plugin-package-inventory",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-plugin-package-inventory",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-pwsh-local",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-pwsh-local",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-pwsh-sandbox",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-pwsh-sandbox",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-repeat-tool-reminder",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-repeat-tool-reminder",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-sandbox",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-sandbox",
-          "direct": false,
-          "optional": false,
-          "peer": true
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-sandbox-local",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-sandbox-local",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-sandbox-policy",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-sandbox-policy",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-sandbox-windows-acl",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-sandbox-windows-acl",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-schedule",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-schedule",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-scope",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-scope",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-sdk-app",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-sdk-app",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-sdk-jsonrpc-server",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-sdk-jsonrpc-server",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-sdk-minimal",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-sdk-minimal",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-sdk-protocol",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-sdk-protocol",
-          "direct": false,
-          "optional": false,
-          "peer": true
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-session",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-session",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-session-checkpoint-policy",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-session-checkpoint-policy",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-session-format",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-session-format",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-session-format-catalog",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-session-format-catalog",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-session-format-v0-to-v1",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-session-format-v0-to-v1",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-session-format-v1-to-v2",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-session-format-v1-to-v2",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-session-format-v2-to-v3",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-session-format-v2-to-v3",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-session-log-gateway",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-session-log-gateway",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-session-log-export",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-session-log-export",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-session-persistence",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-session-persistence",
-          "direct": false,
-          "optional": false,
-          "peer": true
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-session-persistence-jsonl",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-session-persistence-jsonl",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-session-projection",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-session-projection",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-session-projection-cache",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-session-projection-cache",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-session-query",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-session-query",
-          "direct": false,
-          "optional": false,
-          "peer": true
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-session-query-sqlite",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-session-query-sqlite",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-session-reference",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-session-reference",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-session-stats",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-session-stats",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-session-telemetry",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-session-telemetry",
-          "direct": false,
-          "optional": false,
-          "peer": true
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-session-telemetry-otel",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-session-telemetry-otel",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-session-title",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-session-title",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-session-title-first-prompt-llm",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-session-title-first-prompt-llm",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-session-title-llm",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-session-title-llm",
-          "direct": false,
-          "optional": false,
-          "peer": true
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-session-turn-outline",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-session-turn-outline",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-settings",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-settings",
-          "direct": false,
-          "optional": false,
-          "peer": true
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-settings-file",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-settings-file",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-shell",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-shell",
-          "direct": false,
-          "optional": false,
-          "peer": true
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-shell-env",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-shell-env",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-skill",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-skill",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-skill-badge",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-skill-badge",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-skill-filesystem",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-skill-filesystem",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-spill",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-spill",
-          "direct": false,
-          "optional": false,
-          "peer": true
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-spill-local",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-spill-local",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-spill-policy",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-spill-policy",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-storage",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-storage",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-storage-domain",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-storage-domain",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-storage-json",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-storage-json",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-subagent",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-subagent",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-subagent-fork-in-process",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-subagent-fork-in-process",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-subagent-in-process-driver",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-subagent-in-process-driver",
-          "direct": false,
-          "optional": false,
-          "peer": true
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-subagent-spawn-in-process",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-subagent-spawn-in-process",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-subprocess",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-subprocess",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-subprocess-local",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-subprocess-local",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-system-prompt",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-system-prompt",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-terminal",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-terminal",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-terminal-bash",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-terminal-bash",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-time-context",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-time-context",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-timeout",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-timeout",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-tmux-context",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-tmux-context",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-token-meter",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-token-meter",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-tool-ask-user",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-tool-ask-user",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-tool-bash",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-tool-bash",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-tool-bash-persistent",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-tool-bash-persistent",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-tool-call-timeout-policy",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-tool-call-timeout-policy",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-tool-cordis",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-tool-cordis",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-tool-fs",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-tool-fs",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-tool-fs-search",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-tool-fs-search",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-tool-goal",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-tool-goal",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-tool-jobs",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-tool-jobs",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-tool-present",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-tool-present",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-tool-pwsh",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-tool-pwsh",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-tool-pwsh-persistent",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-tool-pwsh-persistent",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-tool-ralph",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-tool-ralph",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-tool-skill",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-tool-skill",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-tool-str-replace-editor",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-tool-str-replace-editor",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-tool-subagent",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-tool-subagent",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-tool-subagent-control",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-tool-subagent-control",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-tool-todo",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-tool-todo",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-tool-web",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-tool-web",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-tool-workflow",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-tool-workflow",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-tools",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-tools",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-typert-loader",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-typert-loader",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-typert-protocol",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-typert-protocol",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-typert-registry",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-typert-registry",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-user-approval",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-user-approval",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-user-questions",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-user-questions",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-util-crypto",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-util-crypto",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-util-time",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-util-time",
-          "direct": false,
-          "optional": false,
-          "peer": true
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-util-values",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-util-values",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-util-workspace-path",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-util-workspace-path",
-          "direct": false,
-          "optional": false,
-          "peer": true
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-web",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-web",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-web-app",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-web-app",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-web-fetch-http",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-web-fetch-http",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-web-frontend",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-web-frontend",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-web-search-gateway",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-web-search-gateway",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-webhook",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-webhook",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-webhook-github",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-webhook-github",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-win32-process",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-win32-process",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-workflow",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-workflow",
-          "direct": false,
-          "optional": false,
-          "peer": true
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-workflow-worker-thread",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-workflow-worker-thread",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/nulu-workspace",
-      "version": "0.1.5-rc.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/nulu-workspace",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/node-addon-system",
-      "version": "0.1.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/node-addon-system",
-          "direct": false,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/node-addon-system-darwin-arm64",
-      "version": "0.1.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/node-addon-system-darwin-arm64",
-          "direct": false,
-          "optional": true,
-          "peer": false,
-          "os": [
-            "darwin"
-          ],
-          "cpu": [
-            "arm64"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/node-addon-system-darwin-x64",
-      "version": "0.1.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/node-addon-system-darwin-x64",
-          "direct": false,
-          "optional": true,
-          "peer": false,
-          "os": [
-            "darwin"
-          ],
-          "cpu": [
-            "x64"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/node-addon-system-linux-arm64",
-      "version": "0.1.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/node-addon-system-linux-arm64",
-          "direct": false,
-          "optional": true,
-          "peer": false,
-          "os": [
-            "linux"
-          ],
-          "cpu": [
-            "arm64"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/node-addon-system-linux-x64",
-      "version": "0.1.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/node-addon-system-linux-x64",
-          "direct": false,
-          "optional": true,
-          "peer": false,
-          "os": [
-            "linux"
-          ],
-          "cpu": [
-            "x64"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "@worldapptechnologies/schemastery",
-      "version": "3.18.2",
-      "installations": [
-        {
-          "location": "node_modules/@worldapptechnologies/schemastery",
-          "direct": true,
-          "optional": false,
-          "peer": false
-        }
-      ]
-    },
-    {
       "name": "@earendil-works/pi-ai",
       "version": "0.85.1",
       "installations": [
@@ -5001,6 +2061,2946 @@
           "cpu": [
             "x64"
           ]
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/cordis",
+      "version": "4.0.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/cordis",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/cordis-plugin-group",
+      "version": "1.0.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/cordis-plugin-group",
+          "direct": false,
+          "optional": false,
+          "peer": true
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/cordis-plugin-hmr",
+      "version": "1.0.17",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/cordis-plugin-hmr",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/cordis-plugin-include",
+      "version": "1.0.7",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/cordis-plugin-include",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/cordis-plugin-loader",
+      "version": "1.0.3",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/cordis-plugin-loader",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/cordis-plugin-timer",
+      "version": "1.1.4",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/cordis-plugin-timer",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/cosmokit",
+      "version": "1.8.3",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/cosmokit",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/node-addon-system",
+      "version": "0.1.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/node-addon-system",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/node-addon-system-darwin-arm64",
+      "version": "0.1.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/node-addon-system-darwin-arm64",
+          "direct": false,
+          "optional": true,
+          "peer": false,
+          "os": [
+            "darwin"
+          ],
+          "cpu": [
+            "arm64"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/node-addon-system-darwin-x64",
+      "version": "0.1.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/node-addon-system-darwin-x64",
+          "direct": false,
+          "optional": true,
+          "peer": false,
+          "os": [
+            "darwin"
+          ],
+          "cpu": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/node-addon-system-linux-arm64",
+      "version": "0.1.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/node-addon-system-linux-arm64",
+          "direct": false,
+          "optional": true,
+          "peer": false,
+          "os": [
+            "linux"
+          ],
+          "cpu": [
+            "arm64"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/node-addon-system-linux-x64",
+      "version": "0.1.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/node-addon-system-linux-x64",
+          "direct": false,
+          "optional": true,
+          "peer": false,
+          "os": [
+            "linux"
+          ],
+          "cpu": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-acp",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-acp",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-acp-app",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-acp-app",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-agent",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-agent",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-agent-default-model",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-agent-default-model",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-agent-instructions",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-agent-instructions",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-agent-loop",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-agent-loop",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-agent-presets",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-agent-presets",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-agent-tool-presentation",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-agent-tool-presentation",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-anonymous-user-id",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-anonymous-user-id",
+          "direct": false,
+          "optional": false,
+          "peer": true
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-api-gateway",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-api-gateway",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-api-remotes",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-api-remotes",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-api-session-controller",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-api-session-controller",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-api-settings-controller",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-api-settings-controller",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-api-workspace-controller",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-api-workspace-controller",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-api-workspace-files",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-api-workspace-files",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-app-boot",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-app-boot",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-atomic-write",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-atomic-write",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-attachment",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-attachment",
+          "direct": false,
+          "optional": false,
+          "peer": true
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-attachment-local",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-attachment-local",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-authorization",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-authorization",
+          "direct": false,
+          "optional": false,
+          "peer": true
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-base",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-base",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-bash-local",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-bash-local",
+          "direct": false,
+          "optional": false,
+          "peer": true
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-bash-sandbox",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-bash-sandbox",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-brand",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-brand",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-chunked-list",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-chunked-list",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-connection",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-connection",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-file-upload",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-file-upload",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-hmr",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-hmr",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-locale",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-locale",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-modules",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-modules",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-resources",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-resources",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-agent-preset",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-agent-preset",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-approval",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-approval",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-attachment",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-attachment",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-brand-official",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-brand-official",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-chat",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-chat",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-commands",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-commands",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-conversation",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-conversation",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-cordis",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-cordis",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-deliverables",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-deliverables",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-directory-picker-browse",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-directory-picker-browse",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-directory-picker-native",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-directory-picker-native",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-goal",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-goal",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-input-trigger",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-input-trigger",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-jobs",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-jobs",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-layout",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-layout",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-message-feedback",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-message-feedback",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-model-selection",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-model-selection",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-open-in-app",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-open-in-app",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-permission-presets",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-permission-presets",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-plan",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-plan",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-reference",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-reference",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-renderer",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-renderer",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-schedule",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-schedule",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-session",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-session",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-settings",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-settings",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-settings-general",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-settings-general",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-settings-models",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-settings-models",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-settings-plugin-inventory",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-settings-plugin-inventory",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-settings-plugins",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-settings-plugins",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-sidebar",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-sidebar",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-sidebar-documentpreview",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-sidebar-documentpreview",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-sidebar-files",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-sidebar-files",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-sidebar-right",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-sidebar-right",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-skill",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-skill",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-subagent",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-subagent",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-theme",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-theme",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-tool",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-tool",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-trajectory",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-trajectory",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-user-questions",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-user-questions",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-workflow-run",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-workflow-run",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-client-ui-workspace",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-client-ui-workspace",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-cmdline",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-cmdline",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-code-runtime",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-code-runtime",
+          "direct": false,
+          "optional": false,
+          "peer": true
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-code-runtime-worker-thread",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-code-runtime-worker-thread",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-command-compact",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-command-compact",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-command-feedback",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-command-feedback",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-command-goal",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-command-goal",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-commands",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-commands",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-compaction",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-compaction",
+          "direct": false,
+          "optional": false,
+          "peer": true
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-compaction-basic",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-compaction-basic",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-compaction-tool-result-pruner",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-compaction-tool-result-pruner",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-cordis-client-runner",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-cordis-client-runner",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-cordis-host-runner",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-cordis-host-runner",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-credentials",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-credentials",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-credentials-local",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-credentials-local",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-deque",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-deque",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-file-reference",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-file-reference",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-file-reference-local",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-file-reference-local",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-fs",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-fs",
+          "direct": false,
+          "optional": false,
+          "peer": true
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-fs-local",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-fs-local",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-fs-observation-policy",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-fs-observation-policy",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-fs-sandbox",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-fs-sandbox",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-goal",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-goal",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-goal-round-driver",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-goal-round-driver",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-headless",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-headless",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-home-paths",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-home-paths",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-hook-protocol",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-hook-protocol",
+          "direct": false,
+          "optional": false,
+          "peer": true
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-hooks-claude-code",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-hooks-claude-code",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-hooks-codex",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-hooks-codex",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-host-directory-picker",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-host-directory-picker",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-host-directory-picker-auto",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-host-directory-picker-auto",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-host-directory-picker-browse",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-host-directory-picker-browse",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-host-directory-picker-native",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-host-directory-picker-native",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-host-frontend-static",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-host-frontend-static",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-host-open-in-app",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-host-open-in-app",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-host-plugin-inventory",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-host-plugin-inventory",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-host-webserver",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-host-webserver",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-http-proxy",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-http-proxy",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-invariants",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-invariants",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-jobs",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-jobs",
+          "direct": false,
+          "optional": false,
+          "peer": true
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-jobs-local",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-jobs-local",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-launch-environment",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-launch-environment",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-llm",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-llm",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-llm-api-extensions",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-llm-api-extensions",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-llm-gateway",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-llm-gateway",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-llm-pi-ai",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-llm-pi-ai",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-llm-retry",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-llm-retry",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-mcp-client",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-mcp-client",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-message-feedback",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-message-feedback",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-native-command",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-native-command",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-output-retention",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-output-retention",
+          "direct": false,
+          "optional": false,
+          "peer": true
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-package-manifest",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-package-manifest",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-permission-presets",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-permission-presets",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-persona",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-persona",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-plan-mode",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-plan-mode",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-plugin-package-inventory",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-plugin-package-inventory",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-pwsh-local",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-pwsh-local",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-pwsh-sandbox",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-pwsh-sandbox",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-repeat-tool-reminder",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-repeat-tool-reminder",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-sandbox",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-sandbox",
+          "direct": false,
+          "optional": false,
+          "peer": true
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-sandbox-local",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-sandbox-local",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-sandbox-policy",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-sandbox-policy",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-sandbox-windows-acl",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-sandbox-windows-acl",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-schedule",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-schedule",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-scope",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-scope",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-sdk-app",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-sdk-app",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-sdk-jsonrpc-server",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-sdk-jsonrpc-server",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-sdk-minimal",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-sdk-minimal",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-sdk-protocol",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-sdk-protocol",
+          "direct": false,
+          "optional": false,
+          "peer": true
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-session",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-session",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-session-checkpoint-policy",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-session-checkpoint-policy",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-session-format",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-session-format",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-session-format-catalog",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-session-format-catalog",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-session-format-v0-to-v1",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-session-format-v0-to-v1",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-session-format-v1-to-v2",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-session-format-v1-to-v2",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-session-format-v2-to-v3",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-session-format-v2-to-v3",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-session-log-export",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-session-log-export",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-session-log-gateway",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-session-log-gateway",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-session-persistence",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-session-persistence",
+          "direct": false,
+          "optional": false,
+          "peer": true
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-session-persistence-jsonl",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-session-persistence-jsonl",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-session-projection",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-session-projection",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-session-projection-cache",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-session-projection-cache",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-session-query",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-session-query",
+          "direct": false,
+          "optional": false,
+          "peer": true
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-session-query-sqlite",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-session-query-sqlite",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-session-reference",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-session-reference",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-session-stats",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-session-stats",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-session-telemetry",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-session-telemetry",
+          "direct": false,
+          "optional": false,
+          "peer": true
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-session-telemetry-otel",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-session-telemetry-otel",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-session-title",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-session-title",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-session-title-first-prompt-llm",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-session-title-first-prompt-llm",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-session-title-llm",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-session-title-llm",
+          "direct": false,
+          "optional": false,
+          "peer": true
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-session-turn-outline",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-session-turn-outline",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-settings",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-settings",
+          "direct": false,
+          "optional": false,
+          "peer": true
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-settings-file",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-settings-file",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-shell",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-shell",
+          "direct": false,
+          "optional": false,
+          "peer": true
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-shell-env",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-shell-env",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-skill",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-skill",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-skill-badge",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-skill-badge",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-skill-filesystem",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-skill-filesystem",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-spill",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-spill",
+          "direct": false,
+          "optional": false,
+          "peer": true
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-spill-local",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-spill-local",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-spill-policy",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-spill-policy",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-storage",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-storage",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-storage-domain",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-storage-domain",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-storage-json",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-storage-json",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-subagent",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-subagent",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-subagent-fork-in-process",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-subagent-fork-in-process",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-subagent-in-process-driver",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-subagent-in-process-driver",
+          "direct": false,
+          "optional": false,
+          "peer": true
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-subagent-spawn-in-process",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-subagent-spawn-in-process",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-subprocess",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-subprocess",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-subprocess-local",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-subprocess-local",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-system-prompt",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-system-prompt",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-terminal",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-terminal",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-terminal-bash",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-terminal-bash",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-time-context",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-time-context",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-timeout",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-timeout",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-tmux-context",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-tmux-context",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-token-meter",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-token-meter",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-tool-ask-user",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-tool-ask-user",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-tool-bash",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-tool-bash",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-tool-bash-persistent",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-tool-bash-persistent",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-tool-call-timeout-policy",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-tool-call-timeout-policy",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-tool-cordis",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-tool-cordis",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-tool-fs",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-tool-fs",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-tool-fs-search",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-tool-fs-search",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-tool-goal",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-tool-goal",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-tool-jobs",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-tool-jobs",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-tool-present",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-tool-present",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-tool-pwsh",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-tool-pwsh",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-tool-pwsh-persistent",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-tool-pwsh-persistent",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-tool-ralph",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-tool-ralph",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-tool-skill",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-tool-skill",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-tool-str-replace-editor",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-tool-str-replace-editor",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-tool-subagent",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-tool-subagent",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-tool-subagent-control",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-tool-subagent-control",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-tool-todo",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-tool-todo",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-tool-web",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-tool-web",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-tool-workflow",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-tool-workflow",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-tools",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-tools",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-typert-loader",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-typert-loader",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-typert-protocol",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-typert-protocol",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-typert-registry",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-typert-registry",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-user-approval",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-user-approval",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-user-questions",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-user-questions",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-util-crypto",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-util-crypto",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-util-time",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-util-time",
+          "direct": false,
+          "optional": false,
+          "peer": true
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-util-values",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-util-values",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-util-workspace-path",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-util-workspace-path",
+          "direct": false,
+          "optional": false,
+          "peer": true
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-web",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-web",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-web-app",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-web-app",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-web-fetch-http",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-web-fetch-http",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-web-frontend",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-web-frontend",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-web-search-gateway",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-web-search-gateway",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-webhook",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-webhook",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-webhook-github",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-webhook-github",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-win32-process",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-win32-process",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-workflow",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-workflow",
+          "direct": false,
+          "optional": false,
+          "peer": true
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-workflow-worker-thread",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-workflow-worker-thread",
+          "direct": true,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/nulu-workspace",
+      "version": "0.1.5-rc.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/nulu-workspace",
+          "direct": false,
+          "optional": false,
+          "peer": false
+        }
+      ]
+    },
+    {
+      "name": "@worldapptechnologies/schemastery",
+      "version": "3.18.2",
+      "installations": [
+        {
+          "location": "node_modules/@worldapptechnologies/schemastery",
+          "direct": true,
+          "optional": false,
+          "peer": false
         }
       ]
     },

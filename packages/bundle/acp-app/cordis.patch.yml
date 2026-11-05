@@ -17,5 +17,5 @@
       name: '@worldapptechnologies/nulu-acp'
       inject: [acpAppStartup]
       config:
-        provider: worldapp-gateway
+        provider: worldapp
         model: nulu-5-ultra

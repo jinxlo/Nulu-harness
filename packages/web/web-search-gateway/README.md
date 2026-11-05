@@ -170,3 +170,5 @@ This Dev Note is working context for maintainers: open questions and undecided d
 A native Nulu search endpoint that avoids the full model turn would remove the dominant cost; until Nulu exposes one, this provider stays a Messages-call adapter.
 
 </details>
+
+The historical `web/deepseek-search-llm-request` record remains readable. New searches record `web/nulu-search-llm-request`.

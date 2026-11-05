@@ -49,6 +49,7 @@ function isUserFacing(hit) {
     && !/fixture/i.test(file)
     && !/THIRD_PARTY|LICENSE|NOTICE|CHANGELOG/i.test(file)
     && !file.startsWith('.agents/notes/')
+    && !file.startsWith('docs/persistence-changes/')
     // Sync analysis artifacts (reports/) legitimately reference "DeepSeek" as
     // the upstream source being adapted; they are not product surfaces.
     && !file.startsWith('reports/')
@@ -108,7 +109,7 @@ function check(name, pass, detail = '') {
 
 // 7. Models: llm-gateway DEFAULT_MODELS only allowed Nulu models.
 {
-  const gateway = read(join(ROOT, 'packages/llm/llm-gateway/src/index.ts'))
+  const gateway = read(join(ROOT, 'packages/llm/llm-gateway/src/common/models.ts'))
   const allowed = new Set(policy.models.allowed_chat_model_ids)
   const ids = [...gateway.matchAll(/id: '([^']+)'/g)].map(m => m[1]).filter(id => id.startsWith('nulu-'))
   const ok = ids.length > 0 && ids.every(id => allowed.has(id))
@@ -170,7 +171,7 @@ function check(name, pass, detail = '') {
 }
 
 try {
-  validateModelPolicy(read(join(ROOT, 'packages/llm/llm-gateway/src/index.ts')),
+  validateModelPolicy(read(join(ROOT, 'packages/llm/llm-gateway/src/common/models.ts')),
     read(join(ROOT, 'packages/bundle/base/cordis.patch.yml')), policy.models.allowed_chat_model_ids)
   check('models: every default ID and API route conforms to policy', true)
 } catch (error) {

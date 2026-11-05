@@ -262,7 +262,7 @@
 
     # Nulu brand occupants for the generic sidebar brand slots.
     - id: ui-brand
-      name: '@worldapptechnologies/nulu-client-ui-brand'
+      name: '@worldapptechnologies/nulu-client-ui-brand-official'
 
     - id: ui-attachment
       name: '@worldapptechnologies/nulu-client-ui-attachment'

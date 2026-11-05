@@ -17,7 +17,8 @@
     watch: false
 - name: '@worldapptechnologies/nulu-llm-gateway'
   config:
-    apiKeyEnv: DEEPSEEK_API_KEY
+    protocol: messages
+    apiKeyEnv: WORLD_APP_TECHNOLOGIES_API_KEY
     baseURL: {{endpoint}}
     thinking: enabled
     reasoningEffort: high

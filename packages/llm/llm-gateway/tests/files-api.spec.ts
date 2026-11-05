@@ -148,7 +148,7 @@ describe('NuluFilesClient', () => {
       expect((blob as Blob).size).toBe(3)
       return new Response(JSON.stringify(file()), { status: 200 })
     }) as typeof fetch
-    const client = new NuluFilesClient({ protocol: 'chat-completions', baseURL: 'https://api.nulu.com/', apiKey: 'key', fetch: fetchImpl })
+    const client = new NuluFilesClient({ protocol: 'chat-completions', baseURL: 'https://platform.worldapptechnologies.com/api/v1/', apiKey: 'key', fetch: fetchImpl })
 
     await expect(client.upload({
       data: Uint8Array.of(1, 2, 3),

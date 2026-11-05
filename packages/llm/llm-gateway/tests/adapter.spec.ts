@@ -27,6 +27,11 @@ import { assemble } from './assemble.ts'
 import { closeMockServers, mockServer, textEvents } from './mock-server.ts'
 import type { Behavior } from './mock-server.ts'
 
+const EXPECTED_NULU_CATALOG = [
+  { provider: 'worldapp-gateway', id: 'nulu-5-ultra', name: 'Nulu 5 Ultra', description: 'Flagship multimodal model for advanced reasoning, code, agentic tasks, vision, and long-context work.', inputModalities: ['text', 'image'] },
+  { provider: 'worldapp-gateway', id: 'nulu-5-pro', name: 'Nulu 5 Pro', description: 'Deep reasoning model for complex analysis, technical planning, and code.', inputModalities: ['text'] },
+]
+
 const TEST_USER_ID = '00000000-0000-4000-8000-000000000001' as AnonymousUserId
 let testHome: string
 
@@ -386,7 +391,7 @@ describe('NuluAdapter against a mock server', () => {
 
     await drain(adapter.stream({
       provider: 'worldapp-gateway',
-      model: 'nulu-5',
+      model: 'nulu-5-ultra',
       messages: [createUserMessage({
         content: [
           { type: 'text', text: 'describe ' },
@@ -397,7 +402,7 @@ describe('NuluAdapter against a mock server', () => {
     }))
 
     expect(server.requests[0]).toMatchObject({
-      model: 'nulu-5',
+      model: 'nulu-5-ultra',
       messages: [{
         role: 'user',
         content: [
@@ -456,12 +461,12 @@ describe('NuluAdapter against a mock server', () => {
       baseURL: server.url,
       maxInlineRequestImageBytes: 80,
       inlineImageOffloadByteQuantum: 40,
-      models: [{ id: 'nulu-5-vision', inputModalities: ['text', 'image'] }],
+      models: [{ id: 'fixture-vision', inputModalities: ['text', 'image'] }],
     }, attachments, files.store)
 
     await expect(drain(adapter.stream({
-      provider: 'nulu-5-ultra',
-      model: 'nulu-v4-flash-vision-exp',
+      provider: 'worldapp-gateway',
+      model: 'fixture-vision',
       messages: [createUserMessage({
         content: Array.from({ length: 21 }, () => ({ type: 'image' as const, attachment: imageRef })),
         source: { kind: 'plugin', plugin: 'test' },
@@ -605,12 +610,12 @@ describe('NuluAdapter against a mock server', () => {
     })
     const adapter = adapterOf({
       baseURL: server.url,
-      models: [{ id: 'nulu-v4-flash-vision-exp', inputModalities: ['text', 'image'] }],
+      models: [{ id: 'fixture-vision', inputModalities: ['text', 'image'] }],
     }, attachmentMocks.store)
 
     await drain(adapter.stream({
       provider: 'worldapp-gateway',
-      model: 'nulu-5-vision',
+      model: 'fixture-vision',
       messages: [createUserMessage({
         content: [
           { type: 'image', attachment: old, offloaded: true },
@@ -1709,30 +1714,13 @@ describe('plugin registration and config', () => {
     const ctx = new Context()
     await ctx.plugin(LlmRuntime)
     await ctx.plugin(LlmGateway, { protocol: 'chat-completions', baseURL: 'http://127.0.0.1:1' })
-    expect(ctx.llm.listProviders()).toEqual([{ id: 'nulu-5-ultra', name: 'Nulu' }])
-    await expect(ctx.llm.listModels('nulu-5-ultra')).resolves.toEqual([
-      { provider: 'nulu-5-ultra', id: 'nulu-5-ultra', name: 'Nulu 5 Ultra', inputModalities: ['text', 'image'] },
-      {
-        provider: 'worldapp-gateway',
-        id: 'nulu-5',
-        name: 'Nulu 5',
-        description: 'Fast, efficient, and economical; suited to focused, routine, or parallel tasks.',
-        inputModalities: ['text'],
-      },
-      {
+    expect(ctx.llm.listProviders()).toEqual([{ id: 'worldapp-gateway', name: 'Nulu' }])
+    await expect(ctx.llm.listModels('worldapp-gateway')).resolves.toEqual(EXPECTED_NULU_CATALOG)
+    await expect(ctx.llm.resolveModelInfo('worldapp-gateway', 'nulu-5-ultra'))
+      .resolves.toMatchObject({
         provider: 'worldapp-gateway',
         id: 'nulu-5-ultra',
         name: 'Nulu 5 Ultra',
-        description: 'Stronger agentic coding, knowledge, and difficult reasoning; suited to complex or quality-critical tasks at higher cost.',
-        inputModalities: ['text'],
-      },
-      { provider: 'worldapp-gateway', id: 'nulu-5-vision', name: 'Nulu 5 Vision', inputModalities: ['text', 'image'] },
-    ])
-    await expect(ctx.llm.resolveModelInfo('worldapp-gateway', 'nulu-5'))
-      .resolves.toMatchObject({
-        provider: 'worldapp-gateway',
-        id: 'nulu-5',
-        name: 'Nulu 5',
         inputModalities: ['text', 'image'],
         systemPromptUpdate: 'in-history',
         context: { contextWindow: 1_000_000 },
@@ -1750,21 +1738,15 @@ describe('plugin registration and config', () => {
   })
 
   it.each([
-    { model: 'nulu-5', inputModalities: ['text'] },
-    { model: 'nulu-5-ultra', inputModalities: ['text'] },
-    { model: 'nulu-5-vision', inputModalities: ['text', 'image'] },
-  ])('keeps $model available with its V4 capabilities', async ({ model, inputModalities }) => {
+    { model: 'nulu-5-ultra', inputModalities: ['text', 'image'], systemPromptUpdate: 'in-history' },
+    { model: 'nulu-5-pro', inputModalities: ['text'], systemPromptUpdate: undefined },
+  ])('advertises the public catalog capabilities for $model', async ({ model, inputModalities, systemPromptUpdate }) => {
     const ctx = new Context()
     await ctx.plugin(LlmRuntime)
     await ctx.plugin(LlmGateway, { protocol: 'chat-completions', baseURL: 'http://127.0.0.1:1' })
-    const info = await ctx.llm.resolveModelInfo('nulu-5-ultra', model)
-    expect(info).toMatchObject({
-      id: model,
-      inputModalities,
-      context: { contextWindow: 1_000_000 },
-      defaultMaxTokens: 256_000,
-    })
-    expect(info?.systemPromptUpdate).toBeUndefined()
+    const info = await ctx.llm.resolveModelInfo('worldapp-gateway', model)
+    expect(info).toMatchObject({ id: model, inputModalities, context: { contextWindow: 1_000_000 }, defaultMaxTokens: 256_000 })
+    expect(info?.systemPromptUpdate).toBe(systemPromptUpdate)
   })
 
   it.each(['off', 'low', 'max'] as const)('uses the configured %s reasoning default', async (effort) => {
@@ -1852,24 +1834,7 @@ describe('plugin registration and config', () => {
     const ctx = new Context()
     await ctx.plugin(LlmRuntime)
     LlmGateway.apply(ctx, { baseURL: 'http://127.0.0.1:1' })
-    await expect(ctx.llm.listModels('worldapp-gateway')).resolves.toEqual([
-      { provider: 'worldapp-gateway', id: 'nulu-5', name: 'Nulu 5', inputModalities: ['text', 'image'] },
-      {
-        provider: 'worldapp-gateway',
-        id: 'nulu-5',
-        name: 'Nulu 5',
-        description: 'Fast, efficient, and economical; suited to focused, routine, or parallel tasks.',
-        inputModalities: ['text'],
-      },
-      {
-        provider: 'worldapp-gateway',
-        id: 'nulu-5-ultra',
-        name: 'Nulu 5 Ultra',
-        description: 'Stronger agentic coding, knowledge, and difficult reasoning; suited to complex or quality-critical tasks at higher cost.',
-        inputModalities: ['text'],
-      },
-      { provider: 'worldapp-gateway', id: 'nulu-5-vision', name: 'Nulu 5 Vision', inputModalities: ['text', 'image'] },
-    ])
+    await expect(ctx.llm.listModels('worldapp-gateway')).resolves.toEqual(EXPECTED_NULU_CATALOG)
   })
 
   it('defaults an adapter-supplied catalog entry to text input', async () => {
@@ -2182,7 +2147,7 @@ describe('plugin registration and config', () => {
     const ctx = new Context()
     await ctx.plugin(LlmRuntime)
     await ctx.plugin(LlmGateway, { protocol: 'chat-completions' })
-    expect(ctx.llm.listProviders()).toEqual([{ id: 'nulu-5-ultra', name: 'Nulu' }])
+    expect(ctx.llm.listProviders()).toEqual([{ id: 'worldapp-gateway', name: 'Nulu' }])
   })
 
   it('loads keyless, keeps the catalog browsable, and fails the request actionably', async () => {
@@ -2193,7 +2158,7 @@ describe('plugin registration and config', () => {
     // First-boot onboarding: the route registers so models stay discoverable;
     // only the request itself needs a key.
     expect(ctx.llm.listProviders()).toEqual([{ id: 'worldapp-gateway', name: 'Nulu' }])
-    await expect(ctx.llm.listModels('worldapp-gateway')).resolves.toHaveLength(4)
+    await expect(ctx.llm.listModels('worldapp-gateway')).resolves.toHaveLength(2)
     const first = await assemble(ctx, { model: 'nulu-5', messages: [] })
     expect(first.finish).toMatchObject({ kind: 'error', failure: { code: 'MISSING_CREDENTIAL' } })
     // The guidance leads with the managed credential store.
@@ -2273,7 +2238,7 @@ describe('plugin registration and config', () => {
     await ctx.plugin(LlmRuntime)
     // Registration succeeds; no call is made (would hit api.nulu.com).
     await ctx.plugin(LlmGateway, { protocol: 'chat-completions' })
-    expect(ctx.llm.listProviders()).toEqual([{ id: 'nulu-5-ultra', name: 'Nulu' }])
+    expect(ctx.llm.listProviders()).toEqual([{ id: 'worldapp-gateway', name: 'Nulu' }])
   })
 
   it('adapter is constructible directly for embedding over the shared resolver', async () => {
@@ -2281,7 +2246,7 @@ describe('plugin registration and config', () => {
     expect(adapter).toBeInstanceOf(NuluAdapter)
     // Direct embedding shares the plugin's one resolve step, so it advertises
     // the same default catalog instead of a divergent empty one.
-    await expect(adapter.listModels('worldapp-gateway')).resolves.toHaveLength(4)
+    await expect(adapter.listModels('worldapp-gateway')).resolves.toHaveLength(2)
   })
 
   it('resolves connection facts and the credential exactly once per stream call', async () => {

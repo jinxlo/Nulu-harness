@@ -33,7 +33,7 @@ async function boot() {
   cleanup.push(() => ctx.fiber.dispose())
   await ctx.plugin(LlmRuntime)
   await ctx.plugin(NuluLlmApiExtensionRegistry)
-  await ctx.plugin(Nulu, { baseURL: 'https://messages.example.test/root' })
+  await ctx.plugin(Nulu, { protocol: 'messages', baseURL: 'https://messages.example.test/root' })
   return ctx
 }
 

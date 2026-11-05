@@ -8,7 +8,7 @@ import { MAX_TIMER_DELAY_MS } from '@worldapptechnologies/nulu-timeout'
 import type { NuluCatalogModel, NuluConnectionOptions, NuluProtocol } from './common/types.ts'
 import { DEFAULT_MODELS } from './common/models.ts'
 import { DEFAULT_STREAM_IDLE_TIMEOUT_MS, DEFAULT_CONTEXT_WINDOW, DEFAULT_MAX_TOKENS, DEFAULT_MAX_INLINE_REQUEST_IMAGE_BYTES, DEFAULT_IMAGE_OFFLOAD_BYTE_QUANTUM, DEFAULT_INLINE_IMAGE_OFFLOAD_BYTE_QUANTUM, DEFAULT_IMAGE_OFFLOAD_COUNT_QUANTUM, DEFAULT_FILE_EXPIRY_SECONDS, DEFAULT_FILE_REFRESH_MARGIN_SECONDS, DEFAULT_FILE_QUOTA_CLEANUP_BATCH, DEFAULT_FILES_API_TIMEOUT_MS } from './common/defaults.ts'
-import { DEFAULT_MAX_IMAGES_PER_REQUEST, DEFAULT_MAX_REQUEST_FILES_BYTES, DEFAULT_REQUEST_IMAGE_MAX_BYTES } from './common/request-pricing.ts'
+import { DEFAULT_MAX_IMAGES_PER_REQUEST, DEFAULT_MAX_REQUEST_FILES_BYTES, DEFAULT_REQUEST_IMAGE_MAX_BYTES, DEFAULT_REQUEST_IMAGE_PIXEL_BUDGET } from './common/request-pricing.ts'
 
 const DEFAULT_API_KEY_ENV = 'WORLD_APP_TECHNOLOGIES_API_KEY'
 
@@ -179,7 +179,7 @@ function resolveModels(models: readonly NuluCatalogModel[] | undefined): NuluCat
       inputModalities: [...inputModalities],
       ...hasImage
         ? {
-          ...model.imagePixelBudget === undefined ? {} : { imagePixelBudget: model.imagePixelBudget },
+          imagePixelBudget: model.imagePixelBudget ?? DEFAULT_REQUEST_IMAGE_PIXEL_BUDGET,
           imageMaxBytes: model.imageMaxBytes ?? DEFAULT_REQUEST_IMAGE_MAX_BYTES,
         }
         : {},

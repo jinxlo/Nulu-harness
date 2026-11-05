@@ -113,11 +113,24 @@ function validateHeader(path: string, content: Buffer, sourceBase: string): stri
   return errors
 }
 
+// These imported version-1 artifacts retain their sealed bytes, including the historical language switcher.
+// No other legacy-format artifact is admitted, and these three can never change content.
+const IMPORTED_V1_SEALS: Readonly<Record<string, string>> = {
+  'architecture/2026-09-02-durable-image-offload.i18n.yaml': 'sha256:d06155597e7df4ca4c15a2902ab664d69cc2fde1e7963e61543d20a49930d2b9',
+  'architecture/2026-09-02-durable-image-offload.md': 'sha256:02b7becba3dd73a4e627b85705e8bd5dd55978cb041f4d3a0fd1420a76e4de92',
+  'architecture/2026-09-02-durable-image-offload.zh.md': 'sha256:a0464b8272086d663ee698efd0b2edd6224d40770d7a8fd88a6d8bfe030b2a1d',
+}
+
 /** Validate the closed kind tree and implemented/archive headers. */
 export function validateArchiveArtifacts(artifacts: ReadonlyMap<string, Buffer>): string[] {
   const errors: string[] = []
   const sources = new Map<string, Buffer>()
   for (const [path, content] of artifacts) {
+    const importedSeal = IMPORTED_V1_SEALS[path]
+    if (importedSeal !== undefined) {
+      if (archiveContentHash(content) !== importedSeal) errors.push(`${path}: imported version-1 archive checksum changed`)
+      continue
+    }
     const match = /^([^/]+)\/(\d{4}-\d{2}-\d{2}-.+?)\.md$/.exec(path)
     if (path.endsWith('.zh.md') || match?.[1] === undefined || match[2] === undefined) {
       errors.push(`${path}: expected {kind}/yyyy-mm-dd-topic.md`)

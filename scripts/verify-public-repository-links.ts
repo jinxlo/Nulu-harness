@@ -8,7 +8,11 @@ import { pathToFileURL } from 'node:url'
 const root = resolve(import.meta.dirname, '..')
 const unavailableOwner = ['nulu', 'ai'].join('-')
 const unavailableRepositoryName = ['nulu', 'harness', 'sdk'].join('-')
-const unavailableRepository = `${unavailableOwner}/${unavailableRepositoryName}`
+const unavailableRepositories = [
+  `${unavailableOwner}/${unavailableRepositoryName}`,
+  ['worldapptechnologies', 'nulu-harness-sdk'].join('/'),
+  `${['deepseek', 'ai'].join('-')}/${['deepseek', 'harness', 'sdk'].join('-')}`,
+]
 const archivedAgentNotePrefix = '.agents/notes/archived/'
 
 const namedReferenceCharacters: Readonly<Record<string, string>> = {
@@ -60,7 +64,7 @@ export function findUnavailableRepositoryReferences(file: string, source: string
   const references: UnavailableRepositoryReference[] = []
   for (const [index, line] of source.split('\n').entries()) {
     const canonicalLine = canonicalReferenceText(line)
-    if (canonicalLine.includes(unavailableRepository)) references.push({ file, line: index + 1 })
+    if (unavailableRepositories.some(repository => canonicalLine.includes(repository))) references.push({ file, line: index + 1 })
   }
   return references
 }

@@ -78,3 +78,5 @@ None; the model-visible request prefix remains unchanged.
 None.
 
 </details>
+
+Historical `session-log-deepseek/delivery-accepted` records remain readable. They do not advance the Nulu delivery cursor; only receipts for the Nulu gateway do so.

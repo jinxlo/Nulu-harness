@@ -15,22 +15,22 @@ interface Profile {
 // A one-time audit against eslint.config.mjs blob 696b08282885296830189fdafe7051a356806fc2
 // mapped @typescript-eslint/* to typescript/* and four extension rules to their
 // Oxlint core equivalents. These fingerprints pin the resulting repository
-// snapshot; they do not re-evaluate that deleted baseline or track its preset.
+// snapshot, including the Nulu-owned crypto helper in its diagnostic; rule counts and severities are unchanged.
 const profiles = {
   source: {
     count: 89,
     indexes: [0, 1, 4, 5],
-    sha256: '3e8b8455827254d6da59afb803d30f062b9fe1264b4df75ce4c8cd6e742b93dd',
+    sha256: '9ad92a2f4528cb8ac8d128f0e5f94c795b8ba7a526502c4390e22c8a7f3096ce',
   },
   example: {
     count: 88,
     indexes: [0, 1, 2, 4, 5],
-    sha256: 'e2b944c028ef1971302d47b2eb0e95c05e740623c7cbaebb4b1312dbf73bf156',
+    sha256: 'f3e3b8e7f2dcb9db0e92bd885d0e25f9c1df70a5acb764ae776b6af4064a0c52',
   },
   test: {
     count: 84,
     indexes: [0, 3, 4, 5],
-    sha256: '7e4e1ed0cfca06ac94eeb26081195b5f753e7527775d5f5b95ccfefac9d2b137',
+    sha256: '84930b6809311c8723bf411c2984032c82fd9394e0ff792dec7ba6a86124611d',
   },
 } as const satisfies Record<string, Profile>
 

@@ -49,8 +49,8 @@ describe('Nulu request-image pricing', () => {
     const image = ref('photo', 1920, 1080)
     const prices = nuluImageRequestPricing(connection(), 'vision').priceImages([block(image)])
     expect(prices).toEqual([{
-      visualTokens: 968,
-      text: requestImageHandleText(image, { width: 1708, height: 961 }),
+      visualTokens: 407,
+      text: requestImageHandleText(image, { width: 1066, height: 600 }),
     }])
   })
 
@@ -70,8 +70,8 @@ describe('Nulu request-image pricing', () => {
     const image = ref('portrait', 1224, 1429)
     const prices = nuluImageRequestPricing(connection(), 'vision').priceImages([block(image)])
     expect(prices).toEqual([{
-      visualTokens: 992,
-      text: requestImageHandleText(image, { width: 1187, height: 1386 }),
+      visualTokens: 401,
+      text: requestImageHandleText(image, { width: 740, height: 864 }),
     }])
   })
 

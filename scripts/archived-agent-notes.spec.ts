@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import {
   extendArchiveManifest,
@@ -25,6 +26,16 @@ describe('archived Agent Notes', () => {
 
   it('accepts one implemented archive document', () => {
     expect(validateArchiveArtifacts(fixture())).toEqual([])
+  })
+
+  it('preserves the three imported version-1 artifacts and rejects changed bytes', () => {
+    for (const suffix of ['.md', '.zh.md', '.i18n.yaml']) {
+      const path = `architecture/2026-09-02-durable-image-offload${suffix}`
+      const content = readFileSync(new URL(`../.agents/notes/archived/${path}`, import.meta.url))
+      expect(validateArchiveArtifacts(new Map([[path, content]]))).toEqual([])
+      expect(validateArchiveArtifacts(new Map([[path, Buffer.concat([content, Buffer.from('changed')])]])))
+        .toEqual([`${path}: imported version-1 archive checksum changed`])
+    }
   })
 
   it('rejects invalid archive headers', () => {

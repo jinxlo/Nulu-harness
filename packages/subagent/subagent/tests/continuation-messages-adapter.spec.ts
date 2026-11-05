@@ -15,7 +15,7 @@ import { end, MODEL, server, sse, start } from '../../../llm/llm-gateway/tests/m
 import SubagentRuntime, { type SubagentRunEndInfo } from '../src/index.ts'
 import { loadStoredSession } from './persistence-helpers.ts'
 
-it('continues the parent through default Messages after a reasoning-bearing continuable child settles', async () => {
+it('continues the parent through explicitly configured Messages after a reasoning-bearing continuable child settles', async () => {
   const root = mkdtempSync(join(tmpdir(), 'nulu-settlement-messages-'))
   const ctx = new Context()
   let http: Awaited<ReturnType<typeof server>> | undefined
@@ -34,7 +34,7 @@ it('continues the parent through default Messages after a reasoning-bearing cont
       ]))
     })
     const { requests } = http
-    const connection = resolveAdapterOptions({ baseURL: http.url })
+    const connection = resolveAdapterOptions({ protocol: 'messages', baseURL: http.url })
     const adapter = new NuluAdapter({
       options: () => connection,
       resolveApiKey: () => Promise.resolve('test-key'),

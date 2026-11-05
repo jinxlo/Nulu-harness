@@ -48,6 +48,8 @@ function rowId(providerId: string, modelId: string): string {
 }
 
 const BUILTIN_DESCRIPTION_KEYS: Readonly<Record<string, ModelKey>> = {
+  'worldapp/nulu-5-ultra': 'option.nulu5Ultra.description',
+  'worldapp/nulu-5-pro': 'option.nulu5Pro.description',
   'worldapp-gateway/nulu-5-ultra': 'option.nulu5Ultra.description',
   'worldapp-gateway/nulu-5-pro': 'option.nulu5Pro.description',
 }

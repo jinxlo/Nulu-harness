@@ -78,7 +78,7 @@ describe('catalog-route model discovery', () => {
     const server = await listingServer({ body: JSON.stringify({ data: [{ id: 'from-the-endpoint' }] }) })
     const ctx = await harness()
 
-    const models = await ctx.llm.discoverModels('llm-pi-ai', { provider: 'deepseek' as never, baseURL: server.url })
+    const models = await ctx.llm.discoverModels('llm-pi-ai', { provider: 'deepseek', baseURL: server.url })
 
     // pi-ai's own registry is the authority for its own providers, and it
     // carries what a listing endpoint would not disclose.

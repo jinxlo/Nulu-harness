@@ -28,9 +28,9 @@ const GROUPS = [{
   name: 'Nulu',
   models: [
     {
-      id: 'nulu-5',
-      name: 'Nulu 5',
-      description: 'Fast, efficient, and economical; suited to focused, routine, or parallel tasks.',
+      id: 'nulu-5-pro',
+      name: 'Nulu 5 Pro',
+      description: 'Deep reasoning model for complex analysis, technical planning, and code.',
       reasoning: {
         efforts: [
           { id: 'off', name: 'Off' },
@@ -43,7 +43,7 @@ const GROUPS = [{
     {
       id: 'nulu-5-ultra',
       name: 'Nulu 5 Ultra',
-      description: 'Stronger agentic coding, knowledge, and difficult reasoning; suited to complex or quality-critical tasks at higher cost.',
+      description: 'Flagship multimodal model for advanced reasoning, code, agentic tasks, vision, and long-context work.',
       reasoning: {
         efforts: [
           { id: 'off', name: 'Off' },
@@ -58,16 +58,17 @@ const GROUPS = [{
   id: 'external',
   name: 'External Provider',
   models: [{
-    id: 'nulu-5',
+    id: 'nulu-5-pro',
     name: 'External Flash',
     description: 'Provider-authored description.',
   }],
 }]
 
 /** Boot the plugin over fake faces + a stateful fake host (current moves on selectModel). */
-async function bench(locale: 'zh' | 'en' = 'zh') {
+async function bench(locale: 'zh' | 'en' = 'zh', groups = GROUPS) {
+  const ownedProvider = groups[0]?.id ?? 'worldapp-gateway'
   const ctx = new Context()
-  let defaultSelection: ModelSelection = { provider: 'worldapp-gateway', model: 'nulu-5' }
+  let defaultSelection: ModelSelection = { provider: ownedProvider, model: 'nulu-5-pro' }
   let selected = defaultSelection
   const calls = { models: 0, select: 0 }
   const projections = new Map<SessionId, SnapshotStore<ModelSelectionProjection | undefined>>()
@@ -81,8 +82,8 @@ async function bench(locale: 'zh' | 'en' = 'zh') {
         ok: true as const,
         value: {
           default: defaultSelection,
-          routableProviders: routable ? ['worldapp-gateway'] : [],
-          groups: GROUPS,
+          routableProviders: routable ? [ownedProvider] : [],
+          groups,
           failures: [],
         },
       })
@@ -198,16 +199,26 @@ describe('ui-model-selection dual entry', () => {
     b.mint('s1')
     const options = await b.popup().options(projection('s1'), new AbortController().signal)
     expect(options.map((o: SelectOption) => o.label)).toEqual([
-      'Nulu 5', 'Nulu 5 Ultra', 'External Flash',
+      'Nulu 5 Pro', 'Nulu 5 Ultra', 'External Flash',
     ])
     expect(options[0]).toMatchObject({
       active: true,
-      detail: 'Nulu · 快速、高效且经济；适合目标明确、常规或并行任务。',
+      detail: 'Nulu · 深度推理模型，适合复杂分析、技术规划与代码。',
     })
     expect(options[1]?.detail)
-      .toBe('Nulu · 更强的自主编码、知识与复杂推理能力；适合复杂或质量优先的任务，但成本更高。')
+      .toBe('Nulu · 旗舰多模态模型，适合高级推理、编程、智能体任务、视觉与长上下文处理。')
     expect(options[2]?.detail).toBe('External Provider · Provider-authored description.')
     expect(options[1]?.active).toBeUndefined()
+  })
+
+  it('localizes the shipped worldapp route while preserving an external copy of the same model', async () => {
+    const groups = GROUPS.map(group => group.id === 'worldapp-gateway' ? { ...group, id: 'worldapp' } : group)
+    const b = await bench('zh', groups)
+    b.mint('s1')
+    const options = await b.popup().options(projection('s1'), new AbortController().signal)
+    expect(options[0]?.detail).toBe('Nulu · 深度推理模型，适合复杂分析、技术规划与代码。')
+    expect(options[1]?.detail).toBe('Nulu · 旗舰多模态模型，适合高级推理、编程、智能体任务、视觉与长上下文处理。')
+    expect(options[2]?.detail).toBe('External Provider · Provider-authored description.')
   })
 
   it('keeps built-in descriptions unchanged in English', async () => {
@@ -215,9 +226,9 @@ describe('ui-model-selection dual entry', () => {
     b.mint('s1')
     const options = await b.popup().options(projection('s1'), new AbortController().signal)
     expect(options[0]?.detail)
-      .toBe('Nulu · Fast, efficient, and economical; suited to focused, routine, or parallel tasks.')
+      .toBe('Nulu · Deep reasoning model for complex analysis, technical planning, and code.')
     expect(options[1]?.detail)
-      .toBe('Nulu · Stronger agentic coding, knowledge, and difficult reasoning; suited to complex or quality-critical tasks at higher cost.')
+      .toBe('Nulu · Flagship multimodal model for advanced reasoning, code, agentic tasks, vision, and long-context work.')
   })
 
   it('a seat selection is the current the popup marks active next — one shared state', async () => {
@@ -282,7 +293,7 @@ describe('ui-model-selection dual entry', () => {
     b.mint('s1')
     const face = b.seat().inject!(sid('s1'))
     await face.select({ provider: 'worldapp-gateway', model: 'nulu-5-ultra' })
-    b.setHostCurrent({ provider: 'worldapp-gateway', model: 'nulu-5' })
+    b.setHostCurrent({ provider: 'worldapp-gateway', model: 'nulu-5-pro' })
 
     b.ctx.emit('connection/reset')
     expect(face.directory.getSnapshot()).toMatchObject({
@@ -301,15 +312,15 @@ describe('ui-model-selection dual entry', () => {
     b.mint('s1')
     const face = b.seat().inject!(sid('s1'))
     face.load()
-    expect(face.directory.getSnapshot().current?.model).toBe('nulu-5')
+    expect(face.directory.getSnapshot().current?.model).toBe('nulu-5-pro')
 
     b.remote.emit('settings/document-updated', ['llm-gateway', 1])
     b.setProjected(sid('s1'), {
-      lastUsed: { provider: 'worldapp-gateway', model: 'nulu-5' },
+      lastUsed: { provider: 'worldapp-gateway', model: 'nulu-5-pro' },
       next: { provider: 'worldapp-gateway', model: 'nulu-5-ultra' },
     })
     expect(face.directory.getSnapshot()).toMatchObject({
-      current: { provider: 'worldapp-gateway', model: 'nulu-5' },
+      current: { provider: 'worldapp-gateway', model: 'nulu-5-pro' },
       status: 'ready',
     })
 

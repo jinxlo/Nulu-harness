@@ -16,6 +16,12 @@ Qualification tests both the direct gateway and the shipped CLI against the publ
 
 The workflow preserves the current unsigned developer-preview channel. Signed installation remains dependent on explicit signing infrastructure. The [existing desktop packaging decision](../architecture/2026-08-25-electron-desktop-packaging-and-updates.md) continues to own runtime release identity and signing requirements; this note adds unattended qualification and download promotion.
 
+The baseline restores the archive manifest from trusted `main` seals and retains the three additional artifacts whose existing seals match their bytes. All 628 main artifacts already match their trusted hashes, and no archived artifact changes. The older merge incorrectly labeled a stale bilingual manifest as version 2. Verification compares this reconciliation against `origin/main`, the actual promotion base, rather than treating the corrupt intermediate manifest as a new sealing authority.
+
+The recovered archive retains three version-1 artifacts with their original sealed bytes. Only those exact checksums admit their historical header and translation metadata; changed content and other legacy filenames still fail. Compiler-generated declarations accidentally committed beside 15 TypeScript source owners are removed; ordinary builds emit declarations under `lib/types`.
+
+The SDK mounts the actual `worldapp-gateway` route. Its transport fixtures use the public Chat Completions protocol. Historical delivery and search event names remain read-compatible, while new Nulu requests and receipts retain the Nulu event names and endpoint. The schema-v1 hashing namespace remains its original technical identifier; branding never rewrites that identifier or captured persistence history.
+
 ## Alternatives considered
 
 **Merge and rebrand upstream on the default branch.** This exposes incomplete adaptation and can rewrite Nulu policy or publishing controls. Candidate isolation and protected tooling preserve a working release during failures.

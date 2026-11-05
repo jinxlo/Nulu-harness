@@ -98,7 +98,8 @@ export function brandText(text, { providerFixture = false } = {}) {
   ]
   for (const [from, to] of replacements) {
     if (providerFixture && from.startsWith('DEEPSEEK_')) continue
-    text = text.split(from).join(to)
+    if (from === 'session-log-deepseek') text = text.replace(/session-log-deepseek(?!\/delivery-accepted\b)/g, to)
+    else text = text.split(from).join(to)
   }
   return text.replace(/(?<![\w-])dsh(?![\w-])/g, 'nulu')
 }

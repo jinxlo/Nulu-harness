@@ -251,24 +251,29 @@ describe('Messages images', () => {
   const image: ImageBlock = { type: 'image', attachment: ref }
   const version: RequestImageAttachment = { attachment: ref, variantId: ImageVariantId(`sha256:${'b'.repeat(64)}`), mediaType: 'image/png', bytes: 3, data: Uint8Array.of(1, 2, 3), width: 1, height: 1, depth: 'uchar', space: 'srgb', hasAlpha: false }
   const access = () => ({ readonlyPath: '/workspace/image.png' })
+  const imageConnection = resolveAdapterOptions({ models: [
+    { id: 'nulu-5-ultra', inputModalities: ['text', 'image'] },
+    { id: 'nulu-v4-flash-vision-exp', inputModalities: ['text', 'image'] },
+  ] })
   const model = 'nulu-v4-flash-vision-exp'
   // Only the read operation is consumed by image preparation; the transport is mocked, not durable content.
   const attachments = { readImageRequest: async () => version } as unknown as AttachmentStore
   const signal = new AbortController().signal
   it.each(['nulu-5-ultra', model])('keeps image bytes inside tool results and deduplicates normalization for %s', async (model) => {
     const history = [assistant([call()]), result('a', [image, image])]
-    const prepared = await prepareImages(history, connection, model, attachments, access, signal)
+    const prepared = await prepareImages(history, imageConnection, model, attachments, access, signal)
     expect(prepared.versions.size).toBe(1)
-    const request = serialize(options({ model }), connection, prepared.messages, prepared.versions, access)
+    const request = serialize(options({ model }), imageConnection, prepared.messages, prepared.versions, access)
     expect(request.messages[1]?.content[0]).toMatchObject({ type: 'tool_result', content: [
       { type: 'text', text: expect.stringContaining('/workspace/image.png') as string }, { type: 'image', source: { type: 'base64', media_type: 'image/png', data: 'AQID' } },
       { type: 'text' }, { type: 'image' },
     ] })
-    expect(imagePricing(connection, model, access).priceImages([image])[0]?.visualTokens).toBeGreaterThan(0)
-    expect(imagePricing(connection, MODEL, access).priceImages([image])[0]?.visualTokens).toBe(0)
+    expect(imagePricing(imageConnection, model, access).priceImages([image])[0]?.visualTokens).toBeGreaterThan(0)
+    expect(imagePricing(imageConnection, MODEL, access).priceImages([image])[0]?.visualTokens).toBe(0)
   })
   it('requires logged offload at exact encoded bytes and preserves durable references', async () => {
     const config = resolveAdapterOptions({
+      models: imageConnection.models,
       maxInlineRequestImageBytes: 4, inlineImageOffloadByteQuantum: 1, maxImagesPerRequest: 2, imageOffloadCountQuantum: 1,
     })
     const history = [result('a', [image, image])]
@@ -291,13 +296,13 @@ describe('Messages images', () => {
   })
   it('rejects unsupported roles and unavailable image capabilities before HTTP', async () => {
     const history = [result('a', [image])]
-    await expect(prepareImages(history, connection, MODEL, attachments, access, signal)).rejects.toMatchObject({ code: 'UNSUPPORTED_CONTENT' })
-    await expect(prepareImages(history, connection, model, undefined, access, signal)).rejects.toMatchObject({ code: 'UNSUPPORTED_CONTENT' })
-    await expect(prepareImages([assistant([image])], connection, model, attachments, access, signal)).rejects.toMatchObject({ code: 'UNSUPPORTED_CONTENT' })
+    await expect(prepareImages(history, imageConnection, MODEL, attachments, access, signal)).rejects.toMatchObject({ code: 'UNSUPPORTED_CONTENT' })
+    await expect(prepareImages(history, imageConnection, model, undefined, access, signal)).rejects.toMatchObject({ code: 'UNSUPPORTED_CONTENT' })
+    await expect(prepareImages([assistant([image])], imageConnection, model, attachments, access, signal)).rejects.toMatchObject({ code: 'UNSUPPORTED_CONTENT' })
     expect(() => body([result('a', [image])])).toThrow(/image/)
     expect(() => body([assistant([image])])).toThrow(/assistant/)
     expect(() => body([result('a', [{ type: 'reasoning', text: 'bad' }])])).toThrow(/user/)
-    expect(() => serialize(options({ model }), connection, [result('a', [image])], new Map([[ref.attachmentId, version]]), access, undefined, new Map()))
+    expect(() => serialize(options({ model }), imageConnection, [result('a', [image])], new Map([[ref.attachmentId, version]]), access, undefined, new Map()))
       .toThrow(/request file id is missing/)
   })
 })

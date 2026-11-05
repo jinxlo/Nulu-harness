@@ -49,6 +49,21 @@ function body(text = 'x'.repeat(300)) {
 }
 
 describe('incremental Nulu session-log upload', () => {
+  it('reads a historical upstream receipt without advancing the Nulu delivery cursor', async () => {
+    const { ctx, session } = await harness('upstream-receipt')
+    session.append('turn/start', { turn: 1 })
+    session.append('session-log-deepseek/delivery-accepted', {
+      sessionId: session.id, sessionFormatVersion: SESSION_FORMAT_VERSION, throughSeq: SessionSeq(0),
+    })
+    expect(SessionLogGateway.acceptedThrough(session)).toBe(-1)
+    const prepared = await ctx.nuluLlmApiExtensions.prepare({ body: body(), signal: SIGNAL, sessionId: session.id })
+    expect(prepared.fields.nulu_session_log).toMatchObject({ afterSeq: -1, throughSeq: 1 })
+    expect(prepared.fields.nulu_session_log?.events[1]?.type).toBe('session-log-deepseek/delivery-accepted')
+    await prepared.accept()
+    expect(SessionLogGateway.acceptedThrough(session)).toBe(1)
+    expect(session.snapshotEvents().at(-1)?.type).toBe('session-log-gateway/delivery-accepted')
+  })
+
   it('publishes raw numeric sequence fields on its external wire DTO', () => {
     expectTypeOf<NuluSessionLogExtension['sessionFormatVersion']>().toEqualTypeOf<number>()
     expectTypeOf<NuluSessionLogExtension['afterSeq']>().toEqualTypeOf<number>()

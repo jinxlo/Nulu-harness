@@ -1,4 +1,4 @@
-import { MESSAGES_RESPONSE } from './messages-response.ts'
+import { CHAT_RESPONSE } from './chat-response.ts'
 import { createServer } from 'node:http'
 import type { IncomingMessage, Server, ServerResponse } from 'node:http'
 import { mkdtemp, rm } from 'node:fs/promises'
@@ -157,7 +157,7 @@ async function mockCompletionServer(): Promise<{ url: string; requests: unknown[
     request.on('end', () => {
       requests.push(JSON.parse(body))
       response.writeHead(200, { 'content-type': 'text/event-stream' })
-      response.end(MESSAGES_RESPONSE)
+      response.end(CHAT_RESPONSE)
     })
   })
   servers.push(server)
