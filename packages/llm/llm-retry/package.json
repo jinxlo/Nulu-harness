@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-llm-retry",
   "description": "Provider-routed LLM request retry policy for the Nulu Harness",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "publishConfig": {
     "access": "public"
   },
@@ -66,7 +66,6 @@
     "@worldapptechnologies/nulu-system-prompt": "workspace:^",
     "@worldapptechnologies/nulu-timeout": "workspace:^",
     "@worldapptechnologies/nulu-tools": "workspace:^",
-    "@worldapptechnologies/cordis": "workspace:^",
-    "@worldapptechnologies/nulu-session-projection": "workspace:^"
+    "@worldapptechnologies/cordis": "workspace:^"
   }
 }
