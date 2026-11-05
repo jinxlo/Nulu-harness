@@ -1,4 +1,4 @@
-name: Diagnose Nulu Windows replacement
+name: Compare Nulu Windows replacement paths
 
 on:
   push:
@@ -27,6 +27,13 @@ jobs:
           Copy-Item scripts/automation/windows-probe.ps1 $env:RUNNER_TEMP/windows-probe.ps1
           git fetch origin 54b0f645f6bc3417997badb123c9c95dc2c2013d
           git checkout --detach 54b0f645f6bc3417997badb123c9c95dc2c2013d
+      - name: Shorten only the private installation fixture for the controlled comparison
+        run: |
+          $path = 'scripts/automation/install-smoke.mjs'
+          $source = Get-Content $path -Raw
+          if (-not $source.Contains("'nulu-install-smoke-'")) { throw 'Expected private fixture prefix was not found' }
+          [System.IO.File]::WriteAllText((Join-Path (Get-Location) $path), $source.Replace("'nulu-install-smoke-'", "'nulu-'"))
+          git diff -- scripts/automation/install-smoke.mjs
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v6
         with:

@@ -28,7 +28,7 @@ The base composition mounts the declared image-offload recovery plugin. The SDK 
 
 Windows installation is sequential: the previous application launches and closes before NSIS replaces its installed directory. Installing both versions before launching the previous one lets NSIS delete the payload that the test is meant to exercise.
 
-An isolated Windows diagnostic branch reuses the exact failed candidate and delivered installer. It records owned process state, hidden window captions, private installation progress and a small installer minidump on a disposable runner. The diagnostic workflow has read-only repository permissions and no publication path.
+An isolated Windows diagnostic branch reuses the exact failed candidate and delivered installer. It records owned process state, hidden window captions, private installation progress and a small installer minidump on a disposable runner. A shorter private fixture prefix provides a controlled path-length comparison with identical installer bytes and application assertions. The diagnostic workflow has read-only repository permissions and no publication path.
 
 Native branding checks complete the first-run notice and expand the collapsed sidebar before measuring the candidate wordmark. Startup screenshots remain available when those checks fail. The wordmark canvas contains the complete label on supported system fonts; previous releases retain their own artwork while their version and Nulu identity are checked. Cosmetic notice copy omits an obsolete application version without resetting existing acknowledgements.
 

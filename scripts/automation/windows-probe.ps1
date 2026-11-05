@@ -58,7 +58,7 @@ try {
         } finally { $file.Dispose() }
       }
     }
-    $roots = @(Get-ChildItem $env:TEMP -Directory -Filter 'nulu-install-smoke-*' | Where-Object { $_.CreationTime -ge $started.AddSeconds(-1) })
+    $roots = @(Get-ChildItem $env:TEMP -Directory -Filter 'nulu-*' | Where-Object { $_.CreationTime -ge $started.AddSeconds(-1) })
     $files = @($roots | Get-ChildItem -File -Recurse -ErrorAction SilentlyContinue)
     $state = [ordered]@{ elapsedSeconds=((Get-Date)-$started).TotalSeconds; processes=$details; files=$files.Count; bytes=($files | Measure-Object Length -Sum).Sum; recent=@($files | Sort-Object LastWriteTime -Descending | Select-Object -First 8 FullName,Length,LastWriteTime) }
     $state | ConvertTo-Json -Depth 8 | Set-Content "$evidence/sample-$sample.json"
