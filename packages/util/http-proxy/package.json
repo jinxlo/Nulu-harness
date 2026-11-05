@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-http-proxy",
   "description": "Process-wide outbound HTTP proxy policy for Nulu Harness: resolve it from the launch environment and install it as undici's global dispatcher",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "publishConfig": {
     "access": "public"
   },

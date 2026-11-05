@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-sdk-app",
   "description": "The nulu SDK profile bundle: stdio JSON-RPC serving and process lifecycle over nulu-base",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "publishConfig": {
     "access": "public"
   },

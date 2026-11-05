@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-jobs-local",
   "description": "Process-local implementation of the Nulu Harness background job registry seam",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "publishConfig": {
     "access": "public"
   },

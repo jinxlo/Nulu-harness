@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-webhook",
   "description": "Fire-and-forget webhook rule runtime that creates Workspace-backed Nulu Harness Sessions",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "publishConfig": {
     "access": "public"
   },
