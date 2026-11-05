@@ -3,6 +3,7 @@ import { cpSync, existsSync, mkdirSync, mkdtempSync, readdirSync, rmSync } from 
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { command, WINDOWS_INSTALL_TIMEOUT_MS } from './common.mjs'
+import { runInstaller } from './run-installer.mjs'
 
 const [currentDirectory, previousDirectory, target, evidence] = process.argv.slice(2)
 if (!currentDirectory || !previousDirectory || !target || !evidence) throw new Error('Usage: install-smoke.mjs <current-assets> <previous-assets> <target> <evidence>')
@@ -15,7 +16,7 @@ function installerFor(directory) {
   return resolve(directory, names[0])
 }
 
-function unpack(directory, label) {
+async function unpack(directory, label) {
   const installer = installerFor(directory)
   const destination = join(root, label)
   mkdirSync(destination, { recursive: true })
@@ -26,7 +27,7 @@ function unpack(directory, label) {
   }
   if (process.platform === 'win32') {
     console.info(`${target}: installing ${label} payload (${WINDOWS_INSTALL_TIMEOUT_MS / 60000} minute limit)`)
-    command(installer, ['/S', `/D=${destination}`], { timeout: WINDOWS_INSTALL_TIMEOUT_MS })
+    await runInstaller(installer, ['/S', `/D=${destination}`], { evidence: resolve(evidence) })
     console.info(`${target}: ${label} installer completed`)
     return join(destination, 'Nulu Harness.exe')
   }
@@ -39,10 +40,10 @@ function unpack(directory, label) {
 }
 
 try {
-  const previous = unpack(resolve(previousDirectory), 'previous')
+  const previous = await unpack(resolve(previousDirectory), 'previous')
   // NSIS uninstalls the registered previous payload before installing its replacement.
   const upgradeInstaller = process.platform === 'win32' ? installerFor(resolve(currentDirectory)) : undefined
-  const current = upgradeInstaller === undefined ? unpack(resolve(currentDirectory), 'current') : previous
+  const current = upgradeInstaller === undefined ? await unpack(resolve(currentDirectory), 'current') : previous
   if (!existsSync(previous) || !existsSync(current)) throw new Error('Installer did not produce its application executable')
   const version = readdirSync(previousDirectory).map(name => /^nulu-harness-(\d+\.\d+\.\d+)-/.exec(name)?.[1]).find(Boolean)
   if (!version) throw new Error('Cannot determine the previous installer version')

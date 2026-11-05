@@ -1,6 +1,7 @@
 import { isPromotedBaseline } from './watchdog-policy.mjs'
 import assert from 'node:assert/strict'
-import { mkdtempSync, mkdirSync, renameSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdtempSync, mkdirSync, readFileSync, renameSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
+import { setTimeout as delay } from 'node:timers/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import test from 'node:test'
@@ -8,6 +9,51 @@ import { assertTrustedFilesUnchanged, brandText, command, editablePath, readable
 import { buildCatalog, installerName, TARGETS, validateCatalog, validateNativeEvidence, versionOrder } from './release-catalog.mjs'
 import { gatewayModelIds, validateModelPolicy } from './brand-policy.mjs'
 import { adapt } from './adapter.mjs'
+import { runInstaller } from './run-installer.mjs'
+
+async function until(predicate) {
+  const deadline = Date.now() + 10000
+  while (!predicate()) {
+    assert.ok(Date.now() < deadline, 'Owned installer fixture did not settle')
+    await delay(10)
+  }
+}
+
+test('installer completion does not wait for a helper that inherits its output handles', async t => {
+  const root = mkdtempSync(join(tmpdir(), 'nulu-installer-handles-'))
+  const pidFile = join(root, 'pid')
+  const stopFile = join(root, 'stop')
+  const descendant = join(root, 'descendant.cjs')
+  const installer = join(root, 'installer.cjs')
+  writeFileSync(descendant, `const fs = require('node:fs'); fs.writeFileSync(process.argv[2], String(process.pid)); setInterval(() => { if (fs.existsSync(process.argv[3])) process.exit(0) }, 10)`)
+  writeFileSync(installer, `const fs = require('node:fs'); require('node:child_process').spawn(process.execPath, [process.argv[2], process.argv[3], process.argv[4]], { stdio: 'inherit' }); setInterval(() => { if (fs.existsSync(process.argv[3])) process.exit(0) }, 10)`)
+  t.after(async () => {
+    try {
+      writeFileSync(stopFile, '')
+      if (existsSync(pidFile)) {
+        const pid = Number(readFileSync(pidFile, 'utf8'))
+        await until(() => {
+          try { process.kill(pid, 0); return false }
+          catch (error) { if (error.code === 'ESRCH') return true; throw error }
+        })
+      }
+    } finally { rmSync(root, { recursive: true, force: true }) }
+  })
+  await runInstaller(process.execPath, [installer, descendant, pidFile, stopFile], { timeout: 10000 })
+  assert.equal(existsSync(pidFile), true)
+  assert.doesNotThrow(() => process.kill(Number(readFileSync(pidFile, 'utf8')), 0))
+})
+
+test('installer execution rejects a nonzero exit and a missing executable', async t => {
+  const root = mkdtempSync(join(tmpdir(), 'nulu-installer-exit-'))
+  t.after(() => rmSync(root, { recursive: true, force: true }))
+  await assert.rejects(runInstaller(process.execPath, ['-e', 'process.exit(7)']), error => error.code === 'INSTALLER_FAILED' && error.exitCode === 7)
+  await assert.rejects(runInstaller(join(root, 'missing.exe'), []), error => error.code === 'ENOENT')
+})
+
+test('installer timeout rejects after the owned process exits', async () => {
+  await assert.rejects(runInstaller(process.execPath, ['-e', 'setInterval(() => {}, 1000)'], { timeout: 100 }), error => error.code === 'ETIMEDOUT' && (error.signal !== null || error.exitCode !== null))
+})
 
 test('release ordering rejects downgrades and compares numeric version components', () => {
   assert.ok(versionOrder('1.6.10', '1.6.9') > 0)
