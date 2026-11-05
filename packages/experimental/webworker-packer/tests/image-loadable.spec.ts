@@ -303,9 +303,12 @@ const archive = async (): Promise<Uint8Array> =>
       parent: { tree },
     }
     inventory.apply({
-      get: () => undefined,
       baseUrl,
       loader: tree,
+      get: (name: string): undefined => {
+        expect(name).toBe('pluginPackages')
+        return undefined
+      },
       nuluLlmApiExtensions: {
         register: (field: string, contribution: { readonly prepare: Prepare }): void => {
           expect(field).toBe('nulu_plugin_packages')
