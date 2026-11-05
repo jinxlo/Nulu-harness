@@ -47,6 +47,7 @@ function isUserFacing(hit) {
     && !/fixture/i.test(file)
     && !/THIRD_PARTY|LICENSE|NOTICE|CHANGELOG/i.test(file)
     && !file.startsWith('.agents/notes/')
+    && !file.startsWith('docs/persistence-changes/')
     // The sync system itself necessarily references the source names it
     // transforms; it is build tooling, not the product.
     && !file.startsWith('scripts/upstream-sync/')

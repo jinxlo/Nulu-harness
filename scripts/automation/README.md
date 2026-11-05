@@ -8,7 +8,7 @@ The hourly schedule and manual dispatch use `NULU_AUTOMATION_SOURCE_REF`, defaul
 
 `NULU_NEEDS_BASELINE=true` selects a baseline candidate without importing upstream. Clear it only after the existing application passes qualification. Root, application and package versions advance together. The protected brand manifest permits only this allocated version change; its package identity and every other field remain protected. The integrated upstream checkpoint stays on the candidate until every required check passes and that candidate reaches `main`.
 
-`WORLD_APP_TECHNOLOGIES_API_KEY_EXTERNAL` supplies the worker and mandatory live API smoke. The key is absent from dependency installation, builds and publishing. The smoke exercises public model discovery, actual inference, streamed file-writing tools, and saved-session resume through the built CLI. Skipping these checks cannot qualify a release.
+`WORLD_APP_TECHNOLOGIES_API_KEY_EXTERNAL` supplies the worker and mandatory live API smoke. The key is absent from dependency installation, builds and publishing. The smoke exercises public model discovery, actual inference, direct gateway streaming, streamed file-writing tools, and saved-session resume through the built CLI. Skipping these checks cannot qualify a release.
 
 The native matrix tests Windows x64, macOS ARM64, macOS x64, and Linux x64. It extracts or installs both the current public installer and the candidate, opens the packaged UI with isolated application and browser profiles, rejects JavaScript errors, checks version and branding, and verifies retained browser state across upgrade and restart. Each result records the candidate SHA. Publication requires all four records, all four installers, both macOS update ZIPs, and matching hosted checksums.
 
@@ -22,7 +22,7 @@ Reports are retained as Actions artifacts for 30 days. Native screenshots and up
 
 If publication fails after the `main` update, rerun the failed publish job against its original candidate. Draft upload is idempotent; the publisher refuses to overwrite a public release. Withdraw a bad public release by selecting a previously qualified release for downloads. Installed session data must not be downgraded automatically.
 
-The independent server [watchdog](watchdog.mjs) checks for missed hourly runs and dispatches a replacement after two hours without a completed check. It records its observation locally and reports a stuck run after four hours.
+The independent server [watchdog](watchdog.mjs) checks for missed hourly runs and dispatches a replacement after two hours without a completed check. It records its observation locally and reports a stuck run after four hours. A published baseline switches scheduled updates to `main` once its release commit is verified as an ancestor of `main`, including when later maintenance commits have landed.
 
 ## Validation
 

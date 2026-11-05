@@ -7,7 +7,7 @@ export function rebrandTree({ check = false } = {}) {
   const manifest = json('nulu-fork-manifest.json')
   const changed = []
   for (const path of git(['ls-files', '-z']).split('\0').filter(Boolean)) {
-    if (trustedPath(path) || /^(?:vendor\/|\.agents\/notes\/|snapshots\/|reports\/)/.test(path)
+    if (trustedPath(path) || path.startsWith('docs/persistence-changes/') || /^(?:vendor\/|\.agents\/notes\/|snapshots\/|reports\/)/.test(path)
       || /(?:^|\/)(?:LICENSE|NOTICE|THIRD_PARTY|CHANGELOG)/i.test(path)) continue
     const absolute = join(ROOT, path)
     if (!existsSync(absolute) || !lstatSync(absolute).isFile()) continue

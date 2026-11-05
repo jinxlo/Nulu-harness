@@ -1,6 +1,7 @@
 /** Independent server heartbeat: recover missing hourly runs without publishing any release itself. */
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { command } from './common.mjs'
+import { isPromotedBaseline } from './watchdog-policy.mjs'
 
 const response = JSON.parse(command('gh', ['api', 'repos/jinxlo/Nulu-harness/actions/workflows/nulu-update.yml/runs?per_page=1']))
 const workflow = JSON.parse(command('gh', ['api', 'repos/jinxlo/Nulu-harness/actions/workflows/nulu-update.yml']))
@@ -12,8 +13,10 @@ const previous = existsSync(statusFile) ? JSON.parse(readFileSync(statusFile, 'u
 record.baselineCompleted = previous.baselineCompleted === true
 if (!record.baselineCompleted) {
   const release = JSON.parse(command('gh', ['api', 'repos/jinxlo/Nulu-harness/releases/latest']))
-  const main = JSON.parse(command('gh', ['api', 'repos/jinxlo/Nulu-harness/git/ref/heads/main'])).object.sha
-  if (release.target_commitish === main && release.assets.some(asset => asset.name === 'nulu-release.json')) {
+  const source = release.target_commitish
+  const comparison = /^[a-f0-9]{40}$/.test(source ?? '') && release.assets.some(asset => asset.name === 'nulu-release.json')
+    ? JSON.parse(command('gh', ['api', `repos/jinxlo/Nulu-harness/compare/${source}...main`])) : undefined
+  if (isPromotedBaseline(release, comparison)) {
     command('gh', ['variable', 'set', 'NULU_AUTOMATION_SOURCE_REF', '--repo', 'jinxlo/Nulu-harness', '--body', 'main'])
     command('gh', ['variable', 'set', 'NULU_NEEDS_BASELINE', '--repo', 'jinxlo/Nulu-harness', '--body', 'false'])
     record.baselineCompleted = true

@@ -14,6 +14,8 @@ Preparation verifies protected Nulu files after each qualification command, incl
 
 The workflow preserves the current unsigned developer-preview channel. Signed installation remains dependent on explicit signing infrastructure. The [existing desktop packaging decision](../architecture/2026-08-25-electron-desktop-packaging-and-updates.md) continues to own runtime release identity and signing requirements; this note adds unattended qualification and download promotion.
 
+The independent heartbeat recognizes a published baseline whose exact release commit remains in `main` after later maintenance commits. Divergent history, draft releases, and missing catalogs leave baseline qualification enabled. Captured persistence history and technical event identifiers retain their original bytes during branding.
+
 ## Alternatives considered
 
 **Merge and rebrand upstream on the default branch.** This exposes incomplete adaptation and can rewrite Nulu policy or publishing controls. Candidate isolation and protected tooling preserve a working release during failures.
