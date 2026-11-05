@@ -7,7 +7,8 @@ import { runInstaller } from './run-installer.mjs'
 
 const [currentDirectory, previousDirectory, target, evidence] = process.argv.slice(2)
 if (!currentDirectory || !previousDirectory || !target || !evidence) throw new Error('Usage: install-smoke.mjs <current-assets> <previous-assets> <target> <evidence>')
-const root = mkdtempSync(join(tmpdir(), 'nulu-install-smoke-'))
+// NSIS file operations retain MAX_PATH; keep the private root near normal installation depth.
+const root = mkdtempSync(join(tmpdir(), 'nulu-'))
 
 function installerFor(directory) {
   const suffix = target === 'win-x64' ? '-win-x64.exe' : target === 'linux-x64' ? '-linux-x86_64.AppImage' : `-${target}.dmg`

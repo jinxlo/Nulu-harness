@@ -28,6 +28,8 @@ The base composition mounts the declared image-offload recovery plugin. The SDK 
 
 Windows installation is sequential: the previous application launches and closes before NSIS replaces its installed directory. Installing both versions before launching the previous one lets NSIS delete the payload that the test is meant to exercise.
 
+The private installation fixture uses a short randomized root near normal per-user installation depth. A long test-only prefix crosses the Windows path-length limit: the previous uninstaller returns 2 and the candidate waits on a modal uninstall-failure message. A controlled comparison of the same delivered installers passes every native check with the shorter root. Installer bytes and launch, upgrade, profile, branding and notification assertions remain identical.
+
 Native branding checks complete the first-run notice and expand the collapsed sidebar before measuring the candidate wordmark. Startup screenshots remain available when those checks fail. The wordmark canvas contains the complete label on supported system fonts; previous releases retain their own artwork while their version and Nulu identity are checked. Cosmetic notice copy omits an obsolete application version without resetting existing acknowledgements.
 
 ## Alternatives considered
