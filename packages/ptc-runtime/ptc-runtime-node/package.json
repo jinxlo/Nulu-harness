@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-ptc-runtime-node",
   "description": "Sandboxed Node process implementation of the Nulu Harness PTC execution capability",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "publishConfig": {
     "access": "public"
   },
