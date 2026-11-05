@@ -14,6 +14,8 @@ After basic preparation, exhaustive source checks and native builds run concurre
 
 The release channel remains an explicitly unsigned developer preview. GitHub release notifications lead to downloads. Signed unattended installation requires separately configured Windows signing and Apple Developer ID/notarization; this workflow does not present unsigned packages as signed updates.
 
+The isolated `automation/windows-installer-diagnostics` branch runs the exact failed candidate and its delivered Windows installer against public 1.6.0. Its disposable runner samples owned processes, hidden window captions, and private installation files, and captures a small installer minidump before the normal deadline. This diagnostic workflow cannot publish releases.
+
 The publisher stages a draft release, downloads and verifies its bytes, rejects concurrent changes to `main`, advances the qualified commit, and promotes the release. Published assets are immutable. The website reads `nulu-release.json` and retains its existing complete download list if the catalog is invalid or unavailable.
 
 ## Failure recovery

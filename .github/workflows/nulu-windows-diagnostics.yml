@@ -1,0 +1,53 @@
+name: Diagnose Nulu Windows replacement
+
+on:
+  push:
+    branches: [automation/windows-installer-diagnostics]
+    paths: [.github/workflows/nulu-windows-diagnostics.yml, scripts/automation/windows-probe.ps1]
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  diagnose:
+    runs-on: windows-2025
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      NULU_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Preserve probe and check out the exact failed candidate
+        run: |
+          Copy-Item scripts/automation/windows-probe.ps1 $env:RUNNER_TEMP/windows-probe.ps1
+          git fetch origin 54b0f645f6bc3417997badb123c9c95dc2c2013d
+          git checkout --detach 54b0f645f6bc3417997badb123c9c95dc2c2013d
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v8
+        with:
+          name: desktop-win-x64
+          run-id: 42044024906
+          github-token: ${{ github.token }}
+          path: failed-candidate
+      - name: Download the exact previous public installer
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release download v1.6.0 --repo jinxlo/Nulu-harness --pattern '*-win-x64.exe' --dir previous
+      - name: Observe native installer windows, processes and files
+        run: '& $env:RUNNER_TEMP/windows-probe.ps1'
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: windows-replacement-diagnostics
+          path: probe-evidence/
+          retention-days: 7
