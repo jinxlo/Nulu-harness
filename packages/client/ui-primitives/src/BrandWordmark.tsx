@@ -7,8 +7,8 @@ export interface BrandWordmarkProps extends IconProps {
   includeMark?: boolean | undefined
 }
 
-/** Full wordmark canvas: square mark, gap, then the product name. */
-const CANVAS = { withMark: 168, nameOnly: 136 }
+/** Full wordmark canvas with room for supported system-font glyphs. */
+const CANVAS = { withMark: 184, nameOnly: 152 }
 /** Left edge of the name artwork when the mark is omitted. */
 const NAME_X = NULU_MARK_VIEWBOX.width + 8
 

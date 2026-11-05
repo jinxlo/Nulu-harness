@@ -28,6 +28,8 @@ The base composition mounts the declared image-offload recovery plugin. The SDK 
 
 Windows installation is sequential: the previous application launches and closes before NSIS replaces its installed directory. Installing both versions before launching the previous one lets NSIS delete the payload that the test is meant to exercise.
 
+Native branding checks complete the first-run notice and expand the collapsed sidebar before measuring the candidate wordmark. Startup screenshots remain available when those checks fail. The wordmark canvas contains the complete label on supported system fonts; previous releases retain their own artwork while their version and Nulu identity are checked. Cosmetic notice copy omits an obsolete application version without resetting existing acknowledgements.
+
 ## Alternatives considered
 
 **Merge and rebrand upstream on the default branch.** This exposes incomplete adaptation and can rewrite Nulu policy or publishing controls. Candidate isolation and protected tooling preserve a working release during failures.

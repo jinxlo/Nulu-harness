@@ -88,11 +88,11 @@ describe('BrandWordmark', () => {
   it('can render the name artwork with or without its leading mark', () => {
     const view = render(<primitives.BrandWordmark />)
     const svg = view.container.querySelector('svg')!
-    expect(svg.getAttribute('width')).toBe('168')
-    expect(svg.getAttribute('viewBox')).toBe('0 0 168 24')
+    expect(svg.getAttribute('width')).toBe('184')
+    expect(svg.getAttribute('viewBox')).toBe('0 0 184 24')
 
     view.rerender(<primitives.BrandWordmark includeMark={false} />)
-    expect(svg.getAttribute('width')).toBe('136')
-    expect(svg.getAttribute('viewBox')).toBe('32 0 136 24')
+    expect(svg.getAttribute('width')).toBe('152')
+    expect(svg.getAttribute('viewBox')).toBe('32 0 152 24')
   })
 })

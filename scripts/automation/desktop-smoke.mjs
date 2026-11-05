@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
-import { _electron } from 'playwright-core'
+import { _electron, errors as playwrightErrors } from 'playwright-core'
 import { ROOT, command, git, json } from './common.mjs'
 
 const [executable, target, evidenceRoot, previousExecutable, previousVersion, upgradeInstaller] = process.argv.slice(2)
@@ -36,13 +36,34 @@ try {
       window.on('pageerror', error => errors.push(error.message))
       await window.waitForURL(url => url.protocol === 'nulu-app:' && url.hostname === 'app', { timeout: 120000 })
       await window.waitForFunction(() => document.body.innerText.trim().length > 30, { timeout: 60000 })
+      await window.screenshot({ path: join(evidence, `${target}-${stage.label}-startup.png`), fullPage: true })
+      const onboardingAction = window.getByRole('button', { name: /^(Continue|Configure later|继续|稍后配置)$/ })
+      for (let step = 0; step < 3; step += 1) {
+        try { await onboardingAction.first().waitFor({ state: 'visible', timeout: 2000 }) }
+        catch (error) {
+          if (error instanceof playwrightErrors.TimeoutError) break
+          throw error
+        }
+        await onboardingAction.first().click()
+      }
+      const expandSidebar = window.getByRole('button', { name: /^(Open sidebar|打开侧边栏)$/ })
+      if (await expandSidebar.isVisible()) await expandSidebar.click()
       const text = await window.locator('body').innerText()
       assert.doesNotMatch(text, /DeepSeek Harness|DSH_|@deepseek-ai\//i)
       assert.doesNotMatch(text, /Desktop renderer exited|reinstall the application|startup failed/i)
       assert.match(await window.title(), /Nulu/i)
-      await window.locator(`svg path[d="${geometry}"]`).first().waitFor({ state: 'visible', timeout: 30000 })
-      await window.locator('svg text').filter({ hasText: /Nulu/ }).first().waitFor({ state: 'visible', timeout: 30000 })
       if (stage.label !== 'previous') {
+        await window.locator(`svg path[d="${geometry}"]`).first().waitFor({ state: 'visible', timeout: 30000 })
+        const wordmark = window.locator('svg text').filter({ hasText: /Nulu/ }).first()
+        await wordmark.waitFor({ state: 'visible', timeout: 30000 })
+        const labelFits = await wordmark.evaluate(text => {
+          const svg = text.ownerSVGElement
+          if (svg === null) throw new Error('The Nulu wordmark has no SVG canvas')
+          const bounds = text.getBBox()
+          const canvas = svg.viewBox.baseVal
+          return bounds.x >= canvas.x && bounds.x + bounds.width <= canvas.x + canvas.width
+        })
+        assert.equal(labelFits, true, 'The complete Nulu wordmark must fit its SVG canvas')
         const notified = await application.evaluate(async ({ Menu, dialog }) => {
           const items = Menu.getApplicationMenu()?.items.flatMap(item => item.submenu?.items ?? []) ?? []
           const check = items.find(item => /updates|actualizaciones/i.test(item.label))
