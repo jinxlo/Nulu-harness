@@ -116,6 +116,7 @@ test('branding merge refuses symlink parents without modifying the external dest
 
 test('branding retains protocol identifiers and excludes historical-format readers', () => {
   assert.equal(brandText("kind: 'dsh'; --dsh-width; deepseekLlmApiExtensions; dsh_plugin_packages"), "kind: 'dsh'; --nulu-width; nuluLlmApiExtensions; nulu_plugin_packages")
+  assert.equal(brandText('dsh.terminal.shell dsh.sidebar-right.v1 dsh.protocol.v1'), 'nulu.terminal.shell nulu.sidebar-right.v1 dsh.protocol.v1')
   for (const path of ['apps/cli/reference/README.md', 'docs/persistence-catalog.md', 'scripts/persistence-formats.ts', 'scripts/persistence-releases.ts', 'scripts/translation-pairing.ts', 'scripts/verify-concrete-terms.ts', 'snapshots/session/example/session.v2.jsonl']) assert.equal(brandablePath(path), false)
 })
 

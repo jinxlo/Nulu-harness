@@ -127,6 +127,7 @@ export function brandText(text, { providerFixture = false } = {}) {
     ['DEEPSEEK_BASE_URL', 'WORLD_APP_TECHNOLOGIES_BASE_URL'],
     ['DSH_', 'NULU_'], ['~/.dsh', '~/.nulu'],
     ['--dsh-', '--nulu-'], ['deepseekLlmApiExtensions', 'nuluLlmApiExtensions'], ['dsh_plugin_packages', 'nulu_plugin_packages'],
+    ['dsh.terminal.', 'nulu.terminal.'], ['dsh.sidebar-right.', 'nulu.sidebar-right.'],
   ]
   for (const [from, to] of replacements) {
     if (providerFixture && from.startsWith('DEEPSEEK_')) continue
