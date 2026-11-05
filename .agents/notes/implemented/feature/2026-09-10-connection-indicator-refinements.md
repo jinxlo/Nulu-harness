@@ -2,8 +2,6 @@
 
 Status: implemented
 
-English | [中文](2026-09-10-connection-indicator-refinements.zh.md)
-
 ## Problem
 
 The sidebar connection pill hid its affordance behind a hover swap: outage and retry-attempt states replaced their label with **Reconnect now** on hover or focus, so every state had to reserve the widest supplied label to keep the control from resizing. A retry that resolved in under a second flickered the connecting pill in and out, and state changes and unmounts jumped with no transition.

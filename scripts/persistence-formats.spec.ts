@@ -218,10 +218,11 @@ describe('complete persistence format references', () => {
     expect(loadPersistenceFormats(root).entries).toHaveLength(1)
   })
 
-  it.each(['.md', '.zh.md', '.schema.json'])('requires every historical companion %s', (suffix) => {
+  it.each(['.md', '.zh.md', '.schema.json'])('validates historical references with optional legacy companion %s', (suffix) => {
     const root = fixture()
     rmSync(join(root, `docs/persistence-changes/historical-formats/v1${suffix}`))
-    expect(() => loadPersistenceFormats(root)).toThrow(`missing persistence format artifact v1${suffix}`)
+    if (suffix === '.zh.md') expect(loadPersistenceFormats(root).entries).toHaveLength(4)
+    else expect(() => loadPersistenceFormats(root)).toThrow(`missing persistence format artifact v1${suffix}`)
   })
 
   it('rejects a gap even when all remaining versions have complete companions', () => {
@@ -230,10 +231,11 @@ describe('complete persistence format references', () => {
     expect(() => loadPersistenceFormats(root)).toThrow('v1: missing persistence format artifact')
   })
 
-  it.each(['persistence-catalog.md', 'persistence-catalog.zh.md', 'persistence-schema.json'])('requires the current reference artifact %s', (filename) => {
+  it.each(['persistence-catalog.md', 'persistence-catalog.zh.md', 'persistence-schema.json'])('validates current reference files with optional legacy companion %s', (filename) => {
     const root = fixture()
     rmSync(join(root, `docs/${filename}`))
-    expect(() => loadPersistenceFormats(root)).toThrow(`missing persistence format artifact docs/${filename}`)
+    if (filename.endsWith('.zh.md')) expect(loadPersistenceFormats(root).entries).toHaveLength(4)
+    else expect(() => loadPersistenceFormats(root)).toThrow(`missing persistence format artifact docs/${filename}`)
   })
 
   it('requires a formerly current archive when the writer advances', () => {
@@ -413,8 +415,7 @@ describe('complete persistence format references', () => {
     expect(index).toContain('[V1](v1.md) | [JSON](v1.schema.json)')
     expect(index).toContain('[Current catalog](../../persistence-catalog.md) | [JSON](../../persistence-schema.json)')
     const translatedIndex = readFileSync(join(root, 'docs/persistence-changes/historical-formats/README.zh.md'), 'utf8')
-    expect(translatedIndex).toContain('[V1](v1.zh.md) | [JSON](v1.schema.json)')
-    expect(translatedIndex).toContain('[当前目录](../../persistence-catalog.zh.md) | [JSON](../../persistence-schema.json)')
+    expect(translatedIndex).toContain('Pending formats.')
     const english = readFileSync(join(root, 'docs/persistence-changes/historical-formats/v1.md'), 'utf8')
     expect(english).toContain('pullRequest: 3349')
     const [visible, collapsed] = english.split('<details>')
@@ -436,16 +437,18 @@ describe('complete persistence format references', () => {
     expect(runPersistenceFormats([], root)).toBe('Persistence formats: v0 through v0 verified (1 complete reference).')
   })
 
-  it.each(['missing', 'stale'])('rejects a %s format pairing record and refreshes it with --write', (variant) => {
+  it.each(['missing', 'stale'])('keeps English facts independent of a %s retired pairing record', (variant) => {
     const root = fixture()
     prepareFacts(root)
     runPersistenceFormats(['--write'], root)
     const sidecar = 'docs/persistence-changes/historical-formats/v1.i18n.yaml'
-    if (variant === 'missing') rmSync(join(root, sidecar))
-    else write(root, sidecar, 'schemaVersion: 1\n')
-    expect(() => runPersistenceFormats([], root)).toThrow(`Stale persistence format facts: ${sidecar}`)
-    runPersistenceFormats(['--write'], root)
+    expect(existsSync(join(root, sidecar))).toBe(false)
+    if (variant === 'stale') write(root, sidecar, 'schemaVersion: 1\n')
+    const english = readFileSync(join(root, 'docs/persistence-changes/historical-formats/v1.md'), 'utf8')
     expect(() => runPersistenceFormats([], root)).not.toThrow()
+    runPersistenceFormats(['--write'], root)
+    expect(readFileSync(join(root, 'docs/persistence-changes/historical-formats/v1.md'), 'utf8')).toBe(english)
+    expect(existsSync(join(root, sidecar))).toBe(variant === 'stale')
   })
 
   it('refuses to refresh facts until every format reference passes validation', () => {

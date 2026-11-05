@@ -5,8 +5,6 @@ kind: "package-bundle"
 
 # @worldapptechnologies/nulu-experimental-auto-review
 
-English | [中文](README.zh.md)
-
 ## Summary
 
 Add Auto review to the current-session permission pickers in a Web profile. Before each native or PTC inner tool call, the current agent's provider and model assess the pending action; an allowed call executes with Full access. Default Web keeps its three permission modes until this layer is explicitly installed. Auto review is experimental: it can allow unsafe actions, deny useful work, and spend additional tokens.

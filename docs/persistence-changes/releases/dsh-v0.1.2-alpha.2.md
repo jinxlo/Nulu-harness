@@ -1,11 +1,9 @@
 ---
-description: "Retrospective Session persistence types and adjacent-release changes for nulu-v0.1.2-alpha.2."
+description: "Retrospective Session persistence types and adjacent-release changes for dsh-v0.1.2-alpha.2."
 kind: persistence-release
 ---
 
-# Persistence release: nulu-v0.1.2-alpha.2
-
-English | [中文](nulu-v0.1.2-alpha.2.zh.md)
+# Persistence release: dsh-v0.1.2-alpha.2
 
 ## Summary
 
@@ -28,13 +26,13 @@ This approximate backfill supports reading and format validation; it is not a co
 
 | Item | Recorded value |
 |---|---|
-| Source tag | `nulu-v0.1.2-alpha.2` |
+| Source tag | `dsh-v0.1.2-alpha.2` |
 | Source date | 2026-08-30T13:37:53.000Z |
 | Release record | Release object present. |
-| Previous release | [nulu-v0.1.2-alpha.1](nulu-v0.1.2-alpha.1.md) |
+| Previous release | [dsh-v0.1.2-alpha.1](dsh-v0.1.2-alpha.1.md) |
 | Session writer version | 0 |
 | Reconstructed inventory | <!-- persistence-release-inventory:start -->54 roots / 417 types<!-- persistence-release-inventory:end --> |
-| This snapshot | [nulu-v0.1.2-alpha.2.schema.json](nulu-v0.1.2-alpha.2.schema.json) |
+| This snapshot | [dsh-v0.1.2-alpha.2.schema.json](dsh-v0.1.2-alpha.2.schema.json) |
 
 Source evidence for the writer version constant at this tag:
 
@@ -45,8 +43,8 @@ Source evidence for the writer version constant at this tag:
 
 ```yaml persistence-release
 schemaVersion: 1
-tag: nulu-v0.1.2-alpha.2
-previous: nulu-v0.1.2-alpha.1
+tag: dsh-v0.1.2-alpha.2
+previous: dsh-v0.1.2-alpha.1
 sessionFormatVersion: 0
 changes:
   - root: SessionEventEnvelope
@@ -130,7 +128,7 @@ changes:
   - root: event:schedule/change
     before: 19b014756dd1882e2708c7b1ec02d5eef60fea523cf5b0c59cb320177bc4136c
     after: 2a7f86849ae54b3398ee49661a757c4fcb59a6192b7036ee2ff514617e13fb42
-  - root: event:session-log-gateway/delivery-accepted
+  - root: event:session-log-deepseek/delivery-accepted
     before: 15fc803b92d6a4b340991f978cf74b530f7cee6a36e565038e7ceff51a708258
     after: 9c413656ca5600ea33812d43c4e7923a541cfb6ab8b5bc98e415f295f44e40da
   - root: event:session/end-seed
@@ -202,7 +200,7 @@ changes:
   - root: event:user/message
     before: de7d01b9a4bd2fbdcab0a901dbd221086ee5e3a4a7bc123496b5c4e45b6c5384
     after: e23368db1646a9ac10d2bd4629084fdff583a1db2c83ffaa3f2f201d0c45f3e4
-  - root: event:web/nulu-search-llm-request
+  - root: event:web/deepseek-search-llm-request
     before: 0c5c79711e02bd8faed288bb89a39c77af15ad28010a0ee3d5c98adb1e5c3fe5
     after: cf6e3aaf1e2de6480aa0157730a41b9a492108a55304100b0f7e112711dd4331
 ```
@@ -243,7 +241,7 @@ Detected 52 changed roots and 52 structural differences. The minimum below is ca
 | `event:request/header.ignorable` | `optional-property-added` | `version-bump` |
 | `event:sandbox/mode.ignorable` | `optional-property-added` | `version-bump` |
 | `event:schedule/change.ignorable` | `optional-property-added` | `version-bump` |
-| `event:session-log-gateway/delivery-accepted.ignorable` | `optional-property-added` | `version-bump` |
+| `event:session-log-deepseek/delivery-accepted.ignorable` | `optional-property-added` | `version-bump` |
 | `event:session/end-seed.ignorable` | `optional-property-added` | `version-bump` |
 | `event:session/title.ignorable` | `optional-property-added` | `version-bump` |
 | `event:session/title-llm-request.ignorable` | `optional-property-added` | `version-bump` |
@@ -267,7 +265,7 @@ Detected 52 changed roots and 52 structural differences. The minimum below is ca
 | `event:turn/end.ignorable` | `optional-property-added` | `version-bump` |
 | `event:turn/start.ignorable` | `optional-property-added` | `version-bump` |
 | `event:user/message.ignorable` | `optional-property-added` | `version-bump` |
-| `event:web/nulu-search-llm-request.ignorable` | `optional-property-added` | `version-bump` |
+| `event:web/deepseek-search-llm-request.ignorable` | `optional-property-added` | `version-bump` |
 
 <!-- persistence-release-changes:end -->
 

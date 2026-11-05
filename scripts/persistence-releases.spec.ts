@@ -151,16 +151,18 @@ describe('pinned persistence releases', () => {
     expect(() => parsePersistenceSnapshot(data.snapshots[1])).toThrow('surface metadata')
   })
 
-  it.each(['.md', '.zh.md', '.i18n.yaml', '.schema.json'])('rejects a missing manifest release companion %s', (suffix) => {
+  it.each(['.md', '.zh.md', '.i18n.yaml', '.schema.json'])('validates release references with optional legacy companion %s', (suffix) => {
     const data = fixture()
     rmSync(join(data.directory, TAGS[1] + suffix))
-    expect(() => loadPersistenceReleases(data.root)).toThrow('missing release artifact')
+    if (suffix === '.zh.md' || suffix === '.i18n.yaml') expect(loadPersistenceReleases(data.root).entries).toHaveLength(3)
+    else expect(() => loadPersistenceReleases(data.root)).toThrow('missing release artifact')
   })
 
-  it.each(['README.md', 'README.zh.md', 'README.i18n.yaml'])('requires the fixed archive companion %s', (name) => {
+  it.each(['README.md', 'README.zh.md', 'README.i18n.yaml'])('validates index files with optional legacy companion %s', (name) => {
     const data = fixture()
     rmSync(join(data.directory, name))
-    expect(() => loadPersistenceReleases(data.root)).toThrow(`missing release artifact ${name}`)
+    if (name !== 'README.md') expect(loadPersistenceReleases(data.root).entries).toHaveLength(3)
+    else expect(() => loadPersistenceReleases(data.root)).toThrow(`missing release artifact ${name}`)
   })
 
   it.each(['orphan.md', 'orphan.schema.json', 'orphan.zh.md', 'orphan.i18n.yaml'])('rejects an unreferenced archive file %s', (filename) => {
@@ -314,7 +316,7 @@ describe('release facts', () => {
           .toBe(source.match(/```yaml persistence-release\n[\s\S]*?```/u)?.[0])
       }
     }
-    expect(after[TAGS[1] + '.i18n.yaml']).not.toBe(before[TAGS[1] + '.i18n.yaml'])
+    expect(after[TAGS[1] + '.i18n.yaml']).toBe(before[TAGS[1] + '.i18n.yaml'])
     expect(runPersistenceReleases(['--write'], data.root)).toContain('Refreshed 0 files.')
     expect(directoryBytes(data.directory)).toEqual(after)
   })
@@ -353,17 +355,17 @@ describe('release facts', () => {
     expect(() => runPersistenceReleases([], data.root)).toThrow('Stale persistence release facts')
   })
 
-  it('checks Chinese facts too and allows authored prose outside generated regions to change', () => {
+  it('checks English facts and allows authored prose outside generated regions to change', () => {
     const data = fixture()
     runPersistenceReleases(['--write'], data.root)
-    const path = join(data.directory, TAGS[1] + '.zh.md')
+    const path = join(data.directory, TAGS[1] + '.md')
     writeFileSync(path, readFileSync(path, 'utf8').replace('Authored summary and evidence.', 'Revised authored explanation.'))
     expect(() => runPersistenceReleases([], data.root)).not.toThrow()
-    writeFileSync(path, readFileSync(path, 'utf8').replace('4 个根类型 / 7 种类型', '4 个根类型 / 999 种类型'))
+    writeFileSync(path, readFileSync(path, 'utf8').replace('4 roots / 7 types', '4 roots / 999 types'))
     expect(() => runPersistenceReleases([], data.root)).toThrow('Stale persistence release facts')
   })
 
-  it('does not write anything when machine data is corrupt or a later pair cannot be rendered', () => {
+  it('does not write anything when machine data is corrupt or a later English document cannot be rendered', () => {
     const data = fixture()
     const snapshotPath = join(data.directory, TAGS[2] + '.schema.json')
     const snapshot = readFileSync(snapshotPath, 'utf8')
@@ -372,7 +374,7 @@ describe('release facts', () => {
     expect(() => runPersistenceReleases(['--write'], data.root)).toThrow('normalization version')
     expect(directoryBytes(data.directory)).toEqual(corrupt)
     writeFileSync(snapshotPath, snapshot)
-    const path = join(data.directory, TAGS[2] + '.zh.md')
+    const path = join(data.directory, TAGS[2] + '.md')
     writeFileSync(path, readFileSync(path, 'utf8').replace('<!-- persistence-release-changes:end -->', ''))
     const missingMarker = directoryBytes(data.directory)
     expect(() => runPersistenceReleases(['--write'], data.root)).toThrow('expected one changes factual block')

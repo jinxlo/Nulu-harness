@@ -11,7 +11,7 @@ import type { PersistenceRoot, PersistenceSchemaInventory } from './persistence-
 import { persistenceReleaseFactArtifacts } from './persistence-release-facts.ts'
 
 const ARCHIVE_DIRECTORY = 'docs/persistence-changes/releases'
-const TAG_PATTERN = /^nulu-v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)-(alpha|rc)\.(0|[1-9]\d*)$/u
+const TAG_PATTERN = /^(?:dsh|nulu)-v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)-(alpha|rc)\.(0|[1-9]\d*)$/u
 const DIGEST_PATTERN = /^[a-f0-9]{64}$/u
 
 /** Published identity and version constants observed in one pinned tag. */
@@ -36,7 +36,7 @@ export interface PersistenceReleaseChange {
   readonly after: string | null
 }
 
-/** Machine declaration shared byte-for-byte by a release's bilingual documents. */
+/** Machine declaration shared byte-for-byte by a release document. */
 export interface PersistenceReleaseRecord {
   readonly schemaVersion: 1
   readonly tag: string
@@ -188,14 +188,18 @@ export function loadPersistenceReleases(root: string): PersistenceReleases {
   const directory = join(root, ARCHIVE_DIRECTORY)
   const manifest = parseManifest(JSON.parse(readFileSync(join(directory, 'manifest.json'), 'utf8')))
   const files = new Set(readdirSync(directory))
-  const expected = new Set(['manifest.json', 'README.md', 'README.zh.md', 'README.i18n.yaml'])
+  const expected = new Set(['manifest.json', 'README.md'])
+  for (const optional of ['README.zh.md', 'README.i18n.yaml']) if (files.has(optional)) expected.add(optional)
   for (const filename of expected) if (!files.has(filename)) throw new Error(`missing release artifact ${filename}`)
   for (const release of manifest.releases) {
-    for (const suffix of ['.md', '.zh.md', '.i18n.yaml', '.schema.json']) {
+    for (const suffix of ['.md', '.schema.json']) {
       const filename = release.tag + suffix
       expected.add(filename)
       if (!files.has(filename)) throw new Error(`${release.tag}: missing release artifact ${filename}`)
     }
+  }
+  for (const release of manifest.releases) {
+    for (const suffix of ['.zh.md', '.i18n.yaml']) if (files.has(release.tag + suffix)) expected.add(release.tag + suffix)
   }
   for (const file of files) if (!expected.has(file)) throw new Error(`unreferenced persistence release artifact: ${file}`)
   const entries: PersistenceReleaseEntry[] = []
@@ -203,8 +207,9 @@ export function loadPersistenceReleases(root: string): PersistenceReleases {
   for (const release of manifest.releases) {
     const read = (suffix: string): string => readFileSync(join(directory, release.tag + suffix), 'utf8').replaceAll('\r\n', '\n')
     const english = machineBlock(read('.md'), `${release.tag}.md`)
-    const chinese = machineBlock(read('.zh.md'), `${release.tag}.zh.md`)
-    if (english !== chinese) throw new Error(`${release.tag}: bilingual machine records differ`)
+    if (files.has(`${release.tag}.zh.md`) && english !== machineBlock(read('.zh.md'), `${release.tag}.zh.md`)) {
+      throw new Error(`${release.tag}: bilingual machine records differ`)
+    }
     const record = parseRecord(english, release, entries.at(-1)?.release.tag ?? null)
     const snapshot = parseHistoricalPersistenceSnapshot(JSON.parse(read('.schema.json')))
     validateTypes(snapshot, release.tag)
@@ -230,7 +235,7 @@ export function loadPersistenceReleases(root: string): PersistenceReleases {
 }
 
 /** Validate the archive and check or refresh its bounded factual Markdown regions.
- * @param args - CLI arguments; --write refreshes facts and pairing sidecars after complete validation.
+ * @param args - CLI arguments; --write refreshes English factual regions after complete validation.
  * @param root - default repository directory, overridden by --root when provided.
  * @returns the verified release counts and optional number of refreshed artifacts.
  */

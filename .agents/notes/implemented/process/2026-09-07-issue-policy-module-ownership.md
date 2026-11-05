@@ -2,8 +2,6 @@
 
 Status: implemented
 
-English | [中文](2026-09-07-issue-policy-module-ownership.zh.md)
-
 ## Problem
 
 Issue validation and Project lifecycle processing use the same reference parser, metadata rules, and GitHub reads, but they make different decisions and perform different writes. Keeping those responsibilities in the command entry makes it harder to reuse policy rules without also depending on event dispatch and output handling.

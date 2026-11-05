@@ -2,8 +2,6 @@
 
 Status: implemented
 
-English | [中文](2026-09-09-profile-resolution-generations.zh.md)
-
 ## Problem
 
 A profile loads plugin rows from its own package project, while Harness packages and packages carried by selected bundles can live outside that project's ordinary dependency tree. The current launcher bridges the trees by calculating package precedence at startup and materializing that result as shared symlinks, profile-owned links, or packaged-executable proxy packages. The files persist across processes and installations, require reconciliation and locking, expose generated proxy manifests to metadata readers, and cannot represent a process-local change atomically.
