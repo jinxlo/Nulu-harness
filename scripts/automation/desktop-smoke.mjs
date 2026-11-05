@@ -4,7 +4,7 @@ import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'nod
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { _electron, errors as playwrightErrors } from 'playwright-core'
-import { ROOT, command, git, json } from './common.mjs'
+import { ROOT, WINDOWS_INSTALL_TIMEOUT_MS, command, git, json } from './common.mjs'
 
 const [executable, target, evidenceRoot, previousExecutable, previousVersion, upgradeInstaller] = process.argv.slice(2)
 if (!executable || !target || !evidenceRoot) throw new Error('Usage: desktop-smoke.mjs <executable> <target> <evidence-directory>')
@@ -25,8 +25,11 @@ try {
     const stage = stages[attempt]
     if (stage.label === 'upgrade' && upgradeInstaller !== undefined) {
       assert.equal(process.platform, 'win32', 'Only NSIS uses deferred in-place installation')
-      command(resolve(upgradeInstaller), ['/S', `/D=${dirname(resolve(executable))}`], { timeout: 180000 })
+      console.info(`${target}: replacing the previous installation (${WINDOWS_INSTALL_TIMEOUT_MS / 60000} minute limit)`)
+      command(resolve(upgradeInstaller), ['/S', `/D=${dirname(resolve(executable))}`], { timeout: WINDOWS_INSTALL_TIMEOUT_MS })
+      console.info(`${target}: replacement installer completed`)
     }
+    console.info(`${target}: validating ${stage.label} version ${stage.version}`)
     const application = await _electron.launch({ executablePath: resolve(stage.executable), args: [`--user-data-dir=${join(home, 'browser-data')}`], env, timeout: 120000 })
     try {
       application.on('console', message => { if (message.type() === 'error') errors.push(message.text()) })

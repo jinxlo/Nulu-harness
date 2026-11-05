@@ -62,7 +62,7 @@ it('boots the built plugin graph and renders a fixture session end to end', asyn
   // The sidebar renders from the boot graph: every inject layer activated.
   const tree = await screen.findByRole('tree', { name: 'Sessions' }, { timeout: 10_000 })
   if (clientBuildValue('NULU_CLIENT_BUILD_PROFILE') === 'official') {
-    expect(document.querySelector('svg[viewBox="32 0 136 24"]')).not.toBeNull()
+    expect(document.querySelector('svg[viewBox="32 0 152 24"]')).not.toBeNull()
     expect(screen.queryByText('NULU Local Build')).toBeNull()
   } else {
     expect(document.querySelector('svg[viewBox="0 0 24 24"]')).not.toBeNull()

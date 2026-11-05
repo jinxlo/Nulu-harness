@@ -54,22 +54,26 @@ describe('web e2e: repairs a stored provider after catalog drift', () => {
     }
   })
 
-  it('shows the failed provider beside healthy providers and keeps both add actions usable', async () => {
+  it('shows the failed provider beside healthy providers and keeps explicit provider creation usable', async () => {
     onTestFailed(() => saveFailureShot(page, 'models-settings-recovery'))
     const dialog = page.getByRole('dialog', { name: '设置' })
     expect(await dialog.getByRole('button', { name: '编辑 openrouter', exact: true }).count()).toBe(1)
     expect(await dialog.getByRole('button', { name: '编辑 zai', exact: true }).count()).toBe(1)
     expect(await dialog.getByRole('button', { name: '编辑 acme-gateway', exact: true }).count()).toBe(1)
     expect(await dialog.getByText(CUSTOM_FAILURE, { exact: true }).count()).toBe(1)
-    expect(await dialog.getByRole('button', { name: '添加提供方', exact: true }).isEnabled()).toBe(true)
+    expect(await dialog.getByRole('button', { name: '添加提供方', exact: true }).isEnabled()).toBe(false)
     expect(await dialog.getByRole('button', { name: '添加自定义提供方', exact: true }).isEnabled()).toBe(true)
     await compareOrRefreshGolden(EXPECTED, await captureStableAria(page, '[role="dialog"]', scaffold.workspaceCwd), webSnapshotMode())
 
-    await dialog.getByRole('button', { name: '添加提供方', exact: true }).click()
-    await dialog.getByLabel('提供方', { exact: true }).selectOption('minimax-cn')
-    await dialog.getByRole('button', { name: '保存', exact: true }).click()
-    await dialog.getByText('已保存 minimax-cn。', { exact: true }).waitFor()
-    expect(await readFile(join(home, 'settings.yaml'), 'utf8')).toContain('minimax-cn: {}')
+    await dialog.getByRole('button', { name: '添加自定义提供方', exact: true }).click()
+    await dialog.getByLabel('Provider ID').fill('minimax-cn')
+    await dialog.getByLabel('API 地址').fill('https://gateway.minimax.example/v1')
+    await dialog.getByLabel('API 协议').selectOption('anthropic-messages')
+    await dialog.getByRole('button', { name: '添加模型', exact: true }).click()
+    await dialog.getByLabel('模型 ID 1').fill('MiniMax-M2.7')
+    await dialog.getByRole('button', { name: '创建提供方', exact: true }).click()
+    await dialog.getByRole('button', { name: '编辑 minimax-cn', exact: true }).waitFor()
+    expect(await readFile(join(home, 'settings.yaml'), 'utf8')).toContain('minimax-cn:')
     expect(await dialog.getByText(FAILURE, { exact: true }).count()).toBe(1)
   })
 

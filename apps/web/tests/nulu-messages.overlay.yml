@@ -1,0 +1,6 @@
+# The public API defaults to Chat Completions; the keyless Messages settings
+# scenario supplies its compatible endpoint explicitly and makes no model calls.
+- id: llm-gateway
+  config:
+    protocol: messages
+    baseURL: https://messages.example/anthropic

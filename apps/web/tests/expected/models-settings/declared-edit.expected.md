@@ -24,14 +24,14 @@
   - paragraph: 填入各提供方的 API 密钥即可使用其模型。
   - list:
     - listitem:
-      - text: minimax-cn
-      - img "API 密钥已配置"
-      - button "编辑 minimax-cn": 编辑
-      - button "删除 minimax-cn": 删除
-    - listitem:
       - text: World App Technologies 自定义
       - img "API 密钥缺失"
       - button "编辑 World App Technologies (worldapp)": 编辑
+    - listitem:
+      - text: minimax-cn 自定义
+      - img "API 密钥已配置"
+      - button "编辑 minimax-cn": 编辑
+      - button "删除 minimax-cn": 删除
     - listitem:
       - text: Acme Gateway 自定义
       - button "编辑 Acme Gateway (acme-gateway)": 编辑
@@ -67,7 +67,7 @@
           - button "添加模型"
       - button "取消"
       - button "保存"
-  - button "添加提供方":
+  - button "添加提供方" [disabled]:
     - img
     - text: 添加提供方
   - button "添加自定义提供方":

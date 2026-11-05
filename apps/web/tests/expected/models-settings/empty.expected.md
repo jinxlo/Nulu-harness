@@ -27,50 +27,36 @@
       - text: World App Technologies 自定义
       - img "API 密钥缺失"
       - button "编辑 World App Technologies (worldapp)": 编辑
-  - text: 提供方
-  - combobox "提供方":
-    - option "amazon-bedrock"
-    - option "ant-ling"
-    - option "anthropic"
-    - option "azure-openai-responses"
-    - option "baseten"
-    - option "cerebras"
-    - option "cloudflare-ai-gateway"
-    - option "cloudflare-workers-ai"
-    - option "nulu"
-    - option "fireworks"
-    - option "github-copilot"
-    - option "google"
-    - option "google-vertex"
-    - option "groq"
-    - option "huggingface"
-    - option "kimi-coding"
-    - option "minimax"
-    - option "minimax-cn" [selected]
-    - option "mistral"
-    - option "moonshotai"
-    - option "moonshotai-cn"
-    - option "nvidia"
-    - option "openai"
-    - option "openai-codex"
-    - option "opencode"
-    - option "opencode-go"
-    - option "openrouter"
-    - option "qwen-token-plan"
-    - option "qwen-token-plan-cn"
-    - option "qwen-token-plan-individual"
-    - option "together"
-    - option "vercel-ai-gateway"
-    - option "xai"
-    - option "xiaomi"
-    - option "xiaomi-token-plan-ams"
-    - option "xiaomi-token-plan-cn"
-    - option "xiaomi-token-plan-sgp"
-    - option "zai"
-    - option "zai-coding-cn"
+  - text: 自定义提供方 Provider ID
+  - textbox "Provider ID":
+    - /placeholder: acme-gateway
+    - text: minimax-cn
+  - paragraph: 以小写字母开头的标识，在请求中唯一标识该提供方，并用于派生凭据名。
+  - text: 显示名称
+  - textbox "显示名称":
+    - /placeholder: minimax-cn
+  - text: API 地址
+  - textbox "API 地址":
+    - /placeholder: https://gateway.example/v1
+    - text: https://gateway.minimax.example/v1
+  - text: API 协议
+  - combobox "API 协议":
+    - option "openai-completions"
+    - option "openai-responses"
+    - option "anthropic-messages" [selected]
   - text: API 密钥
   - textbox "API 密钥":
-    - /placeholder: 输入 API 密钥，或留空使用环境认证
-  - group: 自定义设置
+    - /placeholder: 输入 API 密钥
+  - region "模型目录":
+    - text: 模型目录
+    - button "获取可用模型"
+    - textbox "模型 ID 1":
+      - /placeholder: 模型 ID
+      - text: MiniMax-M2.7
+    - textbox "显示名称 1":
+      - /placeholder: 显示名称
+    - button "容量 1"
+    - button "删除模型 1"
+    - button "添加模型"
   - button "取消"
-  - button "保存"
+  - button "创建提供方"

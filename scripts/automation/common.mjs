@@ -7,6 +7,9 @@ import { fileURLToPath } from 'node:url'
 export const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
 export const REPORT = 'reports/upstream-sync/automation.json'
 
+/** Windows upgrade includes removal of the previous bundled runtime and installation of its replacement. */
+export const WINDOWS_INSTALL_TIMEOUT_MS = 10 * 60_000
+
 /** Files copied from the trusted Nulu base after importing upstream code. */
 export function trustedPath(path) {
   if (/^(?:packages\/client\/ui-primitives\/src\/(?:NuluMark|BrandWordmark)\.tsx|apps\/desktop\/build\/|apps\/desktop\/electron-builder\.config\.mjs$)/.test(path)) return true

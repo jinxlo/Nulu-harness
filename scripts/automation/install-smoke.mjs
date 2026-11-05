@@ -2,7 +2,7 @@
 import { cpSync, existsSync, mkdirSync, mkdtempSync, readdirSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
-import { command } from './common.mjs'
+import { command, WINDOWS_INSTALL_TIMEOUT_MS } from './common.mjs'
 
 const [currentDirectory, previousDirectory, target, evidence] = process.argv.slice(2)
 if (!currentDirectory || !previousDirectory || !target || !evidence) throw new Error('Usage: install-smoke.mjs <current-assets> <previous-assets> <target> <evidence>')
@@ -25,7 +25,9 @@ function unpack(directory, label) {
     return join(destination, 'squashfs-root/nulu-harness')
   }
   if (process.platform === 'win32') {
-    command(installer, ['/S', `/D=${destination}`], { timeout: 180000 })
+    console.info(`${target}: installing ${label} payload (${WINDOWS_INSTALL_TIMEOUT_MS / 60000} minute limit)`)
+    command(installer, ['/S', `/D=${destination}`], { timeout: WINDOWS_INSTALL_TIMEOUT_MS })
+    console.info(`${target}: ${label} installer completed`)
     return join(destination, 'Nulu Harness.exe')
   }
   const mount = join(root, `mount-${label}`)
@@ -44,7 +46,7 @@ try {
   if (!existsSync(previous) || !existsSync(current)) throw new Error('Installer did not produce its application executable')
   const version = readdirSync(previousDirectory).map(name => /^nulu-harness-(\d+\.\d+\.\d+)-/.exec(name)?.[1]).find(Boolean)
   if (!version) throw new Error('Cannot determine the previous installer version')
-  command(process.execPath, ['scripts/automation/desktop-smoke.mjs', current, target, resolve(evidence), previous, version, ...upgradeInstaller === undefined ? [] : [upgradeInstaller]], { stdio: 'inherit', timeout: 600000 })
+  command(process.execPath, ['scripts/automation/desktop-smoke.mjs', current, target, resolve(evidence), previous, version, ...upgradeInstaller === undefined ? [] : [upgradeInstaller]], { stdio: 'inherit', timeout: 25 * 60_000 })
 } finally {
   rmSync(root, { recursive: true, force: true, maxRetries: 3 })
 }

@@ -177,7 +177,10 @@ describe('web e2e: PTC mode round renders nested sub-calls', () => {
     const wrap = page.getByRole('button', { name: 'Wrap lines', exact: true })
     expect(await wrap.getAttribute('aria-pressed')).toBe('false')
     const content = page.locator('[data-wrap]').filter({ has: source })
-    expect(await content.evaluate(element => element.scrollWidth > element.clientWidth)).toBe(true)
+    // Narrow the actual inspector before requiring this recorded source to overflow.
+    const resize = page.getByRole('separator', { name: 'Resize event details', exact: true })
+    for (let step = 0; step < 8; step++) await resize.press('ArrowRight')
+    await expect.poll(() => content.evaluate(element => element.scrollWidth > element.clientWidth)).toBe(true)
     await wrap.click()
     expect(await wrap.getAttribute('aria-pressed')).toBe('true')
     await expect.poll(() => content.evaluate(element => element.scrollWidth - element.clientWidth)).toBeLessThanOrEqual(1)

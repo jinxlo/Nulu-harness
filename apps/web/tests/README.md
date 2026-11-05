@@ -3,6 +3,8 @@
 
 These tests boot the real web composition in-process and drive it with a real Chromium over real HTTP. The lane's mechanics — modes, fixtures, goldens, and the deliberate composition divergences from `nulu web` — are documented in [`scaffold.ts`](scaffold.ts) and the [browser e2e Agent Note](../../../.agents/notes/implemented/testing/2026-07-24-web-gui-browser-e2e-lane.md).
 
+The keyless CLI provider smokes use the shipped `worldapp-gateway` route with a local Chat Completions server. They inspect system and workspace messages, function tools, and a recovered partial stream without an external API key. Historical Messages fixtures keep their recorded protocol. Provider settings cases assert that Nulu exposes only its configured directory, then exercise explicit profiles, credential storage, discovery, deletion, and stored-profile repair.
+
 ## Completion observations
 
 State-sensitive cases use Workspace, admission, attachment, and model-stream barriers to separate visible intermediate states from completed operations. Details close waits for frame transitions; archive verification assigns an explicit title to the seeded Session and follows that identity across reload. See the [CI fixture synchronization decision](../../../.agents/notes/implemented/testing/2026-09-08-ci-completion-observations.md).

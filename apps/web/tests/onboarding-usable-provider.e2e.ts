@@ -58,12 +58,13 @@ describe.skipIf(MODE === 'record')('web e2e: another usable provider ends first-
     const setupKey = settings.getByRole('textbox', { name: 'API 密钥', exact: true })
     await setupKey.waitFor({ timeout: 10_000 })
 
-    const add = settings.getByRole('button', { name: '添加提供方' })
-    await expect.poll(async () => add.isEnabled(), { timeout: 10_000 }).toBe(true)
-    await add.click()
-    const pick = settings.getByLabel('提供方')
-    await pick.waitFor({ timeout: 10_000 })
-    await pick.selectOption('minimax-cn')
+    expect(await settings.getByRole('button', { name: '添加提供方', exact: true }).isEnabled()).toBe(false)
+    await settings.getByRole('button', { name: '添加自定义提供方', exact: true }).click()
+    await settings.getByLabel('Provider ID').fill('minimax-cn')
+    await settings.getByLabel('API 地址', { exact: true }).last().fill('https://gateway.minimax.example/v1')
+    await settings.getByLabel('API 协议').selectOption('anthropic-messages')
+    await settings.getByRole('button', { name: '添加模型', exact: true }).click()
+    await settings.getByLabel('模型 ID 1').last().fill('MiniMax-M2.7')
     await expect.poll(
       async () => settings.getByRole('textbox', { name: 'API 密钥', exact: true }).count(),
       { timeout: 10_000 },
@@ -72,7 +73,7 @@ describe.skipIf(MODE === 'record')('web e2e: another usable provider ends first-
     // Cancelling the setup card must not close the independent add-provider
     // draft beside it.
     await settings.getByRole('button', { name: '取消', exact: true }).first().click()
-    expect(await settings.getByLabel('提供方').count()).toBe(1)
+    expect(await settings.getByLabel('Provider ID').count()).toBe(1)
     await expect.poll(
       async () => settings.getByRole('textbox', { name: 'API 密钥', exact: true }).count(),
       { timeout: 10_000 },
@@ -89,8 +90,8 @@ describe.skipIf(MODE === 'record')('web e2e: another usable provider ends first-
     onTestFailed(() => saveFailureShot(page, 'web-e2e-onboarding-other-provider'))
     const settings = page.getByRole('dialog', { name: '设置' })
     await settings.getByRole('textbox', { name: 'API 密钥', exact: true }).fill('sk-e2e-minimax')
-    await settings.getByRole('button', { name: '保存', exact: true }).click()
-    await settings.getByText('已保存 minimax-cn。', { exact: true }).waitFor({ timeout: 15_000 })
+    await settings.getByRole('button', { name: '创建提供方', exact: true }).click()
+    await settings.getByRole('button', { name: '编辑 minimax-cn', exact: true }).waitFor({ timeout: 15_000 })
 
     // Only minimax-cn is reachable; the shipped route still holds no credential.
     const document = await readFile(join(scaffold.harnessHome, 'settings.yaml'), 'utf8')

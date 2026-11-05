@@ -4,6 +4,8 @@
     - menuitemradio "Messages Flash" [checked]:
       - text: Messages Flash
       - img
-    - menuitemradio "Nulu-V4-Flash"
-    - menuitemradio "Nulu-V4-Pro"
-    - menuitemradio "Nulu-V4-Flash-Vision-Exp"
+    - menuitemradio "Nulu 5 Pro"
+  - group "World App Technologies":
+    - text: World App Technologies
+    - menuitemradio "Nulu 5 Ultra"
+    - menuitemradio "Nulu 5 Pro"

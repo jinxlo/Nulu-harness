@@ -25,15 +25,15 @@
   - list:
     - listitem:
       - text: Nulu
-      - img "API 密钥缺失"
+      - img "API 密钥已配置"
       - button "编辑 Nulu (worldapp-gateway)": 编辑
       - text: Nulu worldapp-gateway API 密钥
       - textbox "API 密钥":
-        - /placeholder: 输入 API 密钥
+        - /placeholder: 已配置——输入新值可替换
       - group:
         - text: 自定义设置 API 地址
         - textbox "API 地址":
-          - /placeholder: https://api.nulu.com/anthropic
+          - /placeholder: https://platform.worldapptechnologies.com/api/v1
         - text: 请填写与当前连接配置兼容的 API 地址。
         - region "模型目录":
           - text: 模型目录 已自定义模型目录
@@ -65,7 +65,7 @@
       - text: World App Technologies 自定义
       - img "API 密钥已配置"
       - button "编辑 World App Technologies (worldapp)": 编辑
-  - button "添加提供方":
+  - button "添加提供方" [disabled]:
     - img
     - text: 添加提供方
   - button "添加自定义提供方":

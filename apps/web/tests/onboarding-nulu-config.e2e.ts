@@ -203,29 +203,27 @@ describe.skipIf(MODE === 'record')('web e2e: first-run shipped provider credenti
     await nulu.waitFor({ timeout: 10_000 })
     await nulu.locator('xpath=ancestor::li').getByRole('button', { name: '编辑' }).click()
     await settings.getByText('自定义设置').click()
-    expect(await settings.getByLabel('模型 ID 1').inputValue()).toBe('nulu-5')
-    expect(await settings.getByLabel('显示名称 1').inputValue()).toBe('Nulu 5')
-    expect(await settings.getByLabel('模型 ID 2').inputValue()).toBe('nulu-5')
-    expect(await settings.getByLabel('模型 ID 3').inputValue()).toBe('nulu-5-ultra')
-    expect(await settings.getByLabel('模型 ID 4').inputValue()).toBe('nulu-5-vision')
-    expect(await settings.getByRole('button', { name: /删除模型/ }).count()).toBe(4)
+    expect(await settings.getByLabel('模型 ID 1').inputValue()).toBe('nulu-5-ultra')
+    expect(await settings.getByLabel('显示名称 1').inputValue()).toBe('Nulu 5 Ultra')
+    expect(await settings.getByLabel('模型 ID 2').inputValue()).toBe('nulu-5-pro')
+    expect(await settings.getByRole('button', { name: /删除模型/ }).count()).toBe(2)
     const defaultModels = await captureStableAria(page, '[role="dialog"]', scaffold.workspaceCwd)
     await compareOrRefreshGolden(DEFAULT_MODELS_EXPECTED, defaultModels, MODE)
     await settings.getByLabel('显示名称 1').fill('Configured Flash')
     await settings.getByRole('button', { name: '保存', exact: true }).click()
     await settings.getByLabel('模型 ID 1').waitFor({ state: 'detached', timeout: 15_000 })
     const savedDefaults = await readFile(join(scaffold.harnessHome, 'settings.yaml'), 'utf8')
-    expect(savedDefaults).toContain('id: nulu-5')
+    expect(savedDefaults).toContain('id: nulu-5-ultra')
     expect(savedDefaults).toContain('inputModalities:')
     expect(savedDefaults).toContain('- text')
     expect(savedDefaults).toContain('- image')
     expect(savedDefaults).toContain('systemPromptUpdate: in-history')
-    await expect(scaffold.ctx.llm.resolveModelInfo('worldapp-gateway', 'nulu-5')).resolves.toMatchObject({
+    await expect(scaffold.ctx.llm.resolveModelInfo('worldapp-gateway', 'nulu-5-ultra')).resolves.toMatchObject({
       name: 'Configured Flash', inputModalities: ['text', 'image'], systemPromptUpdate: 'in-history',
     })
     await nulu.locator('xpath=ancestor::li').getByRole('button', { name: '编辑' }).click()
     await settings.getByText('自定义设置').click()
-    for (let index = 0; index < 4; index++) {
+    for (let index = 0; index < 2; index++) {
       await settings.getByRole('button', { name: /删除模型/ }).first().click()
     }
     await settings.getByRole('button', { name: '添加模型' }).click()
@@ -250,7 +248,7 @@ describe.skipIf(MODE === 'record')('web e2e: first-run shipped provider credenti
     expect(document).toContain('name: Private Preview')
     expect(document).toContain('contextWindow: 131072')
     expect(document).toContain('maxTokens: 64000')
-    expect(document).not.toContain('id: nulu-5')
+    expect(document).not.toContain('id: nulu-5-ultra')
 
     await page.keyboard.press('Escape')
     // A connected Workspace is what puts a live composer — and its model

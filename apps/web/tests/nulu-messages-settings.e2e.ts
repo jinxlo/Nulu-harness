@@ -10,7 +10,7 @@ import {
 } from './scaffold.ts'
 import { connectFreshWorkspaceZh, saveFailureShot, ZH_BROWSER_LOCALE } from './support.ts'
 
-const EXPECTED = fileURLToPath(new URL('./expected/nulu-messages-settings/', import.meta.url))
+const EXPECTED = fileURLToPath(new URL('./expected/deepseek-messages-settings/', import.meta.url))
 
 describe.skipIf(webSnapshotMode() === 'record')('web e2e: Nulu Messages opt-in', () => {
   let scaffold: WebScaffold
@@ -19,7 +19,7 @@ describe.skipIf(webSnapshotMode() === 'record')('web e2e: Nulu Messages opt-in',
   let tripwire: ReturnType<typeof watchConsole>
 
   beforeAll(async () => {
-    scaffold = await launchWebScaffold({ nuluMissingCredential: true, nuluMessages: true })
+    scaffold = await launchWebScaffold({ nuluMissingCredential: true, nuluMessages: true, extraOverlayPath: fileURLToPath(new URL('./nulu-messages.overlay.yml', import.meta.url)) })
     browser = await chromium.launch()
     page = await browser.newPage({ viewport: { width: 1680, height: 1000 }, locale: ZH_BROWSER_LOCALE })
     tripwire = watchConsole(page)
@@ -36,9 +36,10 @@ describe.skipIf(webSnapshotMode() === 'record')('web e2e: Nulu Messages opt-in',
 
   it('offers one Nulu card and saves Messages settings using the existing credential reference', async () => {
     onTestFailed(() => saveFailureShot(page, 'web-e2e-nulu-messages-settings'))
-    expect(scaffold.ctx.llm.listProviders()).toContainEqual({ id: 'nulu-official', name: 'Nulu' })
-    expect(scaffold.ctx.llm.listProviders().filter(provider => provider.id === 'nulu-official')).toHaveLength(1)
-    expect(scaffold.ctx.agentDefaultModel.currentSelection()).toEqual({ provider: 'nulu-official', model: 'nulu-flash' })
+    expect(scaffold.ctx.settings.get('llm-gateway')).toMatchObject({ protocol: 'messages', baseURL: 'https://messages.example/anthropic' })
+    expect(scaffold.ctx.llm.listProviders()).toContainEqual({ id: 'worldapp-gateway', name: 'Nulu' })
+    expect(scaffold.ctx.llm.listProviders().filter(provider => provider.id === 'worldapp-gateway')).toHaveLength(1)
+    expect(scaffold.ctx.agentDefaultModel.currentSelection()).toEqual({ provider: 'worldapp-gateway', model: 'nulu-5-ultra' })
     const onboarding = page.getByRole('dialog', { name: '添加一个 API Key 开始使用' })
     await onboarding.getByLabel('API 密钥', { exact: true }).fill('sk-messages-onboarding')
     await onboarding.getByRole('button', { name: '保存并继续' }).click()
@@ -57,22 +58,22 @@ describe.skipIf(webSnapshotMode() === 'record')('web e2e: Nulu Messages opt-in',
       await captureStableAria(page, '[role="dialog"]', scaffold.workspaceCwd), webSnapshotMode())
     await messages.getByLabel('API 密钥', { exact: true }).fill('sk-e2e-messages')
     await messages.getByLabel('API 地址', { exact: true }).fill('https://messages.example/anthropic')
-    expect(await messages.getByLabel('模型 ID 1').inputValue()).toBe('nulu-flash')
+    expect(await messages.getByLabel('模型 ID 1').inputValue()).toBe('nulu-5-ultra')
     await messages.getByLabel('显示名称 1', { exact: true }).fill('Messages Flash')
     await messages.getByRole('button', { name: '保存', exact: true }).click()
-    await dialog.getByText('已保存 Nulu (nulu-official)。', { exact: true }).waitFor()
+    await dialog.getByText('已保存 Nulu (worldapp-gateway)。', { exact: true }).waitFor()
 
     const settings = await readFile(join(scaffold.harnessHome, 'settings.yaml'), 'utf8')
     expect(settings).toContain('https://messages.example/anthropic')
     expect(settings).toContain('llm-gateway:')
-    await expect(scaffold.ctx.llm.resolveModelInfo('nulu-official', 'nulu-flash')).resolves.toMatchObject({
+    await expect(scaffold.ctx.llm.resolveModelInfo('worldapp-gateway', 'nulu-5-ultra')).resolves.toMatchObject({
       name: 'Messages Flash', inputModalities: ['text', 'image'], systemPromptUpdate: 'in-history',
     })
     expect(scaffold.ctx.settings.get('llm-gateway')).toMatchObject({ protocol: 'messages' })
     expect(settings).not.toContain('sk-e2e-')
     const credentials = await readFile(join(scaffold.harnessHome, '.credentials.yaml'), 'utf8')
-    expect(credentials).toContain('DEEPSEEK_API_KEY: sk-e2e-messages')
-    expect(credentials).not.toContain('DEEPSEEK_MESSAGES_API_KEY')
+    expect(credentials).toContain('WORLD_APP_TECHNOLOGIES_API_KEY: sk-e2e-messages')
+    expect(credentials).not.toContain('WORLD_APP_TECHNOLOGIES_MESSAGES_API_KEY')
     expect(await page.locator('body').innerText()).not.toContain('sk-e2e-')
     await page.keyboard.press('Escape')
     await connectFreshWorkspaceZh(page, scaffold.workspaceCwd, 'messages-settings-e2e')
@@ -87,7 +88,7 @@ describe.skipIf(webSnapshotMode() === 'record')('web e2e: Nulu Messages opt-in',
   it('keeps a saved Chat Completions selection available after the YAML protocol switch', async () => {
     onTestFailed(() => saveFailureShot(page, 'web-e2e-nulu-messages-default'))
     await page.keyboard.press('Escape')
-    await scaffold.ctx.agentDefaultModel.saveSelection({ provider: 'nulu-official', model: 'nulu-v4-flash' })
+    await scaffold.ctx.agentDefaultModel.saveSelection({ provider: 'worldapp-gateway', model: 'nulu-5-pro' })
     await page.reload({ waitUntil: 'load' })
     const input = page.locator('[data-composer-input]').first()
     await expect.poll(() => input.isEnabled()).toBe(true)
@@ -95,9 +96,9 @@ describe.skipIf(webSnapshotMode() === 'record')('web e2e: Nulu Messages opt-in',
     await page.getByRole('menuitem', { name: /模型/ }).click()
     await page.getByRole('menuitemradio', { name: 'Messages Flash', exact: true }).click()
     await expect.poll(() => input.isEnabled()).toBe(true)
-    await expect.poll(() => scaffold.ctx.agentDefaultModel.currentSelection().provider).toBe('nulu-official')
+    await expect.poll(() => scaffold.ctx.agentDefaultModel.currentSelection().provider).toBe('worldapp-gateway')
     const settings = await readFile(join(scaffold.harnessHome, 'settings.yaml'), 'utf8')
-    expect(settings).toContain('provider: nulu-official')
+    expect(settings).toContain('provider: worldapp-gateway')
     expect(tripwire.pageErrors).toEqual([])
   }, 60_000)
 })

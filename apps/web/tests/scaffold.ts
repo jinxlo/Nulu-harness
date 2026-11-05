@@ -107,7 +107,7 @@ export const WELCOME_NOTICE_VERSION = '2026-08-13.1'
 export const WELCOME_NOTICE_COPY = {
   zh: {
     title: '内测声明',
-    body: 'Nulu Harness 目前的 0.1 版本仍处在面向 Harness 开发者进行测试的阶段，还有许多地方需要持续改进和打磨，希望听取广大开发者的反馈建议。预计 Nulu Harness 的核心插件以及基础 API 都会在接下来的一段时间内快速迭代、持续演化。\n\n我们期待与全球开发者一起，在开源、开放、可复用、可组合的基础设施之上，共同探索智能上限。欢迎全球 Harness 开发者加入 NULU 插件生态。',
+    body: 'Nulu Harness 目前仍处在面向 Harness 开发者进行测试的阶段，还有许多地方需要持续改进和打磨，希望听取广大开发者的反馈建议。预计 Nulu Harness 的核心插件以及基础 API 都会在接下来的一段时间内快速迭代、持续演化。\n\n我们期待与全球开发者一起，在开源、开放、可复用、可组合的基础设施之上，共同探索智能上限。欢迎全球 Harness 开发者加入 NULU 插件生态。',
     continueLabel: '继续',
   },
 } as const
@@ -369,7 +369,7 @@ export interface LaunchOptions {
    * keyless first-run configuration lane; the default disables the adapter.
    */
   nuluMissingCredential?: boolean
-  /** Record or replay a Messages scenario; older scenarios explicitly retain their recorded Chat Completions route. */
+  /** Replay a historical Messages route; first-run configuration uses the current gateway and needs an explicit Messages overlay. */
   nuluMessages?: boolean
   /** Leave the current welcome notice pending; ordinary scenarios pre-acknowledge it before browser boot. */
   welcomeNoticePending?: boolean
@@ -535,7 +535,7 @@ export async function launchWebScaffold(options: LaunchOptions = {}): Promise<We
     // The historical Messages fixture retains its recorded route during replay;
     // live configuration uses the shared Nulu route. Explicit overlays win.
     ...messages
-      ? [{ id: 'agent-default-model', config: { provider: mode === 'record' || maskNuluCredential ? 'nulu-official' : 'nulu-messages', model: maskNuluCredential ? 'nulu-flash' : 'nulu-v4-flash' } }]
+      ? [{ id: 'agent-default-model', config: { provider: mode === 'record' || maskNuluCredential ? 'worldapp-gateway' : 'nulu-messages', model: mode === 'record' || maskNuluCredential ? 'nulu-5-ultra' : 'nulu-v4-flash' } }]
       : mode === 'record' || options.nuluMissingCredential === true
         ? []
         : [{ id: 'agent-default-model', config: { provider: 'worldapp-gateway', model: 'nulu-5' } }],
@@ -655,7 +655,7 @@ export async function launchWebScaffold(options: LaunchOptions = {}): Promise<We
       }],
     ...maskNuluCredential && !messages ? [] : [
       { id: 'llm-gateway', disabled: mode !== 'record' && !maskNuluCredential,
-        config: messages ? {} : { protocol: 'chat-completions' } },
+        ...messages ? {} : { config: { protocol: 'chat-completions' } } },
     ],
   ]
 

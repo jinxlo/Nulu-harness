@@ -80,7 +80,7 @@ describe('Nulu browser-brand plugin', () => {
 
   it('renders the Nulu name independently from both requested mark sizes', () => {
     const name = render(<NuluBrandName />)
-    expect(name.container.querySelector('svg')?.getAttribute('viewBox')).toBe('32 0 136 24')
+    expect(name.container.querySelector('svg')?.getAttribute('viewBox')).toBe('32 0 152 24')
     name.unmount()
 
     const mark = render(<NuluBrandMark size={34} />)
