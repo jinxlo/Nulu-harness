@@ -64,7 +64,7 @@ function machineBlock(document: string, label: string): string {
 function parseSource(source: unknown, label: string): PersistenceFormatSource {
   if (source !== null && typeof source === 'object' && 'tag' in source) {
     const tag = fields(source, ['tag'], `${label} source`).tag
-    if (typeof tag !== 'string' || !/^nulu-[A-Za-z0-9][A-Za-z0-9._-]*$/u.test(tag)) throw new Error(`${label}: invalid source tag`)
+    if (typeof tag !== 'string' || !/^(?:dsh|nulu)-[A-Za-z0-9][A-Za-z0-9._-]*$/u.test(tag)) throw new Error(`${label}: invalid source tag`)
     return { tag }
   }
   const pullRequest = fields(source, ['pullRequest'], `${label} source`).pullRequest
@@ -129,7 +129,7 @@ function validateDocument(
 }
 
 /**
- * Read every required format pair and complete inventory without Git or historical source extraction.
+ * Read every required format document and complete inventory without Git or historical source extraction.
  * @param root - checkout root containing the writer declaration and format references.
  * @returns ordered historical references followed by the current generated catalog.
  */
@@ -139,12 +139,14 @@ export function loadPersistenceFormats(root: string): PersistenceFormats {
   const files = new Set(existsSync(directory) ? readdirSync(directory) : [])
   const expected = new Set<string>()
   for (let version = 0; version < currentVersion; version += 1) {
-    for (const suffix of ['.md', '.zh.md', '.schema.json']) {
+    for (const suffix of ['.md', '.schema.json']) {
       const name = `v${version}${suffix}`
       expected.add(name)
       if (!files.has(name)) throw new Error(`v${version}: missing persistence format artifact ${name}`)
     }
-    expected.add(`v${version}.i18n.yaml`)
+  }
+  for (let version = 0; version < currentVersion; version += 1) {
+    for (const suffix of ['.zh.md', '.i18n.yaml']) if (files.has(`v${version}${suffix}`)) expected.add(`v${version}${suffix}`)
   }
   for (const file of files) {
     if (file.startsWith('v') && !expected.has(file)) throw new Error(`unexpected persistence format artifact ${file}`)
@@ -159,11 +161,12 @@ export function loadPersistenceFormats(root: string): PersistenceFormats {
     const document = current ? CURRENT_DOCUMENT : `${DIRECTORY}/v${version}.md`
     const schemaPath = current ? CURRENT_SCHEMA : `${DIRECTORY}/v${version}.schema.json`
     const english = read(document)
-    const chinese = read(document.replace(/\.md$/u, '.zh.md'))
+    const translatedPath = document.replace(/\.md$/u, '.zh.md')
+    const chinese = existsSync(join(root, translatedPath)) ? read(translatedPath) : undefined
     let record: PersistenceFormatRecord | undefined
     if (!current) {
       const block = machineBlock(english, document)
-      if (block !== machineBlock(chinese, document.replace(/\.md$/u, '.zh.md'))) throw new Error(`v${version}: bilingual machine records differ`)
+      if (chinese !== undefined && block !== machineBlock(chinese, translatedPath)) throw new Error(`v${version}: bilingual machine records differ`)
       record = parseRecord(block, version)
     }
     const inventory = (current ? parsePersistenceSnapshot : parseHistoricalPersistenceSnapshot)(JSON.parse(read(schemaPath)))
@@ -175,7 +178,7 @@ export function loadPersistenceFormats(root: string): PersistenceFormats {
     }
     const schemaName = current ? 'persistence-schema.json' : `v${version}.schema.json`
     validateDocument(english, schemaName, inventory, document, current)
-    validateDocument(chinese, schemaName, inventory, document.replace(/\.md$/u, '.zh.md'), current)
+    if (chinese !== undefined) validateDocument(chinese, schemaName, inventory, translatedPath, current)
     entries.push({ version, document, schemaPath, inventory, ...(record === undefined ? {} : { source: record.source }) })
   }
   return { currentVersion, entries }

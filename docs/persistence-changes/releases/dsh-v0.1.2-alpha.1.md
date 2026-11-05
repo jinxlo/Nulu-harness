@@ -1,11 +1,9 @@
 ---
-description: "Retrospective Session persistence types and adjacent-release changes for nulu-v0.1.2-alpha.1."
+description: "Retrospective Session persistence types and adjacent-release changes for dsh-v0.1.2-alpha.1."
 kind: persistence-release
 ---
 
-# Persistence release: nulu-v0.1.2-alpha.1
-
-English | [中文](nulu-v0.1.2-alpha.1.zh.md)
+# Persistence release: dsh-v0.1.2-alpha.1
 
 ## Summary
 
@@ -28,13 +26,13 @@ This approximate backfill supports reading and format validation; it is not a co
 
 | Item | Recorded value |
 |---|---|
-| Source tag | `nulu-v0.1.2-alpha.1` |
+| Source tag | `dsh-v0.1.2-alpha.1` |
 | Source date | 2026-08-27T16:57:43.000Z |
 | Release record | Release object present. |
-| Previous release | [nulu-v0.1.1-rc.2](nulu-v0.1.1-rc.2.md) |
+| Previous release | [dsh-v0.1.1-rc.2](dsh-v0.1.1-rc.2.md) |
 | Session writer version | 0 |
 | Reconstructed inventory | <!-- persistence-release-inventory:start -->54 roots / 417 types<!-- persistence-release-inventory:end --> |
-| This snapshot | [nulu-v0.1.2-alpha.1.schema.json](nulu-v0.1.2-alpha.1.schema.json) |
+| This snapshot | [dsh-v0.1.2-alpha.1.schema.json](dsh-v0.1.2-alpha.1.schema.json) |
 
 Source evidence for the writer version constant at this tag:
 
@@ -45,8 +43,8 @@ Source evidence for the writer version constant at this tag:
 
 ```yaml persistence-release
 schemaVersion: 1
-tag: nulu-v0.1.2-alpha.1
-previous: nulu-v0.1.1-rc.2
+tag: dsh-v0.1.2-alpha.1
+previous: dsh-v0.1.1-rc.2
 sessionFormatVersion: 0
 changes:
   - root: SessionEventEnvelope
@@ -130,7 +128,7 @@ changes:
   - root: event:schedule/change
     before: 2a7f86849ae54b3398ee49661a757c4fcb59a6192b7036ee2ff514617e13fb42
     after: 19b014756dd1882e2708c7b1ec02d5eef60fea523cf5b0c59cb320177bc4136c
-  - root: event:session-log-gateway/delivery-accepted
+  - root: event:session-log-deepseek/delivery-accepted
     before: null
     after: 15fc803b92d6a4b340991f978cf74b530f7cee6a36e565038e7ceff51a708258
   - root: event:session/end-seed
@@ -202,7 +200,7 @@ changes:
   - root: event:user/message
     before: 70a39b3639ca6c2eeabf1e2c8ef4cbc23e24c947e72bf0c28754e7c2f713be26
     after: de7d01b9a4bd2fbdcab0a901dbd221086ee5e3a4a7bc123496b5c4e45b6c5384
-  - root: event:web/nulu-search-llm-request
+  - root: event:web/deepseek-search-llm-request
     before: cf6e3aaf1e2de6480aa0157730a41b9a492108a55304100b0f7e112711dd4331
     after: 0c5c79711e02bd8faed288bb89a39c77af15ad28010a0ee3d5c98adb1e5c3fe5
 ```
@@ -249,7 +247,7 @@ Detected 52 changed roots and 61 structural differences. The minimum below is ca
 | `event:request/header.ignorable` | `property-removed` | `version-bump` |
 | `event:sandbox/mode.ignorable` | `property-removed` | `version-bump` |
 | `event:schedule/change.ignorable` | `property-removed` | `version-bump` |
-| `event:session-log-gateway/delivery-accepted` | `root-added` | `same-version` |
+| `event:session-log-deepseek/delivery-accepted` | `root-added` | `same-version` |
 | `event:session/end-seed.ignorable` | `property-removed` | `version-bump` |
 | `event:session/title.ignorable` | `property-removed` | `version-bump` |
 | `event:session/title-llm-request.data.messages[].source` | `union-variants-changed` | `version-bump` |
@@ -276,7 +274,7 @@ Detected 52 changed roots and 61 structural differences. The minimum below is ca
 | `event:turn/start.ignorable` | `property-removed` | `version-bump` |
 | `event:user/message.data.source` | `union-variants-changed` | `version-bump` |
 | `event:user/message.ignorable` | `property-removed` | `version-bump` |
-| `event:web/nulu-search-llm-request.ignorable` | `property-removed` | `version-bump` |
+| `event:web/deepseek-search-llm-request.ignorable` | `property-removed` | `version-bump` |
 
 <!-- persistence-release-changes:end -->
 

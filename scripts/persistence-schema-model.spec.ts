@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { canonicalizeSchema, isArbitraryJsonSchema, schemaDigest, type SchemaNode } from './persistence-schema-model.ts'
 
@@ -5,6 +6,16 @@ const string: SchemaNode = { kind: 'primitive', type: 'string' }
 const number: SchemaNode = { kind: 'primitive', type: 'number' }
 
 describe('canonical persisted type graphs', () => {
+  it('retains the schema-v1 fingerprint used by the recorded historical header', () => {
+    const inventory = JSON.parse(readFileSync(new URL('../docs/persistence-changes/historical-formats/v0.schema.json', import.meta.url), 'utf8')) as {
+      roots: { key: string; digest: string; schema: Parameters<typeof schemaDigest>[0] }[]
+    }
+    const header = inventory.roots.find(root => root.key === 'SessionHeader')
+    if (header === undefined) throw new Error('Historical header fixture is missing')
+    expect(header.digest).toBe('001ed6f66d67fac9cb9594b55f13557db94174fe5d5954789bb5a2d6d5927226')
+    expect(schemaDigest(header.schema)).toBe(header.digest)
+  })
+
   it('ignores source ordering and shared versus duplicated subtypes', () => {
     const left: SchemaNode[] = [
       { kind: 'object', properties: [{ name: 'b', type: 1, optional: false }, { name: 'a', type: 1, optional: true }], indices: [] }, string,

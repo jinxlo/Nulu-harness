@@ -177,8 +177,8 @@ function validateSessionFormatRelease(source: string, currentWriterVersion: numb
     throw new Error('latestReleasedVersion must not exceed the current writer version')
   }
   if (typeof evidenceTag !== 'string'
-    || !/^nulu-v\d+\.\d+\.\d+(?:-[\dA-Za-z]+(?:[.-][\dA-Za-z]+)*)?(?:\+[\dA-Za-z]+(?:[.-][\dA-Za-z]+)*)?$/u.test(evidenceTag)) {
-    throw new Error('evidenceTag must be a non-empty nulu-v version tag without URL delimiters')
+    || !/^(?:nulu-)?v\d+\.\d+\.\d+(?:-[\dA-Za-z]+(?:[.-][\dA-Za-z]+)*)?(?:\+[\dA-Za-z]+(?:[.-][\dA-Za-z]+)*)?$/u.test(evidenceTag)) {
+    throw new Error('evidenceTag must be a non-empty product version tag without URL delimiters')
   }
   const hasEvidence = normalized.split('\n').some(line =>
     line.includes(`\`${evidenceTag}\``) && line.includes('`packages/core/session/src/types.ts`'))
@@ -201,12 +201,12 @@ function releaseDocument(body: string, evidence: string): string {
 }
 
 describe('Session format release authority', () => {
-  it('keeps bilingual release metadata consistent with the writer and tagged evidence', () => {
-    const records = ['docs/session-format-status.md', 'docs/session-format-status.zh.md'].map(file =>
+  it('keeps release metadata consistent with the writer and tagged evidence', () => {
+    const records = ['docs/session-format-status.md'].map(file =>
       validateSessionFormatRelease(readFileSync(resolve(root, file), 'utf8'), readCurrentSessionFormatVersion(root)),
     )
     for (const record of records) {
-      expect(record.evidenceTag).toMatch(/^nulu-v/)
+      expect(record.evidenceTag).toMatch(/^(?:nulu-)?v/)
     }
   })
 
@@ -264,12 +264,12 @@ describe('Session format release authority', () => {
   it('rejects empty, malformed, and URL-injecting evidence tags', () => {
     const { record, evidence } = sessionFormatReleaseFixture()
     for (const tag of [
-      null, true, 1, '', ' ', 'nulu-v', record.evidenceTag.replace('nulu-v', 'v'),
+      null, true, 1, '', ' ', 'nulu-v', 'release-1.0.0',
       `${record.evidenceTag}/other`, `${record.evidenceTag}?query`, `${record.evidenceTag}#fragment`,
       `${record.evidenceTag}%2Fother`, `${record.evidenceTag})`, `${record.evidenceTag}\n`,
     ]) {
       const source = releaseDocument(`latestReleasedVersion: ${record.latestReleasedVersion}\nevidenceTag: ${JSON.stringify(tag)}`, evidence)
-      expect(() => validateSessionFormatRelease(source, record.latestReleasedVersion), String(tag)).toThrow('nulu-v version tag')
+      expect(() => validateSessionFormatRelease(source, record.latestReleasedVersion), String(tag)).toThrow('product version tag')
     }
   })
 
@@ -356,7 +356,7 @@ describe('nulu-doc skill consolidation', () => {
   })
 
   it('maps retrospective release comparisons to their dedicated document kind', () => {
-    const files = globSync('docs/persistence-changes/releases/nulu-*.md', { cwd: root })
+    const files = globSync('docs/persistence-changes/releases/*.md', { cwd: root }).filter(file => !file.endsWith('/README.md'))
     expect(files.length).toBeGreaterThan(0)
     for (const file of files) {
       const metadata = readFrontmatter(file)
@@ -367,7 +367,7 @@ describe('nulu-doc skill consolidation', () => {
 
   it('maps historical Session format references to their dedicated document kind', () => {
     const files = globSync('docs/persistence-changes/historical-formats/v*.md', { cwd: root })
-    expect(files.length).toBe(readCurrentSessionFormatVersion(root) * 2)
+    expect(files.length).toBe(readCurrentSessionFormatVersion(root))
     for (const file of files) {
       const metadata = readFrontmatter(file)
       expect(metadata.kind, file).toBe('persistence-format')

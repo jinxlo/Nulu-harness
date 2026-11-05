@@ -1,11 +1,9 @@
 ---
-description: "Retrospective Session persistence types and adjacent-release changes for nulu-v0.0.1-rc.1."
+description: "Retrospective Session persistence types and adjacent-release changes for dsh-v0.0.1-rc.1."
 kind: persistence-release
 ---
 
-# Persistence release: nulu-v0.0.1-rc.1
-
-English | [中文](nulu-v0.0.1-rc.1.zh.md)
+# Persistence release: dsh-v0.0.1-rc.1
 
 ## Summary
 
@@ -28,13 +26,13 @@ This approximate backfill supports reading and format validation; it is not a co
 
 | Item | Recorded value |
 |---|---|
-| Source tag | `nulu-v0.0.1-rc.1` |
+| Source tag | `dsh-v0.0.1-rc.1` |
 | Source date | 2026-08-10T19:25:09.000Z |
 | Release record | Tag only; no release object. |
 | Previous release | Earliest available prerelease tag; no earlier comparison input. |
 | Session writer version | 0 |
 | Reconstructed inventory | <!-- persistence-release-inventory:start -->42 roots / 341 types<!-- persistence-release-inventory:end --> |
-| This snapshot | [nulu-v0.0.1-rc.1.schema.json](nulu-v0.0.1-rc.1.schema.json) |
+| This snapshot | [dsh-v0.0.1-rc.1.schema.json](dsh-v0.0.1-rc.1.schema.json) |
 
 Source evidence for the writer version constant at this tag:
 
@@ -45,7 +43,7 @@ Source evidence for the writer version constant at this tag:
 
 ```yaml persistence-release
 schemaVersion: 1
-tag: nulu-v0.0.1-rc.1
+tag: dsh-v0.0.1-rc.1
 previous: null
 sessionFormatVersion: 0
 changes:
@@ -172,7 +170,7 @@ changes:
   - root: event:user/message
     before: null
     after: c4b5e355b7c7ce538ccb1210b5c042d4bbfe33dd57a910ccd34c7afa11cde648
-  - root: event:web/nulu-search-llm-request
+  - root: event:web/deepseek-search-llm-request
     before: null
     after: 0c5c79711e02bd8faed288bb89a39c77af15ad28010a0ee3d5c98adb1e5c3fe5
 ```

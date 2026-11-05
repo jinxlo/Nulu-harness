@@ -1,11 +1,9 @@
 ---
-description: "Retrospective Session persistence types and adjacent-release changes for nulu-v0.0.1-rc.2."
+description: "Retrospective Session persistence types and adjacent-release changes for dsh-v0.0.1-rc.2."
 kind: persistence-release
 ---
 
-# Persistence release: nulu-v0.0.1-rc.2
-
-English | [中文](nulu-v0.0.1-rc.2.zh.md)
+# Persistence release: dsh-v0.0.1-rc.2
 
 ## Summary
 
@@ -28,13 +26,13 @@ This approximate backfill supports reading and format validation; it is not a co
 
 | Item | Recorded value |
 |---|---|
-| Source tag | `nulu-v0.0.1-rc.2` |
+| Source tag | `dsh-v0.0.1-rc.2` |
 | Source date | 2026-08-11T15:04:55.000Z |
 | Release record | Tag only; no release object. |
-| Previous release | [nulu-v0.0.1-rc.1](nulu-v0.0.1-rc.1.md) |
+| Previous release | [dsh-v0.0.1-rc.1](dsh-v0.0.1-rc.1.md) |
 | Session writer version | 0 |
 | Reconstructed inventory | <!-- persistence-release-inventory:start -->47 roots / 374 types<!-- persistence-release-inventory:end --> |
-| This snapshot | [nulu-v0.0.1-rc.2.schema.json](nulu-v0.0.1-rc.2.schema.json) |
+| This snapshot | [dsh-v0.0.1-rc.2.schema.json](dsh-v0.0.1-rc.2.schema.json) |
 
 Source evidence for the writer version constant at this tag:
 
@@ -45,8 +43,8 @@ Source evidence for the writer version constant at this tag:
 
 ```yaml persistence-release
 schemaVersion: 1
-tag: nulu-v0.0.1-rc.2
-previous: nulu-v0.0.1-rc.1
+tag: dsh-v0.0.1-rc.2
+previous: dsh-v0.0.1-rc.1
 sessionFormatVersion: 0
 changes:
   - root: SessionEventEnvelope
@@ -181,7 +179,7 @@ changes:
   - root: event:user/message
     before: c4b5e355b7c7ce538ccb1210b5c042d4bbfe33dd57a910ccd34c7afa11cde648
     after: e127c29aaca0a742665d4ea9c4d2c241e632552139d06107fb7996c25af7bcdd
-  - root: event:web/nulu-search-llm-request
+  - root: event:web/deepseek-search-llm-request
     before: 0c5c79711e02bd8faed288bb89a39c77af15ad28010a0ee3d5c98adb1e5c3fe5
     after: cf6e3aaf1e2de6480aa0157730a41b9a492108a55304100b0f7e112711dd4331
 ```
@@ -242,7 +240,7 @@ Detected 45 changed roots and 48 structural differences. The minimum below is ca
 | `event:turn/start.ignorable` | `optional-property-added` | `version-bump` |
 | `event:user/message.data.source` | `union-variants-changed` | `version-bump` |
 | `event:user/message.ignorable` | `optional-property-added` | `version-bump` |
-| `event:web/nulu-search-llm-request.ignorable` | `optional-property-added` | `version-bump` |
+| `event:web/deepseek-search-llm-request.ignorable` | `optional-property-added` | `version-bump` |
 
 <!-- persistence-release-changes:end -->
 

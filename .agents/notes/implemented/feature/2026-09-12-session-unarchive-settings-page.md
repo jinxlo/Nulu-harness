@@ -2,8 +2,6 @@
 
 Status: implemented
 
-English | [中文](2026-09-12-session-unarchive-settings-page.zh.md)
-
 ## Problem
 
 Archiving a Session removed it from every Workspace grouping surface, and nothing brought it back. The archive set is a durable display filter, so a hidden Session kept its log, its Workspace accounting slot, and its position, but the only recovered route was editing the domain state by hand. The archived feature record predicted the restore surface as "one UI surface plus one inverse RPC"; both now exist, and the Client had no place that listed archived Sessions at all.

@@ -77,6 +77,8 @@ declare module '@worldapptechnologies/nulu-llm-api-extensions/types' {
 
 declare module '@worldapptechnologies/nulu-session/types' {
   interface SessionEventMap {
+    /** Historical upstream receipt accepted on read; it never advances the Nulu delivery cursor. */
+    'session-log-deepseek/delivery-accepted': SessionEventMap['session-log-gateway/delivery-accepted']
     /** Records that the configured endpoint accepted one delivery through `throughSeq`. */
     'session-log-gateway/delivery-accepted': {
       /** Session identity the accepted delivery carried; inherited fork markers retain the parent's id. */

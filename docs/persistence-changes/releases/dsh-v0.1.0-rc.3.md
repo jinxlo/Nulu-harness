@@ -1,11 +1,9 @@
 ---
-description: "Retrospective Session persistence types and adjacent-release changes for nulu-v0.1.0-rc.3."
+description: "Retrospective Session persistence types and adjacent-release changes for dsh-v0.1.0-rc.3."
 kind: persistence-release
 ---
 
-# Persistence release: nulu-v0.1.0-rc.3
-
-English | [中文](nulu-v0.1.0-rc.3.zh.md)
+# Persistence release: dsh-v0.1.0-rc.3
 
 ## Summary
 
@@ -28,13 +26,13 @@ This approximate backfill supports reading and format validation; it is not a co
 
 | Item | Recorded value |
 |---|---|
-| Source tag | `nulu-v0.1.0-rc.3` |
+| Source tag | `dsh-v0.1.0-rc.3` |
 | Source date | 2026-08-13T10:40:08.000Z |
 | Release record | Tag only; no release object. |
-| Previous release | [nulu-v0.1.0-rc.2](nulu-v0.1.0-rc.2.md) |
+| Previous release | [dsh-v0.1.0-rc.2](dsh-v0.1.0-rc.2.md) |
 | Session writer version | 0 |
 | Reconstructed inventory | <!-- persistence-release-inventory:start -->47 roots / 374 types<!-- persistence-release-inventory:end --> |
-| This snapshot | [nulu-v0.1.0-rc.3.schema.json](nulu-v0.1.0-rc.3.schema.json) |
+| This snapshot | [dsh-v0.1.0-rc.3.schema.json](dsh-v0.1.0-rc.3.schema.json) |
 
 Source evidence for the writer version constant at this tag:
 
@@ -45,8 +43,8 @@ Source evidence for the writer version constant at this tag:
 
 ```yaml persistence-release
 schemaVersion: 1
-tag: nulu-v0.1.0-rc.3
-previous: nulu-v0.1.0-rc.2
+tag: dsh-v0.1.0-rc.3
+previous: dsh-v0.1.0-rc.2
 sessionFormatVersion: 0
 changes: []
 ```

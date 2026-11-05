@@ -49,6 +49,7 @@ function isUserFacing(hit) {
     && !/fixture/i.test(file)
     && !/THIRD_PARTY|LICENSE|NOTICE|CHANGELOG/i.test(file)
     && !file.startsWith('.agents/notes/')
+    && !file.startsWith('docs/persistence-changes/')
     // Sync analysis artifacts (reports/) legitimately reference "DeepSeek" as
     // the upstream source being adapted; they are not product surfaces.
     && !file.startsWith('reports/')

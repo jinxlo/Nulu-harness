@@ -1,11 +1,9 @@
 ---
-description: "Retrospective Session persistence types and adjacent-release changes for nulu-v0.1.0-rc.8."
+description: "Retrospective Session persistence types and adjacent-release changes for dsh-v0.1.0-rc.8."
 kind: persistence-release
 ---
 
-# Persistence release: nulu-v0.1.0-rc.8
-
-English | [中文](nulu-v0.1.0-rc.8.zh.md)
+# Persistence release: dsh-v0.1.0-rc.8
 
 ## Summary
 
@@ -28,13 +26,13 @@ This approximate backfill supports reading and format validation; it is not a co
 
 | Item | Recorded value |
 |---|---|
-| Source tag | `nulu-v0.1.0-rc.8` |
+| Source tag | `dsh-v0.1.0-rc.8` |
 | Source date | 2026-08-19T15:11:50.000Z |
 | Release record | Release object present. |
-| Previous release | [nulu-v0.1.0-rc.7](nulu-v0.1.0-rc.7.md) |
+| Previous release | [dsh-v0.1.0-rc.7](dsh-v0.1.0-rc.7.md) |
 | Session writer version | 0 |
 | Reconstructed inventory | <!-- persistence-release-inventory:start -->51 roots / 403 types<!-- persistence-release-inventory:end --> |
-| This snapshot | [nulu-v0.1.0-rc.8.schema.json](nulu-v0.1.0-rc.8.schema.json) |
+| This snapshot | [dsh-v0.1.0-rc.8.schema.json](dsh-v0.1.0-rc.8.schema.json) |
 
 Source evidence for the writer version constant at this tag:
 
@@ -45,8 +43,8 @@ Source evidence for the writer version constant at this tag:
 
 ```yaml persistence-release
 schemaVersion: 1
-tag: nulu-v0.1.0-rc.8
-previous: nulu-v0.1.0-rc.7
+tag: dsh-v0.1.0-rc.8
+previous: dsh-v0.1.0-rc.7
 sessionFormatVersion: 0
 changes:
   - root: event:agent/inbox/spliced

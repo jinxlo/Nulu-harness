@@ -79,6 +79,8 @@ export interface NuluSearchLlmRequest {
 
 declare module '@worldapptechnologies/nulu-session/types' {
   interface SessionEventMap {
+    /** Historical upstream search request retained for reading existing Session records. */
+    'web/deepseek-search-llm-request': NuluSearchLlmRequest
     /** Secret-free auxiliary Nulu search request recorded before dispatch. */
     'web/nulu-search-llm-request': NuluSearchLlmRequest
   }

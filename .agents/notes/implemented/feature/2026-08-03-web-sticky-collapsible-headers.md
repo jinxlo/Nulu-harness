@@ -2,8 +2,6 @@
 
 Status: implemented
 
-English | [中文](2026-08-03-web-sticky-collapsible-headers.zh.md)
-
 ## Problem
 
 Two conversation blocks render their expanded body uncapped, flowing with the page instead of scrolling inside a bounded surface: the Web Think row (`.thinkBody`) and the compaction marker (`.compactionBody`). Every other tool row caps its body and scrolls it inside its own card, so its disclosure header stays visible. The two uncapped blocks do not. A long chain of thought or a long compaction summary carries its own disclosure header off the top of the viewport, so a reader who wants to collapse the block again must scroll the full body back up to reach the toggle.

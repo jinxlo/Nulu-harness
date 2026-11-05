@@ -6986,11 +6986,91 @@
       }
     },
     {
+      "key": "event:session-log-deepseek/delivery-accepted",
+      "kind": "event",
+      "event": "session-log-deepseek/delivery-accepted",
+      "surface": false,
+      "digest": "d63b8b8ffad9c02fd80c43a17df4f240c1fe8118ecca9de34f9d5871838ab5b9",
+      "schema": {
+        "root": 0,
+        "nodes": [
+          {
+            "kind": "object",
+            "properties": [
+              {
+                "name": "data",
+                "type": 1,
+                "optional": false
+              },
+              {
+                "name": "ignorable",
+                "type": 4,
+                "optional": true
+              },
+              {
+                "name": "seq",
+                "type": 2,
+                "optional": false
+              },
+              {
+                "name": "time",
+                "type": 2,
+                "optional": false
+              },
+              {
+                "name": "type",
+                "type": 5,
+                "optional": false
+              }
+            ],
+            "indices": []
+          },
+          {
+            "kind": "object",
+            "properties": [
+              {
+                "name": "sessionFormatVersion",
+                "type": 2,
+                "optional": true
+              },
+              {
+                "name": "sessionId",
+                "type": 3,
+                "optional": false
+              },
+              {
+                "name": "throughSeq",
+                "type": 2,
+                "optional": false
+              }
+            ],
+            "indices": []
+          },
+          {
+            "kind": "primitive",
+            "type": "number"
+          },
+          {
+            "kind": "primitive",
+            "type": "string"
+          },
+          {
+            "kind": "literal",
+            "value": true
+          },
+          {
+            "kind": "literal",
+            "value": "session-log-deepseek/delivery-accepted"
+          }
+        ]
+      }
+    },
+    {
       "key": "event:session-log-gateway/delivery-accepted",
       "kind": "event",
       "event": "session-log-gateway/delivery-accepted",
       "surface": false,
-      "digest": "d63b8b8ffad9c02fd80c43a17df4f240c1fe8118ecca9de34f9d5871838ab5b9",
+      "digest": "e078a516ddc6078e3edbd2ba27dead3854eab2c891ec70751b63fc126fed0d66",
       "schema": {
         "root": 0,
         "nodes": [
@@ -13539,11 +13619,216 @@
       }
     },
     {
+      "key": "event:web/deepseek-search-llm-request",
+      "kind": "event",
+      "event": "web/deepseek-search-llm-request",
+      "surface": false,
+      "digest": "cf6e3aaf1e2de6480aa0157730a41b9a492108a55304100b0f7e112711dd4331",
+      "schema": {
+        "root": 0,
+        "nodes": [
+          {
+            "kind": "object",
+            "properties": [
+              {
+                "name": "data",
+                "type": 1,
+                "optional": false
+              },
+              {
+                "name": "ignorable",
+                "type": 15,
+                "optional": true
+              },
+              {
+                "name": "seq",
+                "type": 4,
+                "optional": false
+              },
+              {
+                "name": "time",
+                "type": 4,
+                "optional": false
+              },
+              {
+                "name": "type",
+                "type": 16,
+                "optional": false
+              }
+            ],
+            "indices": []
+          },
+          {
+            "kind": "object",
+            "properties": [
+              {
+                "name": "apiVersion",
+                "type": 2,
+                "optional": false
+              },
+              {
+                "name": "body",
+                "type": 3,
+                "optional": false
+              },
+              {
+                "name": "endpoint",
+                "type": 2,
+                "optional": false
+              }
+            ],
+            "indices": []
+          },
+          {
+            "kind": "primitive",
+            "type": "string"
+          },
+          {
+            "kind": "object",
+            "properties": [
+              {
+                "name": "max_tokens",
+                "type": 4,
+                "optional": false
+              },
+              {
+                "name": "messages",
+                "type": 5,
+                "optional": false
+              },
+              {
+                "name": "model",
+                "type": 2,
+                "optional": false
+              },
+              {
+                "name": "tools",
+                "type": 11,
+                "optional": false
+              }
+            ],
+            "indices": []
+          },
+          {
+            "kind": "primitive",
+            "type": "number"
+          },
+          {
+            "kind": "tuple",
+            "elements": [
+              {
+                "type": 6,
+                "optional": false,
+                "rest": false
+              }
+            ]
+          },
+          {
+            "kind": "object",
+            "properties": [
+              {
+                "name": "content",
+                "type": 7,
+                "optional": false
+              },
+              {
+                "name": "role",
+                "type": 10,
+                "optional": false
+              }
+            ],
+            "indices": []
+          },
+          {
+            "kind": "tuple",
+            "elements": [
+              {
+                "type": 8,
+                "optional": false,
+                "rest": false
+              }
+            ]
+          },
+          {
+            "kind": "object",
+            "properties": [
+              {
+                "name": "text",
+                "type": 2,
+                "optional": false
+              },
+              {
+                "name": "type",
+                "type": 9,
+                "optional": false
+              }
+            ],
+            "indices": []
+          },
+          {
+            "kind": "literal",
+            "value": "text"
+          },
+          {
+            "kind": "literal",
+            "value": "user"
+          },
+          {
+            "kind": "tuple",
+            "elements": [
+              {
+                "type": 12,
+                "optional": false,
+                "rest": false
+              }
+            ]
+          },
+          {
+            "kind": "object",
+            "properties": [
+              {
+                "name": "max_uses",
+                "type": 4,
+                "optional": false
+              },
+              {
+                "name": "name",
+                "type": 13,
+                "optional": false
+              },
+              {
+                "name": "type",
+                "type": 14,
+                "optional": false
+              }
+            ],
+            "indices": []
+          },
+          {
+            "kind": "literal",
+            "value": "web_search"
+          },
+          {
+            "kind": "literal",
+            "value": "web_search_20250305"
+          },
+          {
+            "kind": "literal",
+            "value": true
+          },
+          {
+            "kind": "literal",
+            "value": "web/deepseek-search-llm-request"
+          }
+        ]
+      }
+    },
+    {
       "key": "event:web/nulu-search-llm-request",
       "kind": "event",
       "event": "web/nulu-search-llm-request",
       "surface": false,
-      "digest": "cf6e3aaf1e2de6480aa0157730a41b9a492108a55304100b0f7e112711dd4331",
+      "digest": "e714f6f6798051aa3f417936efa617688caa5f958a276044f86ed63e3d609762",
       "schema": {
         "root": 0,
         "nodes": [
@@ -21460,7 +21745,7 @@
         "packages/web/web-search-gateway/src/provider.ts#NuluSearchLlmRequest"
       ],
       "sources": [
-        "packages/web/web-search-gateway/src/provider.ts:55"
+        "packages/web/web-search-gateway/src/provider.ts:56"
       ]
     },
     {
@@ -23667,10 +23952,10 @@
         ]
       },
       "names": [
-        "event:web/nulu-search-llm-request.data.body.tools[0]"
+        "event:web/deepseek-search-llm-request.data.body.tools[0]"
       ],
       "sources": [
-        "packages/web/web-search-gateway/src/provider.ts:71"
+        "packages/web/web-search-gateway/src/provider.ts:72"
       ]
     },
     {
@@ -30848,7 +31133,7 @@
         "nodes": [
           {
             "kind": "literal",
-            "value": "session-log-gateway/delivery-accepted"
+            "value": "session-log-deepseek/delivery-accepted"
           }
         ]
       },
@@ -31141,7 +31426,7 @@
         ]
       },
       "names": [
-        "event:web/nulu-search-llm-request.data.body.tools"
+        "event:web/deepseek-search-llm-request.data.body.tools"
       ],
       "sources": []
     },
@@ -33201,12 +33486,12 @@
         ]
       },
       "names": [
-        "event:web/nulu-search-llm-request.data.body.messages[0].content[0]",
+        "event:web/deepseek-search-llm-request.data.body.messages[0].content[0]",
         "packages/llm/llm/src/types.ts#TextBlock"
       ],
       "sources": [
         "packages/llm/llm/src/types.ts:61",
-        "packages/web/web-search-gateway/src/provider.ts:66"
+        "packages/web/web-search-gateway/src/provider.ts:67"
       ]
     },
     {
@@ -35010,9 +35295,9 @@
         ]
       },
       "names": [
-        "SessionEventEnvelope[39].sourceEventSeqs",
-        "SessionEventEnvelope[52].sourceEventSeqs",
-        "SessionEventEnvelope[55].sourceEventSeqs",
+        "SessionEventEnvelope[40].sourceEventSeqs",
+        "SessionEventEnvelope[53].sourceEventSeqs",
+        "SessionEventEnvelope[56].sourceEventSeqs",
         "event:assistant/attempt.data.stream[0][0].dt",
         "event:assistant/attempt.data.stream[0][1].dt",
         "event:assistant/attempt.data.stream[0][2].dt",
@@ -38422,7 +38707,7 @@
         "nodes": [
           {
             "kind": "literal",
-            "value": "web/nulu-search-llm-request"
+            "value": "web/deepseek-search-llm-request"
           }
         ]
       },
@@ -38499,6 +38784,20 @@
           {
             "kind": "literal",
             "value": "request/context"
+          }
+        ]
+      },
+      "names": [],
+      "sources": []
+    },
+    {
+      "digest": "7176353433e2f98ccfc3e761a1d2755cc6db5789ef7fbd9efa638ae7814d4b41",
+      "schema": {
+        "root": 0,
+        "nodes": [
+          {
+            "kind": "literal",
+            "value": "web/nulu-search-llm-request"
           }
         ]
       },
@@ -42484,10 +42783,11 @@
         ]
       },
       "names": [
+        "event:session-log-deepseek/delivery-accepted.data",
         "event:session-log-gateway/delivery-accepted.data"
       ],
       "sources": [
-        "packages/session/session-log-gateway/src/types.ts:81"
+        "packages/session/session-log-gateway/src/types.ts:83"
       ]
     },
     {
@@ -43557,7 +43857,7 @@
         ]
       },
       "names": [
-        "event:web/nulu-search-llm-request.data.body.messages[0].content"
+        "event:web/deepseek-search-llm-request.data.body.messages[0].content"
       ],
       "sources": []
     },
@@ -44052,10 +44352,10 @@
         ]
       },
       "names": [
-        "event:web/nulu-search-llm-request.data.body"
+        "event:web/deepseek-search-llm-request.data.body"
       ],
       "sources": [
-        "packages/web/web-search-gateway/src/provider.ts:61"
+        "packages/web/web-search-gateway/src/provider.ts:62"
       ]
     },
     {
@@ -44479,9 +44779,9 @@
         ]
       },
       "names": [
-        "SessionEventEnvelope[39]",
-        "SessionEventEnvelope[52]",
-        "SessionEventEnvelope[55]"
+        "SessionEventEnvelope[40]",
+        "SessionEventEnvelope[53]",
+        "SessionEventEnvelope[56]"
       ],
       "sources": []
     },
@@ -44547,10 +44847,10 @@
         ]
       },
       "names": [
-        "event:web/nulu-search-llm-request.data.body.messages[0]"
+        "event:web/deepseek-search-llm-request.data.body.messages[0]"
       ],
       "sources": [
-        "packages/web/web-search-gateway/src/provider.ts:64"
+        "packages/web/web-search-gateway/src/provider.ts:65"
       ]
     },
     {
@@ -51194,7 +51494,7 @@
         ]
       },
       "names": [
-        "event:web/nulu-search-llm-request.data.body.messages"
+        "event:web/deepseek-search-llm-request.data.body.messages"
       ],
       "sources": []
     },
@@ -55338,12 +55638,12 @@
           },
           {
             "kind": "literal",
-            "value": "web/nulu-search-llm-request"
+            "value": "web/deepseek-search-llm-request"
           }
         ]
       },
       "names": [
-        "event:web/nulu-search-llm-request"
+        "event:web/deepseek-search-llm-request"
       ],
       "sources": []
     },
@@ -56268,12 +56568,12 @@
           },
           {
             "kind": "literal",
-            "value": "session-log-gateway/delivery-accepted"
+            "value": "session-log-deepseek/delivery-accepted"
           }
         ]
       },
       "names": [
-        "event:session-log-gateway/delivery-accepted"
+        "event:session-log-deepseek/delivery-accepted"
       ],
       "sources": []
     },
@@ -56841,6 +57141,86 @@
       "sources": [
         "packages/experimental/agent-team/src/types.ts:44"
       ]
+    },
+    {
+      "digest": "e078a516ddc6078e3edbd2ba27dead3854eab2c891ec70751b63fc126fed0d66",
+      "schema": {
+        "root": 0,
+        "nodes": [
+          {
+            "kind": "object",
+            "properties": [
+              {
+                "name": "data",
+                "type": 1,
+                "optional": false
+              },
+              {
+                "name": "ignorable",
+                "type": 4,
+                "optional": true
+              },
+              {
+                "name": "seq",
+                "type": 2,
+                "optional": false
+              },
+              {
+                "name": "time",
+                "type": 2,
+                "optional": false
+              },
+              {
+                "name": "type",
+                "type": 5,
+                "optional": false
+              }
+            ],
+            "indices": []
+          },
+          {
+            "kind": "object",
+            "properties": [
+              {
+                "name": "sessionFormatVersion",
+                "type": 2,
+                "optional": true
+              },
+              {
+                "name": "sessionId",
+                "type": 3,
+                "optional": false
+              },
+              {
+                "name": "throughSeq",
+                "type": 2,
+                "optional": false
+              }
+            ],
+            "indices": []
+          },
+          {
+            "kind": "primitive",
+            "type": "number"
+          },
+          {
+            "kind": "primitive",
+            "type": "string"
+          },
+          {
+            "kind": "literal",
+            "value": true
+          },
+          {
+            "kind": "literal",
+            "value": "session-log-gateway/delivery-accepted"
+          }
+        ]
+      },
+      "names": [
+        "event:session-log-gateway/delivery-accepted"
+      ],
+      "sources": []
     },
     {
       "digest": "e0a787e6ec76c7c94fecbc501b489164ab0293db05bc947914077ad01e674f05",
@@ -58441,8 +58821,8 @@
         "SessionEventEnvelope[36]",
         "SessionEventEnvelope[37]",
         "SessionEventEnvelope[38]",
+        "SessionEventEnvelope[39]",
         "SessionEventEnvelope[3]",
-        "SessionEventEnvelope[40]",
         "SessionEventEnvelope[41]",
         "SessionEventEnvelope[42]",
         "SessionEventEnvelope[43]",
@@ -58455,9 +58835,11 @@
         "SessionEventEnvelope[4]",
         "SessionEventEnvelope[50]",
         "SessionEventEnvelope[51]",
-        "SessionEventEnvelope[53]",
+        "SessionEventEnvelope[52]",
         "SessionEventEnvelope[54]",
-        "SessionEventEnvelope[56]",
+        "SessionEventEnvelope[55]",
+        "SessionEventEnvelope[57]",
+        "SessionEventEnvelope[58]",
         "SessionEventEnvelope[5]",
         "SessionEventEnvelope[7]",
         "SessionEventEnvelope[8]",
@@ -58501,6 +58883,20 @@
           {
             "kind": "literal",
             "value": "append"
+          }
+        ]
+      },
+      "names": [],
+      "sources": []
+    },
+    {
+      "digest": "e4504d48ac530dbb982ffdbf24179592c1d7dbaac032a1e7ffdf3c21ed8e16b3",
+      "schema": {
+        "root": 0,
+        "nodes": [
+          {
+            "kind": "literal",
+            "value": "session-log-gateway/delivery-accepted"
           }
         ]
       },
@@ -59037,6 +59433,211 @@
         ]
       },
       "names": [],
+      "sources": []
+    },
+    {
+      "digest": "e714f6f6798051aa3f417936efa617688caa5f958a276044f86ed63e3d609762",
+      "schema": {
+        "root": 0,
+        "nodes": [
+          {
+            "kind": "object",
+            "properties": [
+              {
+                "name": "data",
+                "type": 1,
+                "optional": false
+              },
+              {
+                "name": "ignorable",
+                "type": 15,
+                "optional": true
+              },
+              {
+                "name": "seq",
+                "type": 4,
+                "optional": false
+              },
+              {
+                "name": "time",
+                "type": 4,
+                "optional": false
+              },
+              {
+                "name": "type",
+                "type": 16,
+                "optional": false
+              }
+            ],
+            "indices": []
+          },
+          {
+            "kind": "object",
+            "properties": [
+              {
+                "name": "apiVersion",
+                "type": 2,
+                "optional": false
+              },
+              {
+                "name": "body",
+                "type": 3,
+                "optional": false
+              },
+              {
+                "name": "endpoint",
+                "type": 2,
+                "optional": false
+              }
+            ],
+            "indices": []
+          },
+          {
+            "kind": "primitive",
+            "type": "string"
+          },
+          {
+            "kind": "object",
+            "properties": [
+              {
+                "name": "max_tokens",
+                "type": 4,
+                "optional": false
+              },
+              {
+                "name": "messages",
+                "type": 5,
+                "optional": false
+              },
+              {
+                "name": "model",
+                "type": 2,
+                "optional": false
+              },
+              {
+                "name": "tools",
+                "type": 11,
+                "optional": false
+              }
+            ],
+            "indices": []
+          },
+          {
+            "kind": "primitive",
+            "type": "number"
+          },
+          {
+            "kind": "tuple",
+            "elements": [
+              {
+                "type": 6,
+                "optional": false,
+                "rest": false
+              }
+            ]
+          },
+          {
+            "kind": "object",
+            "properties": [
+              {
+                "name": "content",
+                "type": 7,
+                "optional": false
+              },
+              {
+                "name": "role",
+                "type": 10,
+                "optional": false
+              }
+            ],
+            "indices": []
+          },
+          {
+            "kind": "tuple",
+            "elements": [
+              {
+                "type": 8,
+                "optional": false,
+                "rest": false
+              }
+            ]
+          },
+          {
+            "kind": "object",
+            "properties": [
+              {
+                "name": "text",
+                "type": 2,
+                "optional": false
+              },
+              {
+                "name": "type",
+                "type": 9,
+                "optional": false
+              }
+            ],
+            "indices": []
+          },
+          {
+            "kind": "literal",
+            "value": "text"
+          },
+          {
+            "kind": "literal",
+            "value": "user"
+          },
+          {
+            "kind": "tuple",
+            "elements": [
+              {
+                "type": 12,
+                "optional": false,
+                "rest": false
+              }
+            ]
+          },
+          {
+            "kind": "object",
+            "properties": [
+              {
+                "name": "max_uses",
+                "type": 4,
+                "optional": false
+              },
+              {
+                "name": "name",
+                "type": 13,
+                "optional": false
+              },
+              {
+                "name": "type",
+                "type": 14,
+                "optional": false
+              }
+            ],
+            "indices": []
+          },
+          {
+            "kind": "literal",
+            "value": "web_search"
+          },
+          {
+            "kind": "literal",
+            "value": "web_search_20250305"
+          },
+          {
+            "kind": "literal",
+            "value": true
+          },
+          {
+            "kind": "literal",
+            "value": "web/nulu-search-llm-request"
+          }
+        ]
+      },
+      "names": [
+        "event:web/nulu-search-llm-request"
+      ],
       "sources": []
     },
     {
