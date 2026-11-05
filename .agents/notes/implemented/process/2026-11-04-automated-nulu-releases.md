@@ -30,6 +30,8 @@ Windows installation is sequential: the previous application launches and closes
 
 An isolated Windows diagnostic branch reuses the exact failed candidate and delivered installer. It records owned process state, hidden window captions, private installation progress and a small installer minidump on a disposable runner. A shorter private fixture prefix provides a controlled path-length comparison with identical installer bytes and application assertions. The diagnostic workflow has read-only repository permissions and no publication path.
 
+The live coding-worker probe permits only a package-manifest read and completion after the model receives its result. The request omits file-writing tools and responses reject unexpected calls before execution. Exact observed package identity and a clean Git checkout verify the conversation without adapting or publishing source.
+
 Native branding checks complete the first-run notice and expand the collapsed sidebar before measuring the candidate wordmark. Startup screenshots remain available when those checks fail. The wordmark canvas contains the complete label on supported system fonts; previous releases retain their own artwork while their version and Nulu identity are checked. Cosmetic notice copy omits an obsolete application version without resetting existing acknowledgements.
 
 ## Alternatives considered

@@ -16,6 +16,8 @@ The release channel remains an explicitly unsigned developer preview. GitHub rel
 
 The isolated `automation/windows-installer-diagnostics` branch runs the exact failed candidate and its delivered Windows installer against public 1.6.0. Its disposable runner samples owned processes, hidden window captions, and private installation files, and captures a small installer minidump before the normal deadline. A controlled comparison shortens only the private fixture prefix while keeping the delivered installers and application assertions identical. This diagnostic workflow cannot publish releases.
 
+The same diagnostic branch verifies the coding worker through the live Nulu API. Its probe removes file-writing tools, rejects unexpected tools before execution, allows only the root package manifest read, and requires a later completion to report the observed package identity. The repository remains unchanged and the workflow cannot publish.
+
 The publisher stages a draft release, downloads and verifies its bytes, rejects concurrent changes to `main`, advances the qualified commit, and promotes the release. Published assets are immutable. The website reads `nulu-release.json` and retains its existing complete download list if the catalog is invalid or unavailable.
 
 ## Failure recovery

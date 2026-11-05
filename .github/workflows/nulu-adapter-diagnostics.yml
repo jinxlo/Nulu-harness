@@ -1,0 +1,74 @@
+name: Verify live Nulu update worker
+
+on:
+  push:
+    branches: [automation/windows-installer-diagnostics]
+    paths: [.github/workflows/nulu-adapter-diagnostics.yml]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: f1d8767412240638d362ca308349aeb56a54fd2e
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Exercise the real coding worker without allowing file writes
+        env:
+          WORLD_APP_TECHNOLOGIES_API_KEY: ${{ secrets.WORLD_APP_TECHNOLOGIES_API_KEY_EXTERNAL }}
+        run: |
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict'
+          import { adapt } from './scripts/automation/adapter.mjs'
+          import { git, json } from './scripts/automation/common.mjs'
+          const expected = json('package.json')
+          const source = git(['rev-parse', 'HEAD'])
+          assert.equal(git(['status', '--porcelain']), '')
+          let requests = 0
+          let reads = 0
+          const result = await adapt({
+            base: source,
+            upstream: source,
+            details: 'Run a read-only connectivity probe. First read package.json at revision current with read_files. After observing its contents, call finish with status completed and include the exact package name and version in the summary. Do not change any files or adapt functionality.',
+            fetchImpl: async (url, options) => {
+              assert.equal(url, 'https://platform.worldapptechnologies.com/api/v1/chat/completions')
+              const body = JSON.parse(options.body)
+              body.tools = body.tools.filter(tool => tool.function.name !== 'write_files')
+              const priorReads = reads
+              requests += 1
+              const response = await fetch(url, { ...options, body: JSON.stringify(body) })
+              assert.equal(response.status, 200, 'The configured worker model must accept a real tool request')
+              const payload = await response.json()
+              const calls = payload.choices?.[0]?.message?.tool_calls
+              assert.ok(Array.isArray(calls) && calls.length > 0, 'The worker must return tool calls')
+              for (const call of calls) {
+                assert.ok(['read_files', 'finish'].includes(call.function.name), 'The probe rejects every write or unexpected tool before execution')
+                const args = JSON.parse(call.function.arguments)
+                if (call.function.name === 'read_files') {
+                  assert.deepEqual(args.paths, ['package.json'])
+                  assert.equal(args.revision, 'current')
+                  reads += 1
+                } else {
+                  assert.ok(priorReads > 0, 'Completion must follow an observed file-tool response')
+                  assert.equal(args.status, 'completed')
+                  assert.ok(args.summary.includes(expected.name) && args.summary.includes(expected.version), 'The worker must report the actual package identity')
+                }
+              }
+              return Response.json(payload)
+            },
+          })
+          assert.deepEqual(result.changed, [])
+          assert.ok(requests >= 2 && reads > 0)
+          assert.equal(git(['status', '--porcelain']), '', 'The live probe must leave the source unchanged')
+          console.log(`PASS: live update worker consumed a real file-tool response in ${requests} requests without writing files`)
+          NODE
