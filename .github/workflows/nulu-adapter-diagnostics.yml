@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: f1d8767412240638d362ca308349aeb56a54fd2e
+          ref: automation/verified-upstream-releases
           persist-credentials: false
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v6
