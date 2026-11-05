@@ -48,7 +48,6 @@ import type {} from '@worldapptechnologies/nulu-settings'
 import { deepEqualJson } from '@worldapptechnologies/nulu-util-values'
 import { PiAiAdapter } from './adapter.ts'
 import { authContextFrom, credentialStoreFrom } from './auth.ts'
-import { catalogProviderIds } from './catalog.ts'
 import { assertServiceable, Config, resolveProfiles } from './config.ts'
 import type { ResolvedPiAiProviderProfile } from './config.ts'
 import { discoverModels } from './discovery.ts'
@@ -95,17 +94,14 @@ function registrationFacts(profiles: ReadonlyMap<string, ResolvedPiAiProviderPro
 }
 
 /**
- * The configurable-provider directory: every installed catalog route, plus
- * every route the current profiles declare. A hand-declared route has no
- * catalog entry, so without this union it would have no settings address and
- * configuration surfaces could neither show nor edit it.
+ * The configurable-provider directory contains only explicitly configured
+ * routes. The Nulu distribution does not expose the builtin pi-ai catalog.
  * @param profiles - the currently resolved provider profiles.
- * @returns the directory entries in catalog order, declared routes last.
+ * @returns configured routes and their settings addresses in profile order.
  */
 function directoryEntries(
   profiles: ReadonlyMap<string, ResolvedPiAiProviderProfile>,
 ): LlmConfigurableProvider[] {
-  const catalog = new Set(catalogProviderIds())
   const entries = new Map<string, LlmConfigurableProvider>()
   const declare = (provider: string, displayName: string, error?: string): void => {
     entries.set(provider, {
@@ -113,14 +109,10 @@ function directoryEntries(
       displayName,
       settingsNs: NS,
       settingsPath: ['providers', provider],
-      // Membership of the installed catalog, not of the settings document:
-      // narrowing a shipped provider's models stores a profile too, and that
-      // route is still one pi-ai knows.
-      declared: !catalog.has(provider),
+      declared: true,
       ...error === undefined ? {} : { error },
     })
   }
-  for (const provider of catalog) declare(provider, provider)
   for (const [provider, profile] of profiles) declare(provider, profile.displayName, profile.catalogError)
   return [...entries.values()]
 }

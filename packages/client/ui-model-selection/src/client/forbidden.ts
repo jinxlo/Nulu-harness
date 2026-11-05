@@ -27,21 +27,3 @@ export function isForbiddenModel(entry: unknown): boolean {
   const record = entry as Record<string, unknown>
   return ['id', 'name', 'provider', 'model'].some(key => isForbiddenModelName(record[key]))
 }
-
-/**
- * Whether a provider identifier is forbidden.
- * @param provider - candidate route identifier.
- * @returns whether the identifier names a forbidden provider.
- */
-export function isForbiddenProvider(provider: unknown): boolean {
-  return isForbiddenModelName(provider)
-}
-
-/**
- * Drop forbidden entries from a model list.
- * @param entries - discovered or saved model entries.
- * @returns permitted entries in their original order.
- */
-export function withoutForbiddenModels<T>(entries: readonly T[]): T[] {
-  return entries.filter(entry => !isForbiddenModel(entry))
-}

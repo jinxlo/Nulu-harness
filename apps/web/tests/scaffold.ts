@@ -538,7 +538,7 @@ export async function launchWebScaffold(options: LaunchOptions = {}): Promise<We
       ? [{ id: 'agent-default-model', config: { provider: mode === 'record' || maskNuluCredential ? 'nulu-official' : 'nulu-messages', model: maskNuluCredential ? 'nulu-flash' : 'nulu-v4-flash' } }]
       : mode === 'record' || options.nuluMissingCredential === true
         ? []
-        : [{ id: 'agent-default-model', config: { provider: 'nulu-official', model: 'nulu-v4-flash' } }],
+        : [{ id: 'agent-default-model', config: { provider: 'worldapp-gateway', model: 'nulu-5' } }],
     ...extraOverlayPatches,
     // The roster's shipped presets are the plugin's own, bundled inside
     // `nulu-agent-presets` and prepended by it. Pin only the machine-local

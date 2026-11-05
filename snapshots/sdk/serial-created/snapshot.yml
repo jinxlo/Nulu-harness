@@ -6,5 +6,4 @@ recording: authored
 header:
   class: sdk-serial-created
   pin: true
-  systemPromptSource: text-turn
   toolSchemasSource: text-turn

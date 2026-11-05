@@ -1,5 +1,5 @@
 version: 1
-scenario: nulu-protocol-system-prompt
+scenario: deepseek-protocol-system-prompt
 profile: headless
 composition: nulu-protocol-system-prompt
 recording: authored

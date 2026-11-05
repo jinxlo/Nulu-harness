@@ -124,6 +124,8 @@ flowchart LR
   cfg --> plugin_nulu_base_token_meter
   plugin_nulu_base_compaction_basic["compaction-basic<br/>@worldapptechnologies/nulu-compaction-basic"]
   cfg --> plugin_nulu_base_compaction_basic
+  plugin_nulu_base_compaction_image_offload["compaction-image-offload<br/>@worldapptechnologies/nulu-compaction-image-offload"]
+  cfg --> plugin_nulu_base_compaction_image_offload
   plugin_nulu_base_command_compact["command-compact<br/>@worldapptechnologies/nulu-command-compact"]
   cfg --> plugin_nulu_base_command_compact
   plugin_nulu_base_subagent["subagent<br/>@worldapptechnologies/nulu-subagent"]
@@ -246,6 +248,7 @@ flowchart LR
 | `plan-mode` | `@worldapptechnologies/nulu-plan-mode` |
 | `token-meter` | `@worldapptechnologies/nulu-token-meter` |
 | `compaction-basic` | `@worldapptechnologies/nulu-compaction-basic` |
+| `compaction-image-offload` | `@worldapptechnologies/nulu-compaction-image-offload` |
 | `command-compact` | `@worldapptechnologies/nulu-command-compact` |
 | `subagent` | `@worldapptechnologies/nulu-subagent` |
 | `subagent-spawn-in-process` | `@worldapptechnologies/nulu-subagent-spawn-in-process` |

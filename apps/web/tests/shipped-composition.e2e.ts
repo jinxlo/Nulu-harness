@@ -516,7 +516,7 @@ it('assembles the shipped Web transport, catalog, guidance, and defaults', async
   expect(existsSync(join(scaffold.harnessHome, 'profiles', 'node_modules'))).toBe(false)
   const ctx = scaffold.ctx
   expect(ctx.llm.listProviders().some(provider => provider.id === 'nulu-messages')).toBe(false)
-  expect(ctx.agentDefaultModel.currentSelection()).toEqual({ provider: 'nulu-official', model: 'nulu-flash' })
+  expect(ctx.agentDefaultModel.currentSelection()).toEqual({ provider: 'worldapp', model: 'nulu-5-ultra' })
   const index = await fetch(`http://127.0.0.1:${String(ctx.webServer.port)}`, {
     headers: { 'accept-encoding': 'gzip' },
   })

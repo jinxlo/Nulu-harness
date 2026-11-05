@@ -6,5 +6,4 @@ recording: live
 header:
   class: mcp-empty-ptc
   pin: true
-  systemPromptSource: ptc-turn
   toolSchemasSource: ptc-turn

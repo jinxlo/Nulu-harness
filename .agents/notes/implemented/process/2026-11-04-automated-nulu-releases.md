@@ -18,11 +18,13 @@ The workflow preserves the current unsigned developer-preview channel. Signed in
 
 The baseline restores the archive manifest from trusted `main` seals and retains the three additional artifacts whose existing seals match their bytes. All 628 main artifacts already match their trusted hashes, and no archived artifact changes. The older merge incorrectly labeled a stale bilingual manifest as version 2. Verification compares this reconciliation against `origin/main`, the actual promotion base, rather than treating the corrupt intermediate manifest as a new sealing authority.
 
-The recovered archive retains three version-1 artifacts with their original sealed bytes. Only those exact checksums admit their historical header and translation metadata; changed content and other legacy filenames still fail. Compiler-generated declarations accidentally committed beside 15 TypeScript source owners are removed; ordinary builds emit declarations under `lib/types`.
+The recovered archive retains three version-1 artifacts with their original sealed bytes. Only those exact checksums admit their historical header and translation metadata; changed content and other legacy filenames still fail. Compiler-generated JavaScript, declarations, and maps accidentally committed beside 15 TypeScript source owners are removed. Directory resolution otherwise selects stale JavaScript instead of the source under coverage; ordinary builds emit runtime files and declarations under `lib`.
 
 The SDK mounts the actual `worldapp-gateway` route. Its transport fixtures use the public Chat Completions protocol. Historical delivery and search event names remain read-compatible, while new Nulu requests and receipts retain the Nulu event names and endpoint. The schema-v1 hashing namespace remains its original technical identifier; branding never rewrites that identifier or captured persistence history.
 
 The independent heartbeat recognizes a published baseline whose exact release commit remains in `main` after later maintenance commits. Divergent history, draft releases, and missing catalogs leave baseline qualification enabled. Captured persistence history and technical event identifiers retain their original bytes during branding.
+
+The base composition mounts the declared image-offload recovery plugin. The SDK composition regression requires the exact oldest three image occurrences to be offloaded and the retried request to return `DONE` before any fixture refresh can write. Replay metadata retains historical scenario names and explicit recorded model routes. Current-writer prompt and tool sidecars include the shipped Ralph tool; retained older Session inputs remain immutable. Keyless serial-created replay disables external log uploads and excludes the live-only delivery receipt from its current expected output.
 
 ## Alternatives considered
 

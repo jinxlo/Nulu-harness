@@ -17,4 +17,4 @@
 - id: session-log-gateway
   name: '@worldapptechnologies/nulu-session-log-gateway'
   config:
-    enabled: true
+    enabled: false

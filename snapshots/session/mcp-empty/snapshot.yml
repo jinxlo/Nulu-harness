@@ -6,5 +6,4 @@ recording: live
 header:
   class: mcp-empty
   pin: true
-  systemPromptSource: text-turn
   toolSchemasSource: text-turn

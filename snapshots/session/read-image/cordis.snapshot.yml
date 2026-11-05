@@ -46,5 +46,12 @@
               - id: nulu-5-vision
                 inputModalities: [text, image]
 
+          # Historical SDK image recordings retain their original route.
+          - id: nulu-official
+            name: Nulu historical replay
+            models:
+              - id: nulu-v4-flash-vision-exp
+                inputModalities: [text, image]
+
 - id: attachment-local
   name: '@worldapptechnologies/nulu-attachment-local'

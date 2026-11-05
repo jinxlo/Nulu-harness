@@ -1,5 +1,5 @@
 version: 1
-scenario: nulu-messages-system-prompt
+scenario: deepseek-messages-system-prompt
 profile: headless
 composition: nulu-messages-system-prompt
 recording: authored

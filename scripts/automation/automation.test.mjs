@@ -18,8 +18,11 @@ test('release ordering rejects downgrades and compares numeric version component
 
 test('publication rejects native results for another commit or any unfinished required check', () => {
   const source = 'a'.repeat(40)
-  const evidence = { schemaVersion: 1, target: 'win-x64', version: '1.6.1', source, branding: 'passed', updateNotification: 'passed', packagedLaunch: 'passed', profileRestart: 'passed', upgrade: 'passed' }
+  const evidence = { schemaVersion: 1, target: 'win-x64', version: '1.6.1', source, branding: 'passed', updateNotification: 'passed', packagedLaunch: 'passed', profileRestart: 'passed', upgrade: 'passed', errors: [] }
   assert.equal(validateNativeEvidence(evidence, 'win-x64', '1.6.1', source), true)
+  for (const errors of [undefined, 'none', ['Renderer crashed']]) {
+    assert.throws(() => validateNativeEvidence({ ...evidence, errors }, 'win-x64', '1.6.1', source))
+  }
   for (const field of ['branding', 'updateNotification', 'packagedLaunch', 'profileRestart', 'upgrade']) {
     assert.throws(() => validateNativeEvidence({ ...evidence, [field]: 'skipped' }, 'win-x64', '1.6.1', source))
   }

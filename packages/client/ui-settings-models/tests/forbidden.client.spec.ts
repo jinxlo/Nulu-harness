@@ -22,6 +22,13 @@ describe('whitelabel model guard', () => {
     expect(isForbiddenModel({ id: 'nulu-5-pro', provider: 'worldapp-gateway' })).toBe(false)
   })
 
+  it('handles legacy primitive entries without accepting provider branding', () => {
+    expect(isForbiddenModel('DeepSeek Chat')).toBe(true)
+    expect(isForbiddenModel('nulu-5-ultra')).toBe(false)
+    expect(isForbiddenModel(null)).toBe(false)
+    expect(isForbiddenModel(undefined)).toBe(false)
+  })
+
   it('flags provider identifiers', () => {
     expect(isForbiddenProvider('deepseek')).toBe(true)
     expect(isForbiddenProvider('worldapp-gateway')).toBe(false)

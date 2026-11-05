@@ -44,3 +44,8 @@
             models:
               - id: nulu-5
               - id: nulu-5-ultra
+          # Historical SDK tool recordings retain their original route.
+          - id: nulu-official
+            name: Nulu historical replay
+            models:
+              - id: nulu-v4-flash

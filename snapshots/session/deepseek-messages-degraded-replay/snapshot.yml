@@ -1,5 +1,5 @@
 version: 1
-scenario: nulu-messages-degraded-replay
+scenario: deepseek-messages-degraded-replay
 profile: headless
 composition: default
 recording: authored

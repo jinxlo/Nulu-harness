@@ -358,6 +358,9 @@
     - id: compaction-basic
       name: '@worldapptechnologies/nulu-compaction-basic'
 
+    - id: compaction-image-offload
+      name: '@worldapptechnologies/nulu-compaction-image-offload'
+
     # Human `/compact`: one useful reduction below the automatic threshold. Backend
     # independent, so it follows whichever compaction service this leaf mounts.
     - id: command-compact

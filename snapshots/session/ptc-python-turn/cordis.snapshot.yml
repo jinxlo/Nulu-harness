@@ -28,13 +28,16 @@
   config:
     mode: ptc
 
-- id: ptc-runtime
+- id: ptc-runtime-node
   disabled: true
 
 - id: workflow-ptc
   disabled: true
 
 - id: tool-workflow
+  disabled: true
+
+- id: tool-ralph
   disabled: true
 
 - insert:

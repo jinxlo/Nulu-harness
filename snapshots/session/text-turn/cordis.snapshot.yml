@@ -38,6 +38,12 @@
             models:
               - id: nulu-v4-flash
               - id: nulu-v4-pro
+          # Read historical official-route recordings without contacting a live provider.
+          - id: nulu-official
+            name: Nulu historical replay
+            models:
+              - id: nulu-v4-flash
+              - id: nulu-v4-pro
           - id: nulu-messages
             name: Nulu Messages
             models:

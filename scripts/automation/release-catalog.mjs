@@ -22,7 +22,8 @@ export function installerName(version, target) {
 export function validateNativeEvidence(evidence, target, version, source) {
   if (evidence?.schemaVersion !== 1 || evidence.target !== target || evidence.source !== source || evidence.version !== version
     || evidence.branding !== 'passed' || evidence.updateNotification !== 'passed' || evidence.packagedLaunch !== 'passed'
-    || evidence.profileRestart !== 'passed' || evidence.upgrade !== 'passed') throw new Error(`Incomplete or stale native evidence for ${target}`)
+    || evidence.profileRestart !== 'passed' || evidence.upgrade !== 'passed'
+    || !Array.isArray(evidence.errors) || evidence.errors.length !== 0) throw new Error(`Incomplete or stale native evidence for ${target}`)
   return true
 }
 

@@ -104,6 +104,8 @@ interface SdkAssertions {
   patches?: readonly string[]
   /** Final response required from a completed turn before updating goldens. */
   expectedFinalResponse?: string
+  /** Exact oldest image indexes durably offloaded before the successful retry. */
+  expectedOffloadImageIndexes?: readonly number[]
   /** Environment overrides passed to the runtime subprocess. */
   environment?: Readonly<Record<string, string>>
   /** A separate NULU SDK child whose persisted session joins the evidence. */
@@ -124,6 +126,10 @@ interface SdkAssertions {
 }
 
 const SDK_ASSERTIONS: Readonly<Record<string, SdkAssertions>> = {
+  'inline-image-prompt': {
+    expectedFinalResponse: 'DONE',
+    expectedOffloadImageIndexes: [0, 1, 2],
+  },
   'tool-error-details': {
     patches: [fileURLToPath(new URL('./tool-error-details/runtime.cordis.yml', import.meta.url))],
     expectedFinalResponse: 'ERROR_DETAILS_OK',
@@ -834,6 +840,15 @@ describe('TypeScript SDK snapshots over the jsonrpc runtime', () => {
         const turnEnds = records(parent.content).filter(record => record.type === 'turn/end')
         expect(turnEnds, `${scenario.name}: completed turns`).toHaveLength(results.length)
         for (const turnEnd of turnEnds) expect(turnEnd).toMatchObject({ data: { reason: { kind: 'completed' } } })
+      }
+
+      if (assertions.expectedOffloadImageIndexes !== undefined) {
+        const parent = ordered[0]
+        if (parent === undefined) throw new Error(`${scenario.name}: no primary session log`)
+        const offloads = records(parent.content).filter(record => record.type === 'image/offload')
+        expect(offloads, `${scenario.name}: oldest image occurrences offloaded before retry`).toMatchObject([{
+          data: { targets: [{ imageIndexes: [...assertions.expectedOffloadImageIndexes] }] },
+        }])
       }
 
       let expectedContents = retained && !refreshing

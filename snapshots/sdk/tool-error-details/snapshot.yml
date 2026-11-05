@@ -4,4 +4,6 @@ profile: sdk
 composition: both
 recording: authored
 header:
-  class: both
+  class: sdk-tool-error
+  pin: true
+  toolSchemasSource: session/both-mode-turn

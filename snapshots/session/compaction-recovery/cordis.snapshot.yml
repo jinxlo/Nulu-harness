@@ -27,3 +27,8 @@
             models:
               - id: nulu-5
                 contextWindow: 128000
+          - id: nulu-official
+            name: Nulu historical replay
+            models:
+              - id: nulu-v4-flash
+                contextWindow: 128000
