@@ -22,7 +22,7 @@ function restoreTools() {
 
 
 function qualify() {
-  assertTrustedFilesUnchanged(base)
+  assertTrustedFilesUnchanged(base, ROOT, report.version)
   const steps = [
     ['policy', () => command(process.execPath, ['scripts/upstream-sync/validate.mjs', '--json'], { env: environment })],
     ['dependencies', () => pnpm(['install', '--frozen-lockfile'], { env: environment })],
@@ -30,7 +30,7 @@ function qualify() {
     ['desktop-and-catalog', () => pnpm(['exec', 'vitest', 'run', 'apps/desktop/tests', 'packages/llm/llm-pi-ai/tests/catalog.spec.ts', '--maxWorkers=2'], { env: environment })],
   ]
   for (const [name, run] of steps) {
-    try { run(); assertTrustedFilesUnchanged(base); report.checks.push({ name, status: 'passed' }); save() }
+    try { run(); assertTrustedFilesUnchanged(base, ROOT, report.version); report.checks.push({ name, status: 'passed' }); save() }
     catch (error) {
       const detail = `${error.stdout ?? ''}\n${error.stderr ?? ''}`.slice(-14000)
       report.checks.push({ name, status: 'failed', detail }); save()
