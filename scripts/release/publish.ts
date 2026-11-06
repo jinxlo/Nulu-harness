@@ -13,7 +13,7 @@
  */
 
 import { createHash } from 'node:crypto'
-import { readFileSync } from 'node:fs'
+import { appendFileSync, readFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { setTimeout as sleep } from 'node:timers/promises'
 import { parseArgs } from 'node:util'
@@ -37,7 +37,13 @@ const PUBLISH_ATTEMPTS = 4
  * Attempts for one tarball the registry refused with `E429`. A scope that is new to the registry is limited in
  * how many packages it may create per interval; waiting out the limit is the only remedy.
  */
-const RATE_LIMIT_ATTEMPTS = 12
+const RATE_LIMIT_ATTEMPTS = Number(process.env.NULU_RATE_LIMIT_ATTEMPTS ?? 12)
+
+/**
+ * The registry still refused with `E429` after {@link RATE_LIMIT_ATTEMPTS} waits. The packages published so far
+ * stay published, and a later run over the same artifact skips them and continues.
+ */
+class RateLimitExhausted extends Error {}
 
 /** First wait after `E429`; it doubles per attempt up to {@link RATE_LIMIT_MAX_WAIT_MS}. */
 const RATE_LIMIT_WAIT_MS = 60_000
@@ -126,7 +132,10 @@ async function publishTarball(
       console.log(`release publish: ${name}@${version} landed despite a reported failure, continuing`)
       return
     }
-    if (output.includes('code E429') && rateLimited < RATE_LIMIT_ATTEMPTS) {
+    if (output.includes('code E429') && rateLimited >= RATE_LIMIT_ATTEMPTS) {
+      throw new RateLimitExhausted(`${name}@${version} is still rate limited after ${String(RATE_LIMIT_ATTEMPTS)} waits`)
+    }
+    if (output.includes('code E429')) {
       const wait = Math.min(RATE_LIMIT_WAIT_MS * 2 ** rateLimited, RATE_LIMIT_MAX_WAIT_MS)
       rateLimited += 1
       console.log(`release publish: ${name}@${version} was rate limited (${String(rateLimited)} of ${String(RATE_LIMIT_ATTEMPTS)}), waiting ${String(wait / 1000)}s`)
@@ -186,7 +195,15 @@ async function main(): Promise<void> {
     // Space out the writes: the gap belongs between publishes, so a run that
     // only skips does not wait at all.
     if (published > 0) await sleep(PUBLISH_SPACING_MS)
-    await publishTarball(tarball, name, version, family.distTagForVersion(version))
+    try {
+      await publishTarball(tarball, name, version, family.distTagForVersion(version))
+    } catch (error) {
+      if (!(error instanceof RateLimitExhausted)) throw error
+      // Not a failure of the release: the run stops here and a later run over the same artifact resumes.
+      console.log(`release publish: ${progress} stopped: ${error.message}; ${String(published)} published, ${String(skipped)} already present, ${String(order.length - index)} remaining`)
+      reportComplete(false)
+      return
+    }
     console.log(`release publish: ${progress} ${name}@${version} published`)
     published += 1
   }
@@ -195,6 +212,16 @@ async function main(): Promise<void> {
     `release publish: family ${family.id}, ${total} member(s),`
     + ` ${String(published)} published, ${String(skipped)} already present`,
   )
+  reportComplete(true)
+}
+
+/**
+ * Tell a GitHub Actions step whether every member is now on the registry, as the step output `complete`.
+ * @param complete - true when no member is left to publish.
+ */
+function reportComplete(complete: boolean): void {
+  const output = process.env.GITHUB_OUTPUT
+  if (output !== undefined && output !== '') appendFileSync(output, `complete=${String(complete)}\n`)
 }
 
 if (isEntry(import.meta.url)) await main()

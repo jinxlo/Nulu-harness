@@ -12,6 +12,10 @@ on:
         description: Publish the checked packages to npm (requires a nulu-v* tag and the npm-publish environment)
         type: boolean
         default: false
+      resume_from_run:
+        description: Resume publishing the artifact of an earlier tagged run whose pack and install jobs passed (run id)
+        type: string
+        default: ''
 
 concurrency:
   group: nulu-harness-npm-${{ github.ref }}
@@ -26,6 +30,7 @@ env:
 jobs:
   pack:
     name: Pack the release
+    if: inputs.resume_from_run == ''
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     outputs:
@@ -62,6 +67,7 @@ jobs:
   install:
     name: Install and run on ${{ matrix.runner }}
     needs: pack
+    if: inputs.resume_from_run == ''
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 45
     strategy:
@@ -93,12 +99,17 @@ jobs:
 
   publish:
     name: Publish to npm
-    if: inputs.publish
+    # A resumed run publishes the artifact an earlier tagged run packed and installed on every platform.
+    if: always() && inputs.publish && (inputs.resume_from_run != '' || (needs.pack.result == 'success' && needs.install.result == 'success'))
     needs: [pack, install]
     runs-on: ubuntu-24.04
-    # A scope new to npm is rate limited; the publisher waits it out, so this job can take hours.
-    timeout-minutes: 350
+    # A scope new to npm is rate limited. The publisher waits a few times, then stops; a later resumed run
+    # skips what is already published and continues.
+    timeout-minutes: 90
     environment: npm-publish
+    permissions:
+      contents: read
+      actions: read
     steps:
       - uses: actions/checkout@v6
         with:
@@ -110,17 +121,42 @@ jobs:
           registry-url: https://registry.npmjs.org
       - name: Install (immutable, no package scripts)
         run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Check the run being resumed
+        if: inputs.resume_from_run != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ inputs.resume_from_run }}
+        run: |
+          run=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$RUN_ID")
+          [ "$(jq -r .path <<<"$run")" = ".github/workflows/nulu-harness-npm.yml" ] || { echo "Run $RUN_ID is not a run of this workflow"; exit 1; }
+          [[ "$(jq -r .head_branch <<<"$run")" == nulu-v* ]] || { echo "Run $RUN_ID was not started from a nulu-v* tag"; exit 1; }
+          jobs=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$RUN_ID/jobs?per_page=50")
+          passed=$(jq '[.jobs[] | select((.name == "Pack the release" or (.name | startswith("Install and run on "))) and .conclusion == "success")] | length' <<<"$jobs")
+          [ "$passed" = 5 ] || { echo "Run $RUN_ID did not pack and install on all four platforms ($passed of 5 jobs passed)"; exit 1; }
+          echo "Resuming the artifact of run $RUN_ID from $(jq -r .head_branch <<<"$run")"
       - uses: actions/download-artifact@v8
         with:
           name: nulu-harness-npm
           path: dist
+          run-id: ${{ inputs.resume_from_run || github.run_id }}
+          github-token: ${{ github.token }}
+      - id: version
+        run: echo "version=$(ls dist/npm-wrapper | sed -n 's/^nulu-harness-\(.*\)\.tgz$/\1/p')" >> "$GITHUB_OUTPUT"
       - name: Publish the harness packages
+        id: publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NULU_PUBLISH_SPACING_MS: '15000'
+          NULU_RATE_LIMIT_ATTEMPTS: '4'
         run: pnpm run release:publish --family nulu --from dist/npm
       # Last, so `npm install -g nulu-harness` never names a launcher version that is not yet installable.
       - name: Publish nulu-harness
+        if: steps.publish.outputs.complete == 'true'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish dist/npm-wrapper/nulu-harness-${{ needs.pack.outputs.version }}.tgz
+        run: |
+          if npm view "nulu-harness@${{ steps.version.outputs.version }}" version >/dev/null 2>&1; then echo "nulu-harness@${{ steps.version.outputs.version }} is already published"; exit 0; fi
+          npm publish "dist/npm-wrapper/nulu-harness-${{ steps.version.outputs.version }}.tgz"
+      - name: Report what remains
+        if: steps.publish.outputs.complete != 'true'
+        run: echo "::notice::npm is still rate limiting new packages for this scope; dispatch again with resume_from_run to continue."
