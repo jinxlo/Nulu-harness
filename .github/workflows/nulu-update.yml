@@ -6,8 +6,8 @@ on:
     paths:
       - .github/workflows/nulu-update.yml
       - scripts/automation/**
-  schedule:
-    - cron: '23 * * * *'
+  # No schedule: every run on the private repository is billed. The weekly cycle
+  # will dispatch this workflow once spending limits and alerts exist.
   workflow_dispatch:
     inputs:
       baseline:
@@ -183,6 +183,13 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: pnpm exec node scripts/automation/install-smoke.mjs apps/desktop/.desktop-build/targets/${{ matrix.target }}/${{ matrix.artifacts }} previous ${{ matrix.target }} evidence
+      # The same installed build then replaces itself through the in-application updater, served from local files.
+      - name: Replace and restart through the updater (Linux)
+        if: runner.os == 'Linux'
+        run: xvfb-run -a pnpm exec node scripts/automation/self-update-e2e.mjs apps/desktop/.desktop-build/targets/${{ matrix.target }}/${{ matrix.artifacts }} ${{ matrix.target }} evidence
+      - name: Replace and restart through the updater (macOS, Windows)
+        if: runner.os != 'Linux'
+        run: pnpm exec node scripts/automation/self-update-e2e.mjs apps/desktop/.desktop-build/targets/${{ matrix.target }}/${{ matrix.artifacts }} ${{ matrix.target }} evidence
       - uses: actions/upload-artifact@v7
         if: always()
         with:

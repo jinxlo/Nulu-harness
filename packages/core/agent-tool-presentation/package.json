@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-agent-tool-presentation",
   "description": "Agent-plane presentation selector: composes one agent's tools as PTC mode, native, or both",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "publishConfig": {
     "access": "public"
   },

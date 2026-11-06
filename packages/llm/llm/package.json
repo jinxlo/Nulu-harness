@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-llm",
   "description": "Provider-neutral LLM service interface for the Nulu Harness",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "publishConfig": {
     "access": "public"
   },

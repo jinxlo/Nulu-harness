@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-skill-badge",
   "description": "Bundled nulu badge skill provider for Nulu Harness",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "publishConfig": {
     "access": "public"
   },

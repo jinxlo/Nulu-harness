@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-session-title-all-prompts-llm",
   "description": "All-user-messages LLM provider plugin for Nulu Harness session titles",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "publishConfig": {
     "access": "public"
   },

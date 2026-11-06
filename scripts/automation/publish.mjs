@@ -50,7 +50,7 @@ for (const name of assets) checksums.set(name, await hash(join(output, name)))
 writeFileSync(join(output, 'SHA256SUMS'), `${[...checksums].map(([name, digest]) => `${digest}  ${name}`).join('\n')}\n`)
 assets.push('SHA256SUMS')
 const notes = join(output, 'notes.md')
-writeFileSync(notes, `Nulu Harness ${version}\n\nDeveloper preview for Windows, Apple Silicon, Intel Mac, and Linux.\n\nAll four installers passed packaged startup, upgrade, restart, and branding checks. The release also passed the required source, browser, and real Nulu API checks.\n\nWindows and macOS installers are unsigned previews and may require first-run confirmation. Installed applications offer this release and install it in place after verifying its published checksum; it is not a publisher-signed update.\n`)
+writeFileSync(notes, `Nulu Harness ${version}\n\nDeveloper preview for Windows, Apple Silicon, Intel Mac, and Linux.\n\nAll four installers passed packaged startup, upgrade, restart, and branding checks. The release also passed the required source, browser, and real Nulu API checks.\n\nWindows and macOS installers are unsigned previews and may require first-run confirmation. From this release on, installed applications read updates from the Nulu download host and install them in place after verifying the published checksum; these are not publisher-signed updates. Applications installed from 1.6.3 or earlier cannot reach this release by themselves: download and install it once from https://www.nuluai.com/harness.\n`)
 
 let release
 try { release = JSON.parse(command('gh', ['api', `repos/${repository}/releases/tags/${tag}`])) }

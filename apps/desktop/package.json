@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-desktop",
   "description": "Nulu Harness desktop application",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "private": true,
   "license": "MIT",
   "type": "module",

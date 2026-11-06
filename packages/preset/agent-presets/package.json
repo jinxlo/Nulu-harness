@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-agent-presets",
   "description": "Per-session agent composition from preset cordis.yml files for the Nulu Harness",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "publishConfig": {
     "access": "public"
   },

@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-goal",
   "description": "Event-sourced same-session goal state and lifecycle service for the Nulu Harness",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "publishConfig": {
     "access": "public"
   },

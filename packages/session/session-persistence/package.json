@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-session-persistence",
   "description": "Abstract durable session persistence seam (ctx.sessionPersistence) for the Nulu Harness",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "publishConfig": {
     "access": "public"
   },

@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-anonymous-user-id",
   "description": "Shared anonymous user identity for Nulu Harness telemetry and feedback correlation",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "publishConfig": {
     "access": "public"
   },

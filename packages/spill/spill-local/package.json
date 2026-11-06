@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-spill-local",
   "description": "Local-filesystem implementation of the Nulu Harness spill storage seam (private session-scoped files)",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "publishConfig": {
     "access": "public"
   },

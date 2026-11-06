@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-client-ui-primitives",
   "description": "Pure React atoms for the nulu web UI: controls, icons, markdown, and JSON inspectors (zero cordis)",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "publishConfig": {
     "access": "public"
   },

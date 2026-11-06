@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-tool-present",
   "description": "Explicit workspace file delivery declarations for the Nulu Harness",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "publishConfig": {
     "access": "public"
   },
