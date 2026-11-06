@@ -1,7 +1,7 @@
 /** Install a packaged candidate, let it replace itself from a locally served release, and confirm the restarted application. */
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
-import { appendFileSync, chmodSync, copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs'
+import { appendFileSync, chmodSync, copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, realpathSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { setTimeout as delay } from 'node:timers/promises'
@@ -20,7 +20,8 @@ if (assets.length !== 1) throw new Error(`Expected one ${suffix} release asset i
 const asset = resolve(artifactDirectory, assets[0])
 const version = json('package.json').version
 // NSIS file operations retain MAX_PATH; keep the private root near normal installation depth.
-const root = mkdtempSync(join(tmpdir(), 'nulu-'))
+// The reopened process reports its resolved path: no 8.3 short names on Windows, no /var alias on macOS.
+const root = realpathSync.native(mkdtempSync(join(tmpdir(), 'nulu-')))
 const home = join(root, 'home')
 const installation = join(root, 'app')
 mkdirSync(home)
@@ -62,6 +63,15 @@ function running(executable) {
   }
   return command('ps', ['-axo', 'pid=,args=']).split('\n').map(line => /^\s*(\d+)\s+(.*)$/.exec(line))
     .filter(entry => entry && entry[2].startsWith(executable) && !entry[2].includes('--type=')).map(entry => Number(entry[1]))
+}
+
+/** Every process whose command line names the product, for a failed restart diagnosis. */
+function processes() {
+  try {
+    return process.platform === 'win32'
+      ? command('powershell', ['-NoProfile', '-Command', 'Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -match "nulu" } | ForEach-Object { "$($_.ProcessId)`t$($_.CommandLine)" }'])
+      : command('ps', ['-axo', 'pid=,args=']).split('\n').filter(line => /nulu/i.test(line)).join('\n')
+  } catch (error) { return `process list unavailable: ${error.message}` }
 }
 
 function stop(executable, bundle) {
@@ -143,6 +153,7 @@ try {
   for (const deadline = Date.now() + 20 * 60_000; Date.now() < deadline && restarted.length === 0; await delay(1000)) {
     restarted = running(executable).filter(pid => !previous.includes(pid))
   }
+  if (restarted.length === 0) console.error(processes())
   assert.notEqual(restarted.length, 0, 'The replaced application did not start by itself')
   await delay(10_000)
   assert.notEqual(running(executable).length, 0, 'The restarted application exited during startup')
@@ -168,5 +179,6 @@ try {
   console.info(`${target}: self-update replaced the installation and restarted version ${version}`)
 } finally {
   if (installed) try { stop(installed.executable, installed.bundle) } catch (error) { console.error(error) }
-  rmSync(root, { recursive: true, force: true, maxRetries: 3 })
+  // Cleanup must not replace the failure that explains this run.
+  try { rmSync(root, { recursive: true, force: true, maxRetries: 3 }) } catch (error) { console.error(error) }
 }

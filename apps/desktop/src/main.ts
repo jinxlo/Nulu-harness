@@ -281,8 +281,10 @@ async function main(): Promise<void> {
     shellInstallerOwnsQuit = true
     await backend.stop()
   }
-  const signedUpdateFeed = app.isPackaged && existsSync(join(process.resourcesPath, 'app-update.yml'))
-  // Packages without a signed feed replace themselves from the published Nulu release where the installation allows it.
+  // The AppImage names a feed, but Linux releases ship only through GitHub Releases and nothing is uploaded there.
+  const signedUpdateFeed = app.isPackaged && process.platform !== 'linux'
+    && existsSync(join(process.resourcesPath, 'app-update.yml'))
+  // Packages without a hosted feed replace themselves from the published Nulu release where the installation allows it.
   const selfUpdateHost = {
     platform: process.platform,
     arch: process.arch,

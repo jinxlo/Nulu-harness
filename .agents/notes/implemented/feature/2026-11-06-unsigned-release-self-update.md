@@ -8,7 +8,7 @@ Nulu releases are unsigned previews. Their packages carry no electron-updater fe
 
 ## Decision
 
-A package without `app-update.yml` installs the published release itself. `ReleaseSelfUpdater` in [apps/desktop](../../../../apps/desktop/README.md#updates) implements the three operations the update coordinator already calls, so the confirmation dialog, state publication, and backend shutdown are unchanged.
+A package without `app-update.yml`, and every Linux AppImage because its feed is never uploaded, installs the published release itself. `ReleaseSelfUpdater` in [apps/desktop](../../../../apps/desktop/README.md#updates) implements the three operations the update coordinator already calls, so the confirmation dialog, state publication, and backend shutdown are unchanged.
 
 | Installation | Asset | Replacement |
 |---|---|---|
