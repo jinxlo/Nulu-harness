@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-jobs",
   "description": "Background job registry (ctx.jobs) for the Nulu Harness — shared ids, owner isolation, polling, cancellation, and completion listeners for long-running tool work",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "publishConfig": {
     "access": "public"
   },

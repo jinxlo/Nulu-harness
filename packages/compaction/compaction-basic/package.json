@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-compaction-basic",
   "description": "Token-meter-driven compaction policy and LLM summarization backend for the Nulu Harness",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "publishConfig": {
     "access": "public"
   },

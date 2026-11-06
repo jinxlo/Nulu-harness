@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-llm-retry",
   "description": "Provider-routed LLM request retry policy for the Nulu Harness",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "publishConfig": {
     "access": "public"
   },

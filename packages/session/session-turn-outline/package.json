@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-session-turn-outline",
   "description": "Whole-log turn outline projection (turnOutline) for the Nulu Harness",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "publishConfig": {
     "access": "public"
   },

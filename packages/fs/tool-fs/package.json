@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-tool-fs",
   "description": "Model-facing filesystem tools (read, write, edit) over the Nulu Harness filesystem seam (ctx.fs)",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "publishConfig": {
     "access": "public"
   },

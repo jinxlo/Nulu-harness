@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-web-fetch-http",
   "description": "Anonymous public HTTP(S) fetch provider for the Nulu Harness web capability seam (ctx.web)",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "publishConfig": {
     "access": "public"
   },

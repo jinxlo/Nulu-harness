@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu",
   "description": "nulu CLI: profile boot, plugin management, and the browser UI alias",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "publishConfig": {
     "access": "public"
   },
