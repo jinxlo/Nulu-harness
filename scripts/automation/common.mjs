@@ -14,7 +14,7 @@ export const WINDOWS_INSTALL_TIMEOUT_MS = 10 * 60_000
 /** Files copied from the trusted Nulu base after importing upstream code. */
 export function trustedPath(path) {
   if (/^(?:packages\/client\/ui-primitives\/src\/(?:NuluMark|BrandWordmark)\.tsx|apps\/desktop\/build\/|apps\/desktop\/electron-builder\.config\.mjs$)/.test(path)) return true
-  return /^(?:\.github\/|\.agents\/notes\/archived\/|packages\/client\/ui-brand\/|scripts\/automation\/|scripts\/upstream-sync\/|scripts\/(?:sync-upstream\.sh|rebrand-upstream\.mjs)$|(?:upstream-policy\.yml|nulu-fork-manifest\.json|UPSTREAM_POLICY\.md|UPSTREAM_SYNC\.md|AGENTS\.md|CLAUDE\.md)$)/.test(path)
+  return /^(?:\.github\/|\.agents\/notes\/archived\/|distribution\/|packages\/client\/ui-brand\/|scripts\/automation\/|scripts\/upstream-sync\/|scripts\/(?:sync-upstream\.sh|rebrand-upstream\.mjs)$|(?:upstream-policy\.yml|nulu-fork-manifest\.json|UPSTREAM_POLICY\.md|UPSTREAM_SYNC\.md|AGENTS\.md|CLAUDE\.md)$)/.test(path)
 }
 
 /**

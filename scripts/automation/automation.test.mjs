@@ -250,3 +250,12 @@ test('conflicts in tests, notes and documentation stop a batch before the coding
   const conflicts = ['apps/desktop/src/main.ts', 'apps/desktop/tests/main-startup.spec.ts', 'docs/architecture.md', '.agents/notes/implemented/architecture/note.md', 'apps/desktop/README.md', 'pnpm-lock.yaml']
   assert.deepEqual(conflictsOutsideWorker(conflicts), ['apps/desktop/tests/main-startup.spec.ts', 'docs/architecture.md', '.agents/notes/implemented/architecture/note.md', 'pnpm-lock.yaml'])
 })
+
+test('the nulu command starts the interface for a person and lists commands for a script', async () => {
+  const { startArguments } = await import('../../distribution/nulu-harness/start.js')
+  assert.deepEqual(startArguments([], true).args, ['web'])
+  assert.match(startArguments([], true).notice, /nulu --help/)
+  assert.deepEqual(startArguments([], false), { args: ['--help'] })
+  assert.deepEqual(startArguments(['--profile', 'headless', 'task'], true), { args: ['--profile', 'headless', 'task'] })
+  assert.equal(trustedPath('distribution/nulu-harness/bin.js'), true)
+})

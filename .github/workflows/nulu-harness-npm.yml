@@ -1,0 +1,126 @@
+name: nulu-harness npm package
+
+# Packs the release exactly as it would be published, installs it with
+# `npm install -g nulu-harness` on Linux, macOS and Windows from a registry
+# that exists only inside each job, and runs the installed command. Publishing
+# is a separate, explicit dispatch from a nulu-v* tag and waits for the
+# npm-publish environment.
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish the checked packages to npm (requires a nulu-v* tag and the npm-publish environment)
+        type: boolean
+        default: false
+  push:
+    branches: ['distribution/**']
+
+concurrency:
+  group: nulu-harness-npm-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  NULU_TELEMETRY_DISABLED: '1'
+
+jobs:
+  pack:
+    name: Pack the release
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - id: version
+        run: echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+      - name: Verify release version
+        env:
+          RELEASE_PUBLISH: ${{ inputs.publish && 'true' || 'false' }}
+        run: pnpm run release:verify --family nulu
+      - run: pnpm run build:official
+      - run: pnpm run release:pack --family nulu --out dist/npm --concurrency 8
+      - run: node scripts/automation/pack-distribution.mjs dist/npm-wrapper
+      - uses: actions/upload-artifact@v7
+        with:
+          name: nulu-harness-npm
+          path: |
+            dist/npm/
+            dist/npm-wrapper/
+          if-no-files-found: error
+          retention-days: 14
+
+  install:
+    name: Install and run on ${{ matrix.runner }}
+    needs: pack
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-24.04, macos-15, windows-2025]
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - uses: actions/download-artifact@v8
+        with:
+          name: nulu-harness-npm
+          path: dist
+      - name: npm install -g nulu-harness, then run the installed command
+        env:
+          WORLD_APP_TECHNOLOGIES_API_KEY: ${{ secrets.WORLD_APP_TECHNOLOGIES_API_KEY_EXTERNAL }}
+        run: node scripts/automation/cli-install-check.mjs dist/npm dist/npm-wrapper/nulu-harness-${{ needs.pack.outputs.version }}.tgz evidence
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: cli-install-${{ matrix.runner }}
+          path: evidence/
+          if-no-files-found: warn
+          retention-days: 14
+
+  publish:
+    name: Publish to npm
+    if: inputs.publish
+    needs: [pack, install]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    environment: npm-publish
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+      - name: Install (immutable, no package scripts)
+        run: pnpm install --frozen-lockfile --ignore-scripts
+      - uses: actions/download-artifact@v8
+        with:
+          name: nulu-harness-npm
+          path: dist
+      - name: Publish the harness packages
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: pnpm run release:publish --family nulu --from dist/npm
+      # Last, so `npm install -g nulu-harness` never names a launcher version that is not yet installable.
+      - name: Publish nulu-harness
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish dist/npm-wrapper/nulu-harness-${{ needs.pack.outputs.version }}.tgz
