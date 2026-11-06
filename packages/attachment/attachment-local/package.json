@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-attachment-local",
   "description": "Private content-addressed NULU_HOME attachment storage",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "publishConfig": {
     "access": "public"
   },

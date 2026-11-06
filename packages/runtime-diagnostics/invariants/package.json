@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-invariants",
   "description": "Registry service for package-owned Nulu Harness runtime invariants",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "publishConfig": {
     "access": "public"
   },
