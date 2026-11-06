@@ -13,7 +13,7 @@ A package without `app-update.yml`, and every Linux AppImage because its feed is
 | Installation | Asset | Replacement |
 |---|---|---|
 | Windows x64 | NSIS installer | Run with `--updated /S --force-run`; the installer closes, replaces, and restarts the application. |
-| Launched Linux AppImage | AppImage | Rename over the file named by `APPIMAGE`, then start it after the old process exits. |
+| Launched Linux AppImage | AppImage | Rename over the file named by `APPIMAGE`, then start it after the old process exits and its runtime removes `APPDIR`. |
 | Writable macOS bundle | Release ZIP | Extract with `ditto`, exchange the bundle by two renames, then `open` it after the old process exits. |
 | Extracted AppImage, translocated or read-only bundle, other targets | none | Keep the download notice. |
 

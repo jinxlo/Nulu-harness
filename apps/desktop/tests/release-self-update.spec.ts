@@ -63,8 +63,8 @@ describe('self-update target', () => {
     const appImage = join(root, 'Nulu.AppImage')
     writeFileSync(appImage, 'old')
     const host = { platform: 'linux' as const, arch: 'x64', execPath: '/tmp/.mount/nulu-harness', tempDirectory: tmpdir() }
-    expect(resolveSelfUpdateTarget({ ...host, env: { APPIMAGE: appImage } }))
-      .toEqual({ kind: 'linux-appimage', assetSuffix: 'linux-x86_64.AppImage', stagingRoot: root, appImage })
+    expect(resolveSelfUpdateTarget({ ...host, env: { APPIMAGE: appImage, APPDIR: '/tmp/.mount_nulu' } }))
+      .toEqual({ kind: 'linux-appimage', assetSuffix: 'linux-x86_64.AppImage', stagingRoot: root, appImage, applicationDirectory: '/tmp/.mount_nulu' })
     expect(resolveSelfUpdateTarget({ ...host, env: {} })).toBeUndefined()
     expect(resolveSelfUpdateTarget({ ...host, env: { APPIMAGE: join(root, 'absent.AppImage') } })).toBeUndefined()
   })
@@ -124,7 +124,7 @@ describe('release self-updater', () => {
     const root = temporaryRoot()
     const appImage = join(root, 'Nulu.AppImage')
     writeFileSync(appImage, 'old')
-    const target: SelfUpdateTarget = { kind: 'linux-appimage', assetSuffix: 'linux-x86_64.AppImage', stagingRoot: root, appImage }
+    const target: SelfUpdateTarget = { kind: 'linux-appimage', assetSuffix: 'linux-x86_64.AppImage', stagingRoot: root, appImage, applicationDirectory: undefined }
     const asset = 'nulu-harness-2.0.0-linux-x86_64.AppImage'
     for (const fetcher of [
       releaseServer(asset, Buffer.from('tampered'), 'a'.repeat(64)).fetch,
@@ -139,16 +139,18 @@ describe('release self-updater', () => {
     }
   })
 
-  it.skipIf(process.platform === 'win32')('replaces the AppImage and starts it after the old process exits', async () => {
+  it.skipIf(process.platform === 'win32')('replaces the AppImage and starts it after the old process and its application directory are gone', async () => {
     const root = temporaryRoot()
     const appImage = join(root, 'Nulu.AppImage')
     const started = join(root, 'started')
+    const applicationDirectory = join(temporaryRoot(), 'mounted')
+    mkdirSync(applicationDirectory)
     writeFileSync(appImage, 'old')
     const replacement = Buffer.from(`#!/bin/sh\necho "$0" > '${started}'\n`)
     const server = releaseServer('nulu-harness-2.0.0-linux-x86_64.AppImage', replacement)
     const running = spawn(process.execPath, ['-e', 'setTimeout(() => {}, 60000)'], { stdio: 'ignore' })
     const exited = new Promise((accept) => { running.once('exit', accept) })
-    const subject = updater({ kind: 'linux-appimage', assetSuffix: 'linux-x86_64.AppImage', stagingRoot: root, appImage }, {
+    const subject = updater({ kind: 'linux-appimage', assetSuffix: 'linux-x86_64.AppImage', stagingRoot: root, appImage, applicationDirectory }, {
       fetch: server.fetch, pid: running.pid as number, quit: () => { setTimeout(() => { running.kill() }, 300) },
     })
     await subject.checkForUpdates()
@@ -160,6 +162,9 @@ describe('release self-updater', () => {
     await new Promise(accept => setTimeout(accept, 150))
     expect(existsSync(started)).toBe(false)
     await exited
+    await new Promise(accept => setTimeout(accept, 600))
+    expect(existsSync(started)).toBe(false)
+    rmSync(applicationDirectory, { recursive: true })
     await vi.waitFor(() => { expect(readFileSync(started, 'utf8').trim()).toBe(appImage) }, { timeout: 10_000 })
   })
 
@@ -184,7 +189,7 @@ describe('release self-updater', () => {
     expect(readFileSync(join(root, staging as string, 'previous.app/Contents/MacOS/Nulu Harness'), 'utf8')).toBe('old')
     subject.quitAndInstall()
     expect(start).toHaveBeenCalledWith('/bin/sh', [
-      '-c', expect.stringContaining('kill -0'), 'nulu-harness-update', '4242', '/usr/bin/open', '-n', bundle,
+      '-c', expect.stringContaining('kill -0'), 'nulu-harness-update', '4242', '', '/usr/bin/open', '-n', bundle,
     ], { detached: true, stdio: 'ignore', cwd: '/' })
     await updater(target, { currentVersion: '2.0.0' }).checkForUpdates()
     expect(readdirSync(root)).toEqual(['Nulu Harness.app'])

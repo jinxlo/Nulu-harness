@@ -53,6 +53,8 @@ export type SelfUpdateTarget =
     readonly stagingRoot: string
     /** The AppImage file the user launches. */
     readonly appImage: string
+    /** Mounted or extracted application directory that the AppImage runtime removes after the application exits. */
+    readonly applicationDirectory: string | undefined
   }
   | {
     readonly kind: 'mac-bundle'
@@ -68,8 +70,16 @@ export type SelfUpdateTarget =
 export const SELF_UPDATE_STAGING_PREFIX = '.nulu-harness-update-'
 
 const DOWNLOAD_TIMEOUT_MS = 60 * 60_000
-/** Waits at most two minutes for the old process, then starts the replacement. */
-const RESTART_AFTER_EXIT = 'i=0; while kill -0 "$1" 2>/dev/null && [ "$i" -lt 600 ]; do sleep 0.2; i=$((i+1)); done; shift; exec "$@"'
+/**
+ * Waits at most two minutes for the old process to exit and thirty seconds for its AppImage runtime to remove
+ * the application directory, then starts the replacement. An AppImage extracted without FUSE reuses one
+ * directory per file path, so a replacement started earlier would have its files deleted by the old runtime.
+ */
+const RESTART_AFTER_EXIT = [
+  'i=0; while kill -0 "$1" 2>/dev/null && [ "$i" -lt 600 ]; do sleep 0.2; i=$((i+1)); done',
+  'i=0; while [ -n "$2" ] && [ -e "$2" ] && [ "$i" -lt 150 ]; do sleep 0.2; i=$((i+1)); done',
+  'shift 2; exec "$@"',
+].join('; ')
 
 function writable(...paths: string[]): boolean {
   try {
@@ -96,7 +106,13 @@ export function resolveSelfUpdateTarget(host: SelfUpdateHost): SelfUpdateTarget 
     if (appImage === undefined || !isAbsolute(appImage) || !existsSync(appImage)) return undefined
     const stagingRoot = dirname(appImage)
     if (!writable(stagingRoot)) return undefined
-    return { kind: 'linux-appimage', assetSuffix: 'linux-x86_64.AppImage', stagingRoot, appImage }
+    return {
+      kind: 'linux-appimage',
+      assetSuffix: 'linux-x86_64.AppImage',
+      stagingRoot,
+      appImage,
+      applicationDirectory: host.env.APPDIR,
+    }
   }
   if (host.platform === 'darwin' && (host.arch === 'arm64' || host.arch === 'x64')) {
     const bundle = resolve(host.execPath, '../../..')
@@ -258,9 +274,9 @@ export class ReleaseSelfUpdater implements DesktopReleaseUpdater {
       }
       return file
     }
-    const afterExit = (command: string[]): void => {
+    const afterExit = (removed: string | undefined, command: string[]): void => {
       const waiter = start('/bin/sh', [
-        '-c', RESTART_AFTER_EXIT, 'nulu-harness-update', String(this.options.pid ?? process.pid), ...command,
+        '-c', RESTART_AFTER_EXIT, 'nulu-harness-update', String(this.options.pid ?? process.pid), removed ?? '', ...command,
       ], { ...detached, cwd: '/' })
       waiter.on('error', (error) => { console.error(error) })
       waiter.unref()
@@ -270,7 +286,7 @@ export class ReleaseSelfUpdater implements DesktopReleaseUpdater {
       // The running application keeps its mounted file open; the path now names the new release.
       await rename(file, target.appImage)
       await rm(staging, { recursive: true, force: true })
-      this.restart = () => { afterExit([target.appImage]) }
+      this.restart = () => { afterExit(target.applicationDirectory, [target.appImage]) }
       return target.appImage
     }
     const payload = join(staging, 'payload')
@@ -291,7 +307,7 @@ export class ReleaseSelfUpdater implements DesktopReleaseUpdater {
       await rename(previous, target.bundle)
       throw error
     }
-    this.restart = () => { afterExit(['/usr/bin/open', '-n', target.bundle]) }
+    this.restart = () => { afterExit(undefined, ['/usr/bin/open', '-n', target.bundle]) }
     return target.bundle
   }
 

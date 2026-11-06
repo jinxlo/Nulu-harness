@@ -109,7 +109,8 @@ try {
   const feed = { release, name: `nulu-harness-99.0.0-${suffix}`, file: asset, size: statSync(asset).size, sha256: sha256(asset), notices }
 
   const application = await launch(executable, 'before')
-  const closed = new Promise(accept => { application.once('close', accept) })
+  // Playwright reports close only after every inherited output pipe closes; the process exit is the fact under test.
+  const closed = new Promise(accept => { application.process().once('exit', accept) })
   const previous = running(executable)
   await application.evaluate(({ Menu, dialog }, served) => {
     const fs = process.getBuiltinModule('node:fs')
