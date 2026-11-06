@@ -94,6 +94,9 @@ export function command(executable, args, options = {}) {
 
 export function git(args, options) { return command('git', args, options).trim() }
 
+/** Git options that authenticate to the private Nulu repository with the job's `GH_TOKEN` through `gh`. */
+export const GITHUB_CREDENTIALS = ['-c', 'credential.helper=', '-c', 'credential.helper=!gh auth git-credential']
+
 /**
  * Reject source or build steps that alter protected release controls or retained Session inputs.
  * @param base - trusted Nulu source commit.

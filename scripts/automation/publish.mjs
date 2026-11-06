@@ -2,7 +2,7 @@
 import { createHash } from 'node:crypto'
 import { copyFileSync, createReadStream, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
-import { command, git } from './common.mjs'
+import { GITHUB_CREDENTIALS, command, git } from './common.mjs'
 import { buildCatalog, installerName, TARGETS, validateNativeEvidence, versionOrder } from './release-catalog.mjs'
 
 const version = process.env.NULU_RELEASE_VERSION
@@ -68,10 +68,10 @@ command('gh', ['release', 'download', tag, '--repo', repository, '--dir', verifi
 for (const [name, expected] of checksums) if (await hash(join(verification, name)) !== expected) throw new Error(`Hosted download checksum mismatch: ${name}`)
 if (readFileSync(join(verification, 'SHA256SUMS'), 'utf8') !== readFileSync(join(output, 'SHA256SUMS'), 'utf8')) throw new Error('Hosted checksum manifest differs')
 
-const observed = git(['ls-remote', 'origin', 'refs/heads/main']).split(/\s/)[0]
+const observed = git([...GITHUB_CREDENTIALS, 'ls-remote', 'origin', 'refs/heads/main']).split(/\s/)[0]
 if (!alreadyPublished) {
   if (observed !== base && observed !== source) throw new Error('Nulu main advanced during qualification; regenerate this candidate')
-  if (observed !== source) command('git', ['-c', 'credential.helper=', '-c', 'credential.helper=!gh auth git-credential', 'push', '--atomic', 'origin', `${source}:refs/heads/main`, `${source}:refs/tags/${tag}`], { stdio: 'inherit' })
+  if (observed !== source) command('git', [...GITHUB_CREDENTIALS, 'push', '--atomic', 'origin', `${source}:refs/heads/main`, `${source}:refs/tags/${tag}`], { stdio: 'inherit' })
   command('gh', ['release', 'edit', tag, '--repo', repository, '--draft=false', '--latest', '--notes-file', notes])
 }
 const published = JSON.parse(command('gh', ['api', `repos/${repository}/releases/latest`]))

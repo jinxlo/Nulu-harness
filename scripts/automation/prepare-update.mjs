@@ -5,7 +5,7 @@ import { adapt } from './adapter.mjs'
 import { rebrandTree } from './brand-tree.mjs'
 import { normalizeUpstreamMerge } from './normalize-merge.mjs'
 import { versionOrder } from './release-catalog.mjs'
-import { ROOT, REPORT, assertTrustedFilesUnchanged, command, conflictsOutsideWorker, git, json, pnpm, trustedPath } from './common.mjs'
+import { GITHUB_CREDENTIALS, ROOT, REPORT, assertTrustedFilesUnchanged, command, conflictsOutsideWorker, git, json, pnpm, trustedPath } from './common.mjs'
 
 let base = git(['rev-parse', 'HEAD'])
 const report = { schemaVersion: 1, base, startedAt: new Date().toISOString(), status: 'preparing', checks: [] }
@@ -44,7 +44,7 @@ function qualify() {
 
 try {
   if (git(['status', '--porcelain'])) throw new Error('Candidate preparation requires a clean working tree')
-  git(['fetch', '--no-tags', 'origin', 'main'])
+  git([...GITHUB_CREDENTIALS, 'fetch', '--no-tags', 'origin', 'main'])
   const expectedMain = git(['rev-parse', 'FETCH_HEAD'])
   git(['merge', '--no-edit', expectedMain])
   base = git(['rev-parse', 'HEAD'])
