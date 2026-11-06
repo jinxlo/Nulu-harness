@@ -1,5 +1,6 @@
 /** Process and file rules shared by the unattended release jobs. */
 import { execFileSync } from 'node:child_process'
+import { createHash } from 'node:crypto'
 import { lstatSync, readFileSync } from 'node:fs'
 import { dirname, isAbsolute, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -82,13 +83,21 @@ export function git(args, options) { return command('git', args, options).trim()
  * @param base - trusted Nulu source commit.
  * @param root - isolated qualification checkout.
  * @param releaseVersion - allocated version permitted in the protected brand manifest.
+ * @param curatedSessions - exact hashes admitted from the pinned upstream current-writer oracles before qualification.
  * @returns normally only when protected bytes and the optional version change match.
  */
-export function assertTrustedFilesUnchanged(base, root = ROOT, releaseVersion) {
+export function assertTrustedFilesUnchanged(base, root = ROOT, releaseVersion, curatedSessions = []) {
   const changed = command('git', ['diff', '--no-renames', '--name-only', '-z', base, '--'], { cwd: root }).split('\0')
   const added = command('git', ['ls-files', '--others', '--exclude-standard', '-z'], { cwd: root }).split('\0')
   const history = new Set(command('git', ['ls-tree', '-r', '--name-only', '-z', base], { cwd: root }).split('\0').filter(sessionGenerationPath))
   const protectedChanges = [...new Set([...changed, ...added].filter(path => trustedPath(path) || history.has(path)))].filter(path => {
+    const curated = !trustedPath(path) && history.has(path) && curatedSessions.find(entry => entry.path === path)
+    if (curated) {
+      const absolute = join(root, path)
+      const info = lstatSync(absolute, { throwIfNoEntry: false })
+      return !info?.isFile() || (info.mode & 0o111) !== 0
+        || createHash('sha256').update(readFileSync(absolute)).digest('hex') !== curated.sha256
+    }
     if (path !== 'packages/client/ui-brand/package.json' || !/^\d+\.\d+\.\d+$/.test(releaseVersion ?? '')) return true
     const original = JSON.parse(command('git', ['show', `${base}:${path}`], { cwd: root }))
     const absolute = join(root, path)

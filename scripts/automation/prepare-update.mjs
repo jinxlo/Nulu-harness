@@ -23,7 +23,8 @@ function restoreTools() {
 
 
 function qualify() {
-  assertTrustedFilesUnchanged(base, ROOT, report.version)
+  const assertProtected = () => assertTrustedFilesUnchanged(base, ROOT, report.version, report.normalization?.curatedSessions)
+  assertProtected()
   const steps = [
     ['policy', () => command(process.execPath, ['scripts/upstream-sync/validate.mjs', '--json'], { env: environment })],
     ['dependencies', () => pnpm(['install', '--frozen-lockfile'], { env: environment })],
@@ -32,7 +33,7 @@ function qualify() {
     ['desktop-and-catalog', () => pnpm(['exec', 'vitest', 'run', 'apps/desktop/tests', 'packages/llm/llm-pi-ai/tests/catalog.spec.ts', '--maxWorkers=2'], { env: environment })],
   ]
   for (const [name, run] of steps) {
-    try { run(); assertTrustedFilesUnchanged(base, ROOT, report.version); report.checks.push({ name, status: 'passed' }); save() }
+    try { run(); assertProtected(); report.checks.push({ name, status: 'passed' }); save() }
     catch (error) {
       const detail = `${error.stdout ?? ''}\n${error.stderr ?? ''}`.slice(-14000)
       report.checks.push({ name, status: 'failed', detail }); save()
@@ -95,7 +96,7 @@ try {
         if (!git(['diff', '--name-only', '--diff-filter=U'])) throw error
       }
       restoreTools()
-      report.normalization = normalizeUpstreamMerge(base)
+      report.normalization = normalizeUpstreamMerge(base, { upstream: target })
       rebrandTree()
       const unresolved = git(['diff', '--name-only', '--diff-filter=U'])
       report.adaptation = unresolved

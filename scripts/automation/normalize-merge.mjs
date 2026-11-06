@@ -1,7 +1,9 @@
 /** Merge branded source with Git while retaining Nulu's documentation and captured-data policies. */
 import { lstatSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { createHash } from 'node:crypto'
 import { tmpdir } from 'node:os'
-import { basename, join } from 'node:path'
+import { basename, dirname, join } from 'node:path'
+import { JSON_SCHEMA, load } from 'js-yaml'
 import { ROOT, brandablePath, brandText, command, readablePath, sessionGenerationPath } from './common.mjs'
 
 function regularFile(root, path) {
@@ -25,19 +27,56 @@ function retiredMirror(path, tracked) {
   return english !== undefined && tracked.has(english)
 }
 
+function selectedRole(path, files) {
+  const role = /^(.*\/session(?:\.\d+)?)(?:\.v(\d+))?\.jsonl(?:\.zstd)?$/.exec(path)
+  if (!role) return false
+  const version = Number(role[2] ?? 0)
+  return [...files].every(other => {
+    const candidate = /^(.*\/session(?:\.\d+)?)(?:\.v(\d+))?\.jsonl(?:\.zstd)?$/.exec(other)
+    return !candidate || candidate[1] !== role[1] || other === path || Number(candidate[2] ?? 0) < version
+  })
+}
+
+function currentWriterOwner(path, original, tracked, root, run, base) {
+  if (!path.startsWith('snapshots/') || !selectedRole(path, original) || !selectedRole(path, tracked)) return false
+  const owner = `${dirname(path)}/snapshot.yml`
+  if (!original.has(owner) || !regularFile(root, owner)) return false
+  const source = run(['show', `${base}:${owner}`])
+  if (readFileSync(join(root, owner), 'utf8') !== source) return false
+  // Classification comes from the already qualified owner; imported metadata cannot unpin history.
+  const manifest = load(source, { schema: JSON_SCHEMA })
+  return manifest?.version === 1 && manifest.session === undefined && manifest.sessionFormat === undefined
+}
+
 /**
  * Resolve branding-only text conflicts without asking the model to rewrite tests.
- * @param base - trusted Nulu commit whose existing Session generations remain immutable.
- * @param options - isolated checkout directory; defaults to the automation checkout.
- * @returns resolved source paths, removed retired mirrors, and restored captured inputs; genuine conflicts remain staged as unmerged.
+ * @param base - trusted Nulu commit identifying historical inputs and qualified scenario ownership.
+ * @param options - isolated checkout and optional pinned upstream commit for exact current-writer source curation.
+ * @returns resolved paths, retired mirrors, retained history and hash-pinned current-writer oracles; genuine conflicts remain unmerged.
  */
-export function normalizeUpstreamMerge(base, { root = ROOT } = {}) {
+export function normalizeUpstreamMerge(base, { root = ROOT, upstream } = {}) {
   const env = Object.fromEntries(Object.entries(process.env).filter(([name]) => !/KEY|TOKEN|SECRET|PASSWORD|^GIT_CONFIG_(?:COUNT|PARAMETERS|VALUE_)/.test(name)))
   const run = (args, options = {}) => command('git', args, { cwd: root, env, ...options })
   const names = args => run(args).split('\0').filter(Boolean)
   const original = new Set(names(['ls-tree', '-r', '--name-only', '-z', base]))
   const tracked = new Set(names(['ls-files', '-z']))
-  const result = { resolved: [], retired: [], retainedSessions: [] }
+  const incoming = new Set(upstream ? names(['ls-tree', '-r', '--name-only', '-z', upstream]) : [])
+  const result = { resolved: [], retired: [], retainedSessions: [], curatedSessions: [] }
+  let mergedTree
+  const mergedOracle = path => {
+    if (!mergedTree) {
+      let output
+      try { output = run(['merge-tree', '--write-tree', base, upstream]) }
+      catch (error) {
+        // Unrelated source conflicts still leave a deterministic result tree for a clean Session path.
+        if (error.status !== 1 || error.signal != null) throw error
+        output = error.stdout
+      }
+      mergedTree = output.split('\n')[0].trim()
+      if (!/^[a-f0-9]{40,64}$/.test(mergedTree)) throw new Error('Git did not identify the source-curation merge tree')
+    }
+    return run(['show', `${mergedTree}:${path}`], { encoding: null })
+  }
   for (const path of tracked) {
     if (retiredMirror(path, tracked) && regularFile(root, path)) {
       run(['rm', '-f', '--ignore-unmatch', '--', path])
@@ -62,6 +101,15 @@ export function normalizeUpstreamMerge(base, { root = ROOT } = {}) {
   }
   for (const path of names(['diff', '--no-renames', '--name-only', '-z', base])) {
     if (original.has(path) && sessionGenerationPath(path)) {
+      if (incoming.has(path) && regularFile(root, path)
+        && !run(['ls-files', '--unmerged', '--', path])
+        && currentWriterOwner(path, original, tracked, root, run, base)) {
+        const bytes = readFileSync(join(root, path))
+        if (bytes.equals(mergedOracle(path))) {
+          result.curatedSessions.push({ path, sha256: createHash('sha256').update(bytes).digest('hex') })
+          continue
+        }
+      }
       run(['restore', '--source', base, '--staged', '--worktree', '--', path])
       result.retainedSessions.push(path)
     }

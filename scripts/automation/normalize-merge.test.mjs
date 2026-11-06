@@ -42,7 +42,7 @@ function fixture(t, ancestor, ours, theirs) {
   const incoming = commit('Upstream changes')
   run(['checkout', '--quiet', 'nulu'])
   assert.throws(() => run(['merge', '--no-commit', '--no-ff', incoming]), error => error.status === 1)
-  return { root, base, run, links, read: path => readFileSync(join(root, path), 'utf8') }
+  return { root, base, incoming, run, links, read: path => readFileSync(join(root, path), 'utf8') }
 }
 
 const path = 'apps/web/tests/branding.e2e.ts'
@@ -138,6 +138,48 @@ test('captured Session bytes survive import and remain guarded during qualificat
   assert.doesNotThrow(() => assertTrustedFilesUnchanged(f.base, f.root))
   writeFileSync(join(f.root, old), 'build-time rewrite\n')
   assert.throws(() => assertTrustedFilesUnchanged(f.base, f.root), /session.v2.jsonl/)
+})
+
+test('an unchanged current-writer owner admits only the selected Git-merged oracle and pins its bytes', t => {
+  const current = 'snapshots/session/current/session.v3.jsonl'
+  const old = 'snapshots/session/current/session.v2.jsonl'
+  const child = 'snapshots/session/current/session.1.v3.jsonl'
+  const owner = 'snapshots/session/current/snapshot.yml'
+  const manifest = 'version: 1\nscenario: current\nprofile: headless\nrecording: authored\n'
+  const f = fixture(t, { [path]: ancestor, [current]: 'provider: upstream\n\nold API\n', [old]: 'retained history\n', [child]: 'old child\n', [owner]: manifest },
+    { [path]: ours, [current]: 'provider: Nulu\n\nold API\n' },
+    { [path]: theirs, [current]: 'provider: upstream\n\nnew API\n', [old]: 'rewritten history\n', [child]: 'new child\n' })
+  const result = normalizeUpstreamMerge(f.base, { root: f.root, upstream: f.incoming })
+  assert.deepEqual(result.retainedSessions, [old])
+  assert.equal(f.read(old), 'retained history\n')
+  assert.equal(f.read(current), 'provider: Nulu\n\nnew API\n')
+  assert.deepEqual(result.curatedSessions.map(entry => entry.path).sort(), [child, current])
+  assert.equal(f.read(child), 'new child\n')
+  assert.throws(() => assertTrustedFilesUnchanged(f.base, f.root), /Protected Nulu files changed/)
+  assert.doesNotThrow(() => assertTrustedFilesUnchanged(f.base, f.root, undefined, result.curatedSessions))
+  writeFileSync(join(f.root, current), 'build-time oracle rewrite\n')
+  assert.throws(() => assertTrustedFilesUnchanged(f.base, f.root, undefined, result.curatedSessions), /Protected Nulu files changed/)
+})
+
+test('pinned history, changed ownership and a successor generation never admit rewriting a predecessor', t => {
+  for (const mode of ['pinned', 'unpin', 'changed-owner', 'successor', 'not-merge']) {
+    const current = `snapshots/session/${mode}/session.v3.jsonl`
+    const owner = `snapshots/session/${mode}/snapshot.yml`
+    const manifest = `version: 1\nprofile: headless\n${['pinned', 'unpin'].includes(mode) ? 'sessionFormat:\n  version: 3\n  coverage: [adjacent-migration]\n' : ''}`
+    const added = mode === 'successor' ? { [`snapshots/session/${mode}/session.v4.jsonl`]: 'new generation\n' } : {}
+    const f = fixture(t, { [path]: ancestor, [current]: 'retained\n', [owner]: manifest }, { [path]: ours }, {
+      [path]: theirs, [current]: 'upstream oracle\n', [owner]: mode === 'changed-owner' || mode === 'unpin' ? 'version: 1\nprofile: sdk\n' : manifest, ...added,
+    })
+    if (mode === 'not-merge') {
+      writeFileSync(join(f.root, current), 'unreviewed local oracle\n')
+      f.run(['add', '--', current])
+    }
+    const result = normalizeUpstreamMerge(f.base, { root: f.root, upstream: f.incoming })
+    assert.deepEqual(result.curatedSessions, [], mode)
+    assert.deepEqual(result.retainedSessions, [current], mode)
+    assert.equal(f.read(current), 'retained\n', mode)
+    assert.doesNotThrow(() => assertTrustedFilesUnchanged(f.base, f.root))
+  }
 })
 
 test('branding merge refuses symlink parents without modifying the external destination', t => {
