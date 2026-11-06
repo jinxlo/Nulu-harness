@@ -68,6 +68,22 @@ export function editablePath(path, root = ROOT) {
   return absolute
 }
 
+/**
+ * Select conflicted paths the coding worker is forbidden to write, so a batch that needs them stops before any model request.
+ * @param paths - repository-relative paths left unmerged after mechanical normalization.
+ * @param root - checkout that contains them.
+ * @returns the paths that only a supervised merge can resolve.
+ */
+export function conflictsOutsideWorker(paths, root = ROOT) {
+  return paths.filter(path => {
+    try { editablePath(path, root); return false }
+    catch (error) {
+      // Every refusal, including a symlinked parent, leaves the conflict unresolvable by the worker.
+      return error instanceof Error
+    }
+  })
+}
+
 /** Capture bounded command output; nonzero status is always an error. */
 export function command(executable, args, options = {}) {
   return execFileSync(executable, args, {

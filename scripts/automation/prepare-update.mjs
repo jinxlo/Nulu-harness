@@ -5,7 +5,7 @@ import { adapt } from './adapter.mjs'
 import { rebrandTree } from './brand-tree.mjs'
 import { normalizeUpstreamMerge } from './normalize-merge.mjs'
 import { versionOrder } from './release-catalog.mjs'
-import { ROOT, REPORT, assertTrustedFilesUnchanged, command, git, json, pnpm, trustedPath } from './common.mjs'
+import { ROOT, REPORT, assertTrustedFilesUnchanged, command, conflictsOutsideWorker, git, json, pnpm, trustedPath } from './common.mjs'
 
 let base = git(['rev-parse', 'HEAD'])
 const report = { schemaVersion: 1, base, startedAt: new Date().toISOString(), status: 'preparing', checks: [] }
@@ -99,6 +99,9 @@ try {
       report.normalization = normalizeUpstreamMerge(base, { upstream: target })
       rebrandTree()
       const unresolved = git(['diff', '--name-only', '--diff-filter=U'])
+      const supervised = conflictsOutsideWorker(unresolved.split('\n').filter(Boolean))
+      report.supervisedConflicts = supervised
+      if (supervised.length) throw new Error(`This upstream batch conflicts in ${supervised.length} files the coding worker may not edit; merge it under supervision: ${supervised.join(', ')}`)
       report.adaptation = unresolved
         ? await adapt({ base, upstream: target, details: `Implement all compatible changes in this batch.\n${diff}\n${patch}\nUnresolved paths:\n${unresolved}` })
         : { status: 'not-required', summary: 'The branded Git merge is clean; mandatory qualification determines whether repairs are needed.' }

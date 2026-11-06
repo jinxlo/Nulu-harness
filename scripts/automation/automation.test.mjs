@@ -5,7 +5,7 @@ import { setTimeout as delay } from 'node:timers/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import test from 'node:test'
-import { assertTrustedFilesUnchanged, brandText, command, editablePath, readablePath, trustedPath } from './common.mjs'
+import { assertTrustedFilesUnchanged, brandText, command, conflictsOutsideWorker, editablePath, readablePath, trustedPath } from './common.mjs'
 import { buildCatalog, installerName, TARGETS, validateCatalog, validateNativeEvidence, versionOrder } from './release-catalog.mjs'
 import { gatewayModelIds, validateModelPolicy } from './brand-policy.mjs'
 import { adapt } from './adapter.mjs'
@@ -244,4 +244,9 @@ test('watchdog completes the baseline after later main commits but rejects diver
   assert.equal(isPromotedBaseline({ ...release, assets: [] }, comparison), false)
   assert.equal(isPromotedBaseline({ ...release, target_commitish: 'main' }, comparison), false)
   assert.equal(isPromotedBaseline(release, undefined), false)
+})
+
+test('conflicts in tests, notes and documentation stop a batch before the coding worker is asked', () => {
+  const conflicts = ['apps/desktop/src/main.ts', 'apps/desktop/tests/main-startup.spec.ts', 'docs/architecture.md', '.agents/notes/implemented/architecture/note.md', 'apps/desktop/README.md', 'pnpm-lock.yaml']
+  assert.deepEqual(conflictsOutsideWorker(conflicts), ['apps/desktop/tests/main-startup.spec.ts', 'docs/architecture.md', '.agents/notes/implemented/architecture/note.md', 'pnpm-lock.yaml'])
 })
