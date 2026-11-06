@@ -1,6 +1,8 @@
 /** Electron shell: desktop project ownership, custom protocol, windows, and lifecycle. */
 
+import { existsSync } from 'node:fs'
 import { readFile, writeFile } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
 import { extname, join, normalize, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import {
@@ -21,7 +23,8 @@ import { DESKTOP_IPC, type DesktopUpdateState } from './ipc.ts'
 import { formatDesktopMessage, resolveDesktopLocale } from './locale.ts'
 import { claimDesktopSingleInstance } from './single-instance.ts'
 import { DesktopUpdateCoordinator } from './update-coordinator.ts'
-import { fetchLatestGitHubRelease, isNewerVersion } from './github-update-check.ts'
+import { fetchLatestGitHubRelease, githubReleaseOwner, githubReleaseRepo, isNewerVersion } from './github-update-check.ts'
+import { ReleaseSelfUpdater, resolveSelfUpdateTarget } from './release-self-update.ts'
 import { desktopErrorState } from './startup-error.ts'
 import { startupFailureDocument } from './startup-document.ts'
 
@@ -274,13 +277,33 @@ async function main(): Promise<void> {
     return startup
   }
 
-  const updates = new DesktopUpdateCoordinator(
-    publishUpdate,
-    async () => {
-      shellInstallerOwnsQuit = true
-      await backend.stop()
-    },
-  )
+  const stopForReplacement = async (): Promise<void> => {
+    shellInstallerOwnsQuit = true
+    await backend.stop()
+  }
+  const signedUpdateFeed = app.isPackaged && existsSync(join(process.resourcesPath, 'app-update.yml'))
+  // Packages without a signed feed replace themselves from the published Nulu release where the installation allows it.
+  const selfUpdateHost = {
+    platform: process.platform,
+    arch: process.arch,
+    execPath: process.execPath,
+    env: process.env,
+    tempDirectory: tmpdir(),
+  }
+  const selfUpdateTarget = app.isPackaged && !signedUpdateFeed ? resolveSelfUpdateTarget(selfUpdateHost) : undefined
+  const selfUpdater = selfUpdateTarget === undefined
+    ? undefined
+    : new ReleaseSelfUpdater({
+      target: selfUpdateTarget,
+      currentVersion: app.getVersion(),
+      quit: () => { app.quit() },
+      onProgress: (fraction) => {
+        if (mainWindow !== undefined && !mainWindow.isDestroyed()) mainWindow.setProgressBar(fraction ?? -1)
+      },
+    })
+  const updates = selfUpdater === undefined
+    ? new DesktopUpdateCoordinator(publishUpdate, stopForReplacement)
+    : new DesktopUpdateCoordinator(publishUpdate, stopForReplacement, selfUpdater, () => true)
 
   protocol.handle(SCHEME, (request) => {
     const url = new URL(request.url)
@@ -381,6 +404,7 @@ async function main(): Promise<void> {
     await updates.install()
   })
 
+  let promptedUpdateVersion: string | undefined
   const checkAndPrompt = async (manual: boolean): Promise<void> => {
     const state = await updates.check()
     if (state.phase === 'error') {
@@ -403,23 +427,44 @@ async function main(): Promise<void> {
       }
       return
     }
+    // A scheduled check asks once per release; the menu item always asks.
+    if (!manual && promptedUpdateVersion === state.version) return
+    promptedUpdateVersion = state.version
     const result = await dialog.showMessageBox({
       type: 'info',
       title: messages.updateTitle,
       message: messages.updateAvailable,
-      detail: formatDesktopMessage(messages.updateDetail, { version: state.version ?? '' }),
+      detail: formatDesktopMessage(
+        selfUpdateTarget === undefined ? messages.updateDetail : messages.updateSelfInstallDetail,
+        { version: state.version ?? '' },
+      ),
       buttons: [messages.installAndRestart, messages.later],
       defaultId: 0,
       cancelId: 1,
     })
     if (result.response !== 0) return
     const installed = await updates.install()
-    if (installed.phase === 'error') {
+    if (installed.phase !== 'error') return
+    if (selfUpdateTarget === undefined) {
       await dialog.showMessageBox({
         type: 'error',
         title: messages.updateFailedTitle,
         message: installed.message ?? messages.unknownError,
       })
+      return
+    }
+    // The installation is unchanged; the release page still offers the installer.
+    const fallback = await dialog.showMessageBox({
+      type: 'error',
+      title: messages.updateFailedTitle,
+      message: installed.message ?? messages.unknownError,
+      buttons: [messages.download, messages.later],
+      defaultId: 0,
+      cancelId: 1,
+    })
+    if (fallback.response === 0) {
+      await shell.openExternal(`https://github.com/${githubReleaseOwner()}/${githubReleaseRepo()}/releases/latest`)
+        .catch(() => undefined)
     }
   }
 
@@ -472,6 +517,11 @@ async function main(): Promise<void> {
     }
   }
 
+  // Installations that cannot replace themselves receive the download notice instead.
+  const checkForUpdates = (manual: boolean): void => {
+    void (signedUpdateFeed || selfUpdateTarget !== undefined ? checkAndPrompt(manual) : checkGitHubRelease(manual))
+  }
+
   Menu.setApplicationMenu(Menu.buildFromTemplate([{
     label: process.platform === 'darwin' ? app.name : messages.application,
     submenu: [
@@ -481,7 +531,7 @@ async function main(): Promise<void> {
         enabled: development === undefined,
         click: openPluginWindow,
       },
-      { label: messages.checkUpdatesMenu, click: () => { void checkAndPrompt(true); void checkGitHubRelease(true) } },
+      { label: messages.checkUpdatesMenu, click: () => { checkForUpdates(true) } },
       { type: 'separator' },
       { role: 'quit' },
     ],
@@ -538,9 +588,8 @@ async function main(): Promise<void> {
     mainWindow.webContents.openDevTools({ mode: 'detach' })
   }
   publishUpdate(updateState)
-  setTimeout(() => { void checkAndPrompt(false) }, 10_000)
-  setTimeout(() => { void checkGitHubRelease(false) }, 12_000)
-  setInterval(() => { void checkGitHubRelease(false) }, 6 * 60 * 60 * 1000)
+  setTimeout(() => { checkForUpdates(false) }, 10_000)
+  setInterval(() => { checkForUpdates(false) }, 6 * 60 * 60 * 1000)
 }
 
 const ownsDesktopInstance = claimDesktopSingleInstance(app, () => { focusPrimaryWindow() })

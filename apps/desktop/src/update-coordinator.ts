@@ -3,8 +3,9 @@
 import { existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { app } from 'electron'
-import electronUpdater, { type AppUpdater } from 'electron-updater'
+import electronUpdater from 'electron-updater'
 import type { DesktopUpdateState } from './ipc.ts'
+import type { DesktopReleaseUpdater } from './release-self-update.ts'
 const { autoUpdater } = electronUpdater
 
 /** Checks, downloads, and installs one complete Desktop release. */
@@ -16,13 +17,13 @@ export class DesktopUpdateCoordinator {
   /**
    * @param publish - state sink for every desktop window.
    * @param beforeRestart - stop application-owned processes before replacement.
-   * @param updater - Electron artifact updater; replaceable for tests.
+   * @param updater - Electron artifact updater, or the Nulu release installer for packages without a signed feed.
    * @param enabled - whether this packaged process carries updater configuration.
    */
   constructor(
     private readonly publish: (state: DesktopUpdateState) => DesktopUpdateState,
     private readonly beforeRestart: () => Promise<void> = async () => {},
-    private readonly updater: AppUpdater = autoUpdater,
+    private readonly updater: DesktopReleaseUpdater = autoUpdater,
     private readonly enabled: () => boolean = () => (
       app.isPackaged && existsSync(join(process.resourcesPath, 'app-update.yml'))
     ),

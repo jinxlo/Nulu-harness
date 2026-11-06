@@ -20,7 +20,7 @@ Preparation regenerates the persistence reference, machine schema and known-even
 
 The installation fixture uses a short randomized temporary root. NSIS file operations retain the Windows path-length limit; a long fixture prefix makes the previous uninstaller fail before replacement. The fixture keeps the packaged dependency paths near the depth of a normal per-user installation without changing the installer or application checks.
 
-The release channel remains an explicitly unsigned developer preview. GitHub release notifications lead to downloads. Signed unattended installation requires separately configured Windows signing and Apple Developer ID/notarization; this workflow does not present unsigned packages as signed updates.
+The release channel remains an explicitly unsigned developer preview. Installed applications find a newer GitHub release and, after confirmation, install its checksum-verified asset in place and reopen ([Desktop updates](../../apps/desktop/README.md#updates)); installations that cannot be replaced receive a download notice. Publisher-signed updates require separately configured Windows signing and Apple Developer ID/notarization; this workflow does not present unsigned packages as signed updates. The [self-update workflow](../../.github/workflows/self-update-e2e.yml) builds every target from a branch and performs an actual replacement and restart on each native runner.
 
 The publisher stages a draft release, downloads and verifies its bytes, rejects concurrent changes to `main`, advances the qualified commit, and promotes the release. Published assets are immutable. The website reads `nulu-release.json` and retains its existing complete download list if the catalog is invalid or unavailable.
 

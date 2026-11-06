@@ -1,0 +1,77 @@
+name: Self-update replacement
+
+# Builds every desktop target from the pushed branch and lets the packaged
+# application replace itself from a locally served release, then restart.
+on:
+  workflow_dispatch:
+  push:
+    branches: ['selfupdate/**']
+
+concurrency:
+  group: self-update-e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  NULU_TELEMETRY_DISABLED: '1'
+  NULU_DESKTOP_APP_ID: com.worldapptechnologies.nulu-harness
+  NULU_DESKTOP_AUTO_UPDATE_ENV: test
+  DOWNLOAD_TEST_ORIGIN: https://download.worldapptechnologies.com
+
+jobs:
+  replace:
+    name: Replace ${{ matrix.target }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 150
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: ubuntu-24.04
+            target: linux-x64
+            command: package:desktop:linux:x64
+            artifacts: artifacts
+          - runner: macos-15
+            target: mac-arm64
+            command: package:desktop:mac:arm64:unsigned
+            artifacts: unsigned-artifacts
+          - runner: macos-15-intel
+            target: mac-x64
+            command: package:desktop:mac:x64:unsigned
+            artifacts: unsigned-artifacts
+          - runner: windows-2025
+            target: win-x64
+            command: package:desktop:win:x64:unsigned
+            artifacts: unsigned-artifacts
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+      - name: Install Linux build and GUI dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -yq musl-tools xvfb libnss3 libatk-bridge2.0-0 libgtk-3-0t64 libgbm1 libasound2t64
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run ${{ matrix.command }}
+      - name: Replace and restart the Linux application
+        if: runner.os == 'Linux'
+        run: xvfb-run -a pnpm exec node scripts/automation/self-update-e2e.mjs apps/desktop/.desktop-build/targets/${{ matrix.target }}/${{ matrix.artifacts }} ${{ matrix.target }} evidence
+      - name: Replace and restart the macOS or Windows application
+        if: runner.os != 'Linux'
+        run: pnpm exec node scripts/automation/self-update-e2e.mjs apps/desktop/.desktop-build/targets/${{ matrix.target }}/${{ matrix.artifacts }} ${{ matrix.target }} evidence
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: self-update-${{ matrix.target }}
+          path: evidence/
+          if-no-files-found: warn
+          retention-days: 14
