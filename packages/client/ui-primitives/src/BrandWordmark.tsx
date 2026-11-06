@@ -1,5 +1,5 @@
 import type { IconProps } from './icons/props.ts'
-import { NULU_MARK_PATH, NULU_MARK_VIEWBOX } from './NuluMark.tsx'
+import { NULU_MARK_COLOR, NULU_MARK_GLYPH_PATH, NULU_MARK_PATH, NULU_MARK_VIEWBOX } from './NuluMark.tsx'
 
 /** Display options for the Nulu brand wordmark. */
 export interface BrandWordmarkProps extends IconProps {
@@ -30,7 +30,8 @@ export function BrandWordmark({ size = 24, className, includeMark = true }: Bran
       fill="none"
       aria-hidden="true"
     >
-      {includeMark && <path d={NULU_MARK_PATH} fill="currentColor" />}
+      {includeMark && <path d={NULU_MARK_PATH} fill={NULU_MARK_COLOR} />}
+      {includeMark && <path d={NULU_MARK_GLYPH_PATH} fill="currentColor" />}
       <text
         x={NAME_X}
         y={17.5}

@@ -66,14 +66,18 @@ describe('ic_ds_ icon set', () => {
 })
 
 describe('NuluMark', () => {
-  it('renders the monogram path in currentColor on a square canvas', () => {
+  it('renders the yellow cloud and a currentColor code glyph on a square canvas', () => {
     const { container } = render(<primitives.NuluMark />)
     const svg = container.querySelector('svg')!
     expect(svg.getAttribute('width')).toBe('24')
     expect(svg.getAttribute('height')).toBe('24')
     expect(svg.getAttribute('viewBox')).toBe('0 0 24 24')
-    expect(container.querySelectorAll('path')).toHaveLength(1)
-    expect(container.innerHTML).toContain('currentColor')
+    const [cloud, glyph] = [...container.querySelectorAll('path')]
+    expect(container.querySelectorAll('path')).toHaveLength(2)
+    expect(cloud?.getAttribute('d')).toBe(primitives.NULU_MARK_PATH)
+    expect(cloud?.getAttribute('fill')).toBe('#FCBA01')
+    expect(glyph?.getAttribute('d')).toBe(primitives.NULU_MARK_GLYPH_PATH)
+    expect(glyph?.getAttribute('fill')).toBe('currentColor')
   })
 
   it('scales both edges together for non-default sizes', () => {
