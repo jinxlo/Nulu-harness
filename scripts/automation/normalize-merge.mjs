@@ -125,6 +125,13 @@ export function normalizeUpstreamMerge(base, { root = ROOT, upstream } = {}) {
   const scratch = mkdtempSync(join(tmpdir(), 'nulu-branded-merge-'))
   try {
     for (const [path, stages] of conflicts) {
+      if (path === 'pnpm-lock.yaml') {
+        // Resolver output is never merged as text or shown to the worker: keep the qualified Nulu
+        // resolutions and let preparation reconcile them with the merged package manifests.
+        run(['checkout', base, '--', path])
+        result.lockfile = 'reconciled-from-nulu-base'
+        continue
+      }
       if (!brandablePath(path) || !regularFile(root, path)
         || ![1, 2, 3].every(stage => /^100(?:644|755)$/.test(stages[stage]?.mode ?? ''))) continue
       const destination = readablePath(path, root)

@@ -119,8 +119,8 @@ try {
       manifest.version = version
       writeFileSync(join(ROOT, path), `${JSON.stringify(manifest, null, 2)}\n`)
     }
-    // Lockfile generation may change metadata but never selects a different dependency version.
-    pnpm(['install', '--lockfile-only'], { env: environment })
+    // Existing resolutions are kept; only manifests changed by this batch are resolved again, and CI must not freeze that.
+    pnpm(['install', '--lockfile-only', '--no-frozen-lockfile'], { env: environment })
     let failure = qualify()
     for (let repair = 0; failure && repair < 2 && !baseline; repair += 1) {
       report.repairs = repair + 1

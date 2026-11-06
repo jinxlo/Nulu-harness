@@ -205,3 +205,14 @@ test('branding retains protocol identifiers and excludes historical-format reade
 test('mechanical branding leaves the existing Nulu checkout unchanged', () => {
   assert.deepEqual(rebrandTree({ check: true }), [])
 })
+
+test('a conflicting lockfile keeps the qualified Nulu resolutions for later reconciliation', t => {
+  const lock = 'pnpm-lock.yaml'
+  const locked = version => `lockfileVersion: '9.0'\npackages:\n  left-pad@${version}:\n    resolution: {integrity: sha512-${version}}\n`
+  const f = fixture(t, { [lock]: locked('1.0.0'), [path]: ancestor }, { [lock]: locked('1.1.0'), [path]: ours }, { [lock]: locked('1.2.0'), [path]: theirs })
+  const result = normalizeUpstreamMerge(f.base, { root: f.root })
+  assert.equal(f.run(['diff', '--name-only', '--diff-filter=U']).trim(), '')
+  assert.equal(f.read(lock), locked('1.1.0'))
+  assert.equal(result.lockfile, 'reconciled-from-nulu-base')
+  assert.deepEqual(result.resolved, [path])
+})
