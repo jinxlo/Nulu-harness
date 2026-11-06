@@ -105,7 +105,7 @@ try {
   const { executable, bundle, marker } = installed
   assert.ok(existsSync(executable), 'Installation did not produce the application executable')
   if (marker) writeFileSync(marker, 'installed-before-self-update')
-  const release = 'https://github.com/jinxlo/Nulu-harness/releases/download/v99.0.0'
+  const release = 'https://platform.nuluai.com/downloads/harness'
   const feed = { release, name: `nulu-harness-99.0.0-${suffix}`, file: asset, size: statSync(asset).size, sha256: sha256(asset), notices }
 
   const application = await launch(executable, 'before')
@@ -118,11 +118,8 @@ try {
     const originalFetch = globalThis.fetch
     globalThis.fetch = async (input, init) => {
       const url = String(input)
-      if (url.startsWith('https://api.github.com/repos/jinxlo/Nulu-harness/releases')) {
-        const latest = { tag_name: 'v99.0.0', name: 'Nulu Harness 99.0.0', html_url: 'https://github.com/jinxlo/Nulu-harness/releases/tag/v99.0.0', published_at: '2026-11-06T00:00:00Z', draft: false, prerelease: false }
-        return Response.json(url.endsWith('/latest') ? latest : [latest])
-      }
-      if (url === `${served.release}/SHA256SUMS`) return new Response(`${served.sha256}  ${served.name}\n`)
+      if (url === `${served.release}/nulu-release.json`) return Response.json({ schemaVersion: 1, version: '99.0.0', downloads: [] })
+      if (url === `${served.release}/SHA256SUMS-99.0.0`) return new Response(`${served.sha256}  ${served.name}\n`)
       if (url === `${served.release}/${served.name}`) {
         return new Response(Readable.toWeb(fs.createReadStream(served.file)), { headers: { 'content-length': String(served.size) } })
       }

@@ -22,8 +22,8 @@ afterEach(() => {
   for (const root of roots.splice(0)) rmSync(root, { recursive: true, force: true })
 })
 
-const release = 'https://github.com/jinxlo/Nulu-harness/releases/download/v2.0.0'
-const published = { version: '2.0.0', tagName: '2.0.0', name: 'Nulu Harness 2.0.0', url: 'https://github.com/jinxlo/Nulu-harness/releases/tag/v2.0.0', publishedAt: '' }
+const release = 'https://platform.nuluai.com/downloads/harness'
+const published = { version: '2.0.0', url: 'https://www.nuluai.com/harness' }
 
 /** Serve one release asset and its checksum list; `listed` overrides the published digest. */
 function releaseServer(asset: string, bytes: Buffer, listed?: string): { fetch: typeof fetch; requests: string[] } {
@@ -34,7 +34,7 @@ function releaseServer(asset: string, bytes: Buffer, listed?: string): { fetch: 
     fetch: async (input: Parameters<typeof fetch>[0]) => {
       const url = input as string
       requests.push(url)
-      if (url === `${release}/SHA256SUMS`) return new Response(`${'0'.repeat(64)}  other-file\n${digest}  ${asset}\n`)
+      if (url === `${release}/SHA256SUMS-2.0.0`) return new Response(`${'0'.repeat(64)}  other-file\n${digest}  ${asset}\n`)
       if (url === `${release}/${asset}`) return new Response(new Uint8Array(bytes), { headers: { 'content-length': String(bytes.length) } })
       return new Response('missing', { status: 404 })
     },

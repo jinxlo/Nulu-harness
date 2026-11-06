@@ -1,4 +1,4 @@
-/** Install published Nulu releases in place when the package carries no signed Electron update feed. */
+/** Install published Nulu releases from the Nulu download host in place when the package carries no signed Electron update feed. */
 
 import { execFile, spawn } from 'node:child_process'
 import { createHash } from 'node:crypto'
@@ -9,13 +9,7 @@ import { Readable, Transform } from 'node:stream'
 import { pipeline } from 'node:stream/promises'
 import type { ReadableStream } from 'node:stream/web'
 import { promisify } from 'node:util'
-import {
-  fetchLatestGitHubRelease,
-  githubReleaseOwner,
-  githubReleaseRepo,
-  isNewerVersion,
-  type GitHubReleaseInfo,
-} from './github-update-check.ts'
+import { fetchLatestRelease, isNewerVersion, releaseOrigin, type ReleaseInfo } from './release-feed.ts'
 
 /** Updater operations the update coordinator calls; electron-updater's `AppUpdater` also satisfies them. */
 export interface DesktopReleaseUpdater {
@@ -142,7 +136,7 @@ export interface ReleaseSelfUpdaterOptions {
   readonly onProgress?: (fraction: number | undefined) => void
   readonly pid?: number
   readonly env?: NodeJS.ProcessEnv
-  readonly fetchRelease?: () => Promise<GitHubReleaseInfo | null>
+  readonly fetchRelease?: () => Promise<ReleaseInfo | null>
   readonly fetch?: typeof fetch
   readonly spawn?: typeof spawn
   /** Expands a macOS release archive into an empty directory. */
@@ -155,8 +149,8 @@ async function extractWithDitto(archive: string, destination: string): Promise<v
 }
 
 /**
- * Downloads the release asset for this installation from the Nulu GitHub release, verifies it against
- * the release's published SHA-256 list, replaces the installation, and restarts the application.
+ * Downloads the release file for this installation from the Nulu download host, verifies it against that
+ * version's published SHA-256 list, replaces the installation, and restarts the application.
  */
 export class ReleaseSelfUpdater implements DesktopReleaseUpdater {
   autoDownload = false
@@ -173,7 +167,7 @@ export class ReleaseSelfUpdater implements DesktopReleaseUpdater {
    */
   async checkForUpdates(): ReturnType<DesktopReleaseUpdater['checkForUpdates']> {
     await this.removeLeftovers()
-    const release = await (this.options.fetchRelease ?? fetchLatestGitHubRelease)()
+    const release = await (this.options.fetchRelease ?? fetchLatestRelease)()
     if (release === null || !isNewerVersion(this.options.currentVersion, release.version)) {
       this.availableVersion = undefined
       return null
@@ -193,12 +187,12 @@ export class ReleaseSelfUpdater implements DesktopReleaseUpdater {
     const { target } = this.options
     const env = this.options.env ?? process.env
     const asset = `nulu-harness-${version}-${target.assetSuffix}`
-    const release = `https://github.com/${githubReleaseOwner(env)}/${githubReleaseRepo(env)}/releases/download/v${version}`
+    const release = releaseOrigin(env)
     await this.removeLeftovers()
     const staging = await mkdtemp(join(target.stagingRoot, SELF_UPDATE_STAGING_PREFIX))
     try {
       const file = join(staging, asset)
-      await this.download(`${release}/${asset}`, file, await this.publishedDigest(release, asset))
+      await this.download(`${release}/${asset}`, file, await this.publishedDigest(`${release}/SHA256SUMS-${version}`, asset))
       const installed = await this.install(file, staging)
       this.availableVersion = undefined
       return [installed]
@@ -229,8 +223,8 @@ export class ReleaseSelfUpdater implements DesktopReleaseUpdater {
     })
   }
 
-  private async publishedDigest(release: string, asset: string): Promise<string> {
-    const response = await this.request(`${release}/SHA256SUMS`)
+  private async publishedDigest(checksums: string, asset: string): Promise<string> {
+    const response = await this.request(checksums)
     if (!response.ok) throw new Error(`desktop update: release checksums returned HTTP ${response.status}`)
     for (const line of (await response.text()).split('\n')) {
       const entry = /^([a-f0-9]{64}) [ *](.+)$/.exec(line.trim())

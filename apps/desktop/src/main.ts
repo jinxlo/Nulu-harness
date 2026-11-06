@@ -23,7 +23,7 @@ import { DESKTOP_IPC, type DesktopUpdateState } from './ipc.ts'
 import { formatDesktopMessage, resolveDesktopLocale } from './locale.ts'
 import { claimDesktopSingleInstance } from './single-instance.ts'
 import { DesktopUpdateCoordinator } from './update-coordinator.ts'
-import { fetchLatestGitHubRelease, githubReleaseOwner, githubReleaseRepo, isNewerVersion } from './github-update-check.ts'
+import { fetchLatestRelease, isNewerVersion, RELEASE_PAGE } from './release-feed.ts'
 import { ReleaseSelfUpdater, resolveSelfUpdateTarget } from './release-self-update.ts'
 import { desktopErrorState } from './startup-error.ts'
 import { startupFailureDocument } from './startup-document.ts'
@@ -281,7 +281,7 @@ async function main(): Promise<void> {
     shellInstallerOwnsQuit = true
     await backend.stop()
   }
-  // The AppImage names a feed, but Linux releases ship only through GitHub Releases and nothing is uploaded there.
+  // The AppImage names a feed that is never uploaded; Linux releases ship only through the Nulu download host.
   const signedUpdateFeed = app.isPackaged && process.platform !== 'linux'
     && existsSync(join(process.resourcesPath, 'app-update.yml'))
   // Packages without a hosted feed replace themselves from the published Nulu release where the installation allows it.
@@ -465,8 +465,7 @@ async function main(): Promise<void> {
       cancelId: 1,
     })
     if (fallback.response === 0) {
-      await shell.openExternal(`https://github.com/${githubReleaseOwner()}/${githubReleaseRepo()}/releases/latest`)
-        .catch(() => undefined)
+      await shell.openExternal(RELEASE_PAGE).catch(() => undefined)
     }
   }
 
@@ -484,15 +483,13 @@ async function main(): Promise<void> {
   }
 
   /**
-   * Check the GitHub release feed for a newer version and prompt the user to
-   * download it. Independent of the COS-hosted installer stream: this is the
-   * "is there an update on GitHub" signal, and the download button opens the
-   * release page.
+   * Check the Nulu release catalog for a newer version and offer the download
+   * page. Used by installations that cannot replace themselves.
    */
-  let githubUpdatePrompted = false
-  const checkGitHubRelease = async (manual: boolean): Promise<void> => {
+  let downloadNoticeShown = false
+  const checkDownloadNotice = async (manual: boolean): Promise<void> => {
     const currentVersion = app.getVersion()
-    const release = await fetchLatestGitHubRelease().catch(() => null)
+    const release = await fetchLatestRelease().catch(() => null)
     if (release === null || !isNewerVersion(currentVersion, release.version)) {
       if (manual) {
         await dialog.showMessageBox({
@@ -503,13 +500,13 @@ async function main(): Promise<void> {
       }
       return
     }
-    if (!manual && githubUpdatePrompted) return
-    githubUpdatePrompted = true
+    if (!manual && downloadNoticeShown) return
+    downloadNoticeShown = true
     const result = await dialog.showMessageBox({
       type: 'info',
       title: messages.updateTitle,
-      message: messages.githubUpdateAvailable,
-      detail: formatDesktopMessage(messages.githubUpdateDetail, { version: release.version }),
+      message: messages.downloadUpdateAvailable,
+      detail: formatDesktopMessage(messages.downloadUpdateDetail, { version: release.version }),
       buttons: [messages.download, messages.later],
       defaultId: 0,
       cancelId: 1,
@@ -521,7 +518,7 @@ async function main(): Promise<void> {
 
   // Installations that cannot replace themselves receive the download notice instead.
   const checkForUpdates = (manual: boolean): void => {
-    void (signedUpdateFeed || selfUpdateTarget !== undefined ? checkAndPrompt(manual) : checkGitHubRelease(manual))
+    void (signedUpdateFeed || selfUpdateTarget !== undefined ? checkAndPrompt(manual) : checkDownloadNotice(manual))
   }
 
   Menu.setApplicationMenu(Menu.buildFromTemplate([{

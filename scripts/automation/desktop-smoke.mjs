@@ -77,10 +77,9 @@ try {
           const originalFetch = globalThis.fetch
           globalThis.fetch = async (input, init) => {
             const url = String(input)
-            if (url.startsWith('https://api.github.com/repos/')) {
+            if (url === 'https://platform.nuluai.com/downloads/harness/nulu-release.json') {
               requests.push(url)
-              const release = { tag_name: 'v99.0.0', name: 'Nulu Harness 99.0.0', html_url: 'https://github.com/jinxlo/Nulu-harness/releases/tag/v99.0.0', published_at: '2026-11-04T00:00:00Z', draft: false, prerelease: false }
-              return Response.json(url.includes('/latest') ? release : [release])
+              return Response.json({ schemaVersion: 1, version: '99.0.0', downloads: [] })
             }
             return originalFetch(input, init)
           }
@@ -98,9 +97,9 @@ try {
               else if (Date.now() > deadline) { clearInterval(timer); reject(new Error('Update menu did not offer the Nulu release')) }
             }, 50)
           })
-          return requests.some(url => url.startsWith('https://api.github.com/repos/jinxlo/Nulu-harness/releases'))
+          return requests.length > 0
         })
-        assert.equal(notified, true, 'The installed update menu must use the Nulu release repository')
+        assert.equal(notified, true, 'The installed update menu must read the Nulu release catalog')
       }
       await window.screenshot({ path: join(evidence, `${target}-${stage.label}.png`), fullPage: true })
       if (attempt === 0) {

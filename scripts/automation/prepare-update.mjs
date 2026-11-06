@@ -51,7 +51,12 @@ try {
   report.base = base
   report.expectedMain = expectedMain
   const baseVersion = json('package.json').version
-  const publicResponse = await fetch('https://api.github.com/repos/jinxlo/Nulu-harness/releases/latest', { signal: AbortSignal.timeout(30000) })
+  // The release repository is private; the job token is read here only and never reaches the candidate's own commands.
+  const releaseToken = process.env.GH_TOKEN || process.env.GITHUB_TOKEN
+  const publicResponse = await fetch('https://api.github.com/repos/jinxlo/Nulu-harness/releases/latest', {
+    headers: { accept: 'application/vnd.github+json', ...(releaseToken ? { authorization: `Bearer ${releaseToken}` } : {}) },
+    signal: AbortSignal.timeout(30000),
+  })
   if (!publicResponse.ok) throw new Error(`Cannot establish current published version: HTTP ${publicResponse.status}`)
   const published = (await publicResponse.json()).tag_name?.replace(/^v/, '')
   if (!/^\d+\.\d+\.\d+$/.test(published ?? '')) throw new Error('Published release does not identify a stable version')

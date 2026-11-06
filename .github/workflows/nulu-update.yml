@@ -61,6 +61,7 @@ jobs:
         env:
           WORLD_APP_TECHNOLOGIES_API_KEY: ${{ secrets.WORLD_APP_TECHNOLOGIES_API_KEY_EXTERNAL }}
           NULU_BASELINE_RELEASE: ${{ inputs.baseline || vars.NULU_NEEDS_BASELINE == 'true' }}
+          GH_TOKEN: ${{ github.token }}
         run: pnpm exec node scripts/automation/prepare-update.mjs
       - name: Push isolated candidate
         if: steps.prepare.outputs.changed == 'true'
