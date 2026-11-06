@@ -79,7 +79,7 @@ try {
   const publishOne = async () => {
     for (let index = next++; index < tarballs.length; index = next++) {
       const published = await new Promise(accept => {
-        const child = spawn('npm', ['publish', tarballs[index], ...registryArgs, '--provenance=false', '--loglevel=error'], { env, shell: windows, stdio: ['ignore', 'ignore', 'pipe'] })
+        const child = spawn('npm', ['publish', tarballs[index], ...registryArgs, '--loglevel=error'], { env, shell: windows, stdio: ['ignore', 'ignore', 'pipe'] })
         let stderr = ''
         child.stderr.on('data', chunk => { stderr += chunk })
         child.on('close', code => accept({ code, stderr }))
