@@ -96,7 +96,8 @@ jobs:
     if: inputs.publish
     needs: [pack, install]
     runs-on: ubuntu-24.04
-    timeout-minutes: 60
+    # A scope new to npm is rate limited; the publisher waits it out, so this job can take hours.
+    timeout-minutes: 350
     environment: npm-publish
     steps:
       - uses: actions/checkout@v6
@@ -116,6 +117,7 @@ jobs:
       - name: Publish the harness packages
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NULU_PUBLISH_SPACING_MS: '15000'
         run: pnpm run release:publish --family nulu --from dist/npm
       # Last, so `npm install -g nulu-harness` never names a launcher version that is not yet installable.
       - name: Publish nulu-harness

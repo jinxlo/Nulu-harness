@@ -34,12 +34,22 @@ const TRANSIENT_PUBLISH_CODES = ['E409', 'E429', 'E500', 'E502', 'E503', 'E504',
 const PUBLISH_ATTEMPTS = 4
 
 /**
+ * Attempts for one tarball the registry refused with `E429`. A scope that is new to the registry is limited in
+ * how many packages it may create per interval; waiting out the limit is the only remedy.
+ */
+const RATE_LIMIT_ATTEMPTS = 12
+
+/** First wait after `E429`; it doubles per attempt up to {@link RATE_LIMIT_MAX_WAIT_MS}. */
+const RATE_LIMIT_WAIT_MS = 60_000
+const RATE_LIMIT_MAX_WAIT_MS = 15 * 60_000
+
+/**
  * Shortest gap between two publishes, and the first retry backoff.
  *
  * The registry needs a moment to commit a packument before the next write; back
  * to back publishes are what produce `E409`.
  */
-const PUBLISH_SPACING_MS = 2_000
+const PUBLISH_SPACING_MS = Number(process.env.NULU_PUBLISH_SPACING_MS ?? 2_000)
 
 /** What the registry knows about one version. */
 type RegistryState =
@@ -102,7 +112,8 @@ async function publishTarball(
   distTag: string | undefined,
 ): Promise<void> {
   const tagArgs = distTag === undefined ? [] : ['--tag', distTag]
-  for (let tries = 1; tries <= PUBLISH_ATTEMPTS; tries += 1) {
+  let rateLimited = 0
+  for (let tries = 1; tries <= PUBLISH_ATTEMPTS + rateLimited; tries += 1) {
     // No --access: every release member declares its own publishConfig, and
     // a command-line flag would override it. check-workspace-constraints
     // requires a public access level on every release member.
@@ -115,7 +126,14 @@ async function publishTarball(
       console.log(`release publish: ${name}@${version} landed despite a reported failure, continuing`)
       return
     }
-    if (tries === PUBLISH_ATTEMPTS || !isTransientFailure(output)) {
+    if (output.includes('code E429') && rateLimited < RATE_LIMIT_ATTEMPTS) {
+      const wait = Math.min(RATE_LIMIT_WAIT_MS * 2 ** rateLimited, RATE_LIMIT_MAX_WAIT_MS)
+      rateLimited += 1
+      console.log(`release publish: ${name}@${version} was rate limited (${String(rateLimited)} of ${String(RATE_LIMIT_ATTEMPTS)}), waiting ${String(wait / 1000)}s`)
+      await sleep(wait)
+      continue
+    }
+    if (tries >= PUBLISH_ATTEMPTS + rateLimited || !isTransientFailure(output)) {
       throw new Error(`npm publish ${name}@${version} failed:\n${output}`)
     }
     const backoff = PUBLISH_SPACING_MS * 2 ** (tries - 1)
