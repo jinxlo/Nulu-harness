@@ -92,7 +92,7 @@ try { git(['merge', '--no-commit', '--no-ff', 'upstream'], { stdio: 'pipe' }) } 
 const status = git(['status', '--porcelain=v1', '-z']).split('\0').filter(Boolean)
 const conflicts = status.filter(entry => /^(?:DD|AU|UD|UA|DU|AA|UU) /.test(entry)).map(entry => ({ code: entry.slice(0, 2), path: entry.slice(3) }))
 const nuluVersion = JSON.parse(git(['show', `${nuluTree}:package.json`])).version
-const resolved = { retiredTranslation: [], acceptedUpstreamRemoval: [], keptNuluRemoval: [], generatedManifest: [], recordedData: [] }
+const resolved = { retiredTranslation: [], acceptedUpstreamRemoval: [], keptNuluRemoval: [], nuluOwnedBrand: [], generatedManifest: [], recordedData: [] }
 const review = []
 
 for (const { code, path } of conflicts) {
@@ -100,7 +100,15 @@ for (const { code, path } of conflicts) {
   const remove = () => git(['rm', '-q', '--', path])
   if (retiredPath(path)) { remove(); resolved.retiredTranslation.push(path); continue }
   if (code === 'UD') { remove(); resolved.acceptedUpstreamRemoval.push(path); continue }
-  if (code === 'DU' && /^(?:\.agents\/notes\/|docs\/)/.test(path)) { remove(); resolved.keptNuluRemoval.push(path); continue }
+  // Nulu removed upstream design notes, documentation pages and the translation tooling it does not ship.
+  if (code === 'DU' && (/^(?:\.agents\/notes\/|docs\/)/.test(path) || /(?:^|\/)[\w-]*translation[\w-]*\.ts$/.test(path))) { remove(); resolved.keptNuluRemoval.push(path); continue }
+  // The brand package is Nulu's own; upstream artwork and occupants added to it are not taken.
+  if (path.startsWith('packages/client/ui-brand/')) {
+    if (code === 'UA' || code === 'AU') remove()
+    else take('ours')
+    resolved.nuluOwnedBrand.push(path)
+    continue
+  }
   if (code === 'UU' && path.endsWith('package.json')) {
     // Manifests come from upstream; Nulu owns only the version and the repository address.
     const ours = JSON.parse(git(['show', `:2:${path}`]))
@@ -116,7 +124,7 @@ for (const { code, path } of conflicts) {
       continue
     }
   }
-  if (/^snapshots\/|(?:^|\/)(?:__snapshots__|expected)\/|\.expected\.|^\.agents\/notes\/|^docs\/(?:persistence-changes|subsystems|i18n)\//.test(path)) {
+  if (/^snapshots\/|^scripts\/snapshots\/|(?:^|\/)(?:__snapshots__|expected)\/|\.expected\.|^\.agents\/notes\/|^docs\/(?:persistence-changes|subsystems|i18n)\//.test(path)) {
     // Recorded output and upstream design notes follow upstream; qualification regenerates or checks them.
     if (code === 'DU' || code === 'UA' || code === 'AU' || code === 'UU' || code === 'AA') { take('theirs'); resolved.recordedData.push(path); continue }
   }

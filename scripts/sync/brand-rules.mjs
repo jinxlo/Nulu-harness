@@ -5,7 +5,7 @@
  * BRAND_RULES_VERSION is recorded in every release manifest. Change it whenever a rule changes.
  */
 
-export const BRAND_RULES_VERSION = '2026.11.06-1'
+export const BRAND_RULES_VERSION = '2026.11.06-2'
 
 /** Files whose text is never rewritten: legal notices keep their owners' names, binary data stays byte-identical. */
 export function brandExempt(path) {
@@ -29,7 +29,7 @@ export const RULES = [
   // Package and module names that Nulu renamed by role, not by brand.
   [/deepseek-llm-api-extensions/g, 'llm-api-extensions'],
   [/plugin-package-inventory-deepseek/g, 'plugin-package-inventory'],
-  [/session-log-deepseek(?!\/delivery-accepted\b)/g, 'session-log-gateway'],
+  [/session-log-deepseek/g, 'session-log-gateway'],
   [/web-search-deepseek/g, 'web-search-gateway'],
   [/llm-deepseek/g, 'llm-gateway'],
   [/SessionLogDeepSeek/g, 'SessionLogGateway'],
@@ -44,7 +44,12 @@ export const RULES = [
   [/deepseek-chat/g, 'nulu-5'],
   // Scopes, endpoints and credentials.
   [/@deepseek-ai\/dsh/g, '@worldapptechnologies/nulu'],
-  [/@deepseek-ai\//g, '@worldapptechnologies/'],
+  [/@deepseek-ai(?![\w-])/g, '@worldapptechnologies'],
+  // The brand package and its occupants.
+  [/ui-brand-official/g, 'ui-brand'],
+  [/OfficialBrand(?=[A-Z])/g, 'NuluBrand'],
+  [/FishLogo/g, 'NuluMark'],
+  [/深度求索/g, '深度探索'],
   [/https:\/\/api\.deepseek\.com\/anthropic/g, 'https://platform.worldapptechnologies.com/api'],
   [/https:\/\/api\.deepseek\.com/g, 'https://platform.worldapptechnologies.com/api/v1'],
   [/DEEPSEEK_HARNESS/g, 'NULU_HARNESS'],
@@ -66,12 +71,19 @@ export const RULES = [
 ]
 
 /**
+ * Identifiers that sign or address recorded data. They keep upstream's spelling so existing records still verify.
+ */
+export const PRESERVED = ['dsh-persistence-schema-v1', 'dsh-translation-target']
+
+/**
  * Apply the rules to one text.
  * @param {string} text - file content or repository path.
  * @returns {string} branded text.
  */
 export function brand(text) {
+  const kept = []
   let out = text
+  for (const literal of PRESERVED) out = out.split(literal).join(`\u0000${kept.push(literal) - 1}\u0000`)
   for (const [pattern, replacement] of RULES) out = out.replace(pattern, replacement)
-  return out
+  return out.replace(/\u0000(\d+)\u0000/g, (_match, index) => kept[Number(index)])
 }
