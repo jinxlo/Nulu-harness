@@ -26,10 +26,10 @@ it('ships install metadata with the built web application', async () => {
   })
 })
 
-it('ships a favicon that switches to a light mark under dark color scheme', async () => {
+it('ships the Nulu AI logo on its own dark tile, legible on light and dark browser chrome', async () => {
   const favicon = await readFile(join(DIST_ROOT, 'favicon.svg'), 'utf8')
-  // The light fill must live inside the dark-scheme media query, so the icon
-  // stays black in light mode and only turns white under a dark scheme.
-  expect(favicon).toMatch(/@media \(prefers-color-scheme: dark\)\s*{\s*path\s*{[^}]*fill:\s*#fff/i)
-  expect(favicon).toContain('fill="#000"')
+  // The tile carries its own background, so the icon needs no color-scheme switch.
+  expect(favicon).toContain('<rect x="0" y="0" width="1024" height="1024" rx="228" fill="#0E1016"/>')
+  expect(favicon).toContain('fill="#FCBA01"')
+  expect(favicon).not.toContain('prefers-color-scheme')
 })
