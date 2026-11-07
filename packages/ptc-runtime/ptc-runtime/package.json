@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-ptc-runtime",
   "description": "Abstract PTC execution seam (ctx.ptcRuntime) for the Nulu Harness",
-  "version": "1.6.4",
+  "version": "1.6.5",
   "publishConfig": {
     "access": "public"
   },

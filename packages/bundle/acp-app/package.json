@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-acp-app",
   "description": "The nulu ACP profile bundle: automation-only JSON-RPC stdio and process lifecycle over nulu-base",
-  "version": "1.6.4",
+  "version": "1.6.5",
   "publishConfig": {
     "access": "public"
   },
