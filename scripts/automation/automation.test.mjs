@@ -119,13 +119,18 @@ test('adapter rejects truncated decisions before executing even a complete finis
   })
 })
 
-test('model policy rejects foreign IDs even alongside valid Nulu IDs', () => {
+test('model policy requires one Nulu route with only allowed IDs', () => {
   const gateway = "const DEFAULT_MODELS = [{id: 'nulu-5-ultra'}]"
-  const bundle = '- insert:\n  - id: llm-pi-ai\n    config:\n      providers:\n        worldapp:\n          baseURL: https://platform.worldapptechnologies.com/api/v1\n          apiKeyEnv: WORLD_APP_TECHNOLOGIES_API_KEY\n          models:\n          - id: nulu-5-ultra\n'
-  assert.equal(validateModelPolicy(gateway, bundle, ['nulu-5-ultra']), true)
-  assert.throws(() => validateModelPolicy(gateway.replace('}]', "}, {id: 'foreign-model'}]"), bundle, ['nulu-5-ultra']))
-  assert.throws(() => validateModelPolicy(gateway, bundle.replace('worldapp:', 'other:'), ['nulu-5-ultra']))
-  assert.throws(() => validateModelPolicy(gateway, bundle.replace('https://platform.worldapptechnologies.com/api/v1', 'https://wrong.example/v1'), ['nulu-5-ultra']))
+  const config = "export const PUBLIC_BASE_URL = 'https://platform.worldapptechnologies.com/api/v1'\nconst DEFAULT_API_KEY_ENV = 'WORLD_APP_TECHNOLOGIES_API_KEY'\n"
+  const bundle = '- insert:\n  - id: agent-default-model\n    config:\n      provider: worldapp-gateway\n      model: nulu-5-ultra\n  - id: llm-pi-ai\n    name: pi\n  - id: llm-gateway\n    name: gateway\n'
+  assert.equal(validateModelPolicy(gateway, bundle, ['nulu-5-ultra'], config), true)
+  assert.throws(() => validateModelPolicy(gateway.replace('}]', "}, {id: 'foreign-model'}]"), bundle, ['nulu-5-ultra'], config))
+  assert.throws(() => validateModelPolicy(gateway, bundle, ['nulu-5-ultra'], config.replace('platform.worldapptechnologies.com', 'wrong.example')))
+  assert.throws(() => validateModelPolicy(gateway, bundle.replace('provider: worldapp-gateway', 'provider: worldapp'), ['nulu-5-ultra'], config))
+  assert.throws(() => validateModelPolicy(gateway, bundle.replace('model: nulu-5-ultra', 'model: foreign-model'), ['nulu-5-ultra'], config))
+  assert.throws(() => validateModelPolicy(gateway, bundle.replace('  - id: llm-gateway\n    name: gateway\n', ''), ['nulu-5-ultra'], config))
+  const duplicate = bundle.replace('    name: pi\n', '    config:\n      providers:\n        worldapp:\n          models:\n          - id: nulu-5-ultra\n')
+  assert.throws(() => validateModelPolicy(gateway, duplicate, ['nulu-5-ultra'], config), /pi-ai adapter must ship without provider profiles/)
   assert.throws(() => gatewayModelIds('const DEFAULT_MODELS = unverifiedCatalog()'))
   assert.throws(() => gatewayModelIds('const DEFAULT_MODELS = [{id: unknownId}]'))
 })

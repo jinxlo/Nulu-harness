@@ -116,19 +116,18 @@ function check(name, pass, detail = '') {
   check('models: gateway DEFAULT_MODELS only Nulu', ok, `found: ${ids.join(', ')}`)
 }
 
-// 8. Models: base bundle worldapp route only allowed Nulu models.
+// 8. Models: the default model is an allowed Nulu model on the native gateway route.
 {
   const base = read(join(ROOT, 'packages/bundle/base/cordis.patch.yml'))
   const allowed = new Set(policy.models.allowed_chat_model_ids)
-  const ids = [...base.matchAll(/- id: (nulu-[a-z0-9-]+)/g)].map(m => m[1])
-  const ok = ids.length > 0 && ids.every(id => allowed.has(id))
-  check('models: worldapp route only Nulu', ok, `found: ${ids.join(', ')}`)
+  const selection = /- id: agent-default-model\n(?:\s+[^\n]*\n)*?\s+provider: (\S+)\n\s+model: (\S+)/.exec(base)
+  check('models: default is a Nulu model on worldapp-gateway', selection?.[1] === 'worldapp-gateway' && allowed.has(selection[2]), `found: ${selection?.[1]}/${selection?.[2]}`)
 }
 
-// 9. Provider: World App route present.
+// 9. Provider: native Nulu gateway mounted.
 {
   const base = read(join(ROOT, 'packages/bundle/base/cordis.patch.yml'))
-  check('providers: worldapp route registered', /worldapp:/.test(base))
+  check('providers: worldapp-gateway route mounted', /- id: llm-gateway\n\s+name: '@worldapptechnologies\/nulu-llm-gateway'/.test(base))
 }
 
 // 10. Removed DeepSeek packages absent.
@@ -172,7 +171,8 @@ function check(name, pass, detail = '') {
 
 try {
   validateModelPolicy(read(join(ROOT, 'packages/llm/llm-gateway/src/common/models.ts')),
-    read(join(ROOT, 'packages/bundle/base/cordis.patch.yml')), policy.models.allowed_chat_model_ids)
+    read(join(ROOT, 'packages/bundle/base/cordis.patch.yml')), policy.models.allowed_chat_model_ids,
+    read(join(ROOT, 'packages/llm/llm-gateway/src/config.ts')))
   check('models: every default ID and API route conforms to policy', true)
 } catch (error) {
   check('models: every default ID and API route conforms to policy', false, error.message)

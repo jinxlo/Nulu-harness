@@ -22,15 +22,24 @@ export function gatewayModelIds(source) {
   })
 }
 
-export function validateModelPolicy(gateway, bundle, allowed) {
+const NULU_API_URL = 'https://platform.worldapptechnologies.com/api/v1'
+const NULU_API_KEY_ENV = 'WORLD_APP_TECHNOLOGIES_API_KEY'
+
+/**
+ * The shipped composition serves Nulu models through one route: the native gateway `worldapp-gateway`, whose
+ * catalog holds only allowed ids, whose endpoint and key variable are the Nulu API's, and which the default model
+ * names. The pi-ai adapter stays dormant, so no second route lists the same models.
+ */
+export function validateModelPolicy(gateway, bundle, allowed, gatewayConfig) {
   const ids = gatewayModelIds(gateway)
   if (ids.length === 0 || ids.some(id => !allowed.includes(id))) throw new Error('Default gateway catalog contains a forbidden model')
+  if (!gatewayConfig.includes(`PUBLIC_BASE_URL = '${NULU_API_URL}'`) || !gatewayConfig.includes(`DEFAULT_API_KEY_ENV = '${NULU_API_KEY_ENV}'`)) throw new Error('Default Nulu API or model configuration changed')
   const patches = load(bundle, { schema: profileSchema })
   const rows = patches.flatMap(patch => patch.insert ?? [])
-  const providers = rows.find(row => row.id === 'llm-pi-ai')?.config?.providers
-  if (!providers || Object.keys(providers).some(route => route !== 'worldapp')) throw new Error('Default provider configuration must contain only worldapp')
-  const route = providers.worldapp
-  if (route.baseURL !== 'https://platform.worldapptechnologies.com/api/v1' || route.apiKeyEnv !== 'WORLD_APP_TECHNOLOGIES_API_KEY'
-    || !Array.isArray(route.models) || route.models.length === 0 || route.models.some(model => !allowed.includes(model.id))) throw new Error('Default Nulu API or model configuration changed')
+  if (!rows.some(row => row.id === 'llm-gateway')) throw new Error('The base composition must mount the native Nulu gateway')
+  const piProviders = rows.find(row => row.id === 'llm-pi-ai')?.config?.providers
+  if (piProviders && Object.keys(piProviders).length > 0) throw new Error('The pi-ai adapter must ship without provider profiles; Nulu models are served by worldapp-gateway only')
+  const selection = rows.find(row => row.id === 'agent-default-model')?.config
+  if (selection?.provider !== 'worldapp-gateway' || !allowed.includes(selection.model)) throw new Error('The default model must be an allowed Nulu model on worldapp-gateway')
   return true
 }

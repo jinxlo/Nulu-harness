@@ -75,7 +75,7 @@ jobs:
           name: update-report
           path: reports/upstream-sync/
           if-no-files-found: error
-          retention-days: 30
+          retention-days: 7
 
   quality:
     needs: prepare
@@ -201,7 +201,7 @@ jobs:
             apps/desktop/.desktop-build/targets/${{ matrix.target }}/${{ matrix.artifacts }}/*.AppImage
             evidence/
           if-no-files-found: error
-          retention-days: 30
+          retention-days: 7
 
   publish:
     needs: [prepare, quality, desktop]
