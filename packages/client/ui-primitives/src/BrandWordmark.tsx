@@ -9,6 +9,8 @@ export interface BrandWordmarkProps extends IconProps {
 
 /** Full wordmark canvas with room for supported system-font glyphs. */
 const CANVAS = { withMark: 184, nameOnly: 152 }
+/** Product name drawn as brand artwork; a brand name, never translated, and hidden from assistive technology. */
+const PRODUCT_NAME = 'Nulu Harness'
 /** Left edge of the name artwork when the mark is omitted. */
 const NAME_X = NULU_MARK_VIEWBOX.width + 8
 
@@ -41,7 +43,7 @@ export function BrandWordmark({ size = 24, className, includeMark = true }: Bran
         fontWeight="600"
         letterSpacing="-0.2"
       >
-        Nulu Harness
+        {PRODUCT_NAME}
       </text>
     </svg>
   )
