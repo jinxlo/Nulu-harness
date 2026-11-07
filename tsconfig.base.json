@@ -211,6 +211,8 @@
       "@worldapptechnologies/nulu-client-ui-sidebar": ["./packages/client/ui-sidebar/src"],
       "@worldapptechnologies/nulu-client-ui-brand-official": ["./packages/client/ui-brand/src"],
       "@worldapptechnologies/nulu-client-ui-brand-official/client": ["./packages/client/ui-brand/src/client"],
+      "@worldapptechnologies/nulu-client-ui-locale-es": ["./packages/client/ui-locale-es/src"],
+      "@worldapptechnologies/nulu-client-ui-locale-es/client": ["./packages/client/ui-locale-es/src/client/index.ts"],
       "@worldapptechnologies/nulu-client-ui-approval": ["./packages/client/ui-approval/src"],
       "@worldapptechnologies/nulu-client-ui-approval/client": ["./packages/client/ui-approval/src/client/index.ts"],
       "@worldapptechnologies/nulu-client-ui-chat": ["./packages/client/ui-chat/src"],

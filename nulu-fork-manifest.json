@@ -82,9 +82,9 @@
     },
     {
       "file": "apps/desktop/src/locale.ts",
-      "reason": "Nulu desktop update copy",
-      "upstream_behavior": "Absent update strings",
-      "nulu_behavior": "GitHub update prompt strings",
+      "reason": "Nulu desktop update copy and Spanish shell copy",
+      "upstream_behavior": "Absent update strings; English and Chinese copy only",
+      "nulu_behavior": "GitHub update prompt strings; a Spanish dictionary selected for es* application locales",
       "merge_strategy": "preserve-nulu-and-port-compatible-upstream-changes"
     },
     {
@@ -92,6 +92,20 @@
       "reason": "Nulu public gateway defaults",
       "upstream_behavior": "Resolves upstream provider endpoints and credentials",
       "nulu_behavior": "Resolves the World App Technologies public Chat Completions endpoint and Nulu credentials; Messages requires an explicit endpoint",
+      "merge_strategy": "preserve-nulu-and-port-compatible-upstream-changes"
+    },
+    {
+      "file": "packages/bundle/web-app/cordis.patch.yml",
+      "reason": "Nulu Spanish language pack row",
+      "upstream_behavior": "Browser roster without a Spanish language pack",
+      "nulu_behavior": "Mounts @worldapptechnologies/nulu-client-ui-locale-es after the locale row",
+      "merge_strategy": "preserve-nulu-and-port-compatible-upstream-changes"
+    },
+    {
+      "file": "packages/bundle/web-app/package.json",
+      "reason": "Nulu Spanish language pack dependency",
+      "upstream_behavior": "No Spanish language pack dependency",
+      "nulu_behavior": "Depends on @worldapptechnologies/nulu-client-ui-locale-es so the web profile resolves its row",
       "merge_strategy": "preserve-nulu-and-port-compatible-upstream-changes"
     }
   ],

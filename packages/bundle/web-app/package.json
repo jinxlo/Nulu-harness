@@ -67,6 +67,7 @@
     "@worldapptechnologies/nulu-client-ui-input-trigger": "workspace:^",
     "@worldapptechnologies/nulu-client-ui-jobs": "workspace:^",
     "@worldapptechnologies/nulu-client-ui-layout": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-locale-es": "workspace:^",
     "@worldapptechnologies/nulu-client-ui-message-feedback": "workspace:^",
     "@worldapptechnologies/nulu-client-ui-model-selection": "workspace:^",
     "@worldapptechnologies/nulu-client-ui-open-in-app": "workspace:^",

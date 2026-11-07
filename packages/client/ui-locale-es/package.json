@@ -1,0 +1,92 @@
+{
+  "name": "@worldapptechnologies/nulu-client-ui-locale-es",
+  "description": "Spanish language pack for the Web client: adds Español to the locale catalog and registers Spanish dictionaries over the English fallback",
+  "version": "1.6.4",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/worldapptechnologies/nulu-harness.git",
+    "directory": "packages/client/ui-locale-es"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "nulu": {
+    "client": {
+      "inject": [
+        "@worldapptechnologies/nulu-client-locale"
+      ],
+      "platform": "web"
+    }
+  },
+  "scripts": {
+    "bundle": "tsdown",
+    "watch": "tsdown --watch"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@worldapptechnologies/cordis": "workspace:^"
+  },
+  "devDependencies": {
+    "@worldapptechnologies/cordis": "workspace:^",
+    "@worldapptechnologies/nulu-client-locale": "workspace:^",
+    "@worldapptechnologies/nulu-client-test-runtime": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-agent-preset": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-approval": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-chat": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-commands": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-conversation": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-cordis": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-deliverables": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-directory-picker-browse": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-goal": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-input-trigger": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-jobs": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-message-feedback": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-model-selection": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-open-in-app": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-permission-presets": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-plan": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-reference": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-schedule": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-settings-general": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-settings-models": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-settings-plugin-inventory": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-settings-plugins": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-settings-unarchive-sessions": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-sidebar": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-sidebar-documentpreview": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-sidebar-files": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-sidebar-right": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-sidebar-terminal": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-skill": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-slots": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-subagent": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-theme": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-trajectory": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-user-questions": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-workflow-run": "workspace:^",
+    "@worldapptechnologies/nulu-client-ui-workspace": "workspace:^",
+    "@worldapptechnologies/nulu-remote-mock": "workspace:^",
+    "@worldapptechnologies/nulu-session-log-export": "workspace:^"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/client.js",
+    "lib/types/**/*.d.ts"
+  ]
+}

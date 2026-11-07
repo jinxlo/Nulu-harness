@@ -1,4 +1,4 @@
-/** Typed English and Chinese copy owned by the Electron shell. */
+/** Typed English, Chinese, and Spanish copy owned by the Electron shell. */
 
 export const en = {
   application: 'Application',
@@ -113,17 +113,74 @@ export const zh = {
   loadingPlugins: '正在读取桌面插件…',
 } as const satisfies DesktopMessages
 
+/** Neutral Latin American Spanish Desktop copy. */
+export const es = {
+  application: 'Aplicación',
+  startupFailed: 'No se pudo iniciar Nulu Harness',
+  startupLoading: 'Iniciando Nulu Harness…',
+  startupLoadingDescription: 'Tu espacio de trabajo se abrirá cuando esté listo.',
+  startupErrorDescription: 'Elige una acción de recuperación. Al desactivar los plugins de terceros se conservan sus archivos.',
+  startupReinstallAdvice: 'Si faltan archivos de la aplicación o están dañados, cierra la aplicación y vuelve a instalarla. Tus tareas se guardan por separado.',
+  startupConfigurationAdvice: 'Restablecer Desktop elimina toda la configuración del perfil de Desktop y los plugins de terceros sin copia de seguridad y luego inicia un perfil nuevo. Las tareas y la configuración compartidas se conservan.',
+  restartApplication: 'Cerrar y reiniciar',
+  resetConfiguration: 'Restablecer Desktop y reintentar',
+  disableThirdPartyPlugins: 'Desactivar todos los plugins de terceros y reintentar',
+  pluginsMenu: 'Plugins de Desktop…',
+  pluginsMenuPackagedOnly: 'Plugins de Desktop… (disponible en las aplicaciones empaquetadas)',
+  checkUpdatesMenu: 'Buscar actualizaciones…',
+  updateCheckFailedTitle: 'No se pudieron buscar actualizaciones',
+  unknownError: 'Error desconocido',
+  updateCheckTitle: 'Buscar actualizaciones',
+  updateCurrent: 'Ya tienes la versión más reciente.',
+  updateTitle: 'Actualización de Nulu Harness',
+  updateAvailable: 'Hay una actualización disponible',
+  updateDetail: 'Nulu Harness {version}\n\nEsta versión incluye su versión correspondiente de nulu. La aplicación se reiniciará después de la instalación.',
+  updateSelfInstallDetail: 'Nulu Harness {version}\n\nLa aplicación descarga esta versión, se cierra, la instala y vuelve a abrirse sin más pasos. La instalación puede tardar unos minutos.',
+  installAndRestart: 'Instalar y reiniciar',
+  later: 'Más tarde',
+  updateFailedTitle: 'No se pudo actualizar',
+  downloadUpdateAvailable: 'Hay una nueva versión disponible',
+  downloadUpdateDetail: 'Nulu Harness {version} está disponible.\n\nDescárgala de nuluai.com e instálala para mantenerte al día.',
+  download: 'Descargar',
+  pluginManagerTitle: 'Plugins de Desktop',
+  pluginWindowTitle: 'Nulu Harness — Plugins de Desktop',
+  pluginManagerDescription: 'Los plugins se instalan solo en el node_modules de Desktop y los gestiona el pnpm incluido.',
+  refresh: 'Actualizar',
+  enable: 'Activar',
+  disable: 'Desactivar',
+  disabled: 'Desactivado',
+  retry: 'Reintentar inicio',
+  disableAll: 'Desactivar todos los plugins y reintentar',
+  recoveryDescription: 'No se pudo iniciar el backend. Actualiza o desactiva los plugins incompatibles y vuelve a intentarlo. Los plugins instalados y la configuración se conservan.',
+  changingActivation: 'Cambiando la activación de plugins…',
+  npmPackage: 'Paquete npm',
+  install: 'Instalar',
+  installed: 'Instalado',
+  noPlugins: 'No hay plugins de Desktop instalados.',
+  remove: 'Quitar',
+  update: 'Actualizar',
+  targetVersion: 'Introduce la versión de destino para {name}',
+  removing: 'Quitando {name}…',
+  updating: 'Actualizando {name}…',
+  installing: 'Instalando {spec}…',
+  operationComplete: 'Listo. El backend de Desktop se reinició.',
+  refreshing: 'Actualizando…',
+  refreshed: 'Lista de plugins actualizada.',
+  loadingPlugins: 'Leyendo los plugins de Desktop…',
+} as const satisfies DesktopMessages
+
 /** Locale payload exposed to the Desktop-owned renderer. */
 export interface DesktopLocale {
-  readonly id: 'en' | 'zh-CN'
+  readonly id: 'en' | 'zh-CN' | 'es'
   readonly messages: DesktopMessages
 }
 
 /** Resolve Electron's locale to one shipped Desktop dictionary. */
 export function resolveDesktopLocale(locale: string): DesktopLocale {
-  return locale.toLowerCase().startsWith('zh')
-    ? { id: 'zh-CN', messages: zh }
-    : { id: 'en', messages: en }
+  const tag = locale.toLowerCase()
+  if (tag.startsWith('zh')) return { id: 'zh-CN', messages: zh }
+  if (tag.startsWith('es')) return { id: 'es', messages: es }
+  return { id: 'en', messages: en }
 }
 
 /** Replace named placeholders in one locale-owned message. */

@@ -204,6 +204,11 @@
     - id: locale
       name: '@worldapptechnologies/nulu-client-locale'
 
+    # Nulu Spanish language pack: Español in the language selector, English
+    # for any key it does not translate.
+    - id: ui-locale-es
+      name: '@worldapptechnologies/nulu-client-ui-locale-es'
+
     - id: ui-layout
       name: '@worldapptechnologies/nulu-client-ui-layout'
 
