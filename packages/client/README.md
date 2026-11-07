@@ -47,6 +47,7 @@ The kernel packages boot and serve the page; the UI feature packages present it.
 | [`resources/`](resources/README.md) | Unified resource model: protocol providers behind the `useResource` session standard hook | `ctx.resources` |
 | [`ui-sidebar-files/`](ui-sidebar-files/README.md) | Right-Sidebar workspace file tree tab type | — |
 | [`ui-brand/`](ui-brand/README.md) | Fills the generic browser-brand slots with the Nulu name and mark | — |
+| [`ui-locale-es/`](ui-locale-es/README.md) | Adds Spanish to the locale catalog with English fallback | — |
 | [`ui-workspace/`](ui-workspace/README.md) | Provides workspace selection and creation surfaces | — |
 | [`ui-conversation/`](ui-conversation/README.md) | Presents the active conversation and its input surface | — |
 | [`ui-chat/`](ui-chat/README.md) | Projects and renders the Chat conversation target | — |

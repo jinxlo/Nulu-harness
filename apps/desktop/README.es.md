@@ -25,7 +25,7 @@ Electron posee `$NULU_HOME/profiles/desktop`. Su `dependencies` contiene solo pl
 
 La página de inicio local expone el estado del inicio y las acciones de recuperación disponibles; el renderer nulu cargado recibe solo el marcador del protocolo de escritorio. La ventana de plugins independiente recibe operaciones estructuradas de listado, instalación, eliminación, actualización y comprobación de actualizaciones; ningún renderer recibe acceso al sistema de archivos, IPC de Electron sin procesar, un shell ni argumentos pnpm arbitrarios.
 
-Electron elige texto de shell tipado en inglés o chino según la configuración regional de su aplicación y recurre al inglés. Los menús, los diálogos nativos, la página de inicio y el renderer de gestión de plugins usan la misma carga de configuración regional; la puerta de i18n de la interfaz del cliente del repositorio comprueba estas fuentes de escritorio.
+Electron elige texto de shell tipado en inglés, chino o español según la configuración regional de su aplicación y recurre al inglés. Los menús, los diálogos nativos, la página de inicio y el renderer de gestión de plugins usan la misma carga de configuración regional; la puerta de i18n de la interfaz del cliente del repositorio comprueba estas fuentes de escritorio.
 
 ### Entorno de ejecución y activación de plugins
 

@@ -115,7 +115,7 @@ importers:
         version: 1.32.0
       mdast-util-from-markdown:
         specifier: ^2.0.3
-        version: 2.0.3
+        version: 2.0.3(supports-color@9.4.0)
       mdast-util-gfm:
         specifier: ^3.1.0
         version: 3.1.0
@@ -2001,6 +2001,9 @@ importers:
       '@worldapptechnologies/nulu-client-ui-layout':
         specifier: workspace:^
         version: link:../../client/ui-layout
+      '@worldapptechnologies/nulu-client-ui-locale-es':
+        specifier: workspace:^
+        version: link:../../client/ui-locale-es
       '@worldapptechnologies/nulu-client-ui-message-feedback':
         specifier: workspace:^
         version: link:../../client/ui-message-feedback
@@ -3195,6 +3198,132 @@ importers:
         specifier: ^18.2.0
         version: 18.3.1
 
+  packages/client/ui-locale-es:
+    devDependencies:
+      '@worldapptechnologies/cordis':
+        specifier: workspace:^
+        version: link:../../../vendor/cordis
+      '@worldapptechnologies/nulu-client-locale':
+        specifier: workspace:^
+        version: link:../locale
+      '@worldapptechnologies/nulu-client-test-runtime':
+        specifier: workspace:^
+        version: link:../../test-support/client-runtime
+      '@worldapptechnologies/nulu-client-ui-agent-preset':
+        specifier: workspace:^
+        version: link:../ui-agent-preset
+      '@worldapptechnologies/nulu-client-ui-approval':
+        specifier: workspace:^
+        version: link:../ui-approval
+      '@worldapptechnologies/nulu-client-ui-chat':
+        specifier: workspace:^
+        version: link:../ui-chat
+      '@worldapptechnologies/nulu-client-ui-commands':
+        specifier: workspace:^
+        version: link:../ui-commands
+      '@worldapptechnologies/nulu-client-ui-conversation':
+        specifier: workspace:^
+        version: link:../ui-conversation
+      '@worldapptechnologies/nulu-client-ui-cordis':
+        specifier: workspace:^
+        version: link:../../extensions/ui-cordis
+      '@worldapptechnologies/nulu-client-ui-deliverables':
+        specifier: workspace:^
+        version: link:../ui-deliverables
+      '@worldapptechnologies/nulu-client-ui-directory-picker-browse':
+        specifier: workspace:^
+        version: link:../ui-directory-picker-browse
+      '@worldapptechnologies/nulu-client-ui-goal':
+        specifier: workspace:^
+        version: link:../ui-goal
+      '@worldapptechnologies/nulu-client-ui-input-trigger':
+        specifier: workspace:^
+        version: link:../ui-input-trigger
+      '@worldapptechnologies/nulu-client-ui-jobs':
+        specifier: workspace:^
+        version: link:../ui-jobs
+      '@worldapptechnologies/nulu-client-ui-message-feedback':
+        specifier: workspace:^
+        version: link:../ui-message-feedback
+      '@worldapptechnologies/nulu-client-ui-model-selection':
+        specifier: workspace:^
+        version: link:../ui-model-selection
+      '@worldapptechnologies/nulu-client-ui-open-in-app':
+        specifier: workspace:^
+        version: link:../ui-open-in-app
+      '@worldapptechnologies/nulu-client-ui-permission-presets':
+        specifier: workspace:^
+        version: link:../ui-permission-presets
+      '@worldapptechnologies/nulu-client-ui-plan':
+        specifier: workspace:^
+        version: link:../ui-plan
+      '@worldapptechnologies/nulu-client-ui-reference':
+        specifier: workspace:^
+        version: link:../ui-reference
+      '@worldapptechnologies/nulu-client-ui-schedule':
+        specifier: workspace:^
+        version: link:../ui-schedule
+      '@worldapptechnologies/nulu-client-ui-settings-general':
+        specifier: workspace:^
+        version: link:../ui-settings-general
+      '@worldapptechnologies/nulu-client-ui-settings-models':
+        specifier: workspace:^
+        version: link:../ui-settings-models
+      '@worldapptechnologies/nulu-client-ui-settings-plugin-inventory':
+        specifier: workspace:^
+        version: link:../ui-settings-plugin-inventory
+      '@worldapptechnologies/nulu-client-ui-settings-plugins':
+        specifier: workspace:^
+        version: link:../ui-settings-plugins
+      '@worldapptechnologies/nulu-client-ui-settings-unarchive-sessions':
+        specifier: workspace:^
+        version: link:../ui-settings-unarchive-sessions
+      '@worldapptechnologies/nulu-client-ui-sidebar':
+        specifier: workspace:^
+        version: link:../ui-sidebar
+      '@worldapptechnologies/nulu-client-ui-sidebar-documentpreview':
+        specifier: workspace:^
+        version: link:../ui-sidebar-documentpreview
+      '@worldapptechnologies/nulu-client-ui-sidebar-files':
+        specifier: workspace:^
+        version: link:../ui-sidebar-files
+      '@worldapptechnologies/nulu-client-ui-sidebar-right':
+        specifier: workspace:^
+        version: link:../ui-sidebar-right
+      '@worldapptechnologies/nulu-client-ui-sidebar-terminal':
+        specifier: workspace:^
+        version: link:../ui-sidebar-terminal
+      '@worldapptechnologies/nulu-client-ui-skill':
+        specifier: workspace:^
+        version: link:../ui-skill
+      '@worldapptechnologies/nulu-client-ui-slots':
+        specifier: workspace:^
+        version: link:../ui-slots
+      '@worldapptechnologies/nulu-client-ui-subagent':
+        specifier: workspace:^
+        version: link:../ui-subagent
+      '@worldapptechnologies/nulu-client-ui-theme':
+        specifier: workspace:^
+        version: link:../ui-theme
+      '@worldapptechnologies/nulu-client-ui-trajectory':
+        specifier: workspace:^
+        version: link:../ui-trajectory
+      '@worldapptechnologies/nulu-client-ui-user-questions':
+        specifier: workspace:^
+        version: link:../ui-user-questions
+      '@worldapptechnologies/nulu-client-ui-workflow-run':
+        specifier: workspace:^
+        version: link:../ui-workflow-run
+      '@worldapptechnologies/nulu-client-ui-workspace':
+        specifier: workspace:^
+        version: link:../ui-workspace
+      '@worldapptechnologies/nulu-remote-mock':
+        specifier: workspace:^
+        version: link:../../test-support/remote-mock
+      '@worldapptechnologies/nulu-session-log-export':
+        specifier: workspace:^
+        version: link:../../session-query/session-log-export
+
   packages/client/ui-message-feedback:
     devDependencies:
       '@testing-library/react':
@@ -3511,7 +3640,7 @@ importers:
         version: 0.16.47
       mdast-util-from-markdown:
         specifier: ^2.0.3
-        version: 2.0.3
+        version: 2.0.3(supports-color@9.4.0)
       mdast-util-gfm:
         specifier: ^3.1.0
         version: 3.1.0
@@ -7766,7 +7895,7 @@ importers:
     dependencies:
       '@earendil-works/pi-ai':
         specifier: ^0.85.1
-        version: 0.85.1(@modelcontextprotocol/sdk@1.29.0(zod@4.4.3))(supports-color@9.4.0)(ws@8.21.0)(zod@4.4.3)
+        version: 0.85.1(@modelcontextprotocol/sdk@1.29.0(zod@4.4.3))(ws@8.21.0)(zod@4.4.3)
       '@worldapptechnologies/nulu-brand':
         specifier: workspace:^
         version: link:../../util/brand
@@ -20104,14 +20233,14 @@ snapshots:
     transitivePeerDependencies:
       - '@algolia/client-search'
 
-  '@earendil-works/pi-ai@0.85.1(@modelcontextprotocol/sdk@1.29.0(zod@4.4.3))(supports-color@9.4.0)(ws@8.21.0)(zod@4.4.3)':
+  '@earendil-works/pi-ai@0.85.1(@modelcontextprotocol/sdk@1.29.0(zod@4.4.3))(ws@8.21.0)(zod@4.4.3)':
     dependencies:
       '@anthropic-ai/sdk': 0.123.0(zod@4.4.3)
       '@aws-sdk/client-bedrock-runtime': 3.1048.0
       '@earendil-works/pi-telemetry': 0.85.1
       '@google/genai': 1.52.0(@modelcontextprotocol/sdk@1.29.0(zod@4.4.3))
       '@smithy/node-http-handler': 4.7.3
-      http-proxy-agent: 7.0.2(supports-color@9.4.0)
+      http-proxy-agent: 7.0.2
       https-proxy-agent: 7.0.6
       openai: 6.40.0(ws@8.21.0)(zod@4.4.3)
       partial-json: 0.1.7
@@ -22733,7 +22862,7 @@ snapshots:
       cross-spawn: 7.0.6
       debug: 4.4.3(supports-color@9.4.0)
       fs-extra: 10.1.0
-      http-proxy-agent: 7.0.2(supports-color@9.4.0)
+      http-proxy-agent: 7.0.2
       https-proxy-agent: 7.0.6
       js-yaml: 4.3.1
       sanitize-filename: 1.6.4
@@ -24034,7 +24163,7 @@ snapshots:
       statuses: 2.0.2
       toidentifier: 1.0.1
 
-  http-proxy-agent@7.0.2(supports-color@9.4.0):
+  http-proxy-agent@7.0.2:
     dependencies:
       agent-base: 7.1.4
       debug: 4.4.3(supports-color@9.4.0)
@@ -24540,14 +24669,14 @@ snapshots:
       unist-util-is: 6.0.1
       unist-util-visit-parents: 6.0.2
 
-  mdast-util-from-markdown@2.0.3:
+  mdast-util-from-markdown@2.0.3(supports-color@9.4.0):
     dependencies:
       '@types/mdast': 4.0.4
       '@types/unist': 3.0.3
       decode-named-character-reference: 1.3.0
       devlop: 1.1.0
       mdast-util-to-string: 4.0.0
-      micromark: 4.0.2
+      micromark: 4.0.2(supports-color@9.4.0)
       micromark-util-decode-numeric-character-reference: 2.0.2
       micromark-util-decode-string: 2.0.1
       micromark-util-normalize-identifier: 2.0.1
@@ -24569,7 +24698,7 @@ snapshots:
     dependencies:
       '@types/mdast': 4.0.4
       devlop: 1.1.0
-      mdast-util-from-markdown: 2.0.3
+      mdast-util-from-markdown: 2.0.3(supports-color@9.4.0)
       mdast-util-to-markdown: 2.1.2
       micromark-util-normalize-identifier: 2.0.1
     transitivePeerDependencies:
@@ -24578,7 +24707,7 @@ snapshots:
   mdast-util-gfm-strikethrough@2.0.0:
     dependencies:
       '@types/mdast': 4.0.4
-      mdast-util-from-markdown: 2.0.3
+      mdast-util-from-markdown: 2.0.3(supports-color@9.4.0)
       mdast-util-to-markdown: 2.1.2
     transitivePeerDependencies:
       - supports-color
@@ -24588,7 +24717,7 @@ snapshots:
       '@types/mdast': 4.0.4
       devlop: 1.1.0
       markdown-table: 3.0.4
-      mdast-util-from-markdown: 2.0.3
+      mdast-util-from-markdown: 2.0.3(supports-color@9.4.0)
       mdast-util-to-markdown: 2.1.2
     transitivePeerDependencies:
       - supports-color
@@ -24597,14 +24726,14 @@ snapshots:
     dependencies:
       '@types/mdast': 4.0.4
       devlop: 1.1.0
-      mdast-util-from-markdown: 2.0.3
+      mdast-util-from-markdown: 2.0.3(supports-color@9.4.0)
       mdast-util-to-markdown: 2.1.2
     transitivePeerDependencies:
       - supports-color
 
   mdast-util-gfm@3.1.0:
     dependencies:
-      mdast-util-from-markdown: 2.0.3
+      mdast-util-from-markdown: 2.0.3(supports-color@9.4.0)
       mdast-util-gfm-autolink-literal: 2.0.1
       mdast-util-gfm-footnote: 2.1.0
       mdast-util-gfm-strikethrough: 2.0.0
@@ -24620,7 +24749,7 @@ snapshots:
       '@types/mdast': 4.0.4
       devlop: 1.1.0
       longest-streak: 3.1.0
-      mdast-util-from-markdown: 2.0.3
+      mdast-util-from-markdown: 2.0.3(supports-color@9.4.0)
       mdast-util-to-markdown: 2.1.2
       unist-util-remove-position: 5.0.0
     transitivePeerDependencies:
@@ -24868,7 +24997,7 @@ snapshots:
 
   micromark-util-types@2.0.2: {}
 
-  micromark@4.0.2:
+  micromark@4.0.2(supports-color@9.4.0):
     dependencies:
       '@types/debug': 4.1.13
       debug: 4.4.3(supports-color@9.4.0)
