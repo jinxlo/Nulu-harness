@@ -284,32 +284,20 @@ export type OnboardingReadiness =
       | 'credential-read-only'
   }
 
-/**
- * Rows the first-run prompt can repair, most preferred first. The shipped
- * World App Technologies route comes first because it is what the default
- * model selection resolves to; the native Nulu route remains the fallback
- * for compositions that ship it as the only declared provider entry.
- */
-const ONBOARDING_WORLD_APP_ROUTE = { provider: 'worldapp', settingsNs: 'llm-pi-ai' } as const
+/** The shipped Nulu route: the one row the first-run prompt can repair. */
 const ONBOARDING_SHIPPED_ROUTE = { provider: 'worldapp-gateway', settingsNs: 'llm-gateway' } as const
 
 /**
- * The provider row the first-run prompt offers when no provider is usable:
- * the shipped World App Technologies route when the composition mounts it,
- * otherwise the native Nulu route. A missing declaration for both means
- * the prompt has no key field to offer and the user must repair the setup
- * from the Models page.
+ * The provider row the first-run prompt offers when no provider is usable: the
+ * shipped Nulu route. A missing declaration means the prompt has no key field to
+ * offer and the user must repair the setup from the Models page.
  * @param state - current shared Models join snapshot.
- * @returns the preferred row, or `undefined` when neither route is declared.
+ * @returns the shipped row, or `undefined` when the route is not declared.
  */
 export function onboardingProviderRow(state: ModelsSettingsState): ProviderRow | undefined {
-  for (const target of [ONBOARDING_WORLD_APP_ROUTE, ONBOARDING_SHIPPED_ROUTE]) {
-    const row = state.rows.find(candidate =>
-      candidate.entry.provider === target.provider
-      && candidate.entry.settingsNs === target.settingsNs)
-    if (row !== undefined) return row
-  }
-  return undefined
+  return state.rows.find(candidate =>
+    candidate.entry.provider === ONBOARDING_SHIPPED_ROUTE.provider
+    && candidate.entry.settingsNs === ONBOARDING_SHIPPED_ROUTE.settingsNs)
 }
 
 /**

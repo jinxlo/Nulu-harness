@@ -187,10 +187,9 @@ export function catalogProvider(provider: string): Provider | undefined {
 /**
  * Every provider route the installed pi-ai catalog ships.
  *
- * The harness is Nulu-only: it serves a single World App Technologies route and
- * deliberately exposes none of pi-ai's bundled third-party providers. Returning
+ * The harness exposes none of pi-ai's bundled third-party providers. Returning
  * an empty list removes them from the provider directory and sign-in flows, so
- * only the configured Nulu route (and its models) can be addressed.
+ * only routes a settings profile configures can be addressed.
  * @returns the catalog provider ids.
  */
 export function catalogProviderIds(): readonly string[] {

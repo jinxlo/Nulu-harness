@@ -88,6 +88,20 @@ describe('AgentDefaultModelConfig', () => {
     await bench.ctx.fiber.dispose()
   })
 
+  it('resolves a saved selection on a renamed route to its successor', async () => {
+    const ctx = new Context()
+    const settingsFiber = ctx.plugin(MemorySettings)
+    await settingsFiber.await()
+    await ctx.plugin(AgentDefaultModelConfig, {
+      provider: 'worldapp-gateway', model: 'nulu-5-ultra', renamedProviders: { worldapp: 'worldapp-gateway' },
+    })
+    await ctx.agentDefaultModel.saveSelection({ provider: 'worldapp', model: 'nulu-5-pro', reasoningEffort: ReasoningEffortId('high') })
+    expect(ctx.agentDefaultModel.currentSelection()).toEqual({ provider: 'worldapp-gateway', model: 'nulu-5-pro', reasoningEffort: 'high' })
+    await ctx.agentDefaultModel.saveSelection({ provider: 'acme-gateway', model: 'acme-large' })
+    expect(ctx.agentDefaultModel.currentSelection()).toEqual({ provider: 'acme-gateway', model: 'acme-large' })
+    await ctx.fiber.dispose()
+  })
+
   it('keeps the composition entry when no settings provider is mounted', async () => {
     const ctx = new Context()
     await ctx.plugin(AgentDefaultModelConfig, { provider: 'p', model: 'm' })

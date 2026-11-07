@@ -23,7 +23,7 @@ function row(overrides: Partial<ProviderRow> = {}): ProviderRow {
   }
 }
 
-/** The shipped pi-ai gateway route the default model selection resolves to. */
+/** A pi-ai route with the same models, as Nulu Harness 1.6.x shipped it. */
 function worldAppRow(overrides: Partial<ProviderRow> = {}): ProviderRow {
   return {
     entry: {
@@ -85,16 +85,11 @@ describe('providerUsable', () => {
 })
 
 describe('onboardingProviderRow', () => {
-  it('prefers the shipped World App Technologies route over the native fallback', () => {
+  it('offers only the shipped Nulu route, whatever other routes are listed', () => {
     const nulu = row()
     const worldApp = worldAppRow()
-    expect(onboardingProviderRow(state({ rows: [nulu, worldApp] }))).toBe(worldApp)
-    expect(onboardingProviderRow(state({ rows: [worldApp, nulu] }))).toBe(worldApp)
-  })
-
-  it('falls back to the native route and reports nothing when neither is declared', () => {
-    const nulu = row()
-    expect(onboardingProviderRow(state({ rows: [nulu] }))).toBe(nulu)
+    expect(onboardingProviderRow(state({ rows: [worldApp, nulu] }))).toBe(nulu)
+    expect(onboardingProviderRow(state({ rows: [worldApp] }))).toBeUndefined()
     expect(onboardingProviderRow(state({ rows: [] }))).toBeUndefined()
   })
 })
@@ -118,11 +113,8 @@ describe('onboardingReadiness', () => {
     expect(onboardingReadiness(state())).toEqual({ kind: 'credential-missing' })
   })
 
-  it('prompts for the shipped World App Technologies route when it is mounted', () => {
-    expect(onboardingReadiness(state({ rows: [worldAppRow()] }))).toEqual({ kind: 'credential-missing' })
-    expect(onboardingReadiness(state({
-      rows: [worldAppRow({ entry: { ...worldAppRow().entry, active: false } })],
-    }))).toEqual({ kind: 'unavailable', reason: 'provider-inactive' })
+  it('does not prompt for a key on any route other than the shipped Nulu route', () => {
+    expect(onboardingReadiness(state({ rows: [worldAppRow()] }))).toEqual({ kind: 'adapter-absent' })
   })
 
   it('ends onboarding once any other registered provider can serve requests', () => {

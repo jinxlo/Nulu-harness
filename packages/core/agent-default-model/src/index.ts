@@ -43,12 +43,23 @@ export interface Config {
   provider: string
   /** Provider-owned model id. */
   model: string
+  /**
+   * Retired provider route ids mapped to the route that now serves the same models. A saved selection naming a
+   * retired route resolves to its successor, so a user's stored default keeps working after a composition renames
+   * or removes a route.
+   */
+  renamedProviders?: Record<string, string>
 }
 
-/** Project stored settings onto the Agent-facing selection type. */
-function selection(settings: AgentDefaultModelSettings): ModelSelection {
+/**
+ * Project stored settings onto the Agent-facing selection type.
+ * @param settings - stored or composed selection.
+ * @param renamed - retired route ids mapped to their successors.
+ * @returns the selection Agents use.
+ */
+function selection(settings: AgentDefaultModelSettings, renamed: ReadonlyMap<string, string>): ModelSelection {
   return {
-    provider: settings.provider,
+    provider: renamed.get(settings.provider) ?? settings.provider,
     model: settings.model,
     ...settings.reasoningEffort === undefined
       ? {}
@@ -65,12 +76,16 @@ export class AgentDefaultModelConfig extends Service {
   static Config: z<Config> = z.object({
     provider: z.string().required(),
     model: z.string().required(),
+    renamedProviders: z.dict(z.string()).default({}),
   })
+
+  private readonly renamed: ReadonlyMap<string, string>
 
   private source: () => AgentDefaultModelSettings
 
   constructor(ctx: Context, config: Config) {
     super(ctx, 'agentDefaultModel')
+    this.renamed = new Map(Object.entries(config.renamedProviders ?? {}))
     const entry: AgentDefaultModelSettings = { provider: config.provider, model: config.model }
     this.source = () => entry
     ctx.inject(['settings'], (settingsCtx) => {
@@ -88,7 +103,7 @@ export class AgentDefaultModelConfig extends Service {
    * @returns a detached provider, model, and optional reasoning selection.
    */
   currentSelection(): ModelSelection {
-    return selection(this.source())
+    return selection(this.source(), this.renamed)
   }
 
   /**

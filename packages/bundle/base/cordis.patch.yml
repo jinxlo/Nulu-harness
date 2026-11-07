@@ -75,8 +75,12 @@
     - id: agent-default-model
       name: '@worldapptechnologies/nulu-agent-default-model'
       config:
-        provider: worldapp
+        provider: worldapp-gateway
         model: nulu-5-ultra
+        # Nulu Harness 1.6.x shipped a second route, `worldapp`, for the same models; a default saved
+        # through it resolves to the native route.
+        renamedProviders:
+          worldapp: worldapp-gateway
 
     - id: jobs
       name: '@worldapptechnologies/nulu-jobs-local'
@@ -97,51 +101,15 @@
     - id: credentials
       name: '@worldapptechnologies/nulu-credentials-local'
 
-    # The pi-ai multi-provider router, shipped with the World App Technologies
-    # route below because `agent-default-model` selects its `nulu-5-ultra`:
-    # requests authenticate from WORLD_APP_TECHNOLOGIES_API_KEY (inherited
-    # environment, managed credentials, or a `.env` fallback) with no settings
-    # document required. A `llm-pi-ai:` settings section — what the web Models
-    # page writes — layers over these profiles per route without a restart.
-    # Which adapters exist is composition; which providers run is the user's
-    # settings document.
+    # The pi-ai multi-provider twin, mounted dormant: zero routes (and no extra
+    # models in the picker) until a `llm-pi-ai:` settings section supplies provider
+    # profiles — then those routes register live, keys resolving per request
+    # through their apiKeyEnv references, and drop again when the section empties.
+    # Supplying those profiles is exactly what the web Models page does. Which
+    # adapters exist is composition; which providers run is the user's settings
+    # document. Nulu models are served by the native `llm-gateway` route below.
     - id: llm-pi-ai
       name: '@worldapptechnologies/nulu-llm-pi-ai'
-      config:
-        providers:
-          worldapp:
-            displayName: World App Technologies
-            apiKeyEnv: WORLD_APP_TECHNOLOGIES_API_KEY
-            api: openai-completions
-            baseURL: https://platform.worldapptechnologies.com/api/v1
-            compat:
-              # Reasoning wire format the platform endpoint speaks (sends
-              # `thinking` and reads `reasoning_content`). A protocol name, not
-              # a provider or model reference.
-              thinkingFormat: deepseek
-              # The platform accepts the system prompt only as `system`.
-              supportsDeveloperRole: false
-            models:
-              - id: nulu-5-ultra
-                name: Nulu 5 Ultra
-                contextWindow: 1000000
-                maxTokens: 384000
-                reasoningEfforts:
-                  off:
-                  low: low
-                  medium: medium
-                  high: high
-                  max: max
-              - id: nulu-5-pro
-                name: Nulu 5 Pro
-                contextWindow: 1000000
-                maxTokens: 384000
-                reasoningEfforts:
-                  off:
-                  low: low
-                  medium: medium
-                  high: high
-                  max: max
 
     - id: session-persistence-jsonl
       name: '@worldapptechnologies/nulu-session-persistence-jsonl'

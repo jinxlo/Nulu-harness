@@ -14,8 +14,9 @@
  *   name: '@worldapptechnologies/nulu-llm-pi-ai'
  *   config:
  *     providers:
- *       # The single World App Technologies route. The harness is Nulu-only:
- *       # no third-party provider is exposed or servable.
+ *       # A profile for the World App Technologies platform. The shipped
+ *       # composition serves Nulu models through llm-gateway instead and
+ *       # mounts this adapter without profiles.
  *       worldapp:
  *         displayName: World App Technologies
  *         apiKeyEnv: WORLD_APP_TECHNOLOGIES_API_KEY

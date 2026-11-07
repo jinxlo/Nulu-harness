@@ -22,11 +22,7 @@
     - text: 关闭
   - heading "模型" [level=2]
   - paragraph: 填入各提供方的 API 密钥即可使用其模型。
-  - list:
-    - listitem:
-      - text: World App Technologies 自定义
-      - img "API 密钥缺失"
-      - button "编辑 World App Technologies (worldapp)": 编辑
+  - list
   - text: 自定义提供方 Provider ID
   - textbox "Provider ID":
     - /placeholder: acme-gateway

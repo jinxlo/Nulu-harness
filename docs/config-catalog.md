@@ -44,6 +44,12 @@ export interface Config {
   provider: string
   /** Provider-owned model id. */
   model: string
+  /**
+   * Retired provider route ids mapped to the route that now serves the same models. A saved selection naming a
+   * retired route resolves to its successor, so a user's stored default keeps working after a composition renames
+   * or removes a route.
+   */
+  renamedProviders?: Record<string, string>
 }
 ```
 

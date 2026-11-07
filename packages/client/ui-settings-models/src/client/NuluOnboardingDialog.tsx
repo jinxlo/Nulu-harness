@@ -2,8 +2,7 @@
  * First-run credential step for the shipped provider route. Readiness comes
  * from the same provider/settings/credential join as the Models page: any
  * provider the user can already talk to ends the step, and only a user with
- * none is offered the composition-shipped World App Technologies route (or
- * the native Nulu fallback). The step reuses that page's credential
+ * none is offered the shipped Nulu route. The step reuses that page's credential
  * editor in the onboarding plugin's shared modal, so the key is entered once.
  */
 
