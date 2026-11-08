@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-token-meter",
   "description": "Replay-aware token measurement service (ctx.tokenMeter) for the Nulu Harness",
-  "version": "1.6.4",
+  "version": "1.6.5",
   "publishConfig": {
     "access": "public"
   },
