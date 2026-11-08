@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-agent",
   "description": "Agent interface, registry, initiator scope, and event vocabulary for the Nulu Harness",
-  "version": "1.6.4",
+  "version": "1.6.5",
   "publishConfig": {
     "access": "public"
   },
