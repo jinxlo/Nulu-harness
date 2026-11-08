@@ -16,6 +16,10 @@ on:
         description: Resume publishing the artifact of an earlier tagged run whose pack and install jobs passed (run id)
         type: string
         default: ''
+      rate_limit_attempts:
+        description: Waits on an npm rate limit before the run stops and a later run resumes
+        type: string
+        default: '4'
 
 concurrency:
   group: nulu-harness-npm-${{ github.ref }}
@@ -147,7 +151,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NULU_PUBLISH_SPACING_MS: '15000'
-          NULU_RATE_LIMIT_ATTEMPTS: '4'
+          NULU_RATE_LIMIT_ATTEMPTS: ${{ inputs.rate_limit_attempts || '4' }}
         run: pnpm run release:publish --family nulu --from dist/npm
       # Last, so `npm install -g nulu-harness` never names a launcher version that is not yet installable.
       - name: Publish nulu-harness
