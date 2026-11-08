@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-api-workspace-controller",
   "description": "Workspace Remote commands and reconnect-safe state transport",
-  "version": "1.6.4",
+  "version": "1.6.5",
   "publishConfig": {
     "access": "public"
   },
