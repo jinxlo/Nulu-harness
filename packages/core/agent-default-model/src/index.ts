@@ -85,7 +85,7 @@ export class AgentDefaultModelConfig extends Service {
 
   constructor(ctx: Context, config: Config) {
     super(ctx, 'agentDefaultModel')
-    this.renamed = new Map(Object.entries(config.renamedProviders ?? {}))
+    this.renamed = new Map(Object.entries({ ...config.renamedProviders }))
     const entry: AgentDefaultModelSettings = { provider: config.provider, model: config.model }
     this.source = () => entry
     ctx.inject(['settings'], (settingsCtx) => {
