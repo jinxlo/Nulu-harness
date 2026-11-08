@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-experimental-auto-review",
   "description": "Per-tool LLM authorization review for the Nulu Harness Auto permission preset",
-  "version": "1.6.4",
+  "version": "1.6.5",
   "type": "module",
   "main": "lib/index.js",
   "types": "lib/types/index.d.ts",
