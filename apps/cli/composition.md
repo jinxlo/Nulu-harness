@@ -48,10 +48,6 @@ flowchart LR
   cfg --> plugin_nulu_base_credentials
   plugin_nulu_base_llm_pi_ai["llm-pi-ai<br/>@worldapptechnologies/nulu-llm-pi-ai"]
   cfg --> plugin_nulu_base_llm_pi_ai
-  plugin_nulu_base_nulu_5_ultra["nulu-5-ultra<br/>Nulu 5 Ultra"]
-  cfg --> plugin_nulu_base_nulu_5_ultra
-  plugin_nulu_base_nulu_5_pro["nulu-5-pro<br/>Nulu 5 Pro"]
-  cfg --> plugin_nulu_base_nulu_5_pro
   plugin_nulu_base_session_persistence_jsonl["session-persistence-jsonl<br/>@worldapptechnologies/nulu-session-persistence-jsonl"]
   cfg --> plugin_nulu_base_session_persistence_jsonl
   plugin_nulu_base_attachment_local["attachment-local<br/>@worldapptechnologies/nulu-attachment-local"]
@@ -210,8 +206,6 @@ flowchart LR
 | `settings` | `@worldapptechnologies/nulu-settings-file` |
 | `credentials` | `@worldapptechnologies/nulu-credentials-local` |
 | `llm-pi-ai` | `@worldapptechnologies/nulu-llm-pi-ai` |
-| `nulu-5-ultra` | `Nulu 5 Ultra` |
-| `nulu-5-pro` | `Nulu 5 Pro` |
 | `session-persistence-jsonl` | `@worldapptechnologies/nulu-session-persistence-jsonl` |
 | `attachment-local` | `@worldapptechnologies/nulu-attachment-local` |
 | `session-query-sqlite` | `@worldapptechnologies/nulu-session-query-sqlite` |
