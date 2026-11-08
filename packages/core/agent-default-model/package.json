@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-agent-default-model",
   "description": "Default model selection shared by Agent entry points",
-  "version": "1.6.4",
+  "version": "1.6.5",
   "publishConfig": {
     "access": "public"
   },
