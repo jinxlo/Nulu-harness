@@ -10,6 +10,7 @@ import { buildCatalog, installerName, TARGETS, validateCatalog, validateNativeEv
 import { gatewayModelIds, validateModelPolicy } from './brand-policy.mjs'
 import { adapt } from './adapter.mjs'
 import { runInstaller } from './run-installer.mjs'
+import { covers, distributionDependencies, rootRange } from './pack-distribution.mjs'
 import './normalize-merge.test.mjs'
 
 async function until(predicate) {
@@ -263,4 +264,30 @@ test('the nulu command starts the interface for a person and lists commands for 
   assert.deepEqual(startArguments([], false), { args: ['--help'] })
   assert.deepEqual(startArguments(['--profile', 'headless', 'task'], true), { args: ['--profile', 'headless', 'task'] })
   assert.equal(trustedPath('distribution/nulu-harness/bin.js'), true)
+})
+
+test('nulu-harness picks one top-level range per external dependency and nests the rest', () => {
+  assert.equal(rootRange(['^4.1.0', '^4.2.0']), '^4.2.0')
+  assert.equal(rootRange(['^1.0.7', '1.0.7']), '1.0.7')
+  assert.equal(rootRange(['4.0.3', '^4.0.3', '^5.0.0']), '4.0.3')
+  assert.equal(covers('^4.2.0', '^4.1.0'), true)
+  assert.equal(covers('1.0.7', '^1.0.7'), true)
+  assert.equal(covers('^1.0.7', '1.0.7'), false)
+  assert.equal(covers('4.0.3', '^5.0.0'), false)
+  assert.equal(covers('^1.4.0', '~1.3.0'), false)
+  assert.equal(covers('^0.3.0', '^0.3.0'), true)
+  assert.equal(covers('^0.3.1', '^0.3.0'), false)
+  const release = '1.6.5'
+  const manifests = [
+    { name: '@worldapptechnologies/nulu', version: release, dependencies: { '@worldapptechnologies/nulu-a': release, chokidar: '4.0.3' } },
+    { name: '@worldapptechnologies/nulu-a', version: release, dependencies: { chokidar: '^5.0.0', zod: '^4.4.3' },
+      peerDependencies: { '@worldapptechnologies/cordis': '^4.0.2', vitest: '^4.1.8' }, peerDependenciesMeta: { vitest: { optional: true } } },
+    { name: '@worldapptechnologies/nulu-b', version: release, dependencies: { chokidar: '^4.0.3' } },
+  ]
+  const { dependencies, nested } = distributionDependencies(manifests, release)
+  assert.deepEqual(dependencies, { '@worldapptechnologies/cordis': '^4.0.2', chokidar: '4.0.3', zod: '^4.4.3' })
+  assert.deepEqual(nested, [{ consumer: '@worldapptechnologies/nulu-a', name: 'chokidar', range: '^5.0.0' }])
+  assert.throws(() => distributionDependencies([...manifests, { name: '@worldapptechnologies/nulu-c', version: '1.6.4' }], release), /not part of release/)
+  assert.throws(() => distributionDependencies(manifests.slice(1), release), /does not contain @worldapptechnologies\/nulu/)
+  assert.throws(() => distributionDependencies([{ ...manifests[0], optionalDependencies: { fsevents: '^2.0.0' } }], release), /optional dependencies/)
 })

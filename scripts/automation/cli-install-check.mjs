@@ -1,23 +1,23 @@
 /**
  * Install `nulu-harness` the way a customer does and run it.
  *
- * The packed release is published to a registry that exists only for this run; everything else comes from the
- * public npm registry. The check then performs `npm install -g nulu-harness` into an empty prefix and runs the
+ * The packed nulu-harness, which carries every Nulu Harness package, is published to a registry that exists only
+ * for this run; everything else comes from the public npm registry. The check then performs `npm install -g nulu-harness` into an empty prefix and runs the
  * installed command: version, help, the local interface, and (with an API key) a task that edits a file and runs
  * a command through a Nulu AI model.
  *
- *   node cli-install-check.mjs <family-tarballs> <nulu-harness.tgz> <evidence-directory>
+ *   node cli-install-check.mjs <nulu-harness.tgz> <evidence-directory>
  */
 import assert from 'node:assert/strict'
 import { spawn, spawnSync } from 'node:child_process'
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
-import { createServer } from 'node:net'
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { setTimeout as delay } from 'node:timers/promises'
+import { freePort, startLocalRegistry, stopTree } from './local-registry.mjs'
 
-const [familyDirectory, wrapperTarball, evidenceRoot] = process.argv.slice(2)
-if (!familyDirectory || !wrapperTarball || !evidenceRoot) throw new Error('Usage: cli-install-check.mjs <family-tarballs> <nulu-harness.tgz> <evidence-directory>')
+const [wrapperTarball, evidenceRoot] = process.argv.slice(2)
+if (!wrapperTarball || !evidenceRoot) throw new Error('Usage: cli-install-check.mjs <nulu-harness.tgz> <evidence-directory>')
 const evidence = resolve(evidenceRoot)
 mkdirSync(evidence, { recursive: true })
 const windows = process.platform === 'win32'
@@ -38,57 +38,13 @@ function run(executable, args, options = {}) {
   return completed
 }
 
-async function freePort() {
-  const server = createServer()
-  await new Promise(accept => server.listen(0, '127.0.0.1', accept))
-  const { port } = server.address()
-  await new Promise(accept => server.close(accept))
-  return port
-}
-
-function stopTree(child) {
-  if (child.exitCode !== null) return
-  if (windows) spawnSync('taskkill', ['/F', '/T', '/PID', String(child.pid)])
-  else { try { process.kill(-child.pid, 'SIGKILL') } catch { child.kill('SIGKILL') } }
-}
-
 let registry
 let interfaceProcess
 try {
-  // A registry for this run only: the packed release is local, everything else is read from the public registry.
-  const registryPort = await freePort()
-  const registryUrl = `http://127.0.0.1:${registryPort}/`
-  writeFileSync(join(root, 'registry.yaml'), [
-    `storage: ${JSON.stringify(join(root, 'registry'))}`,
-    'uplinks:', '  npmjs:', '    url: https://registry.npmjs.org/',
-    'packages:',
-    "  '**':", '    access: $all', '    publish: $all', '    proxy: npmjs',
-    'max_body_size: 200mb',
-    'log: { type: stdout, format: pretty, level: warn }',
-    '',
-  ].join('\n'))
-  registry = spawn('npx', ['--yes', 'verdaccio@6', '--config', join(root, 'registry.yaml'), '--listen', `127.0.0.1:${registryPort}`], { env, shell: windows, stdio: 'ignore', detached: !windows })
-  for (let attempt = 0; ; attempt += 1) {
-    try { if ((await fetch(`${registryUrl}-/ping`)).ok) break } catch { /* the registry is still starting */ }
-    if (attempt > 180) throw new Error('The local registry did not start')
-    await delay(1000)
-  }
-  const registryArgs = ['--registry', registryUrl, `--//127.0.0.1:${registryPort}/:_authToken=local-check`]
-  const tarballs = [...readdirSync(resolve(familyDirectory)).filter(name => name.endsWith('.tgz')).map(name => resolve(familyDirectory, name)), resolve(wrapperTarball)]
-  let next = 0
-  const publishOne = async () => {
-    for (let index = next++; index < tarballs.length; index = next++) {
-      const published = await new Promise(accept => {
-        const child = spawn('npm', ['publish', tarballs[index], ...registryArgs, '--loglevel=error'], { env, shell: windows, stdio: ['ignore', 'ignore', 'pipe'] })
-        let stderr = ''
-        child.stderr.on('data', chunk => { stderr += chunk })
-        child.on('close', code => accept({ code, stderr }))
-      })
-      if (published.code !== 0) throw new Error(`Could not publish ${tarballs[index]} to the local registry: ${published.stderr.slice(-600)}`)
-    }
-  }
-  await Promise.all(Array.from({ length: 8 }, publishOne))
-  record('release published to a registry used only by this check', `${tarballs.length} packages`)
+  // A registry for this run only: it holds the packed nulu-harness, and every other package comes from the public registry.
+  registry = await startLocalRegistry(join(root, 'registry'), [resolve(wrapperTarball)], env)
+  const registryArgs = registry.args
+  record('nulu-harness published to a registry used only by this check', 'one package')
 
   const prefix = join(root, 'prefix')
   mkdirSync(prefix)
@@ -162,6 +118,6 @@ try {
   console.info(`nulu-harness ${version} installs and runs on ${result.platform}`)
 } finally {
   if (interfaceProcess) stopTree(interfaceProcess)
-  if (registry) stopTree(registry)
+  registry?.stop()
   try { rmSync(root, { recursive: true, force: true, maxRetries: 3 }) } catch (error) { console.error(error) }
 }
