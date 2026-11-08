@@ -3,6 +3,6 @@
   - paragraph: 配置模型服务商，即可开始使用。
   - text: API 密钥
   - textbox "API 密钥":
-    - /placeholder: 输入 API 密钥，或留空使用环境认证
+    - /placeholder: 输入 API 密钥
   - button "稍后配置"
   - button "保存并继续" [disabled]

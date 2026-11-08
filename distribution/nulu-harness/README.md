@@ -50,4 +50,4 @@ Nulu Harness is in developer preview. It can run commands and change files in th
 
 ## License
 
-MIT. Nulu Harness is distributed by Nulu AI, a World App Technologies company, and includes software under the MIT License and other open-source licenses; the license text ships in this package and in each package it installs. See https://www.nuluai.com/third-party-notices.
+Nulu Harness is distributed by Nulu AI, a World App Technologies company. It includes third-party components under the MIT License and other licenses; the license text ships in this package and in each package it installs. See https://www.nuluai.com/third-party-notices.

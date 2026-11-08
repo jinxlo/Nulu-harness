@@ -32,11 +32,6 @@
     "watch": "tsdown --watch"
   },
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/worldapptechnologies/nulu-harness.git",
-    "directory": "packages/client/ui-schedule"
-  },
   "publishConfig": {
     "access": "public"
   },

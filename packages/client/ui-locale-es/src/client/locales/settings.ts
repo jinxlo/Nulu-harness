@@ -226,7 +226,7 @@ export const settingsModels = {
   create: 'Crear proveedor',
   creating: 'Creando…',
   welcomeTitle: 'Aviso de pruebas internas',
-  welcomeBody: 'Nulu Harness sigue en fase de pruebas para desarrolladores de Harness. Muchas áreas aún necesitan mejoras y agradecemos los comentarios de la comunidad de desarrolladores. Los plugins principales y las API fundamentales de Nulu Harness seguirán evolucionando rápidamente en los próximos meses.\n\nEsperamos explorar los límites de la inteligencia con desarrolladores de todo el mundo, sobre una infraestructura de código abierto, abierta, reutilizable y componible. Damos la bienvenida a los desarrolladores de Harness de todas partes al ecosistema de plugins de NULU.',
+  welcomeBody: 'Nulu Harness sigue en fase de pruebas para desarrolladores de Harness. Muchas áreas aún necesitan mejoras y agradecemos los comentarios de la comunidad de desarrolladores. Los plugins principales y las API fundamentales de Nulu Harness seguirán evolucionando rápidamente en los próximos meses.\n\nEsperamos explorar los límites de la inteligencia con desarrolladores de todo el mundo, sobre una infraestructura reutilizable y componible. Damos la bienvenida a los desarrolladores de Harness de todas partes al ecosistema de plugins de NULU.',
   welcomeContinue: 'Continuar',
   welcomeError: 'No se pudo guardar la confirmación. Inténtalo de nuevo.',
   onboardingTitle: 'Agrega una clave de API para empezar',

@@ -2,7 +2,7 @@
 
 English | [Español](README.es.md)
 
-Nulu Harness (`nulu`) is an open-source agent harness developed by [World App Technologies](https://worldapptechnologies.com).
+Nulu Harness (`nulu`) is an AI coding agent for desktop and terminal developed by [World App Technologies](https://worldapptechnologies.com).
 
 It is built on an **everything-is-a-plugin** architecture and powered by [Cordis](https://github.com/cordiverse/cordis), whose design is described in [_A Programming Paradigm for Spatiotemporal Composability_](https://arxiv.org/abs/2608.25512).
 

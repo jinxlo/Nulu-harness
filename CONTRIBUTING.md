@@ -3,7 +3,7 @@
 
 Thank you for your interest in contributing to Nulu Harness!
 
-We deeply believe in the power of open source communities, and that belief has shaped this project from the very beginning.
+We value feedback from the developers who use Nulu Harness.
 
 Nulu Harness is still at an early stage and under active development. We are sorry that we cannot accept external pull requests at the moment. However, contributing code to this repository is far from the only way to help. There are many other ways to get involved:
 

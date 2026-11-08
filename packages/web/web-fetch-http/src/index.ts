@@ -20,7 +20,7 @@ export {
 export type { HttpFetchLimits, HttpFetchResolver } from './provider.ts'
 
 /** Default `User-Agent`: an explicit product agent, never a browser disguise. */
-export const DEFAULT_USER_AGENT = 'nulu-harness/0.0.1 (+https://github.com/worldapptechnologies/nulu-harness)'
+export const DEFAULT_USER_AGENT = 'nulu-harness/0.0.1 (+https://www.nuluai.com/harness)'
 
 /** Cordis plugin name used by loader diagnostics. */
 export const name = 'web-fetch-http'

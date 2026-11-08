@@ -5,11 +5,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/worldapptechnologies/nulu-harness.git",
-    "directory": "packages/attachment/attachment"
-  },
   "type": "module",
   "main": "lib/index.js",
   "types": "lib/types/index.d.ts",

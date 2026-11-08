@@ -40,7 +40,7 @@ export interface AppIdentity {
 export const APP_IDENTITY: AppIdentity = {
   product: 'nulu-harness',
   version,
-  url: 'https://github.com/worldapptechnologies/nulu-harness',
+  url: 'https://www.nuluai.com/harness',
 }
 
 /**

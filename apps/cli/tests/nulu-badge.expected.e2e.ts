@@ -85,14 +85,14 @@ describe('nulu badge assembled snapshot', () => {
 
       - Local PNG: [\`nulu-badge.png\`](nulu-badge.png), 726×120 source image; render at 121×20
       - Shields.io image URL: \`https://img.shields.io/badge/powered_by-Nulu_Harness-blue?style=flat-square\`
-      - Project URL: \`https://github.com/worldapptechnologies/nulu-harness\`
+      - Project URL: \`https://www.nuluai.com/harness\`
 
       ## Markdown
 
       Use this linked badge in Markdown:
 
       \`\`\`markdown
-      [![](https://img.shields.io/badge/powered_by-Nulu_Harness-blue?style=flat-square)](https://github.com/worldapptechnologies/nulu-harness)
+      [![](https://img.shields.io/badge/powered_by-Nulu_Harness-blue?style=flat-square)](https://www.nuluai.com/harness)
       \`\`\`
 
       If attribution should not be linked, use:
@@ -124,14 +124,14 @@ describe('nulu badge assembled snapshot', () => {
 
       - Local PNG: [\`nulu-badge.png\`](nulu-badge.png), 726×120 source image; render at 121×20
       - Shields.io image URL: \`https://img.shields.io/badge/powered_by-Nulu_Harness-blue?style=flat-square\`
-      - Project URL: \`https://github.com/worldapptechnologies/nulu-harness\`
+      - Project URL: \`https://www.nuluai.com/harness\`
 
       ## Markdown
 
       Use this linked badge in Markdown:
 
       \`\`\`markdown
-      [![](https://img.shields.io/badge/powered_by-Nulu_Harness-blue?style=flat-square)](https://github.com/worldapptechnologies/nulu-harness)
+      [![](https://img.shields.io/badge/powered_by-Nulu_Harness-blue?style=flat-square)](https://www.nuluai.com/harness)
       \`\`\`
 
       If attribution should not be linked, use:

@@ -21,7 +21,7 @@ describe('APP_IDENTITY', () => {
     expect(APP_IDENTITY).toEqual({
       product: 'nulu-harness',
       version: manifest.version,
-      url: 'https://github.com/worldapptechnologies/nulu-harness',
+      url: 'https://www.nuluai.com/harness',
     })
   })
 })
@@ -29,7 +29,7 @@ describe('APP_IDENTITY', () => {
 describe('userAgent', () => {
   it('renders product/version with the +url comment', () => {
     expect(userAgent()).toBe(
-      `nulu-harness/${manifest.version} (+https://github.com/worldapptechnologies/nulu-harness)`,
+      `nulu-harness/${manifest.version} (+https://www.nuluai.com/harness)`,
     )
   })
 

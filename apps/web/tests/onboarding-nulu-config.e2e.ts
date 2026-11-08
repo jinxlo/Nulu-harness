@@ -1,4 +1,4 @@
-// Keyless browser e2e: the shipped World App Technologies gateway route stays
+// Keyless browser e2e: the shipped Nulu gateway route stays
 // mounted while its credential is absent, both ordered steps share the shipped
 // modal chrome, and the inline key write lands in an isolated harness home
 // without a reload or model call.
@@ -99,9 +99,9 @@ describe.skipIf(MODE === 'record')('web e2e: first-run shipped provider credenti
     const settings = page.getByRole('dialog', { name: '设置' })
     await settings.waitFor({ timeout: 10_000 })
     await settings.getByRole('button', { name: '模型' }).click()
-    const shippedRow = settings.getByRole('button', { name: '编辑 World App Technologies (worldapp)' })
+    const shippedRow = settings.getByText('Nulu', { exact: true }).first()
     await shippedRow.waitFor({ timeout: 10_000 })
-    await shippedRow.click()
+    await shippedRow.locator('xpath=ancestor::li').getByRole('button', { name: '编辑' }).click()
     const configuredInput = settings.getByLabel('API 密钥', { exact: true })
     await configuredInput.waitFor({ timeout: 10_000 })
     await expect.poll(
