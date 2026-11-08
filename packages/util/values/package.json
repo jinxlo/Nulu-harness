@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-util-values",
   "description": "Duplicate-install-safe value primitives for the Nulu Harness",
-  "version": "1.6.4",
+  "version": "1.6.5",
   "publishConfig": {
     "access": "public"
   },

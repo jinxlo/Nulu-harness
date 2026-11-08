@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-settings-file",
   "description": "File-backed settings provider (settings.yaml) for the Nulu Harness",
-  "version": "1.6.4",
+  "version": "1.6.5",
   "publishConfig": {
     "access": "public"
   },

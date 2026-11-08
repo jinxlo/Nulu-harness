@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-session-snapshot",
   "description": "Session-log snapshot core with an ACP protocol adapter, expected-output normalization, and fixture invariants",
-  "version": "1.6.4",
+  "version": "1.6.5",
   "publishConfig": {
     "access": "public"
   },
