@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-shell-env",
   "description": "Tool-independent managed NULU_* shell environment registry",
-  "version": "1.6.4",
+  "version": "1.6.5",
   "publishConfig": {
     "access": "public"
   },

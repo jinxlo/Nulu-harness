@@ -1,7 +1,7 @@
 {
   "name": "@worldapptechnologies/nulu-client-ui-locale-es",
   "description": "Spanish language pack for the Web client: adds Español to the locale catalog and registers Spanish dictionaries over the English fallback",
-  "version": "1.6.4",
+  "version": "1.6.5",
   "publishConfig": {
     "access": "public"
   },
