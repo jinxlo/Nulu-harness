@@ -5,7 +5,3 @@
       - text: Messages Flash
       - img
     - menuitemradio "Nulu 5 Pro"
-  - group "World App Technologies":
-    - text: World App Technologies
-    - menuitemradio "Nulu 5 Ultra"
-    - menuitemradio "Nulu 5 Pro"

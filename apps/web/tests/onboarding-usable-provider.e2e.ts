@@ -1,5 +1,5 @@
 // Keyless browser e2e: a user who configures some OTHER provider is not asked
-// for the shipped World App Technologies key again, and the first-run setup
+// for the shipped Nulu key again, and the first-run setup
 // card is a card they can close. The shipped gateway route stays mounted
 // without a credential throughout, so the only thing that ends onboarding here
 // is the pi-ai route the user configures through the real wire. Zero model
@@ -78,7 +78,7 @@ describe.skipIf(MODE === 'record')('web e2e: another usable provider ends first-
       async () => settings.getByRole('textbox', { name: 'API 密钥', exact: true }).count(),
       { timeout: 10_000 },
     ).toBe(1)
-    await settings.getByRole('button', { name: '编辑 World App Technologies (worldapp)' }).waitFor({ timeout: 10_000 })
+    await settings.getByText('Nulu', { exact: true }).first().waitFor({ timeout: 10_000 })
     const dismissed = await captureStableAria(page, '[role="dialog"]', scaffold.workspaceCwd)
     await compareOrRefreshGolden(DISMISSED_EXPECTED, dismissed, MODE)
 
@@ -118,7 +118,7 @@ describe.skipIf(MODE === 'record')('web e2e: another usable provider ends first-
     await page.getByRole('button', { name: '设置', exact: true }).click()
     await settings.waitFor({ timeout: 10_000 })
     await settings.getByRole('button', { name: '模型' }).click()
-    await settings.getByRole('button', { name: '编辑 World App Technologies (worldapp)' }).waitFor({ timeout: 10_000 })
+    await settings.getByText('Nulu', { exact: true }).first().waitFor({ timeout: 10_000 })
     expect(await settings.getByRole('textbox', { name: 'API 密钥', exact: true }).count()).toBe(0)
 
     expect((await page.content()).includes('sk-e2e-minimax')).toBe(false)
